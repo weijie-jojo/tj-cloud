@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS `tj-config`;
+DROP DATABASE IF EXISTS `nacos-config`;
 
-CREATE DATABASE  `tj-config` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE  `nacos-config` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-USE `tj-config`;
+USE `nacos-config`;
 
 /******************************************/
 /*   表名称 = config_info   */
