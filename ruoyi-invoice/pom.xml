@@ -278,10 +278,10 @@
             <artifactId>ruoyi-common-log</artifactId>
         </dependency>
         <!-- RuoYi Common Swagger -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-swagger</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

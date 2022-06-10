@@ -15,8 +15,6 @@
 */
 package com.ruoyi.invoice.pojo;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -56,8 +54,4 @@ public class AccountExpenseItem implements Serializable {
     @ApiModelProperty(value = "itemMoney")
     private Integer itemMoney;
 
-
-    public void copy(AccountExpenseItem source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
-    }
 }

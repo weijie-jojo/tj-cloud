@@ -15,8 +15,6 @@
 */
 package com.ruoyi.invoice.pojo;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -199,7 +197,4 @@ public class AccountTravelExpense implements Serializable {
     @ApiModelProperty(value = "财务影像")
     private String expenseImage2;
 
-    public void copy(AccountTravelExpense source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
-    }
 }

@@ -17,6 +17,7 @@ public class RuoYiInvoiceApplication
     public static void main(String[] args)
     {
         SpringApplication.run(RuoYiInvoiceApplication.class, args);
+        System.out.println("单据管理启动成功");
 //        System.out.println("(♥◠‿◠)ﾉﾞ  若依单据管理启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
 //                " .-------.       ____     __        \n" +
 //                " |  _ _   \\      \\   \\   /  /    \n" +
