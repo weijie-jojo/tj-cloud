@@ -13,7 +13,7 @@
         <module>ruoyi-gen</module>
         <module>ruoyi-job</module>
         <module>ruoyi-file</module>
-        <module>../ruoyi-invoice</module>
+        <module>ruoyi-invoice</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>
