@@ -30,7 +30,7 @@ public class TokenService
 
     protected static final long MILLIS_SECOND = 1000;
 
-    protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
+    protected static final long MILLIS_MINUTE = 60 *30* MILLIS_SECOND;
 
     private final static long expireTime = CacheConstants.EXPIRATION;
 

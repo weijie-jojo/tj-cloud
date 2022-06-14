@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfEmployedMapper">
+    
+    <resultMap type="com.ruoyi.company.domain.SelfEmployed" id="SelfEmployedResult">
+        <result property="selfId"    column="self_id"    />
+        <result property="selfKey"    column="self_key"    />
+        <result property="placeCode"    column="place_code"    />
+        <result property="taxId"    column="tax_id"    />
+        <result property="selfAddress"    column="self_address"    />
+        <result property="selfName"    column="self_name"    />
+        <result property="legalPersonName"    column="legal_person_name"    />
+        <result property="idCardNum"    column="id_card_num"    />
+        <result property="password"    column="password"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="expStatus"    column="exp_status"    />
+        <result property="maximum"    column="maximum"    />
+        <result property="registerTime"    column="register_time"    />
+        <result property="industryType"    column="industry_type"    />
+        <result property="organizationalForm"    column="organizational_form"    />
+        <result property="numberEmployees"    column="number_employees"    />
+        <result property="contributionAmount"    column="contribution_amount"    />
+        <result property="city"    column="city"    />
+        <result property="county"    column="county"    />
+        <result property="electronicCommerce"    column="electronic_commerce"    />
+        <result property="freeTradeZone"    column="free_trade_zone"    />
+        <result property="freeTradeArea"    column="free_trade_area"    />
+        <result property="propertyRight"    column="property_right"    />
+        <result property="industry"    column="industry"    />
+        <result property="natureBusiness"    column="nature_business"    />
+    </resultMap>
+
+    <sql id="selectSelfEmployedVo">
+        select self_id, self_key, place_code, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, user_id, exp_status, maximum, register_time, industry_type, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, industry, nature_business from self_employed
+    </sql>
+
+    <select id="selectSelfEmployedList" parameterType="com.ruoyi.company.domain.SelfEmployed" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        <where>  
+            <if test="placeCode != null  and placeCode != ''"> and place_code like concat('%', #{placeCode}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfEmployedBySelfId" parameterType="String" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        where self_id = #{selfId}
+    </select>
+        
+    <insert id="insertSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">
+        insert into self_employed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="selfKey != null">self_key,</if>
+            <if test="placeCode != null">place_code,</if>
+            <if test="taxId != null">tax_id,</if>
+            <if test="selfAddress != null">self_address,</if>
+            <if test="selfName != null">self_name,</if>
+            <if test="legalPersonName != null">legal_person_name,</if>
+            <if test="idCardNum != null">id_card_num,</if>
+            <if test="password != null">password,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="expStatus != null">exp_status,</if>
+            <if test="maximum != null">maximum,</if>
+            <if test="registerTime != null">register_time,</if>
+            <if test="industryType != null">industry_type,</if>
+            <if test="organizationalForm != null">organizational_form,</if>
+            <if test="numberEmployees != null">number_employees,</if>
+            <if test="contributionAmount != null">contribution_amount,</if>
+            <if test="city != null">city,</if>
+            <if test="county != null">county,</if>
+            <if test="electronicCommerce != null">electronic_commerce,</if>
+            <if test="freeTradeZone != null">free_trade_zone,</if>
+            <if test="freeTradeArea != null">free_trade_area,</if>
+            <if test="propertyRight != null">property_right,</if>
+            <if test="industry != null">industry,</if>
+            <if test="natureBusiness != null">nature_business,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="selfKey != null">#{selfKey},</if>
+            <if test="placeCode != null">#{placeCode},</if>
+            <if test="taxId != null">#{taxId},</if>
+            <if test="selfAddress != null">#{selfAddress},</if>
+            <if test="selfName != null">#{selfName},</if>
+            <if test="legalPersonName != null">#{legalPersonName},</if>
+            <if test="idCardNum != null">#{idCardNum},</if>
+            <if test="password != null">#{password},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="expStatus != null">#{expStatus},</if>
+            <if test="maximum != null">#{maximum},</if>
+            <if test="registerTime != null">#{registerTime},</if>
+            <if test="industryType != null">#{industryType},</if>
+            <if test="organizationalForm != null">#{organizationalForm},</if>
+            <if test="numberEmployees != null">#{numberEmployees},</if>
+            <if test="contributionAmount != null">#{contributionAmount},</if>
+            <if test="city != null">#{city},</if>
+            <if test="county != null">#{county},</if>
+            <if test="electronicCommerce != null">#{electronicCommerce},</if>
+            <if test="freeTradeZone != null">#{freeTradeZone},</if>
+            <if test="freeTradeArea != null">#{freeTradeArea},</if>
+            <if test="propertyRight != null">#{propertyRight},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="natureBusiness != null">#{natureBusiness},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed">
+        update self_employed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfKey != null">self_key = #{selfKey},</if>
+            <if test="placeCode != null">place_code = #{placeCode},</if>
+            <if test="taxId != null">tax_id = #{taxId},</if>
+            <if test="selfAddress != null">self_address = #{selfAddress},</if>
+            <if test="selfName != null">self_name = #{selfName},</if>
+            <if test="legalPersonName != null">legal_person_name = #{legalPersonName},</if>
+            <if test="idCardNum != null">id_card_num = #{idCardNum},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="expStatus != null">exp_status = #{expStatus},</if>
+            <if test="maximum != null">maximum = #{maximum},</if>
+            <if test="registerTime != null">register_time = #{registerTime},</if>
+            <if test="industryType != null">industry_type = #{industryType},</if>
+            <if test="organizationalForm != null">organizational_form = #{organizationalForm},</if>
+            <if test="numberEmployees != null">number_employees = #{numberEmployees},</if>
+            <if test="contributionAmount != null">contribution_amount = #{contributionAmount},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="county != null">county = #{county},</if>
+            <if test="electronicCommerce != null">electronic_commerce = #{electronicCommerce},</if>
+            <if test="freeTradeZone != null">free_trade_zone = #{freeTradeZone},</if>
+            <if test="freeTradeArea != null">free_trade_area = #{freeTradeArea},</if>
+            <if test="propertyRight != null">property_right = #{propertyRight},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="natureBusiness != null">nature_business = #{natureBusiness},</if>
+        </trim>
+        where self_id = #{selfId}
+    </update>
+
+    <delete id="deleteSelfEmployedBySelfId" parameterType="String">
+        delete from self_employed where self_id = #{selfId}
+    </delete>
+
+    <delete id="deleteSelfEmployedBySelfIds" parameterType="String">
+        delete from self_employed where self_id in 
+        <foreach item="selfId" collection="array" open="(" separator="," close=")">
+            #{selfId}
+        </foreach>
+    </delete>
+</mapper>
