@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px"
-      label-position="left">
+      label-position="right">
       <el-steps :space="1500" 
         :active="1" 
         finish-status="success"
@@ -40,6 +40,7 @@
               v-model="formData.organizationalForm" 
               placeholder="请选择组织形式" 
               clearable
+               @change="changeOrganizational"
               style="width:410px">
               <el-option 
                 v-for="(item, index) in organizationalFormOptions" 
@@ -47,6 +48,7 @@
                 :label="item.label"
                 :value="item.value" 
                 :disabled="item.disabled"
+               
                ></el-option>
             </el-select>
           </el-form-item>
@@ -55,13 +57,10 @@
      
      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item label="字号" prop="wordType">
-            <el-radio-group v-model="formData.wordType" size="medium">
-              <el-radio 
-                v-for="(item, index) in wordTypeOptions" 
-                :key="index" :label="item.value"
-                :disabled="item.disabled">{{item.label}}</el-radio>
-            </el-radio-group>
+         <el-form-item label="字号">
+          <el-checkbox 
+            v-model="formData.isRandomWord"
+            @change="isRandom">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -73,45 +72,56 @@
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item  prop="fontName">
-          <el-input v-model="formData.fontName"  clearable >
+         <el-form-item prop="word1">
+            <el-input 
+              v-model="formData.word1"
+              :disabled="isDisable">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  prop="fontName">
-            <el-input v-model="formData.fontName"  clearable >
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
-         <el-form-item  prop="fontName">
-          <el-input v-model="formData.fontName"  clearable >
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item  prop="fontName">
-            <el-input v-model="formData.fontName"  clearable >
-            </el-input>
+          <el-form-item >
+            <el-input 
+              v-model="titleName+formData.word1+formData.industry+formData.organLabel" 
+              disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item  prop="fontName">
-          <el-input v-model="formData.fontName"  clearable >
+         <el-form-item  prop="word2">
+          <el-input 
+            v-model="formData.word2"  
+            :disabled="isDisable"
+            clearable >
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  prop="fontName">
-            <el-input v-model="formData.fontName"  clearable >
+          <el-form-item>
+            <el-input 
+              v-model="titleName+formData.word2+formData.industry+formData.organLabel"  
+              disabled ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+        <el-col :span="8">
+         <el-form-item  prop="word3">
+          <el-input 
+            v-model="formData.word3"  
+            :disabled="isDisable"
+            clearable >
             </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item >
+            <el-input 
+            v-model="titleName+formData.word3+formData.industry+formData.organLabel"  
+            disabled ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -134,12 +144,19 @@ export default {
   props: [],
   data() {
     return {
+      isDisable:false,
+      titleName:'漳平市',
       formData: {
+        organLabel:'',
         selfKey: '',
         industry: '',
         organizationalForm: '',
-        wordType: 1,
+        isRandomWord: false,
         fontName: '',
+        //字号
+        word1:'',
+        word2:'',
+        word3:'',
       },
       rules: {
         selfKey: [{
@@ -151,6 +168,22 @@ export default {
           message: '手机号格式错误',
           trigger: 'blur'
         }],
+        word1: [{
+          required: true,
+          message: '请输入字号',
+          trigger: 'blur'
+        }],
+         word2: [{
+          required: true,
+          message: '请输入字号',
+          trigger: 'blur'
+        }],
+         word3: [{
+          required: true,
+          message: '请输入字号',
+          trigger: 'blur'
+        }],
+
         industry: [{
           required: true,
           message: '请输入行业',
@@ -161,11 +194,6 @@ export default {
           message: '请选择组织形式',
           trigger: 'change'
         }],
-        wordType: [{
-          required: true,
-          message: '字号不能为空',
-          trigger: 'change'
-        }],
         fontName: [{
           required: true,
           message: '请输入拟设名称',
@@ -173,10 +201,10 @@ export default {
         }],
       },
       organizationalFormOptions: [{
-        "label": "选项一",
+        "label": "服务部",
         "value": 1
       }, {
-        "label": "选项二",
+        "label": "经营部",
         "value": 2
       }],
       wordTypeOptions: [{
@@ -190,6 +218,22 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    isRandom(){
+      if(this.formData.isRandomWord){
+        this.isDisable=true
+      }else{
+        this.isDisable=false
+      }
+    },
+    changeOrganizational(value){
+      console.log("value",value);
+      if(value==1){
+        this.formData.organLabel="服务部";
+      }
+      if(value==2){
+        this.formData.organLabel="经营部";
+      }
+    },
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
