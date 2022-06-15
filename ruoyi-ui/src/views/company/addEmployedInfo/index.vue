@@ -2,7 +2,7 @@
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px"
       label-position="right">
-
+      
       <el-steps :space="1500" 
         :active="2" 
         finish-status="success"
@@ -118,7 +118,7 @@
                 type="natureBusiness"
                 :rows="2"
                 placeholder="请输入内容"
-                v-model="textarea">
+                v-model="formData.natureBusiness">
               </el-input>
           </el-form-item>
         </el-col>
@@ -126,13 +126,13 @@
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item label="私人账户" prop="wordType">
-            <el-radio v-model="radio" />
+         <el-form-item label="私人账户" prop="bankCard">
+            <el-radio v-model="formData.bankCard" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         <el-form-item label="对公账户" prop="wordType">
-            <el-radio v-model="radio" />
+         <el-form-item label="对公账户" prop="bankCard">
+            <el-radio v-model="formData.bankCard" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -186,16 +186,26 @@ export default {
   data() {
     return {
       formData: {
-        selfKey: '',
-        industry: undefined,
-        organizationalForm: undefined,
-        wordType: 1,
-        fontName: undefined,
+        legalPersonName:'',
+        idCardNum:'',
+        sex:'',
+        fontName:'',
+        eduation:'',
+        politicalStatus:'',
+        telNum:'',
+        natureBusiness:'',
+        mail:'',
+        idcardNum:'',
+        industryType:'',
+        bank:'',
+        bankCard: '',
+        placeCode: '',
+        userId: '',
       },
       rules: {
-        selfKey: [{
+        telNum: [{
           required: true,
-          message: '请输入个体户编号',
+          message: '请输入手机号',
           trigger: 'blur'
         }, {
           pattern: /^1(3|4|5|7|8|9)\d{9}$/,
@@ -242,11 +252,20 @@ export default {
   mounted() {},
   methods: {
     submitForm() {
+     
+     
+    //  this.$nextTick(function(){
+    //        this.$router.push({ path: "/customer/addBusiness",query:{name:this.formData.legalPersonName} });
+    //   });
+     
+    
+
       this.$refs['elForm'].validate(valid => {
         if (!valid) {
             console.log(111);
         }
         // TODO 提交表单
+    
       })
     },
     resetForm() {

@@ -102,7 +102,8 @@ public class AccountTravelExpenseServiceImpl implements AccountTravelExpenseServ
                         .eq(accountTravelExpense.getCreateUser()!=null,"t.create_user", accountTravelExpense.getCreateUser())
                         .eq(accountTravelExpense.getInvoiceType()!=null,"t.invoice_type", accountTravelExpense.getInvoiceType())
                         .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
-                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime()));
+                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .orderByDesc("t.id"));
         return sysTravelExpenseIPage;
     }
     /*

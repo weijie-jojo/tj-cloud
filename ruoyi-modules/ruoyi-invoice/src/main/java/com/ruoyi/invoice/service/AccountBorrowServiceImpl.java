@@ -93,7 +93,8 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
                         .eq(accountBorrow.getCreateUser()!=null,"t.create_user", accountBorrow.getCreateUser())
                         .eq(accountBorrow.getInvoiceType()!=null,"t.invoice_type", accountBorrow.getInvoiceType())
                         .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
-                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime()));
+                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .orderByDesc("t.borrow_id"));
         return sysTravelExpenseIPage;
     }
 

@@ -155,7 +155,8 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
                         .eq(accountExpense.getInvoiceType()!=null,"t.invoice_type", accountExpense.getInvoiceType())
                         .eq(accountExpense.getCreateUser()!=null,"t.create_user", accountExpense.getCreateUser())
                         .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
-                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime()));
+                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .orderByDesc("t.expense_id"));
         return sysExpenseVoIPage;
     }
 
