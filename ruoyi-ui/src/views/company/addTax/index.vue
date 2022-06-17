@@ -11,9 +11,9 @@
                   <el-input v-model="form.faname"></el-input>
                </el-form-item>
                <el-form-item label="税务核定通知书">
-                  <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"
+                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
-                     :limit="3" :on-exceed="handleExceed" :file-list="fileList">
+                     :limit="10" :on-exceed="handleExceed" :file-list="fileList" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
 
                   </el-upload>
@@ -68,13 +68,13 @@ export default {
          console.log('submit!');
       },
       handleRemove(file, fileList) {
-         console.log(file, fileList);
+          this.fileList = fileList;
       },
       handlePreview(file) {
-         console.log(file);
+         this.fileList.push(file);
       },
       handleExceed(files, fileList) {
-         this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+         this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
       },
       beforeRemove(file, fileList) {
          return this.$confirm(`确定移除 ${file.name}？`);
