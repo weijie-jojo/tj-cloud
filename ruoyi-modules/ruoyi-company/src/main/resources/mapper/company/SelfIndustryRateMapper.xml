@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfIndustryRateMapper">
+    
+    <resultMap type="com.ruoyi.company.domain.SelfIndustryRate" id="SelfIndustryRateResult">
+        <result property="industryId"    column="industry_id"    />
+        <result property="industryCode"    column="industry_code"    />
+        <result property="industryName"    column="industry_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="taxRate"    column="tax_rate"    />
+    </resultMap>
+
+    <sql id="selectSelfIndustryRateVo">
+        select industry_id, industry_code, industry_name, parent_id, is_delete, create_by, create_time, update_by, update_time, tax_rate from self_industry_rate
+    </sql>
+
+    <select id="selectSelfIndustryRate"  resultMap="SelfIndustryRateResult">
+        select *from self_industry_rate
+    </select>
+
+    <select id="selectSelfIndustryRateList" parameterType="com.ruoyi.company.domain.SelfIndustryRate" resultMap="SelfIndustryRateResult">
+        <include refid="selectSelfIndustryRateVo"/>
+        <where>  
+            <if test="industryCode != null  and industryCode != ''"> and industry_code = #{industryCode}</if>
+            <if test="industryName != null  and industryName != ''"> and industry_name like concat('%', #{industryName}, '%')</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="isDelete != null  and isDelete != ''"> and is_delete = #{isDelete}</if>
+            <if test="taxRate != null "> and tax_rate = #{taxRate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfIndustryRateByIndustryId" parameterType="String" resultMap="SelfIndustryRateResult">
+        <include refid="selectSelfIndustryRateVo"/>
+        where industry_id = #{industryId}
+    </select>
+        
+    <insert id="insertSelfIndustryRate" parameterType="com.ruoyi.company.domain.SelfIndustryRate" useGeneratedKeys="true" keyProperty="industryId">
+        insert into self_industry_rate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="industryCode != null">industry_code,</if>
+            <if test="industryName != null">industry_name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="taxRate != null">tax_rate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="industryCode != null">#{industryCode},</if>
+            <if test="industryName != null">#{industryName},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="taxRate != null">#{taxRate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfIndustryRate" parameterType="com.ruoyi.company.domain.SelfIndustryRate">
+        update self_industry_rate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="industryCode != null">industry_code = #{industryCode},</if>
+            <if test="industryName != null">industry_name = #{industryName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="taxRate != null">tax_rate = #{taxRate},</if>
+        </trim>
+        where industry_id = #{industryId}
+    </update>
+
+    <delete id="deleteSelfIndustryRateByIndustryId" parameterType="String">
+        delete from self_industry_rate where industry_id = #{industryId}
+    </delete>
+
+    <delete id="deleteSelfIndustryRateByIndustryIds" parameterType="String">
+        delete from self_industry_rate where industry_id in 
+        <foreach item="industryId" collection="array" open="(" separator="," close=")">
+            #{industryId}
+        </foreach>
+    </delete>
+</mapper>

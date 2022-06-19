@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfNameReviewMapper">
+    
+    <resultMap type="com.ruoyi.company.domain.SelfNameReview" id="SelfNameReviewResult">
+        <result property="selfId"    column="self_id"    />
+        <result property="selfCode"    column="self_code"    />
+        <result property="titleType"    column="title_type"    />
+        <result property="administrativeDivision"    column="administrative_division"    />
+        <result property="industry"    column="industry"    />
+        <result property="organizationalForm"    column="organizational_form"    />
+        <result property="administrativeRegion"    column="administrative_region"    />
+        <result property="random"    column="random"    />
+        <result property="registrationAuthority"    column="registration_authority"    />
+        <result property="fontSize1"    column="font_size1"    />
+        <result property="poposedName1"    column="poposed_name1"    />
+        <result property="fontSize2"    column="font_size2"    />
+        <result property="poposedName2"    column="poposed_name2"    />
+        <result property="fontSize3"    column="font_size3"    />
+        <result property="poposedName3"    column="poposed_name3"    />
+        <result property="fontSize4"    column="font_size4"    />
+        <result property="poposedName4"    column="poposed_name4"    />
+        <result property="fontSize5"    column="font_size5"    />
+        <result property="poposedName5"    column="poposed_name5"    />
+        <result property="fontSize6"    column="font_size6"    />
+        <result property="poposedName6"    column="poposed_name6"    />
+        <result property="fontSize7"    column="font_size7"    />
+        <result property="poposedName7"    column="poposed_name7"    />
+        <result property="fontSize8"    column="font_size8"    />
+        <result property="poposedName8"    column="poposed_name8"    />
+        <result property="fontSize9"    column="font_size9"    />
+        <result property="poposedName9"    column="poposed_name9"    />
+        <result property="fontSize10"    column="font_size10"    />
+        <result property="poposedName10"    column="poposed_name10"    />
+    </resultMap>
+
+    <sql id="selectSelfNameReviewVo">
+        select self_id, self_key, title_type, administrative_division, industry, organizational_form, administrative_region, random, registration_authority, font_size1, poposed_name1, font_size2, poposed_name2, font_size3, poposed_name3, font_size4, poposed_name4, font_size5, poposed_name5, font_size6, poposed_name6, font_size7, poposed_name7, font_size8, poposed_name8, font_size9, poposed_name9, font_size10, poposed_name10 from self_name_review
+    </sql>
+
+    <select id="selectSelfNameReviewList" parameterType="com.ruoyi.company.domain.SelfNameReview" resultMap="SelfNameReviewResult">
+        <include refid="selectSelfNameReviewVo"/>
+        <where>  
+            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
+            <if test="titleType != null  and titleType != ''"> and title_type = #{titleType}</if>
+            <if test="administrativeDivision != null  and administrativeDivision != ''"> and administrative_division = #{administrativeDivision}</if>
+            <if test="industry != null  and industry != ''"> and industry = #{industry}</if>
+            <if test="organizationalForm != null  and organizationalForm != ''"> and organizational_form = #{organizationalForm}</if>
+            <if test="administrativeRegion != null  and administrativeRegion != ''"> and administrative_region = #{administrativeRegion}</if>
+            <if test="random != null  and random != ''"> and random = #{random}</if>
+            <if test="registrationAuthority != null  and registrationAuthority != ''"> and registration_authority = #{registrationAuthority}</if>
+            <if test="fontSize1 != null  and fontSize1 != ''"> and font_size1 = #{fontSize1}</if>
+            <if test="poposedName1 != null  and poposedName1 != ''"> and poposed_name1 = #{poposedName1}</if>
+            <if test="fontSize2 != null  and fontSize2 != ''"> and font_size2 = #{fontSize2}</if>
+            <if test="poposedName2 != null  and poposedName2 != ''"> and poposed_name2 = #{poposedName2}</if>
+            <if test="fontSize3 != null  and fontSize3 != ''"> and font_size3 = #{fontSize3}</if>
+            <if test="poposedName3 != null  and poposedName3 != ''"> and poposed_name3 = #{poposedName3}</if>
+            <if test="fontSize4 != null  and fontSize4 != ''"> and font_size4 = #{fontSize4}</if>
+            <if test="poposedName4 != null  and poposedName4 != ''"> and poposed_name4 = #{poposedName4}</if>
+            <if test="fontSize5 != null  and fontSize5 != ''"> and font_size5 = #{fontSize5}</if>
+            <if test="poposedName5 != null  and poposedName5 != ''"> and poposed_name5 = #{poposedName5}</if>
+            <if test="fontSize6 != null  and fontSize6 != ''"> and font_size6 = #{fontSize6}</if>
+            <if test="poposedName6 != null  and poposedName6 != ''"> and poposed_name6 = #{poposedName6}</if>
+            <if test="fontSize7 != null  and fontSize7 != ''"> and font_size7 = #{fontSize7}</if>
+            <if test="poposedName7 != null  and poposedName7 != ''"> and poposed_name7 = #{poposedName7}</if>
+            <if test="fontSize8 != null  and fontSize8 != ''"> and font_size8 = #{fontSize8}</if>
+            <if test="poposedName8 != null  and poposedName8 != ''"> and poposed_name8 = #{poposedName8}</if>
+            <if test="fontSize9 != null  and fontSize9 != ''"> and font_size9 = #{fontSize9}</if>
+            <if test="poposedName9 != null  and poposedName9 != ''"> and poposed_name9 = #{poposedName9}</if>
+            <if test="fontSize10 != null  and fontSize10 != ''"> and font_size10 = #{fontSize10}</if>
+            <if test="poposedName10 != null  and poposedName10 != ''"> and poposed_name10 = #{poposedName10}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfNameReviewBySelfId" parameterType="Long" resultMap="SelfNameReviewResult">
+        <include refid="selectSelfNameReviewVo"/>
+        where self_id = #{selfId}
+    </select>
+        
+    <insert id="insertSelfNameReview" parameterType="com.ruoyi.company.domain.SelfNameReview" useGeneratedKeys="true" keyProperty="selfId">
+        insert into self_name_review
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="selfCode != null">self_code,</if>
+            <if test="titleType != null">title_type,</if>
+            <if test="administrativeDivision != null">administrative_division,</if>
+            <if test="industry != null">industry,</if>
+            <if test="organizationalForm != null">organizational_form,</if>
+            <if test="administrativeRegion != null">administrative_region,</if>
+            <if test="random != null">random,</if>
+            <if test="registrationAuthority != null">registration_authority,</if>
+            <if test="fontSize1 != null">font_size1,</if>
+            <if test="poposedName1 != null">poposed_name1,</if>
+            <if test="fontSize2 != null">font_size2,</if>
+            <if test="poposedName2 != null">poposed_name2,</if>
+            <if test="fontSize3 != null">font_size3,</if>
+            <if test="poposedName3 != null">poposed_name3,</if>
+            <if test="fontSize4 != null">font_size4,</if>
+            <if test="poposedName4 != null">poposed_name4,</if>
+            <if test="fontSize5 != null">font_size5,</if>
+            <if test="poposedName5 != null">poposed_name5,</if>
+            <if test="fontSize6 != null">font_size6,</if>
+            <if test="poposedName6 != null">poposed_name6,</if>
+            <if test="fontSize7 != null">font_size7,</if>
+            <if test="poposedName7 != null">poposed_name7,</if>
+            <if test="fontSize8 != null">font_size8,</if>
+            <if test="poposedName8 != null">poposed_name8,</if>
+            <if test="fontSize9 != null">font_size9,</if>
+            <if test="poposedName9 != null">poposed_name9,</if>
+            <if test="fontSize10 != null">font_size10,</if>
+            <if test="poposedName10 != null">poposed_name10,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="selfCode != null">#{selfCode},</if>
+            <if test="titleType != null">#{titleType},</if>
+            <if test="administrativeDivision != null">#{administrativeDivision},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="organizationalForm != null">#{organizationalForm},</if>
+            <if test="administrativeRegion != null">#{administrativeRegion},</if>
+            <if test="random != null">#{random},</if>
+            <if test="registrationAuthority != null">#{registrationAuthority},</if>
+            <if test="fontSize1 != null">#{fontSize1},</if>
+            <if test="poposedName1 != null">#{poposedName1},</if>
+            <if test="fontSize2 != null">#{fontSize2},</if>
+            <if test="poposedName2 != null">#{poposedName2},</if>
+            <if test="fontSize3 != null">#{fontSize3},</if>
+            <if test="poposedName3 != null">#{poposedName3},</if>
+            <if test="fontSize4 != null">#{fontSize4},</if>
+            <if test="poposedName4 != null">#{poposedName4},</if>
+            <if test="fontSize5 != null">#{fontSize5},</if>
+            <if test="poposedName5 != null">#{poposedName5},</if>
+            <if test="fontSize6 != null">#{fontSize6},</if>
+            <if test="poposedName6 != null">#{poposedName6},</if>
+            <if test="fontSize7 != null">#{fontSize7},</if>
+            <if test="poposedName7 != null">#{poposedName7},</if>
+            <if test="fontSize8 != null">#{fontSize8},</if>
+            <if test="poposedName8 != null">#{poposedName8},</if>
+            <if test="fontSize9 != null">#{fontSize9},</if>
+            <if test="poposedName9 != null">#{poposedName9},</if>
+            <if test="fontSize10 != null">#{fontSize10},</if>
+            <if test="poposedName10 != null">#{poposedName10},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfNameReview" parameterType="com.ruoyi.company.domain.SelfNameReview">
+        update self_name_review
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfCode != null">self_key = #{selfCode},</if>
+            <if test="titleType != null">title_type = #{titleType},</if>
+            <if test="administrativeDivision != null">administrative_division = #{administrativeDivision},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="organizationalForm != null">organizational_form = #{organizationalForm},</if>
+            <if test="administrativeRegion != null">administrative_region = #{administrativeRegion},</if>
+            <if test="random != null">random = #{random},</if>
+            <if test="registrationAuthority != null">registration_authority = #{registrationAuthority},</if>
+            <if test="fontSize1 != null">font_size1 = #{fontSize1},</if>
+            <if test="poposedName1 != null">poposed_name1 = #{poposedName1},</if>
+            <if test="fontSize2 != null">font_size2 = #{fontSize2},</if>
+            <if test="poposedName2 != null">poposed_name2 = #{poposedName2},</if>
+            <if test="fontSize3 != null">font_size3 = #{fontSize3},</if>
+            <if test="poposedName3 != null">poposed_name3 = #{poposedName3},</if>
+            <if test="fontSize4 != null">font_size4 = #{fontSize4},</if>
+            <if test="poposedName4 != null">poposed_name4 = #{poposedName4},</if>
+            <if test="fontSize5 != null">font_size5 = #{fontSize5},</if>
+            <if test="poposedName5 != null">poposed_name5 = #{poposedName5},</if>
+            <if test="fontSize6 != null">font_size6 = #{fontSize6},</if>
+            <if test="poposedName6 != null">poposed_name6 = #{poposedName6},</if>
+            <if test="fontSize7 != null">font_size7 = #{fontSize7},</if>
+            <if test="poposedName7 != null">poposed_name7 = #{poposedName7},</if>
+            <if test="fontSize8 != null">font_size8 = #{fontSize8},</if>
+            <if test="poposedName8 != null">poposed_name8 = #{poposedName8},</if>
+            <if test="fontSize9 != null">font_size9 = #{fontSize9},</if>
+            <if test="poposedName9 != null">poposed_name9 = #{poposedName9},</if>
+            <if test="fontSize10 != null">font_size10 = #{fontSize10},</if>
+            <if test="poposedName10 != null">poposed_name10 = #{poposedName10},</if>
+        </trim>
+        where self_id = #{selfId}
+    </update>
+
+    <delete id="deleteSelfNameReviewBySelfId" parameterType="Long">
+        delete from self_name_review where self_id = #{selfId}
+    </delete>
+
+    <delete id="deleteSelfNameReviewBySelfIds" parameterType="String">
+        delete from self_name_review where self_id in 
+        <foreach item="selfId" collection="array" open="(" separator="," close=")">
+            #{selfId}
+        </foreach>
+    </delete>
+</mapper>
