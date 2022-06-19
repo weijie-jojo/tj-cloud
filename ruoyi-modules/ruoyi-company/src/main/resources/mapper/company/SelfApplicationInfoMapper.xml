@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfApplicationInfoMapper">
+    
+    <resultMap type="com.ruoyi.company.domain.SelfApplicationInfo" id="SelfApplicationInfoResult">
+        <result property="id"    column="id"    />
+        <result property="selfCode"    column="self_code"    />
+        <result property="oneselfApply"    column="oneself_apply"    />
+        <result property="applyName"    column="apply_name"    />
+        <result property="applyPhone"    column="apply_phone"    />
+        <result property="applyIdNum"    column="apply_id_num"    />
+        <result property="applyDocumentType"    column="apply_document_type"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="contactIdNum"    column="contact_id_num"    />
+        <result property="contactDocumentType"    column="contact_document_type"    />
+    </resultMap>
+
+    <sql id="selectSelfApplicationInfoVo">
+        select id, self_code, oneself_apply, apply_name, apply_phone, apply_id_num, apply_document_type, contact_name, contact_phone, contact_id_num, contact_document_type from self_application_info
+    </sql>
+
+    <select id="selectSelfApplicationInfoList" parameterType="com.ruoyi.company.domain.SelfApplicationInfo" resultMap="SelfApplicationInfoResult">
+        <include refid="selectSelfApplicationInfoVo"/>
+        <where>  
+            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
+            <if test="oneselfApply != null  and oneselfApply != ''"> and oneself_apply = #{oneselfApply}</if>
+            <if test="applyName != null  and applyName != ''"> and apply_name like concat('%', #{applyName}, '%')</if>
+            <if test="applyPhone != null  and applyPhone != ''"> and apply_phone = #{applyPhone}</if>
+            <if test="applyIdNum != null "> and apply_id_num = #{applyIdNum}</if>
+            <if test="applyDocumentType != null  and applyDocumentType != ''"> and apply_document_type = #{applyDocumentType}</if>
+            <if test="contactName != null "> and contact_name like concat('%', #{contactName}, '%')</if>
+            <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
+            <if test="contactIdNum != null "> and contact_id_num = #{contactIdNum}</if>
+            <if test="contactDocumentType != null  and contactDocumentType != ''"> and contact_document_type = #{contactDocumentType}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfApplicationInfoById" parameterType="Long" resultMap="SelfApplicationInfoResult">
+        <include refid="selectSelfApplicationInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSelfApplicationInfo" parameterType="com.ruoyi.company.domain.SelfApplicationInfo">
+        insert into self_application_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="selfCode != null">self_code,</if>
+            <if test="oneselfApply != null">oneself_apply,</if>
+            <if test="applyName != null">apply_name,</if>
+            <if test="applyPhone != null">apply_phone,</if>
+            <if test="applyIdNum != null">apply_id_num,</if>
+            <if test="applyDocumentType != null">apply_document_type,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactPhone != null">contact_phone,</if>
+            <if test="contactIdNum != null">contact_id_num,</if>
+            <if test="contactDocumentType != null">contact_document_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="selfCode != null">#{selfCode},</if>
+            <if test="oneselfApply != null">#{oneselfApply},</if>
+            <if test="applyName != null">#{applyName},</if>
+            <if test="applyPhone != null">#{applyPhone},</if>
+            <if test="applyIdNum != null">#{applyIdNum},</if>
+            <if test="applyDocumentType != null">#{applyDocumentType},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactPhone != null">#{contactPhone},</if>
+            <if test="contactIdNum != null">#{contactIdNum},</if>
+            <if test="contactDocumentType != null">#{contactDocumentType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfApplicationInfo" parameterType="com.ruoyi.company.domain.SelfApplicationInfo">
+        update self_application_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfCode != null">self_code = #{selfCode},</if>
+            <if test="oneselfApply != null">oneself_apply = #{oneselfApply},</if>
+            <if test="applyName != null">apply_name = #{applyName},</if>
+            <if test="applyPhone != null">apply_phone = #{applyPhone},</if>
+            <if test="applyIdNum != null">apply_id_num = #{applyIdNum},</if>
+            <if test="applyDocumentType != null">apply_document_type = #{applyDocumentType},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="contactIdNum != null">contact_id_num = #{contactIdNum},</if>
+            <if test="contactDocumentType != null">contact_document_type = #{contactDocumentType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSelfApplicationInfoById" parameterType="Long">
+        delete from self_application_info where id = #{id}
+    </delete>
+
+    <delete id="deleteSelfApplicationInfoByIds" parameterType="String">
+        delete from self_application_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

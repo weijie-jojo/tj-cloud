@@ -42,3 +42,5 @@ export function delEmployed(selfId) {
     method: 'delete'
   })
 }
+
+export default {addEmployed}
