@@ -15,7 +15,7 @@
         <el-col :span="8">
           <el-form-item label="个体户编号" >
             <el-input 
-              v-model="formData.selfKey" 
+              v-model="formData.selfCode" 
               placeholder="请输入个体户编号" 
               :disabled='true'
               clearable 
@@ -24,6 +24,27 @@
         </el-col>
       </el-row>
       
+      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+        <el-col :span="8">
+          <el-form-item label="冠名类型" >
+            <el-input 
+              v-model="formData.titleType" 
+              placeholder="请输入行政区划" 
+              disabled 
+              ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="行政区划" >
+            <el-input 
+              v-model="formData.administrativeDivision" 
+              placeholder="请输入行政区划" 
+              disabled 
+              ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
           <el-form-item label="行业" prop="industry">
@@ -40,15 +61,14 @@
               v-model="formData.organizationalForm" 
               placeholder="请选择组织形式" 
               clearable
-               @change="changeOrganizational"
-              style="width:410px">
+              @change="changeOrganizational"
+              >
               <el-option 
                 v-for="(item, index) in organizationalFormOptions" 
                 :key="index" 
                 :label="item.label"
                 :value="item.value" 
                 :disabled="item.disabled"
-               
                ></el-option>
             </el-select>
           </el-form-item>
@@ -57,9 +77,30 @@
      
      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
+          <el-form-item label="所在行政区划" prop="administrativeRegion">
+            <el-input 
+              v-model="formData.administrativeRegion" 
+              placeholder="请输入所在行政区划" 
+              clearable 
+              ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="登记机关" prop="registrationAuthority">
+            <el-input 
+              v-model="formData.registrationAuthority" 
+              placeholder="请输入登记机关" 
+              clearable
+              ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+     <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+        <el-col :span="8">
          <el-form-item label="字号">
           <el-checkbox 
-            v-model="formData.isRandomWord"
+            v-model="formData.random"
             @change="isRandom">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
@@ -72,27 +113,29 @@
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item prop="word1">
+         <el-form-item prop="fontSize1">
             <el-input 
-              v-model="formData.word1"
-              :disabled="isDisable">
+              v-model="formData.fontSize1"
+              :disabled="isDisable"
+              clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item >
             <el-input 
-              v-model="titleName+formData.word1+formData.industry+formData.organLabel" 
-              disabled></el-input>
+              v-model="formData.poposedName1" 
+              disabled
+              ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item  prop="word2">
+         <el-form-item  prop="fontSize2">
           <el-input 
-            v-model="formData.word2"  
+            v-model="formData.fontSize2"  
             :disabled="isDisable"
             clearable >
             </el-input>
@@ -101,7 +144,7 @@
         <el-col :span="8">
           <el-form-item>
             <el-input 
-              v-model="titleName+formData.word2+formData.industry+formData.organLabel"  
+              v-model="formData.poposedName2"  
               disabled ></el-input>
           </el-form-item>
         </el-col>
@@ -109,9 +152,9 @@
 
       <el-row class="rowCss" :gutter="60" style="margin-left:260px">
         <el-col :span="8">
-         <el-form-item  prop="word3">
+         <el-form-item  prop="fontSize3">
           <el-input 
-            v-model="formData.word3"  
+            v-model="formData.fontSize3"  
             :disabled="isDisable"
             clearable >
             </el-input>
@@ -120,7 +163,7 @@
         <el-col :span="8">
           <el-form-item >
             <el-input 
-            v-model="titleName+formData.word3+formData.industry+formData.organLabel"  
+            v-model="formData.poposedName3"  
             disabled ></el-input>
           </el-form-item>
         </el-col>
@@ -139,66 +182,57 @@
   </div>
 </template>
 <script>
+import crudReview from '@/api/company/review'
+
 export default {
   components: {},
   props: [],
   data() {
     return {
       isDisable:false,
-      titleName:'漳平市',
       formData: {
-        organLabel:'',
-        selfKey: '',
+        selfCode:'',
+        titleType:'区县名',
+        administrativeDivision:'漳平市',
         industry: '',
         organizationalForm: '',
-        isRandomWord: false,
-        fontName: '',
+        administrativeRegion:'',
+        registrationAuthority:'',
+        random:true,
         //字号
-        word1:'',
-        word2:'',
-        word3:'',
+        fontSize1:'',
+        fontSize2:'',
+        fontSize3:'',
+        //拟设名称
+        poposedName1:'',
+        poposedName2:'',
+        poposedName3:'',
       },
       rules: {
-        selfKey: [{
-          required: true,
-          message: '请输入个体户编号',
-          trigger: 'blur'
-        }, {
-          pattern: /^1(3|4|5|7|8|9)\d{9}$/,
-          message: '手机号格式错误',
-          trigger: 'blur'
-        }],
-        word1: [{
-          required: true,
-          message: '请输入字号',
-          trigger: 'blur'
-        }],
-         word2: [{
-          required: true,
-          message: '请输入字号',
-          trigger: 'blur'
-        }],
-         word3: [{
-          required: true,
-          message: '请输入字号',
-          trigger: 'blur'
-        }],
-
         industry: [{
           required: true,
           message: '请输入行业',
           trigger: 'blur'
         }],
+
         organizationalForm: [{
           required: true,
           message: '请选择组织形式',
           trigger: 'change'
         }],
-        fontName: [{
+
+        administrativeRegion: [{
           required: true,
-          message: '请输入拟设名称',
+          message: '请输入所在行政区划',
           trigger: 'blur'
         }],
+        registrationAuthority: [{
+          required: true,
+          message: '请输入登记机关',
+          trigger: 'blur'
+        }],
+       
+      
       },
       organizationalFormOptions: [{
         "label": "服务部",
@@ -213,32 +247,88 @@ export default {
       }],
     }
   },
-  computed: {},
-  watch: {},
+  computed: {
+  },
+  watch: {
+    formData:{
+         handler:function(){
+          this.getPoposedName();
+        },
+        deep: true
+    }
+  },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getSelfCode();
+  },
   methods: {
+    getPoposedName(){
+        this.formData.poposedName1=this.formData.administrativeDivision+this.formData.fontSize1+this.formData.industry+this.formData.organizationalForm;
+        this.formData.poposedName2=this.formData.administrativeDivision+this.formData.fontSize2+this.formData.industry+this.formData.organizationalForm;
+        this.formData.poposedName3=this.formData.administrativeDivision+this.formData.fontSize3+this.formData.industry+this.formData.organizationalForm;
+    },
     isRandom(){
-      if(this.formData.isRandomWord){
+      if(this.formData.random){
         this.isDisable=true
       }else{
         this.isDisable=false
       }
     },
     changeOrganizational(value){
-      console.log("value",value);
       if(value==1){
-        this.formData.organLabel="服务部";
+        this.formData.organizationalForm="服务部";
       }
       if(value==2){
-        this.formData.organLabel="经营部";
+        this.formData.organizationalForm="经营部";
       }
+    },
+    //获取编号
+    getSelfCode(){
+        this.formData.selfCode='YYW0001'
     },
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
-            this.$router.push("addEmployedInfo")
+            let parms={
+              selfCode:this.formData.selfCode,
+              titleType:this.formData.titleType,
+              administrativeDivision:this.formData.administrativeDivision,
+              industry:this.formData.industry,
+              organizationalForm:this.formData.organizationalForm,
+              administrativeRegion:this.formData.administrativeRegion,
+              registrationAuthority:this.formData.registrationAuthority,
+              random:this.formData.random,
+              fontSize1:this.formData.fontSize1,
+              fontSize2:this.formData.fontSize2,
+              fontSize3:this.formData.fontSize3,
+              poposedName1:this.formData.poposedName1,
+              poposedName2:this.formData.poposedName2,
+              poposedName3:this.formData.poposedName3,
+            };
+            crudReview.addReview(parms).then(res=>{
+              if(res!=undefined){
+                  if(res.code===200){
+                    this.$message({
+                      message:res.msg,
+                      type:'success'
+                    })
+                    }else{
+                      this.$message({
+                          message:res.msg,
+                          type:'danger'
+                      })
+                  }
+                  this.$router.push("addEmployedInfo"); 
+              }
+              
+            });
+              
+        }else{
+          this.$message({
+            message:'请填写完整',
+            type:'warning'
+          })
         }
       })
     },
