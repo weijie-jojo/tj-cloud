@@ -3,6 +3,9 @@ package com.ruoyi.company.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +33,16 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/information")
+@Api(tags = "员工信息")
 public class EmployeeInformationController extends BaseController {
 
     @Autowired
     private IEmployeeInformationService employeeInformationService;
 
     /**
-     * 查询员工信息列表
+     * 查询员工信息列表（不分页）
      */
+    @ApiOperation("查询员工信息列表")
     @RequiresPermissions("company:information:list")
     @GetMapping("/all")
     public TableDataInfo all() {
@@ -48,6 +53,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 查询员工信息列表
      */
+    @ApiOperation("查询员工信息列表")
     @RequiresPermissions("company:information:list")
     @GetMapping("/list")
     public TableDataInfo list(EmployeeInformation employeeInformation) {
@@ -59,6 +65,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 导出员工信息列表
      */
+    @ApiOperation("导出员工信息列表")
     @RequiresPermissions("company:information:export")
     @Log(title = "员工信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -72,6 +79,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 获取员工信息详细信息
      */
+    @ApiOperation("获取员工信息详细信息")
     @RequiresPermissions("company:information:query")
     @GetMapping(value = "/{userId}")
     public AjaxResult getInfo(@PathVariable("userId") Long userId)
@@ -82,6 +90,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 新增员工信息
      */
+    @ApiOperation("新增员工信息")
     @RequiresPermissions("company:information:add")
     @Log(title = "员工信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -93,6 +102,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 修改员工信息
      */
+    @ApiOperation("修改员工信息")
     @RequiresPermissions("company:information:edit")
     @Log(title = "员工信息", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -104,6 +114,7 @@ public class EmployeeInformationController extends BaseController {
     /**
      * 删除员工信息
      */
+    @ApiOperation("删除员工信息")
     @RequiresPermissions("company:information:remove")
     @Log(title = "员工信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{userIds}")
