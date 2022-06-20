@@ -34,10 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="poposedName9"    column="poposed_name9"    />
         <result property="fontSize10"    column="font_size10"    />
         <result property="poposedName10"    column="poposed_name10"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectSelfNameReviewVo">
-        select self_id, self_key, title_type, administrative_division, industry, organizational_form, administrative_region, random, registration_authority, font_size1, poposed_name1, font_size2, poposed_name2, font_size3, poposed_name3, font_size4, poposed_name4, font_size5, poposed_name5, font_size6, poposed_name6, font_size7, poposed_name7, font_size8, poposed_name8, font_size9, poposed_name9, font_size10, poposed_name10 from self_name_review
+        select self_id, self_code, title_type, administrative_division, industry, organizational_form, administrative_region, random, registration_authority, font_size1, poposed_name1, font_size2, poposed_name2, font_size3, poposed_name3, font_size4, poposed_name4, font_size5, poposed_name5, font_size6, poposed_name6, font_size7, poposed_name7, font_size8, poposed_name8, font_size9, poposed_name9, font_size10, poposed_name10,create_by,update_by,create_time,update_time from self_name_review
     </sql>
 
     <select id="selectSelfNameReviewList" parameterType="com.ruoyi.company.domain.SelfNameReview" resultMap="SelfNameReviewResult">
@@ -71,6 +75,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName9 != null  and poposedName9 != ''"> and poposed_name9 = #{poposedName9}</if>
             <if test="fontSize10 != null  and fontSize10 != ''"> and font_size10 = #{fontSize10}</if>
             <if test="poposedName10 != null  and poposedName10 != ''"> and poposed_name10 = #{poposedName10}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
+            <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
         </where>
     </select>
     
@@ -110,6 +118,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName9 != null">poposed_name9,</if>
             <if test="fontSize10 != null">font_size10,</if>
             <if test="poposedName10 != null">poposed_name10,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -140,13 +152,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName9 != null">#{poposedName9},</if>
             <if test="fontSize10 != null">#{fontSize10},</if>
             <if test="poposedName10 != null">#{poposedName10},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
     <update id="updateSelfNameReview" parameterType="com.ruoyi.company.domain.SelfNameReview">
         update self_name_review
         <trim prefix="SET" suffixOverrides=",">
-            <if test="selfCode != null">self_key = #{selfCode},</if>
+            <if test="selfCode != null">self_code = #{selfCode},</if>
             <if test="titleType != null">title_type = #{titleType},</if>
             <if test="administrativeDivision != null">administrative_division = #{administrativeDivision},</if>
             <if test="industry != null">industry = #{industry},</if>
@@ -174,6 +190,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName9 != null">poposed_name9 = #{poposedName9},</if>
             <if test="fontSize10 != null">font_size10 = #{fontSize10},</if>
             <if test="poposedName10 != null">poposed_name10 = #{poposedName10},</if>
+            <if test="createBy != null "> and create_by = #{createBy}</if>
+            <if test="updateBy != null "> and update_by = #{updateBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
         </trim>
         where self_id = #{selfId}
     </update>

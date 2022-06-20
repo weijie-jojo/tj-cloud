@@ -1,8 +1,10 @@
 package com.ruoyi.company.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/place")
+@Api(tags = "平台渠道商")
 public class BusinessPlaceController extends BaseController
 {
     @Autowired
@@ -37,6 +40,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 根据userId查询平台渠道数据
      */
+    @ApiOperation("根据userId查询平台渠道数据")
     @RequiresPermissions("company:place:list")
     @GetMapping(value = "/getPlaceByUserId")
     public AjaxResult getPlaceByUserId(int userId)
@@ -46,6 +50,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 查询平台渠道商列表
      */
+    @ApiOperation("查询平台渠道商列表")
     @RequiresPermissions("company:place:list")
     @GetMapping("/list")
     public TableDataInfo list(BusinessPlace businessPlace)
@@ -58,6 +63,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 导出平台渠道商列表
      */
+    @ApiOperation("导出平台渠道商列表")
     @RequiresPermissions("company:place:export")
     @Log(title = "平台渠道商", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -71,6 +77,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 获取平台渠道商详细信息
      */
+    @ApiOperation("获取平台渠道商详细信息")
     @RequiresPermissions("company:place:query")
     @GetMapping(value = "/{placeId}")
     public AjaxResult getInfo(@PathVariable("placeId") String placeId)
@@ -81,6 +88,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 新增平台渠道商
      */
+    @ApiOperation("新增平台渠道商")
     @RequiresPermissions("company:place:add")
     @Log(title = "平台渠道商", businessType = BusinessType.INSERT)
     @PostMapping
@@ -92,6 +100,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 修改平台渠道商
      */
+    @ApiOperation("修改平台渠道商")
     @RequiresPermissions("company:place:edit")
     @Log(title = "平台渠道商", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -103,6 +112,7 @@ public class BusinessPlaceController extends BaseController
     /**
      * 删除平台渠道商
      */
+    @ApiOperation("删除平台渠道商")
     @RequiresPermissions("company:place:remove")
     @Log(title = "平台渠道商", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{placeIds}")

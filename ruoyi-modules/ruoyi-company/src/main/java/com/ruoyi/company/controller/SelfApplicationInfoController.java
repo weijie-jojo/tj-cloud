@@ -3,6 +3,9 @@ package com.ruoyi.company.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/info")
+@Api(tags = "个体户注册申请信息")
 public class SelfApplicationInfoController extends BaseController
 {
     @Autowired
@@ -38,6 +42,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 查询个体户注册申请信息列表
      */
+    @ApiOperation("查询个体户注册申请信息列表")
     @RequiresPermissions("company:info:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfApplicationInfo selfApplicationInfo)
@@ -50,6 +55,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 导出个体户注册申请信息列表
      */
+    @ApiOperation("导出个体户注册申请信息列表")
     @RequiresPermissions("company:info:export")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -63,6 +69,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 获取个体户注册申请信息详细信息
      */
+    @ApiOperation("获取个体户注册申请信息详细信息")
     @RequiresPermissions("company:info:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
@@ -73,6 +80,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 新增个体户注册申请信息
      */
+    @ApiOperation("新增个体户注册申请信息")
     @RequiresPermissions("company:info:add")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -84,6 +92,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 修改个体户注册申请信息
      */
+    @ApiOperation("修改个体户注册申请信息")
     @RequiresPermissions("company:info:edit")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -95,6 +104,7 @@ public class SelfApplicationInfoController extends BaseController
     /**
      * 删除个体户注册申请信息
      */
+    @ApiOperation("删除个体户注册申请信息")
     @RequiresPermissions("company:info:remove")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
