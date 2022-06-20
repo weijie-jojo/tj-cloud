@@ -1,8 +1,10 @@
 package com.ruoyi.company.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/review")
+@Api(tags = "个体户名字审核")
 public class SelfNameReviewController extends BaseController
 {
     @Autowired
@@ -38,6 +41,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 查询个体户名字审核列表
      */
+    @ApiOperation("查询个体户名字审核列表")
     @RequiresPermissions("company:review:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfNameReview selfNameReview)
@@ -50,6 +54,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 导出个体户名字审核列表
      */
+    @ApiOperation("导出个体户名字审核列表")
     @RequiresPermissions("company:review:export")
     @Log(title = "个体户名字审核", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -63,6 +68,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 获取个体户名字审核详细信息
      */
+    @ApiOperation("获取个体户名字审核详细信息")
     @RequiresPermissions("company:review:query")
     @GetMapping(value = "/{selfId}")
     public AjaxResult getInfo(@PathVariable("selfId") Long selfId)
@@ -73,6 +79,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 新增个体户名字审核
      */
+    @ApiOperation("新增个体户名字审核")
     @RequiresPermissions("company:review:add")
     @Log(title = "个体户名字审核", businessType = BusinessType.INSERT)
     @PostMapping
@@ -84,6 +91,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 修改个体户名字审核
      */
+    @ApiOperation("修改个体户名字审核")
     @RequiresPermissions("company:review:edit")
     @Log(title = "个体户名字审核", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -95,6 +103,7 @@ public class SelfNameReviewController extends BaseController
     /**
      * 删除个体户名字审核
      */
+    @ApiOperation("删除个体户名字审核")
     @RequiresPermissions("company:review:remove")
     @Log(title = "个体户名字审核", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{selfIds}")

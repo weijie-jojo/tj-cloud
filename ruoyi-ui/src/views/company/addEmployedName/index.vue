@@ -1,7 +1,12 @@
 <template>
   <div>
-    <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px"
-      label-position="right">
+    <el-form 
+      ref="elForm" 
+      :model="formData" 
+      :rules="rules" 
+      size="medium" 
+      label-position="right"
+      label-width="110px">
       <el-steps :space="1500" 
         :active="1" 
         finish-status="success"
@@ -76,21 +81,21 @@
       </el-row>
      
      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
-          <el-form-item label="所在行政区划" prop="administrativeRegion">
+        <el-col :span="8" >
+          <el-form-item  label="所在行政区划"  >
             <el-input 
               v-model="formData.administrativeRegion" 
               placeholder="请输入所在行政区划" 
-              clearable 
+              disabled 
               ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="登记机关" prop="registrationAuthority">
+          <el-form-item label="登记机关" >
             <el-input 
               v-model="formData.registrationAuthority" 
               placeholder="请输入登记机关" 
-              clearable
+              disabled
               ></el-input>
           </el-form-item>
         </el-col>
@@ -183,21 +188,21 @@
 </template>
 <script>
 import crudReview from '@/api/company/review'
-
+import {getInfo} from '@/api/login' 
 export default {
   components: {},
   props: [],
   data() {
     return {
-      isDisable:false,
+      isDisable:true,
       formData: {
         selfCode:'',
         titleType:'区县名',
         administrativeDivision:'漳平市',
         industry: '',
         organizationalForm: '',
-        administrativeRegion:'',
-        registrationAuthority:'',
+        administrativeRegion:'龙岩市漳平市',
+        registrationAuthority:'漳平市市场监督管理局',
         random:true,
         //字号
         fontSize1:'',
@@ -207,6 +212,7 @@ export default {
         poposedName1:'',
         poposedName2:'',
         poposedName3:'',
+        userName:'',
       },
       rules: {
         industry: [{
@@ -260,18 +266,27 @@ export default {
   created() {},
   mounted() {
     this.getSelfCode();
+    this.getLoginInfo();
   },
   methods: {
+    getLoginInfo(){
+      getInfo().then(res=>{  
+        this.formData.userName=res.user.nickName;
+      })
+    },
     getPoposedName(){
         this.formData.poposedName1=this.formData.administrativeDivision+this.formData.fontSize1+this.formData.industry+this.formData.organizationalForm;
         this.formData.poposedName2=this.formData.administrativeDivision+this.formData.fontSize2+this.formData.industry+this.formData.organizationalForm;
         this.formData.poposedName3=this.formData.administrativeDivision+this.formData.fontSize3+this.formData.industry+this.formData.organizationalForm;
     },
     isRandom(){
-      if(this.formData.random){
-        this.isDisable=true
-      }else{
+      if(!this.formData.random){
         this.isDisable=false
+      }else{
+        this.isDisable=true
+        this.formData.fontSize1="";
+        this.formData.fontSize2="";
+        this.formData.fontSize3="";
       }
     },
     changeOrganizational(value){
@@ -305,6 +320,10 @@ export default {
               poposedName1:this.formData.poposedName1,
               poposedName2:this.formData.poposedName2,
               poposedName3:this.formData.poposedName3,
+              createTime:new Date().toLocaleString(),
+              updateTime:new Date().toLocaleString(),
+              createBy:this.formData.userName,
+              updateBy:this.formData.userName,
             };
             crudReview.addReview(parms).then(res=>{
               if(res!=undefined){
@@ -342,5 +361,10 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
     .rowCss{
       margin-top: 30px;
+    }
+      // 改变input框字体颜色
+     ::v-deep .is-disabled .el-input__inner{
+        background-color: transparent !important;
+        color: black;    
     }
 </style>

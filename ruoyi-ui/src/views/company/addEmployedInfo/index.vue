@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px"
+    <el-form 
+      ref="elForm" 
+      :model="formData" 
+      :rules="rules" 
+      size="medium" 
+      label-width="120px"
       label-position="right">
     
       <el-steps :space="1500" 
@@ -14,14 +19,19 @@
 
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="申请信息" name="first">
-            <el-form-item>申请信息</el-form-item>
+            <div 
+              style="font-size:20px;
+              margin-left: 300px;
+              margin-top: 20px;
+              margin-bottom: 40px;
+              color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="本人申请" prop="oneselfApply">
                   <el-select 
                     v-model="formData.oneselfApply" 
                     placeholder="请选择是否本人申请" 
-                    clearable
+                    disabled
                     >
                     <el-option 
                       v-for="(item, index) in oneselfApplys" 
@@ -78,27 +88,17 @@
               </el-col>
             </el-row>
 
-            <el-form-item>联络员</el-form-item>
+            <div 
+              style="font-size:20px;
+              margin-left: 310px;
+              margin-top: 20px;
+              margin-bottom: 40px;
+              color:blue;">联络员</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="姓名" prop="contactName">
                   <el-input v-model="formData.contactName"  clearable >
                   </el-input>
-                  <!-- <el-select 
-                    v-model="formData.contactName" 
-                    placeholder="请选择联系人" 
-                    clearable
-                    filterable 
-                    @change="selectContactName"
-                    >
-                    <el-option 
-                      v-for="(item, index) in contactNames" 
-                      :key="index" 
-                      :label="item.legalPersonName"
-                      :value="item.legalPersonId" 
-                      :disabled="item.disabled"
-                    ></el-option>
-                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -123,7 +123,7 @@
               </el-col>
             </el-row>
 
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="resetForm1">取消</el-button> 
               </el-col>
@@ -134,7 +134,11 @@
         </el-tab-pane>
 
         <el-tab-pane label="基本情况" name="second">
-            <el-form-item>申请信息</el-form-item>
+             <div 
+              style="font-size:20px;
+              margin-left: 300px;
+              margin-bottom:20px;
+              color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="组织形式" prop="organizationalForm">
@@ -178,7 +182,7 @@
                   <el-select 
                     v-model="formData.electronicCommerce" 
                     placeholder="请选择是否是电子商务经营者" 
-                    clearable
+                    disabled
                     >
                     <el-option 
                       v-for="(item, index) in electronicCommerces" 
@@ -258,7 +262,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="行业税率" >
-                  <el-input v-model="formData.industryTax"  clearable >
+                  <el-input v-model="formData.industryTax"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -347,10 +351,15 @@
         </el-tab-pane>
 
         <el-tab-pane label="经营者" name="third">
-            <el-form-item>经营者（负责人）信息</el-form-item>
+            <div 
+              style="font-size:20px;
+              margin-top: 20px;
+              margin-left: 300px;
+              margin-bottom:40px;
+              color:blue;">经营者（负责人）信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="姓名" prop="contactName">
+                <el-form-item label="姓名" >
                   <el-input v-model="formData.contactName"  disabled >
                   </el-input>
                 </el-form-item>
@@ -370,8 +379,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="证件号码" prop="contactIdNum">
-                  <el-input v-model="formData.contactIdNum"  clearable >
+                <el-form-item label="证件号码" >
+                  <el-input v-model="formData.contactIdNum"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -473,7 +482,7 @@
                 </el-form-item>
               </el-col>
             </el-row> -->
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="toReturn2">返回</el-button> 
               </el-col>
@@ -552,7 +561,7 @@ export default {
 
       formData: {
         //申请信息
-        oneselfApply:'',//1是 2否 是否本人申请
+        oneselfApply:2,//1是 2否 是否本人申请
         applyName:'',
         applyPhone:'',
         applyDocumentType:'中华人民共和国居民身份证',
@@ -822,6 +831,8 @@ export default {
         }else{
           this.isPrivateBank=true;
           this.formData.legalPersonName="";
+          this.formData.privateDepositBank="";
+          this.formData.privateAccountNumber="";
         }
     },
     selectIndustryType(value){
@@ -834,13 +845,6 @@ export default {
       this.formData.applyPhone=applyName.phone;
       this.formData.applyIdNum=applyName.idNo;
       console.log("applyName==",applyName);
-    },
-    selectContactName(value){
-      var person= this.contactNames.find((item)=>item.legalPersonId==value);
-      this.formData.contactPhone=person.telNum;
-      this.formData.contactIdNum=person.idCardNum;
-      this.formData.legalPersonName=person.contactName;
-      console.log("person==",person);
     },
     getRate(){
       crudRate.getAllRate().then(res=>{
@@ -994,5 +998,10 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
     .rowCss{
       margin-top:10px;
+    }
+      // 改变input框字体颜色
+     ::v-deep .is-disabled .el-input__inner{
+        background-color: transparent !important;
+        color: black;    
     }
 </style>
