@@ -43,6 +43,4 @@ export function delReview(selfId) {
   })
 }
 
-export default{
-  addReview
-}
+export default{addReview}
