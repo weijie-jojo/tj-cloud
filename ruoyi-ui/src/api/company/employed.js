@@ -43,4 +43,12 @@ export function delEmployed(selfId) {
   })
 }
 
+// 查询个体商户列表
+export function joinList(query) {
+  return request({
+    url: '/company/employed/joinList',
+    method: 'get',
+    params: query
+  })
+}
 export default {addEmployed}

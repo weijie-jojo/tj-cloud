@@ -42,64 +42,22 @@
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
-      <el-table-column label="名称审核" align="center" prop="selfCode">
-
+     
+     
+     
+      
+     
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.approveStatus == '2'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="nameisok(scope.row)" :underline="false" type="success">已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="信息审核" align="center" prop="selfCode">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="newisok(scope.row)" :underline="false" type="success"  v-if="scope.row.approveStatus == '1'">已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="工商办理" align="center" prop="selfCode">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success" >已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="税务办理" align="center" prop="selfCode">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success">已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="银行办理" align="center" prop="selfCode">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success">已通过</el-link>
-        </template>
-
-      </el-table-column>
-      <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width"> -->
-        <!-- <template slot-scope="scope"> -->
-          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">工商管理</el-button>
-
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button> -->
-
-
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">我的工商</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">我的税务</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">我的银行</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
             v-hasPermi="['company:employed:remove']">删除</el-button> -->
-        <!-- </template> -->
-      <!-- </el-table-column> -->
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
@@ -188,6 +146,7 @@
 <script>
 
 import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
   name: "Employed",
@@ -254,17 +213,7 @@ export default {
     },
     
     
-    //名称审核
-    nameisok(scope){
-      this.$cache.local.setJSON('employedPersonDetail', scope);
-      console.log(this.$cache.local.getJSON('employedPersonDetail')); // 输出'{localProp: 1}'
-      this.$router.push({path:'/customer/addBank'});
-    },
-    //信息审核
-    newisok(scope){
-       this.$cache.local.setJSON('employedPersonDetail', scope);
-       this.$router.push({path:'/customer/addBank'});
-    },
+    
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
@@ -332,11 +281,14 @@ export default {
     },
     //工商管理
     business(row) {
-      this.$router.push({ path: "/customer/addBusiness", query: { name: this.queryParams.legalPersonName } });
+      this.$router.push({ path: "/customer/addBusiness", query: { legal_person_name: row.legalPersonName } });
     },
     //税务管理
     atx(row) {
-      this.$router.push({ path: "/customer/addTax", query: { id: row.selfId } });
+      this.$router.push({ path: "/customer/addTax", query: { legal_person_name:row.legalPersonName,self_name:row.poposedName1,tax_id:row.taxId } });
+    },
+    bank(row){
+      this.$router.push({ path: "/customer/addBank", query: { legal_person_name:row.legalPersonName,self_name:row.poposedName1,tax_id:row.taxId } });
     },
     /** 新增按钮操作 */
     handleAdd() {
