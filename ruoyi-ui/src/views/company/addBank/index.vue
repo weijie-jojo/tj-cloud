@@ -177,7 +177,7 @@ export default {
    data() {
       return {
          formBank: {
-            activeNames: ['1'],
+            activeNames: ['1'], 
             account_name: '',
             public_deposit_bank_3: '',
             public_account_number_3: '',
