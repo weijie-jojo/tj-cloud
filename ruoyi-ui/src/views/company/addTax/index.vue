@@ -5,10 +5,10 @@
          <el-row :gutter="80">
             <el-col :span="10">
                <el-form-item label="个体户名称">
-                  <el-input v-model="form.gname"></el-input>
+                  <el-input v-model="form.gname" disabled></el-input>
                </el-form-item>
                <el-form-item label="法人姓名">
-                  <el-input v-model="form.faname"></el-input>
+                  <el-input v-model="form.faname" disabled></el-input>
                </el-form-item>
                <el-form-item label="税务核定通知书">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
@@ -19,9 +19,10 @@
                   </el-upload>
                </el-form-item>
             </el-col>
+            <el-col :span="1"><div class="grid-content bg-purple" style="color:rgba(0,0,0,0)">.</div></el-col>
             <el-col :span="10">
                <el-form-item label="纳税人识别号">
-                  <el-input v-model="form.sname"></el-input>
+                  <el-input v-model="form.sname" disabled></el-input>
                </el-form-item>
             </el-col>
          </el-row>
@@ -90,9 +91,9 @@ export default {
 
 .footers {
 
-   width: 80%;
+   /* width: 84%;
    position: fixed;
-   bottom: 0;
+   bottom: 0; */
    display: flex;
    justify-content: center;
    align-items: center;

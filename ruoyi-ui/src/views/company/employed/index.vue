@@ -71,17 +71,84 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="个体户id" align="center" prop="selfId" />
-      <el-table-column label="渠道商编码" align="center" prop="placeCode" />
-      <el-table-column label="法人姓名" align="center" prop="legalPersonName" />
-      <el-table-column label="所属业务员" align="center" prop="userId" />
-      <el-table-column label="注册时间" align="center" prop="registerTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.registerTime, '{y}-{m}-{d}') }}</span>
+      <el-table-column label="法人姓名" align="center" prop="selfId" />
+      <el-table-column label="个体名称" align="center" prop="selfCode" />
+      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+      <el-table-column label="渠道商" align="center" prop="selfCode" />
+      <el-table-column label="业务经理" align="center" prop="selfCode" />
+      <el-table-column label="名称审核" align="center" prop="selfCode" >
+          <template slot-scope="scope">
+          <span>{{getDictName(scope.row.approveStatus, "approveStatus")}}</span>
+          </template>
+          <template slot-scope="scope">
+          <el-link type="primary">审核中</el-link>
+                 <el-link type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+                 <el-link type="success" v-if="scope.row.approveStatus == '2'">已通过</el-link>
+        
         </template>
+      </el-table-column>
+      <el-table-column label="信息审核" align="center" prop="selfCode" >
+        <template slot-scope="scope">
+          <span>{{getDictName(scope.row.approveStatus, "approveStatus")}}</span>
+          </template>
+          <template slot-scope="scope">
+          <span>审核中</span>
+          <span v-if="scope.row.approveStatus == '1'">未通过</span>
+          <span v-if="scope.row.approveStatus == '2'">已审核</span>
+        
+        </template>
+      </el-table-column>
+      <el-table-column label="工商办理" align="center" prop="selfCode">
+          <template slot-scope="scope">
+          <span>{{getDictName(scope.row.approveStatus, "approveStatus")}}</span>
+          </template>
+          <template slot-scope="scope">
+           <el-link type="primary">审核中</el-link>
+                 <el-link type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+                 <el-link type="success" v-if="scope.row.approveStatus == '2'">已通过</el-link>
+        
+        </template>
+      </el-table-column>
+      <el-table-column label="税务办理" align="center" prop="selfCode">
+          <template slot-scope="scope">
+          <span>{{getDictName(scope.row.approveStatus, "approveStatus")}}</span>
+          </template>
+          <template slot-scope="scope">
+           <el-link type="primary">审核中</el-link>
+                 <el-link type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+                 <el-link type="success" v-if="scope.row.approveStatus == '2'">已通过</el-link>
+        
+        </template>
+      </el-table-column>
+      <el-table-column label="银行办理" align="center" prop="selfCode">
+           <template slot-scope="scope">
+          <span>{{getDictName(scope.row.approveStatus, "approveStatus")}}</span>
+          </template>
+          <template slot-scope="scope">
+                 <el-link type="primary">审核中</el-link>
+                 <el-link type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+                 <el-link type="success" v-if="scope.row.approveStatus == '2'">已通过</el-link>
+          </template>
+        
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+             <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-s-custom"
+            @click="business(scope.row)"
+          >工商管理</el-button>
+
+             <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-coin"
+            @click="atx(scope.row)"
+           
+          >税务管理</el-button>
+          
+          
           <el-button
             size="mini"
             type="text"
@@ -192,8 +259,10 @@
 </template>
 
 <script>
-import { listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
+//import { listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+// import axios from 'axios'
+import  { listReview }  from "@/api/company/review";
 export default {
   name: "Employed",
   data() {
@@ -232,13 +301,24 @@ export default {
     };
   },
   created() {
+    // axios.get("/getUsers", {
+          
+    //     }).then((res) => {
+    //       console.log(res);
+    //       this.loading = false;
+    //       let data = res.data.data.list;
+    //       this.employedList = data;
+          
+    //     });
+    
     this.getList();
   },
   methods: {
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      listEmployed(this.queryParams).then(response => {
+      listReview(this.queryParams).then(response => {
+        console.log(response);
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -297,6 +377,14 @@ export default {
       this.ids = selection.map(item => item.selfId)
       this.single = selection.length!==1
       this.multiple = !selection.length
+    },
+    //工商管理
+    business(row){
+    this.$router.push({ path: "/customer/addBusiness",query:{name:this.queryParams.legalPersonName} });
+    },
+    //税务管理
+    atx(row){
+    this.$router.push({ path: "/customer/addTax",query:{id:row.selfId} });
     },
     /** 新增按钮操作 */
     handleAdd() {
