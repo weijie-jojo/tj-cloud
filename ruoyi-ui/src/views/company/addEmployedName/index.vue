@@ -188,6 +188,7 @@
 </template>
 <script>
 import crudReview from '@/api/company/review'
+import crudInformation from '@/api/company/information'
 import {getInfo} from '@/api/login' 
 export default {
   components: {},
@@ -299,7 +300,17 @@ export default {
     },
     //获取编号
     getSelfCode(){
-        this.formData.selfCode='YYW0001'
+      //获取员工编号
+      getInfo().then(res=>{  
+        var userId=res.user.userId;
+        crudInformation.getInformation(userId).then(res=>{     
+          var  employeeNumber=res.data.employeeNumber;
+          crudReview.getCode({employeeNumber:employeeNumber}).then(res=>{
+            this.formData.selfCode=res;
+            console.log("selfCode",res);
+          })
+        });
+      })
     },
     submitForm() {
       this.$refs['elForm'].validate(valid => {
@@ -326,19 +337,21 @@ export default {
               updateBy:this.formData.userName,
             };
             crudReview.addReview(parms).then(res=>{
+              console.log("addReview",res)
               if(res!=undefined){
-                  if(res.code===200){
+                   if(res.id==0){
                     this.$message({
-                      message:res.msg,
-                      type:'success'
-                    })
-                    }else{
-                      this.$message({
-                          message:res.msg,
-                          type:'danger'
-                      })
+                        message: res.message,
+                        type: 'success',
+                    });
+                  }else{
+                    this.$message({
+                        message: res.message,
+                        type: 'warning',
+                    });
                   }
-                  this.$router.push("addEmployedInfo"); 
+                  this.$router.push("addEmployedInfo");
+                  window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
               }
               
             });

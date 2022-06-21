@@ -2,6 +2,7 @@ package com.ruoyi.company.mapper;
 
 import java.util.List;
 import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 
 /**
  * 个体商户Mapper接口
@@ -11,9 +12,18 @@ import com.ruoyi.company.domain.SelfEmployed;
  */
 public interface SelfEmployedMapper 
 {
+
+    /**
+     * 连表selfNameReview查询
+     *
+     * @param selfEmployed 个体商户
+     * @return 个体商户集合
+     */
+    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployed selfEmployed);
+
     /**
      * 查询个体商户
-     * 
+     *
      * @param selfId 个体商户主键
      * @return 个体商户
      */

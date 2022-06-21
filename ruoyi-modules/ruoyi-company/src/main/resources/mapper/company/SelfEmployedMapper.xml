@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="com.ruoyi.company.domain.SelfEmployed" id="SelfEmployedResult">
         <result property="selfId"    column="self_id"    />
-        <result property="selfKey"    column="self_key"    />
+        <result property="selfCode"    column="self_code"    />
         <result property="placeCode"    column="place_code"    />
         <result property="taxId"    column="tax_id"    />
         <result property="selfAddress"    column="self_address"    />
@@ -32,11 +32,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="propertyRight"    column="property_right"    />
         <result property="industry"    column="industry"    />
         <result property="natureBusiness"    column="nature_business"    />
+        <result property="placeName"    column="placeName"    />
+        <result property="username"    column="username"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_key, place_code, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, user_id, exp_status, maximum, register_time, industry_type, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, industry, nature_business from self_employed
+        select self_id, self_code, place_code, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, user_id, exp_status, maximum, register_time, industry_type, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, industry, nature_business,place_name,self_name,create_by,update_by,create_time,update_time,username from self_employed
     </sql>
+
+    <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.SelfEmployed" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        <where>
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+        </where>
+    </select>
 
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.company.domain.SelfEmployed" resultMap="SelfEmployedResult">
         <include refid="selectSelfEmployedVo"/>
@@ -55,7 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">
         insert into self_employed
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="selfKey != null">self_key,</if>
+            <if test="placeName != null">place_name,</if>
+            <if test="username != null">username,</if>
+            <if test="selfCode != null">self_code,</if>
             <if test="placeCode != null">place_code,</if>
             <if test="taxId != null">tax_id,</if>
             <if test="selfAddress != null">self_address,</if>
@@ -81,9 +97,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="propertyRight != null">property_right,</if>
             <if test="industry != null">industry,</if>
             <if test="natureBusiness != null">nature_business,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="selfKey != null">#{selfKey},</if>
+            <if test="placeName != null">#{placeName},</if>
+            <if test="username != null">#{username},</if>
+            <if test="selfCode != null">#{selfCode},</if>
             <if test="placeCode != null">#{placeCode},</if>
             <if test="taxId != null">#{taxId},</if>
             <if test="selfAddress != null">#{selfAddress},</if>
@@ -109,13 +131,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="propertyRight != null">#{propertyRight},</if>
             <if test="industry != null">#{industry},</if>
             <if test="natureBusiness != null">#{natureBusiness},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
     <update id="updateSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed">
         update self_employed
         <trim prefix="SET" suffixOverrides=",">
-            <if test="selfKey != null">self_key = #{selfKey},</if>
+            <if test="placeName != null">self_code = #{placeName},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="selfCode != null">self_code = #{selfCode},</if>
             <if test="placeCode != null">place_code = #{placeCode},</if>
             <if test="taxId != null">tax_id = #{taxId},</if>
             <if test="selfAddress != null">self_address = #{selfAddress},</if>
@@ -141,6 +169,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="propertyRight != null">property_right = #{propertyRight},</if>
             <if test="industry != null">industry = #{industry},</if>
             <if test="natureBusiness != null">nature_business = #{natureBusiness},</if>
+            <if test="createBy != null "> and create_by = #{createBy}</if>
+            <if test="updateBy != null "> and update_by = #{updateBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
         </trim>
         where self_id = #{selfId}
     </update>

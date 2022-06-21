@@ -1,12 +1,17 @@
 package com.ruoyi.company.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.company.domain.dto.DataDto;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +43,19 @@ public class SelfEmployedController extends BaseController
 {
     @Autowired
     private ISelfEmployedService selfEmployedService;
+
+    /**
+     * 查询个体商户列表
+     */
+    @ApiOperation("查询个体商户列表")
+    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinList")
+    public TableDataInfo selectEmployedJoinReview(SelfEmployed selfEmployed)
+    {
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(selfEmployed);
+        return getDataTable(list);
+    }
 
     /**
      * 查询个体商户列表

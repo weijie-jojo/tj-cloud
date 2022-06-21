@@ -2,6 +2,7 @@ package com.ruoyi.company.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -13,12 +14,17 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2022-06-18
  */
+@Data
 public class BusinessPlace extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
     private String placeId;
+
+    /** 用户名 */
+    @Excel(name = "用户名")
+    private String username;
 
     /** 渠道商编码 */
     @Excel(name = "渠道商编码")

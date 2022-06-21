@@ -560,6 +560,8 @@ export default {
       places:[],
 
       formData: {
+        selfCode:'',
+
         //申请信息
         oneselfApply:2,//1是 2否 是否本人申请
         applyName:'',
@@ -813,6 +815,9 @@ export default {
     this.getContactName();
     //个体户行业类型税率
     this.getRate();
+    //从上一个页面获取个体户编码
+    this.formData.selfCode=JSON.parse(window.localStorage.getItem('selfCode'));
+    console.log("selfCode==",this.formData.selfCode)
   },
   methods: {
     getLoginInfo(){
@@ -884,8 +889,10 @@ export default {
      submitForm3() {
       this.$refs['elForm'].validate(valid => {
         if (valid) {
-            console.log(111);
+            console.log("placeName",this.formData.placeName,);
             let parms1={
+              selfCode:this.formData.selfCode,
+
               oneselfApply:this.formData.oneselfApply,
               applyName:this.formData.applyName,
               applyPhone:this.formData.applyPhone,
@@ -897,8 +904,15 @@ export default {
               contactDocumentType:this.formData.contactDocumentType,
               contactIdNum:this.formData.contactIdNum,
 
+              createTime:new Date().toLocaleString(),
+              updateTime:new Date().toLocaleString(),
+              createBy:this.formData.userName,
+              updateBy:this.formData.userName,
+
             };
             let parms2={
+              selfCode:this.formData.selfCode,
+
               organizationalForm:this.formData.organizationalForm,
               numberEmployees:this.formData.numberEmployees,
               contributionAmount:this.formData.contributionAmount,
@@ -917,9 +931,16 @@ export default {
               privateDepositBank:this.formData.privateDepositBank,
               privateAccountNumber:this.formData.privateAccountNumber,
               placeName:this.formData.placeName,
-              userName:this.formData.userName,
+              username:this.formData.userName,
+
+              createTime:new Date().toLocaleString(),
+              updateTime:new Date().toLocaleString(),
+              createBy:this.formData.userName,
+              updateBy:this.formData.userName,
             };
             let parms3={
+              selfCode:this.formData.selfCode,
+              
               legalPersonName:this.formData.contactName,
               personnelType:this.formData.personnelType,
               documentType:this.formData.contactDocumentType,
@@ -932,6 +953,11 @@ export default {
               residence:this.formData.residence,
               contactPhone:this.formData.contactPhone,
               mail:this.formData.mail,
+
+              createTime:new Date().toLocaleString(),
+              updateTime:new Date().toLocaleString(),
+              createBy:this.formData.userName,
+              updateBy:this.formData.userName,
 
             };
             crudInfo.addInfo(parms1).then(res=>{

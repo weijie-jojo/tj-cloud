@@ -3,6 +3,7 @@ package com.ruoyi.company.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -14,15 +15,22 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2022-06-14
  */
+@Data
 public class SelfEmployed extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
+
+    /** 渠道名称 */
+    private String username;
+
+    /** 渠道名称 */
+    private String placeName;
 
     /** 个体户id */
     private String selfId;
 
     /** 个体户编码 */
-    private String selfKey;
+    private String selfCode;
 
     /** 渠道商编码 */
     @Excel(name = "渠道商编码")
@@ -118,14 +126,14 @@ public class SelfEmployed extends BaseEntity
     {
         return selfId;
     }
-    public void setSelfKey(String selfKey) 
+    public void setSelfCode(String selfCode)
     {
-        this.selfKey = selfKey;
+        this.selfCode = selfCode;
     }
 
-    public String getSelfKey() 
+    public String getSelfCode()
     {
-        return selfKey;
+        return selfCode;
     }
     public void setPlaceCode(String placeCode) 
     {
@@ -148,6 +156,16 @@ public class SelfEmployed extends BaseEntity
     public void setSelfAddress(String selfAddress) 
     {
         this.selfAddress = selfAddress;
+    }
+
+    public void setPlaceName(String placeName)
+    {
+        this.placeName = placeName;
+    }
+
+    public String getPlaceName()
+    {
+        return placeName;
     }
 
     public String getSelfAddress() 
@@ -348,7 +366,7 @@ public class SelfEmployed extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("selfId", getSelfId())
-            .append("selfKey", getSelfKey())
+            .append("selfCode", getSelfCode())
             .append("placeCode", getPlaceCode())
             .append("taxId", getTaxId())
             .append("selfAddress", getSelfAddress())

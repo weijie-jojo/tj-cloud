@@ -3,7 +3,6 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.company.mapper.SelfNameReviewMapper">
-    
     <resultMap type="com.ruoyi.company.domain.SelfNameReview" id="SelfNameReviewResult">
         <result property="selfId"    column="self_id"    />
         <result property="selfCode"    column="self_code"    />
@@ -86,7 +85,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSelfNameReviewVo"/>
         where self_id = #{selfId}
     </select>
-        
+
+    <select id="selectMaxCode"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        SELECT *FROM self_name_review  ORDER BY self_id DESC LIMIT 1
+    </select>
+
     <insert id="insertSelfNameReview" parameterType="com.ruoyi.company.domain.SelfNameReview" useGeneratedKeys="true" keyProperty="selfId">
         insert into self_name_review
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -42,5 +42,12 @@ export function delReview(selfId) {
     method: 'delete'
   })
 }
-
-export default{addReview}
+// 获取编号
+export function getCode(query) {
+  return request({
+    url: '/company/review/getSelfCode',
+    method: 'get',
+    params: query
+  })
+}
+export default{addReview,getCode}

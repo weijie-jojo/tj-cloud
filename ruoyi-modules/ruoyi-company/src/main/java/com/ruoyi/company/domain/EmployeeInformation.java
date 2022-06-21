@@ -114,15 +114,16 @@ public class EmployeeInformation extends BaseEntity
     {
         return employeeNumber;
     }
+
     public void setUsername(String username) 
     {
         this.username = username;
     }
-
     public String getUsername() 
     {
         return username;
     }
+
     public void setNickName(String nickName) 
     {
         this.nickName = nickName;

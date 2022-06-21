@@ -2,6 +2,7 @@ package com.ruoyi.company.service;
 
 import java.util.List;
 import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 
 /**
  * 个体商户Service接口
@@ -11,6 +12,14 @@ import com.ruoyi.company.domain.SelfEmployed;
  */
 public interface ISelfEmployedService 
 {
+
+    /**
+     * 连表selfNameReview查询
+     *
+     * @param selfEmployed 个体商户
+     * @return 个体商户集合
+     */
+    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployed selfEmployed);
     /**
      * 查询个体商户
      * 
