@@ -937,11 +937,6 @@ export default {
               updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-
-              businessStatus:0,
-              infoStatus:1,
-              taxStatus:0,
-              bankStatus:0,
             };
             let parms3={
               selfCode:this.formData.selfCode,

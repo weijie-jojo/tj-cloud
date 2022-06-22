@@ -1,10 +1,12 @@
 package com.ruoyi.company.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfEmployedMapper;
-import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.service.ISelfEmployedService;
 
 /**
@@ -18,6 +20,17 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
 {
     @Autowired
     private SelfEmployedMapper selfEmployedMapper;
+
+    /**
+     * 连表selfNameReview查询
+     *
+     * @param selfEmployed 个体商户
+     * @return 个体商户
+     */
+    @Override
+    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployed selfEmployed) {
+        return selfEmployedMapper.selectEmployedJoinReview(selfEmployed);
+    }
 
     /**
      * 查询个体商户
