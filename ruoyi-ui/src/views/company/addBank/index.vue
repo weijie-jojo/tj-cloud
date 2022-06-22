@@ -4,12 +4,12 @@
       <el-form ref="formBank" :model="formBank" :rules="rules" label-width="200px">
          <el-row :gutter="80">
             <el-col :span="10">
-               <el-form-item label="个体户名称" prop="self_name">
-                  <el-input v-model="formBank.self_name" disabled></el-input>
+               <el-form-item label="个体户名称" prop="selfName">
+                  <el-input v-model="formBank.selfName" disabled></el-input>
                </el-form-item>
 
-               <el-form-item label="法人姓名" prop="legal_person_name">
-                  <el-input v-model="formBank.legal_person_name" disabled></el-input>
+               <el-form-item label="法人姓名" prop="legalPersonName">
+                  <el-input v-model="formBank.legalPersonName" disabled></el-input>
                </el-form-item>
 
             </el-col>
@@ -17,8 +17,8 @@
                <div class="grid-content bg-purple" style="color:rgba(0,0,0,0)"> <br></div>
             </el-col>
             <el-col :span="10">
-               <el-form-item label="纳税人识别号" prop="tax_id">
-                  <el-input v-model="formBank.tax_id" disabled></el-input>
+               <el-form-item label="纳税人识别号" prop="taxId">
+                  <el-input v-model="formBank.taxId" disabled></el-input>
                </el-form-item>
             </el-col>
          </el-row>
@@ -37,19 +37,19 @@
                   <el-collapse-item title="私人账号" name="1">
                      <el-row>
                         <el-col :span="10">
-                           <el-form-item label="账号名称">
-                              <el-input v-model="formBank.self_name" disabled></el-input>
+                           <el-form-item label="账号名称" prop="legalPersonName">
+                              <el-input v-model="formBank.legalPersonName" disabled></el-input>
                            </el-form-item>
 
-                           <el-form-item label="开户银行">
-                              <el-input v-model="formBank.self_name" disabled></el-input>
+                           <el-form-item label="开户银行" prop="privateDepositBank">
+                              <el-input v-model="formBank.privateDepositBank" disabled></el-input>
                            </el-form-item>
 
                         </el-col>
 
                         <el-col :span="10">
-                           <el-form-item label="银行账号">
-                              <el-input v-model="formBank.self_name" disabled></el-input>
+                           <el-form-item label="银行账号" prop="privateAccountNumber">
+                              <el-input v-model="formBank.privateAccountNumber" disabled></el-input>
                            </el-form-item>
                         </el-col>
                         <el-col :span="4">
@@ -60,19 +60,19 @@
                   <el-collapse-item title="对公基本户" name="2">
                      <el-row>
                         <el-col :span="10">
-                           <el-form-item label="账号名称">
-                              <el-input v-model="formBank.self_name" disabled></el-input>
+                           <el-form-item label="账号名称" prop="selfName">
+                              <el-input v-model="formBank.selfName" disabled></el-input>
                            </el-form-item>
 
-                           <el-form-item label="开户银行">
-                              <el-input v-model="formBank.public_deposit_bank_1"></el-input>
+                           <el-form-item label="开户银行" prop="publicDepositBank1">
+                              <el-input v-model="formBank.publicDepositBank1"></el-input>
                            </el-form-item>
 
                         </el-col>
 
                         <el-col :span="10">
-                           <el-form-item label="银行账号">
-                              <el-input v-model="formBank.public_account_number_1"></el-input>
+                           <el-form-item label="银行账号" prop="publicAccountNumber1">
+                              <el-input v-model="formBank.publicAccountNumber1"></el-input>
                            </el-form-item>
                         </el-col>
                         <el-col :span="4">
@@ -83,19 +83,19 @@
                   <el-collapse-item title="对公一般户" name="3">
                      <el-row>
                         <el-col :span="10">
-                           <el-form-item label="账号名称">
-                              <el-input v-model="formBank.self_name" disabled></el-input>
+                           <el-form-item label="账号名称" prop="selfName">
+                              <el-input v-model="formBank.selfName" disabled></el-input>
                            </el-form-item>
 
-                           <el-form-item label="开户银行">
-                              <el-input v-model="formBank.public_deposit_bank_2"></el-input>
+                           <el-form-item label="开户银行" prop="publicDepositBank2">
+                              <el-input v-model="formBank.publicDepositBank2"></el-input>
                            </el-form-item>
 
                         </el-col>
 
                         <el-col :span="10">
-                           <el-form-item label="银行账号">
-                              <el-input v-model="formBank.public_account_number_2"></el-input>
+                           <el-form-item label="银行账号" prop="publicAccountNumber2">
+                              <el-input v-model="formBank.publicAccountNumber2"></el-input>
                            </el-form-item>
                         </el-col>
                         <el-col :span="4">
@@ -117,18 +117,18 @@
 
          <el-row :gutter="80" class="paddingbg-s">
             <el-col :span="10">
-               <el-form-item label="户名" prop="account_name">
-                  <el-input v-model="formBank.account_name"></el-input>
+               <el-form-item label="户名" prop="accountName">
+                  <el-input v-model="formBank.accountName"></el-input>
                </el-form-item>
 
-               <el-form-item label="开户银行">
-                  <el-input v-model="formBank.public_deposit_bank_3"></el-input>
+               <el-form-item label="开户银行" prop="publicDepositBank3">
+                  <el-input v-model="formBank.publicDepositBank3"></el-input>
                </el-form-item>
                <el-form-item label="纳税委托协议" prop="fileList2">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                      :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                     :file-list="fileList1" list-type="picture">
+                     :file-list=" fileName3" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible1" append-to-body>
@@ -140,8 +140,8 @@
                <div class="grid-content bg-purple" style="color:rgba(0,0,0,0)"> <br></div>
             </el-col>
             <el-col :span="10">
-               <el-form-item label="银行账号">
-                  <el-input v-model="formBank.public_account_number_3"></el-input>
+               <el-form-item label="银行账号" prop="publicAccountNumber3">
+                  <el-input v-model="formBank.publicAccountNumber3"></el-input>
                </el-form-item>
                <el-form-item style="color:rgba(0,0,0,0)">
                   <br>
@@ -150,7 +150,7 @@
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess2" :on-preview="handlePreview2" :on-remove="handleRemove2"
                      :before-remove="beforeRemove2" multiple :limit="9" :on-exceed="handleExceed2"
-                     :file-list="fileList2" list-type="picture">
+                     :file-list=" fileName4" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible2" append-to-body>
@@ -173,47 +173,80 @@
 </template>
 
 <script>
+import { addEmployed,updateEmployed } from "@/api/company/employed";
 export default {
    data() {
       return {
          formBank: {
-            activeNames: ['1'],
-            account_name: '',
-            public_deposit_bank_3: '',
-            public_account_number_3: '',
-            public_deposit_bank_1: '',
-            public_account_number_1: '',
-            public_deposit_bank_2: '',
-            public_account_number_2: '',
-            public_deposit_bank_3: '',
-            public_account_number_3: '',
-            self_name: '',
-            legal_person_name: '',
-            tax_id: '',
-            fileList1: [],
-            fileList2: [],
+            bankStatus:1,
+            selfId:'',
+            accountName: '',
+            privateDepositBank:'',
+            privateAccountNumber:'',
+            publicDepositBank1: '',
+            publicAccountNumber1: '',
+            publicDepositBank2: '',
+            publicAccountNumber2: '',
+            publicDepositBank3: '',
+            publicAccountNumber3: '',
+            selfName: '',
+            legalPersonName: '',
+            taxId: '',
+            fileName3: [],
+            fileName4: [],
          },
+         activeNames: ['1'], 
          dialogImageUrl1: '',
-         fileList1: [],
+         fileName3: [],
          dialogImageUrl2: '',
-         fileList2: [],
+         fileName4: [],
          dialogVisible1: false,
          dialogVisible2: false,
          rules: {
-            self_name: [
-               { required: true, message: '请输入个体户名称', trigger: 'blur' },
+            selfName: [
+               { required: true, message: '请输入名称', trigger: 'blur' },
                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
             ],
-            legal_person_name: [
+            legalPersonName: [
                { required: true, message: '请输入法人姓名', trigger: 'blur' }
             ],
-            tax_id: [
+            taxId: [
                { required: true, message: '请输入纳税人识别号', trigger: 'blur' }
             ],
-            fileList1: [
+
+            publicDepositBank1: [
+               { required: true, message: '请输入对公基本户开户银行', trigger: 'blur' }
+            ],
+            publicAccountNumber1: [
+               { required: true, message: '请输入对公基本户银行账号', trigger: 'blur' }
+            ],
+            publicDepositBank2: [
+               { required: true, message: '请输入对公一般户开户银行', trigger: 'blur' }
+            ],
+            publicAccountNumber2: [
+               { required: true, message: '请输入对公一般户银行账号', trigger: 'blur' }
+            ],
+           
+            privateDepositBank: [
+               { required: true, message: '请输入私人开户银行', trigger: 'blur' }
+            ],
+            privateAccountNumber: [
+               { required: true, message: '请输入私人银行账号', trigger: 'blur' }
+            ],
+            accountName: [
+               { required: true, message: '请输入纳税账号户名', trigger: 'blur' }
+            ],
+            publicDepositBank3: [
+               { required: true, message: '请输入纳税账号开户银行', trigger: 'blur' }
+            ],
+            publicAccountNumber3: [
+               { required: true, message: '请输入纳税账号银行账号', trigger: 'blur' }
+            ],
+
+            fileName3: [
                { required: true, message: '请上传纳税委托协议文件', trigger: 'change' }
             ],
-             fileList2: [
+            fileName4: [
                { required: true, message: '请上传三方协议签约凭证文件', trigger: 'change' }
             ]
 
@@ -221,9 +254,14 @@ export default {
       };
    },
    created() {
-      this.formBank.self_name = this.$route.query.self_name;
-      this.formBank.legal_person_name = this.$route.query.legal_person_name;
-      this.formBank.tax_id = this.$route.query.tax_id;
+      let list=this.$cache.local.getJSON('employednewlist');
+      this.formBank.selfId=list.selfId;
+      this.formBank.selfName = list.selfName;
+      this.formBank.legalPersonName = list.legalPersonName;
+
+      this.formBank.privateDepositBank=list.privateDepositBank;
+      this.formBank.privateAccountNumber=list.privateAccountNumber;
+      this.formBank.taxId = list.taxId;
    },
    beforeRouteLeave(to, from, next) {
       to.meta.keepAlive = true
@@ -240,12 +278,14 @@ export default {
       onSubmit() {
            this.$refs['formBank'].validate(valid => {
             if (valid) {
-               addPerson(this.formBank).then(res => {
+               this.formBank.fileName3=JSON.stringify(this.formBank.fileName3);
+               this.formBank.fileName4=JSON.stringify(this.formBank.fileName4);
+               updateEmployed(this.formBank).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {
-                        this.$modal.msgSuccess("新增成功");
+                        this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/employed" });
+                           this.$router.push({ path: "/customer/manage" });
                         });
                      } else {
                         this.$modal.msgError(res.msg);
@@ -262,12 +302,12 @@ export default {
 
          })
       },
-      handlesuccess1() {
-         this.formBank.fileList1.push(file.obj);
+      handlesuccess1(file, fileList) {
+         this.formBank.fileName3.push(file.obj);
       },
       handleRemove1(file, fileList) {
-         const i = this.formBank.fileList1.findIndex((item) => item === fileList)
-         this.formBank.fileList1.splice(i, 1);
+         const i = this.formBank.fileName3.findIndex((item) => item === fileList)
+         this.formBank.fileName3.splice(i, 1);
       },
       handlePreview1(file) {
          this.dialogImageUrl1 = file.url;
@@ -279,12 +319,12 @@ export default {
       beforeRemove1(file, fileList) {
          return this.$confirm(`确定移除 ${file.name}？`);
       },
-      handlesuccess2() {
-         this.formBank.fileList2.push(file.obj);
+      handlesuccess2(file, fileList) {
+         this.formBank.fileName4.push(file.obj);
       },
       handleRemove2(file, fileList) {
-         const i = this.formBank.fileList2.findIndex((item) => item === fileList)
-         this.formBank.fileList2.splice(i, 1);
+         const i = this.formBank.fileName4.findIndex((item) => item === fileList)
+         this.formBank.fileName4.splice(i, 1);
       },
       handlePreview2(file) {
          this.dialogImageUrl2 = file.url;

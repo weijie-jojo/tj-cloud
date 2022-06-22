@@ -7,7 +7,7 @@
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商编码" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -38,7 +38,7 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" />
-      <el-table-column label="个体名称" align="center" prop="poposedName1" />
+      <el-table-column label="个体名称" align="center" prop="selfName" />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
@@ -49,9 +49,9 @@
      
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">我的工商</el-button>
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">我的税务</el-button>
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">我的银行</el-button>
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">工商管理</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">银行管理</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -281,14 +281,27 @@ export default {
     },
     //工商管理
     business(row) {
-      this.$router.push({ path: "/customer/addBusiness", query: { legal_person_name: row.legalPersonName } });
+      this.$cache.local.setJSON('employednewlist', row);
+      this.$router.push('addBusiness');
     },
     //税务管理
     atx(row) {
-      this.$router.push({ path: "/customer/addTax", query: { legal_person_name:row.legalPersonName,self_name:row.poposedName1,tax_id:row.taxId } });
+      if(row.businessStatus==0){
+         this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
+      }else{
+         this.$cache.local.setJSON('employednewlist', row);
+         this.$router.push("addTax");
+      }
+      
     },
     bank(row){
-      this.$router.push({ path: "/customer/addBank", query: { legal_person_name:row.legalPersonName,self_name:row.poposedName1,tax_id:row.taxId } });
+       if(row.taxStatus==0){
+         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
+      }else{
+       this.$cache.local.setJSON('employednewlist', row);
+       this.$router.push("addBank");
+      }
+     
     },
     /** 新增按钮操作 */
     handleAdd() {

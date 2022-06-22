@@ -7,7 +7,7 @@
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商编码" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -45,45 +45,45 @@
       <el-table-column label="名称审核" align="center" prop="selfCode">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.approveStatus == '2'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.nameStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="nameisok(scope.row)" :underline="false" type="success">已通过</el-link>
+          <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已通过</el-link>
 
         </template>
       </el-table-column>
-      <el-table-column label="信息审核" align="center" prop="selfCode">
+      <el-table-column label="信息审核" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading">审核中</el-link>
+          <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="newisok(scope.row)" :underline="false" type="success"  v-if="scope.row.approveStatus == '1'">已通过</el-link>
+          <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已通过</el-link>
 
         </template>
       </el-table-column>
-      <el-table-column label="工商办理" align="center" prop="selfCode">
+      <el-table-column label="工商办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="businessloading" v-if="scope.row.businessStatus=='0'" >审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success" >已通过</el-link>
+          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
 
         </template>
       </el-table-column>
-      <el-table-column label="税务办理" align="center" prop="selfCode">
+      <el-table-column label="税务办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="taxloading"  v-if="scope.row.taxStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success">已通过</el-link>
+          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1'">已通过</el-link>
 
         </template>
       </el-table-column>
-      <el-table-column label="银行办理" align="center" prop="selfCode">
+      <el-table-column label="银行办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.approveStatus == '2'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.bankStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" type="success">已通过</el-link>
+          <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1'">已通过</el-link>
         </template>
 
       </el-table-column>
@@ -253,6 +253,15 @@ export default {
         });
     },
     
+    newbusiness(){
+        this.$router.push('addBusiness'); 
+    },
+     newtax(){
+        this.$router.push('addTax'); 
+    },
+     newbank(){
+        this.$router.push('addBank'); 
+    },
     
     //名称审核
     nameisok(scope){
@@ -332,11 +341,11 @@ export default {
     },
     //工商管理
     business(row) {
-      this.$router.push({ path: "/customer/addBusiness", query: { name: this.queryParams.legalPersonName } });
+     
     },
     //税务管理
     atx(row) {
-      this.$router.push({ path: "/customer/addTax", query: { id: row.selfId } });
+    
     },
     /** 新增按钮操作 */
     handleAdd() {
