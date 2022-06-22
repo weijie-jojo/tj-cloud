@@ -55,7 +55,7 @@ export default {
          formtax: {
             legal_person_name: '',
             self_name: '',
-            tax_id: '',
+            tax_id: '221',
             fileList: []
          },
          fileList:[],

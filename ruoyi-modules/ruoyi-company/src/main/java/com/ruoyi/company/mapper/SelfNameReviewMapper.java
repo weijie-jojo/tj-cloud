@@ -18,7 +18,7 @@ public interface SelfNameReviewMapper
      *
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectMaxCode();
+    public  List<SelfNameReview> selectMaxCode();
     /**
      * 查询个体户名字审核
      * 

@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class SelfEmployedVo extends SelfEmployed {
-    private String poposedName1;//个体户名称selfNameReview
+    private String nameStatus;//个体户名称selfNameReview
 }

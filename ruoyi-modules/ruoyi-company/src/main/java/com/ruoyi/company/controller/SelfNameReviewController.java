@@ -46,14 +46,14 @@ public class SelfNameReviewController extends BaseController
      *
      * */
     @ApiOperation("查询个体商户列表")
-    @RequiresPermissions("company:employed:list")
+    @RequiresPermissions("company:review:list")
     @GetMapping("/getSelfCode")
     public String getSelfCode(String employeeNumber) {
         String selfCode = "";
-        List<SelfEmployed> selfEmployeds=selfNameReviewService.selectMaxCode();
-        System.out.println("selfEmployeds=="+selfEmployeds.get(0).getSelfCode());
-        if (selfEmployeds.size()>0) {
-            int num=Integer.parseInt(selfEmployeds.get(0).getSelfCode().substring(8))+1;
+        List<SelfNameReview> selfNameReviews=selfNameReviewService.selectMaxCode();
+        System.out.println("selfEmployeds111=="+selfNameReviews);
+        if (selfNameReviews.size()>0) {
+            int num=Integer.parseInt(selfNameReviews.get(0).getSelfCode().substring(8))+1;
             if (num<10){
                 selfCode=employeeNumber+"00000"+num;
             }

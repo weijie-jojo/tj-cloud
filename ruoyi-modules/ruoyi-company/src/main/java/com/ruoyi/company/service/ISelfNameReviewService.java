@@ -2,7 +2,6 @@ package com.ruoyi.company.service;
 
 import java.util.List;
 
-import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.SelfNameReview;
 
 /**
@@ -18,7 +17,7 @@ public interface ISelfNameReviewService
      *
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectMaxCode();
+    public  List<SelfNameReview> selectMaxCode();
     /**
      * 查询个体户名字审核
      * 

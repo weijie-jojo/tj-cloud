@@ -102,10 +102,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
             <if test="contactIdNum != null">contact_id_num = #{contactIdNum},</if>
             <if test="contactDocumentType != null">contact_document_type = #{contactDocumentType},</if>
-            <if test="createBy != null "> and create_by = #{createBy}</if>
-            <if test="updateBy != null "> and update_by = #{updateBy}</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
-            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="createBy != null "> and create_by = #{createBy},</if>
+            <if test="updateBy != null "> and update_by = #{updateBy},</if>
+            <if test="createTime != null "> and create_time = #{createTime},</if>
+            <if test="updateTime != null "> and update_time = #{updateTime},</if>
         </trim>
         where id = #{id}
     </update>

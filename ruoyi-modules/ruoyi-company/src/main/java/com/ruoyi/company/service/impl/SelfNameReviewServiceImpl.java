@@ -26,7 +26,7 @@ public class SelfNameReviewServiceImpl implements ISelfNameReviewService
      *
      * */
     @Override
-    public List<SelfEmployed> selectMaxCode(){
+    public  List<SelfNameReview> selectMaxCode(){
         return selfNameReviewMapper.selectMaxCode();
     }
 

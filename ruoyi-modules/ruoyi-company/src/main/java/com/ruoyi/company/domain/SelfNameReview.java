@@ -17,6 +17,9 @@ public class SelfNameReview extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    /** 个体户名字审核是否通过 0未通过 1已通过  */
+    private Integer nameStatus;
+
     /** 个体户id */
     private Long selfId;
 

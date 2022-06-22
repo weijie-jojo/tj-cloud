@@ -256,14 +256,14 @@ export default {
     
     //名称审核
     nameisok(scope){
-      this.$cache.local.setJSON('employedPersonDetail', scope);
-      console.log(this.$cache.local.getJSON('employedPersonDetail')); // 输出'{localProp: 1}'
-      this.$router.push({path:'/customer/addBank'});
+      this.$cache.local.setJSON('employedName', scope);
+      console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
+      this.$router.push("showEmployedName");
     },
     //信息审核
     newisok(scope){
-       this.$cache.local.setJSON('employedPersonDetail', scope);
-       this.$router.push({path:'/customer/addBank'});
+       this.$cache.local.setJSON('employedInfo', scope);
+       this.$router.push("showEmployedInfo");
     },
     /** 查询个体商户列表 */
     getList() {
