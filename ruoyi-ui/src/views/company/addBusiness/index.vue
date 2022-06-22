@@ -4,18 +4,18 @@
       <el-form ref="formbusiness" :model="formbusiness" :rules="rules" label-width="200px">
          <el-row :gutter="80">
             <el-col :span="10">
-               <el-form-item label="个体户名称" prop="self_name">
-                  <el-input v-model="formbusiness.self_name" disabled></el-input>
+               <el-form-item label="个体户名称" prop="selfName">
+                  <el-input v-model="formbusiness.selfName" ></el-input>
                </el-form-item>
 
-               <el-form-item label="法人姓名" prop="legal_person_name">
-                  <el-input v-model="formbusiness.legal_person_name"></el-input>
+               <el-form-item label="法人姓名" prop="legalPersonName">
+                  <el-input v-model="formbusiness.legalPersonName" disabled></el-input>
                </el-form-item>
-               <el-form-item label="营业执照" prop="fileList">
+               <el-form-item label="营业执照" prop="fileName1">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess"
                      :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
-                     :limit="9" :on-exceed="handleExceed" :file-list="fileList" list-type="picture">
+                     :limit="9" :on-exceed="handleExceed" :file-list="fileName1" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
 
                   </el-upload>
@@ -29,8 +29,8 @@
                <div class="grid-content bg-purple" style="color:rgba(0,0,0,0)">.</div>
             </el-col>
             <el-col :span="10">
-               <el-form-item label="纳税人识别号" prop="tax_id">
-                  <el-input v-model="formbusiness.tax_id"></el-input>
+               <el-form-item label="纳税人识别号" prop="taxId">
+                  <el-input v-model="formbusiness.taxId"></el-input>
                </el-form-item>
             </el-col>
          </el-row>
@@ -48,32 +48,34 @@
 </template>
 
 <script>
-import { addPerson,updatePerson } from "@/api/company/person";
+import { addEmployed,updateEmployed } from "@/api/company/employed";
 export default {
    data() {
       return {
          formbusiness: {
-            legal_person_name: '',
-            self_name: '',
-            tax_id: '',
-            fileList: []
+            businessStatus:"1",
+            selfId:'',
+            legalPersonName: '',
+            selfName: '',
+            taxId: '',
+            fileName1: [],
          },
-         fileList:[],
+         fileName1:[],
          dialogVisible: false,
          previewPath: "",
          dialogImageUrl: '',
          rules: {
-            self_name: [
+            selfName: [
                { required: true, message: '请输入个体户名称', trigger: 'blur' },
                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
             ],
-            legal_person_name: [
+            legalPersonName: [
                { required: true, message: '请输入法人姓名', trigger: 'blur' }
             ],
-            tax_id: [
+            taxId: [
                { required: true, message: '请输入纳税人识别号', trigger: 'blur' }
             ],
-            fileList: [
+            fileName1: [
                { required: true, message: '请上传文件', trigger: 'change' }
             ]
 
@@ -82,7 +84,9 @@ export default {
       };
    },
    created() {
-      this.formbusiness.legal_person_name = this.$route.query.legal_person_name;
+      let list=this.$cache.local.getJSON('employednewlist');
+      this.formbusiness.selfId=list.selfId;
+      this.formbusiness.legalPersonName = list.legalPersonName;
    },
    beforeRouteLeave(to, from, next) {
       to.meta.keepAlive = true
@@ -92,18 +96,19 @@ export default {
    methods: {
      //返回
       resetForm() {
-           this.$router.back();
+           this.$router.back()
       },
       //返回
       onSubmit() {
          this.$refs['formbusiness'].validate(valid => {
             if (valid) {
-               addPerson(this.formbusiness).then(res => {
+               this.formbusiness.fileName1=JSON.stringify(this.formbusiness.fileName1);
+               updateEmployed(this.formbusiness).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {
-                        this.$modal.msgSuccess("新增成功");
+                        this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/employed" });
+                           this.$router.push({ path: "/customer/manage" });
                         });
                      } else {
                         this.$modal.msgError(error);
@@ -120,11 +125,11 @@ export default {
 
       },
       handlesuccess(file, fileList){
-          this.formbusiness.fileList.push(file.obj);
+          this.formbusiness.fileName1.push(file.obj);
       },
       handleRemove(file, fileList) {
-         const i = this.formbusiness.fileList.findIndex((item) => item === fileList)
-         this.formbusiness.fileList.splice(i, 1);
+         const i = this.formbusiness.fileName1.findIndex((item) => item === fileList)
+         this.formbusiness.fileName1.splice(i, 1);
       },
       handlePreview(file) {
          this.dialogImageUrl = file.url;

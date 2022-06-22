@@ -4,18 +4,18 @@
       <el-form ref="formtax" :model="formtax" :rules="rules" label-width="200px">
          <el-row :gutter="80">
             <el-col :span="10">
-               <el-form-item label="个体户名称" prop="self_name">
-                  <el-input v-model="formtax.self_name" disabled></el-input>
+               <el-form-item label="个体户名称" prop="selfName">
+                  <el-input v-model="formtax.selfName" disabled></el-input>
                </el-form-item>
 
-               <el-form-item label="法人姓名" prop="legal_person_name">
-                  <el-input v-model="formtax.legal_person_name" disabled></el-input>
+               <el-form-item label="法人姓名" prop="legalPersonName">
+                  <el-input v-model="formtax.legalPersonName" disabled></el-input>
                </el-form-item>
-               <el-form-item label="核定通知书" prop="fileList">
+               <el-form-item label="核定通知书" prop="fileName2">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess"
                      :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
-                     :limit="9" :on-exceed="handleExceed" :file-list="fileList" list-type="picture">
+                     :limit="9" :on-exceed="handleExceed" :file-list="fileName2" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
 
                   </el-upload>
@@ -29,8 +29,8 @@
                <div class="grid-content bg-purple" style="color:rgba(0,0,0,0)">.</div>
             </el-col>
             <el-col :span="10">
-               <el-form-item label="纳税人识别号" prop="tax_id">
-                  <el-input v-model="formtax.tax_id" disabled></el-input>
+               <el-form-item label="纳税人识别号" prop="taxId">
+                  <el-input v-model="formtax.taxId" disabled></el-input>
                </el-form-item>
             </el-col>
          </el-row>
@@ -48,32 +48,34 @@
 </template>
 
 <script>
-import { addPerson,updatePerson } from "@/api/company/person";
+import { addEmployed,updateEmployed } from "@/api/company/employed";
 export default {
    data() {
       return {
          formtax: {
-            legal_person_name: '',
-            self_name: '',
-            tax_id: '',
-            fileList: []
+            taxStatus:1,
+            selfId:'',
+            legalPersonName: '',
+            selfName: '',
+            taxId: '',
+            fileName2: []
          },
          fileList:[],
          dialogVisible: false,
          previewPath: "",
          dialogImageUrl: '',
          rules: {
-            self_name: [
+            selfName: [
                { required: true, message: '请输入个体户名称', trigger: 'blur' },
                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
             ],
-            legal_person_name: [
+            legalPersonName: [
                { required: true, message: '请输入法人姓名', trigger: 'blur' }
             ],
-            tax_id: [
+            taxId: [
                { required: true, message: '请输入纳税人识别号', trigger: 'blur' }
             ],
-            fileList: [
+            fileName2: [
                { required: true, message: '请上传文件', trigger: 'change' }
             ]
 
@@ -82,9 +84,11 @@ export default {
       };
    },
    created() {
-      this.formtax.self_name = this.$route.query.self_name;
-      this.formtax.legal_person_name = this.$route.query.legal_person_name;
-      this.formtax.tax_id = this.$route.query.tax_id;
+      let list=this.$cache.local.getJSON('employednewlist');
+      this.formtax.selfId=list.selfId;
+      this.formtax.selfName = list.selfName;
+      this.formtax.legalPersonName = list.legalPersonName;
+      this.formtax.taxId = list.taxId;
    },
    beforeRouteLeave(to, from, next) {
       to.meta.keepAlive = true
@@ -99,12 +103,13 @@ export default {
       onSubmit() {
          this.$refs['formtax'].validate(valid => {
             if (valid) {
-               addPerson(this.formtax).then(res => {
+                this.formtax.fileName2=JSON.stringify(this.formtax.fileName2);
+               updateEmployed(this.formtax).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {
-                        this.$modal.msgSuccess("新增成功");
+                        this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/employed" });
+                           this.$router.push({ path: "/customer/manage" });
                         });
                      } else {
                         this.$modal.msgError(res.msg);
@@ -122,11 +127,11 @@ export default {
          })
       },
       handlesuccess(file, fileList){
-          this.formtax.fileList.push(file.obj);
+          this.formtax.fileName2.push(file.obj);
       },
       handleRemove(file, fileList) {
-         const i = this.formtax.fileList.findIndex((item) => item === fileList)
-         this.formtax.fileList.splice(i, 1);
+         const i = this.formtax.fileName2.findIndex((item) => item === fileList)
+         this.formtax.fileName2.splice(i, 1);
       },
       handlePreview(file) {
          this.dialogImageUrl = file.url;
