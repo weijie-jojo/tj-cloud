@@ -60,6 +60,7 @@ export default {
             taxId: '',
             fileName2: []
          },
+         
          fileName2:[],
          dialogVisible: false,
          previewPath: "",
