@@ -49,11 +49,11 @@ export function delInfo(taxId) {
 }
 
 // 查询纳税账户
-export function all(query) {
+export function all() {
   return request({
     url: '/company/payTaxInfo/all',
     method: 'get',
-    params: query
+  
   })
 }
 export default{all}
