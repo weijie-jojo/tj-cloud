@@ -50,8 +50,7 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">工商管理</el-button>
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button>
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">银行管理</el-button>
+          
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -172,6 +171,9 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
+        nameStatus:1,
+        infoStatus:1,
+        businessStatus:0,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
