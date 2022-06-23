@@ -23,6 +23,14 @@ public class SelfEmployed extends BaseEntity
     /** 个体户id */
     private String selfId;
 
+    /** 完结时间 */
+    @Excel(name = "完结时间")
+    private String endTime;
+
+    /** 完结状态 */
+    @Excel(name = "完结状态")
+    private Integer endStatus;
+
     /** 个体户编码 */
     @Excel(name = "个体户编码")
     private String selfCode;

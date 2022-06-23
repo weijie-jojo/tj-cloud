@@ -17,10 +17,17 @@ public interface ISelfEmployedService
     /**
      * 连表selfNameReview查询
      *
-     * @param selfEmployed 个体商户
+     * @param selfEmployedVo 个体商户
      * @return 个体商户集合
      */
-    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployed selfEmployed);
+    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployedVo selfEmployedVo);
+    /**
+     * 连表selfNameReview查询(完结）
+     *
+     * @param selfEmployedVo 个体商户
+     * @return 个体商户集合
+     */
+    public List<SelfEmployedVo> selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo);
     /**
      * 查询个体商户
      * 

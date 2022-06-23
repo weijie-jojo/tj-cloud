@@ -1,5 +1,7 @@
 package com.ruoyi.company.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,13 +47,26 @@ public class SelfEmployedController extends BaseController
     @ApiOperation("查询个体商户列表")
     @RequiresPermissions("company:employed:list")
     @GetMapping("/joinList")
-    public TableDataInfo selectEmployedJoinReview(SelfEmployed selfEmployed)
+    public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
+        System.out.println("getNameStatus=="+selfEmployedVo.getNameStatus());
+        System.out.println("business=="+selfEmployedVo.getBusinessStatus());
         startPage();
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(selfEmployed);
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
         return getDataTable(list);
     }
-
+    /**
+     * 查询个体商户列表（完结）
+     */
+    @ApiOperation("查询个体商户列表")
+    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinListEnd")
+    public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
+    {
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(selfEmployedVo);
+        return getDataTable(list);
+    }
     /**
      * 查询个体商户列表
      */
@@ -99,6 +114,7 @@ public class SelfEmployedController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
+        selfEmployed.setEndStatus(0);
         return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
     }
 
@@ -111,6 +127,13 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
+        SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
+        if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
+            //全部完结
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            selfEmployed.setEndTime(df.format(new Date()));
+            selfEmployed.setEndStatus(1);
+        }
         return toAjax(selfEmployedService.updateSelfEmployed(selfEmployed));
     }
 

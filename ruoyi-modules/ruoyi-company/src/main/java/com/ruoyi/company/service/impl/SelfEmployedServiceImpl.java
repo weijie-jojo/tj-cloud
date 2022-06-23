@@ -24,12 +24,23 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     /**
      * 连表selfNameReview查询
      *
-     * @param selfEmployed 个体商户
+     * @param selfEmployedVo 个体商户
      * @return 个体商户
      */
     @Override
-    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployed selfEmployed) {
-        return selfEmployedMapper.selectEmployedJoinReview(selfEmployed);
+    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinReview(selfEmployedVo);
+    }
+
+    /**
+     * 连表selfNameReview查询（完结）
+     *
+     * @param selfEmployedVo 个体商户
+     * @return 个体商户
+     */
+    @Override
+    public List<SelfEmployedVo> selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinEnd(selfEmployedVo);
     }
 
     /**

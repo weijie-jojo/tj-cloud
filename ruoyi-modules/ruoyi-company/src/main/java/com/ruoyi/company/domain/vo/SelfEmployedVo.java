@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class SelfEmployedVo extends SelfEmployed {
     //selfNameReview表
-    private String nameStatus;//个体户名称
+    private Integer nameStatus;//个体户名称
     private String titleType;
     private String administrativeDivision;
     private String industry;

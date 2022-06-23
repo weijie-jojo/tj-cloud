@@ -33,7 +33,6 @@
         <result property="freeTradeZone"    column="free_trade_zone"    />
         <result property="freeTradeArea"    column="free_trade_area"    />
         <result property="propertyRight"    column="property_right"    />
-        <result property="industry"    column="industry"    />
         <result property="natureBusiness"    column="nature_business"    />
         <result property="accountType"    column="account_type"    />
         <result property="accountType2"    column="account_type2"    />
@@ -58,15 +57,32 @@
         <result property="infoStatus"    column="info_status"    />
         <result property="taxStatus"    column="tax_status"    />
         <result property="bankStatus"    column="bank_status"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="endStatus"    column="end_status"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, industry, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status from self_employed
+        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status from self_employed
     </sql>
 
-    <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.SelfEmployed" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+    <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
         <where>
+            (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="nameStatus != null  "> and A.name_status =#{nameStatus}</if>
+            <if test="infoStatus != null  "> and t.info_status =#{infoStatus}</if>
+            <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
+            <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
+            <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        <where>
+            t.end_status=1
             <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
             <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
         </where>
@@ -101,7 +117,6 @@
             <if test="freeTradeZone != null  and freeTradeZone != ''"> and free_trade_zone = #{freeTradeZone}</if>
             <if test="freeTradeArea != null  and freeTradeArea != ''"> and free_trade_area = #{freeTradeArea}</if>
             <if test="propertyRight != null  and propertyRight != ''"> and property_right = #{propertyRight}</if>
-            <if test="industry != null  and industry != ''"> and industry = #{industry}</if>
             <if test="natureBusiness != null  and natureBusiness != ''"> and nature_business = #{natureBusiness}</if>
             <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
             <if test="accountType2 != null  and accountType2 != ''"> and account_type2 = #{accountType2}</if>
@@ -122,6 +137,8 @@
             <if test="infoStatus != null "> and info_status = #{infoStatus}</if>
             <if test="taxStatus != null "> and tax_status = #{taxStatus}</if>
             <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="endStatus != null "> and end_status = #{endStatus}</if>
         </where>
     </select>
 
@@ -160,7 +177,6 @@
             <if test="freeTradeZone != null">free_trade_zone,</if>
             <if test="freeTradeArea != null">free_trade_area,</if>
             <if test="propertyRight != null">property_right,</if>
-            <if test="industry != null">industry,</if>
             <if test="natureBusiness != null">nature_business,</if>
             <if test="accountType != null">account_type,</if>
             <if test="accountType2 != null">account_type2,</if>
@@ -185,6 +201,8 @@
             <if test="infoStatus != null">info_status,</if>
             <if test="taxStatus != null">tax_status,</if>
             <if test="bankStatus != null">bank_status,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="endStatus != null">end_status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -214,7 +232,6 @@
             <if test="freeTradeZone != null">#{freeTradeZone},</if>
             <if test="freeTradeArea != null">#{freeTradeArea},</if>
             <if test="propertyRight != null">#{propertyRight},</if>
-            <if test="industry != null">#{industry},</if>
             <if test="natureBusiness != null">#{natureBusiness},</if>
             <if test="accountType != null">#{accountType},</if>
             <if test="accountType2 != null">#{accountType2},</if>
@@ -239,6 +256,8 @@
             <if test="infoStatus != null">#{infoStatus},</if>
             <if test="taxStatus != null">#{taxStatus},</if>
             <if test="bankStatus != null">#{bankStatus},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="endStatus != null">#{endStatus},</if>
         </trim>
     </insert>
 
@@ -272,7 +291,6 @@
             <if test="freeTradeZone != null">free_trade_zone = #{freeTradeZone},</if>
             <if test="freeTradeArea != null">free_trade_area = #{freeTradeArea},</if>
             <if test="propertyRight != null">property_right = #{propertyRight},</if>
-            <if test="industry != null">industry = #{industry},</if>
             <if test="natureBusiness != null">nature_business = #{natureBusiness},</if>
             <if test="accountType != null">account_type = #{accountType},</if>
             <if test="accountType2 != null">account_type2 = #{accountType2},</if>
@@ -297,6 +315,8 @@
             <if test="infoStatus != null">info_status = #{infoStatus},</if>
             <if test="taxStatus != null">tax_status = #{taxStatus},</if>
             <if test="bankStatus != null">bank_status = #{bankStatus},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="endStatus != null">end_status = #{endStatus},</if>
         </trim>
         where self_id = #{selfId}
     </update>
