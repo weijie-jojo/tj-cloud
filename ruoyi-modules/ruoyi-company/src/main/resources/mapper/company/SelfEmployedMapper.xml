@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.company.mapper.SelfEmployedMapper">
-    
+
     <resultMap type="com.ruoyi.company.domain.SelfEmployed" id="SelfEmployedResult">
         <result property="selfId"    column="self_id"    />
-        <result property="selfKey"    column="self_key"    />
+        <result property="selfCode"    column="self_code"    />
         <result property="placeCode"    column="place_code"    />
+        <result property="userId"    column="user_id"    />
         <result property="taxId"    column="tax_id"    />
         <result property="selfAddress"    column="self_address"    />
         <result property="selfName"    column="self_name"    />
@@ -16,11 +17,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="password"    column="password"    />
         <result property="status"    column="status"    />
         <result property="remark"    column="remark"    />
-        <result property="userId"    column="user_id"    />
+        <result property="placeName"    column="place_name"    />
+        <result property="username"    column="username"    />
         <result property="expStatus"    column="exp_status"    />
         <result property="maximum"    column="maximum"    />
         <result property="registerTime"    column="register_time"    />
         <result property="industryType"    column="industry_type"    />
+        <result property="industryTax"    column="industry_tax"    />
         <result property="organizationalForm"    column="organizational_form"    />
         <result property="numberEmployees"    column="number_employees"    />
         <result property="contributionAmount"    column="contribution_amount"    />
@@ -30,33 +33,126 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="freeTradeZone"    column="free_trade_zone"    />
         <result property="freeTradeArea"    column="free_trade_area"    />
         <result property="propertyRight"    column="property_right"    />
-        <result property="industry"    column="industry"    />
         <result property="natureBusiness"    column="nature_business"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="accountType2"    column="account_type2"    />
+        <result property="privateDepositBank"    column="private_deposit_bank"    />
+        <result property="privateAccountNumber"    column="private_account_number"    />
+        <result property="publicDepositBank1"    column="public_deposit_bank_1"    />
+        <result property="publicAccountNumber1"    column="public_account_number_1"    />
+        <result property="publicDepositBank2"    column="public_deposit_bank_2"    />
+        <result property="publicAccountNumber2"    column="public_account_number_2"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="publicDepositBank3"    column="public_deposit_bank_3"    />
+        <result property="publicAccountNumber3"    column="public_account_number_3"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="businessStatus"    column="business_status"    />
+        <result property="fileName1"    column="file_name1"    />
+        <result property="fileName2"    column="file_name2"    />
+        <result property="fileName3"    column="file_name3"    />
+        <result property="fileName4"    column="file_name4"    />
+        <result property="infoStatus"    column="info_status"    />
+        <result property="taxStatus"    column="tax_status"    />
+        <result property="bankStatus"    column="bank_status"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="endStatus"    column="end_status"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_key, place_code, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, user_id, exp_status, maximum, register_time, industry_type, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, industry, nature_business from self_employed
+        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status from self_employed
     </sql>
+
+    <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        <where>
+            (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="nameStatus != null  "> and A.name_status =#{nameStatus}</if>
+            <if test="infoStatus != null  "> and t.info_status =#{infoStatus}</if>
+            <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
+            <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
+            <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        <where>
+            t.end_status=1
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+        </where>
+    </select>
 
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.company.domain.SelfEmployed" resultMap="SelfEmployedResult">
         <include refid="selectSelfEmployedVo"/>
-        <where>  
-            <if test="placeCode != null  and placeCode != ''"> and place_code like concat('%', #{placeCode}, '%')</if>
-            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+        <where>
+            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
+            <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="taxId != null  and taxId != ''"> and tax_id = #{taxId}</if>
+            <if test="selfAddress != null  and selfAddress != ''"> and self_address = #{selfAddress}</if>
+            <if test="selfName != null  and selfName != ''"> and self_name like concat('%', #{selfName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="idCardNum != null  and idCardNum != ''"> and id_card_num = #{idCardNum}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="expStatus != null "> and exp_status = #{expStatus}</if>
+            <if test="maximum != null "> and maximum = #{maximum}</if>
+            <if test="registerTime != null "> and register_time = #{registerTime}</if>
+            <if test="industryType != null  and industryType != ''"> and industry_type = #{industryType}</if>
+            <if test="industryTax != null "> and industry_tax = #{industryTax}</if>
+            <if test="organizationalForm != null  and organizationalForm != ''"> and organizational_form = #{organizationalForm}</if>
+            <if test="numberEmployees != null "> and number_employees = #{numberEmployees}</if>
+            <if test="contributionAmount != null "> and contribution_amount = #{contributionAmount}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="county != null  and county != ''"> and county = #{county}</if>
+            <if test="electronicCommerce != null  and electronicCommerce != ''"> and electronic_commerce = #{electronicCommerce}</if>
+            <if test="freeTradeZone != null  and freeTradeZone != ''"> and free_trade_zone = #{freeTradeZone}</if>
+            <if test="freeTradeArea != null  and freeTradeArea != ''"> and free_trade_area = #{freeTradeArea}</if>
+            <if test="propertyRight != null  and propertyRight != ''"> and property_right = #{propertyRight}</if>
+            <if test="natureBusiness != null  and natureBusiness != ''"> and nature_business = #{natureBusiness}</if>
+            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="accountType2 != null  and accountType2 != ''"> and account_type2 = #{accountType2}</if>
+            <if test="privateDepositBank != null  and privateDepositBank != ''"> and private_deposit_bank = #{privateDepositBank}</if>
+            <if test="privateAccountNumber != null  and privateAccountNumber != ''"> and private_account_number = #{privateAccountNumber}</if>
+            <if test="publicDepositBank1 != null  and publicDepositBank1 != ''"> and public_deposit_bank_1 = #{publicDepositBank1}</if>
+            <if test="publicAccountNumber1 != null  and publicAccountNumber1 != ''"> and public_account_number_1 = #{publicAccountNumber1}</if>
+            <if test="publicDepositBank2 != null  and publicDepositBank2 != ''"> and public_deposit_bank_2 = #{publicDepositBank2}</if>
+            <if test="publicAccountNumber2 != null  and publicAccountNumber2 != ''"> and public_account_number_2 = #{publicAccountNumber2}</if>
+            <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
+            <if test="publicDepositBank3 != null  and publicDepositBank3 != ''"> and public_deposit_bank_3 = #{publicDepositBank3}</if>
+            <if test="publicAccountNumber3 != null  and publicAccountNumber3 != ''"> and public_account_number_3 = #{publicAccountNumber3}</if>
+            <if test="businessStatus != null "> and business_status = #{businessStatus}</if>
+            <if test="fileName1 != null  and fileName1 != ''"> and file_name1 = #{fileName1}</if>
+            <if test="fileName2 != null  and fileName2 != ''"> and file_name2 = #{fileName2}</if>
+            <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
+            <if test="fileName4 != null  and fileName4 != ''"> and file_name4 = #{fileName4}</if>
+            <if test="infoStatus != null "> and info_status = #{infoStatus}</if>
+            <if test="taxStatus != null "> and tax_status = #{taxStatus}</if>
+            <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="endStatus != null "> and end_status = #{endStatus}</if>
         </where>
     </select>
-    
+
     <select id="selectSelfEmployedBySelfId" parameterType="String" resultMap="SelfEmployedResult">
         <include refid="selectSelfEmployedVo"/>
         where self_id = #{selfId}
     </select>
-        
+
     <insert id="insertSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">
         insert into self_employed
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="selfKey != null">self_key,</if>
+            <if test="selfCode != null">self_code,</if>
             <if test="placeCode != null">place_code,</if>
+            <if test="userId != null">user_id,</if>
             <if test="taxId != null">tax_id,</if>
             <if test="selfAddress != null">self_address,</if>
             <if test="selfName != null">self_name,</if>
@@ -65,11 +161,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="password != null">password,</if>
             <if test="status != null">status,</if>
             <if test="remark != null">remark,</if>
-            <if test="userId != null">user_id,</if>
+            <if test="placeName != null">place_name,</if>
+            <if test="username != null">username,</if>
             <if test="expStatus != null">exp_status,</if>
             <if test="maximum != null">maximum,</if>
             <if test="registerTime != null">register_time,</if>
             <if test="industryType != null">industry_type,</if>
+            <if test="industryTax != null">industry_tax,</if>
             <if test="organizationalForm != null">organizational_form,</if>
             <if test="numberEmployees != null">number_employees,</if>
             <if test="contributionAmount != null">contribution_amount,</if>
@@ -79,12 +177,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="freeTradeZone != null">free_trade_zone,</if>
             <if test="freeTradeArea != null">free_trade_area,</if>
             <if test="propertyRight != null">property_right,</if>
-            <if test="industry != null">industry,</if>
             <if test="natureBusiness != null">nature_business,</if>
-         </trim>
+            <if test="accountType != null">account_type,</if>
+            <if test="accountType2 != null">account_type2,</if>
+            <if test="privateDepositBank != null">private_deposit_bank,</if>
+            <if test="privateAccountNumber != null">private_account_number,</if>
+            <if test="publicDepositBank1 != null">public_deposit_bank_1,</if>
+            <if test="publicAccountNumber1 != null">public_account_number_1,</if>
+            <if test="publicDepositBank2 != null">public_deposit_bank_2,</if>
+            <if test="publicAccountNumber2 != null">public_account_number_2,</if>
+            <if test="accountName != null">account_name,</if>
+            <if test="publicDepositBank3 != null">public_deposit_bank_3,</if>
+            <if test="publicAccountNumber3 != null">public_account_number_3,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="businessStatus != null">business_status,</if>
+            <if test="fileName1 != null">file_name1,</if>
+            <if test="fileName2 != null">file_name2,</if>
+            <if test="fileName3 != null">file_name3,</if>
+            <if test="fileName4 != null">file_name4,</if>
+            <if test="infoStatus != null">info_status,</if>
+            <if test="taxStatus != null">tax_status,</if>
+            <if test="bankStatus != null">bank_status,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="endStatus != null">end_status,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="selfKey != null">#{selfKey},</if>
+            <if test="selfCode != null">#{selfCode},</if>
             <if test="placeCode != null">#{placeCode},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="taxId != null">#{taxId},</if>
             <if test="selfAddress != null">#{selfAddress},</if>
             <if test="selfName != null">#{selfName},</if>
@@ -93,11 +216,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="password != null">#{password},</if>
             <if test="status != null">#{status},</if>
             <if test="remark != null">#{remark},</if>
-            <if test="userId != null">#{userId},</if>
+            <if test="placeName != null">#{placeName},</if>
+            <if test="username != null">#{username},</if>
             <if test="expStatus != null">#{expStatus},</if>
             <if test="maximum != null">#{maximum},</if>
             <if test="registerTime != null">#{registerTime},</if>
             <if test="industryType != null">#{industryType},</if>
+            <if test="industryTax != null">#{industryTax},</if>
             <if test="organizationalForm != null">#{organizationalForm},</if>
             <if test="numberEmployees != null">#{numberEmployees},</if>
             <if test="contributionAmount != null">#{contributionAmount},</if>
@@ -107,16 +232,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="freeTradeZone != null">#{freeTradeZone},</if>
             <if test="freeTradeArea != null">#{freeTradeArea},</if>
             <if test="propertyRight != null">#{propertyRight},</if>
-            <if test="industry != null">#{industry},</if>
             <if test="natureBusiness != null">#{natureBusiness},</if>
-         </trim>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="accountType2 != null">#{accountType2},</if>
+            <if test="privateDepositBank != null">#{privateDepositBank},</if>
+            <if test="privateAccountNumber != null">#{privateAccountNumber},</if>
+            <if test="publicDepositBank1 != null">#{publicDepositBank1},</if>
+            <if test="publicAccountNumber1 != null">#{publicAccountNumber1},</if>
+            <if test="publicDepositBank2 != null">#{publicDepositBank2},</if>
+            <if test="publicAccountNumber2 != null">#{publicAccountNumber2},</if>
+            <if test="accountName != null">#{accountName},</if>
+            <if test="publicDepositBank3 != null">#{publicDepositBank3},</if>
+            <if test="publicAccountNumber3 != null">#{publicAccountNumber3},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="businessStatus != null">#{businessStatus},</if>
+            <if test="fileName1 != null">#{fileName1},</if>
+            <if test="fileName2 != null">#{fileName2},</if>
+            <if test="fileName3 != null">#{fileName3},</if>
+            <if test="fileName4 != null">#{fileName4},</if>
+            <if test="infoStatus != null">#{infoStatus},</if>
+            <if test="taxStatus != null">#{taxStatus},</if>
+            <if test="bankStatus != null">#{bankStatus},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="endStatus != null">#{endStatus},</if>
+        </trim>
     </insert>
 
     <update id="updateSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed">
         update self_employed
         <trim prefix="SET" suffixOverrides=",">
-            <if test="selfKey != null">self_key = #{selfKey},</if>
+            <if test="selfCode != null">self_code = #{selfCode},</if>
             <if test="placeCode != null">place_code = #{placeCode},</if>
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="taxId != null">tax_id = #{taxId},</if>
             <if test="selfAddress != null">self_address = #{selfAddress},</if>
             <if test="selfName != null">self_name = #{selfName},</if>
@@ -125,11 +275,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="password != null">password = #{password},</if>
             <if test="status != null">status = #{status},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="userId != null">user_id = #{userId},</if>
+            <if test="placeName != null">place_name = #{placeName},</if>
+            <if test="username != null">username = #{username},</if>
             <if test="expStatus != null">exp_status = #{expStatus},</if>
             <if test="maximum != null">maximum = #{maximum},</if>
             <if test="registerTime != null">register_time = #{registerTime},</if>
             <if test="industryType != null">industry_type = #{industryType},</if>
+            <if test="industryTax != null">industry_tax = #{industryTax},</if>
             <if test="organizationalForm != null">organizational_form = #{organizationalForm},</if>
             <if test="numberEmployees != null">number_employees = #{numberEmployees},</if>
             <if test="contributionAmount != null">contribution_amount = #{contributionAmount},</if>
@@ -139,8 +291,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="freeTradeZone != null">free_trade_zone = #{freeTradeZone},</if>
             <if test="freeTradeArea != null">free_trade_area = #{freeTradeArea},</if>
             <if test="propertyRight != null">property_right = #{propertyRight},</if>
-            <if test="industry != null">industry = #{industry},</if>
             <if test="natureBusiness != null">nature_business = #{natureBusiness},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="accountType2 != null">account_type2 = #{accountType2},</if>
+            <if test="privateDepositBank != null">private_deposit_bank = #{privateDepositBank},</if>
+            <if test="privateAccountNumber != null">private_account_number = #{privateAccountNumber},</if>
+            <if test="publicDepositBank1 != null">public_deposit_bank_1 = #{publicDepositBank1},</if>
+            <if test="publicAccountNumber1 != null">public_account_number_1 = #{publicAccountNumber1},</if>
+            <if test="publicDepositBank2 != null">public_deposit_bank_2 = #{publicDepositBank2},</if>
+            <if test="publicAccountNumber2 != null">public_account_number_2 = #{publicAccountNumber2},</if>
+            <if test="accountName != null">account_name = #{accountName},</if>
+            <if test="publicDepositBank3 != null">public_deposit_bank_3 = #{publicDepositBank3},</if>
+            <if test="publicAccountNumber3 != null">public_account_number_3 = #{publicAccountNumber3},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="businessStatus != null">business_status = #{businessStatus},</if>
+            <if test="fileName1 != null">file_name1 = #{fileName1},</if>
+            <if test="fileName2 != null">file_name2 = #{fileName2},</if>
+            <if test="fileName3 != null">file_name3 = #{fileName3},</if>
+            <if test="fileName4 != null">file_name4 = #{fileName4},</if>
+            <if test="infoStatus != null">info_status = #{infoStatus},</if>
+            <if test="taxStatus != null">tax_status = #{taxStatus},</if>
+            <if test="bankStatus != null">bank_status = #{bankStatus},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="endStatus != null">end_status = #{endStatus},</if>
         </trim>
         where self_id = #{selfId}
     </update>
@@ -150,7 +326,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSelfEmployedBySelfIds" parameterType="String">
-        delete from self_employed where self_id in 
+        delete from self_employed where self_id in
         <foreach item="selfId" collection="array" open="(" separator="," close=")">
             #{selfId}
         </foreach>

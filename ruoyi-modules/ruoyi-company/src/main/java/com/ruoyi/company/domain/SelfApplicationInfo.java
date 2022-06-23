@@ -19,6 +19,10 @@ public class SelfApplicationInfo extends BaseEntity
     /** 申请id */
     private Long id;
 
+    /** 用户名 */
+    @Excel(name = "用户名")
+    private String username;
+
     /** 个体户编码 */
     @Excel(name = "个体户编码")
     private String selfCode;
@@ -58,6 +62,15 @@ public class SelfApplicationInfo extends BaseEntity
     /** 联络人证件类型 */
     @Excel(name = "联络人证件类型")
     private String contactDocumentType;
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+    public String getUsername()
+    {
+        return username;
+    }
 
     public void setId(Long id) 
     {
@@ -163,6 +176,7 @@ public class SelfApplicationInfo extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("username", getUsername())
             .append("selfCode", getSelfCode())
             .append("oneselfApply", getOneselfApply())
             .append("applyName", getApplyName())

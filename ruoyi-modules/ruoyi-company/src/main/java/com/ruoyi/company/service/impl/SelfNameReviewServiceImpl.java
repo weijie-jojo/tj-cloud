@@ -1,6 +1,8 @@
 package com.ruoyi.company.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.company.domain.SelfEmployed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfNameReviewMapper;
@@ -18,6 +20,15 @@ public class SelfNameReviewServiceImpl implements ISelfNameReviewService
 {
     @Autowired
     private SelfNameReviewMapper selfNameReviewMapper;
+
+    /*
+     * 查询数据库里面最后一条数据
+     *
+     * */
+    @Override
+    public  List<SelfNameReview> selectMaxCode(){
+        return selfNameReviewMapper.selectMaxCode();
+    }
 
     /**
      * 查询个体户名字审核
