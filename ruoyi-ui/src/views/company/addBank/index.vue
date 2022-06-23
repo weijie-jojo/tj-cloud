@@ -118,17 +118,28 @@
          <el-row :gutter="80" class="paddingbg-s">
             <el-col :span="10">
                <el-form-item label="户名" prop="accountName">
-                  <el-input v-model="formBank.accountName"></el-input>
+                  <!-- <el-input v-model="formBank.accountName"></el-input> -->
+                  <el-select v-model="formBank.accountName" filterable placeholder="请选择">
+                     <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
+                     </el-option>
+                  </el-select>
                </el-form-item>
 
                <el-form-item label="开户银行" prop="publicDepositBank3">
-                  <el-input v-model="formBank.publicDepositBank3"></el-input>
+                  <!-- <el-input v-model="formBank.publicDepositBank3"></el-input> -->
+                  <el-select v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
+                     <el-option v-for="item in publicDepositBank3_options" :key="item.value" :label="item.value"
+                        :value="item.value">
+                     </el-option>
+                  </el-select>
+
+
                </el-form-item>
                <el-form-item label="纳税委托协议" prop="fileList2">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                      :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                     :file-list=" fileName3" list-type="picture">
+                     :file-list="fileName3" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible1" append-to-body>
@@ -141,7 +152,13 @@
             </el-col>
             <el-col :span="10">
                <el-form-item label="银行账号" prop="publicAccountNumber3">
-                  <el-input v-model="formBank.publicAccountNumber3"></el-input>
+                  <!-- <el-input v-model="formBank.publicAccountNumber3"></el-input> -->
+                  <el-select v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
+                     <el-option v-for="item in publicAccountNumber3_options" :key="item.value" :label="item.value" :value="item.value">
+                     </el-option>
+                  </el-select>
+
+
                </el-form-item>
                <el-form-item style="color:rgba(0,0,0,0)">
                   <br>
@@ -150,7 +167,7 @@
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess2" :on-preview="handlePreview2" :on-remove="handleRemove2"
                      :before-remove="beforeRemove2" multiple :limit="9" :on-exceed="handleExceed2"
-                     :file-list=" fileName4" list-type="picture">
+                     :file-list="fileName4" list-type="picture">
                      <el-button size="small" type="primary">点击上传</el-button>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible2" append-to-body>
@@ -173,16 +190,17 @@
 </template>
 
 <script>
-import { addEmployed,updateEmployed } from "@/api/company/employed";
+import { all } from '@/api/company/payTaxInfo';
+import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
    data() {
       return {
          formBank: {
-            bankStatus:1,
-            selfId:'',
+            bankStatus: 1,
+            selfId: '',
             accountName: '',
-            privateDepositBank:'',
-            privateAccountNumber:'',
+            privateDepositBank: '',
+            privateAccountNumber: '',
             publicDepositBank1: '',
             publicAccountNumber1: '',
             publicDepositBank2: '',
@@ -195,13 +213,18 @@ export default {
             fileName3: [],
             fileName4: [],
          },
-         activeNames: ['1'], 
+         activeNames: ['1'],
          dialogImageUrl1: '',
          fileName3: [],
          dialogImageUrl2: '',
          fileName4: [],
          dialogVisible1: false,
          dialogVisible2: false,
+
+         accountName_options: [],
+         publicDepositBank3_options: [],
+         publicAccountNumber3_options: [],
+
          rules: {
             selfName: [
                { required: true, message: '请输入名称', trigger: 'blur' },
@@ -226,7 +249,7 @@ export default {
             publicAccountNumber2: [
                { required: true, message: '请输入对公一般户银行账号', trigger: 'blur' }
             ],
-           
+
             privateDepositBank: [
                { required: true, message: '请输入私人开户银行', trigger: 'blur' }
             ],
@@ -234,13 +257,13 @@ export default {
                { required: true, message: '请输入私人银行账号', trigger: 'blur' }
             ],
             accountName: [
-               { required: true, message: '请输入纳税账号户名', trigger: 'blur' }
+               { required: true, message: '请输入纳税账号户名', trigger: 'change'}
             ],
             publicDepositBank3: [
-               { required: true, message: '请输入纳税账号开户银行', trigger: 'blur' }
+               { required: true, message: '请输入纳税账号开户银行', trigger: 'change'}
             ],
             publicAccountNumber3: [
-               { required: true, message: '请输入纳税账号银行账号', trigger: 'blur' }
+               { required: true, message: '请输入纳税账号银行账号', trigger: 'change'}
             ],
 
             fileName3: [
@@ -254,14 +277,15 @@ export default {
       };
    },
    created() {
-      let list=this.$cache.local.getJSON('employednewlist');
-      this.formBank.selfId=list.selfId;
+      let list = this.$cache.local.getJSON('employednewlist');
+      this.formBank.selfId = list.selfId;
       this.formBank.selfName = list.selfName;
       this.formBank.legalPersonName = list.legalPersonName;
 
-      this.formBank.privateDepositBank=list.privateDepositBank;
-      this.formBank.privateAccountNumber=list.privateAccountNumber;
+      this.formBank.privateDepositBank = list.privateDepositBank;
+      this.formBank.privateAccountNumber = list.privateAccountNumber;
       this.formBank.taxId = list.taxId;
+      this.nailist();
    },
    beforeRouteLeave(to, from, next) {
       to.meta.keepAlive = true
@@ -269,6 +293,23 @@ export default {
    },
 
    methods: {
+      nailist() {
+         all().then(res => {
+            if (res != undefined) {
+               console.log(res);
+               this.accountName_options = [];
+               this.publicDepositBank3_options = [];
+               this.publicAccountNumber3_options = [];
+               for (let i in res) {
+                  this.accountName_options.push({value:res[i].accountName});
+                  this.publicDepositBank3_options.push({value:res[i].publicDepositBank3});
+                  this.publicAccountNumber3_options.push({value:res[i].publicAccountNumber3});
+                  }
+            }
+         }).catch(error => {
+            this.modal.msgError(error);
+         });
+      },
       handleChange(val) {
          console.log(val);
       },
@@ -276,10 +317,10 @@ export default {
          this.$router.back();
       },
       onSubmit() {
-           this.$refs['formBank'].validate(valid => {
+         this.$refs['formBank'].validate(valid => {
             if (valid) {
-               this.formBank.fileName3=JSON.stringify(this.formBank.fileName3);
-               this.formBank.fileName4=JSON.stringify(this.formBank.fileName4);
+               this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
+               this.formBank.fileName4 = JSON.stringify(this.formBank.fileName4);
                updateEmployed(this.formBank).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {
