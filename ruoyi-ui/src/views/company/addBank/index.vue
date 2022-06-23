@@ -294,7 +294,7 @@ export default {
 
    methods: {
       nailist() {
-         all().then(res => {
+         all().then(res => { 
             if (res != undefined) {
                console.log(res);
                this.accountName_options = [];
