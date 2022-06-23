@@ -63,7 +63,7 @@
       <el-table-column label="工商办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="businessloading" v-if="scope.row.businessStatus=='0'" >审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.businessStatus=='0'" >审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
 
@@ -72,7 +72,7 @@
       <el-table-column label="税务办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="taxloading"  v-if="scope.row.taxStatus == '0'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.taxStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
           <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1'">已通过</el-link>
 
@@ -267,12 +267,12 @@ export default {
     nameisok(scope){
       this.$cache.local.setJSON('employedName', scope);
       console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
-      this.$router.push("showEmployedName");
+      this.$router.push("editEmployedName");
     },
     //信息审核
     newisok(scope){
        this.$cache.local.setJSON('employedInfo', scope);
-       this.$router.push("showEmployedInfo");
+       this.$router.push("editEmployedInfo");
     },
     /** 查询个体商户列表 */
     getList() {

@@ -56,13 +56,18 @@
             <el-input 
               v-model="formData.industry" 
               placeholder="请输入行业" 
-              clearable 
+              disabled 
               ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="组织形式" prop="organizationalForm">
-            <el-select 
+            <el-input 
+              v-model="formData.organizationalForm" 
+              placeholder="请输入行业" 
+              disabled 
+              ></el-input>
+            <!-- <el-select 
               v-model="formData.organizationalForm" 
               placeholder="请选择组织形式" 
               clearable
@@ -75,7 +80,7 @@
                 :value="item.value" 
                 :disabled="item.disabled"
                ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -176,7 +181,7 @@
 
       <el-row class="rowCss" :gutter="220" style="margin-left:600px">
         <el-col :span="2">
-            <el-button type="danger" @click="toReturn">返回</el-button> 
+            <el-button type="primary" @click="toReturn">返回</el-button> 
         </el-col>
         <!-- <el-col :span="2">
             <el-button type="primary" @click="submitForm">下一步</el-button>

@@ -125,7 +125,7 @@
 
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="resetForm1">取消</el-button> 
+                  <el-button type="danger" @click="toReturn">返回</el-button> 
               </el-col>
               <el-col :span="2">
                   <el-button type="primary" @click="submitForm1">下一步</el-button>
@@ -808,16 +808,18 @@ export default {
   },
   created() {},
   mounted() {
-    this.getLoginInfo();
-    //申请人
-    this.getApplyName();
-    //联系人
-    this.getContactName();
-    //个体户行业类型税率
-    this.getRate();
+    // this.getLoginInfo();
+    // //申请人
+    // this.getApplyName();
+    // //联系人
+    // this.getContactName();
+    // //个体户行业类型税率
+    // this.getRate();
     //从上一个页面获取个体户编码
-    this.formData.selfCode=JSON.parse(window.localStorage.getItem('selfCode'));
-    console.log("selfCode==",this.formData.selfCode)
+    var employedInfo=this.$cache.local.getJSON('employedInfo');
+    console.log("employedInfo",employedInfo);
+    // this.formData.selfCode=employedInfo.selfCode;
+    // this.formData.titleType=employedInfo.titleType;
   },
   methods: {
     getLoginInfo(){
@@ -875,8 +877,8 @@ export default {
     submitForm1() {
       this.activeName='second';
     },
-    resetForm1() {
-      this.$refs['elForm'].resetFields()
+    toReturn() {
+      this.$router.push('employed')
     },
 
     submitForm2() {
