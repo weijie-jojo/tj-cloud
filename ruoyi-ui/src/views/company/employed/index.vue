@@ -267,12 +267,12 @@ export default {
     nameisok(scope){
       this.$cache.local.setJSON('employedName', scope);
       console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
-      this.$router.push("showEmployedName");
+      this.$router.push("editEmployedName");
     },
     //信息审核
     newisok(scope){
        this.$cache.local.setJSON('employedInfo', scope);
-       this.$router.push("showEmployedInfo");
+       this.$router.push("editEmployedInfo");
     },
     /** 查询个体商户列表 */
     getList() {

@@ -3,9 +3,12 @@ package com.ruoyi.company.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.dto.DataDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +40,35 @@ public class SelfNameReviewController extends BaseController
 {
     @Autowired
     private ISelfNameReviewService selfNameReviewService;
+
+    /*
+     * 获取编号
+     *
+     * */
+    @ApiOperation("查询个体商户列表")
+    @RequiresPermissions("company:review:list")
+    @GetMapping("/getSelfCode")
+    public String getSelfCode(String employeeNumber) {
+        String selfCode = "";
+        List<SelfNameReview> selfNameReviews=selfNameReviewService.selectMaxCode();
+        System.out.println("selfEmployeds111=="+selfNameReviews);
+        if (selfNameReviews.size()>0) {
+            int num=Integer.parseInt(selfNameReviews.get(0).getSelfCode().substring(8))+1;
+            if (num<10){
+                selfCode=employeeNumber+"00000"+num;
+            }
+            if (num>=10&&num<100){
+                selfCode=employeeNumber+"0000"+num;
+            }
+            if (num>=100&&num<1000){
+                selfCode=employeeNumber+"000"+num;
+            }
+        }else {//没有单据时
+            selfCode=employeeNumber+"000001";
+        }
+        System.out.println("selfCode=="+selfCode);
+        return  selfCode;
+    }
 
     /**
      * 查询个体户名字审核列表
@@ -83,9 +115,18 @@ public class SelfNameReviewController extends BaseController
     @RequiresPermissions("company:review:add")
     @Log(title = "个体户名字审核", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SelfNameReview selfNameReview)
+    public DataDto add(@RequestBody SelfNameReview selfNameReview)
     {
-        return toAjax(selfNameReviewService.insertSelfNameReview(selfNameReview));
+        DataDto dataDto = new DataDto();
+        try {
+            int num=selfNameReviewService.insertSelfNameReview(selfNameReview);
+            if (num>0){
+                dataDto.success("填写成功");
+            }
+            return dataDto;
+        }catch (DuplicateKeyException ex){
+            return dataDto.err("不允许插入重复单据，自动返回，请重新创建");
+        }
     }
 
     /**

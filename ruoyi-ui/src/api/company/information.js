@@ -52,4 +52,4 @@ export function getAllInformation(query) {
   })
 }
 
-export default {getAllInformation}
+export default {getAllInformation,getInformation}

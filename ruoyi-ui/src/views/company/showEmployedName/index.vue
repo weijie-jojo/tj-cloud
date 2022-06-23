@@ -56,13 +56,18 @@
             <el-input 
               v-model="formData.industry" 
               placeholder="请输入行业" 
-              clearable 
+              disabled 
               ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="组织形式" prop="organizationalForm">
-            <el-select 
+            <el-input 
+              v-model="formData.organizationalForm" 
+              placeholder="请输入行业" 
+              disabled 
+              ></el-input>
+            <!-- <el-select 
               v-model="formData.organizationalForm" 
               placeholder="请选择组织形式" 
               clearable
@@ -75,7 +80,7 @@
                 :value="item.value" 
                 :disabled="item.disabled"
                ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -176,11 +181,11 @@
 
       <el-row class="rowCss" :gutter="220" style="margin-left:600px">
         <el-col :span="2">
-            <el-button type="danger" @click="resetForm">取消</el-button> 
+            <el-button type="primary" @click="toReturn">返回</el-button> 
         </el-col>
-        <el-col :span="2">
+        <!-- <el-col :span="2">
             <el-button type="primary" @click="submitForm">下一步</el-button>
-        </el-col>
+        </el-col> -->
       </el-row>
 
     </el-form>
@@ -266,8 +271,24 @@ export default {
   },
   created() {},
   mounted() {
-    this.getSelfCode();
     this.getLoginInfo();
+    var employedName=this.$cache.local.getJSON('employedName');
+    console.log("employedName",employedName);
+    this.formData.selfCode=employedName.selfCode;
+    this.formData.titleType=employedName.titleType;
+    this.formData.administrativeDivision=employedName.administrativeDivision;
+    this.formData.industry=employedName.industry;
+    this.formData.organizationalForm=employedName.organizationalForm;
+    // this.formData.administrativeRegion=employedName.administrativeRegion;
+    // this.formData.registrationAuthority=employedName.registrationAuthority;
+    this.formData.random=employedName.random;
+    this.formData.fontSize1=employedName.fontSize1;
+    this.formData.fontSize2=employedName.fontSize2;
+    this.formData.fontSize3=employedName.fontSize3;
+    this.formData.poposedName1=employedName.poposedName1;
+    this.formData.poposedName2=employedName.poposedName2;
+    this.formData.poposedName3=employedName.poposedName3;
+    this.formData.userName=employedName.userName;
   },
   methods: {
     getLoginInfo(){
@@ -298,76 +319,8 @@ export default {
         this.formData.organizationalForm="经营部";
       }
     },
-    //获取编号
-    getSelfCode(){
-      //获取员工编号
-      getInfo().then(res=>{  
-        var userId=res.user.userId;
-        crudInformation.getInformation(userId).then(res=>{     
-          var  employeeNumber=res.data.employeeNumber;
-          crudReview.getCode({employeeNumber:employeeNumber}).then(res=>{
-            this.formData.selfCode=res;
-            console.log("selfCode",res);
-          })
-        });
-      })
-    },
-    submitForm() {
-      this.$refs['elForm'].validate(valid => {
-        // TODO 提交表单
-        if (valid) {
-            let parms={
-              selfCode:this.formData.selfCode,
-              titleType:this.formData.titleType,
-              administrativeDivision:this.formData.administrativeDivision,
-              industry:this.formData.industry,
-              organizationalForm:this.formData.organizationalForm,
-              administrativeRegion:this.formData.administrativeRegion,
-              registrationAuthority:this.formData.registrationAuthority,
-              random:this.formData.random,
-              fontSize1:this.formData.fontSize1,
-              fontSize2:this.formData.fontSize2,
-              fontSize3:this.formData.fontSize3,
-              poposedName1:this.formData.poposedName1,
-              poposedName2:this.formData.poposedName2,
-              poposedName3:this.formData.poposedName3,
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
-              nameStatus:1,
-            };
-            crudReview.addReview(parms).then(res=>{
-              console.log("addReview",res)
-              if(res!=undefined){
-                   if(res.id==0){
-                    this.$message({
-                        message: res.message,
-                        type: 'success',
-                    });
-                  }else{
-                    this.$message({
-                        message: res.message,
-                        type: 'warning',
-                    });
-                  }
-                  this.$router.push("addEmployedInfo");
-                  window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
-                  window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
-              }
-              
-            });
-              
-        }else{
-          this.$message({
-            message:'请填写完整',
-            type:'warning'
-          })
-        }
-      })
-    },
-    resetForm() {
-      this.$refs['elForm'].resetFields()
+    toReturn() {
+       this.$router.push("employed");
     },
   }
 }

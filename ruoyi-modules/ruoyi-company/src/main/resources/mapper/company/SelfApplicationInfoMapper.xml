@@ -16,10 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contactPhone"    column="contact_phone"    />
         <result property="contactIdNum"    column="contact_id_num"    />
         <result property="contactDocumentType"    column="contact_document_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectSelfApplicationInfoVo">
-        select id, self_code, oneself_apply, apply_name, apply_phone, apply_id_num, apply_document_type, contact_name, contact_phone, contact_id_num, contact_document_type from self_application_info
+        select id, self_code, oneself_apply, apply_name, apply_phone, apply_id_num, apply_document_type, contact_name, contact_phone, contact_id_num, contact_document_type,create_by,update_by,create_time,update_time from self_application_info
     </sql>
 
     <select id="selectSelfApplicationInfoList" parameterType="com.ruoyi.company.domain.SelfApplicationInfo" resultMap="SelfApplicationInfoResult">
@@ -35,6 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
             <if test="contactIdNum != null "> and contact_id_num = #{contactIdNum}</if>
             <if test="contactDocumentType != null  and contactDocumentType != ''"> and contact_document_type = #{contactDocumentType}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
+            <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
         </where>
     </select>
     
@@ -57,6 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">contact_phone,</if>
             <if test="contactIdNum != null">contact_id_num,</if>
             <if test="contactDocumentType != null">contact_document_type,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -70,6 +82,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">#{contactPhone},</if>
             <if test="contactIdNum != null">#{contactIdNum},</if>
             <if test="contactDocumentType != null">#{contactDocumentType},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
@@ -86,6 +102,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
             <if test="contactIdNum != null">contact_id_num = #{contactIdNum},</if>
             <if test="contactDocumentType != null">contact_document_type = #{contactDocumentType},</if>
+            <if test="createBy != null "> and create_by = #{createBy},</if>
+            <if test="updateBy != null "> and update_by = #{updateBy},</if>
+            <if test="createTime != null "> and create_time = #{createTime},</if>
+            <if test="updateTime != null "> and update_time = #{updateTime},</if>
         </trim>
         where id = #{id}
     </update>
