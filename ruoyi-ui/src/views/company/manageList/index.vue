@@ -2,12 +2,15 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       
-      <el-form-item label="法人姓名" prop="legalPersonName">
-        <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
+     
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="状态" prop="placeName">
+          <el-select v-model="queryParams.publicAccountNumber3" filterable placeholder="请选择">
+                     <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.value">
+                     </el-option>
+                  </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -37,79 +40,27 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" prop="legalPersonName" />
-      <el-table-column label="个体名称" align="center" prop="poposedName1" />
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+    
+      <el-table-column label="个体名称" align="center" prop="selfName" />
+     
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
-      <el-table-column label="业务经理" align="center" prop="username" />
-      <el-table-column label="完结时间" align="center" prop="endTime" width="180"  />
-      <el-table-column label="完结状态" align="center" prop="endStatus">
-      <template slot-scope="scope">
-          <el-link :underline="false" type="danger" v-if="scope.row.endStatus == '0'">未完结</el-link>
-          <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">已完结</el-link>
-      </template>
-      </el-table-column>
-
-      <el-table-column label="名称审核" align="center" prop="selfCode">
-       <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading1" v-if="scope.row.nameStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已通过</el-link>
-      </template>
-      </el-table-column>
-      <el-table-column label="信息审核" align="center">
-
+     
+     
+     
+      
+     
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="工商办理" align="center">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus<1 || scope.row.infoStatus<1" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.businessStatus=='0'" >审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="税务办理" align="center">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus<1 || scope.row.infoStatus<1 || scope.row.businessStatus<1" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1'">已通过</el-link>
-
-        </template>
-      </el-table-column>
-      <el-table-column label="银行办理" align="center">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus<1 || scope.row.infoStatus<1 || scope.row.businessStatus<1" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.bankStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1'">已通过</el-link>
-        </template>
-
-      </el-table-column>
-      <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width"> -->
-        <!-- <template slot-scope="scope"> -->
-          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">工商管理</el-button>
-
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button> -->
-
-
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">查询</el-button>
+           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
+            <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button>
+           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button> -->
-        <!-- </template> -->
-      <!-- </el-table-column> -->
+            v-hasPermi="['company:employed:remove']">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
@@ -197,7 +148,8 @@
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinListEnd , listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
   name: "Employed",
@@ -223,12 +175,25 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
+        endStatus:1,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         userId: null,
       },
+      options:[
+        {
+        values:'正常'
+       },
+        {
+        values:'预警'
+       },
+        {
+        values:'休眠'
+       },
+      
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -262,85 +227,13 @@ export default {
           }
         });
     },
-    //审核中  名称
-    shenloading1(){
-           this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          cancelButtonText: '去修改',
-          type: 'warning'
-        }).then(() => {
-         
-        }).catch(() => {
-          this.$cache.local.setJSON('employedName', scope);
-      console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
-      this.$router.push("editEmployedName");        
-        });
-      
-        
-    },
-    //审核中  信息
-    shenloading2(){
-           this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          cancelButtonText: '去修改',
-          type: 'warning'
-        }).then(() => {
-         
-        }).catch(() => {
-       this.$cache.local.setJSON('employedInfo', scope);
-       this.$router.push("editEmployedInfo");     
-        });
-    },
     
-    newbusiness(){
-        this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
-    },
-     newtax(){
-         this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
-    },
-     newbank(){
-         this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
-    },
     
-    //名称审核
-    nameisok(scope){
-      this.$cache.local.setJSON('employedName', scope);
-      console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
-      this.$router.push("editEmployedName");
-    },
-    //信息审核
-    newisok(scope){
-       this.$cache.local.setJSON('employedInfo', scope);
-       this.$router.push("editEmployedInfo");
-    },
+    
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinListEnd(this.queryParams).then(response => {
         
         this.employedList = response.rows;
         this.total = response.total;
@@ -404,11 +297,27 @@ export default {
     },
     //工商管理
     business(row) {
-     
+      this.$cache.local.setJSON('employednewlist', row);
+      this.$router.push('addBusiness');
     },
     //税务管理
     atx(row) {
-    
+      if(row.businessStatus==0){
+         this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
+      }else{
+         this.$cache.local.setJSON('employednewlist', row);
+         this.$router.push("addTax");
+      }
+      
+    },
+    bank(row){
+       if(row.taxStatus==0){
+         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
+      }else{
+       this.$cache.local.setJSON('employednewlist', row);
+       this.$router.push("addBank");
+      }
+     
     },
     /** 新增按钮操作 */
     handleAdd() {

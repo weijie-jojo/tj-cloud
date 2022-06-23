@@ -51,4 +51,13 @@ export function joinList(query) {
     params: query
   })
 }
+
+// 查询个体商户列表
+export function joinListEnd(query) {
+  return request({
+    url: '/company/employed/joinListEnd',
+    method: 'get',
+    params: query
+  })
+}
 export default {addEmployed}
