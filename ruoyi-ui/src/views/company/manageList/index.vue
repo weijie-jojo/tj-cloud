@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      
-     
+
+
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="状态" prop="placeName">
-          <el-select v-model="queryParams.publicAccountNumber3" filterable placeholder="请选择">
-                     <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.value">
-                     </el-option>
-                  </el-select>
+        <el-select v-model="queryParams.publicAccountNumber3" filterable placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -40,22 +40,22 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-    
+
       <el-table-column label="个体名称" align="center" prop="selfName" />
-     
+
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
-     
-     
-     
-      
-     
+
+
+
+
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">查询</el-button>
-           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
-            <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button>
-           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
             v-hasPermi="['company:employed:remove']">删除</el-button>
@@ -63,7 +63,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
     <!-- 添加或修改个体商户对话框 -->
@@ -148,7 +148,7 @@
 
 <script>
 
-import { joinListEnd , listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinListEnd, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
@@ -175,24 +175,24 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        endStatus:1,
+        endStatus: 1,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         userId: null,
       },
-      options:[
+      options: [
         {
-        values:'正常'
-       },
+          values: '正常'
+        },
         {
-        values:'预警'
-       },
+          values: '预警'
+        },
         {
-        values:'休眠'
-       },
-      
+          values: '休眠'
+        },
+
       ],
       // 表单参数
       form: {},
@@ -215,26 +215,30 @@ export default {
     this.getList();
   },
   methods: {
-    //审核中
-    shenloading(){
-         this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+    detail(scope) {
+      this.$cache.local.setJSON('employedInfo', scope);
+      this.$router.push("manageListDetail");
     },
-    
-    
-    
+    //审核中
+    shenloading() {
+      this.$alert('审核中,请耐心等待...', '审核说明', {
+        confirmButtonText: '确定',
+        callback: action => {
+          // this.$message({
+          //   type: 'info',
+          //   message: `action: ${ action }`
+          // });
+        }
+      });
+    },
+
+
+
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
       joinListEnd(this.queryParams).then(response => {
-        
+
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -248,7 +252,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        placeName:null,
+        placeName: null,
         selfId: null,
         selfKey: null,
         placeCode: null,
@@ -302,22 +306,22 @@ export default {
     },
     //税务管理
     atx(row) {
-      if(row.businessStatus==0){
-         this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
-      }else{
-         this.$cache.local.setJSON('employednewlist', row);
-         this.$router.push("addTax");
+      if (row.businessStatus == 0) {
+        this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
+      } else {
+        this.$cache.local.setJSON('employednewlist', row);
+        this.$router.push("addTax");
       }
-      
+
     },
-    bank(row){
-       if(row.taxStatus==0){
-         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-      }else{
-       this.$cache.local.setJSON('employednewlist', row);
-       this.$router.push("addBank");
+    bank(row) {
+      if (row.taxStatus == 0) {
+        this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
+      } else {
+        this.$cache.local.setJSON('employednewlist', row);
+        this.$router.push("addBank");
       }
-     
+
     },
     /** 新增按钮操作 */
     handleAdd() {
