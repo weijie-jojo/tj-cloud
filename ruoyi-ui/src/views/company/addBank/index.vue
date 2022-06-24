@@ -57,7 +57,7 @@
                         </el-col>
                      </el-row>
                   </el-collapse-item>
-                  <el-collapse-item title="对公基本户" name="2">
+                  <el-collapse-item title="对公基本户" name="2" v-if="accountType==2">
                      <el-row>
                         <el-col :span="10">
                            <el-form-item label="账号名称" >
@@ -119,23 +119,23 @@
             <el-col :span="10">
                <el-form-item label="户名" prop="accountName">
                   <!-- <el-input v-model="formBank.accountName"></el-input> -->
-                  <el-select v-model="formBank.accountName" filterable placeholder="请选择">
-                     <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
+                  <el-select @change="changeValue($event)" v-model="formBank.accountName" filterable placeholder="请选择">
+                     <el-option  v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
                      </el-option>
                   </el-select>
                </el-form-item>
 
                <el-form-item label="开户银行" prop="publicDepositBank3">
-                  <!-- <el-input v-model="formBank.publicDepositBank3"></el-input> -->
-                  <el-select v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
+                  <el-input disabled v-model="formBank.publicDepositBank3"></el-input>
+                  <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
                      <el-option v-for="item in publicDepositBank3_options" :key="item.value" :label="item.value"
                         :value="item.value">
                      </el-option>
-                  </el-select>
+                  </el-select> -->
 
 
                </el-form-item>
-               <el-form-item label="纳税委托协议" prop="fileList2">
+               <el-form-item label="纳税委托协议" prop="fileName4">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                      :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
@@ -152,18 +152,18 @@
             </el-col>
             <el-col :span="10">
                <el-form-item label="银行账号" prop="publicAccountNumber3">
-                  <!-- <el-input v-model="formBank.publicAccountNumber3"></el-input> -->
-                  <el-select v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
+                  <el-input disabled v-model="formBank.publicAccountNumber3"></el-input>
+                  <!-- <el-select disabled v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
                      <el-option v-for="item in publicAccountNumber3_options" :key="item.value" :label="item.value" :value="item.value">
                      </el-option>
-                  </el-select>
+                  </el-select> -->
 
 
                </el-form-item>
                <el-form-item style="color:rgba(0,0,0,0)">
                   <br>
                </el-form-item>
-               <el-form-item label="三方协议签约凭证" prop="fileList2">
+               <el-form-item label="三方协议签约凭证" prop="fileName4">
                   <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                      :on-success="handlesuccess2" :on-preview="handlePreview2" :on-remove="handleRemove2"
                      :before-remove="beforeRemove2" multiple :limit="9" :on-exceed="handleExceed2"
@@ -213,6 +213,7 @@ export default {
             fileName3: [],
             fileName4: [],
          },
+         accountType:'',
          activeNames: ['1'],
          dialogImageUrl1: '',
          fileName3: [],
@@ -220,7 +221,7 @@ export default {
          fileName4: [],
          dialogVisible1: false,
          dialogVisible2: false,
-
+         mylist:[],
          accountName_options: [],
          publicDepositBank3_options: [],
          publicAccountNumber3_options: [],
@@ -285,6 +286,7 @@ export default {
       this.formBank.privateDepositBank = list.privateDepositBank;
       this.formBank.privateAccountNumber = list.privateAccountNumber;
       this.formBank.taxId = list.taxId;
+      this.accountType=list.accountType;
       this.nailist();
    },
    beforeRouteLeave(to, from, next) {
@@ -293,17 +295,29 @@ export default {
    },
 
    methods: {
+      changeValue(res){
+        for(let i in this.mylist){
+         if(this.mylist[i].accountName==res){
+            this.formBank.publicDepositBank3=this.mylist[i].publicDepositBank3;
+            this.formBank.publicAccountNumber3=this.mylist[i].publicAccountNumber3;
+             return;
+         }
+        }
+
+      },
       nailist() {
          all().then(res => { 
             if (res != undefined) {
                console.log(res);
+               this.mylist=[];
                this.accountName_options = [];
-               this.publicDepositBank3_options = [];
-               this.publicAccountNumber3_options = [];
+               this.mylist=res;
+               // this.publicDepositBank3_options = [];
+               // this.publicAccountNumber3_options = [];
                for (let i in res) {
                   this.accountName_options.push({value:res[i].accountName});
-                  this.publicDepositBank3_options.push({value:res[i].publicDepositBank3});
-                  this.publicAccountNumber3_options.push({value:res[i].publicAccountNumber3});
+                  // this.publicDepositBank3_options.push({value:res[i].publicDepositBank3});
+                  // this.publicAccountNumber3_options.push({value:res[i].publicAccountNumber3});
                   }
             }
          }).catch(error => {
@@ -317,6 +331,7 @@ export default {
          this.$router.back();
       },
       onSubmit() {
+         
          this.$refs['formBank'].validate(valid => {
             if (valid) {
                this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
@@ -326,7 +341,7 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/manageList" });
+                           this.$router.push({ path: "/customer/manageBank"});
                         });
                      } else {
                         this.$modal.msgError(res.msg);

@@ -276,11 +276,7 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    //工商管理
-    business(row) {
-      this.$cache.local.setJSON('employednewlist', row);
-      this.$router.push('addBusiness');
-    },
+   
     //税务管理
     atx(row) {
       if(row.businessStatus==0){
@@ -289,16 +285,6 @@ export default {
          this.$cache.local.setJSON('employednewlist', row);
          this.$router.push("addTax");
       }
-      
-    },
-    bank(row){
-       if(row.taxStatus==0){
-         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-      }else{
-       this.$cache.local.setJSON('employednewlist', row);
-       this.$router.push("addBank");
-      }
-     
     },
     /** 新增按钮操作 */
     handleAdd() {
