@@ -1,6 +1,8 @@
 package com.ruoyi.company.mapper;
 
 import java.util.List;
+
+import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.SelfNameReview;
 
 /**
@@ -11,6 +13,12 @@ import com.ruoyi.company.domain.SelfNameReview;
  */
 public interface SelfNameReviewMapper 
 {
+    /**
+     * 查询数据库里面最后一条数据
+     *
+     * @return 个体商户集合
+     */
+    public  List<SelfNameReview> selectMaxCode();
     /**
      * 查询个体户名字审核
      * 

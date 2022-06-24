@@ -1,9 +1,12 @@
 package com.ruoyi.company.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.service.ISelfEmployedService;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -39,6 +41,32 @@ public class SelfEmployedController extends BaseController
     @Autowired
     private ISelfEmployedService selfEmployedService;
 
+    /**
+     * 查询个体商户列表
+     */
+    @ApiOperation("查询个体商户列表")
+    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinList")
+    public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
+    {
+        System.out.println("getNameStatus=="+selfEmployedVo.getNameStatus());
+        System.out.println("business=="+selfEmployedVo.getBusinessStatus());
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
+        return getDataTable(list);
+    }
+    /**
+     * 查询个体商户列表（完结）
+     */
+    @ApiOperation("查询个体商户列表")
+    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinListEnd")
+    public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
+    {
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(selfEmployedVo);
+        return getDataTable(list);
+    }
     /**
      * 查询个体商户列表
      */
@@ -86,6 +114,7 @@ public class SelfEmployedController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
+        selfEmployed.setEndStatus(0);
         return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
     }
 
@@ -98,7 +127,18 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
-        return toAjax(selfEmployedService.updateSelfEmployed(selfEmployed));
+        int num=selfEmployedService.updateSelfEmployed(selfEmployed);
+        SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
+        if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
+            //全部完结
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SelfEmployed selfEmployed1=new SelfEmployed();
+            selfEmployed1.setSelfId(selfEmployed.getSelfId());
+            selfEmployed1.setEndTime(df.format(new Date()));
+            selfEmployed1.setEndStatus(1);
+            selfEmployedService.updateSelfEmployed(selfEmployed1);
+        }
+        return toAjax(num);
     }
 
     /**

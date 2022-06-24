@@ -7,6 +7,7 @@
       size="medium" 
       label-width="120px"
       label-position="right">
+    
       <el-steps :space="1500" 
         :active="2" 
         finish-status="success"
@@ -36,7 +37,7 @@
                       v-for="(item, index) in oneselfApplys" 
                       :key="index" 
                       :label="item.label"
-                      :value="item.label" 
+                      :value="item.value" 
                       :disabled="item.disabled"
                     ></el-option>
                   </el-select>
@@ -124,7 +125,7 @@
 
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="resetForm1">取消</el-button> 
+                  <el-button type="danger" @click="toReturn">返回</el-button> 
               </el-col>
               <el-col :span="2">
                   <el-button type="primary" @click="submitForm1">下一步</el-button>
@@ -241,16 +242,14 @@
                 </el-form-item>
               </el-col>
             </el-row>
-             
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-            
                 <el-form-item label="行业类型" prop="industryType">
-                    <!-- <treeselect 
+                  <treeselect 
                     v-model="formData.industryType" 
                     :multiple="true" 
-                    :options="options" /> -->
-                 <el-select 
+                    :options="industryTypes" />
+                 <!-- <el-select 
                     v-model="formData.industryType" 
                     placeholder="请选择行业类型" 
                     clearable
@@ -262,7 +261,7 @@
                       :label="item.industryName"
                       :value="item.industryId" 
                     ></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -514,29 +513,11 @@ import {getInfo} from '@/api/login'
   // import the styles
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
-  components: { Treeselect },
   dicts: ['political_status', 'educational_level'],
   components: {},
   props: [],
   data() {
     return {
-      options: [ {
-          id: 'a',
-          label: 'a',
-          children: [ {
-            id: 'aa',
-            label: 'aa',
-          }, {
-            id: 'ab',
-            label: 'ab',
-          } ],
-        }, {
-          id: 'b',
-          label: 'b',
-        }, {
-          id: 'c',
-          label: 'c',
-        } ],
       isPrivateBank:false,
       activeName: 'first',
       oneselfApplys:[
@@ -590,7 +571,7 @@ export default {
         selfCode:'',
 
         //申请信息
-        oneselfApply:'否',
+        oneselfApply:2,//1是 2否 是否本人申请
         applyName:'',
         applyPhone:'',
         applyDocumentType:'中华人民共和国居民身份证',
@@ -602,7 +583,7 @@ export default {
         contactIdNum:'',
 
         //基本情况
-        organizationalForm:'',
+        organizationalForm:'个人经营',
         numberEmployees:5,
         contributionAmount:'',
         city:'龙岩市',
@@ -811,6 +792,13 @@ export default {
           trigger: 'blur'
         }],
       },
+      organizationalFormOptions: [{
+        "label": "选项一",
+        "value": 1
+      }, {
+        "label": "选项二",
+        "value": 2
+      }],
       wordTypeOptions: [{
         "label": "选项一",
         "value": 1
@@ -828,17 +816,18 @@ export default {
   },
   created() {},
   mounted() {
-    this.getLoginInfo();
-    //申请人
-    this.getApplyName();
-    //联系人
-    this.getContactName();
-    //个体户行业类型税率
-    this.getRate();
+    // this.getLoginInfo();
+    // //申请人
+    // this.getApplyName();
+    // //联系人
+    // this.getContactName();
+    // //个体户行业类型税率
+    // this.getRate();
     //从上一个页面获取个体户编码
-    this.formData.selfCode=JSON.parse(window.localStorage.getItem('selfCode'));
-    this.formData.organizationalForm=JSON.parse(window.localStorage.getItem('organizationalForm'));
-    console.log("selfCode==",this.formData.selfCode)
+    var employedInfo=this.$cache.local.getJSON('employedInfo');
+    console.log("employedInfo",employedInfo);
+    // this.formData.selfCode=employedInfo.selfCode;
+    // this.formData.titleType=employedInfo.titleType;
   },
   methods: {
     getLoginInfo(){
@@ -896,8 +885,8 @@ export default {
     submitForm1() {
       this.activeName='second';
     },
-    resetForm1() {
-      this.$refs['elForm'].resetFields()
+    toReturn() {
+      this.$router.push('employed')
     },
 
     submitForm2() {
@@ -958,11 +947,6 @@ export default {
               updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-
-              businessStatus:0,
-              infoStatus:0,
-              taxStatus:0,
-              bankStatus:0,
             };
             let parms3={
               selfCode:this.formData.selfCode,

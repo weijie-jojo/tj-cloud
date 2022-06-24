@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.PayTaxInfoMapper">
+
+    <resultMap type="com.ruoyi.company.domain.PayTaxInfo" id="PayTaxInfoResult">
+        <result property="taxId"    column="tax_id"    />
+        <result property="employeeNumber"    column="Employee_number"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="gender"    column="gender"    />
+        <result property="postId"    column="post_id"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="enabled"    column="enabled"    />
+        <result property="publicAccountNumber3"    column="public_account_number_3"    />
+        <result property="publicDepositBank3"    column="public_deposit_bank_3"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPayTaxInfoVo">
+        select tax_id, Employee_number, nick_name, id_no, gender, post_id, phone, email, enabled, public_account_number_3, public_deposit_bank_3, account_name, create_by, update_by, create_time, update_time from pay_tax_info
+    </sql>
+
+    <select id="selectPayTaxInfoAll"  resultMap="PayTaxInfoResult">
+       SELECT *from pay_tax_info
+    </select>
+
+    <select id="selectPayTaxInfoList" parameterType="com.ruoyi.company.domain.PayTaxInfo" resultMap="PayTaxInfoResult">
+        <include refid="selectPayTaxInfoVo"/>
+        <where>
+            <if test="employeeNumber != null  and employeeNumber != ''"> and Employee_number = #{employeeNumber}</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="postId != null  and postId != ''"> and post_id = #{postId}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="enabled != null "> and enabled = #{enabled}</if>
+            <if test="publicAccountNumber3 != null  and publicAccountNumber3 != ''"> and public_account_number_3 = #{publicAccountNumber3}</if>
+            <if test="publicDepositBank3 != null  and publicDepositBank3 != ''"> and public_deposit_bank_3 = #{publicDepositBank3}</if>
+            <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectPayTaxInfoByTaxId" parameterType="Long" resultMap="PayTaxInfoResult">
+        <include refid="selectPayTaxInfoVo"/>
+        where tax_id = #{taxId}
+    </select>
+
+    <insert id="insertPayTaxInfo" parameterType="com.ruoyi.company.domain.PayTaxInfo" useGeneratedKeys="true" keyProperty="taxId">
+        insert into pay_tax_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeNumber != null">Employee_number,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="gender != null">gender,</if>
+            <if test="postId != null">post_id,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="publicAccountNumber3 != null">public_account_number_3,</if>
+            <if test="publicDepositBank3 != null">public_deposit_bank_3,</if>
+            <if test="accountName != null">account_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeNumber != null">#{employeeNumber},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="postId != null">#{postId},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="publicAccountNumber3 != null">#{publicAccountNumber3},</if>
+            <if test="publicDepositBank3 != null">#{publicDepositBank3},</if>
+            <if test="accountName != null">#{accountName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePayTaxInfo" parameterType="com.ruoyi.company.domain.PayTaxInfo">
+        update pay_tax_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeNumber != null">Employee_number = #{employeeNumber},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="postId != null">post_id = #{postId},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="publicAccountNumber3 != null">public_account_number_3 = #{publicAccountNumber3},</if>
+            <if test="publicDepositBank3 != null">public_deposit_bank_3 = #{publicDepositBank3},</if>
+            <if test="accountName != null">account_name = #{accountName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where tax_id = #{taxId}
+    </update>
+
+    <delete id="deletePayTaxInfoByTaxId" parameterType="Long">
+        delete from pay_tax_info where tax_id = #{taxId}
+    </delete>
+
+    <delete id="deletePayTaxInfoByTaxIds" parameterType="String">
+        delete from pay_tax_info where tax_id in
+        <foreach item="taxId" collection="array" open="(" separator="," close=")">
+            #{taxId}
+        </foreach>
+    </delete>
+</mapper>
