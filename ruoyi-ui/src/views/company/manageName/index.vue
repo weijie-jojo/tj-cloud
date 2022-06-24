@@ -2,12 +2,12 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       
-      <el-form-item label="法人姓名" prop="legalPersonName">
-        <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
+      <el-form-item label="个体户编号" prop="selfCode">
+        <el-input v-model="queryParams.selfCode" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="所在行政区划" prop="administrativeRegion">
+        <el-input v-model="queryParams.administrativeRegion" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -37,11 +37,11 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" prop="legalPersonName" />
-      <el-table-column label="个体名称" align="center" prop="selfName" />
+      <el-table-column label="个体户编号" align="center" prop="selfCode" />
+      <el-table-column label="行政区划" align="center" prop="administrativeDivision" />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-      <el-table-column label="渠道商" align="center" prop="placeName" />
-      <el-table-column label="业务经理" align="center" prop="username" />
+      <el-table-column label="所在行政区划" align="center" prop="administrativeRegion" />
+      <el-table-column label="登记机关" align="center" prop="registrationAuthority" />
      
      
      
@@ -143,7 +143,7 @@
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import {listReview,joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/review";
 import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
@@ -173,8 +173,8 @@ export default {
         nameStatus:0,
         pageNum: 1,
         pageSize: 10,
-        placeName: null,
-        legalPersonName: null,
+        selfCode: null,
+        administrativeRegion: null,
         userId: null,
       },
       // 表单参数
@@ -198,25 +198,10 @@ export default {
     this.getList();
   },
   methods: {
-    //审核中
-    shenloading(){
-         this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
-    },
-    
-    
-    
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      listReview(this.queryParams).then(response => {
         
         this.employedList = response.rows;
         this.total = response.total;
@@ -281,7 +266,7 @@ export default {
    
     bank(row){
        
-       this.$cache.local.setJSON('employednewlist', row);
+       this.$cache.local.setJSON('employedName', row);
        this.$router.push("namenew");
       
      

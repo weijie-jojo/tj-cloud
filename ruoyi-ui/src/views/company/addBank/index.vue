@@ -80,7 +80,7 @@
                         </el-col>
                      </el-row>
                   </el-collapse-item>
-                  <el-collapse-item title="对公一般户" name="3">
+                  <el-collapse-item title="对公一般户" name="3" v-if="accountType==2">
                      <el-row>
                         <el-col :span="10">
                            <el-form-item label="账号名称">
