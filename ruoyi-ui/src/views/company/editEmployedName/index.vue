@@ -176,7 +176,7 @@
 
       <el-row class="rowCss" :gutter="220" style="margin-left:600px">
         <el-col :span="2">
-            <el-button type="danger" @click="resetForm">取消</el-button> 
+            <el-button type="danger" @click="toReturn">返回</el-button> 
         </el-col>
         <el-col :span="2">
             <el-button type="primary" @click="submitForm">下一步</el-button>
@@ -366,8 +366,8 @@ export default {
         }
       })
     },
-    resetForm() {
-      this.$refs['elForm'].resetFields()
+    toReturn() {
+      this.$router.push("employed")
     },
   }
 }

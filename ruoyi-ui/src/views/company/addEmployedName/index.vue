@@ -335,7 +335,7 @@ export default {
               updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-              nameStatus:1,
+              nameStatus:0,
             };
             crudReview.addReview(parms).then(res=>{
               console.log("addReview",res)

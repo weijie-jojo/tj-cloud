@@ -31,14 +31,12 @@
                   <el-select 
                     v-model="formData.oneselfApply" 
                     placeholder="请选择是否本人申请" 
-                    disabled
                     >
                     <el-option 
                       v-for="(item, index) in oneselfApplys" 
                       :key="index" 
                       :label="item.label"
-                      :value="item.value" 
-                      :disabled="item.disabled"
+                      :value="item.label" 
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -125,7 +123,7 @@
 
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="resetForm1">取消</el-button> 
+                  <el-button type="danger" @click="toReturn">取消</el-button> 
               </el-col>
               <el-col :span="2">
                   <el-button type="primary" @click="submitForm1">下一步</el-button>
@@ -563,7 +561,7 @@ export default {
         selfCode:'',
 
         //申请信息
-        oneselfApply:2,//1是 2否 是否本人申请
+        oneselfApply:'',//1是 2否 是否本人申请
         applyName:'',
         applyPhone:'',
         applyDocumentType:'中华人民共和国居民身份证',
@@ -794,24 +792,30 @@ export default {
   watch: {
     'formData.contactName':{
         handler:function(){
-          this.formData.legalPersonName=this.formData.contactName
+          this.formData.legalPersonName=this.formData.contactName;
         },
         deep: true
     }
   },
-  created() {},
+  created(){
+    //  var employedInfo= this.$cache.local.getJSON('employedInfo');
+    //    console.log("applyName11==",employedInfo.applyName);
+    //       this.formData.applyName=employedInfo.applyName;
+  },
   mounted() {
     this.getLoginInfo();
-    //申请人
-    this.getApplyName();
+   
     //联系人
     this.getContactName();
     //个体户行业类型税率
     this.getRate();
-    //从上一个页面获取个体户编码
-    this.formData.selfCode=JSON.parse(window.localStorage.getItem('selfCode'));
-    this.formData.organizationalForm=JSON.parse(window.localStorage.getItem('organizationalForm'));
-    console.log("selfCode==",this.formData.selfCode)
+     //申请人
+    this.getApplyName();
+    //从上一个页面获取信息
+    var employedInfo= this.$cache.local.getJSON('employedInfo');
+    this.formData=employedInfo;
+    console.log("formData==",this.formData);
+    
   },
   methods: {
     getLoginInfo(){
@@ -843,7 +847,7 @@ export default {
       var applyName= this.applyNames.find((item)=>item.userId==value);
       this.formData.applyPhone=applyName.phone;
       this.formData.applyIdNum=applyName.idNo;
-      console.log("applyName==",applyName);
+      console.log("selectApplyName==",applyName);
     },
     getRate(){
       crudRate.getAllRate().then(res=>{
@@ -861,6 +865,9 @@ export default {
         crudInformation.getAllInformation().then(res=>{
           console.log("getApplyName",res.rows);
           this.applyNames=res.rows;
+          var employedInfo= this.$cache.local.getJSON('employedInfo');
+          console.log("applyName====",parseInt(employedInfo.applyName));
+          this.formData.applyName=parseInt(employedInfo.applyName);
         })
     },
     handleClick(tab, event) {
@@ -869,8 +876,8 @@ export default {
     submitForm1() {
       this.activeName='second';
     },
-    resetForm1() {
-      this.$refs['elForm'].resetFields()
+    toReturn() {
+      this.$router.push("employed")
     },
 
     submitForm2() {

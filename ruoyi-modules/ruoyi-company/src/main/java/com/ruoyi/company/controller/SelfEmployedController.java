@@ -127,14 +127,18 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
+        int num=selfEmployedService.updateSelfEmployed(selfEmployed);
         SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
         if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
             //全部完结
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            selfEmployed.setEndTime(df.format(new Date()));
-            selfEmployed.setEndStatus(1);
+            SelfEmployed selfEmployed1=new SelfEmployed();
+            selfEmployed1.setSelfId(selfEmployed.getSelfId());
+            selfEmployed1.setEndTime(df.format(new Date()));
+            selfEmployed1.setEndStatus(1);
+            selfEmployedService.updateSelfEmployed(selfEmployed1);
         }
-        return toAjax(selfEmployedService.updateSelfEmployed(selfEmployed));
+        return toAjax(num);
     }
 
     /**

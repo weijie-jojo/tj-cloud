@@ -38,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="nameStatus"    column="name_status"    />
+        <result property="nameRemark"    column="name_remark"    />
     </resultMap>
 
     <sql id="selectSelfNameReviewVo">
@@ -46,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                font_size1, poposed_name1, font_size2, poposed_name2, font_size3, poposed_name3,
                font_size4, poposed_name4, font_size5, poposed_name5, font_size6, poposed_name6,
                font_size7, poposed_name7, font_size8, poposed_name8, font_size9, poposed_name9,
-               font_size10, poposed_name10,create_by,update_by,create_time,update_time,name_status from self_name_review
+               font_size10, poposed_name10,create_by,update_by,create_time,update_time,name_status,name_remark from self_name_review
     </sql>
 
     <select id="selectSelfNameReviewList" parameterType="com.ruoyi.company.domain.SelfNameReview" resultMap="SelfNameReviewResult">
@@ -85,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
             <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
             <if test="nameStatus != null  and nameStatus != ''"> and name_status = #{nameStatus}</if>
+            <if test="nameRemark != null  and nameRemark != ''"> and name_remark = #{nameRemark}</if>
         </where>
     </select>
     
@@ -133,6 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="nameStatus != null">name_status,</if>
+            <if test="nameRemark != null">name_remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -168,6 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="nameStatus != null">#{nameStatus},</if>
+            <if test="nameRemark != null">#{nameRemark},</if>
          </trim>
     </insert>
 
@@ -207,6 +211,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">  create_time = #{createTime},</if>
             <if test="updateTime != null ">  update_time = #{updateTime},</if>
             <if test="nameStatus != null ">  name_status = #{nameStatus},</if>
+            <if test="nameRemark != null ">  name_remark = #{nameRemark},</if>
         </trim>
         where self_id = #{selfId}
     </update>

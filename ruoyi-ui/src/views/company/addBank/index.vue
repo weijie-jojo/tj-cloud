@@ -60,18 +60,18 @@
                   <el-collapse-item title="对公基本户" name="2">
                      <el-row>
                         <el-col :span="10">
-                           <el-form-item label="账号名称" prop="selfName">
+                           <el-form-item label="账号名称" >
                               <el-input v-model="formBank.selfName" disabled></el-input>
                            </el-form-item>
 
-                           <el-form-item label="开户银行" prop="publicDepositBank1">
+                           <el-form-item label="开户银行" >
                               <el-input v-model="formBank.publicDepositBank1"></el-input>
                            </el-form-item>
 
                         </el-col>
 
                         <el-col :span="10">
-                           <el-form-item label="银行账号" prop="publicAccountNumber1">
+                           <el-form-item label="银行账号" >
                               <el-input v-model="formBank.publicAccountNumber1"></el-input>
                            </el-form-item>
                         </el-col>
@@ -83,18 +83,18 @@
                   <el-collapse-item title="对公一般户" name="3">
                      <el-row>
                         <el-col :span="10">
-                           <el-form-item label="账号名称" prop="selfName">
+                           <el-form-item label="账号名称">
                               <el-input v-model="formBank.selfName" disabled></el-input>
                            </el-form-item>
 
-                           <el-form-item label="开户银行" prop="publicDepositBank2">
+                           <el-form-item label="开户银行">
                               <el-input v-model="formBank.publicDepositBank2"></el-input>
                            </el-form-item>
 
                         </el-col>
 
                         <el-col :span="10">
-                           <el-form-item label="银行账号" prop="publicAccountNumber2">
+                           <el-form-item label="银行账号">
                               <el-input v-model="formBank.publicAccountNumber2"></el-input>
                            </el-form-item>
                         </el-col>
@@ -326,7 +326,7 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/manage" });
+                           this.$router.push({ path: "/customer/manageList" });
                         });
                      } else {
                         this.$modal.msgError(res.msg);

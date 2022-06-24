@@ -297,12 +297,10 @@ export default {
       
     },
     bank(row){
-       if(row.taxStatus==0){
-         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-      }else{
+       
        this.$cache.local.setJSON('employednewlist', row);
        this.$router.push("addBank");
-      }
+      
      
     },
     /** 新增按钮操作 */

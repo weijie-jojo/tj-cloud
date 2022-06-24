@@ -59,14 +59,16 @@
         <result property="bankStatus"    column="bank_status"    />
         <result property="endTime"    column="end_time"    />
         <result property="endStatus"    column="end_status"    />
+        <result property="employedRemark"    column="employed_remark"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status from self_employed
+        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status ,employed_remark from self_employed
     </sql>
 
     <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
-        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code JOIN  self_application_info B  on t.self_code=B.self_code
+        JOIN  self_legal_person C  on t.self_code=C.self_code
         <where>
             (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
             <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
@@ -139,6 +141,7 @@
             <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
             <if test="endStatus != null "> and end_status = #{endStatus}</if>
+            <if test="employedRemark != null "> and employed_remark = #{employedRemark}</if>
         </where>
     </select>
 
@@ -203,6 +206,7 @@
             <if test="bankStatus != null">bank_status,</if>
             <if test="endTime != null">end_time,</if>
             <if test="endStatus != null">end_status,</if>
+            <if test="employedRemark != null">employed_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -258,6 +262,7 @@
             <if test="bankStatus != null">#{bankStatus},</if>
             <if test="endTime != null">#{endTime},</if>
             <if test="endStatus != null">#{endStatus},</if>
+            <if test="employedRemark != null">#{employedRemark},</if>
         </trim>
     </insert>
 
@@ -317,6 +322,7 @@
             <if test="bankStatus != null">bank_status = #{bankStatus},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="endStatus != null">end_status = #{endStatus},</if>
+            <if test="employedRemark != null">employed_remark = #{employedRemark},</if>
         </trim>
         where self_id = #{selfId}
     </update>

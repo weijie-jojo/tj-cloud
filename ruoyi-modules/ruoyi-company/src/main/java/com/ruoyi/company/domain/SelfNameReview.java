@@ -23,6 +23,10 @@ public class SelfNameReview extends BaseEntity
     /** 个体户id */
     private Long selfId;
 
+    /** 审核不通过原因 */
+    @Excel(name = "审核不通过原因")
+    private String nameRemark;
+
     /** 用户名 */
     @Excel(name = "用户名")
     private String username;

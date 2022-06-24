@@ -7,7 +7,6 @@
       size="medium" 
       label-width="120px"
       label-position="right">
-    
       <el-steps :space="1500" 
         :active="2" 
         finish-status="success"
@@ -37,7 +36,7 @@
                       v-for="(item, index) in oneselfApplys" 
                       :key="index" 
                       :label="item.label"
-                      :value="item.value" 
+                      :value="item.label" 
                       :disabled="item.disabled"
                     ></el-option>
                   </el-select>
@@ -242,9 +241,15 @@
                 </el-form-item>
               </el-col>
             </el-row>
+             
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
+            
                 <el-form-item label="行业类型" prop="industryType">
+                    <!-- <treeselect 
+                    v-model="formData.industryType" 
+                    :multiple="true" 
+                    :options="options" /> -->
                  <el-select 
                     v-model="formData.industryType" 
                     placeholder="请选择行业类型" 
@@ -504,12 +509,34 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate' 
 import crudPlace from '@/api/company/place' 
 import {getInfo} from '@/api/login' 
+// import the component
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
+  components: { Treeselect },
   dicts: ['political_status', 'educational_level'],
   components: {},
   props: [],
   data() {
     return {
+      options: [ {
+          id: 'a',
+          label: 'a',
+          children: [ {
+            id: 'aa',
+            label: 'aa',
+          }, {
+            id: 'ab',
+            label: 'ab',
+          } ],
+        }, {
+          id: 'b',
+          label: 'b',
+        }, {
+          id: 'c',
+          label: 'c',
+        } ],
       isPrivateBank:false,
       activeName: 'first',
       oneselfApplys:[
@@ -563,7 +590,7 @@ export default {
         selfCode:'',
 
         //申请信息
-        oneselfApply:2,//1是 2否 是否本人申请
+        oneselfApply:'否',
         applyName:'',
         applyPhone:'',
         applyDocumentType:'中华人民共和国居民身份证',
@@ -933,7 +960,7 @@ export default {
               updateBy:this.formData.userName,
 
               businessStatus:0,
-              infoStatus:1,
+              infoStatus:0,
               taxStatus:0,
               bankStatus:0,
             };

@@ -245,7 +245,11 @@
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="行业类型" prop="industryType">
-                 <el-select 
+                  <treeselect 
+                    v-model="formData.industryType" 
+                    :multiple="true" 
+                    :options="industryTypes" />
+                 <!-- <el-select 
                     v-model="formData.industryType" 
                     placeholder="请选择行业类型" 
                     clearable
@@ -257,7 +261,7 @@
                       :label="item.industryName"
                       :value="item.industryId" 
                     ></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -504,6 +508,10 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate' 
 import crudPlace from '@/api/company/place' 
 import {getInfo} from '@/api/login' 
+// import the component
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   dicts: ['political_status', 'educational_level'],
   components: {},
