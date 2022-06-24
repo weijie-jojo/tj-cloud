@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
             <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
             <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
-            <if test="nameStatus != null  and nameStatus != ''"> and name_status = #{nameStatus}</if>
+            <if test="nameStatus != null "> and name_status = #{nameStatus}</if>
             <if test="nameRemark != null  and nameRemark != ''"> and name_remark = #{nameRemark}</if>
         </where>
     </select>

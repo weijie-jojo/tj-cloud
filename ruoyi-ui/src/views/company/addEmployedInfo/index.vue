@@ -246,11 +246,12 @@
               <el-col :span="8">
             
                 <el-form-item label="行业类型" prop="industryType">
-                    <!-- <treeselect 
+                  <treeselect 
                     v-model="formData.industryType" 
-                    :multiple="true" 
-                    :options="options" /> -->
-                 <el-select 
+                    :options="industryTypes" 
+                    :show-count="true" 
+                    placeholder="请选择归属部门" />
+                 <!-- <el-select 
                     v-model="formData.industryType" 
                     placeholder="请选择行业类型" 
                     clearable
@@ -262,7 +263,7 @@
                       :label="item.industryName"
                       :value="item.industryId" 
                     ></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -451,7 +452,7 @@
                       v-for="dict in dict.type.political_status"
                       :key="dict.value"
                       :label="dict.label"
-                      :value="dict.value"
+                      :value="dict.label"
                     />
                   </el-select>
                 </el-form-item>
@@ -509,14 +510,11 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate' 
 import crudPlace from '@/api/company/place' 
 import {getInfo} from '@/api/login' 
-// import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
   components: { Treeselect },
   dicts: ['political_status', 'educational_level'],
-  components: {},
   props: [],
   data() {
     return {
@@ -574,6 +572,7 @@ export default {
       applyNames:[],
       contactNames:[],
       industryTypes:[],
+      industryTypeList:[],
       accountTypes:[
          {
           value:1,
@@ -632,7 +631,7 @@ export default {
         residence:'',
         mail:'',
         idCard:'',
-
+        politicalStatus:'',
       },
       rules: {
         oneselfApply: [{
@@ -819,6 +818,8 @@ export default {
   },
   computed: {},
   watch: {
+    'formData.industryType':'selectIndustryType',
+    
     'formData.contactName':{
         handler:function(){
           this.formData.legalPersonName=this.formData.contactName
@@ -828,6 +829,7 @@ export default {
   },
   created() {},
   mounted() {
+    console.log("options",this.options);
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -841,6 +843,17 @@ export default {
     console.log("selfCode==",this.formData.selfCode)
   },
   methods: {
+    /** 转换部门数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.deptId,
+        label: node.deptName,
+        children: node.children
+      };
+    },
     getLoginInfo(){
       getInfo().then(res=>{  
         this.formData.userName=res.user.nickName;
@@ -861,10 +874,11 @@ export default {
           this.formData.privateAccountNumber="";
         }
     },
-    selectIndustryType(value){
-      var rate= this.industryTypes.find((item)=>item.industryId==value);
-      this.formData.industryTax=rate.taxRate;
+    selectIndustryType(){
+      console.log("industryType==",this.formData.industryType);
+      var rate= this.industryTypeList.find((item)=>item.industryId==this.formData.industryType);
       console.log("rate==",rate);
+      this.formData.industryTax=rate.taxRate;
     },
     selectApplyName(value){
       var applyName= this.applyNames.find((item)=>item.userId==value);
@@ -875,8 +889,27 @@ export default {
     getRate(){
       crudRate.getAllRate().then(res=>{
           console.log("getAllRate",res.rows);
-          this.industryTypes=res.rows;
+          // this.industryTypes=res.rows;
+          let tree = []; // 用来保存树状的数据形式
+          this.parseTree(res.rows, tree, 0);
+          console.log("tree",tree);
+          this.industryTypes=tree;
+          this.industryTypeList=res.rows;
       })
+    },
+    //把数据整成树状
+   parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
+      }
     },
     getContactName(){
         crudPerson.getAllPerson().then(res=>{
@@ -979,6 +1012,7 @@ export default {
               residence:this.formData.residence,
               contactPhone:this.formData.contactPhone,
               mail:this.formData.mail,
+              politicalStatus:this.formData.politicalStatus,
 
               createTime:new Date().toLocaleString(),
               updateTime:new Date().toLocaleString(),

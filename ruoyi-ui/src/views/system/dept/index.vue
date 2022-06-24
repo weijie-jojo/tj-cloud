@@ -280,6 +280,7 @@ export default {
       this.title = "添加部门";
       listDept().then(response => {
         this.deptOptions = this.handleTree(response.data, "deptId");
+        console.log("deptOptions==",this.deptOptions);
       });
     },
     /** 展开/折叠操作 */
