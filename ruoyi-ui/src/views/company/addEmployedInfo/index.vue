@@ -1008,7 +1008,8 @@ export default {
               privateAccountNumber:this.formData.privateAccountNumber,
               placeName:this.formData.placeName,
               username:this.formData.userName,
-
+              fileName5:JSON.stringify(this.formData.fileName5),
+              
               createTime:new Date().toLocaleString(),
               updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
@@ -1040,8 +1041,6 @@ export default {
               updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-
-              fileName5:JSON.stringify(this.formData.fileName5),
 
             };
             crudInfo.addInfo(parms1).then(res=>{
@@ -1103,21 +1102,21 @@ export default {
     },
     handlesuccess1(file, fileList) {
          this.formData.fileName5.push(file.obj);
-      },
-      handleRemove1(file, fileList) {
-         const i = this.formData.fileName5.findIndex((item) => item === fileList)
-         this.formData.fileName5.splice(i, 1);
-      },
-      handlePreview1(file) {
-         this.dialogImageUrl1 = file.url;
-         this.dialogVisible1 = true;
-      },
-      handleExceed1(files, fileList) {
-         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove1(file, fileList) {
-         return this.$confirm(`确定移除 ${file.name}？`);
-      },
+    },
+    handleRemove1(file, fileList) {
+        const i = this.formData.fileName5.findIndex((item) => item === fileList)
+        this.formData.fileName5.splice(i, 1);
+    },
+    handlePreview1(file) {
+        this.dialogImageUrl1 = file.url;
+        this.dialogVisible1 = true;
+    },
+    handleExceed1(files, fileList) {
+        this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove1(file, fileList) {
+        return this.$confirm(`确定移除 ${file.name}？`);
+    },
   }
 }
 
