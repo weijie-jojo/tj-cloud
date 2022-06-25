@@ -89,18 +89,18 @@
            <el-row :gutter="60" style="margin-left:260px">
             <el-col :span="8">
                <el-form-item label="个体户名称" prop="selfName">
-                  <el-input v-model="formData.selfName" disabled></el-input>
+                  <el-input v-model="formBank.selfName" disabled></el-input>
                </el-form-item>
 
                <el-form-item label="法人姓名" prop="legalPersonName">
-                  <el-input v-model="formData.legalPersonName" disabled></el-input>
+                  <el-input v-model="formBank.legalPersonName" disabled></el-input>
                </el-form-item>
 
             </el-col>
             
             <el-col :span="8">
                <el-form-item label="纳税人识别号" prop="taxId">
-                  <el-input v-model="formData.taxId" disabled></el-input>
+                  <el-input v-model="formBank.taxId" disabled></el-input>
                </el-form-item>
                 <el-form-item label="从业人数" prop="numberEmployees">
                 <el-input v-model="formData.numberEmployees" disabled>
@@ -207,32 +207,21 @@
            </el-row>
            <el-row class="rowCss" :gutter="60" style="margin-left:260px">
                <el-col :span="8">
-                <el-form-item label="纳税委托协议" prop="fileName4">
-                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                     :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                     :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                     :file-list="fileName3" list-type="picture">
-                     <el-button size="small" type="primary">点击上传</el-button>
-                  </el-upload>
-                  <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                     <img width="100%" :src="dialogImageUrl1" alt="" />
-                  </el-dialog>
+                <el-form-item label="营业执照" >
+                   <div v-for="(item,index) in formBank.fileName1" :key="index">
+                     <el-image lazy :preview-src-list="formBank.fileName1"  style="width: 150px; height: 150px" :src="item" alt="" />
+                  </div>
                </el-form-item>
 
             </el-col>
              <el-col :span="8">
                
                
-               <el-form-item label="三方协议签约凭证" prop="fileName4">
-                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                     :on-success="handlesuccess2" :on-preview="handlePreview2" :on-remove="handleRemove2"
-                     :before-remove="beforeRemove2" multiple :limit="9" :on-exceed="handleExceed2"
-                     :file-list="fileName4" list-type="picture">
-                     <el-button size="small" type="primary">点击上传</el-button>
-                  </el-upload>
-                  <el-dialog :visible.sync="dialogVisible2" append-to-body>
-                     <img width="100%" :src="dialogImageUrl2" alt="" />
-                  </el-dialog>
+               <el-form-item label="税务核定通知书" >
+                
+                  <div v-for="(item,index) in formBank.fileName2" :key="index">
+                     <el-image lazy :preview-src-list="formBank.fileName2"  style="width: 150px; height: 150px" :src="item" alt="" />
+                  </div>
                </el-form-item>
 
             </el-col>
@@ -523,16 +512,10 @@
 
 
                </el-form-item>
-               <el-form-item label="纳税委托协议" prop="fileName4">
-                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                     :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                     :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                     :file-list="fileName3" list-type="picture">
-                     <el-button size="small" type="primary">点击上传</el-button>
-                  </el-upload>
-                  <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                     <img width="100%" :src="dialogImageUrl1" alt="" />
-                  </el-dialog>
+               <el-form-item label="纳税委托协议" >
+                   <div v-for="(item,index) in formBank.fileName3" :key="index">
+                     <el-image lazy :preview-src-list="formBank.fileName3"  style="width: 150px; height: 150px" :src="item" alt="" />
+                  </div>
                </el-form-item>
             </el-col>
             
@@ -549,16 +532,10 @@
                <el-form-item style="color:rgba(0,0,0,0)">
                   <br>
                </el-form-item>
-               <el-form-item label="三方协议签约凭证" prop="fileName4">
-                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                     :on-success="handlesuccess2" :on-preview="handlePreview2" :on-remove="handleRemove2"
-                     :before-remove="beforeRemove2" multiple :limit="9" :on-exceed="handleExceed2"
-                     :file-list="fileName4" list-type="picture">
-                     <el-button size="small" type="primary">点击上传</el-button>
-                  </el-upload>
-                  <el-dialog :visible.sync="dialogVisible2" append-to-body>
-                     <img width="100%" :src="dialogImageUrl2" alt="" />
-                  </el-dialog>
+               <el-form-item label="三方协议签约凭证" >
+                  <div v-for="(item,index) in formBank.fileName4" :key="index">
+                     <el-image lazy :preview-src-list="formBank.fileName4"  style="width: 150px; height: 150px" :src="item" alt="" />
+                  </div>
                </el-form-item>
 
             </el-col>
@@ -733,7 +710,11 @@ export default {
         idCard: '',
 
       },
-      dialogImageUrl1: '',
+       baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+         accountName_options: [],
+         accountType:'',
+         activeNames: ['1'],
+         dialogImageUrl1: '',
          fileName3: [],
          dialogImageUrl2: '',
          fileName4: [],
@@ -945,46 +926,31 @@ export default {
     // this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
     // this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
     // console.log("selfCode==", this.formData.selfCode)
+    this.formBank=this.$cache.local.getJSON('employedInfo');
+    this.formBank.fileName1=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
+   
+    this.formBank.fileName2=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName2);
+    this.formBank.fileName3=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName3);
+    this.formBank.fileName4=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName4);
+     for(let i in this.formBank.fileName1){
+      this.formBank.fileName1[i]=this.baseImgPath+this.formBank.fileName1[i];
+    }
+   for(let j in this.formBank.fileName2){
+      this.formBank.fileName2[j]=this.baseImgPath+this.formBank.fileName2[j];
+    }
+     for(let k in this.formBank.fileName1){
+      this.formBank.fileName3[k]=this.baseImgPath+this.formBank.fileName3[k];
+    }
+     for(let g in this.formBank.fileName1){
+      this.formBank.fileName4[g]=this.baseImgPath+this.formBank.fileName4[g];
+    }
+    console.log(this.formBank);
     this.formData = this.$cache.local.getJSON('employedInfo');
   },
   methods: {
-    handlesuccess1(file, fileList) {
-         this.formBank.fileName3.push(file.obj);
+     handleChange(val) {
+         console.log(val);
       },
-      handleRemove1(file, fileList) {
-         const i = this.formBank.fileName3.findIndex((item) => item === fileList)
-         this.formBank.fileName3.splice(i, 1);
-      },
-      handlePreview1(file) {
-         this.dialogImageUrl1 = file.url;
-         this.dialogVisible1 = true;
-      },
-      handleExceed1(files, fileList) {
-         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove1(file, fileList) {
-         return this.$confirm(`确定移除 ${file.name}？`);
-      },
-      handlesuccess2(file, fileList) {
-         this.formBank.fileName4.push(file.obj);
-      },
-      handleRemove2(file, fileList) {
-         const i = this.formBank.fileName4.findIndex((item) => item === fileList)
-         this.formBank.fileName4.splice(i, 1);
-      },
-      handlePreview2(file) {
-         this.dialogImageUrl2 = file.url;
-         this.dialogVisible2 = true;
-      },
-      handleExceed2(files, fileList) {
-         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove2(file, fileList) {
-         return this.$confirm(`确定移除 ${file.name}？`);
-      },
-
-
-
     getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
