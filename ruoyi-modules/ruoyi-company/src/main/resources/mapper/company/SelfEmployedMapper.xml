@@ -54,6 +54,7 @@
         <result property="fileName2"    column="file_name2"    />
         <result property="fileName3"    column="file_name3"    />
         <result property="fileName4"    column="file_name4"    />
+        <result property="fileName5"    column="file_name5"    />
         <result property="infoStatus"    column="info_status"    />
         <result property="taxStatus"    column="tax_status"    />
         <result property="bankStatus"    column="bank_status"    />
@@ -63,7 +64,7 @@
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status ,employed_remark from self_employed
+        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,employed_remark from self_employed
     </sql>
 
     <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
@@ -136,6 +137,7 @@
             <if test="fileName2 != null  and fileName2 != ''"> and file_name2 = #{fileName2}</if>
             <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
             <if test="fileName4 != null  and fileName4 != ''"> and file_name4 = #{fileName4}</if>
+            <if test="fileName5 != null  and fileName5 != ''"> and file_name5 = #{fileName5}</if>
             <if test="infoStatus != null "> and info_status = #{infoStatus}</if>
             <if test="taxStatus != null "> and tax_status = #{taxStatus}</if>
             <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
@@ -201,6 +203,7 @@
             <if test="fileName2 != null">file_name2,</if>
             <if test="fileName3 != null">file_name3,</if>
             <if test="fileName4 != null">file_name4,</if>
+            <if test="fileName5 != null">file_name5,</if>
             <if test="infoStatus != null">info_status,</if>
             <if test="taxStatus != null">tax_status,</if>
             <if test="bankStatus != null">bank_status,</if>
@@ -257,6 +260,7 @@
             <if test="fileName2 != null">#{fileName2},</if>
             <if test="fileName3 != null">#{fileName3},</if>
             <if test="fileName4 != null">#{fileName4},</if>
+            <if test="fileName5 != null">#{fileName5},</if>
             <if test="infoStatus != null">#{infoStatus},</if>
             <if test="taxStatus != null">#{taxStatus},</if>
             <if test="bankStatus != null">#{bankStatus},</if>
@@ -317,6 +321,7 @@
             <if test="fileName2 != null">file_name2 = #{fileName2},</if>
             <if test="fileName3 != null">file_name3 = #{fileName3},</if>
             <if test="fileName4 != null">file_name4 = #{fileName4},</if>
+            <if test="fileName5 != null">file_name5 = #{fileName5},</if>
             <if test="infoStatus != null">info_status = #{infoStatus},</if>
             <if test="taxStatus != null">tax_status = #{taxStatus},</if>
             <if test="bankStatus != null">bank_status = #{bankStatus},</if>

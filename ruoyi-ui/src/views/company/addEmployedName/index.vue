@@ -316,6 +316,7 @@ export default {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
+          console.log("date",new Date().toLocaleString())
             let parms={
               selfCode:this.formData.selfCode,
               titleType:this.formData.titleType,

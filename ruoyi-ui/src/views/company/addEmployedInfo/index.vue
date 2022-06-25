@@ -480,14 +480,28 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+            <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="身份证扫描件" prop="idCard">
-                  <el-input v-model="formData.idCard"  clearable >
-                  </el-input>
-                </el-form-item>
+              <el-form-item label="身份证扫描件" prop="fileName5">
+                  <el-upload 
+                    class="upload-demo" 
+                    action="http://36.133.2.179:8000/api/files/doUpload"
+                     :on-success="handlesuccess1" 
+                     :on-preview="handlePreview1" 
+                     :on-remove="handleRemove1"
+                     :before-remove="beforeRemove1" 
+                     multiple :limit="9" 
+                     :on-exceed="handleExceed1"
+                     :file-list="formData.fileName5" 
+                     list-type="picture">
+                     <el-button size="small" type="primary">点击上传</el-button>
+                  </el-upload>
+                  <el-dialog :visible.sync="dialogVisible1" append-to-body>
+                     <img width="100%" :src="dialogImageUrl1" alt="" />
+                  </el-dialog>
+               </el-form-item>
               </el-col>
-            </el-row> -->
+            </el-row>
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="toReturn2">返回</el-button> 
@@ -584,7 +598,8 @@ export default {
         },
       ],
       places:[],
-
+      dialogImageUrl1: '',
+      dialogVisible1: false,
       formData: {
         selfCode:'',
 
@@ -632,8 +647,14 @@ export default {
         mail:'',
         idCard:'',
         politicalStatus:'',
+        fileName5: [],
       },
       rules: {
+        fileName5: [{ 
+          required: true, 
+          message: '请上传纳税委托协议文件', 
+          trigger: 'change' 
+        }],
         oneselfApply: [{
           required: true,
           message: '请选择是否本人申请',
@@ -943,6 +964,7 @@ export default {
      submitForm3() {
       this.$refs['elForm'].validate(valid => {
         if (valid) {
+            
             console.log("placeName",this.formData.placeName,);
             let parms1={
               selfCode:this.formData.selfCode,
@@ -1019,6 +1041,8 @@ export default {
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
 
+              fileName5:JSON.stringify(this.formData.fileName5),
+
             };
             crudInfo.addInfo(parms1).then(res=>{
               if(res!=undefined){
@@ -1077,6 +1101,23 @@ export default {
     toReturn2() {
       this.activeName='second';
     },
+    handlesuccess1(file, fileList) {
+         this.formData.fileName5.push(file.obj);
+      },
+      handleRemove1(file, fileList) {
+         const i = this.formData.fileName5.findIndex((item) => item === fileList)
+         this.formData.fileName5.splice(i, 1);
+      },
+      handlePreview1(file) {
+         this.dialogImageUrl1 = file.url;
+         this.dialogVisible1 = true;
+      },
+      handleExceed1(files, fileList) {
+         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove1(file, fileList) {
+         return this.$confirm(`确定移除 ${file.name}？`);
+      },
   }
 }
 

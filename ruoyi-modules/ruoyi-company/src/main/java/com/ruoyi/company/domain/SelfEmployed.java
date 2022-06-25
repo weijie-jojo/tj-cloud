@@ -220,6 +220,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "三方协议签约凭证")
     private String fileName4;
 
+    /** 身份证 */
+    @Excel(name = "身份证")
+    private String fileName5;
+
     /** 信息名字审核是否通过 0未通过 1已通过 */
     @Excel(name = "信息名字审核是否通过 0未通过 1已通过")
     private Long infoStatus;
