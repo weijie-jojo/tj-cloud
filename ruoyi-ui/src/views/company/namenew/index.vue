@@ -271,7 +271,9 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("名称审核通过成功!");
                         this.$nextTick(function () {
-                          this.$router.push("employed");
+                           this.$tab.openPage("注册进度", "employed").then(() => {
+                           })
+                         // this.$router.push("employed");
                         });
                      } else {
                         this.$modal.msgError(res.msg);

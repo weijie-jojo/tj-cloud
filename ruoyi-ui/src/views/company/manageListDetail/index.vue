@@ -8,6 +8,7 @@
               margin-top: 20px;
               margin-bottom: 40px;
               color:blue;">个体户信息</div>
+               
           <!-- <el-row class="rowCss" :gutter="60" style="margin-left:260px">
             <el-col :span="8">
               <el-form-item label="本人申请" prop="oneselfApply">
@@ -235,6 +236,7 @@
               margin-bottom:40px;
               color:blue;">经营者（负责人）信息</div>
           <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+        
             <el-col :span="8">
               <el-form-item label="姓名">
                 <el-input v-model="formData.contactName" disabled>
@@ -917,7 +919,9 @@ export default {
       deep: true
     }
   },
-  created() { },
+  created() {
+    this.formData = this.$cache.local.getJSON('employedInfo');
+   },
   mounted() {
 
     this.getLoginInfo();
@@ -949,12 +953,12 @@ export default {
      for(let g in this.formBank.fileName1){
       this.formBank.fileName4[g]=this.baseImgPath+this.formBank.fileName4[g];
     }
-    console.log(this.formBank);
+
     this.formData = this.$cache.local.getJSON('employedInfo');
-    this.formData.idCard=JSON.parse(this.$cache.local.getJSON('employedInfo').idCard);
-     for(let k1 in this.formData.idCard){
-      this.formData.idCard[k1]=this.baseImgPath+this.formData.idCard[k1];
-    }
+    // this.formData.idCard=JSON.parse(this.$cache.local.getJSON('employedInfo').idCard);
+    //  for(let k1 in this.formData.idCard){
+    //   this.formData.idCard[k1]=this.baseImgPath+this.formData.idCard[k1];
+    // }
   },
   methods: {
      handleChange(val) {
