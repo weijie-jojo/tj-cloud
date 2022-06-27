@@ -85,7 +85,12 @@
               </el-form-item>
             </el-col>
           </el-row>
-
+             <div class="footers grid-content">
+            <el-footer>
+              <el-button type="danger" @click="toReturn2">返回</el-button>
+              <el-button type="primary" @click="submitForm3">通过</el-button>
+            </el-footer>
+          </div>
           
         </el-tab-pane>
 
@@ -250,7 +255,20 @@
               </el-form-item>
             </el-col>
           </el-row>
-          
+            <!-- <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+              <el-col :span="2">
+                <el-button type="danger" @click="toReturn2">返回</el-button>
+              </el-col>
+              <el-col :span="2">
+                 <el-button type="primary" @click="submitForm3">通过</el-button>
+              </el-col>
+            </el-row> -->
+             <div class="footers grid-content">
+            <el-footer>
+              <el-button type="danger" @click="toReturn2">返回</el-button>
+              <el-button type="primary" @click="submitForm3">通过</el-button>
+            </el-footer>
+          </div>
         </el-tab-pane>
 
         <el-tab-pane label="经营者" name="third">
@@ -365,20 +383,30 @@
                 </el-form-item>
               </el-col>
             </el-row> -->
-         
+          <!-- <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+              <el-col :span="2">
+                <el-button type="danger" @click="toReturn2">返回</el-button>
+              </el-col>
+              <el-col :span="2">
+                 <el-button type="primary" @click="submitForm3">通过</el-button>
+              </el-col>
+            </el-row> -->
+                
 
-
-
-
-
-        </el-tab-pane>
-      </el-tabs>
-       <div class="footers grid-content">
+          <div class="footers grid-content">
             <el-footer>
               <el-button type="danger" @click="toReturn2">返回</el-button>
-              <el-button type="primary" @click="submitForm3">提交</el-button>
+              <el-button type="primary" @click="submitForm3">通过</el-button>
             </el-footer>
           </div>
+
+
+       
+       
+       
+        </el-tab-pane>
+      </el-tabs>
+     
 
     </el-form>
   </div>
@@ -801,7 +829,7 @@ export default {
             selfId: this.formData.selfId,
             infoStatus: 1,
           };
-          updateEmployed.addReview(parms).then(res => {
+          updateEmployed(parms).then(res => {
 
             if (res != undefined) {
               if (res != undefined) {

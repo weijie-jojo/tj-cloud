@@ -53,7 +53,7 @@
 
       <el-table-column label="名称审核" align="center" prop="selfCode">
        <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading1" v-if="scope.row.nameStatus == '0'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading1(scope.row)" v-if="scope.row.nameStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">不通过</el-link>
           <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已通过</el-link>
       </template>
@@ -61,7 +61,7 @@
       <el-table-column label="信息审核" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2">审核中</el-link>
+          <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2(scope.row)">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">不通过</el-link>
           <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已通过</el-link>
 
@@ -263,32 +263,34 @@ export default {
         });
     },
     //审核中  名称
-    shenloading1(){
+    shenloading1(scope){
+      //  this.$cache.local.setJSON('employedName', scope);
+      //  console.log(scope);
            this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          cancelButtonText: '去修改',
+          confirmButtonText: '去修改',
+          cancelButtonText: '确定',
           type: 'warning'
         }).then(() => {
-         
+          console.log(scope);
+         this.$cache.local.setJSON('employedName', scope);
+         this.$router.push("editEmployedName");   
+    
         }).catch(() => {
-          this.$cache.local.setJSON('employedName', scope);
-      console.log(this.$cache.local.getJSON('employedName')); // 输出'{localProp: 1}'
-      this.$router.push("editEmployedName");        
         });
       
         
     },
     //审核中  信息
-    shenloading2(){
+    shenloading2(scope){
            this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          cancelButtonText: '去修改',
+          confirmButtonText: '去修改',
+          cancelButtonText: '确定',
           type: 'warning'
         }).then(() => {
-         
+             this.$cache.local.setJSON('employedInfo', scope);
+             this.$router.push("editEmployedInfo");  
         }).catch(() => {
-       this.$cache.local.setJSON('employedInfo', scope);
-       this.$router.push("editEmployedInfo");     
+      
         });
     },
     
