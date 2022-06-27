@@ -110,7 +110,9 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/manageTax" });
+                            this.$tab.openPage("税务办理", "manageTax").then(() => {
+                           })
+                         //  this.$router.push({ path: "/customer/manageTax" });
                         });
                      } else {
                         this.$modal.msgError(res.msg);

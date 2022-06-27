@@ -71,7 +71,7 @@
 
         <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.nameStatus==0 && scope.row.infoStatus==1 && scope.row.businessStatus=='0'" >审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if="scope.row.infoStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
 
@@ -81,7 +81,7 @@
 
         <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == '0'">审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == 0">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
           <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
 
@@ -237,17 +237,11 @@ export default {
     };
   },
   created() {
-    // axios.get("/getUsers", {
-
-    //     }).then((res) => {
-    //       console.log(res);
-    //       this.loading = false;
-    //       let data = res.data.data.list;
-    //       this.employedList = data;
-
-    //     });
-
+    console.log(1111);
     this.getList();
+  },
+  mounted(){
+//  this.$tab.refreshPage();
   },
   methods: {
     //审核中

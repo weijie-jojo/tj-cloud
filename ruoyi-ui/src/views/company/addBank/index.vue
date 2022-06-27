@@ -330,7 +330,7 @@ export default {
          this.$router.back();
       },
       onSubmit() {
-         
+        
          this.$refs['formBank'].validate(valid => {
             if (valid) {
                this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
@@ -340,7 +340,9 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                           this.$router.push({ path: "/customer/manageBank"});
+                            this.$tab.openPage("银行办理", "manageBank").then(() => {
+                           })
+                          // this.$router.push({ path: "/customer/manageBank"});
                         });
                      } else {
                         this.$modal.msgError(res.msg);
