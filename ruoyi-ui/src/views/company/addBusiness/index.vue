@@ -157,8 +157,13 @@ export default {
       onSubmit() {
          this.$refs['formbusiness'].validate(valid => {
             if (valid) {
+               var startDate=new Date(this.formbusiness.businessTerm[0]);
+               var endDate=new Date(this.formbusiness.businessTerm[1]);
+               var businessTerm=startDate.getFullYear()+'年'+startDate.getMonth()+'月'+startDate.getDate()+'日'
+                   +'至'+endDate.getFullYear()+'年'+endDate.getMonth()+'月'+endDate.getDate()+'日';
+               console.log("businessTerm",businessTerm);
                this.formbusiness.fileName1=JSON.stringify(this.formbusiness.fileName1);
-               this.formbusiness.businessTerm=businessTerm[0]+'至'+businessTerm[1];
+               this.formbusiness.businessTerm=businessTerm;
                updateEmployed(this.formbusiness).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {
