@@ -106,12 +106,23 @@
           </el-form-item>
         </el-col>
       </el-row>
-       <div class="footers grid-content">
+    
+        <!-- <div class="footers grid-content">
          <el-footer>
             <el-button type="danger" @click="resetForm">返回</el-button>
             <el-button type="primary" @click="submitForm">通过</el-button>
          </el-footer>
-      </div>
+      </div> -->
+      
+      <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+        <el-col :span="2">
+            <el-button type="danger" @click="resetForm">取消</el-button> 
+        </el-col>
+        <el-col :span="2">
+            <el-button type="primary" @click="submitForm">下一步</el-button>
+        </el-col>
+      </el-row>
+       
      
 
     </el-form>
