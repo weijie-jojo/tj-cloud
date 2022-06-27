@@ -271,7 +271,6 @@ export default {
           cancelButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          console.log(scope);
          this.$cache.local.setJSON('employedName', scope);
          this.$router.push("editEmployedName");   
     

@@ -179,7 +179,7 @@
             <el-button type="danger" @click="toReturn">返回</el-button> 
         </el-col>
         <el-col :span="2">
-            <el-button type="primary" @click="submitForm">下一步</el-button>
+            <el-button type="primary" @click="submitForm">确认修改</el-button>
         </el-col>
       </el-row>
 
@@ -197,6 +197,7 @@ export default {
     return {
       isDisable:true,
       formData: {
+        selfId:'',
         selfCode:'',
         titleType:'区县名',
         administrativeDivision:'漳平市',
@@ -266,8 +267,15 @@ export default {
   },
   created() {},
   mounted() {
-    this.getSelfCode();
+    // this.getSelfCode();
     this.getLoginInfo();
+    var employedName=this.$cache.local.getJSON('employedName');
+    console.log("selfCode",employedName.selfCode);
+    crudReview.getByCode({selfCode:employedName.selfCode}).then(res=>{
+      console.log("getByCode",res);
+      this.formData=res;
+    })
+    
   },
   methods: {
     getLoginInfo(){
@@ -317,6 +325,7 @@ export default {
         // TODO 提交表单
         if (valid) {
             let parms={
+              selfId:this.formData.selfId,
               selfCode:this.formData.selfCode,
               titleType:this.formData.titleType,
               administrativeDivision:this.formData.administrativeDivision,
@@ -331,30 +340,33 @@ export default {
               poposedName1:this.formData.poposedName1,
               poposedName2:this.formData.poposedName2,
               poposedName3:this.formData.poposedName3,
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
               nameStatus:1,
             };
-            crudReview.addReview(parms).then(res=>{
-              console.log("addReview",res)
-              if(res!=undefined){
-                   if(res.id==0){
-                    this.$message({
-                        message: res.message,
-                        type: 'success',
-                    });
-                  }else{
-                    this.$message({
-                        message: res.message,
-                        type: 'warning',
-                    });
-                  }
-                  this.$router.push("addEmployedInfo");
-                  window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
-                  window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
-              }
+            crudReview.updateReview(parms).then(res=>{
+              console.log("addReview",res);
+              this.$message({
+                  message: '修改成功',
+                  type: 'success',
+              });
+              this.$router.push("employed");
+              // if(res!=undefined){
+              //      if(res.id==0){
+              //       this.$message({
+              //           message: res.message,
+              //           type: 'success',
+              //       });
+              //     }else{
+              //       this.$message({
+              //           message: res.message,
+              //           type: 'warning',
+              //       });
+              //     }
+              //     this.$router.push("employed");
+              // }
               
             });
               

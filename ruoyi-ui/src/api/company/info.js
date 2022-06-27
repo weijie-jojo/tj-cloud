@@ -42,4 +42,4 @@ export function delInfo(id) {
     method: 'delete'
   })
 }
-export default {addInfo}
+export default {addInfo,updateInfo}

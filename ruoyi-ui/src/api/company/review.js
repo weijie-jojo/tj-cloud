@@ -50,4 +50,12 @@ export function getCode(query) {
     params: query
   })
 }
-export default{addReview,getCode}
+// 根据编号获取
+export function getByCode(query) {
+  return request({
+    url: '/company/review/getByCode',
+    method: 'get',
+    params: query
+  })
+}
+export default{addReview,getCode,updateReview,getByCode}

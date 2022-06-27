@@ -905,10 +905,10 @@ export default {
               contactDocumentType:this.formData.contactDocumentType,
               contactIdNum:this.formData.contactIdNum,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
             };
             let parms2={
@@ -934,10 +934,10 @@ export default {
               placeName:this.formData.placeName,
               username:this.formData.userName,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
               businessStatus:0,
               infoStatus:1,
@@ -960,13 +960,13 @@ export default {
               contactPhone:this.formData.contactPhone,
               mail:this.formData.mail,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
             };
-            crudInfo.addInfo(parms1).then(res=>{
+            crudInfo.updateInfo(parms1).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -981,7 +981,7 @@ export default {
                   }
               }
             });
-            crudEmployed.addEmployed(parms2).then(res=>{
+            crudEmployed.updateEmployed(parms2).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -996,7 +996,7 @@ export default {
                   }
               }
             });
-            crudPerson.addPerson(parms3).then(res=>{
+            crudPerson.updatePerson(parms3).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -1011,7 +1011,7 @@ export default {
                   }
               }
             });
-            this.$router.push("success");
+            this.$router.push("employed");
         }else{
           this.$message({
             message:'请填写完整',

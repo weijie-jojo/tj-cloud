@@ -52,4 +52,4 @@ export function getAllPerson(query) {
   })
 }
 
-export default{getAllPerson,addPerson}
+export default{getAllPerson,addPerson,updatePerson}

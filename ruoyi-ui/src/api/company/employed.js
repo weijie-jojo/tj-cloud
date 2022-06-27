@@ -60,4 +60,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed}
+export default {addEmployed,updateEmployed}
