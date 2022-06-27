@@ -22,7 +22,6 @@
                </el-form-item>
             </el-col>
          </el-row>
-
          <el-row>
             <el-col :span="7">
                <div class="bankno">银行账号</div>

@@ -32,6 +32,18 @@
                <el-form-item label="纳税人识别号" prop="taxId">
                   <el-input v-model="formbusiness.taxId"></el-input>
                </el-form-item>
+               <el-form-item label="营业期限" prop="businessTerm">
+                  <el-date-picker
+                     v-model="formbusiness.businessTerm"
+                     type="daterange"
+                     align="right"
+                     unlink-panels
+                     range-separator="至"
+                     start-placeholder="开始日期"
+                     end-placeholder="结束日期"
+                     :picker-options="pickerOptions">
+                  </el-date-picker>
+               </el-form-item>
             </el-col>
          </el-row>
 
@@ -52,6 +64,47 @@ import { addEmployed,updateEmployed } from "@/api/company/employed";
 export default {
    data() {
       return {
+         pickerOptions: {
+          shortcuts: [{
+            text: '最近一年',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              end.setTime(end.getTime() + 3600 * 1000 * 24* 365);
+              picker.$emit('pick', [start, end]);
+            }
+          },
+          {
+            text: '最近5年',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              end.setTime(end.getTime() + 3600 * 1000 * 24* 365*5);
+              picker.$emit('pick', [start, end]);
+            }
+          },
+          {
+            text: '最近30年',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 365*30);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+      //    pickerOptions(){
+      //    shortcuts:[{
+     
+      //    // var businessTerm=new Date(this.formbusiness.businessTerm);
+      //    // var endYear=businessTerm.getFullYear()+30;
+      //    // console.log("businessTerm111",businessTerm.getFullYear()+'年'+businessTerm.getMonth()+'月'+businessTerm.getDate()+'日'
+      //    // +'至'+endYear+'年'+businessTerm.getMonth()+'月'+businessTerm.getDate()+'日');
+      //    // this.formbusiness.businessTerm=businessTerm.getFullYear()+'年'+businessTerm.getMonth()+'月'+businessTerm.getDate()+'日'
+      //    // +'至'+endYear+'年'+businessTerm.getMonth()+'月'+businessTerm.getDate()+'日';
+      //    // console.log("businessTerm",this.formbusiness.businessTerm)
+         
+      // },
          formbusiness: {
             businessStatus:"1",
             selfId:'',
@@ -59,6 +112,7 @@ export default {
             selfName: '',
             taxId: '',
             fileName1: [],
+            businessTerm:'',
          },
          fileName1:[],
          dialogVisible: false,
@@ -94,6 +148,7 @@ export default {
    },
 
    methods: {
+      
      //返回
       resetForm() {
            this.$router.back()
@@ -103,6 +158,7 @@ export default {
          this.$refs['formbusiness'].validate(valid => {
             if (valid) {
                this.formbusiness.fileName1=JSON.stringify(this.formbusiness.fileName1);
+               this.formbusiness.businessTerm=businessTerm[0]+'至'+businessTerm[1];
                updateEmployed(this.formbusiness).then(res => {
                   if (res != undefined) {
                      if (res.code === 200) {

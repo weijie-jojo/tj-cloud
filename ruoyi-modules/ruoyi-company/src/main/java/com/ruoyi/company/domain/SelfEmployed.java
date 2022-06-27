@@ -27,6 +27,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "完结时间")
     private String endTime;
 
+    /** 完结时间 */
+    @Excel(name = "营业期限")
+    private String businessTerm;
+
     /** 审核不通过原因 */
     @Excel(name = "审核不通过原因")
     private String employedRemark;
