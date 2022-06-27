@@ -980,8 +980,8 @@ export default {
               contactDocumentType:this.formData.contactDocumentType,
               contactIdNum:this.formData.contactIdNum,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
 
@@ -1010,8 +1010,8 @@ export default {
               username:this.formData.userName,
               fileName5:JSON.stringify(this.formData.fileName5),
               
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
 
@@ -1037,8 +1037,8 @@ export default {
               mail:this.formData.mail,
               politicalStatus:this.formData.politicalStatus,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
 

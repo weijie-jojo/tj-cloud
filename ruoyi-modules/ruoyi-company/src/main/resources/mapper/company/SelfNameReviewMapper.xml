@@ -132,8 +132,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName10 != null">poposed_name10,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateTime != null">update_time,</if>
+<!--            <if test="createTime != null">create_time,</if>-->
+<!--            <if test="updateTime != null">update_time,</if>-->
             <if test="nameStatus != null">name_status,</if>
             <if test="nameRemark != null">name_remark,</if>
          </trim>
@@ -168,8 +168,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="poposedName10 != null">#{poposedName10},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateTime != null">#{updateTime},</if>
+<!--            <if test="createTime != null">#{createTime},</if>-->
+<!--            <if test="updateTime != null">#{updateTime},</if>-->
             <if test="nameStatus != null">#{nameStatus},</if>
             <if test="nameRemark != null">#{nameRemark},</if>
          </trim>
