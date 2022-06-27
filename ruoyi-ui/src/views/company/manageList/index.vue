@@ -53,8 +53,10 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
+          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button> -->
+          <el-switch v-show="scope.row.kstatus==0"  :disabled='true'>休眠</el-switch>
+          <el-switch v-show="scope.row.kstatus !=0" :disabled="false">激活</el-switch>
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"

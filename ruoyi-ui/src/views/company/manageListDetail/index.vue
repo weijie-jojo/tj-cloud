@@ -335,8 +335,13 @@
           <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="身份证扫描件" prop="idCard">
-                  <el-input v-model="formData.idCard"  clearable >
-                  </el-input>
+                   <el-form-item label="营业执照" >
+                   <div v-for="(item,index) in formData.idCard" :key="index">
+                     <el-image lazy :preview-src-list="formData.idCard"  style="width: 150px; height: 150px" :src="item" alt="" />
+                  </div>
+               </el-form-item>
+                  <!-- <el-input v-model="formData.idCard"  clearable >
+                  </el-input> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -946,6 +951,10 @@ export default {
     }
     console.log(this.formBank);
     this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData.idCard=JSON.parse(this.$cache.local.getJSON('employedInfo').idCard);
+     for(let k1 in this.formData.idCard){
+      this.formData.idCard[k1]=this.baseImgPath+this.formData.idCard[k1];
+    }
   },
   methods: {
      handleChange(val) {
