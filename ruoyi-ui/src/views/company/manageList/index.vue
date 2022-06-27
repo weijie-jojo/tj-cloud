@@ -1,20 +1,47 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-
-
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      size="small"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.placeName"
+          placeholder="请输入渠道商"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="状态" prop="placeName">
-        <el-select v-model="queryParams.publicAccountNumber3" filterable placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.value">
+        <el-select
+          v-model="queryParams.publicAccountNumber3"
+          filterable
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -35,38 +62,82 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['company:employed:export']">导出</el-button>
       </el-col> -->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="employedList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
 
       <el-table-column label="个体名称" align="center" prop="selfName" />
 
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
-
-
-
-
-
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="是否激活" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
+           <el-switch
+            v-model="scope.row.id"
+            on-color="#00A854"
+            on-text="激活"
+            on-value="1"
+            off-color="#F04134"
+            off-text="休眠"
+            off-value="0"
+            @change="changeSwitch(scope.row)"
+          >
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-s-custom"
+            @click="detail(scope.row)"
+            >详情</el-button
+          >
           <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button> -->
-          <el-switch v-show="scope.row.kstatus==0"  :disabled='true'>休眠</el-switch>
-          <el-switch v-show="scope.row.kstatus !=0" :disabled="false">激活</el-switch>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button>
+         
+
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['company:employed:edit']"
+            >修改</el-button
+          >
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['company:employed:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改个体商户对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -81,13 +152,19 @@
           <el-input v-model="form.taxId" placeholder="请输入税号" />
         </el-form-item>
         <el-form-item label="个体户注册地址" prop="selfAddress">
-          <el-input v-model="form.selfAddress" placeholder="请输入个体户注册地址" />
+          <el-input
+            v-model="form.selfAddress"
+            placeholder="请输入个体户注册地址"
+          />
         </el-form-item>
         <el-form-item label="个体户名称" prop="selfName">
           <el-input v-model="form.selfName" placeholder="请输入个体户名称" />
         </el-form-item>
         <el-form-item label="法人姓名" prop="legalPersonName">
-          <el-input v-model="form.legalPersonName" placeholder="请输入法人姓名" />
+          <el-input
+            v-model="form.legalPersonName"
+            placeholder="请输入法人姓名"
+          />
         </el-form-item>
         <el-form-item label="法人身份证" prop="idCardNum">
           <el-input v-model="form.idCardNum" placeholder="请输入法人身份证" />
@@ -96,24 +173,42 @@
           <el-input v-model="form.password" placeholder="请输入登录密码" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input
+            v-model="form.remark"
+            type="textarea"
+            placeholder="请输入内容"
+          />
         </el-form-item>
         <el-form-item label="每月可开票金额" prop="maximum">
           <el-input v-model="form.maximum" placeholder="请输入每月可开票金额" />
         </el-form-item>
         <el-form-item label="注册时间" prop="registerTime">
-          <el-date-picker clearable v-model="form.registerTime" type="date" value-format="yyyy-MM-dd"
-            placeholder="请选择注册时间">
+          <el-date-picker
+            clearable
+            v-model="form.registerTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择注册时间"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="组织形式" prop="organizationalForm">
-          <el-input v-model="form.organizationalForm" placeholder="请输入组织形式" />
+          <el-input
+            v-model="form.organizationalForm"
+            placeholder="请输入组织形式"
+          />
         </el-form-item>
         <el-form-item label="从业人数" prop="numberEmployees">
-          <el-input v-model="form.numberEmployees" placeholder="请输入从业人数" />
+          <el-input
+            v-model="form.numberEmployees"
+            placeholder="请输入从业人数"
+          />
         </el-form-item>
         <el-form-item label="出资金额" prop="contributionAmount">
-          <el-input v-model="form.contributionAmount" placeholder="请输入出资金额" />
+          <el-input
+            v-model="form.contributionAmount"
+            placeholder="请输入出资金额"
+          />
         </el-form-item>
         <el-form-item label="城市" prop="city">
           <el-input v-model="form.city" placeholder="请输入城市" />
@@ -122,13 +217,22 @@
           <el-input v-model="form.county" placeholder="请输入区县" />
         </el-form-item>
         <el-form-item label="电子商务经营者" prop="electronicCommerce">
-          <el-input v-model="form.electronicCommerce" placeholder="请输入电子商务经营者" />
+          <el-input
+            v-model="form.electronicCommerce"
+            placeholder="请输入电子商务经营者"
+          />
         </el-form-item>
         <el-form-item label="所属自贸区" prop="freeTradeZone">
-          <el-input v-model="form.freeTradeZone" placeholder="请输入所属自贸区" />
+          <el-input
+            v-model="form.freeTradeZone"
+            placeholder="请输入所属自贸区"
+          />
         </el-form-item>
         <el-form-item label="所属自贸片区" prop="freeTradeArea">
-          <el-input v-model="form.freeTradeArea" placeholder="请输入所属自贸片区" />
+          <el-input
+            v-model="form.freeTradeArea"
+            placeholder="请输入所属自贸片区"
+          />
         </el-form-item>
         <el-form-item label="产权" prop="propertyRight">
           <el-input v-model="form.propertyRight" placeholder="请输入产权" />
@@ -137,7 +241,10 @@
           <el-input v-model="form.industry" placeholder="请输入行业" />
         </el-form-item>
         <el-form-item label="经营范围" prop="natureBusiness">
-          <el-input v-model="form.natureBusiness" placeholder="请输入经营范围" />
+          <el-input
+            v-model="form.natureBusiness"
+            placeholder="请输入经营范围"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -149,8 +256,14 @@
 </template>
 
 <script>
-
-import { joinListEnd, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import {
+  joinListEnd,
+  listEmployed,
+  getEmployed,
+  delEmployed,
+  addEmployed,
+  updateEmployed,
+} from "@/api/company/employed";
 import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
@@ -186,21 +299,19 @@ export default {
       },
       options: [
         {
-          values: '正常'
+          values: "正常",
         },
         {
-          values: '预警'
+          values: "预警",
         },
         {
-          values: '休眠'
+          values: "休眠",
         },
-
       ],
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {},
     };
   },
   created() {
@@ -217,30 +328,28 @@ export default {
     this.getList();
   },
   methods: {
+    changeSwitch(scope) {},
     detail(scope) {
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON("employedInfo", scope);
       this.$router.push("manageListDetail");
     },
     //审核中
     shenloading() {
-      this.$alert('审核中,请耐心等待...', '审核说明', {
-        confirmButtonText: '确定',
-        callback: action => {
+      this.$alert("审核中,请耐心等待...", "审核说明", {
+        confirmButtonText: "确定",
+        callback: (action) => {
           // this.$message({
           //   type: 'info',
           //   message: `action: ${ action }`
           // });
-        }
+        },
       });
     },
-
-
 
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinListEnd(this.queryParams).then(response => {
-
+      joinListEnd(this.queryParams).then((response) => {
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -281,7 +390,7 @@ export default {
         freeTradeArea: null,
         propertyRight: null,
         industry: null,
-        natureBusiness: null
+        natureBusiness: null,
       };
       this.resetForm("form");
     },
@@ -297,33 +406,31 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.selfId)
-      this.single = selection.length !== 1
-      this.multiple = !selection.length
+      this.ids = selection.map((item) => item.selfId);
+      this.single = selection.length !== 1;
+      this.multiple = !selection.length;
     },
     //工商管理
     business(row) {
-      this.$cache.local.setJSON('employednewlist', row);
-      this.$router.push('addBusiness');
+      this.$cache.local.setJSON("employednewlist", row);
+      this.$router.push("addBusiness");
     },
     //税务管理
     atx(row) {
       if (row.businessStatus == 0) {
         this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
       } else {
-        this.$cache.local.setJSON('employednewlist', row);
+        this.$cache.local.setJSON("employednewlist", row);
         this.$router.push("addTax");
       }
-
     },
     bank(row) {
       if (row.taxStatus == 0) {
         this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
       } else {
-        this.$cache.local.setJSON('employednewlist', row);
+        this.$cache.local.setJSON("employednewlist", row);
         this.$router.push("addBank");
       }
-
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -334,8 +441,8 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const selfId = row.selfId || this.ids
-      getEmployed(selfId).then(response => {
+      const selfId = row.selfId || this.ids;
+      getEmployed(selfId).then((response) => {
         this.form = response.data;
         this.open = true;
         this.title = "修改个体商户";
@@ -343,16 +450,16 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.selfId != null) {
-            updateEmployed(this.form).then(response => {
+            updateEmployed(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addEmployed(this.form).then(response => {
+            addEmployed(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -364,19 +471,27 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const selfIds = row.selfId || this.ids;
-      this.$modal.confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？').then(function () {
-        return delEmployed(selfIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => { });
+      this.$modal
+        .confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？')
+        .then(function () {
+          return delEmployed(selfIds);
+        })
+        .then(() => {
+          this.getList();
+          this.$modal.msgSuccess("删除成功");
+        })
+        .catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('company/employed/export', {
-        ...this.queryParams
-      }, `employed_${new Date().getTime()}.xlsx`)
-    }
-  }
+      this.download(
+        "company/employed/export",
+        {
+          ...this.queryParams,
+        },
+        `employed_${new Date().getTime()}.xlsx`
+      );
+    },
+  },
 };
 </script>

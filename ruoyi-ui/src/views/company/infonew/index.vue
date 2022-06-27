@@ -376,7 +376,7 @@
        <div class="footers grid-content">
             <el-footer>
               <el-button type="danger" @click="toReturn2">返回</el-button>
-              <el-button type="primary" @click="submitForm3">提交</el-button>
+              <el-button type="primary" @click="submitForm3">通过</el-button>
             </el-footer>
           </div>
 
@@ -801,7 +801,7 @@ export default {
             selfId: this.formData.selfId,
             infoStatus: 1,
           };
-          updateEmployed.addReview(parms).then(res => {
+          updateEmployed(parms).then(res => {
 
             if (res != undefined) {
               if (res != undefined) {
