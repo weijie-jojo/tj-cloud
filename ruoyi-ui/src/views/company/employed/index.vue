@@ -83,7 +83,7 @@
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1'">已通过</el-link>
+          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
 
         </template>
       </el-table-column>
@@ -93,7 +93,7 @@
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.bankStatus == '0'">审核中</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
-          <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1'">已通过</el-link>
+          <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
         </template>
 
       </el-table-column>
