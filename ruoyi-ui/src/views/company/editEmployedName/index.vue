@@ -344,7 +344,7 @@ export default {
               // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-              nameStatus:1,
+              // nameStatus:1,
             };
             crudReview.updateReview(parms).then(res=>{
               console.log("addReview",res);
@@ -352,7 +352,10 @@ export default {
                   message: '修改成功',
                   type: 'success',
               });
-              this.$router.push("employed");
+              // this.$router.push("employed");
+              this.$tab.refreshPage("/customer/employed").then(()=>{
+              this.$tab.openPage("注册进度", "/customer/employed")
+            })
               // if(res!=undefined){
               //      if(res.id==0){
               //       this.$message({

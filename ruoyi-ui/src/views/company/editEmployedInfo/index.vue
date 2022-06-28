@@ -1054,9 +1054,9 @@ export default {
               }
             });
             // this.$router.push("employed");
-            this.$tab.refreshPage("/customer/employed").then(() => {
-                this.$tab.openPage("注册进度", "/customer/employed")
-            })
+            this.$tab.refreshPage("/customer/employed").then(()=>{
+              this.$tab.openPage("注册进度", "/customer/employed")
+            })
         }else{
           this.$message({
             message:'请填写完整',
