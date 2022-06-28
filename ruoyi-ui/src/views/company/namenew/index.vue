@@ -1,36 +1,37 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-position="right" label-width="110px">
-      <el-row :gutter="60" class="rowCss" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row  class="rowCss">
+        
+        <el-col :span="8" :offset="2">
           <el-form-item label="个体户编号">
-            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号" :disabled='true' clearable></el-input>
+            <el-input style="width:240px"  v-model="formData.selfCode" placeholder="请输入个体户编号" :disabled='true' clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss" >
+        <el-col :span="8" :offset="2">
           <el-form-item label="冠名类型">
-            <el-input v-model="formData.titleType" placeholder="请输入行政区划" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.titleType" placeholder="请输入行政区划" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item label="行政区划">
-            <el-input v-model="formData.administrativeDivision" placeholder="请输入行政区划" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.administrativeDivision" placeholder="请输入行政区划" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item label="行业" prop="industry">
-            <el-input disabled v-model="formData.industry" placeholder="请输入行业" clearable></el-input>
+            <el-input style="width:240px" disabled v-model="formData.industry" placeholder="请输入行业" clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item label="组织形式" prop="organizationalForm">
-            <el-select disabled v-model="formData.organizationalForm" placeholder="请选择组织形式" clearable
+            <el-select style="width:240px"  disabled v-model="formData.organizationalForm" placeholder="请选择组织形式" clearable
               @change="changeOrganizational">
               <el-option v-for="(item, index) in organizationalFormOptions" :key="index" :label="item.label"
                 :value="item.value" :disabled="item.disabled"></el-option>
@@ -39,70 +40,70 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item label="所在行政区划">
-            <el-input v-model="formData.administrativeRegion" placeholder="请输入所在行政区划" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.administrativeRegion" placeholder="请输入所在行政区划" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item label="登记机关">
-            <el-input v-model="formData.registrationAuthority" placeholder="请输入登记机关" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.registrationAuthority" placeholder="请输入登记机关" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item label="字号">
             <el-checkbox disabled v-model="formData.random" @change="isRandom">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item label="拟设名称">
             随机名称
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item prop="fontSize1">
-            <el-input  v-model="formData.fontSize1" :disabled="isDisable" clearable>
+            <el-input style="width:240px"  v-model="formData.fontSize1" :disabled="isDisable" clearable>
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item>
-            <el-input v-model="formData.poposedName1" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.poposedName1" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item prop="fontSize2">
-            <el-input v-model="formData.fontSize2" :disabled="isDisable" clearable>
+            <el-input style="width:240px" v-model="formData.fontSize2" :disabled="isDisable" clearable>
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item>
-            <el-input v-model="formData.poposedName2" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.poposedName2" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row class="rowCss">
+        <el-col :span="8" :offset="2">
           <el-form-item prop="fontSize3">
-            <el-input v-model="formData.fontSize3" :disabled="isDisable" clearable>
+            <el-input style="width:240px" v-model="formData.fontSize3" :disabled="isDisable" clearable>
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :offset="2">
           <el-form-item>
-            <el-input v-model="formData.poposedName3" disabled></el-input>
+            <el-input style="width:240px" v-model="formData.poposedName3" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -114,13 +115,12 @@
          </el-footer>
       </div> -->
       
-      <el-row class="rowCss" :gutter="220" style="margin-left:600px">
-        <el-col :span="2">
-            <el-button type="danger" @click="resetForm">取消</el-button> 
+      <el-row class="rowCss" type="flex" justify="center" >
+        <el-col :span="5">
+            <el-button type="danger" @click="resetForm">拒绝</el-button> 
+             <el-button type="primary" @click="submitForm">通过</el-button>
         </el-col>
-        <el-col :span="2">
-            <el-button type="primary" @click="submitForm">下一步</el-button>
-        </el-col>
+        
       </el-row>
        
      
@@ -257,7 +257,7 @@ export default {
       })
     },
     submitForm() {
-      this.$refs['elForm'].validate(valid => {
+     this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
           let parms = {
@@ -271,9 +271,9 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("名称审核通过成功!");
                         this.$nextTick(function () {
-                           this.$tab.openPage("注册进度", "employed").then(() => {
-                           })
-                         // this.$router.push("employed");
+                           this.$tab.refreshPage("/customer/employed").then(() => {
+                           this.$tab.openPage("注册进度", "/customer/employed")
+                          })
                         });
                      } else {
                         this.$modal.msgError(res.msg);

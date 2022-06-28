@@ -281,7 +281,7 @@ export default {
     
     bank(row){
        this.$cache.local.setJSON('employedInfo', row);
-       this.$router.push("infonew");
+       this.$router.push("/customer/infonew");
      },
     /** 新增按钮操作 */
     handleAdd() {
