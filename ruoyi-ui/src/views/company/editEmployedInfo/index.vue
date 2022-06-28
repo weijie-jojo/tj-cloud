@@ -184,7 +184,7 @@
                     disabled
                     >
                     <el-option 
-                      v-for="(item, index) in electronicCommerces" 
+                      v-for="(item, index) in electronicCommerces1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -275,7 +275,7 @@
                     @change="selectAccountType"
                     >
                     <el-option 
-                      v-for="(item, index) in accountTypes" 
+                      v-for="(item, index) in accountTypes1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -393,7 +393,7 @@
                     clearable
                     >
                     <el-option 
-                      v-for="(item, index) in genders" 
+                      v-for="(item, index) in genders1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -551,6 +551,7 @@ export default {
           label:'否',
         },
       ],
+      electronicCommerces1:[],
       electronicCommerces:[
          {
           value:1,
@@ -561,6 +562,7 @@ export default {
           label:'否',
         },
       ],
+      genders1:[],
       genders:[
         {
           value:1,
@@ -576,6 +578,7 @@ export default {
       applyNames:[],
       contactNames:[],
       industryTypes:[],
+      accountTypes1:[],
       accountTypes:[
          {
           value:1,
@@ -857,7 +860,35 @@ export default {
     this.formData=employedInfo;
     this.formData.fileName5=JSON.parse(this.formData.fileName5);
     console.log("formData==",this.formData);
-    
+    // this.genders1=this.genders;
+    this.getElectronicCommerce();
+    this.getAccountType();
+    this.getGender();
+    // this.formData.electronicCommerce='';
+    // this.formData.accountType='';
+    // this.formData.gender='';
+
+    // this.formData.accountType=parseInt(employedInfo.accountType);
+    // this.formData.electronicCommerce=parseInt(employedInfo.electronicCommerce);
+    // this.formData.gender=parseInt(employedInfo.gender);
+    // if(this.formData.electronicCommerce==1){
+    //     this.formData.electronicCommerce='是'
+    // }
+    // if(this.formData.electronicCommerce==2){
+    //     this.formData.electronicCommerce='否'
+    // }
+    // if(this.formData.accountType==1){
+    //     this.formData.accountType='私人账号'
+    // }
+    // if(this.formData.accountType==2){
+    //     this.formData.accountType='对公账号'
+    // }
+    //  if(this.formData.gender==1){
+    //     this.formData.gender='男'
+    // }
+    // if(this.formData.gender==2){
+    //     this.formData.gender='女'
+    // }
   },
   methods: {
     getLoginInfo(){
@@ -911,6 +942,21 @@ export default {
           console.log("applyName====",parseInt(employedInfo.applyName));
           this.formData.applyName=parseInt(employedInfo.applyName);
         })
+    },
+    getElectronicCommerce(){
+      this.electronicCommerces1=this.electronicCommerces;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.electronicCommerce=parseInt(employedInfo.electronicCommerce);
+    },
+    getAccountType(){
+      this.accountTypes1=this.accountTypes;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.accountType=parseInt(employedInfo.accountType);
+    },
+    getGender(){
+      this.genders1=this.genders;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.gender=parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {
       console.log(tab, event);
