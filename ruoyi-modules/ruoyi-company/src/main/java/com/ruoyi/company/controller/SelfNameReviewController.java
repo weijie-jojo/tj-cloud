@@ -41,6 +41,20 @@ public class SelfNameReviewController extends BaseController
     @Autowired
     private ISelfNameReviewService selfNameReviewService;
 
+    /**
+     * 根据编号查询
+     */
+    @ApiOperation("根据编号查询")
+    @RequiresPermissions("company:review:list")
+    @GetMapping("/getByCode")
+    public SelfNameReview selectSelfNameReviewBySelfCode(String selfCode)
+    {
+        System.out.println("selfCode"+selfCode);
+        SelfNameReview selfNameReview = selfNameReviewService.selectSelfNameReviewBySelfCode(selfCode);
+        return selfNameReview;
+    }
+
+
     /*
      * 获取编号
      *

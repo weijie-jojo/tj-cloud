@@ -101,9 +101,9 @@ services:
       - tjredis
       - mysql
   ruoyi-modules-invoice:
-    container_name: ruoyi-modules-system
+    container_name: ruoyi-modules-invoice
     build:
-      context: ./ruoyi/modules/system
+      context: ./ruoyi/modules/invoice
       dockerfile: dockerfile
     ports:
       - "9288:9288"
@@ -114,9 +114,9 @@ services:
       - tjredis
       - mysql
   ruoyi-company:
-    container_name: ruoyi-modules-system
+    container_name: ruoyi-modules-company
     build:
-      context: ./ruoyi/modules/system
+      context: ./ruoyi/modules/company
       dockerfile: dockerfile
     ports:
       - "9289:9289"

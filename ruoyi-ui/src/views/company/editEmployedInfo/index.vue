@@ -27,10 +27,11 @@
               color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="本人申请" prop="oneselfApply">
+                <el-form-item label="本人申请" >
                   <el-select 
                     v-model="formData.oneselfApply" 
                     placeholder="请选择是否本人申请" 
+                    disabled
                     >
                     <el-option 
                       v-for="(item, index) in oneselfApplys" 
@@ -73,7 +74,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="applyDocumentType">
+                <el-form-item label="证件类型" >
                   <el-input v-model="formData.applyDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -108,7 +109,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="contactDocumentType">
+                <el-form-item label="证件类型">
                   <el-input v-model="formData.contactDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -139,13 +140,13 @@
               color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="组织形式" prop="organizationalForm">
+                <el-form-item label="组织形式" >
                   <el-input v-model="formData.organizationalForm"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="从业人数" prop="numberEmployees">
+                <el-form-item label="从业人数" >
                   <el-input v-model="formData.numberEmployees"  disabled >
                   </el-input>
                 </el-form-item>
@@ -162,7 +163,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="城市" prop="city">
+                <el-form-item label="城市" >
                   <el-input v-model="formData.city"  disabled >
                   </el-input>
                 </el-form-item>
@@ -170,20 +171,20 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="区（县）" prop="county">
+                <el-form-item label="区（县）" >
                   <el-input v-model="formData.county"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="电子商务经营者" prop="electronicCommerce">
+                <el-form-item label="电子商务经营者" >
                   <el-select 
                     v-model="formData.electronicCommerce" 
                     placeholder="请选择是否是电子商务经营者" 
                     disabled
                     >
                     <el-option 
-                      v-for="(item, index) in electronicCommerces" 
+                      v-for="(item, index) in electronicCommerces1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -194,7 +195,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="16">
-                <el-form-item label="经营场所" prop="selfAddress">
+                <el-form-item label="经营场所" >
                   <el-input v-model="formData.selfAddress"  disabled >
                   </el-input>
                 </el-form-item>
@@ -202,13 +203,13 @@
             </el-row>
              <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="联系电话" prop="contactPhone">
+                <el-form-item label="联系电话">
                   <el-input v-model="formData.contactPhone"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="所属自贸区" prop="freeTradeZone">
+                <el-form-item label="所属自贸区" >
                   <el-input v-model="formData.freeTradeZone"  disabled >
                   </el-input>
                 </el-form-item>
@@ -216,13 +217,13 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="所属自贸片区" prop="freeTradeArea">
+                <el-form-item label="所属自贸片区" >
                   <el-input v-model="formData.freeTradeArea"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="产权" prop="propertyRight">
+                <el-form-item label="产权" >
                   <el-input v-model="formData.propertyRight"  disabled >
                   </el-input>
                 </el-form-item>
@@ -274,7 +275,7 @@
                     @change="selectAccountType"
                     >
                     <el-option 
-                      v-for="(item, index) in accountTypes" 
+                      v-for="(item, index) in accountTypes1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -330,7 +331,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户经理" prop="userName">
+                <el-form-item label="客户经理" >
                   <el-input 
                     v-model="formData.userName"   
                     disabled>
@@ -363,7 +364,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="人员类型" prop="personnelType">
+                <el-form-item label="人员类型" >
                   <el-input v-model="formData.personnelType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -371,7 +372,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="contactDocumentType">
+                <el-form-item label="证件类型" >
                   <el-input v-model="formData.contactDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -392,7 +393,7 @@
                     clearable
                     >
                     <el-option 
-                      v-for="(item, index) in genders" 
+                      v-for="(item, index) in genders1" 
                       :key="index" 
                       :label="item.label"
                       :value="item.value" 
@@ -432,21 +433,23 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="申请前职业状况" prop="occupationalStatus">
+                <el-form-item label="申请前职业状况" >
                   <el-input v-model="formData.occupationalStatus"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="政治面貌" prop="politicalStatus">
-                  <el-select v-model="formData.politicalStatus" placeholder="文化程度" clearable>
+                  <el-input v-model="formData.politicalStatus"  disabled >
+                  </el-input>
+                  <!-- <el-select v-model="formData.politicalStatus" placeholder="文化程度" clearable>
                     <el-option
                       v-for="dict in dict.type.political_status"
                       :key="dict.value"
                       :label="dict.label"
                       :value="dict.value"
                     />
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -472,14 +475,20 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+           <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="身份证扫描件" prop="idCard">
-                  <el-input v-model="formData.idCard"  clearable >
-                  </el-input>
-                </el-form-item>
+              <el-form-item 
+              label="身份证扫描件"
+               >
+                <el-button  
+                    type="primary"
+                   @click="toEditImg"
+                >点击上传</el-button>
+                  
+               </el-form-item>
               </el-col>
-            </el-row> -->
+            </el-row>
+
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="toReturn2">返回</el-button> 
@@ -490,7 +499,28 @@
             </el-row>
         </el-tab-pane>
       </el-tabs>
-
+      <el-dialog title="身份证扫描件修改" :visible.sync="imgDialog" width="70%">
+          <el-upload 
+                list-type="picture-card"
+                action="http://36.133.2.179:8000/api/files/doUpload"
+                  :on-success="handlesuccess1" 
+                  :on-preview="handlePreview1" 
+                  :on-remove="handleRemove1"
+                  :before-remove="beforeRemove1" 
+                  multiple 
+                  :limit="9" 
+                  :on-exceed="handleExceed1"
+                  :file-list="formData.fileName5" >
+                  <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible1" append-to-body>
+                  <img width="100%" :src="dialogImageUrl1" alt="" />
+              </el-dialog>
+              <el-button 
+                size="small" 
+                type="primary" 
+                @click="cancel" >返回</el-button>
+      </el-dialog>
     </el-form>
   </div>
 </template>
@@ -508,6 +538,7 @@ export default {
   props: [],
   data() {
     return {
+      imgDialog:false,
       isPrivateBank:false,
       activeName: 'first',
       oneselfApplys:[
@@ -520,6 +551,7 @@ export default {
           label:'否',
         },
       ],
+      electronicCommerces1:[],
       electronicCommerces:[
          {
           value:1,
@@ -530,6 +562,7 @@ export default {
           label:'否',
         },
       ],
+      genders1:[],
       genders:[
         {
           value:1,
@@ -545,6 +578,7 @@ export default {
       applyNames:[],
       contactNames:[],
       industryTypes:[],
+      accountTypes1:[],
       accountTypes:[
          {
           value:1,
@@ -556,11 +590,13 @@ export default {
         },
       ],
       places:[],
-
+      dialogImageUrl1: '',
+      dialogVisible1: false,
       formData: {
         selfCode:'',
 
         //申请信息
+        id:'',
         oneselfApply:'',//1是 2否 是否本人申请
         applyName:'',
         applyPhone:'',
@@ -573,6 +609,7 @@ export default {
         contactIdNum:'',
 
         //基本情况
+        selfId:'',
         organizationalForm:'',
         numberEmployees:5,
         contributionAmount:'',
@@ -594,6 +631,7 @@ export default {
         userName:'',
 
         //经营者
+        legalPersonId:'',
         personnelType:'待业人员',
         gender:'',//1 男 2女
         dateBirth:'',
@@ -603,9 +641,15 @@ export default {
         residence:'',
         mail:'',
         idCard:'',
-
+        politicalStatus:'',
+        fileName5: [],
       },
       rules: {
+        fileName5: [{ 
+          required: true, 
+          message: '请上传纳税委托协议文件', 
+          trigger: 'change' 
+        }],
         oneselfApply: [{
           required: true,
           message: '请选择是否本人申请',
@@ -814,8 +858,37 @@ export default {
     //从上一个页面获取信息
     var employedInfo= this.$cache.local.getJSON('employedInfo');
     this.formData=employedInfo;
+    this.formData.fileName5=JSON.parse(this.formData.fileName5);
     console.log("formData==",this.formData);
-    
+    // this.genders1=this.genders;
+    this.getElectronicCommerce();
+    this.getAccountType();
+    this.getGender();
+    // this.formData.electronicCommerce='';
+    // this.formData.accountType='';
+    // this.formData.gender='';
+
+    // this.formData.accountType=parseInt(employedInfo.accountType);
+    // this.formData.electronicCommerce=parseInt(employedInfo.electronicCommerce);
+    // this.formData.gender=parseInt(employedInfo.gender);
+    // if(this.formData.electronicCommerce==1){
+    //     this.formData.electronicCommerce='是'
+    // }
+    // if(this.formData.electronicCommerce==2){
+    //     this.formData.electronicCommerce='否'
+    // }
+    // if(this.formData.accountType==1){
+    //     this.formData.accountType='私人账号'
+    // }
+    // if(this.formData.accountType==2){
+    //     this.formData.accountType='对公账号'
+    // }
+    //  if(this.formData.gender==1){
+    //     this.formData.gender='男'
+    // }
+    // if(this.formData.gender==2){
+    //     this.formData.gender='女'
+    // }
   },
   methods: {
     getLoginInfo(){
@@ -870,6 +943,21 @@ export default {
           this.formData.applyName=parseInt(employedInfo.applyName);
         })
     },
+    getElectronicCommerce(){
+      this.electronicCommerces1=this.electronicCommerces;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.electronicCommerce=parseInt(employedInfo.electronicCommerce);
+    },
+    getAccountType(){
+      this.accountTypes1=this.accountTypes;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.accountType=parseInt(employedInfo.accountType);
+    },
+    getGender(){
+      this.genders1=this.genders;
+      var employedInfo= this.$cache.local.getJSON('employedInfo');
+      this.formData.gender=parseInt(employedInfo.gender);
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -892,8 +980,8 @@ export default {
         if (valid) {
             console.log("placeName",this.formData.placeName,);
             let parms1={
+              id:this.formData.id,
               selfCode:this.formData.selfCode,
-
               oneselfApply:this.formData.oneselfApply,
               applyName:this.formData.applyName,
               applyPhone:this.formData.applyPhone,
@@ -905,15 +993,15 @@ export default {
               contactDocumentType:this.formData.contactDocumentType,
               contactIdNum:this.formData.contactIdNum,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
             };
             let parms2={
+              selfId:this.formData.selfId,
               selfCode:this.formData.selfCode,
-
               organizationalForm:this.formData.organizationalForm,
               numberEmployees:this.formData.numberEmployees,
               contributionAmount:this.formData.contributionAmount,
@@ -933,20 +1021,20 @@ export default {
               privateAccountNumber:this.formData.privateAccountNumber,
               placeName:this.formData.placeName,
               username:this.formData.userName,
+              fileName5:JSON.stringify(this.formData.fileName5),
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
-
-              businessStatus:0,
-              infoStatus:1,
-              taxStatus:0,
-              bankStatus:0,
+              // businessStatus:0,
+              // infoStatus:1,
+              // taxStatus:0,
+              // bankStatus:0,
             };
             let parms3={
+              legalPersonId:this.formData.legalPersonId,
               selfCode:this.formData.selfCode,
-              
               legalPersonName:this.formData.contactName,
               personnelType:this.formData.personnelType,
               documentType:this.formData.contactDocumentType,
@@ -960,13 +1048,13 @@ export default {
               contactPhone:this.formData.contactPhone,
               mail:this.formData.mail,
 
-              createTime:new Date().toLocaleString(),
-              updateTime:new Date().toLocaleString(),
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
+              // createTime:new Date().toLocaleString(),
+              // updateTime:new Date().toLocaleString(),
+              // createBy:this.formData.userName,
+              // updateBy:this.formData.userName,
 
             };
-            crudInfo.addInfo(parms1).then(res=>{
+            crudInfo.updateInfo(parms1).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -981,7 +1069,7 @@ export default {
                   }
               }
             });
-            crudEmployed.addEmployed(parms2).then(res=>{
+            crudEmployed.updateEmployed(parms2).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -996,7 +1084,7 @@ export default {
                   }
               }
             });
-            crudPerson.addPerson(parms3).then(res=>{
+            crudPerson.updatePerson(parms3).then(res=>{
               if(res!=undefined){
                 if(res.code===200){
                   this.$message({
@@ -1011,7 +1099,10 @@ export default {
                   }
               }
             });
-            this.$router.push("success");
+            // this.$router.push("employed");
+            this.$tab.refreshPage("/customer/employed").then(()=>{
+              this.$tab.openPage("注册进度", "/customer/employed")
+            })
         }else{
           this.$message({
             message:'请填写完整',
@@ -1022,6 +1113,32 @@ export default {
     },
     toReturn2() {
       this.activeName='second';
+    },
+    toEditImg(){
+        this.imgDialog=true;
+        this.formData.fileName5=[];
+    },
+  //取消按钮
+    cancel() {
+        this.imgDialog = false;
+    },
+    handlesuccess1(file, fileList) {
+      this.formData.fileName5.push(file.obj);
+      console.log("fileName5",this.formData.fileName5);   
+    },
+    handleRemove1(file, fileList) {
+        const i = this.formData.fileName5.findIndex((item) => item === fileList)
+        this.formData.fileName5.splice(i, 1);
+    },
+    handlePreview1(file) {
+        this.dialogImageUrl1 = file.url;
+        this.dialogVisible1 = true;
+    },
+    handleExceed1(files, fileList) {
+        this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove1(file, fileList) {
+        return this.$confirm(`确定移除 ${file.name}？`);
     },
   }
 }

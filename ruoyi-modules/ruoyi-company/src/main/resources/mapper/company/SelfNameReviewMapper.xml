@@ -89,7 +89,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="nameRemark != null  and nameRemark != ''"> and name_remark = #{nameRemark}</if>
         </where>
     </select>
-    
+
+    <select id="selectSelfNameReviewBySelfCode" parameterType="String" resultMap="SelfNameReviewResult">
+        <include refid="selectSelfNameReviewVo"/>
+        where self_code = #{selfCode}
+    </select>
+
     <select id="selectSelfNameReviewBySelfId" parameterType="Long" resultMap="SelfNameReviewResult">
         <include refid="selectSelfNameReviewVo"/>
         where self_id = #{selfId}

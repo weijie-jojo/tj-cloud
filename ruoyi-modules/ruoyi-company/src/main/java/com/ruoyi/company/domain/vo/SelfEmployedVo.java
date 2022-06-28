@@ -24,6 +24,7 @@ public class SelfEmployedVo extends SelfEmployed {
     private String poposedName3;
     private String userName;
     //self_application_info
+    private Integer id;
     private String oneselfApply;
     private String applyName;
     private String applyPhone;
@@ -34,6 +35,7 @@ public class SelfEmployedVo extends SelfEmployed {
     private String contactIdNum;
     private String contactDocumentType;
     //self_legal_person
+    private Integer legalPersonId;
     private String legalPersonName;
     private String documentType;
     private String idCardNum;

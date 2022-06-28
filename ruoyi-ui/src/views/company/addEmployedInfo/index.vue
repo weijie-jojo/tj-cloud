@@ -26,7 +26,7 @@
               color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="本人申请" prop="oneselfApply">
+                <el-form-item label="本人申请" >
                   <el-select 
                     v-model="formData.oneselfApply" 
                     placeholder="请选择是否本人申请" 
@@ -74,7 +74,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="applyDocumentType">
+                <el-form-item label="证件类型" >
                   <el-input v-model="formData.applyDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -109,7 +109,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="contactDocumentType">
+                <el-form-item label="证件类型" >
                   <el-input v-model="formData.contactDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -140,13 +140,13 @@
               color:blue;">申请信息</div>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="组织形式" prop="organizationalForm">
+                <el-form-item label="组织形式" >
                   <el-input v-model="formData.organizationalForm"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="从业人数" prop="numberEmployees">
+                <el-form-item label="从业人数" >
                   <el-input v-model="formData.numberEmployees"  disabled >
                   </el-input>
                 </el-form-item>
@@ -163,7 +163,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="城市" prop="city">
+                <el-form-item label="城市" >
                   <el-input v-model="formData.city"  disabled >
                   </el-input>
                 </el-form-item>
@@ -171,13 +171,13 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="区（县）" prop="county">
+                <el-form-item label="区（县）" >
                   <el-input v-model="formData.county"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="电子商务经营者" prop="electronicCommerce">
+                <el-form-item label="电子商务经营者" >
                   <el-select 
                     v-model="formData.electronicCommerce" 
                     placeholder="请选择是否是电子商务经营者" 
@@ -195,7 +195,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="16">
-                <el-form-item label="经营场所" prop="selfAddress">
+                <el-form-item label="经营场所" >
                   <el-input v-model="formData.selfAddress"  disabled >
                   </el-input>
                 </el-form-item>
@@ -203,13 +203,13 @@
             </el-row>
              <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="联系电话" prop="contactPhone">
+                <el-form-item label="联系电话" >
                   <el-input v-model="formData.contactPhone"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="所属自贸区" prop="freeTradeZone">
+                <el-form-item label="所属自贸区" >
                   <el-input v-model="formData.freeTradeZone"  disabled >
                   </el-input>
                 </el-form-item>
@@ -217,13 +217,13 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="所属自贸片区" prop="freeTradeArea">
+                <el-form-item label="所属自贸片区" >
                   <el-input v-model="formData.freeTradeArea"  disabled >
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="产权" prop="propertyRight">
+                <el-form-item label="产权">
                   <el-input v-model="formData.propertyRight"  disabled >
                   </el-input>
                 </el-form-item>
@@ -338,7 +338,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户经理" prop="userName">
+                <el-form-item label="客户经理" >
                   <el-input 
                     v-model="formData.userName"   
                     disabled>
@@ -371,7 +371,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="人员类型" prop="personnelType">
+                <el-form-item label="人员类型" >
                   <el-input v-model="formData.personnelType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -379,7 +379,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="证件类型" prop="contactDocumentType">
+                <el-form-item label="证件类型" >
                   <el-input v-model="formData.contactDocumentType"  disabled >
                   </el-input>
                 </el-form-item>
@@ -440,7 +440,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="申请前职业状况" prop="occupationalStatus">
+                <el-form-item label="申请前职业状况" >
                   <el-input v-model="formData.occupationalStatus"  disabled >
                   </el-input>
                 </el-form-item>
@@ -1102,6 +1102,7 @@ export default {
     },
     handlesuccess1(file, fileList) {
          this.formData.fileName5.push(file.obj);
+         console.log(file.obj);
     },
     handleRemove1(file, fileList) {
         const i = this.formData.fileName5.findIndex((item) => item === fileList)

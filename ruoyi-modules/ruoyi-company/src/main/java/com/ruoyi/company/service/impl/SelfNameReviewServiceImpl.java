@@ -21,6 +21,11 @@ public class SelfNameReviewServiceImpl implements ISelfNameReviewService
     @Autowired
     private SelfNameReviewMapper selfNameReviewMapper;
 
+    @Override
+    public SelfNameReview selectSelfNameReviewBySelfCode(String selfCode) {
+        return selfNameReviewMapper.selectSelfNameReviewBySelfCode(selfCode);
+    }
+
     /*
      * 查询数据库里面最后一条数据
      *

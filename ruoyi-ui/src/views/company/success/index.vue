@@ -49,7 +49,10 @@ export default {
       this.$router.push("addEmployedName");
     },
     toEnd(){
-      this.$router.push("employed");
+      // this.$router.push("employed");
+      this.$tab.refreshPage("/customer/employed").then(()=>{
+        this.$tab.openPage("注册进度", "/customer/employed")
+      })
     },
   }
 }

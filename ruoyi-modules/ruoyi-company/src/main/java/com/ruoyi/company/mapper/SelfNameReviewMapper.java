@@ -14,6 +14,12 @@ import com.ruoyi.company.domain.SelfNameReview;
 public interface SelfNameReviewMapper 
 {
     /**
+     * 根据编号查询
+     *
+     * @return 个体商户集合
+     */
+    public  SelfNameReview selectSelfNameReviewBySelfCode(String selfCode);
+    /**
      * 查询数据库里面最后一条数据
      *
      * @return 个体商户集合
