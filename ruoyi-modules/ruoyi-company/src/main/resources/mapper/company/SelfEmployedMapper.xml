@@ -62,6 +62,7 @@
         <result property="endStatus"    column="end_status"    />
         <result property="employedRemark"    column="employed_remark"    />
         <result property="businessTerm"    column="business_term"    />
+        <result property="isActive"    column="is_active"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -71,7 +72,7 @@
                free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank,
                private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2,
                account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
-               file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,employed_remark ,business_term from self_employed
+               file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,employed_remark ,business_term,is_active from self_employed
     </sql>
 
     <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
@@ -90,11 +91,12 @@
     </select>
 
     <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
-        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code
+        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code JOIN  self_application_info B  on t.self_code=B.self_code
+        JOIN  self_legal_person C  on t.self_code=C.self_code
         <where>
             t.end_status=1
             <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
-            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="isActive != null  and isActive != ''"> and is_active like concat('%', #{isActive}, '%')</if>
         </where>
     </select>
 
@@ -152,6 +154,7 @@
             <if test="endStatus != null "> and end_status = #{endStatus}</if>
             <if test="employedRemark != null "> and employed_remark = #{employedRemark}</if>
             <if test="businessTerm != null "> and business_term = #{businessTerm}</if>
+            <if test="isActive != null "> and is_active = #{isActive}</if>
         </where>
     </select>
 
@@ -219,6 +222,7 @@
             <if test="endStatus != null">end_status,</if>
             <if test="employedRemark != null">employed_remark,</if>
             <if test="businessTerm != null">business_term,</if>
+            <if test="isActive != null">is_active,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -277,6 +281,7 @@
             <if test="endStatus != null">#{endStatus},</if>
             <if test="employedRemark != null">#{employedRemark},</if>
             <if test="businessTerm != null">#{businessTerm},</if>
+            <if test="isActive != null">#{isActive},</if>
         </trim>
     </insert>
 
@@ -339,6 +344,7 @@
             <if test="endStatus != null">end_status = #{endStatus},</if>
             <if test="employedRemark != null">employed_remark = #{employedRemark},</if>
             <if test="businessTerm != null">business_term = #{businessTerm},</if>
+            <if test="isActive != null">is_active = #{isActive},</if>
         </trim>
         where self_id = #{selfId}
     </update>
