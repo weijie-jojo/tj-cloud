@@ -80,19 +80,25 @@
 
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
-       <el-table-column label="状态" align="center">
+       <el-table-column label="状态" align="center"  prop="isActive">
          <template slot-scope="scope">
+          
           <span v-if="scope.row.isActive==0">休眠</span>
            <span v-if="scope.row.isActive==1">激活</span>
              <span v-if="scope.row.isActive==2">报警</span>
           
         </template>
       </el-table-column>
-      <el-table-column label="是否激活" align="center">
+      <el-table-column label="休眠/激活" align="center">
         <template slot-scope="scope">
            <el-switch
-            v-model="scope.row.isactive"
-           
+            v-model="scope.row.isActive"
+            active-color="#00A854"
+            active-text="激活"
+            active-value="1"
+            inactive-color="#F04134"
+            inactive-text="休眠"
+            inactive-value="0"
             @change="changeSwitch(scope.row)"
           >
           </el-switch>
@@ -121,9 +127,10 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']"
+         
             >修改</el-button
           >
+             <!-- v-hasPermi="['company:employed:edit']" -->
           <el-button
             size="mini"
             type="text"
@@ -342,13 +349,9 @@ export default {
     //激活休眠
     changeSwitch(scope) {
       let  isActive=scope.isActive;
+      console.log(isActive);
       
-      if(isActive){
-        isActive=1;
-      }else{
-        isActive=0;
-
-      }
+     
       let  obj={
         isActive:isActive,
         selfId:scope.selfId
@@ -401,6 +404,20 @@ export default {
       this.loading = true;
       joinListEnd(this.queryParams).then((response) => {
         this.employedList = response.rows;
+        let isActive='0';
+        for(let i in this.employedList){
+          if(this.employedList[i].isActive==0){
+           isActive='0';
+          }else if(this.employedList[i].isActive==1){
+            isActive='1';
+          }else if(this.employedList[i].isActive==2){
+            isActive="2";
+          }else if(this.employedList[i].isActive==null){
+            isActive='null';
+          }
+
+          this.employedList[i].isActive=isActive;
+        }
         this.total = response.total;
         this.loading = false;
       });
@@ -490,13 +507,15 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.reset();
-      const selfId = row.selfId || this.ids;
-      getEmployed(selfId).then((response) => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改个体商户";
-      });
+      this.$cache.local.setJSON("editemployedInfo", scope);
+      this.$router.push("manageListDdit");
+      // this.reset();
+      // const selfId = row.selfId || this.ids;
+      // getEmployed(selfId).then((response) => {
+      //   this.form = response.data;
+      //   this.open = true;
+      //   this.title = "修改个体商户";
+      // });
     },
     /** 提交按钮 */
     submitForm() {

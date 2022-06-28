@@ -1,163 +1,196 @@
 <template>
-   <div class="paddingbg-s">
+  <div class="paddingbg-s">
+    <el-form
+      ref="formbusiness"
+      :model="formbusiness"
+      :rules="rules"
+      label-width="140px"
+    >
+      <el-row>
+        <el-col :span="8" :offset="2">
+          <el-form-item label="个体户名称" prop="selfName">
+            <el-input
+              style="width: 240px"
+              v-model="formbusiness.selfName"
+            ></el-input>
+          </el-form-item>
 
-      <el-form ref="formbusiness" :model="formbusiness" :rules="rules" label-width="200px">
-         <el-row :gutter="80">
-            <el-col :span="10">
-               <el-form-item label="个体户名称" prop="selfName">
-                  <el-input v-model="formbusiness.selfName" ></el-input>
-               </el-form-item>
+          <el-form-item label="法人姓名" prop="legalPersonName">
+            <el-input
+              style="width: 240px"
+              v-model="formbusiness.legalPersonName"
+              disabled
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="营业执照" prop="fileName1">
+            <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              multiple
+              :limit="9"
+              :on-exceed="handleExceed"
+              :file-list="fileName1"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible" append-to-body>
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-col>
 
-               <el-form-item label="法人姓名" prop="legalPersonName">
-                  <el-input v-model="formbusiness.legalPersonName" disabled></el-input>
-               </el-form-item>
-               <el-form-item label="营业执照" prop="fileName1">
-                  <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                     :on-success="handlesuccess"
-                     :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
-                     :limit="9" :on-exceed="handleExceed" :file-list="fileName1" list-type="picture">
-                     <el-button size="small" type="primary">点击上传</el-button>
-
-                  </el-upload>
-                  <el-dialog :visible.sync="dialogVisible" append-to-body>
-                     <img width="100%" :src="dialogImageUrl" alt="" />
-                  </el-dialog>
-
-               </el-form-item>
-            </el-col>
-            <el-col :span="1">
-               <div class="grid-content bg-purple" style="color:rgba(0,0,0,0)">.</div>
-            </el-col>
-            <el-col :span="10">
-               <el-form-item label="纳税人识别号" prop="taxId">
-                  <el-input v-model="formbusiness.taxId"></el-input>
-               </el-form-item>
-            </el-col>
-         </el-row>
-
-
-
-      </el-form>
-      <div class="footers grid-content">
+        <el-col :span="8" :offset="2">
+          <el-form-item label="纳税人识别号" prop="taxId">
+            <el-input
+              style="width: 240px"
+              v-model="formbusiness.taxId"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="rowCss" type="flex" justify="center">
+        <el-col :span="4">
+          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
+        </el-col>
+      </el-row>
+    </el-form>
+    <!-- <div class="footers grid-content">
          <el-footer>
             <el-button type="danger" @click="resetForm">返回</el-button>
             <el-button type="primary" @click="onSubmit">提交</el-button>
          </el-footer>
-      </div>
-   </div>
+      </div> -->
+  </div>
 </template>
 
 <script>
-import { addEmployed,updateEmployed } from "@/api/company/employed";
+import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
-   data() {
-      return {
-         formbusiness: {
-            businessStatus:"1",
-            selfId:'',
-            legalPersonName: '',
-            selfName: '',
-            taxId: '',
-            fileName1: [],
-         },
-         fileName1:[],
-         dialogVisible: false,
-         previewPath: "",
-         dialogImageUrl: '',
-         rules: {
-            selfName: [
-               { required: true, message: '请输入个体户名称', trigger: 'blur' },
-               // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-            ],
-            legalPersonName: [
-               { required: true, message: '请输入法人姓名', trigger: 'blur' }
-            ],
-            taxId: [
-               { required: true, message: '请输入纳税人识别号', trigger: 'blur' }
-            ],
-            fileName1: [
-               { required: true, message: '请上传文件', trigger: 'change' }
-            ]
-
-         }
-
-      };
-   },
-   created() {
-      let list=this.$cache.local.getJSON('employednewlist');
-      this.formbusiness.selfId=list.selfId;
-      this.formbusiness.legalPersonName = list.legalPersonName;
-   },
-   beforeRouteLeave(to, from, next) {
-      to.meta.keepAlive = true
-      next(0)
-   },
-
-   methods: {
-     //返回
-      resetForm() {
-           this.$router.back()
+  data() {
+    return {
+      formbusiness: {
+        businessStatus: "1",
+        selfId: "",
+        legalPersonName: "",
+        selfName: "",
+        taxId: "",
+        fileName1: [],
       },
-      //返回
-      onSubmit() {
-         this.$refs['formbusiness'].validate(valid => {
-            if (valid) {
-               this.formbusiness.fileName1=JSON.stringify(this.formbusiness.fileName1);
-               updateEmployed(this.formbusiness).then(res => {
-                  if (res != undefined) {
-                     if (res.code === 200) {
-                        this.$modal.msgSuccess("修改成功");
-                        this.$nextTick(function () {
-                           //  this.$tab.openPage("工商办理", "manageBusiness").then(() => {
-                           // })
-                          // this.$router.push({ path: "/customer/manageBusiness" });
-                            this.$tab.refreshPage("/customer/manageBusiness").then(() => {
-                           this.$tab.openPage("工商办理", "/customer/manageBusiness")
-                          })
-                        });
-                     } else {
-                        this.$modal.msgError(error);
-                     }
-                  }
-               }).catch(error => {
+      fileName1: [],
+      dialogVisible: false,
+      previewPath: "",
+      dialogImageUrl: "",
+      rules: {
+        selfName: [
+          { required: true, message: "请输入个体户名称", trigger: "blur" },
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        legalPersonName: [
+          { required: true, message: "请输入法人姓名", trigger: "blur" },
+        ],
+        taxId: [
+          { required: true, message: "请输入纳税人识别号", trigger: "blur" },
+        ],
+        fileName1: [
+          { required: true, message: "请上传文件", trigger: "change" },
+        ],
+      },
+    };
+  },
+  created() {
+    let list = this.$cache.local.getJSON("employednewlist");
+    this.formbusiness.selfId = list.selfId;
+    this.formbusiness.legalPersonName = list.legalPersonName;
+  },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true;
+    next(0);
+  },
+
+  methods: {
+    //返回
+    resetForm() {
+      this.$router.back();
+    },
+    //返回
+    onSubmit() {
+      this.$refs["formbusiness"].validate((valid) => {
+        if (valid) {
+          this.formbusiness.fileName1 = JSON.stringify(
+            this.formbusiness.fileName1
+          );
+          updateEmployed(this.formbusiness)
+            .then((res) => {
+              if (res != undefined) {
+                if (res.code === 200) {
+                  this.$modal.msgSuccess("修改成功");
+                  this.$nextTick(function () {
+                    //  this.$tab.openPage("工商办理", "manageBusiness").then(() => {
+                    // })
+                    // this.$router.push({ path: "/customer/manageBusiness" });
+                    this.$tab
+                      .refreshPage("/customer/manageBusiness")
+                      .then(() => {
+                        this.$tab.openPage(
+                          "工商办理",
+                          "/customer/manageBusiness"
+                        );
+                      });
+                  });
+                } else {
                   this.$modal.msgError(error);
-               });
-            } else {
-               this.$modal.msgError('请填写完整');
-            }
-
-         })
-
-      },
-      handlesuccess(file, fileList){
-          this.formbusiness.fileName1.push(file.obj);
-      },
-      handleRemove(file, fileList) {
-         const i = this.formbusiness.fileName1.findIndex((item) => item === fileList)
-         this.formbusiness.fileName1.splice(i, 1);
-      },
-      handlePreview(file) {
-         this.dialogImageUrl = file.url;
-         this.dialogVisible = true;
-      },
-      handleExceed(files, fileList) {
-         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-         return this.$confirm(`确定移除 ${file.name}？`);
-      }
-   }
-}
+                }
+              }
+            })
+            .catch((error) => {
+              this.$modal.msgError(error);
+            });
+        } else {
+          this.$modal.msgError("请填写完整");
+        }
+      });
+    },
+    handlesuccess(file, fileList) {
+      this.formbusiness.fileName1.push(file.obj);
+    },
+    handleRemove(file, fileList) {
+      const i = this.formbusiness.fileName1.findIndex(
+        (item) => item === fileList
+      );
+      this.formbusiness.fileName1.splice(i, 1);
+    },
+    handlePreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+  },
+};
 </script>
 
 <style>
 .paddingbg-s {
-   padding-top: 15px;
+  padding-top: 15px;
 }
 
 .footers {
-   display: flex;
-   justify-content: center;
-   align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
