@@ -108,9 +108,12 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                            this.$tab.openPage("工商办理", "manageBusiness").then(() => {
-                           })
+                           //  this.$tab.openPage("工商办理", "manageBusiness").then(() => {
+                           // })
                           // this.$router.push({ path: "/customer/manageBusiness" });
+                            this.$tab.refreshPage("/customer/manageBusiness").then(() => {
+                           this.$tab.openPage("工商办理", "/customer/manageBusiness")
+                          })
                         });
                      } else {
                         this.$modal.msgError(error);

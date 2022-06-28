@@ -1,27 +1,31 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="120px" label-position="right">
-      <el-tabs stretch v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="申请信息" name="first">
-          <div style="font-size:20px;
-              margin-left: 300px;
-              margin-top: 20px;
-              margin-bottom: 40px;
-              color:blue;">申请信息</div>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+      <el-row  class="rowCss">
+         
+          <el-col :span="8" :offset="3">
+          
+            <div style="font-size:20px;
+              color:blue;">审核信息</div>
+         
+        </el-col>
+        
+       
+      </el-row>
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="本人申请" prop="oneselfApply">
-                <el-select  v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
+                <el-select style="width:240px"  v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
                   <el-option v-for="(item, index) in oneselfApplys" :key="index" :label="item.label" :value="item.label"
                     :disabled="item.disabled"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="申请人姓名" prop="applyName">
-                <el-select v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
+                <el-select style="width:240px" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
                   @change="selectApplyName">
                   <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username"
                     :value="item.userId" :disabled="item.disabled"></el-option>
@@ -29,228 +33,229 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="移动电话">
-                <el-input v-model="formData.applyPhone" disabled>
+                <el-input style="width:240px" v-model="formData.applyPhone" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="证件类型" prop="applyDocumentType">
-                <el-input v-model="formData.applyDocumentType" disabled>
+                <el-input style="width:240px" v-model="formData.applyDocumentType" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="证件号码">
-                <el-input v-model="formData.applyIdNum" disabled>
+                <el-input style="width:240px" v-model="formData.applyIdNum" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
-          <div style="font-size:20px;
-              margin-left: 310px;
-              margin-top: 20px;
-              margin-bottom: 40px;
-              color:blue;">联络员</div>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
-              <el-form-item label="姓名" prop="contactName">
-                <el-input disabled v-model="formData.contactName" clearable>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="移动电话" prop="contactPhone">
-                <el-input disabled v-model="formData.contactPhone" clearable>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
-              <el-form-item label="证件类型" prop="contactDocumentType">
-                <el-input v-model="formData.contactDocumentType" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="证件号码" prop="contactIdNum">
-                <el-input disabled v-model="formData.contactIdNum" clearable>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-             <div class="footers grid-content">
-            <el-footer>
-              <el-button type="danger" @click="toReturn2">返回</el-button>
-              <el-button type="primary" @click="submitForm3">通过</el-button>
-            </el-footer>
-          </div>
+          <el-row>
+          <el-col :span="8" :offset="3">
           
-        </el-tab-pane>
-
-        <el-tab-pane label="基本情况" name="second">
-          <div style="font-size:20px;
-              margin-left: 300px;
-              margin-bottom:20px;
-              color:blue;">申请信息</div>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
-              <el-form-item label="组织形式" prop="organizationalForm">
-                <el-input v-model="formData.organizationalForm" disabled>
+            <div style="font-size:20px;
+              color:blue;margin-bottom:10px">联络员</div>
+         
+        </el-col>
+        </el-row>
+          
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
+              <el-form-item label="姓名" prop="contactName">
+                <el-input style="width:240px" disabled v-model="formData.contactName" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="从业人数" prop="numberEmployees">
-                <el-input v-model="formData.numberEmployees" disabled>
+            <el-col :span="8" :offset="2">
+              <el-form-item label="移动电话" prop="contactPhone">
+                <el-input style="width:240px" disabled v-model="formData.contactPhone" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
+              <el-form-item label="证件类型" prop="contactDocumentType">
+                <el-input style="width:240px" v-model="formData.contactDocumentType" disabled>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" :offset="2">
+              <el-form-item label="证件号码" prop="contactIdNum">
+                <el-input style="width:240px" disabled v-model="formData.contactIdNum" clearable>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+           <el-row  >
+         
+          <el-col :span="8" :offset="3">
+          
+            <div style="font-size:20px;
+              color:blue;margin-bottom:10px">申请信息</div>
+         
+        </el-col>
+        
+       
+      </el-row>
+          
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
+              <el-form-item label="组织形式" prop="organizationalForm">
+                <el-input style="width:240px" v-model="formData.organizationalForm" disabled>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" :offset="2">
+              <el-form-item label="从业人数" prop="numberEmployees">
+                <el-input style="width:240px" v-model="formData.numberEmployees" disabled>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="出资额" prop="contributionAmount">
-                <el-input-number disabled v-model="formData.contributionAmount" :precision="6" :step="0.01" :min="0">
+                <el-input-number style="width:240px" disabled v-model="formData.contributionAmount" :precision="6" :step="0.01" :min="0">
                 </el-input-number>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="城市" prop="city">
-                <el-input v-model="formData.city" disabled>
+                <el-input style="width:240px" v-model="formData.city" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="区（县）" prop="county">
-                <el-input v-model="formData.county" disabled>
+                <el-input style="width:240px" v-model="formData.county" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="电子商务经营者" prop="electronicCommerce">
-                <el-select v-model="formData.electronicCommerce" placeholder="请选择是否是电子商务经营者" disabled>
+                <el-select style="width:240px" v-model="formData.electronicCommerce" placeholder="请选择是否是电子商务经营者" disabled>
                   <el-option v-for="(item, index) in electronicCommerces" :key="index" :label="item.label"
                     :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="16">
+          <el-row class="rowCss">
+            <el-col :span="18" :offset="2">
               <el-form-item label="经营场所" prop="selfAddress">
-                <el-input v-model="formData.selfAddress" disabled>
+                <el-input style="width:240px" v-model="formData.selfAddress" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="联系电话" prop="contactPhone">
-                <el-input v-model="formData.contactPhone" disabled>
+                <el-input style="width:240px" v-model="formData.contactPhone" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="所属自贸区" prop="freeTradeZone">
-                <el-input v-model="formData.freeTradeZone" disabled>
+                <el-input style="width:240px" v-model="formData.freeTradeZone" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="所属自贸片区" prop="freeTradeArea">
-                <el-input v-model="formData.freeTradeArea" disabled>
+                <el-input style="width:240px" v-model="formData.freeTradeArea" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="产权" prop="propertyRight">
-                <el-input v-model="formData.propertyRight" disabled>
+                <el-input style="width:240px" v-model="formData.propertyRight" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="16">
+          <el-row class="rowCss">
+            <el-col :span="18" :offset="2">
               <el-form-item label="经营范围" prop="natureBusiness">
-                <el-input disabled  type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+                <el-input style="width:240px" disabled  type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
 
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
 
               <el-form-item label="行业类型" prop="industryType">
                 <!-- <treeselect 
                     v-model="formData.industryType" 
                     :multiple="true" 
                     :options="options" /> -->
-                <el-select disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable @change="selectIndustryType">
+                <el-select style="width:240px" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable @change="selectIndustryType">
                   <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
                     :value="item.industryId"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="行业税率">
-                <el-input v-model="formData.industryTax" disabled>
+                <el-input style="width:240px" v-model="formData.industryTax" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="银行账号类型" prop="accountType">
-                <el-select disabled v-model="formData.accountType" placeholder="请选择银行账号类型" @change="selectAccountType">
+                <el-select style="width:240px" disabled v-model="formData.accountType" placeholder="请选择银行账号类型" @change="selectAccountType">
                   <el-option v-for="(item, index) in accountTypes" :key="index" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="私账名称">
-                <el-input v-model="formData.legalPersonName" disabled>
+                <el-input style="width:240px" v-model="formData.legalPersonName" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="私账开户银行">
-                <el-input  v-model="formData.privateDepositBank" clearable :disabled="isPrivateBank">
+                <el-input style="width:240px"  v-model="formData.privateDepositBank" clearable :disabled="isPrivateBank">
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="私账银行账号">
-                <el-input v-model="formData.privateAccountNumber" clearable :disabled="isPrivateBank">
+                <el-input style="width:240px" v-model="formData.privateAccountNumber" clearable :disabled="isPrivateBank">
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss" >
+            <el-col :span="8"  :offset="2">
               <el-form-item label="渠道商" prop="placeName">
-                <el-select disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
+                <el-select style="width:240px" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
                   <el-option v-for="(item, index) in places" :key="index" :label="item.placeName"
                     :value="item.placeName"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="客户经理" prop="userName">
-                <el-input v-model="formData.userName" disabled>
+                <el-input style="width:240px" v-model="formData.userName" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -263,114 +268,113 @@
                  <el-button type="primary" @click="submitForm3">通过</el-button>
               </el-col>
             </el-row> -->
-             <div class="footers grid-content">
-            <el-footer>
-              <el-button type="danger" @click="toReturn2">返回</el-button>
-              <el-button type="primary" @click="submitForm3">通过</el-button>
-            </el-footer>
-          </div>
-        </el-tab-pane>
-
-        <el-tab-pane label="经营者" name="third">
-          <div style="font-size:20px;
-              margin-top: 20px;
-              margin-left: 300px;
-              margin-bottom:40px;
-              color:blue;">经营者（负责人）信息</div>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+            
+       
+              <el-row  >
+         
+          <el-col :span="8" :offset="3">
+          
+            <div style="font-size:20px;
+              color:blue;margin-bottom:10px">经营者（负责人）信息</div>
+         
+        </el-col>
+        
+       
+      </el-row>
+         <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="姓名">
-                <el-input v-model="formData.contactName" disabled>
+                <el-input style="width:240px" v-model="formData.contactName" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="人员类型" prop="personnelType">
-                <el-input v-model="formData.personnelType" disabled>
+                <el-input style="width:240px" v-model="formData.personnelType" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="证件类型" prop="contactDocumentType">
-                <el-input v-model="formData.contactDocumentType" disabled>
+                <el-input style="width:240px" v-model="formData.contactDocumentType" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="证件号码">
-                <el-input v-model="formData.contactIdNum" disabled>
+                <el-input style="width:240px" v-model="formData.contactIdNum" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="性别" prop="gender">
-                <el-select disabled v-model="formData.gender" placeholder="请选择性别" clearable>
+                <el-select style="width:240px" disabled v-model="formData.gender" placeholder="请选择性别" clearable>
                   <el-option v-for="(item, index) in genders" :key="index" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="出生日期" prop="dateBirth">
-                <el-date-picker disabled v-model="formData.dateBirth" type="date" placeholder="选择出生日期">
+                <el-date-picker style="width:240px" disabled v-model="formData.dateBirth" type="date" placeholder="选择出生日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="民族" prop="nation">
-                <el-input disabled v-model="formData.nation" clearable>
+                <el-input style="width:240px" disabled v-model="formData.nation" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="文化程度" prop="eduation">
-                <el-select disabled v-model="formData.eduation" placeholder="文化程度" clearable>
+                <el-select style="width:240px" disabled v-model="formData.eduation" placeholder="文化程度" clearable>
                   <el-option v-for="dict in dict.type.educational_level" :key="dict.value" :label="dict.label"
                     :value="dict.value" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="申请前职业状况" prop="occupationalStatus">
-                <el-input v-model="formData.occupationalStatus" disabled>
+                <el-input style="width:240px" v-model="formData.occupationalStatus" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="政治面貌" prop="politicalStatus">
-                <el-select disabled v-model="formData.politicalStatus" placeholder="文化程度" clearable>
+                <el-select style="width:240px" disabled v-model="formData.politicalStatus" placeholder="文化程度" clearable>
                   <el-option v-for="dict in dict.type.political_status" :key="dict.value" :label="dict.label"
                     :value="dict.value" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="16">
+          <el-row class="rowCss">
+            <el-col :span="18" :offset="2">
               <el-form-item label="经营者居所" prop="residence">
-                <el-input disabled v-model="formData.residence" clearable>
+                <el-input style="width:240px" disabled v-model="formData.residence" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-            <el-col :span="8">
+          <el-row class="rowCss">
+            <el-col :span="8" :offset="2">
               <el-form-item label="联系电话" prop="contactPhone">
-                <el-input disabled v-model="formData.contactPhone" clearable>
+                <el-input style="width:240px" disabled v-model="formData.contactPhone" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :offset="2">
               <el-form-item label="电子邮箱" prop="mail">
-                <el-input disabled v-model="formData.mail" clearable>
+                <el-input style="width:240px" disabled v-model="formData.mail" clearable>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -391,22 +395,15 @@
                  <el-button type="primary" @click="submitForm3">通过</el-button>
               </el-col>
             </el-row> -->
-                
-
-          <div class="footers grid-content">
-            <el-footer>
-              <el-button type="danger" @click="toReturn2">返回</el-button>
+        <el-row class="rowCss" type="flex" justify="center" >
+        <el-col :span="5">
+              <el-button type="danger" @click="toReturn2">拒绝</el-button>
               <el-button type="primary" @click="submitForm3">通过</el-button>
-            </el-footer>
-          </div>
+        </el-col>
+        
+      </el-row>    
 
-
-       
-       
-       
-        </el-tab-pane>
-      </el-tabs>
-     
+          
 
     </el-form>
   </div>
@@ -824,6 +821,7 @@ export default {
     },
 
     submitForm3() {
+     
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
@@ -838,10 +836,11 @@ export default {
                 if (res.code === 200) {
                   this.$modal.msgSuccess("信息审核通过成功!");
                   this.$nextTick(function () {
-                     this.$tab.openPage("注册进度", "employed").then(() => {
-                     })
-                    //this.$router.push("employed");
-                  });
+                   
+                     this.$tab.refreshPage("/customer/employed").then(() => {
+                           this.$tab.openPage("注册进度", "/customer/employed")
+                          })
+                    });
                 } else {
                   this.$modal.msgError(res.msg);
                 }

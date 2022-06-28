@@ -341,8 +341,10 @@ export default {
                      if (res.code === 200) {
                         this.$modal.msgSuccess("修改成功");
                         this.$nextTick(function () {
-                            this.$tab.openPage("银行办理", "manageBank").then(() => {
-                           })
+                           this.$tab.refreshPage("/customer/manageBank").then(() => {
+                           this.$tab.openPage("银行办理", "/customer/manageBank")
+                          })
+                           
                           // this.$router.push({ path: "/customer/manageBank"});
                         });
                      } else {

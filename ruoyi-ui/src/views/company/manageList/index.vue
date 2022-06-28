@@ -18,14 +18,15 @@
       </el-form-item>
       <el-form-item label="状态" prop="placeName">
         <el-select
-          v-model="queryParams.publicAccountNumber3"
-          filterable
+          clearable 
+          v-model="queryParams.isActive"
+         
           placeholder="请选择"
         >
           <el-option
             v-for="item in options"
             :key="item.value"
-            :label="item.value"
+            :label="item.label"
             :value="item.value"
           >
           </el-option>
@@ -79,19 +80,23 @@
 
       <el-table-column label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" />
+       <el-table-column label="状态" align="center">
+         <template slot-scope="scope">
+          <span v-if="scope.row.isActive==0">休眠</span>
+           <span v-if="scope.row.isActive==1">激活</span>
+             <span v-if="scope.row.isActive==2">报警</span>
+          
+        </template>
+      </el-table-column>
       <el-table-column label="是否激活" align="center">
         <template slot-scope="scope">
            <el-switch
-            v-model="scope.row.id"
-            on-color="#00A854"
-            on-text="激活"
-            on-value="1"
-            off-color="#F04134"
-            off-text="休眠"
-            off-value="0"
+            v-model="scope.row.isactive"
+           
             @change="changeSwitch(scope.row)"
           >
           </el-switch>
+          
         </template>
       </el-table-column>
       <el-table-column
@@ -296,16 +301,22 @@ export default {
         placeName: null,
         legalPersonName: null,
         userId: null,
+        isActive:null,
       },
       options: [
         {
-          values: "正常",
+          value: 0,
+          label:'正常'
         },
         {
-          values: "预警",
+         
+          value: 2,
+           label:'预警'
         },
         {
-          values: "休眠",
+          
+          value: 1,
+          label:'休眠',
         },
       ],
       // 表单参数
@@ -328,7 +339,46 @@ export default {
     this.getList();
   },
   methods: {
-    changeSwitch(scope) {},
+    //激活休眠
+    changeSwitch(scope) {
+      let  isActive=scope.isActive;
+      
+      if(isActive){
+        isActive=1;
+      }else{
+        isActive=0;
+
+      }
+      let  obj={
+        isActive:isActive,
+        selfId:scope.selfId
+      };
+         updateEmployed(obj).then(res => {
+                  if (res != undefined) {
+                     if (res.code === 200) {
+                       if(obj.isActive==1){
+                          this.$modal.msgSuccess("激活成功");
+                       }else{
+                          this.$modal.msgSuccess("休眠成功");
+                       }
+                        
+                        this.$nextTick(function () {
+                           this.$tab.refreshPage().then(() => {
+                            // this.$tab.openPage("个体列表", "manageList")
+                          })
+                           
+                          // this.$router.push({ path: "/customer/manageBank"});
+                        });
+                     } else {
+                        this.$modal.msgError(res.msg);
+                     }
+
+                  }
+
+               }).catch(error => {
+                  this.$modal.msgError(error);
+               });
+    },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
       this.$router.push("manageListDetail");
