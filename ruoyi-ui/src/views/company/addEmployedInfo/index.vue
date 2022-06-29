@@ -122,7 +122,7 @@
               </el-col>
             </el-row>
 
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="resetForm1" class="btn">取消</el-button> 
               </el-col>
@@ -346,7 +346,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px">
               <el-col :span="2">
                   <el-button type="danger" @click="toReturn1" class="btn">返回</el-button> 
               </el-col>
@@ -502,7 +502,7 @@
                </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px;margin-top: 50px;">
               <el-col :span="2">
                   <el-button type="danger" @click="toReturn2" class="btn">返回</el-button> 
               </el-col>

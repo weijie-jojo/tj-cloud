@@ -174,7 +174,7 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+      <el-row class="rowCss" :gutter="220" style="margin-left:520px">
         <el-col :span="2">
             <el-button type="danger" @click="resetForm" class="btn">取消</el-button> 
         </el-col>
