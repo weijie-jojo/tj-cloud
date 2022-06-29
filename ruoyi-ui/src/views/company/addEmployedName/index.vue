@@ -176,10 +176,10 @@
 
       <el-row class="rowCss" :gutter="220" style="margin-left:600px">
         <el-col :span="2">
-            <el-button type="danger" @click="resetForm">取消</el-button> 
+            <el-button type="danger" @click="resetForm" class="btn">取消</el-button> 
         </el-col>
         <el-col :span="2">
-            <el-button type="primary" @click="submitForm">下一步</el-button>
+            <el-button type="primary" @click="submitForm" class="btn">下一步</el-button>
         </el-col>
       </el-row>
 
@@ -382,5 +382,8 @@ export default {
      ::v-deep .is-disabled .el-input__inner{
         background-color: transparent !important;
         color: black;    
+    }
+    .btn{
+      width: 90px;
     }
 </style>

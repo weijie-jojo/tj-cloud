@@ -124,10 +124,10 @@
 
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="resetForm1">取消</el-button> 
+                  <el-button type="danger" @click="resetForm1" class="btn">取消</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm1">下一步</el-button>
+                  <el-button type="primary" @click="submitForm1" class="btn">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -348,10 +348,10 @@
             </el-row>
             <el-row class="rowCss" :gutter="220" style="margin-left:600px">
               <el-col :span="2">
-                  <el-button type="danger" @click="toReturn1">返回</el-button> 
+                  <el-button type="danger" @click="toReturn1" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm2">下一步</el-button>
+                  <el-button type="primary" @click="submitForm2" class="btn">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -504,10 +504,10 @@
             </el-row>
             <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="toReturn2">返回</el-button> 
+                  <el-button type="danger" @click="toReturn2" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm3">下一步</el-button>
+                  <el-button type="primary" @click="submitForm3" class="btn">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -1130,5 +1130,8 @@ export default {
      ::v-deep .is-disabled .el-input__inner{
         background-color: transparent !important;
         color: black;    
+    }
+     .btn{
+      width: 90px;
     }
 </style>

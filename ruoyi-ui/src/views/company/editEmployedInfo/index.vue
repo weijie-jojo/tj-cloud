@@ -122,12 +122,12 @@
               </el-col>
             </el-row>
 
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="toReturn">取消</el-button> 
+                  <el-button type="danger" @click="toReturn" class="btn">取消</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm1">下一步</el-button>
+                  <el-button type="primary" @click="submitForm1" class="btn">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -339,12 +339,12 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px">
               <el-col :span="2">
-                  <el-button type="danger" @click="toReturn1">返回</el-button> 
+                  <el-button type="danger" @click="toReturn1" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm2">下一步</el-button>
+                  <el-button type="primary" @click="submitForm2" class="btn">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -489,12 +489,12 @@
               </el-col>
             </el-row>
 
-            <el-row class="rowCss" :gutter="220" style="margin-left:600px;margin-top: 50px;">
+            <el-row class="rowCss" :gutter="220" style="margin-left:520px;margin-top: 50px;">
               <el-col :span="2">
-                  <el-button type="danger" @click="toReturn2">返回</el-button> 
+                  <el-button type="danger" @click="toReturn2" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm3">下一步</el-button>
+                  <el-button type="primary" @click="submitForm3" class="btn">确认修改</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -1147,6 +1147,9 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
     .rowCss{
       margin-top:10px;
+    }
+    .btn{
+      width: 90px;
     }
       // 改变input框字体颜色
      ::v-deep .is-disabled .el-input__inner{

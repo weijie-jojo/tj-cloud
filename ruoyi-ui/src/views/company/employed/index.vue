@@ -261,7 +261,7 @@ export default {
       //  this.$cache.local.setJSON('employedName', scope);
       //  console.log(scope);
            this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '去修改',
+          confirmButtonText: '修改',
           cancelButtonText: '确定',
           type: 'warning'
         }).then(() => {
@@ -276,7 +276,7 @@ export default {
     //审核中  信息
     shenloading2(scope){
            this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '去修改',
+          confirmButtonText: '修改',
           cancelButtonText: '确定',
           type: 'warning'
         }).then(() => {
