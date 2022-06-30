@@ -5,46 +5,48 @@
       :model="formData"
       :rules="rules"
       size="medium"
-      label-width="120px"
-      label-position="right"
+      label-width="140px"
+     
     >
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="个体户信息" name="first">
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue;margin-bottom:10px">个体户信息</div>
-            </el-col>
-          </el-row>
-          <el-row class="rowCss"> 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="个体户名称" prop="selfName">
+         <el-row type="flex" class="row-bg rowCss combottom" style="margin-bottom:20px"  justify="space-around">
+        <el-col :span="8">
+           <div class="bankno">个体户信息</div>
+        
+        </el-col>
+        <el-col :span="7" >
+          <div></div>
+        </el-col>
+      </el-row>
+          <el-row type="flex" class="row-bg " justify="space-around"> 
+            <el-col :span="9">
+              <el-form-item class="comright" label="个体户名称" prop="selfName">
                 <el-input
-                  style="width: 240px"
                   v-model="formBank.selfName"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="法人姓名" prop="legalPersonName">
+              <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
                 <el-input
-                  style="width: 240px"
                   v-model="formBank.legalPersonName"
                   disabled
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="纳税人识别号" prop="taxId">
+            <el-col :span="9">
+              <el-form-item class="comright" label="纳税人识别号" prop="taxId">
                 <el-input
-                  style="width: 240px"
+                
                   v-model="formBank.taxId"
                   disabled
                 ></el-input>
               </el-form-item>
-              <el-form-item label="从业人数" prop="numberEmployees">
+              <el-form-item class="comright"  label="从业人数" prop="numberEmployees">
                 <el-input
-                  style="width: 240px"
+                
                   v-model="formData.numberEmployees"
                   disabled
                 >
@@ -53,11 +55,11 @@
             </el-col>
           </el-row>
 
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="出资额" prop="contributionAmount">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="出资额" prop="contributionAmount">
                 <el-input-number
-                  style="width: 240px"
+                 style="width:100%"
                   disabled
                   v-model="formData.contributionAmount"
                   :precision="6"
@@ -67,28 +69,27 @@
                 </el-input-number>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="城市" prop="city">
-                <el-input style="width: 240px" v-model="formData.city" disabled>
+            <el-col :span="9">
+              <el-form-item class="comright" label="城市" prop="city">
+                <el-input  v-model="formData.city" disabled>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="区（县）" prop="county">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item  class="comright" label="区（县）" prop="county">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.county"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="电子商务经营者" prop="electronicCommerce">
+            <el-col :span="9">
+              <el-form-item  class="comright" label="电子商务经营者" prop="electronicCommerce">
                 <el-select
-                  style="width: 240px"
+                  style="width: 100%"
                   v-model="formData.electronicCommerce"
                   placeholder="请选择是否是电子商务经营者"
                   disabled
@@ -103,11 +104,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="18" :offset="2">
-              <el-form-item label="经营场所" prop="selfAddress">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="21">
+              <el-form-item style="padding-right:4%" label="经营场所" prop="selfAddress">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formData.selfAddress"
                   disabled
                 >
@@ -115,21 +116,19 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="联系电话" prop="contactPhone">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="联系电话" prop="contactPhone">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.contactPhone"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="所属自贸区" prop="freeTradeZone">
+            <el-col :span="9">
+              <el-form-item class="comright" label="所属自贸区" prop="freeTradeZone">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.freeTradeZone"
                   disabled
                 >
@@ -137,21 +136,20 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="所属自贸片区" prop="freeTradeArea">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="所属自贸片区" prop="freeTradeArea">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formData.freeTradeArea"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="产权" prop="propertyRight">
+            <el-col :span="9">
+              <el-form-item class="comright" label="产权" prop="propertyRight">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.propertyRight"
                   disabled
                 >
@@ -159,12 +157,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="18" :offset="2">
-              <el-form-item label="经营范围" prop="natureBusiness">
+          <el-row type="flex" class="row-bg " justify="space-around" >
+            <el-col :span="21" >
+              <el-form-item style="padding-right:4%" label="经营范围" prop="natureBusiness">
                 <el-input
-                 style="width:52.8vw"
-                  disabled
+                 disabled
                   type="textarea"
                   :rows="2"
                   placeholder="请输入经营范围"
@@ -175,15 +172,15 @@
             </el-col>
           </el-row>
 
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="行业类型" prop="industryType">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="行业类型" prop="industryType">
                 <!-- <treeselect 
                     v-model="formData.industryType" 
                     :multiple="true" 
                     :options="options" /> -->
                 <el-select
-                  style="width: 240px"
+                  style="width: 100%"
                   disabled
                   v-model="formData.industryType"
                   placeholder="请选择行业类型"
@@ -199,10 +196,9 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="行业税率">
+            <el-col :span="9">
+              <el-form-item class="comright" label="行业税率">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.industryTax"
                   disabled
                 >
@@ -210,8 +206,8 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
               <el-form-item label="营业执照">
                 <div v-for="(item, index) in formBank.fileName1" :key="index">
                   <el-image
@@ -224,7 +220,7 @@
                 </div>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
+            <el-col :span="9">
               <el-form-item label="税务核定通知书">
                 <div v-for="(item, index) in formBank.fileName2" :key="index">
                   <el-image
@@ -241,29 +237,29 @@
         </el-tab-pane>
 
         <el-tab-pane label="经营者信息" name="second">
-          <el-row>
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue; margin-bottom: 10px">
-                经营者（负责人）信息
-              </div>
-            </el-col>
-          </el-row>
+          <el-row type="flex" class="row-bg rowCss combottom" style="margin-bottom:20px"  justify="space-around">
+          <el-col :span="7">
+           <div class="bankno"> 经营者（负责人）信息</div>
+           </el-col>
+           <el-col :span="7" >
+            <div></div>
+          </el-col>
+         </el-row>
 
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="姓名">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="姓名">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formData.contactName"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="人员类型" prop="personnelType">
+            <el-col :span="9">
+              <el-form-item class="comright" label="人员类型" prop="personnelType">
                 <el-input
-                  style="width: 240px"
                   v-model="formData.personnelType"
                   disabled
                 >
@@ -271,21 +267,21 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="证件类型" prop="contactDocumentType">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="证件类型" prop="contactDocumentType">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formData.contactDocumentType"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="证件号码">
+            <el-col :span="9">
+              <el-form-item class="comright" label="证件号码">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formData.contactIdNum"
                   disabled
                 >
@@ -293,11 +289,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="性别" prop="gender">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="性别" prop="gender">
                 <el-select
-                  style="width: 240px"
+                  style="width: 100%"
                   disabled
                   v-model="formData.gender"
                   placeholder="请选择性别"
@@ -313,10 +309,10 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="出生日期" prop="dateBirth">
+            <el-col :span="9">
+              <el-form-item class="comright" label="出生日期" prop="dateBirth">
                 <el-date-picker
-                  style="width: 240px"
+                  style="width: 100%"
                   disabled
                   v-model="formData.dateBirth"
                   type="date"
@@ -326,11 +322,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="民族" prop="nation">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="民族" prop="nation">
                 <el-input
-                  style="width: 240px"
+                
                   disabled
                   v-model="formData.nation"
                   clearable
@@ -338,10 +334,10 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="文化程度" prop="eduation">
+            <el-col :span="9">
+              <el-form-item class="comright" label="文化程度" prop="eduation">
                 <el-select
-                  style="width: 240px"
+                  style="width: 100%"
                   disabled
                   v-model="formData.eduation"
                   placeholder="文化程度"
@@ -357,21 +353,21 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="申请前职业状况" prop="occupationalStatus">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="申请前职业状况" prop="occupationalStatus">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formData.occupationalStatus"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="政治面貌" prop="politicalStatus">
+            <el-col :span="9">
+              <el-form-item class="comright" label="政治面貌" prop="politicalStatus">
                 <el-select
-                  style="width: 240px"
+                  style="width: 100%"
                   disabled
                   v-model="formData.politicalStatus"
                   placeholder="文化程度"
@@ -387,11 +383,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="17" :offset="2">
-              <el-form-item label="经营者居所" prop="residence">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="21">
+              <el-form-item style="padding-right:4%" label="经营者居所" prop="residence">
                 <el-input
-                  style="width: 52.8vw"
+                  
                   disabled
                   v-model="formData.residence"
                   clearable
@@ -400,11 +396,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="联系电话" prop="contactPhone">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="联系电话" prop="contactPhone">
                 <el-input
-                  style="width: 240px"
+                  
                   disabled
                   v-model="formData.contactPhone"
                   clearable
@@ -412,10 +408,10 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="电子邮箱" prop="mail">
+            <el-col :span="9" >
+              <el-form-item class="comright" label="电子邮箱" prop="mail">
                 <el-input
-                  style="width: 240px"
+                 
                   disabled
                   v-model="formData.mail"
                   clearable
@@ -424,13 +420,13 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
               <el-form-item label="身份证扫描件">
-                <div v-for="(item, index) in formData.fileName5" :key="index">
+                <div v-for="(item, index) in fileName5" :key="index">
                   <el-image
                     lazy
-                    :preview-src-list="formData.fileName5"
+                    :preview-src-list="fileName5"
                     style="width: 150px; height: 150px"
                     :src="item"
                     alt=""
@@ -438,21 +434,22 @@
                 </div>
               </el-form-item>
             </el-col>
+            <el-col :span="9"></el-col>
           </el-row>
 
-          <el-row>
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue; margin-bottom: 10px">
-                联络员信息
-              </div>
-            </el-col>
+          <el-row type="flex" class="row-bg" style="margin-bottom:20px" justify="space-around">
+            <el-col :span="7">
+           <div class="bankno">联络员信息</div>
+          </el-col>
+           <el-col :span="7" >
+          <div></div>
+        </el-col>
           </el-row>
 
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="姓名" prop="contactName">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="姓名" prop="contactName">
                 <el-input
-                  style="width: 240px"
                   disabled
                   v-model="formData.contactName"
                   clearable
@@ -460,10 +457,9 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="移动电话" prop="contactPhone">
+            <el-col :span="9">
+              <el-form-item class="comright" label="移动电话" prop="contactPhone">
                 <el-input
-                  style="width: 240px"
                   disabled
                   v-model="formData.contactPhone"
                   clearable
@@ -472,21 +468,21 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="证件类型" prop="contactDocumentType">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="证件类型" prop="contactDocumentType">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formData.contactDocumentType"
                   disabled
                 >
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="证件号码" prop="contactIdNum">
+            <el-col :span="9">
+              <el-form-item class="comright" label="证件号码" prop="contactIdNum">
                 <el-input
-                  style="width: 240px"
+                 
                   disabled
                   v-model="formData.contactIdNum"
                   clearable
@@ -497,80 +493,79 @@
           </el-row>
         </el-tab-pane>
         <el-tab-pane label="银行信息" name="third">
-          <el-row>
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue; margin-bottom: 10px">
-                银行信息
-              </div>
-            </el-col>
+            <el-row type="flex" class="row-bg " style="margin-bottom:20px" justify="space-around">
+            <el-col :span="7">
+           <div class="bankno">银行信息</div>
+          </el-col>
+           <el-col :span="7" >
+          <div></div>
+        </el-col>
           </el-row>
 
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="个体户名称" prop="selfName">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="个体户名称" prop="selfName">
                 <el-input
-                  style="width: 240px"
-                  v-model="formBank.selfName"
+                   v-model="formBank.selfName"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="法人姓名" prop="legalPersonName">
+              <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
                 <el-input
-                  style="width: 240px"
                   v-model="formBank.legalPersonName"
                   disabled
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="纳税人识别号" prop="taxId">
+            <el-col :span="9">
+              <el-form-item class="comright" label="纳税人识别号" prop="taxId">
                 <el-input
-                  style="width: 240px"
-                  v-model="formBank.taxId"
+                 v-model="formBank.taxId"
                   disabled
                 ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue; margin-bottom: 10px">
-                银行信息
-              </div>
-            </el-col>
+             <el-row type="flex" class="row-bg " style="margin-bottom:20px" justify="space-around">
+            <el-col :span="7">
+           <div class="bankno">银行信息</div>
+          </el-col>
+           <el-col :span="7" >
+          <div></div>
+        </el-col>
           </el-row>
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号类型" prop="">
+          <el-row type="flex" class="row-bg "  justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
+                 
                   value="私人账号"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="开户银行" prop="privateDepositBank">
+              <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formBank.privateDepositBank"
                   disabled
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号名称" prop="legalPersonName">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号名称" prop="legalPersonName">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formBank.legalPersonName"
                   disabled
                 ></el-input>
               </el-form-item>
-              <el-form-item label="银行账号" prop="privateAccountNumber">
+              <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formBank.privateAccountNumber"
                   disabled
                 ></el-input>
@@ -579,36 +574,36 @@
           </el-row>
 
           <!-- <el-collapse-item title="对公基本户" name="2" v-if="formData.accountType==2"> -->
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号类型" prop="">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
+                 
                   value="对公基本户"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="开户银行">
+              <el-form-item class="comright" label="开户银行">
                 <el-input
-                  style="width: 240px"
+                
                   disabled
                   v-model="formBank.publicDepositBank1"
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号名称">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号名称">
                 <el-input
-                  style="width: 240px"
+                 
                   v-model="formBank.selfName"
                   disabled
                 ></el-input>
               </el-form-item>
-              <el-form-item label="银行账号">
+              <el-form-item class="comright" label="银行账号">
                 <el-input
-                  style="width: 240px"
+                 
                   disabled
                   v-model="formBank.publicAccountNumber1"
                 ></el-input>
@@ -617,54 +612,57 @@
           </el-row>
 
           <!-- <el-collapse-item title="对公一般户" name="3" v-if="formData.accountType==2"> -->
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号类型" prop="">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
                   value="对公一般户"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="开户银行">
+              <el-form-item class="comright" label="开户银行">
                 <el-input
-                  style="width: 240px"
+                  disabled
                   v-model="formBank.publicDepositBank2"
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号名称">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号名称">
                 <el-input
-                  style="width: 240px"
+                  
                   v-model="formBank.selfName"
                   disabled
                 ></el-input>
               </el-form-item>
-              <el-form-item label="银行账号">
+              <el-form-item class="comright" label="银行账号">
                 <el-input
-                  style="width: 240px"
+                 
                   disabled
                   v-model="formBank.publicAccountNumber2"
                 ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
-          <el-row class="rowCss">
-            <el-col :span="8" :offset="3">
-              <div style="font-size: 20px; color: blue">纳税账号</div>
-            </el-col>
+              <el-row type="flex" class="row-bg " style="margin-bottom:20px" justify="space-around">
+            <el-col :span="7">
+           <div class="bankno">纳税账号</div>
+          </el-col>
+           <el-col :span="7" >
+          <div></div>
+        </el-col>
           </el-row>
+          
 
-          <el-row class="rowCss paddingbg-s">
-            <el-col :span="8" :offset="2">
-              <el-form-item label="户名" prop="accountName">
+          <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="户名" prop="accountName">
                 <!-- <el-input v-model="formBank.accountName"></el-input> -->
                 <el-select
-                  style="width: 240px"
+                disabled
+                  style="width: 100%"
                   @change="changeValue($event)"
                   v-model="formBank.accountName"
                   filterable
@@ -680,10 +678,9 @@
                 </el-select>
               </el-form-item>
 
-              <el-form-item label="开户银行" prop="publicDepositBank3">
+              <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
                 <el-input
-                  style="width: 240px"
-                  disabled
+                 disabled
                   v-model="formBank.publicDepositBank3"
                 ></el-input>
                 <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
@@ -692,7 +689,7 @@
                      </el-option>
                   </el-select> -->
               </el-form-item>
-              <el-form-item label="纳税委托协议">
+              <el-form-item  label="纳税委托协议">
                 <div v-for="(item, index) in formBank.fileName3" :key="index">
                   <el-image
                     lazy
@@ -705,10 +702,10 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="银行账号" prop="publicAccountNumber3">
+            <el-col :span="9">
+              <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
                 <el-input
-                  style="width: 240px"
+                 
                   disabled
                   v-model="formBank.publicAccountNumber3"
                 ></el-input>
@@ -902,6 +899,7 @@ export default {
         residence: "",
         mail: "",
         idCard: "",
+         fileName5:[],
       },
       baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
       accountName_options: [],
@@ -909,6 +907,9 @@ export default {
       activeNames: ["1"],
       dialogImageUrl1: "",
       fileName3: [],
+      fileName5:[],
+      fileName2:[],
+      fileName1:[],
       dialogImageUrl2: "",
       fileName4: [],
       dialogVisible1: false,
@@ -1191,6 +1192,7 @@ export default {
     // this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
     // console.log("selfCode==", this.formData.selfCode)
     this.formBank = this.$cache.local.getJSON("employedInfo");
+    this.formData = this.$cache.local.getJSON("employedInfo");
     this.formBank.fileName1 = JSON.parse(
       this.$cache.local.getJSON("employedInfo").fileName1
     );
@@ -1204,7 +1206,10 @@ export default {
     this.formBank.fileName4 = JSON.parse(
       this.$cache.local.getJSON("employedInfo").fileName4
     );
-    for (let i in this.formBank.fileName1) {
+   
+    
+    
+   for (let i in this.formBank.fileName1) {
       this.formBank.fileName1[i] =
         this.baseImgPath + this.formBank.fileName1[i];
     }
@@ -1220,16 +1225,19 @@ export default {
       this.formBank.fileName4[g] =
         this.baseImgPath + this.formBank.fileName4[g];
     }
-
-    this.formData = this.$cache.local.getJSON("employedInfo");
-    this.formData.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
-     for(let k1 in this.formData.fileName5){
-      this.formData.fileName5[k1]=this.baseImgPath+this.formData.fileName5[k1];
-    }
+ 
+   this.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+   for(let k1 in this.fileName5){
+      this.fileName5[k1]=this.baseImgPath+this.fileName5[k1];
+    } 
+    this.formData.electronicCommerce=parseInt(this.formData.electronicCommerce);
+    this.formData.gender=parseInt(this.formData.gender);
   },
+ 
+
   methods: {
     handleChange(val) {
-      console.log(val);
+      console.log(val); 
     },
     getLoginInfo() {
       getInfo().then((res) => {
@@ -1353,6 +1361,31 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.rowCss {
+  margin-top: 10px;
+}
+.comright{
+  padding-right: 10%;
+}
+.combottom{
+  margin-bottom: 10px;
+
+}
+.flexs{
+  display: flex;
+  justify-content: center;
+
+}
+.bankno {
+ 
+  letter-spacing: 2px;
+
+  font-size: 20px;
+  
+  color: blue;
+}
+
+
 
 // ::v-deep .el-tabs__nav-scroll {
 //   width: 50% !important;

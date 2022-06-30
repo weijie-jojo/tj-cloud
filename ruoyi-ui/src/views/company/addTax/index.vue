@@ -1,19 +1,16 @@
 <template>
   <div class="paddingbg-s">
-    <el-form ref="formtax" :model="formtax" :rules="rules" label-width="140px">
-      <el-row>
-        <el-col :span="8" :offset="2">
-          <el-form-item label="个体户名称" prop="selfName">
+    <el-form ref="formtax" :model="formtax" :rules="rules" label-width="auto">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户名称" prop="selfName">
             <el-input
-              style="width: 240px"
               v-model="formtax.selfName"
               disabled
             ></el-input>
           </el-form-item>
-
-          <el-form-item label="法人姓名" prop="legalPersonName">
+          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
             <el-input
-              style="width: 240px"
               v-model="formtax.legalPersonName"
               disabled
             ></el-input>
@@ -39,31 +36,25 @@
             </el-dialog>
           </el-form-item>
         </el-col>
-
-        <el-col :span="8" :offset="2">
-          <el-form-item label="纳税人识别号" prop="taxId">
+        <el-col :span="9">
+          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input
-              style="width: 240px"
               v-model="formtax.taxId"
               disabled
             ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row class="rowCss" type="flex" justify="center">
-        <el-col :span="4">
-          <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
-        </el-col>
-      </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+         <el-col :span="8"></el-col>
+         <el-col :span='8' class="flexs">
+             <el-button type="danger" @click="resetForm">返回</el-button> 
+             <el-button type="primary" @click="onSubmit">提交</el-button>
+         </el-col>
+         <el-col :span="8"></el-col>
+     </el-row>
     </el-form>
-    <!-- <div class="footers grid-content">
-         <el-footer>
-            <el-button type="danger" @click="resetForm">返回</el-button>
-            <el-button type="primary" @click="onSubmit">提交</el-button>
-         </el-footer>
-      </div> -->
-  </div>
+   </div>
 </template>
 
 <script>
@@ -131,9 +122,6 @@ export default {
                     this.$tab.refreshPage("/customer/manageTax").then(() => {
                       this.$tab.openPage("税务办理", "/customer/manageTax");
                     });
-                    //  this.$tab.openPage("税务办理", "manageTax").then(() => {
-                    // })
-                    //  this.$router.push({ path: "/customer/manageTax" });
                   });
                 } else {
                   this.$modal.msgError(res.msg);
@@ -182,5 +170,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.rowCss {
+  margin-top: 10px;
+}
+.comright{
+  padding-right: 10%;
+}
+.flexs{
+  display: flex;
+  justify-content: center;
+
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
       
       <el-form-item label="个体户编号" prop="selfCode">
         <el-input v-model="queryParams.selfCode" placeholder="请输入法人姓名" clearable
@@ -37,11 +37,31 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="个体户编号" align="center" prop="selfCode" />
+      <el-table-column label="个体户编号" width="130" align="center" prop="selfCode">
+       <template slot-scope="scope">
+        <el-popover placement="top-start" 
+                    title="个体户编号"
+                    width="200"
+                    trigger="hover"
+                    :content="scope.row.selfCode">
+            <div slot="reference" class="twoLineCls">{{scope.row.selfCode}}</div>
+        </el-popover>
+      </template>
+      </el-table-column> 
       <el-table-column label="行政区划" align="center" prop="administrativeDivision" />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="所在行政区划" align="center" prop="administrativeRegion" />
-      <el-table-column label="登记机关" align="center" prop="registrationAuthority" />
+      <el-table-column label="登记机关" align="center" prop="registrationAuthority" width="130">
+          <template slot-scope="scope">
+        <el-popover placement="top-start" 
+                    title="登记机关"
+                    width="200"
+                    trigger="hover"
+                    :content="scope.row.registrationAuthority">
+            <div slot="reference" class="twoLineCls">{{scope.row.registrationAuthority}}</div>
+        </el-popover>
+      </template>
+      </el-table-column> 
      
      
      
@@ -326,3 +346,14 @@ export default {
   }
 };
 </script>
+<style scoped>
+     .twoLineCls{
+	text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+     text-overflow: ellipsis;
+     display: -webkit-box;
+     -webkit-line-clamp: 1;
+     line-clamp: 1;
+     -webkit-box-orient: vertical;
+}
+</style>

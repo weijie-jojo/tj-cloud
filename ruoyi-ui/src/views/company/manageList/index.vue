@@ -6,7 +6,7 @@
       size="small"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+     label-width="auto"
     >
       <el-form-item label="渠道商" prop="placeName">
         <el-input
@@ -76,9 +76,29 @@
     >
       <el-table-column type="selection" width="55" align="center" />
 
-      <el-table-column label="个体名称" align="center" prop="selfName" />
+      <el-table-column label="个体名称" width="130" align="center" prop="selfName">
+      <template slot-scope="scope">
+        <el-popover placement="top-start" 
+                    title="个体名称"
+                    width="200"
+                    trigger="hover"
+                    :content="scope.row.selfName">
+            <div slot="reference" class="twoLineCls">{{scope.row.selfName}}</div>
+        </el-popover>
+    </template>
+   </el-table-column>
 
-      <el-table-column label="渠道商" align="center" prop="placeName" />
+      <el-table-column label="渠道商" width="130" align="center" prop="placeName">
+                <template slot-scope="scope">
+        <el-popover placement="top-start" 
+                    title="渠道商"
+                    width="200"
+                    trigger="hover"
+                    :content="scope.row.placeName">
+            <div slot="reference" class="twoLineCls">{{scope.row.placeName}}</div>
+        </el-popover>
+    </template>
+       </el-table-column> 
       <el-table-column label="业务经理" align="center" prop="username" />
        <el-table-column label="状态" align="center"  prop="isActive">
          <template slot-scope="scope">
@@ -93,10 +113,10 @@
         <template slot-scope="scope">
            <el-switch
             v-model="scope.row.isActive"
-            active-color="#00A854"
+            active-color="#13ce66"
             active-text="激活"
             active-value="1"
-            inactive-color="#F04134"
+            inactive-color="rgb(233,235,239)"
             inactive-text="休眠"
             inactive-value="0"
             @change="changeSwitch(scope.row)"
@@ -122,14 +142,14 @@
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button> -->
          
 
-          <el-button
+          <!-- <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
          
-            >修改</el-button
-          >
+            >修改</el-button -->
+          <!-- > -->
              <!-- v-hasPermi="['company:employed:edit']" -->
           <el-button
             size="mini"
@@ -507,7 +527,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("editemployedInfo", scope);
+      this.$cache.local.setJSON("editemployedInfo", row);
       this.$router.push("manageListDdit");
       // this.reset();
       // const selfId = row.selfId || this.ids;
@@ -539,7 +559,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const selfIds = row.selfId || this.ids;
+      const selfIds = row.selfId;
       this.$modal
         .confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？')
         .then(function () {
@@ -564,3 +584,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+    .twoLineCls{
+	text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+     text-overflow: ellipsis;
+     display: -webkit-box;
+     -webkit-line-clamp: 1;
+     line-clamp: 1;
+     -webkit-box-orient: vertical;
+}
+</style>
