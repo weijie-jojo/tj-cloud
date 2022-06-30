@@ -126,6 +126,19 @@ services:
     links:
       - tjredis
       - mysql
+  ruoyi-modules-place:
+    container_name: ruoyi-modules-place
+    build:
+      context: ./ruoyi/modules/place
+      dockerfile: dockerfile
+    ports:
+      - "9290:9290"
+    depends_on:
+      - tjredis
+      - mysql
+    links:
+      - tjredis
+      - mysql
   ruoyi-modules-gen:
     container_name: ruoyi-modules-gen
     build:

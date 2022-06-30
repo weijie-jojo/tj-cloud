@@ -45,7 +45,7 @@ public class SelfEmployedController extends BaseController
      * 查询个体商户列表
      */
     @ApiOperation("查询个体商户列表")
-    @RequiresPermissions("company:employed:list")
+//    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
@@ -59,7 +59,7 @@ public class SelfEmployedController extends BaseController
      * 查询个体商户列表（完结）
      */
     @ApiOperation("查询个体商户列表")
-    @RequiresPermissions("company:employed:list")
+//    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinListEnd")
     public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
     {
@@ -71,7 +71,7 @@ public class SelfEmployedController extends BaseController
      * 查询个体商户列表
      */
     @ApiOperation("查询个体商户列表")
-    @RequiresPermissions("company:employed:list")
+//    @RequiresPermissions("company:employed:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfEmployed selfEmployed)
     {
@@ -98,7 +98,7 @@ public class SelfEmployedController extends BaseController
      * 获取个体商户详细信息
      */
     @ApiOperation("获取个体商户详细信息")
-    @RequiresPermissions("company:employed:query")
+//    @RequiresPermissions("company:employed:query")
     @GetMapping(value = "/{selfId}")
     public AjaxResult getInfo(@PathVariable("selfId") String selfId)
     {
@@ -145,7 +145,7 @@ public class SelfEmployedController extends BaseController
      * 删除个体商户
      */
     @ApiOperation("删除个体商户")
-    @RequiresPermissions("company:employed:remove")
+//    @RequiresPermissions("company:employed:remove")
     @Log(title = "个体商户", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{selfIds}")
     public AjaxResult remove(@PathVariable String[] selfIds)

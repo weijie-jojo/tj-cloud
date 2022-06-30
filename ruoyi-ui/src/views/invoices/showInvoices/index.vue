@@ -79,7 +79,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -184,7 +184,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -289,7 +289,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -321,7 +321,7 @@
 </template>
 <script>
 import {getInfo} from '@/api/login'
-import {getDicts} from '@/api/system/dict/data'
+// import {getDicts} from '@/api/system/dict'
 import { getBorrow,editBorrowType,getAllBorrows} from "@/api/invoices/borrow";
 import { getAllUser,editExpense,editExpenseType,getExpenses,getAllExpenses } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,getAllTravelExpense } from "@/api/invoices/travelExpense";
@@ -498,7 +498,7 @@ export default {
         this.loginRoles=res.user.roles;
         this.checkPerson=res.user.nickName;
     })
-    this.getDicts();
+    // this.getDicts();
     this.getAllExpense();
     this.getAllTravelExpense();
     this.getAllBorrow();  

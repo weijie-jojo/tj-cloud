@@ -197,4 +197,7 @@ public class AccountTravelExpense implements Serializable {
     @ApiModelProperty(value = "财务影像")
     private String expenseImage2;
 
+//    public void copy(AccountTravelExpense source){
+//        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+//    }
 }

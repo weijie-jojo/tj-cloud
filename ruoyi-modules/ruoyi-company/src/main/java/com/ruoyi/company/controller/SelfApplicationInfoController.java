@@ -43,7 +43,7 @@ public class SelfApplicationInfoController extends BaseController
      * 查询个体户注册申请信息列表
      */
     @ApiOperation("查询个体户注册申请信息列表")
-    @RequiresPermissions("company:info:list")
+//    @RequiresPermissions("company:info:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfApplicationInfo selfApplicationInfo)
     {
@@ -70,7 +70,7 @@ public class SelfApplicationInfoController extends BaseController
      * 获取个体户注册申请信息详细信息
      */
     @ApiOperation("获取个体户注册申请信息详细信息")
-    @RequiresPermissions("company:info:query")
+//    @RequiresPermissions("company:info:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -81,7 +81,7 @@ public class SelfApplicationInfoController extends BaseController
      * 新增个体户注册申请信息
      */
     @ApiOperation("新增个体户注册申请信息")
-    @RequiresPermissions("company:info:add")
+//    @RequiresPermissions("company:employed:add")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SelfApplicationInfo selfApplicationInfo)
@@ -93,7 +93,7 @@ public class SelfApplicationInfoController extends BaseController
      * 修改个体户注册申请信息
      */
     @ApiOperation("修改个体户注册申请信息")
-    @RequiresPermissions("company:info:edit")
+//    @RequiresPermissions("company:employed:edit")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SelfApplicationInfo selfApplicationInfo)
@@ -105,7 +105,7 @@ public class SelfApplicationInfoController extends BaseController
      * 删除个体户注册申请信息
      */
     @ApiOperation("删除个体户注册申请信息")
-    @RequiresPermissions("company:info:remove")
+//    @RequiresPermissions("company:info:remove")
     @Log(title = "个体户注册申请信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

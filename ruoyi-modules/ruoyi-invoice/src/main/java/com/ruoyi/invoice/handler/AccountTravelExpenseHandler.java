@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor //代替了resouse或者Autowrited
 @Api(tags = "单据管理差旅报销单")
-@RequestMapping("/api/travelExpense")
+@RequestMapping("/travelExpense")
 public class AccountTravelExpenseHandler {
 
     private final AccountTravelExpenseService accountTravelExpenseService;
@@ -75,7 +75,7 @@ public class AccountTravelExpenseHandler {
     @GetMapping(value ="/getTravelExpense")
     @Log("查询所有差旅报销单信息(登录用户的)")
     @ApiOperation("查询所有差旅报销单信息(登录用户的)")
-    public DataDto getTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){
+    public DataDto getTravelExpense(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit){
         if(accountTravelExpense.getTravelExpenseCode()==null){//不是查看某条单据（查看登录用户的所有单据）
             accountTravelExpense.setCreateUser(SecurityUtils.getUserId());
         }
@@ -87,7 +87,7 @@ public class AccountTravelExpenseHandler {
     @GetMapping(value ="/getAllTravelExpense")
     @Log("查询所有差旅报销单信息")
     @ApiOperation("查询所有差旅报销单信息")
-    public DataDto getAllTravelExpense(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit){
+    public DataDto getAllTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense(accountTravelExpense,timeQo,currentPage,limit);
         DataDto<AccountTravelExpenseVo> dataDto = new DataDto<>();
         dataDto.success(accountTravelExpenseIPage.getRecords(),accountTravelExpenseIPage.getTotal());
@@ -99,13 +99,14 @@ public class AccountTravelExpenseHandler {
     public DataDto getCheckTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         List<SysUserVo> sysUserVos=sysUserService.getRoleByUserId(SecurityUtils.getUserId());
         for(SysUserVo sysUserVo:sysUserVos){
-            if(sysUserVo.getRoleId()==5){//总经理显示所有审核状态的（部门主管审核过的）
+            if(sysUserVo.getRoleId()==5||sysUserVo.getRoleId()==6){//总经理或副总经理显示所有审核状态的（部门主管审核过的）
                 accountTravelExpense.setInvoiceType(2);
             }
             if(sysUserVo.getRoleId()==7){//财务主管显示所有打款状态的单据
                 accountTravelExpense.setInvoiceType(3);
             }
-            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12){//部门主管显示他手下人员的单据（发起状态）
+            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
+                //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
                 int deptId=sysUserService.getDeptByRoleId(sysUserVo.getRoleId()).getDeptId();
                 accountTravelExpense.setInvoiceType(1);
                 accountTravelExpense.setDeptId(deptId);

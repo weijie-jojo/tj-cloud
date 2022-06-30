@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor //代替了resouse或者Autowrited
 @Api(tags = "单据审批结果信息")
-@RequestMapping("/api/checkInvoices")
+@RequestMapping("/checkInvoices")
 public class AccountCheckInvoicesHandler {
 
     private final AccountCheckInvoicesService accountCheckInvoicesService;

@@ -45,7 +45,7 @@ public class SelfNameReviewController extends BaseController
      * 根据编号查询
      */
     @ApiOperation("根据编号查询")
-    @RequiresPermissions("company:review:list")
+//    @RequiresPermissions("company:review:list")
     @GetMapping("/getByCode")
     public SelfNameReview selectSelfNameReviewBySelfCode(String selfCode)
     {
@@ -59,8 +59,7 @@ public class SelfNameReviewController extends BaseController
      * 获取编号
      *
      * */
-    @ApiOperation("查询个体商户列表")
-    @RequiresPermissions("company:review:list")
+    @ApiOperation("获取编号")
     @GetMapping("/getSelfCode")
     public String getSelfCode(String employeeNumber) {
         String selfCode = "";
@@ -88,7 +87,7 @@ public class SelfNameReviewController extends BaseController
      * 查询个体户名字审核列表
      */
     @ApiOperation("查询个体户名字审核列表")
-    @RequiresPermissions("company:review:list")
+//    @RequiresPermissions("company:review:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfNameReview selfNameReview)
     {
@@ -115,7 +114,7 @@ public class SelfNameReviewController extends BaseController
      * 获取个体户名字审核详细信息
      */
     @ApiOperation("获取个体户名字审核详细信息")
-    @RequiresPermissions("company:review:query")
+//    @RequiresPermissions("company:review:query")
     @GetMapping(value = "/{selfId}")
     public AjaxResult getInfo(@PathVariable("selfId") Long selfId)
     {
@@ -159,7 +158,7 @@ public class SelfNameReviewController extends BaseController
      * 删除个体户名字审核
      */
     @ApiOperation("删除个体户名字审核")
-    @RequiresPermissions("company:review:remove")
+//    @RequiresPermissions("company:review:remove")
     @Log(title = "个体户名字审核", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{selfIds}")
     public AjaxResult remove(@PathVariable Long[] selfIds)

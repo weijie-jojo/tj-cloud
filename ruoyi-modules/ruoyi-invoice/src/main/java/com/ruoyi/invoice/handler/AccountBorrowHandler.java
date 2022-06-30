@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor //代替了resouse或者Autowrited
 @Api(tags = "单据管理差旅报销单")
-@RequestMapping("/api/borrow")
+@RequestMapping("/borrow")
 public class AccountBorrowHandler {
 
     private final AccountBorrowService accountBorrowService;
@@ -106,13 +106,14 @@ public class AccountBorrowHandler {
 
         List<SysUserVo> sysUserVos=sysUserService.getRoleByUserId(SecurityUtils.getUserId());
         for(SysUserVo sysUserVo:sysUserVos){
-            if(sysUserVo.getRoleId()==5){//总经理显示所有审核状态的（部门主管审核过的）
+            if(sysUserVo.getRoleId()==5||sysUserVo.getRoleId()==6){//总经理或副总经理显示所有审核状态的（部门主管审核过的）
                 sysBorrowVo.setInvoiceType(2);
             }
             if(sysUserVo.getRoleId()==7){//财务主管显示所有打款状态的单据
                 sysBorrowVo.setInvoiceType(3);
             }
-            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12){//部门主管显示他手下人员的单据（发起状态）
+            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
+                //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
                 int deptId=sysUserService.getDeptByRoleId(sysUserVo.getRoleId()).getDeptId();
                 sysBorrowVo.setInvoiceType(1);
                 sysBorrowVo.setDeptId(deptId);

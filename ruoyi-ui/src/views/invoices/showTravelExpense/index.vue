@@ -502,13 +502,25 @@
             <el-form-item 
                 v-show="isShowImg2" 
                 class="demo-image__preview" 
+                v-for="(item,index) in imgArr2" :key="index" 
+                style="margin-top:200px;margin-left: -60px;">
+                <span  class="imgTitle">报销凭证影像</span>
+                <el-image
+                   style="width:1100px;height: 700px;"
+                    :src="baseImgPath+item.value"
+                ></el-image>
+            </el-form-item>
+
+            <!-- <el-form-item 
+                v-show="isShowImg2" 
+                class="demo-image__preview" 
                 style="margin-top:200px;margin-left: -60px;">
                 <span class="imgTitle">付款凭证影像</span>
                 <el-image
                    style="width:1100px;height: 700px;"
                     :src="imgpath2"
                 ></el-image>
-            </el-form-item>
+            </el-form-item> -->
             
         </el-form>
         <div style="margin-left:140px;margin-top:40px">
@@ -541,12 +553,21 @@
             </div>
         </el-dialog>
         <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
-            <div class="demo-image">
+            <div class="demo-image" 
+                v-for="(item,index) in imgArr2" :key="index" 
+                style="margin-top:20px;">
+                <el-image
+                    style="width: 300px; height: 200px"
+                    :src="baseImgPath+item.value"
+                    :preview-src-list="srcList2"
+                ></el-image>
+            </div>
+            <!-- <div class="demo-image">
                 <el-image
                     style="width: 500px; height: 500px"
                     :src="imgpath2"
                 ></el-image>
-            </div>
+            </div> -->
         </el-dialog>
     </div>
 </template>
@@ -564,6 +585,8 @@
         isShowImg2:false,
         srcList:[],
         imgArr:[],
+        imgArr2:[],
+        srcList2:[],
         baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
         imgpath:'',
         expenseImage:'',
@@ -769,14 +792,27 @@
             this.isShowImg=true;
         }
 
-        if (this.expenseImage2==""||this.expenseImage2==undefined) {
-            // this.imgpath2 =this.baseImgPath+"404.jpg";
+        var imgArr2=JSON.parse(this.expenseImage2);
+        if (imgArr2.length<=0) {
             console.log("404");
             this.isShowImg2=false;
         }else{
-            this.imgpath2 =this.baseImgPath+this.expenseImage2;
+            imgArr2.map((item,index)=>{
+                if(item!=null){
+                    this.imgArr2.push({id:index,value:item.value});
+                }
+            })
             this.isShowImg2=true;
         }
+
+        // if (this.expenseImage2==""||this.expenseImage2==undefined) {
+        //     // this.imgpath2 =this.baseImgPath+"404.jpg";
+        //     console.log("404");
+        //     this.isShowImg2=false;
+        // }else{
+        //     this.imgpath2 =this.baseImgPath+this.expenseImage2;
+        //     this.isShowImg2=true;
+        // }
       
     },
     methods: {
@@ -1126,7 +1162,7 @@
             }
         },    
         getImage2(){
-            if(this.expenseImage2==""||this.expenseImage2==undefined){
+            if(this.imgArr2.length<=0){
                 this.imageVisible2=false;
                 this.$message({
                     message: "没有影像",
@@ -1134,7 +1170,19 @@
                 });
             }else{
                 this.imageVisible2=true;
+                this.imgArr2.map(item=>{//增加可预览功能
+                    this.srcList2.push(this.baseImgPath+item.value);
+                })
             }
+            // if(this.expenseImage2==""||this.expenseImage2==undefined){
+            //     this.imageVisible2=false;
+            //     this.$message({
+            //         message: "没有影像",
+            //         type: 'warning',
+            //     });
+            // }else{
+            //     this.imageVisible2=true;
+            // }
         },     
     },
   }

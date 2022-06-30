@@ -494,7 +494,11 @@
                   <el-button type="danger" @click="toReturn2" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm3" class="btn">确认修改</el-button>
+                  <el-button 
+                    type="primary" 
+                    @click="submitForm3" 
+                    class="btn"
+                    v-hasPermi="['company:employed:add']">确认修改</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>

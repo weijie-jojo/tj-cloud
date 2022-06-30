@@ -42,7 +42,7 @@ public class SelfLegalPersonController extends BaseController
      * 查询个体商户法人列表（不分页）
      */
     @ApiOperation("查询个体商户法人列表（不分页）")
-    @RequiresPermissions("company:person:list")
+//    @RequiresPermissions("company:person:list")
     @GetMapping("/all")
     public TableDataInfo all()
     {
@@ -54,7 +54,7 @@ public class SelfLegalPersonController extends BaseController
      * 查询个体商户法人列表
      */
     @ApiOperation("查询个体商户法人列表")
-    @RequiresPermissions("company:person:list")
+//    @RequiresPermissions("company:person:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfLegalPerson selfLegalPerson)
     {
@@ -81,7 +81,7 @@ public class SelfLegalPersonController extends BaseController
      * 获取个体商户法人详细信息
      */
     @ApiOperation("获取个体商户法人详细信息")
-    @RequiresPermissions("company:person:query")
+//    @RequiresPermissions("company:person:query")
     @GetMapping(value = "/{legalPersonId}")
     public AjaxResult getInfo(@PathVariable("legalPersonId") Long legalPersonId)
     {
@@ -92,7 +92,7 @@ public class SelfLegalPersonController extends BaseController
      * 新增个体商户法人
      */
     @ApiOperation("新增个体商户法人")
-    @RequiresPermissions("company:person:add")
+    @RequiresPermissions("company:employed:add")
     @Log(title = "个体商户法人", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SelfLegalPerson selfLegalPerson)
@@ -104,7 +104,7 @@ public class SelfLegalPersonController extends BaseController
      * 修改个体商户法人
      */
     @ApiOperation("修改个体商户法人")
-    @RequiresPermissions("company:person:edit")
+    @RequiresPermissions("company:employed:edit")
     @Log(title = "个体商户法人", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SelfLegalPerson selfLegalPerson)
@@ -116,7 +116,7 @@ public class SelfLegalPersonController extends BaseController
      * 删除个体商户法人
      */
     @ApiOperation("删除个体商户法人")
-    @RequiresPermissions("company:person:remove")
+//    @RequiresPermissions("company:person:remove")
     @Log(title = "个体商户法人", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{legalPersonIds}")
     public AjaxResult remove(@PathVariable Long[] legalPersonIds)

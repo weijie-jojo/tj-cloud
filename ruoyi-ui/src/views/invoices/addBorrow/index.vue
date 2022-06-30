@@ -47,7 +47,7 @@
                 <el-input-number 
                     v-model="ruleForm.totalMoney" 
                     :precision="2" 
-                    :step="0.1" :min="0" 
+                    :step="0.01" :min="0" 
                     style="width:160px"  
                 ></el-input-number>
                 <span>元</span>
@@ -64,14 +64,14 @@
                     style=" width: 200PX;">
                     <el-option 
                         v-for="item in searchPayways" 
-                        :key="item.detailId" 
+                        :key="item.value" 
                         :label="item.label" 
-                        :value="item.detailId"
+                        :value="item.value"
                     ></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="计划还款时间"   class="middle2" >  
+            <el-form-item label="计划还款时间"  prop="payDate" class="middle2" >  
                 <el-date-picker
                     v-model="ruleForm.payDate"
                     type="date"
@@ -152,11 +152,11 @@
 </template>
 <script>
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
-    // import {getAllCheck} from '@/api/invoices/checkInvoices'
-    import {getAllPayway,getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
+    import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
+    dicts: ['pay_way'],
     name: 'borrow',
     data() {
       return {
@@ -202,6 +202,9 @@
             financeCheck:'',//财务
         },
         rules: {
+            payDate:[
+                { type: 'date', required: true, message: '请选择还款日期', trigger: 'change' }
+            ],
             borrowDate:[
                 { type: 'date', required: true, message: '请选择借款日期', trigger: 'change' }
             ],
@@ -229,12 +232,13 @@
       }
     },
     mounted: function() {
+        this.searchPayways=this.dict.type.pay_way;
+        console.log("searchPayways",this.searchPayways);  
         this.ruleForm.borrowDate=new Date();
         this.getAllCompany();
         this.getAllGetUser();
         this.getBorrowCode();
         this.getLoginUser();
-        this.getAllPayway();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
@@ -389,13 +393,6 @@
             this.fullWidth = document.documentElement.clientWidth
         }, 
        
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            })
-        }, 
         //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -403,12 +400,14 @@
                     var invoiceType=1;
                     this.roles.map(item=>{//总经理
                         if(item.id==5){
-                            invoiceType=2;
-                            this.ruleForm.dmCheck=this.ruleForm.borrowName;
+                            invoiceType=3;
+                            // this.ruleForm.dmCheck=this.ruleForm.borrowName;
+                            this.ruleForm.gmCheck=this.ruleForm.borrowName;
                         }
                     })
                     let params={
-                        dmCheck:this.ruleForm.dmCheck,
+                        // dmCheck:this.ruleForm.dmCheck,
+                        gmCheck:this.ruleForm.gmCheck,
 
                         invoiceType:invoiceType,
                         deptId:this.ruleForm.deptId,
