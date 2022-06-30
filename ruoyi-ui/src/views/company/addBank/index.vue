@@ -4,62 +4,62 @@
       ref="formBank"
       :model="formBank"
       :rules="rules"
-      label-width="140px"
+      label-width="auto"
     >
-      <el-row >
-        <el-col :span="8" :offset="2">
-          <el-form-item label="个体户名称" prop="selfName">
-            <el-input style="width:240px" v-model="formBank.selfName" disabled></el-input>
+      <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户名称" prop="selfName">
+            <el-input  v-model="formBank.selfName" disabled></el-input>
           </el-form-item>
 
-          <el-form-item label="法人姓名" prop="legalPersonName">
-            <el-input style="width:240px" v-model="formBank.legalPersonName" disabled></el-input>
+          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
+            <el-input  v-model="formBank.legalPersonName" disabled></el-input>
           </el-form-item>
         </el-col>
        
-        <el-col :span="8" :offset="2">
-          <el-form-item label="纳税人识别号" prop="taxId">
-            <el-input style="width:240px" v-model="formBank.taxId" disabled></el-input>
+        <el-col :span="9">
+          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
+            <el-input  v-model="formBank.taxId" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-
-      <el-row>
-        <el-col :span="8" :offset="3">
-          <div class="bankno">银行账号</div>
+       <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
+        <el-col :span="7">
+           <div class="bankno">银行账号</div>
+        
+        </el-col>
+        <el-col :span="7" >
+          <div></div>
         </el-col>
       </el-row>
+     
       <el-row class="paddingbg-s">
-         <el-row>
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号类型" prop="">
+         <el-row type="flex" class="row-bg" justify="space-around">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
-                  value="私人账号"
+                 value="私人账号"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="开户银行" prop="privateDepositBank">
+              <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
                 <el-input
-                   style="width: 240px"
                   v-model="formBank.privateDepositBank"
                   disabled
                 ></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-              <el-form-item label="账号名称" prop="legalPersonName">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号名称" prop="legalPersonName">
                 <el-input
-                   style="width: 240px"
-                  v-model="formBank.legalPersonName"
+                 v-model="formBank.legalPersonName"
                   disabled
                 ></el-input>
               </el-form-item>
-              <el-form-item label="银行账号" prop="privateAccountNumber">
+              <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
                 <el-input
-                   style="width: 240px"
                   v-model="formBank.privateAccountNumber"
                   disabled
                 ></el-input>
@@ -67,53 +67,52 @@
             </el-col>
           </el-row>
          <el-row v-if="accountType==2">
-            <el-col :span="8" :offset="2">
-               <el-form-item label="账号类型" prop="">
+            <el-col :span="9">
+               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
                   value="对公基本户"
                   disabled
                 ></el-input>
               </el-form-item>
           
 
-              <el-form-item label="开户银行">
-                <el-input    style="width: 240px" v-model="formBank.publicDepositBank1"></el-input>
+              <el-form-item class="comright" label="开户银行">
+                <el-input   v-model="formBank.publicDepositBank1"></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" offset="2">
-                   <el-form-item label="账号名称">
-                <el-input    style="width: 240px" v-model="formBank.selfName" disabled></el-input>
+            <el-col :span="9">
+                   <el-form-item class="comright" label="账号名称">
+                <el-input     v-model="formBank.selfName" disabled></el-input>
               </el-form-item>
-              <el-form-item label="银行账号">
-                <el-input    style="width: 240px" v-model="formBank.publicAccountNumber1"></el-input>
+              <el-form-item class="comright" label="银行账号">
+                <el-input     v-model="formBank.publicAccountNumber1"></el-input>
               </el-form-item>
             </el-col>
             
           </el-row>
          <el-row v-if="accountType==2">
-            <el-col :span="8" offset="2">
-                <el-form-item label="账号类型" prop="">
+            <el-col :span="9">
+                <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
-                  style="width: 240px"
+                 
                   value="对公一般户"
                   disabled
                 ></el-input>
               </el-form-item>
               
 
-              <el-form-item label="开户银行">
-                <el-input style="width:240px" v-model="formBank.publicDepositBank2"></el-input>
+              <el-form-item class="comright" label="开户银行">
+                <el-input  v-model="formBank.publicDepositBank2"></el-input>
               </el-form-item>
             </el-col>
 
-            <el-col :span="8" :offset="2">
-               <el-form-item label="账号名称">
-                <el-input style="width:240px" v-model="formBank.selfName" disabled></el-input>
+            <el-col :span="9">
+               <el-form-item class="comright" label="账号名称">
+                <el-input  v-model="formBank.selfName" disabled></el-input>
               </el-form-item>
-              <el-form-item label="银行账号">
-                <el-input style="width:240px" v-model="formBank.publicAccountNumber2"></el-input>
+              <el-form-item class="comright" label="银行账号">
+                <el-input  v-model="formBank.publicAccountNumber2"></el-input>
               </el-form-item>
             </el-col>
             
@@ -122,18 +121,21 @@
         
         
       </el-row>
-      <el-row>
-        <el-col :span="8" :offset="3">
+      <el-row type="flex" class="row-bg combottom" justify="space-around">
+        <el-col :span="7" >
           <div class="bankno">纳税账号</div>
+        </el-col>
+        <el-col :span="7" >
+         
         </el-col>
       </el-row>
 
-      <el-row  class="paddingbg-s">
-        <el-col :span="8" :offset="2">
-          <el-form-item label="户名" prop="accountName">
+      <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="户名" prop="accountName">
             <!-- <el-input v-model="formBank.accountName"></el-input> -->
             <el-select
-               style="width:240px"
+               style="width:100%"
               @change="changeValue($event)"
               v-model="formBank.accountName"
               filterable
@@ -149,15 +151,15 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="开户银行" prop="publicDepositBank3">
-            <el-input style="width:240px" disabled v-model="formBank.publicDepositBank3"></el-input>
+          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
+            <el-input  disabled v-model="formBank.publicDepositBank3"></el-input>
             <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
                      <el-option v-for="item in publicDepositBank3_options" :key="item.value" :label="item.value"
                         :value="item.value">
                      </el-option>
                   </el-select> -->
           </el-form-item>
-          <el-form-item label="纳税委托协议" prop="fileName4">
+          <el-form-item  label="纳税委托协议" prop="fileName4">
             <el-upload
               class="upload-demo"
               action="http://36.133.2.179:8000/api/files/doUpload"
@@ -179,10 +181,10 @@
           </el-form-item>
         </el-col>
         
-        <el-col :span="8" :offset="2">
-          <el-form-item label="银行账号" prop="publicAccountNumber3">
+        <el-col :span="9">
+          <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
             <el-input
-              style="width:240px"
+             
               disabled
               v-model="formBank.publicAccountNumber3"
             ></el-input>
@@ -216,20 +218,15 @@
           </el-form-item>
         </el-col>
       </el-row>
-        <el-row class="rowCss" type="flex" justify="center" >
-        <el-col :span="4">
-            <el-button type="danger" @click="resetForm">返回</el-button> 
+        <el-row type="flex" class="row-bg " justify="space-around">
+         <el-col :span="8"></el-col>
+         <el-col :span='8' class="flexs">
+             <el-button type="danger" @click="resetForm">返回</el-button> 
              <el-button type="primary" @click="onSubmit">提交</el-button>
-        </el-col>
-        
-      </el-row>
+         </el-col>
+         <el-col :span="8"></el-col>
+       </el-row>
     </el-form>
-    <!-- <div class="footers grid-content">
-      <el-footer>
-        <el-button type="danger" @click="resetForm">返回</el-button>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
-      </el-footer>
-    </div> -->
   </div>
 </template>
 
@@ -485,10 +482,11 @@ export default {
 
 <style>
 .bankno {
-  letter-spacing: 5px;
+ 
+  letter-spacing: 2px;
 
   font-size: 20px;
-  font-weight: bold;
+
   color: blue;
 }
 
@@ -500,5 +498,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.combottom{
+  margin-bottom: 10px;
+}
+.rowCss {
+  margin-top: 10px;
+}
+.comright{
+  padding-right: 10%;
+}
+.flexs{
+  display: flex;
+  justify-content: center;
+
 }
 </style>

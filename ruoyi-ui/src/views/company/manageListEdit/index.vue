@@ -1196,19 +1196,19 @@ export default {
     // this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
     // this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
     // console.log("selfCode==", this.formData.selfCode)
-    this.formBank = this.$cache.local.getJSON("employedInfo");
+    this.formBank = this.$cache.local.getJSON("editemployedInfo");
     this.formBank.fileName1 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName1
+      this.$cache.local.getJSON("editemployedInfo").fileName1
     );
 
     this.formBank.fileName2 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName2
+      this.$cache.local.getJSON("editemployedInfo").fileName2
     );
     this.formBank.fileName3 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName3
+      this.$cache.local.getJSON("editemployedInfo").fileName3
     );
     this.formBank.fileName4 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName4
+      this.$cache.local.getJSON("editemployedInfo").fileName4
     );
     for (let i in this.formBank.fileName1) {
       this.formBank.fileName1[i] =
@@ -1227,8 +1227,8 @@ export default {
         this.baseImgPath + this.formBank.fileName4[g];
     }
 
-    this.formData = this.$cache.local.getJSON("employedInfo");
-    this.formData.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    this.formData = this.$cache.local.getJSON("editemployedInfo");
+    this.formData.fileName5=JSON.parse(this.$cache.local.getJSON('editemployedInfo').fileName5);
      for(let k1 in this.formData.fileName5){
       this.formData.fileName5[k1]=this.baseImgPath+this.formData.fileName5[k1];
     }
