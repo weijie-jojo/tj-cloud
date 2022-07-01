@@ -523,7 +523,7 @@
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"
                     :on-success="success"
-                    :limit=3>
+                    :limit=limitNum>
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -572,10 +572,12 @@
         imageVisible:false,
         imgpath:'',
         //上传
+        imgArr2:[],
         imgDialog:false,
         expenseImage2:'',
         dialogImageUrl: '',
         dialogVisible: false,
+        limitNum:10,//可上传数量
 
         isDisabled:true,
         filePath2:'',
@@ -794,7 +796,7 @@
                 if (valid) {
                     this.ruleForm.roles.map(item=>{
                         console.log("role==",item.id);
-                        if(item.id==5){
+                        if(item.id==5||item.id==6){
                             if(this.ruleForm.gmCheck==undefined||this.ruleForm.gmCheck==""){//未审核过
                                 console.log("总经理审核");
                                 if(this.ruleForm.isAgree==1){
@@ -816,7 +818,7 @@
                                     gmCheck:this.ruleForm.gm,
                                     id:this.id,
                                     invoiceType:this.checkType,
-                                    expenseImage2:this.expenseImage2,
+                                    expenseImage2:JSON.stringify(this.imgArr2),
                                 };
                                 addCheckInvoices(params1).then(res => {
                                     this.$message({
@@ -862,7 +864,7 @@
                                     financeCheck:this.ruleForm.finance,
                                     id:this.id,
                                     invoiceType:this.checkType,
-                                    expenseImage2:this.expenseImage2,
+                                    expenseImage2:JSON.stringify(this.imgArr2),
                                 };
                                 addCheckInvoices(params1).then(res => {
                                     this.$message({
@@ -886,7 +888,7 @@
                                     });
                             };  
                         };
-                        if(item.id==12||item.id==10){
+                        if(item.id==10||item.id==12||item.id==4||item.id==8){
                             if(this.ruleForm.dmCheck==undefined||this.ruleForm.dmCheck==""){//未审核过
                                 console.log("部门主管审核");
                                 if(this.ruleForm.isAgree==1){
@@ -908,7 +910,7 @@
                                     dmCheck:this.ruleForm.dm,
                                     id:this.id,
                                     invoiceType:this.checkType,
-                                    expenseImage2:this.expenseImage2,
+                                    expenseImage2:JSON.stringify(this.imgArr2),
                                 };
                                 addCheckInvoices(params1).then(res => {
                                     this.$message({
@@ -1080,9 +1082,12 @@
         },  
         //上传图片
         handleRemove(file, fileList) {
-            this.expenseImage2="";
+           this.imgArr2.map((item,index)=>{
+                if(item.value==file.name){
+                    delete this.imgArr2[index];
+                }
+            })
             this.$message("取消上传");
-            console.log("expenseImage2==", this.expenseImage2); 
         },
         //点+可以放大查看图片
         handlePictureCardPreview(file) {
@@ -1092,8 +1097,8 @@
         success(file) {
             this.$message(file.message);
             var fileUrl = file.obj;
+            this.imgArr2.push({value:fileUrl});
             this.expenseImage2 = fileUrl;
-            console.log("fileUrl=="+this.expenseImage2);
         },
         //取消按钮
         cancel() {

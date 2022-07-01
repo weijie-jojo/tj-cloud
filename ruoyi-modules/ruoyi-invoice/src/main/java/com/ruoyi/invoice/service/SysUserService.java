@@ -10,6 +10,5 @@ public interface SysUserService {
     List<SysUser> selectAll();
     SysUser selectByCompany(Integer userId);
     List<SysUserVo> getRoleByUserId(Long userId);
-    SysUserVo getDeptByRoleId(int userId);
-    List<SysUserVo> getUserByDeptId(int deptId);
+    SysUserVo getDeptByUserId(Long userId);
 }

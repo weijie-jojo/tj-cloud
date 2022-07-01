@@ -155,7 +155,7 @@
 </template>
 <script>
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
-    import {getAllPayway,getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
+    import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId,editBorrow2} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
@@ -246,6 +246,7 @@
       }
     },
     mounted: function() {
+        this.searchPayways=this.dict.type.pay_way;
         this.selectAllCheck();
         // this.ruleForm.payDate="";
         // this.ruleForm.borrowDate=new Date();
@@ -253,7 +254,6 @@
         this.getAllGetUser();
         // this.getBorrowCode();
         // this.getLoginUser();
-        this.getAllPayway();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
@@ -546,13 +546,7 @@
             this.fullWidth = document.documentElement.clientWidth
         }, 
        
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            })
-        }, 
+
        //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {

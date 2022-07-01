@@ -254,7 +254,7 @@
 </template>
 <script>
 import {getInfo} from '@/api/login'
-import {getDicts} from '@/api/system/dict/data'
+// import {getDicts} from '@/api/system/dict'
 import { getBorrow,getCheckBorrow,editBorrowType} from "@/api/invoices/borrow";
 import { editExpense,getExpenses,editExpenseType,getCheckExpense } from "@/api/invoices/expense";
 import { getTravelExpense,getCheckTravelExpense,editTravelExpenseType } from "@/api/invoices/travelExpense";

@@ -303,7 +303,7 @@
     import {getAllGetUser} from '@/api/invoices/borrow'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getAllCompany} from '@/api/invoices/borrow'
-    import { getDepts, getAllPayway,getAllGetCompany,getCardInfoBycompany,editExpense2,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
+    import { getDepts,getAllGetCompany,getCardInfoBycompany,editExpense2,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
     import { getExpenseItem } from '@/api/invoices/travelExpense'
     export default {
     name: 'expense',
@@ -416,7 +416,6 @@
         //后端查询的数据
         searchGetUsers:[],
         searchDepts:[],
-        searchPayways:[],
         searchGetCompanys:[],//所有收款单位信息
         searchCardInfos:[],//所选公司对应的银行卡信息
         checkType:'',
@@ -434,7 +433,6 @@
         // this.getExpenseCode();
         this.getExpenseItem();
         this.getAllDept();
-        this.getAllPayway();
         // this.getAllGetCompany();
         const that = this
         window.onresize = function temp() {
@@ -720,13 +718,6 @@
                 console.log('getDepts==',res.list);
                 this.searchDepts = res.list
             }).catch(() => { })
-        }, 
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            })
         }, 
         //初始化下拉公司信息 
         getAllGetCompany() {

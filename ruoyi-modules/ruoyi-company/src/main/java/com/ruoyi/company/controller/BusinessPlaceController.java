@@ -41,7 +41,7 @@ public class BusinessPlaceController extends BaseController
      * 根据userId查询平台渠道数据
      */
     @ApiOperation("根据userId查询平台渠道数据")
-    @RequiresPermissions("company:place:list")
+//    @RequiresPermissions("company:place:list")
     @GetMapping(value = "/getPlaceByUserId")
     public AjaxResult getPlaceByUserId(int userId)
     {
@@ -51,7 +51,7 @@ public class BusinessPlaceController extends BaseController
      * 查询平台渠道商列表
      */
     @ApiOperation("查询平台渠道商列表")
-    @RequiresPermissions("company:place:list")
+//    @RequiresPermissions("company:place:list")
     @GetMapping("/list")
     public TableDataInfo list(BusinessPlace businessPlace)
     {
@@ -78,7 +78,7 @@ public class BusinessPlaceController extends BaseController
      * 获取平台渠道商详细信息
      */
     @ApiOperation("获取平台渠道商详细信息")
-    @RequiresPermissions("company:place:query")
+//    @RequiresPermissions("company:place:query")
     @GetMapping(value = "/{placeId}")
     public AjaxResult getInfo(@PathVariable("placeId") String placeId)
     {
@@ -89,7 +89,7 @@ public class BusinessPlaceController extends BaseController
      * 新增平台渠道商
      */
     @ApiOperation("新增平台渠道商")
-    @RequiresPermissions("company:place:add")
+//    @RequiresPermissions("company:place:add")
     @Log(title = "平台渠道商", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BusinessPlace businessPlace)
@@ -101,7 +101,7 @@ public class BusinessPlaceController extends BaseController
      * 修改平台渠道商
      */
     @ApiOperation("修改平台渠道商")
-    @RequiresPermissions("company:place:edit")
+//    @RequiresPermissions("company:place:edit")
     @Log(title = "平台渠道商", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BusinessPlace businessPlace)
@@ -113,7 +113,7 @@ public class BusinessPlaceController extends BaseController
      * 删除平台渠道商
      */
     @ApiOperation("删除平台渠道商")
-    @RequiresPermissions("company:place:remove")
+//    @RequiresPermissions("company:place:remove")
     @Log(title = "平台渠道商", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{placeIds}")
     public AjaxResult remove(@PathVariable String[] placeIds)

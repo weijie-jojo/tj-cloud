@@ -43,7 +43,7 @@ public class EmployeeInformationController extends BaseController {
      * 查询员工信息列表（不分页）
      */
     @ApiOperation("查询员工信息列表")
-    @RequiresPermissions("company:information:list")
+//    @RequiresPermissions("company:information:list")
     @GetMapping("/all")
     public TableDataInfo all() {
         List<EmployeeInformation> list = employeeInformationService.selectEmployeeInformation();
@@ -54,7 +54,7 @@ public class EmployeeInformationController extends BaseController {
      * 查询员工信息列表
      */
     @ApiOperation("查询员工信息列表")
-    @RequiresPermissions("company:information:list")
+//    @RequiresPermissions("company:information:list")
     @GetMapping("/list")
     public TableDataInfo list(EmployeeInformation employeeInformation) {
         startPage();
@@ -80,7 +80,7 @@ public class EmployeeInformationController extends BaseController {
      * 获取员工信息详细信息
      */
     @ApiOperation("获取员工信息详细信息")
-    @RequiresPermissions("company:information:query")
+//    @RequiresPermissions("company:information:query")
     @GetMapping(value = "/{userId}")
     public AjaxResult getInfo(@PathVariable("userId") Long userId)
     {
@@ -91,7 +91,7 @@ public class EmployeeInformationController extends BaseController {
      * 新增员工信息
      */
     @ApiOperation("新增员工信息")
-    @RequiresPermissions("company:information:add")
+//    @RequiresPermissions("company:information:add")
     @Log(title = "员工信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody EmployeeInformation employeeInformation)
@@ -103,7 +103,7 @@ public class EmployeeInformationController extends BaseController {
      * 修改员工信息
      */
     @ApiOperation("修改员工信息")
-    @RequiresPermissions("company:information:edit")
+//    @RequiresPermissions("company:information:edit")
     @Log(title = "员工信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody EmployeeInformation employeeInformation)
@@ -115,7 +115,7 @@ public class EmployeeInformationController extends BaseController {
      * 删除员工信息
      */
     @ApiOperation("删除员工信息")
-    @RequiresPermissions("company:information:remove")
+//    @RequiresPermissions("company:information:remove")
     @Log(title = "员工信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)

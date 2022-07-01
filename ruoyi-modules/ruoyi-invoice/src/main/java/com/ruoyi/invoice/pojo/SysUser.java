@@ -6,7 +6,7 @@ import lombok.Data;
 public class SysUser {
     private Integer userId;
     private String nickName;
-    private String accountCard;
+    private String payCheckBank;
     private String accountCardBank;
 
 }

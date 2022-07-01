@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class AccountTravelExpenseVo extends AccountTravelExpense {
-    private String label;//字典表中状态名
-    private String username;//用户表中的用户名
+    private String dictLabel;//字典表中状态名
+    private String userName;//用户表中的用户名
     private String nickName;//用户表中的用户名
 }

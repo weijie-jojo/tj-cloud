@@ -64,7 +64,7 @@
                 <el-input  v-model="ruleForm.item5desc"  style="width:200px" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="金额" style="margin-left:520px;margin-top:-310px">
+            <el-form-item label="金额" style="margin-left:520px;margin-top:-410px">
             </el-form-item>  
             <el-form-item  class="moneyCss">
                 <el-input-number disabled v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
@@ -87,7 +87,7 @@
                 <div class="yuan">元</div>
             </el-form-item>
 
-            <el-form-item label="备注" style="margin-left:1020px;margin-top:-310px">
+            <el-form-item label="备注" style="margin-left:1020px;margin-top:-390px">
             </el-form-item>  
             <el-form-item  class="remarkCss" >
                 <el-popover
@@ -172,14 +172,14 @@
                     disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="收款账号"  style="margin-top: -50px;margin-left:440px">
+            <el-form-item label="收款账号"  style="margin-top: -60px;margin-left:440px">
                 <el-input 
                     v-model="ruleForm.bankcardGetid" 
                     style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="收款开户行"  style="margin-top: -50px;margin-left:920px">
+            <el-form-item label="收款开户行"  style="margin-top: -60px;margin-left:920px">
                 <el-input 
                     v-model="ruleForm.bankGetname" 
                     style="width:200px"
@@ -272,6 +272,18 @@
                 ></el-image>
             </el-form-item>
 
+            <el-form-item 
+                v-show="isShowImg2" 
+                class="demo-image__preview" 
+                v-for="(item,index) in imgArr2" :key="index" 
+                style="margin-top:200px;margin-left: -60px;">
+                <span  class="imgTitle">付款凭证影像</span>
+                <el-image
+                   style="width:1100px;height: 700px;"
+                    :src="baseImgPath+item.value"
+                ></el-image>
+            </el-form-item>
+<!-- 
             <el-form-item
                 v-show="isShowImg2" 
                 class="demo-image__preview" 
@@ -281,7 +293,7 @@
                    style="width:1100px;height: 700px;"
                     :src="imgpath2"
                 ></el-image>
-            </el-form-item>
+            </el-form-item> -->
 
         </el-form>
         
@@ -315,13 +327,22 @@
                 ></el-image>
             </div>
         </el-dialog>
-        <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
-            <div class="demo-image">
+        <el-dialog title="图片" :visible.sync="imageVisible2" width="30%">
+            <div class="demo-image" 
+                v-for="(item,index) in imgArr2" :key="index" 
+                style="margin-top:20px;">
+                <el-image
+                    style="width: 300px; height: 200px"
+                    :src="baseImgPath+item.value"
+                    :preview-src-list="srcList2"
+                ></el-image>
+            </div>
+            <!-- <div class="demo-image">
                 <el-image
                     style="width:1100px;height: 700px;"
                     :src="imgpath2"
                 ></el-image>
-            </div>
+            </div> -->
         </el-dialog>
     </div>
 </template>
@@ -329,7 +350,7 @@
     
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getAllCompany} from '@/api/invoices/borrow'
-    import { getDepts, getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
+    import { getDepts,getAllGetCompany,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
     import { getExpenseItem } from '@/api/invoices/travelExpense'
     export default {
     name: 'expense',
@@ -338,7 +359,9 @@
         isShowImg:false,
         isShowImg2:false,
         srcList:[],
+        srcList2:[],
         imgArr:[],
+        imgArr2:[],
         baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
         imgpath:'',
         expenseImage:'',
@@ -442,8 +465,7 @@
            
         },
         //后端查询的数据
-        searchDepts:[],
-        searchPayways:[],
+        // searchDepts:[],
         searchGetCompanys:[],//所有收款单位信息
         searchCardInfos:[],//所选公司对应的银行卡信息
         checkType:'',
@@ -460,16 +482,16 @@
         this.getAllCompany();
         // this.getExpenseCode();
         this.getExpenseItem();
-        this.getAllDept();
-        this.getAllPayway();
+        // this.getAllDept();
         // this.getAllGetCompany();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
         };
         this.expenses = JSON.parse(window.localStorage.getItem('expenses')).list
-        console.log("expenses==",this.expenses[0]);
+        
         this.ruleForm.expenseCode=this.expenses[0].expenseCode;
+        console.log("expenseCode==",this.ruleForm.expenseCode);
         this.ruleForm.expenseDate=this.expenses[0].createTime;
         this.ruleForm.deptId=this.expenses[0].deptId;
         this.ruleForm.deptName=this.expenses[0].name;
@@ -531,15 +553,27 @@
             })
             this.isShowImg=true;
         }
-        
-        if (this.expenseImage2==""||this.expenseImage2==undefined) {
-            // this.imgpath2 =this.baseImgPath+"404.jpg";
+
+        var imgArr2=JSON.parse(this.expenseImage2);
+        if (imgArr2.length<=0) {
             console.log("404");
             this.isShowImg2=false;
         }else{
-            this.imgpath2 =this.baseImgPath+this.expenseImage2;
+            imgArr2.map((item,index)=>{
+                if(item!=null){
+                    this.imgArr2.push({id:index,value:item.value});
+                }
+            })
             this.isShowImg2=true;
         }
+        // if (this.expenseImage2==""||this.expenseImage2==undefined) {
+        //     // this.imgpath2 =this.baseImgPath+"404.jpg";
+        //     console.log("404");
+        //     this.isShowImg2=false;
+        // }else{
+        //     this.imgpath2 =this.baseImgPath+this.expenseImage2;
+        //     this.isShowImg2=true;
+        // }
         
     },
     methods: {
@@ -693,15 +727,6 @@
                 };  
             }   
         },
-        selectPayWay(){
-            console.log("paywayId",this.ruleForm.paywayId);
-            if(this.ruleForm.paywayId==17){
-                this.isDisabled=true;
-            }
-            if(this.ruleForm.paywayId==18){
-                this.isDisabled=false;
-            }
-        },
         //获取所有出款单位信息 
         getAllCompany() {
             getAllCompany().then(res => {  
@@ -732,19 +757,12 @@
         }, 
        
         //初始化下拉部门信息 
-        getAllDept() {
-            getDepts().then(res => {
-                console.log('getDepts==',res.list);
-                this.searchDepts = res.list
-            }).catch(() => { })
-        }, 
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            }).catch(() => { })
-        }, 
+        // getAllDept() {
+        //     getDepts().then(res => {
+        //         console.log('getDepts==',res.list);
+        //         this.searchDepts = res.list
+        //     }).catch(() => { })
+        // }, 
         //初始化下拉公司信息 
         getAllGetCompany() {
             getAllGetCompany().then(res => {
@@ -805,7 +823,7 @@
         }
     },
     getImage2(){   
-        if(this.expenseImage2==""||this.expenseImage2==undefined){
+        if(this.imgArr2.length<=0){
             this.imageVisible2=false;
             this.$message({
                 message: "没有影像",
@@ -813,7 +831,20 @@
             });
         }else{
             this.imageVisible2=true;
+            this.imgArr2.map(item=>{//增加可预览功能
+                this.srcList2.push(this.baseImgPath+item.value);
+            })
         }
+
+        // if(this.expenseImage2==""||this.expenseImage2==undefined){
+        //     this.imageVisible2=false;
+        //     this.$message({
+        //         message: "没有影像",
+        //         type: 'warning',
+        //     });
+        // }else{
+        //     this.imageVisible2=true;
+        // }
     },
 
     },
@@ -852,15 +883,15 @@
     }
     .middle{
         margin-left: 310px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right{
         margin-left: 630px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right2{
         margin-left: 920px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     #btn{
       margin-left:260px;

@@ -9,12 +9,10 @@ import com.ruoyi.invoice.mapper.SysBankcardMapper;
 import com.ruoyi.invoice.mapper.SysDeptMapper;
 import com.ruoyi.invoice.pojo.AccountExpense;
 import com.ruoyi.invoice.pojo.SysDept;
-import com.ruoyi.invoice.pojo.SysDictDetail;
 import com.ruoyi.invoice.pojo.SysUser;
 import com.ruoyi.invoice.qo.TimeQo;
 import com.ruoyi.invoice.service.AccountExpenseService;
 import com.ruoyi.invoice.service.SysUserService;
-import com.ruoyi.invoice.service.TPaywayService;
 import com.ruoyi.invoice.vo.AccountExpenseVo;
 import com.ruoyi.invoice.vo.SysBankcardVo;
 import com.ruoyi.invoice.vo.SysUserVo;
@@ -22,7 +20,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -33,10 +30,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor //代替了resouse或者Autowrited
 @Api(tags = "单据管理报销单")
-@RequestMapping("/api/expense")
+@RequestMapping("/expense")
 public class AccountExpenseHandler {
-
-    private final TPaywayService tPaywayService;
 
     private final SysUserService sysUserService;
 
@@ -82,14 +77,6 @@ public class AccountExpenseHandler {
     @ApiOperation("查询所有用户")
     public List<SysUser> getAllUser(){
         return sysUserService.selectAll();
-    }
-    @GetMapping(value ="/getAllPayway")
-    @Log("查询所有付款方式")
-    @ApiOperation("查询所有付款方式")
-    public DataDto getAllPayway(){
-        List<SysDictDetail> payWays =tPaywayService.selectAll();
-        DataDto<SysDictDetail> dataDto = new DataDto<>();
-        return dataDto.success(payWays);
     }
 
     @GetMapping(value ="/getCardInfoBycompany")
@@ -152,14 +139,19 @@ public class AccountExpenseHandler {
     public DataDto getCheckExpense(AccountExpense accountExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         List<SysUserVo> sysUserVos=sysUserService.getRoleByUserId(SecurityUtils.getUserId());
         for(SysUserVo sysUserVo:sysUserVos){
-            if(sysUserVo.getRoleId()==5){//总经理显示所有审核状态的（部门主管审核过的）
+            if(sysUserVo.getRoleId()==5||sysUserVo.getRoleId()==6){//总经理或副总经理显示所有审核状态的（部门主管审核过的）
+                System.out.println("经理");
                 accountExpense.setInvoiceType(2);
             }
             if(sysUserVo.getRoleId()==7){//财务主管显示所有打款状态的单据
+                System.out.println("财务主管");
                 accountExpense.setInvoiceType(3);
             }
-            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12){//部门主管显示他手下人员的单据（发起状态）
-                int deptId=sysUserService.getDeptByRoleId(sysUserVo.getRoleId()).getDeptId();
+            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
+                //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
+                System.out.println("部门主管");
+                int deptId=sysUserService.getDeptByUserId(sysUserVo.getUserId()).getDeptId();
+                System.out.println("deptId"+deptId);
                 accountExpense.setInvoiceType(1);
                 accountExpense.setDeptId(deptId);
             }

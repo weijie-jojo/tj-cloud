@@ -163,7 +163,7 @@
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"
                     :on-success="success"
-                    :limit=3>
+                    :limit=limitNum>
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -227,7 +227,7 @@
 </template>
 <script>
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
-    import {getAllPayway,getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
+    import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
@@ -235,10 +235,12 @@
     data() {
       return {
         //上传
+        imgArr:[],
         imgDialog:false,
         borrowImage:'',
         dialogImageUrl: '',
         dialogVisible: false,
+        limitNum:10,//可上传数量
 
         filePath1:'',//文件路径1
         filePath2:'',//文件路径2
@@ -320,6 +322,7 @@
       }
     },
     mounted: function() {
+        this.searchPayways=this.dict.type.pay_way;
         this.selectAllCheck();
         // this.ruleForm.payDate="";
         // this.ruleForm.borrowDate=new Date();
@@ -327,7 +330,6 @@
         // this.getAllGetUser();
         // this.getBorrowCode();
         // this.getLoginUser();
-        this.getAllPayway();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
@@ -378,12 +380,12 @@
                 this.isDisabled=true;
             }
         },
-       //审核
-        checkInvoices(formName){
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.ruleForm.roles.map(item=>{
-                        if(item.id==5){
+    //审核
+    checkInvoices(formName){
+        this.$refs[formName].validate((valid) => {
+            if (valid) {
+                this.ruleForm.roles.map(item=>{
+                    if(item.id==5||item.id==6){
                         if(this.ruleForm.gmCheck==undefined||this.ruleForm.gmCheck==""){//未审核过
                         console.log("总经理审核");
                             if(this.ruleForm.isAgree==1){
@@ -406,7 +408,7 @@
                                 gmCheck:this.ruleForm.gm,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:this.borrowImage,
+                                borrowImage:JSON.stringify(this.imgArr),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -453,7 +455,7 @@
                                 financeCheck:this.ruleForm.finance,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:this.borrowImage,
+                                borrowImage:JSON.stringify(this.imgArr),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -477,7 +479,7 @@
                                 });
                         };  
                     };
-                    if(item.id==12||item.id==10){
+                    if(item.id==10||item.id==12||item.id==4||item.id==8){
                         if(this.ruleForm.dmCheck==undefined||this.ruleForm.dmCheck==""){//未审核过
                             console.log("部门主管审核");
                             if(this.ruleForm.isAgree==1){
@@ -500,7 +502,7 @@
                                 dmCheck:this.ruleForm.dm,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:this.borrowImage,
+                                borrowImage:JSON.stringify(this.imgArr),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -651,15 +653,7 @@
         },
         handleResize () {
             this.fullWidth = document.documentElement.clientWidth
-        }, 
-       
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            }).catch(() => { })
-        }, 
+        },  
         //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -748,10 +742,13 @@
                 .replace(/^整$/, '零元整');
         }, 
         //上传图片
-        handleRemove(file, fileList) {
-            this.borrowImage="";
+        handleRemove(file) {
+            this.imgArr.map((item,index)=>{
+                if(item.value==file.name){
+                    delete this.imgArr[index];
+                }
+            })
             this.$message("取消上传");
-            console.log("borrowImage==", this.borrowImage); 
         },
         //点+可以放大查看图片
         handlePictureCardPreview(file) {
@@ -761,8 +758,8 @@
         success(file) {
             this.$message(file.message);
             var fileUrl = file.obj;
+            this.imgArr.push({value:fileUrl});
             this.borrowImage = fileUrl;
-            console.log("fileUrl=="+this.borrowImage);
         },
         //取消按钮
         cancel() {

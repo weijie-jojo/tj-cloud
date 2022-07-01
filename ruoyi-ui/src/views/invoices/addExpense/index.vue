@@ -101,23 +101,23 @@
             <el-form-item label="金额" style="margin-left:520px;margin-top:-310px">
             </el-form-item>  
             <el-form-item  class="moneyCss" prop="item1money">
-                <el-input-number v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
+                <el-input-number v-model="ruleForm.item1money" :precision="2" :step="0.01" :min="0"  style="width:160px"></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item>
              <el-form-item  class="moneyCss">
-                <el-input-number v-model="ruleForm.item2money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
+                <el-input-number v-model="ruleForm.item2money" :precision="2" :step="0.01" :min="0"  style="width:160px"></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item>
             <el-form-item class="moneyCss" >
-                <el-input-number v-model="ruleForm.item3money" :precision="2" :step="0.1"  :min="0"  style="width:160px"></el-input-number>
+                <el-input-number v-model="ruleForm.item3money" :precision="2" :step="0.01"  :min="0"  style="width:160px"></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item>
              <el-form-item  class="moneyCss">
-                <el-input-number v-model="ruleForm.item4money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
+                <el-input-number v-model="ruleForm.item4money" :precision="2" :step="0.01" :min="0"  style="width:160px"></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item>
             <el-form-item  class="moneyCss" >
-                <el-input-number v-model="ruleForm.item5money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
+                <el-input-number v-model="ruleForm.item5money" :precision="2" :step="0.01" :min="0"  style="width:160px"></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item>
 
@@ -139,8 +139,13 @@
                 <el-input  v-model="ruleForm.item5remark" placeholder="请输入备注" style="width:240px" ></el-input>
             </el-form-item>
            
-            <el-form-item  label="合计金额(小写)：" class="left" prop="money">        
-                {{ruleForm.item1money+ruleForm.item2money+ruleForm.item3money+ruleForm.item4money+ruleForm.item5money}}    
+            <el-form-item  label="合计金额(小写)：" class="left" >  
+                <el-input-number 
+                    disabled
+                    v-model="ruleForm.item1money+ruleForm.item2money+ruleForm.item3money+ruleForm.item4money+ruleForm.item5money" 
+                    :precision="2" :step="0.1" :min="0"  
+                    style="width:160px"></el-input-number>
+                <div class="yuan">元</div>      
             </el-form-item>
             <el-form-item  label="合计金额(大写)：" class="right2">                 
                 {{digitUppercase(ruleForm.item1money+ruleForm.item2money+ruleForm.item3money+ruleForm.item4money+ruleForm.item5money)}}      
@@ -282,7 +287,7 @@
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getInfo} from '@/api/login'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
-    import { getDepts, getAllPayway,getCardInfoBycompany,addExpense,getCode } from '@/api/invoices/expense'
+    import { getDepts,getCardInfoBycompany,addExpense,getCode } from '@/api/invoices/expense'
     import { getExpenseItem } from '@/api/invoices/travelExpense'
     export default {
     name: 'expense',
@@ -396,7 +401,6 @@
 
         //后端查询的数据
         searchDepts:[],
-        searchPayways:[],
       }
     },
     mounted: function() {
@@ -421,7 +425,6 @@
         this.getExpenseCode();
         this.getExpenseItem();
         this.getAllDept();
-        this.getAllPayway();
         this.getAllGetUser();
         this.getAllCompany();
         const that = this
@@ -444,15 +447,15 @@
         },
       
 
-        selectPayWay(){
-            console.log("paywayId",this.ruleForm.paywayId);
-            if(this.ruleForm.paywayId==17){
-                this.isDisabled=true;
-            }
-            if(this.ruleForm.paywayId==18){
-                this.isDisabled=false;
-            }
-        },
+        // selectPayWay(){
+        //     console.log("paywayId",this.ruleForm.paywayId);
+        //     if(this.ruleForm.paywayId==17){
+        //         this.isDisabled=true;
+        //     }
+        //     if(this.ruleForm.paywayId==18){
+        //         this.isDisabled=false;
+        //     }
+        // },
         //获取所有出款单位信息 
         getAllCompany() {
             getAllCompany().then(res => {  
@@ -509,13 +512,6 @@
                 this.searchDepts = res.list
             }).catch(() => { })
         }, 
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            }).catch(() => { })
-        }, 
        
         //提交表单
         submitForm(formName) {
@@ -524,12 +520,14 @@
                     var invoiceType=1;
                     this.roles.map(item=>{//总经理
                         if(item.id==5){
-                            invoiceType=2;
-                            this.ruleForm.dmCheck=this.ruleForm.expenseName;
+                            invoiceType=3;
+                            // this.ruleForm.dmCheck=this.ruleForm.expenseName;
+                            this.ruleForm.gmCheck=this.ruleForm.expenseName;
                         }
                     })
                     let params={
-                        dmCheck:this.ruleForm.dmCheck,
+                        // dmCheck:this.ruleForm.dmCheck,
+                        gmCheck:this.ruleForm.gmCheck,
 
                         invoiceType:invoiceType,//发起状态
                         deptId:this.ruleForm.deptId,

@@ -77,7 +77,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -209,7 +209,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -324,7 +324,7 @@
               align="center"
             />
             <el-table-column
-              prop="label"
+              prop="dictLabel"
               label="状态"
               align="center"
             />
@@ -371,14 +371,16 @@
   </div>
 </template>
 <script>
+// import initDict from '@/mixins/initDict'
 import {getInfo} from '@/api/login'
-import {getDicts} from '@/api/system/dict/data'
+// import initDict,{getDicts} from '@/api/system/dict'
 import {addCheckInvoices} from '@/api/invoices/checkInvoices'
 import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/borrow";
 import { editExpense,getExpenses,editExpenseType } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
 export default {
-  
+  dicts: ['invoice_type'],
+  // mixins: [initDict],
   components: {},
   props: [],
   data() {
@@ -655,7 +657,7 @@ export default {
         let params2={
           invoiceCode:item.expenseCode,
           checkReasult:"撤回",
-          checkUser:item.username,
+          checkUser:item.userName,
           checkDate:this.returnTime(new Date()),
           invoiceType:1,//单据类别
         }
@@ -692,7 +694,7 @@ export default {
         let params2={
           invoiceCode:item.travelExpenseCode,
           checkReasult:"撤回",
-          checkUser:item.username,
+          checkUser:item.userName,
           checkDate:this.returnTime(new Date()),
           invoiceType:2,//单据类别
         }
@@ -730,7 +732,7 @@ export default {
         let params2={
           invoiceCode:item.borrowCode,
           checkReasult:"撤回",
-          checkUser:item.username,
+          checkUser:item.userName,
           checkDate:this.returnTime(new Date()),
           invoiceType:3,//单据类别
         }
@@ -761,10 +763,15 @@ export default {
     },
     //获取字典表数据
     getDicts(){
-      getDicts().then(res=>{
-        // console.log("item==",res.find((item) => item.id == 7).dictDetails);
-        this.invoiceTypes= res.find((item) => item.id == 7).dictDetails  
-      })
+      this.invoiceTypes=this.dict.type.invoice_type;
+      // this.invoiceTypes= this.dict.type.invoice_type.find((item) => item.id == 7).dictDetails;
+        console.log("invoiceTypes",this.dict.type.invoice_type);  
+      // getDicts().then(res=>{
+        
+      //   // console.log("item==",res.find((item) => item.id == 7).dictDetails);
+      //   this.invoiceTypes= this.dict.type.invoice_type.find((item) => item.id == 7).dictDetails;
+      //   console.log("invoiceTypes",this.invoiceTypes);  
+      // })
       
     },
     //查询所有报销单信息

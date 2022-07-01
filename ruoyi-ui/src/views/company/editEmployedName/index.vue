@@ -179,7 +179,11 @@
             <el-button type="danger" @click="toReturn" class="btn">取消</el-button> 
         </el-col>
         <el-col :span="2">
-            <el-button type="primary" @click="submitForm" class="btn">确认修改</el-button>
+            <el-button 
+              type="primary" 
+              @click="submitForm" 
+              class="btn"
+               v-hasPermi="['company:review:edit']">确认修改</el-button>
         </el-col>
       </el-row>
 

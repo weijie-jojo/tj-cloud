@@ -30,13 +30,8 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SysUserVo getDeptByRoleId(int userId) {
-        return sysUserMapper.getDeptByRoleId(userId);
-    }
-
-    @Override
-    public List<SysUserVo> getUserByDeptId(int deptId) {
-        return sysUserMapper.getUserByDeptId(deptId);
+    public SysUserVo getDeptByUserId(Long userId) {
+        return sysUserMapper.getDeptByUserId(userId);
     }
 
 

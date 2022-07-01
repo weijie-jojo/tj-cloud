@@ -180,13 +180,14 @@
             </el-form-item>
 
             <el-form-item 
-                v-show="isShowImg"
+                v-show="isShowImg" 
                 class="demo-image__preview" 
+                v-for="(item,index) in imgArr" :key="index" 
                 style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">报销凭证影像</span>
+                <span  class="imgTitle">付款凭证影像</span>
                 <el-image
                    style="width:1100px;height: 700px;"
-                    :src="imgpath"
+                    :src="baseImgPath+item.value"
                 ></el-image>
             </el-form-item>
 
@@ -194,7 +195,7 @@
                 v-show="isShowImg2"
                 class="demo-image__preview" 
                 style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">付款凭证影像</span>
+                <span class="imgTitle">还凭证影像</span>
                 <el-image
                    style="width:1100px;height: 700px;"
                     :src="imgpath2"
@@ -219,12 +220,21 @@
         </div>
         <!-- 图片 -->
         <el-dialog title="图片" :visible.sync="imageVisible" width="60%">
-            <div class="demo-image">
+            <div class="demo-image" 
+                v-for="(item,index) in imgArr" :key="index" 
+                style="margin-top:20px;">
+                <el-image
+                    style="width: 300px; height: 200px"
+                    :src="baseImgPath+item.value"
+                    :preview-src-list="srcList"
+                ></el-image>
+            </div>
+            <!-- <div class="demo-image">
                 <el-image
                    style="width:1100px;height: 700px;"
                     :src="imgpath"
                 ></el-image>
-            </div>
+            </div> -->
         </el-dialog>
         <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
             <div class="demo-image">
@@ -238,13 +248,16 @@
 </template>
 <script>
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
-    import {getAllPayway,getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
+    import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
     name: 'borrow',
     data() {
       return {
+        imgArr:[],
+        srcList:[],
+
         isShowImg:false,
         isShowImg2:false,
 
@@ -334,6 +347,7 @@
       }
     },
     mounted: function() {
+        this.searchPayways=this.dict.type.pay_way;
         this.selectAllCheck();
         // this.ruleForm.payDate="";
         // this.ruleForm.borrowDate=new Date();
@@ -341,7 +355,6 @@
         // this.getAllGetUser();
         // this.getBorrowCode();
         // this.getLoginUser();
-        this.getAllPayway();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
@@ -384,16 +397,29 @@
 
         this.borrowImage=this.borrows[0].borrowImage;
         this.borrowImage2=this.borrows[0].borrowImage2;
-
         
-        if (this.borrowImage==""||this.borrowImage==undefined) {
-            // this.imgpath =this.baseImgPath+"404.jpg";
+        var imgArr=JSON.parse(this.borrowImage);
+        if (imgArr.length<=0) {
+            // this.imgArr.push({id:0,value:"404.jpg"})
             console.log("404");
             this.isShowImg=false;
         }else{
-            this.imgpath =this.baseImgPath+this.borrowImage
+            imgArr.map((item,index)=>{
+                if(item!=null){
+                    this.imgArr.push({id:index,value:item.value});
+                }
+            })
             this.isShowImg=true;
         }
+        
+        // if (this.borrowImage==""||this.borrowImage==undefined) {
+        //     // this.imgpath =this.baseImgPath+"404.jpg";
+        //     console.log("404");
+        //     this.isShowImg=false;
+        // }else{
+        //     this.imgpath =this.baseImgPath+this.borrowImage
+        //     this.isShowImg=true;
+        // }
 
         if (this.borrowImage2==""||this.borrowImage2==undefined) {
             // this.imgpath2 =this.baseImgPath+"404.jpg";
@@ -403,6 +429,8 @@
             this.imgpath2 =this.baseImgPath+this.borrowImage2
             this.isShowImg2=true;
         }
+
+
 
     },
     methods: {
@@ -657,13 +685,6 @@
             this.fullWidth = document.documentElement.clientWidth
         }, 
        
-        //初始化下拉付款方式信息 
-        getAllPayway() {
-            getAllPayway().then(res => {
-                console.log('getAllPayway==',res.list);
-                this.searchPayways = res.list
-            }).catch(() => { })
-        }, 
         //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -757,7 +778,7 @@
         }, 
     //获取图片
     getImage(){
-        if(this.borrowImage==""||this.borrowImage==undefined){
+        if(this.imgArr.length<=0){
             this.imageVisible=false;
             this.$message({
                 message: "没有影像",
@@ -765,7 +786,19 @@
             });
         }else{
             this.imageVisible=true;
+            this.imgArr.map(item=>{//增加可预览功能
+                this.srcList.push(this.baseImgPath+item.value);
+            })
         }
+        // if(this.borrowImage==""||this.borrowImage==undefined){
+        //     this.imageVisible=false;
+        //     this.$message({
+        //         message: "没有影像",
+        //         type: 'warning',
+        //     });
+        // }else{
+        //     this.imageVisible=true;
+        // }
     },
     getImage2(){
         if(this.borrowImage2==""||this.borrowImage2==undefined){

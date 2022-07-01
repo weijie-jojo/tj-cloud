@@ -507,7 +507,11 @@
                   <el-button type="danger" @click="toReturn2" class="btn">返回</el-button> 
               </el-col>
               <el-col :span="2">
-                  <el-button type="primary" @click="submitForm3" class="btn">下一步</el-button>
+                  <el-button 
+                    type="primary" 
+                    @click="submitForm3" 
+                    class="btn"
+                    v-hasPermi="['company:employed:add']">下一步</el-button>
               </el-col>
             </el-row>
         </el-tab-pane>
@@ -919,7 +923,7 @@ export default {
       })
     },
     //把数据整成树状
-   parseTree(industry, tree, pid) {
+    parseTree(industry, tree, pid) {
       for (var i = 0; i < industry.length; i++) {
         if (industry[i].parentId == pid) {
           var obj = {

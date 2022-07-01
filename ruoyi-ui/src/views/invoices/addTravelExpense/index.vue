@@ -189,7 +189,7 @@
                 <el-input-number 
                     v-model="ruleForm.traffic1" 
                     :precision="2" 
-                    :step="0.1" :min="0" 
+                    :step="0.01" :min="0" 
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -198,7 +198,7 @@
                 <el-input-number 
                     v-model="ruleForm.traffic2" 
                     :precision="2" 
-                    :step="0.1" :min="0" 
+                    :step="0.01" :min="0" 
                         class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -207,7 +207,7 @@
                 <el-input-number 
                     v-model="ruleForm.traffic3" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -218,7 +218,7 @@
                 <el-input-number 
                     v-model="ruleForm.stay1" 
                     :precision="2" 
-                    :step="0.1" :min="0" 
+                    :step="0.01" :min="0" 
                     class="numberInput"  
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -227,7 +227,7 @@
                 <el-input-number 
                     v-model="ruleForm.stay2" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -236,7 +236,7 @@
                 <el-input-number 
                     v-model="ruleForm.stay3" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -247,7 +247,7 @@
                 <el-input-number 
                     v-model="ruleForm.subsidy1" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -256,7 +256,7 @@
                 <el-input-number 
                     v-model="ruleForm.subsidy2" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -265,7 +265,7 @@
                 <el-input-number 
                     v-model="ruleForm.subsidy3" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                         class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -276,7 +276,7 @@
                 <el-input-number 
                     v-model="ruleForm.other1" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                         class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -285,7 +285,7 @@
                 <el-input-number 
                     v-model="ruleForm.other2" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                     class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -294,32 +294,55 @@
                 <el-input-number 
                     v-model="ruleForm.other3" 
                     :precision="2" 
-                    :step="0.1" :min="0"  
+                    :step="0.01" :min="0"  
                         class="numberInput" 
                 ></el-input-number>
                 <div class="yuan">元</div>
             </el-form-item> 
-            <el-form-item label="小计" style="margin-left:1410px;margin-top:-350px">
+            <el-form-item label="小计" style="margin-left:1460px;margin-top:-350px">
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1}}
-                <span style="margin-left:20px">元</span>
+                <el-input-number 
+                    disabled
+                    v-model="ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1" 
+                    :precision="2" :step="0.01" :min="0"  
+                    style="width:140px"></el-input-number>
+                <!-- {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1}} -->
+                <span style="margin-left:10px">元</span>
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2}}
-                    <span style="margin-left:20px">元</span>
+                <el-input-number 
+                    disabled
+                    v-model="ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2" 
+                    :precision="2" :step="0.01" :min="0"  
+                    style="width:140px"></el-input-number>
+                <!-- {{ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2}} -->
+                    <span style="margin-left:10px">元</span>
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3}}
-                    <span style="margin-left:20px">元</span>
+                 <el-input-number 
+                    disabled
+                    v-model="ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3" 
+                    :precision="2" :step="0.01" :min="0"  
+                    style="width:140px"></el-input-number>
+                <!-- {{ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3}} -->
+                    <span style="margin-left:10px">元</span>
             </el-form-item>
            
             <el-row style="margin-top:20px">
                 <el-col :span="10">
-                    <el-form-item  label="总计金额(小写)" >        
-                        {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
+                    <el-form-item  label="总计金额(小写)" > 
+                        <el-input-number 
+                            disabled
+                            v-model="ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
+                            ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
+                            ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3" 
+                            :precision="2" :step="0.01" :min="0"  
+                            style="width:140px"></el-input-number>  
+                             <span style="margin-left:10px">元</span>     
+                        <!-- {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
                         ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}    
+                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}     -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -526,7 +549,8 @@
             bankPaycode:'',//付款单位银行卡号
             bankPayname:'',//付款单位银行卡所属银行
 
-            dmCheck:'',//部门主管  
+            dmCheck:'',//部门主管 
+            gmCheck:'',//总经理 
         },
         rules: {
             userGetid: [
@@ -659,12 +683,14 @@
                     var invoiceType=1;
                     this.roles.map(item=>{//总经理
                         if(item.id==5){
-                            invoiceType=2;
-                            this.ruleForm.dmCheck=this.ruleForm.expenseName;
+                            invoiceType=3;
+                            // this.ruleForm.dmCheck=this.ruleForm.expenseName;
+                            this.ruleForm.gmCheck=this.ruleForm.expenseName;
                         }
                     })
                     let params={
-                        dmCheck:this.ruleForm.dmCheck,
+                        // dmCheck:this.ruleForm.dmCheck,
+                        gmCheck:this.ruleForm.gmCheck,
 
                         invoiceType:invoiceType,//发起状态
                         deptId:this.ruleForm.deptId,

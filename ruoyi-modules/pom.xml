@@ -15,6 +15,7 @@
         <module>ruoyi-file</module>
         <module>ruoyi-invoice</module>
         <module>ruoyi-company</module>
+        <module>ruoyi-place</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>

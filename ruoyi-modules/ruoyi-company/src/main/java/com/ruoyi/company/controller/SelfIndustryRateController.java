@@ -44,7 +44,7 @@ public class SelfIndustryRateController extends BaseController
      * 导出个体户行业类型税率列表（不分页）
      */
     @ApiOperation("导出个体户行业类型税率列表（不分页）")
-    @RequiresPermissions("company:person:list")
+//    @RequiresPermissions("company:person:list")
     @GetMapping("/all")
     public TableDataInfo all()
     {
@@ -56,7 +56,7 @@ public class SelfIndustryRateController extends BaseController
      * 查询个体户行业类型税率列表
      */
     @ApiOperation("查询个体户行业类型税率列表")
-    @RequiresPermissions("company:rate:list")
+//    @RequiresPermissions("company:rate:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfIndustryRate selfIndustryRate)
     {
@@ -83,7 +83,7 @@ public class SelfIndustryRateController extends BaseController
      * 获取个体户行业类型税率详细信息
      */
     @ApiOperation("获取个体户行业类型税率详细信息")
-    @RequiresPermissions("company:rate:query")
+//    @RequiresPermissions("company:rate:query")
     @GetMapping(value = "/{industryId}")
     public AjaxResult getInfo(@PathVariable("industryId") String industryId)
     {
@@ -94,7 +94,7 @@ public class SelfIndustryRateController extends BaseController
      * 新增个体户行业类型税率
      */
     @ApiOperation("新增个体户行业类型税率")
-    @RequiresPermissions("company:rate:add")
+//    @RequiresPermissions("company:rate:add")
     @Log(title = "个体户行业类型税率", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SelfIndustryRate selfIndustryRate)
@@ -106,7 +106,7 @@ public class SelfIndustryRateController extends BaseController
      * 修改个体户行业类型税率
      */
     @ApiOperation("修改个体户行业类型税率")
-    @RequiresPermissions("company:rate:edit")
+//    @RequiresPermissions("company:rate:edit")
     @Log(title = "个体户行业类型税率", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SelfIndustryRate selfIndustryRate)
@@ -118,7 +118,7 @@ public class SelfIndustryRateController extends BaseController
      * 删除个体户行业类型税率
      */
     @ApiOperation("删除个体户行业类型税率")
-    @RequiresPermissions("company:rate:remove")
+//    @RequiresPermissions("company:rate:remove")
     @Log(title = "个体户行业类型税率", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{industryIds}")
     public AjaxResult remove(@PathVariable String[] industryIds)

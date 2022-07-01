@@ -13,7 +13,6 @@ import com.ruoyi.invoice.util.JudgeNull;
 import com.ruoyi.invoice.vo.AccountExpenseVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -141,15 +140,15 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
         IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseMapper.selectJoinPage(new Page(currentPages,limits),AccountExpenseVo.class,
                 new MPJQueryWrapper<AccountExpense>()
                         .selectAll(AccountExpense.class)
-                        .select("A.label")
-                        .select("B.username")
+                        .select("A.dict_label")
+                        .select("B.user_name")
                         .select("B.nick_name")
-                        .select("C.name")
-                        .innerJoin("sys_dict_detail A on t.invoice_type=A.value")
+                        .select("C.dept_name")
+                        .innerJoin("sys_dict_data A on t.invoice_type=A.dict_value")
                         .innerJoin("sys_user B on t.create_user=B.user_id")
                         .innerJoin("sys_dept C on t.dept_id=C.dept_id")
                         .eq("t.is_deleted",0)
-                        .eq("A.dict_id",7)
+                        .eq("A.dict_type","invoice_type")
                         .eq(accountExpense.getExpenseCode()!=null,"t.expense_code", accountExpense.getExpenseCode())
                         .eq(accountExpense.getDeptId()!=null,"t.dept_id", accountExpense.getDeptId())
                         .eq(accountExpense.getInvoiceType()!=null,"t.invoice_type", accountExpense.getInvoiceType())
