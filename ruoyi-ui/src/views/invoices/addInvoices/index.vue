@@ -763,6 +763,7 @@ export default {
     },
     //获取字典表数据
     getDicts(){
+      this.invoiceTypes=this.dict.type.invoice_type;
       // this.invoiceTypes= this.dict.type.invoice_type.find((item) => item.id == 7).dictDetails;
         console.log("invoiceTypes",this.dict.type.invoice_type);  
       // getDicts().then(res=>{

@@ -64,7 +64,7 @@
                 <el-input  v-model="ruleForm.item5desc"  style="width:200px" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="金额" style="margin-left:520px;margin-top:-310px">
+            <el-form-item label="金额" style="margin-left:520px;margin-top:-410px">
             </el-form-item>  
             <el-form-item  class="moneyCss">
                 <el-input-number disabled v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
@@ -87,7 +87,7 @@
                 <div class="yuan">元</div>
             </el-form-item>
 
-            <el-form-item label="备注" style="margin-left:1020px;margin-top:-310px">
+            <el-form-item label="备注" style="margin-left:1020px;margin-top:-390px">
             </el-form-item>  
             <el-form-item  class="remarkCss" >
                 <el-popover
@@ -172,14 +172,14 @@
                     disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="收款账号"  style="margin-top: -50px;margin-left:440px">
+            <el-form-item label="收款账号"  style="margin-top: -60px;margin-left:440px">
                 <el-input 
                     v-model="ruleForm.bankcardGetid" 
                     style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="收款开户行"  style="margin-top: -50px;margin-left:920px">
+            <el-form-item label="收款开户行"  style="margin-top: -60px;margin-left:920px">
                 <el-input 
                     v-model="ruleForm.bankGetname" 
                     style="width:200px"
@@ -277,7 +277,7 @@
                 class="demo-image__preview" 
                 v-for="(item,index) in imgArr2" :key="index" 
                 style="margin-top:200px;margin-left: -60px;">
-                <span  class="imgTitle">报销凭证影像</span>
+                <span  class="imgTitle">付款凭证影像</span>
                 <el-image
                    style="width:1100px;height: 700px;"
                     :src="baseImgPath+item.value"
@@ -482,15 +482,16 @@
         this.getAllCompany();
         // this.getExpenseCode();
         this.getExpenseItem();
-        this.getAllDept();
+        // this.getAllDept();
         // this.getAllGetCompany();
         const that = this
         window.onresize = function temp() {
             that.height = document.documentElement.clientHeight - 180 + 'px;'
         };
         this.expenses = JSON.parse(window.localStorage.getItem('expenses')).list
-        console.log("expenses==",this.expenses[0]);
+        
         this.ruleForm.expenseCode=this.expenses[0].expenseCode;
+        console.log("expenseCode==",this.ruleForm.expenseCode);
         this.ruleForm.expenseDate=this.expenses[0].createTime;
         this.ruleForm.deptId=this.expenses[0].deptId;
         this.ruleForm.deptName=this.expenses[0].name;
@@ -882,15 +883,15 @@
     }
     .middle{
         margin-left: 310px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right{
         margin-left: 630px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right2{
         margin-left: 920px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     #btn{
       margin-left:260px;

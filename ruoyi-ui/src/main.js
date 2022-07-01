@@ -38,6 +38,9 @@ import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
 
+import Print from 'vue-print-nb'
+Vue.use(Print)
+
 require('./mock');
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts

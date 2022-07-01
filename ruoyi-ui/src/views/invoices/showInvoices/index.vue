@@ -24,6 +24,7 @@
               <el-select
                 v-model="search.expenseUser"
                 clearable
+                filterable
                 placeholder="请选择人员"
                 style="margin-left:20px"
               >
@@ -128,6 +129,7 @@
               <el-select
                 v-model="search.travelExpenseUser"
                 clearable
+                filterable
                 placeholder="请选择人员"
                 style="margin-left:20px"
               >
@@ -233,6 +235,7 @@
                <el-select
                 v-model="search.borrowUser"
                 clearable
+                filterable
                 placeholder="请选择人员"
                 style="margin-left:20px"
               >
@@ -326,6 +329,7 @@ import { getBorrow,editBorrowType,getAllBorrows} from "@/api/invoices/borrow";
 import { getAllUser,editExpense,editExpenseType,getExpenses,getAllExpenses } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,getAllTravelExpense } from "@/api/invoices/travelExpense";
 export default {
+   dicts: ['invoice_type'],
   components: {},
   props: [],
   data() {
@@ -498,7 +502,7 @@ export default {
         this.loginRoles=res.user.roles;
         this.checkPerson=res.user.nickName;
     })
-    // this.getDicts();
+    this.getDicts();
     this.getAllExpense();
     this.getAllTravelExpense();
     this.getAllBorrow();  
@@ -558,10 +562,11 @@ export default {
     },
     //获取字典表数据
     getDicts(){
-      getDicts().then(res=>{
-        // console.log("item==",res.find((item) => item.id == 7).dictDetails);
-        this.invoiceTypes= res.find((item) => item.id == 7).dictDetails  
-      })
+      this.invoiceTypes=this.dict.type.invoice_type;
+      // getDicts().then(res=>{
+      //   // console.log("item==",res.find((item) => item.id == 7).dictDetails);
+      //   this.invoiceTypes= res.find((item) => item.id == 7).dictDetails  
+      // })
       
     },
     //查询所有报销单信息

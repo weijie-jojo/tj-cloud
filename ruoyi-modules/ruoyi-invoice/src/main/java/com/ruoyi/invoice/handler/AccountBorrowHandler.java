@@ -114,7 +114,7 @@ public class AccountBorrowHandler {
             }
             if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
                 //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
-                int deptId=sysUserService.getDeptByRoleId(sysUserVo.getRoleId()).getDeptId();
+                int deptId=sysUserService.getDeptByUserId(sysUserVo.getUserId()).getDeptId();
                 sysBorrowVo.setInvoiceType(1);
                 sysBorrowVo.setDeptId(deptId);
             }

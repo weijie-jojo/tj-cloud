@@ -9,10 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface SysUserMapper extends MPJBaseMapper<SysUser> {
-    @Select("SELECT * FROM sys_users_roles where user_id=#{userId}")
+    @Select("SELECT * FROM sys_user_role where user_id=#{userId}")
     List<SysUserVo> getRoleByUserId(@Param("userId") Long userId);
-    @Select("SELECT * FROM sys_roles_depts where role_id=#{roleId}")
-    SysUserVo getDeptByRoleId(@Param("roleId") int roleId);
-    @Select("SELECT * FROM sys_user where dept_id=#{deptId}")
-    List<SysUserVo> getUserByDeptId(@Param("userId") int deptId);
+    @Select("SELECT * FROM sys_user where user_id=#{user_id}")
+    SysUserVo getDeptByUserId(@Param("userId") Long userId);
 }

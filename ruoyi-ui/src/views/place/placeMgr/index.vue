@@ -46,12 +46,10 @@
         <el-button
           type="primary"
           @click="addPlace('ruleForm')"
-          v-permission=permission.add
         ><i class="el-icon-plus" />新增</el-button>
         <el-button
           type="danger"
           @click="delPlace('ruleForm')"
-         v-permission=permission.del
         ><i class="el-icon-delete" /> 删除</el-button>
       </div>
       <!--新增弹窗-->
@@ -338,19 +336,16 @@
               size="mini" 
               type="success" 
               @click="check(scope.row)" 
-             v-permission=permission.check
               >详情</el-button>
             <el-button 
               type="primary" 
               size="mini"
               @click="editPlace(scope.row)"
-             v-permission=permission.edit
               >编辑</el-button>
             <el-button 
               type="primary" 
               size="mini"
               @click="isDormancy(scope.row)"
-              v-permission=permission.dormancy
               >{{scope.row.placeStatus==0 ? "休眠" : (scope.row.placeStatus==2? "激活" :"欠费")}}
             </el-button>
           </template>
@@ -507,13 +502,7 @@ export default {
       isCheck:true,
       checkVisible:false,
       currentRow: {}, selectIndex: '', placeCode: '', urlHistory: '',
-      permission: {
-        add: ['admin', 'place:add'],
-        edit: ['admin', 'place:edit'],
-        del: ['admin', 'place:del'],
-        dormancy: ['admin', 'place:dormancy'],
-        check: ['admin', 'place:check']//详情
-      },
+
       ruleForm: {
         placeCode: '',
         placeName: '',
