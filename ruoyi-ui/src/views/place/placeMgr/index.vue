@@ -1,85 +1,147 @@
 <template>
   <div class="app-container">
-    <!--工具栏-->
-    <div class="head-container">
-      <div>
-        <!-- 搜索 -->
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      size="small"
+      :inline="true"
+      v-show="showSearch"
+     label-width="auto"
+    >
+      <el-form-item label="渠道商" prop="placeName">
         <el-input
-          v-model="ruleForm.placeName"
+          v-model="queryParams.placeName"
+          placeholder="请输入渠道商"
           clearable
-          size="small"
-          placeholder="输入渠道商名称"
-          style="width: 200px;"
-          class="filter-item"
-
+          @keyup.enter.native="handleQuery"
         />
-
+      </el-form-item>
+        <el-form-item label="业务经理" prop="userName">
         <el-input
-          v-model="ruleForm.userName"
+          v-model="queryParams.userName"
+          placeholder="请输入渠道商"
           clearable
-          size="small"
-          placeholder="业务经理"
-          style="width: 200px;"
-          class="filter-item"
-
+          @keyup.enter.native="handleQuery"
         />
-        
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
         <el-select
-          v-model="ruleForm.status"
           clearable 
-          placeholder="选择渠道商状态"
-          class="filter-item"
-          style="width:200px"
-          multiple 
-          @change="changeStatus"
+          v-model="queryParams.status"
+         
+          placeholder="请选择"
         >
           <el-option
-            v-for="item in dict.place_status"
+            v-for="item in options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          />
+          >
+          </el-option>
         </el-select>
-        <!-- <rrOperation :crud="crud" /> -->
-      </div>
-      <div class="btnDiv">
+      </el-form-item>
+      <el-form-item>
         <el-button
           type="primary"
-          @click="addPlace('ruleForm')"
-        ><i class="el-icon-plus" />新增</el-button>
-        <el-button
-          type="danger"
-          @click="delPlace('ruleForm')"
-        ><i class="el-icon-delete" /> 删除</el-button>
-      </div>
-      <!--新增弹窗-->
-      <el-dialog
-        title="新增渠道管理"
-        :visible.sync="addVisible"
-        width="50%"
-        top="12vh">
-       <el-form 
-          ref="ruleForm" 
-          :model="ruleForm" 
-          :rules="rules" 
-          size="small" 
-          :inline="true" label-width="160px">
-          <!-- 卡1 -->
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          >新增</el-button>
+      </el-col>
+      <!-- <el-col :span="1.5">
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+         >修改</el-button>
+      </el-col> -->
+      <el-col :span="1.5">
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          >删除</el-button>
+      </el-col>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
+    </el-row>
+
+    <el-table
+      v-loading="loading"
+      :data="employedList"
+      @selection-change="handleSelectionChange"
+    >
+       <el-table-column type="selection" width="55" align="center" />
+       <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
+       <el-table-column label="联系人"   align="center" prop="placeLinkman" :show-overflow-tooltip="true" />
+       <el-table-column label="业务经理" align="center" prop="业务经理" :show-overflow-tooltip="true" />
+       <el-table-column label="状态" align="center"  prop="label" :show-overflow-tooltip="true"  />
+       <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-s-custom"
+            @click="detail(scope.row)"
+            >详情</el-button>
+         
+           
+           <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+           >编辑</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['company:employed:remove']"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
+
+    <!-- 添加-->
+    <el-dialog :title="title" :visible.sync="addVisible" width="500px" append-to-body>
+      <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
+       <!-- 卡1 -->
           <el-card class="box-card" id="form1">
             <div slot="header" class="clearfix">
               <span>渠道商信息</span>
             </div>
             <el-form-item label="渠道商编码" prop="placeCode" >
-              <el-input v-model="ruleForm.placeCode" style="width: 370px;" disabled/>
+              <el-input v-model="ruleForm.placeCode"  disabled/>
             </el-form-item>
             <el-form-item label="渠道商名称" prop="placeName">
-              <el-input v-model="ruleForm.placeName" style="width: 370px;" />
+              <el-input v-model="ruleForm.placeName"  />
             </el-form-item>
             <el-form-item label="联系人" prop="placeLinkman">
-              <el-input v-model="ruleForm.placeLinkman" style="width: 370px;" />
+              <el-input v-model="ruleForm.placeLinkman"  />
             </el-form-item>
             <el-form-item label="联系方式" prop="placeTel">
-              <el-input v-model="ruleForm.placeTel" style="width: 370px;" />
+              <el-input v-model="ruleForm.placeTel"/>
             </el-form-item>
             <el-form-item label="业务经理" prop="userId">
               <el-select 
@@ -87,7 +149,7 @@
                 placeholder="业务经理" 
                 class="filter-item"
                 @change="selectUser"
-                style="width: 370px;">
+                style="">
                 <el-option 
                   v-for="item in userLeaders" 
                   :key="item.id" 
@@ -108,7 +170,7 @@
                 :step="0.01" 
                 :precision="2" 
                 :min="0" :max="6"
-                style="width: 200px;"></el-input-number>  (%)
+                ></el-input-number>  (%)
            </el-form-item>
            <el-form-item label="13%专票平台服务费" prop="specialInvoice13" >
               <el-input-number 
@@ -152,7 +214,7 @@
                 :precision="1" 
                 :min="0" 
                 :max="9999"
-                style="width: 200px;margin-right: 10px;"
+                style=""
                 ></el-input-number>元
              <!-- <el-input 
                 v-model="ruleForm.ordinarySelfFee" 
@@ -170,50 +232,43 @@
             <el-radio v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
            </el-form-item>
           </el-card>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="text" @click="resetForm('ruleForm')">重置</el-button>
-          <el-button
-            type="primary"
-            @click="submitForm('ruleForm')"
-            >确认</el-button>
-        </div>
-      </el-dialog>
-      <!--编辑弹窗-->
-      <el-dialog
-        title="编辑渠道信息"
-        :visible.sync="editVisible"
-        width="50%"
-        top="12vh">
-       <el-form ref="ruleForm" 
-          :model="ruleForm" 
-          :rules="rules" 
-          size="small" 
-          :inline="true" label-width="160px">
-          <!-- 卡1 -->
+       
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="reset">重置</el-button>
+      </div>
+    </el-dialog>
+
+
+
+    <!-- 编辑-->
+    <el-dialog :title="titles" :visible.sync="editVisible" width="500px" append-to-body>
+      <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
+       <!-- 卡1 -->
           <el-card class="box-card" id="form1">
             <div slot="header" class="clearfix">
               <span>渠道商信息</span>
             </div>
-            <el-form-item label="渠道商编码" prop="editPlaceCode">
-              <el-input v-model="ruleForm.editPlaceCode" style="width: 370px;" disabled/>
+            <el-form-item label="渠道商编码" prop="placeCode" >
+              <el-input v-model="ruleForm.placeCode"  disabled/>
             </el-form-item>
-            <el-form-item label="渠道商名称" prop="editPlaceName">
-              <el-input v-model="ruleForm.editPlaceName" style="width: 370px;" />
+            <el-form-item label="渠道商名称" prop="placeName">
+              <el-input v-model="ruleForm.placeName"  />
             </el-form-item>
-            <el-form-item label="联系人" prop="editPlaceLinkman">
-              <el-input v-model="ruleForm.editPlaceLinkman" style="width: 370px;" />
+            <el-form-item label="联系人" prop="placeLinkman">
+              <el-input v-model="ruleForm.placeLinkman"  />
             </el-form-item>
-            <el-form-item label="联系方式" prop="editPlaceTel">
-              <el-input v-model="ruleForm.editPlaceTel" style="width: 370px;" />
+            <el-form-item label="联系方式" prop="placeTel">
+              <el-input v-model="ruleForm.placeTel"/>
             </el-form-item>
-            <el-form-item label="业务经理" prop="editUserId">
+            <el-form-item label="业务经理" prop="userId">
               <el-select 
-                v-model="ruleForm.editUserId" 
+                v-model="ruleForm.userId" 
                 placeholder="业务经理" 
                 class="filter-item"
                 @change="selectUser"
-                style="width: 370px;">
+                style="">
                 <el-option 
                   v-for="item in userLeaders" 
                   :key="item.id" 
@@ -227,26 +282,28 @@
            <div slot="header" class="clearfix">
             <span>增值税专用发票</span>
            </div>
-           <el-form-item label="6%专票平台服务费" prop="editSpecialInvoice6">
+           <el-form-item label="6%专票平台服务费" prop="specialInvoice6">
               <el-input-number 
-                v-model.number="ruleForm.editSpecialInvoice6" 
+                v-model.number="ruleForm.specialInvoice6" 
                 @change="handleChange" 
                 :step="0.01" 
                 :precision="2" 
                 :min="0" :max="6"
-                style="width: 200px;"></el-input-number>  (%)
+                ></el-input-number>  (%)
            </el-form-item>
-           <el-form-item label="13%专票平台服务费" prop="editSpecialInvoice13">
+           <el-form-item label="13%专票平台服务费" prop="specialInvoice13" >
               <el-input-number 
-                v-model.number="ruleForm.editSpecialInvoice13" 
+                v-model.number="ruleForm.specialInvoice13" 
                 @change="handleChange" 
                 :step="0.01" 
                 :precision="2" 
-                :min="0" :max="13"></el-input-number>  (%)
+                :min="0" 
+                :max="13"
+                ></el-input-number>  (%)
            </el-form-item>
-            <el-form-item label="专票个体户代办费" prop="editSpecialSelfFee">
+            <el-form-item label="专票个体户代办费" prop="specialSelfFee">
               <el-input-number 
-                v-model.number="ruleForm.editSpecialSelfFee" 
+                v-model.number="ruleForm.specialSelfFee" 
                 @change="handleChange" 
                 :step="0.1" 
                 :precision="1" 
@@ -255,12 +312,12 @@
                 style="width: 200px;margin-right: 10px;"
                 ></el-input-number>元
               <!-- <el-input 
-                v-model="ruleForm.editSpecialSelfFee" 
+                v-model="ruleForm.specialSelfFee" 
                 style="width: 200px;" /> -->
             </el-form-item>
-           <el-form-item label="服务费含税" prop="editIsSpecialTax">
-            <el-radio v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
+           <el-form-item label="服务费含税" prop="isSpecialTax">
+            <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
            </el-form-item>
           </el-card>
           <!-- 卡3 -->
@@ -268,9 +325,104 @@
            <div slot="header" class="clearfix">
             <span>增值税普通发票</span>
            </div>
-           <el-form-item label="普票个体户代办费" prop="editOrdinarySelfFee">
+           <el-form-item label="普票个体户代办费" prop="ordinarySelfFee">
              <el-input-number 
-                v-model.number="ruleForm.editOrdinarySelfFee" 
+                v-model.number="ruleForm.ordinarySelfFee" 
+                @change="handleChange" 
+                :step="0.1" 
+                :precision="1" 
+                :min="0" 
+                :max="9999"
+                style=""
+                ></el-input-number>元
+             <!-- <el-input 
+                v-model="ruleForm.ordinarySelfFee" 
+                style="width: 130px;" /> -->
+           </el-form-item>
+           <el-form-item label="平台服务费(%)" prop="ordinaryProxyFee">
+             <el-input-number 
+                v-model.number="ruleForm.ordinaryProxyFee" 
+                @change="handleChange" 
+                :step="0.01" :precision="2" 
+                :min="0" :max="13"></el-input-number>
+           </el-form-item>
+           <el-form-item label="服务费含税" prop="isOrdinaryTax">
+            <el-radio v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
+           </el-form-item>
+          </el-card>
+       
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button @click="reset">重置</el-button>
+      </div>
+    </el-dialog>
+
+
+
+      <!-- 详情-->
+    <el-dialog :title="titleh" :visible.sync="checkVisible" width="500px" append-to-body>
+      <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
+       <!-- 卡1 -->
+          <el-card class="box-card" id="form1">
+            <div slot="header" class="clearfix">
+              <span>渠道商信息</span>
+            </div>
+            <el-form-item label="渠道商编码" prop="placeCode" >
+              <el-input v-model="ruleForm.placeCode"  disabled/>
+            </el-form-item>
+            <el-form-item label="渠道商名称" prop="placeName">
+              <el-input v-model="ruleForm.placeName"  />
+            </el-form-item>
+            <el-form-item label="联系人" prop="placeLinkman">
+              <el-input v-model="ruleForm.placeLinkman"  />
+            </el-form-item>
+            <el-form-item label="联系方式" prop="placeTel">
+              <el-input v-model="ruleForm.placeTel"/>
+            </el-form-item>
+            <el-form-item label="业务经理" prop="userId">
+              <el-select 
+                v-model="ruleForm.userId" 
+                placeholder="业务经理" 
+                class="filter-item"
+                @change="selectUser"
+                style="">
+                <el-option 
+                  v-for="item in userLeaders" 
+                  :key="item.id" 
+                  :label="item.nickName" 
+                  :value="item.id" />
+              </el-select>
+            </el-form-item>
+          </el-card>
+          <!-- 卡2 -->
+          <el-card class="box-card">
+           <div slot="header" class="clearfix">
+            <span>增值税专用发票</span>
+           </div>
+           <el-form-item label="6%专票平台服务费" prop="specialInvoice6">
+              <el-input-number 
+                v-model.number="ruleForm.specialInvoice6" 
+                @change="handleChange" 
+                :step="0.01" 
+                :precision="2" 
+                :min="0" :max="6"
+                ></el-input-number>  (%)
+           </el-form-item>
+           <el-form-item label="13%专票平台服务费" prop="specialInvoice13" >
+              <el-input-number 
+                v-model.number="ruleForm.specialInvoice13" 
+                @change="handleChange" 
+                :step="0.01" 
+                :precision="2" 
+                :min="0" 
+                :max="13"
+                ></el-input-number>  (%)
+           </el-form-item>
+            <el-form-item label="专票个体户代办费" prop="specialSelfFee">
+              <el-input-number 
+                v-model.number="ruleForm.specialSelfFee" 
                 @change="handleChange" 
                 :step="0.1" 
                 :precision="1" 
@@ -278,131 +430,13 @@
                 :max="9999"
                 style="width: 200px;margin-right: 10px;"
                 ></el-input-number>元
-             <!-- <el-input 
-                v-model="ruleForm.editOrdinarySelfFee" 
-                style="width: 130px;" /> -->
-           </el-form-item>
-           <el-form-item label="平台服务费(%)" prop="editOrdinaryProxyFee">
-             <el-input-number 
-                v-model.number="ruleForm.editOrdinaryProxyFee" 
-                @change="handleChange" 
-                :step="0.01" :precision="2" 
-                :min="0" :max="13"></el-input-number>
-           </el-form-item>
-           <el-form-item label="服务费含税" prop="editIsOrdinaryTax">
-            <el-radio v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
-           </el-form-item>
-          </el-card>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="text" @click="resetForm('ruleForm')">重置</el-button>
-          <el-button
-            type="primary"
-            @click="confirmEdit('ruleForm')"
-            >确认</el-button>
-        </div>
-      </el-dialog>
-      <!--表格渲染-->
-      <el-table
-        ref="table"
-        :data="11"
-        size="small"
-        style="width: 100%;"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" />
-        <el-table-column prop="placeName" label="渠道商名称" />
-        <el-table-column prop="placeLinkman" label="联系人" />
-        <el-table-column prop="nickName" label="业务经理" />
-        <el-table-column prop="label" label="渠道商状态" >
-
-          <!-- <el-tooltip :content="'状态: ' + value" placement="top">
-            <el-switch
-              v-model="value"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              active-value="正常"
-              inactive-value="休眠">
-            </el-switch>
-          </el-tooltip> -->
-        </el-table-column>
-        <el-table-column 
-          label="操作" 
-          width="350px" 
-          align="center" >
-          <template slot-scope="scope">
-            <el-button 
-              size="mini" 
-              type="success" 
-              @click="check(scope.row)" 
-              >详情</el-button>
-            <el-button 
-              type="primary" 
-              size="mini"
-              @click="editPlace(scope.row)"
-              >编辑</el-button>
-            <el-button 
-              type="primary" 
-              size="mini"
-              @click="isDormancy(scope.row)"
-              >{{scope.row.placeStatus==0 ? "休眠" : (scope.row.placeStatus==2? "激活" :"欠费")}}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 详情弹窗 -->
-        <el-dialog
-          :visible.sync="checkVisible"
-          width="50%"
-          top="12vh"
-          title="详情"
-        >
-          <el-form
-            ref="ruleForm"
-            :model="ruleForm"
-            :rules="rules"
-            size="small"
-            label-width="140px"
-            :inline="true"
-          >
-          <!-- 卡1 -->
-          <el-card class="box-card">
-           <div slot="header" class="clearfix" >
-             <span>渠道商信息</span>
-           </div>
-           <el-form-item label="渠道商编码">
-            <el-input v-model="ruleForm.placeCode" style="width: 330px;" disabled/>
-          </el-form-item>
-           <el-form-item label="渠道商名称">
-            <el-input v-model="ruleForm.placeName" style="width: 330px;" disabled/>
-           </el-form-item>
-            <el-form-item label="联系人">
-             <el-input v-model="ruleForm.placeLinkman" style="width: 330px;" disabled/>
+              <!-- <el-input 
+                v-model="ruleForm.specialSelfFee" 
+                style="width: 200px;" /> -->
             </el-form-item>
-            <el-form-item label="联系方式">
-             <el-input v-model="ruleForm.placeTel" style="width: 330px;" disabled/>
-            </el-form-item>
-            <el-form-item label="业务经理">
-              <el-input v-model="ruleForm.nickName" style="width: 330px;" disabled/>
-           </el-form-item>
-          </el-card>
-          <!-- 卡2 -->
-          <el-card class="box-card">
-           <div slot="header" class="clearfix">
-            <span>增值税专用发票</span>
-           </div>
-           <el-form-item label="6%专票平台服务费">
-              <el-input v-model="ruleForm.specialInvoice6" style="width: 120px;" disabled/> (%)
-           </el-form-item>
-           <el-form-item label="13%专票平台服务费">
-              <el-input v-model="ruleForm.specialInvoice13" style="width: 120px;" disabled/> (%)
-           </el-form-item>
-            <el-form-item label="专票个体户代办费">
-             <el-input v-model="ruleForm.specialSelfFee" style="width: 120px;" disabled/> 元
-            </el-form-item>
-           <el-form-item label="服务费">
-             <el-input v-model="ruleForm.isSpecialTax" style="width: 120px;" disabled/>
+           <el-form-item label="服务费含税" prop="isSpecialTax">
+            <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
            </el-form-item>
           </el-card>
           <!-- 卡3 -->
@@ -410,53 +444,42 @@
            <div slot="header" class="clearfix">
             <span>增值税普通发票</span>
            </div>
-           <el-form-item label="普票个体户代办费">
-             <el-input v-model="ruleForm.ordinarySelfFee" style="width: 120px;" disabled/> 元
+           <el-form-item label="普票个体户代办费" prop="ordinarySelfFee">
+             <el-input-number 
+                v-model.number="ruleForm.ordinarySelfFee" 
+                @change="handleChange" 
+                :step="0.1" 
+                :precision="1" 
+                :min="0" 
+                :max="9999"
+                style=""
+                ></el-input-number>元
+             <!-- <el-input 
+                v-model="ruleForm.ordinarySelfFee" 
+                style="width: 130px;" /> -->
            </el-form-item>
-           <el-form-item label="平台服务费(%)">
-             <el-input v-model="ruleForm.ordinaryProxyFee" style="width: 120px;" disabled/> (%)
+           <el-form-item label="平台服务费(%)" prop="ordinaryProxyFee">
+             <el-input-number 
+                v-model.number="ruleForm.ordinaryProxyFee" 
+                @change="handleChange" 
+                :step="0.01" :precision="2" 
+                :min="0" :max="13"></el-input-number>
            </el-form-item>
-           <el-form-item label="服务费">
-             <el-input v-model="ruleForm.isOrdinaryTax" style="width: 120px;" disabled/> 元
+           <el-form-item label="服务费含税" prop="isOrdinaryTax">
+            <el-radio v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
            </el-form-item>
           </el-card>
-          </el-form>
-        </el-dialog>
-      <!--分页组件-->
-      <!-- <pagination /> -->
-    </div>
-  </div>
+       
+      </el-form>
+     
+    </el-dialog>
+
+</div>
 </template>
 
 <script>
-import crudPlace from "@/api/place/place";
-import agencyfee from "@/api/place/agencyfee";
-import {getAllUser} from '@/api/system/user';
-// import CRUD, { presenter, header, crud } from "@crud/crud";
-// import rrOperation from "@crud/RR.operation";
-// import pagination from "@crud/Pagination";
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
-export default {
-  name: "Place",
-  components: {
-    // pagination,
-    // rrOperation,
-  },
-  // mixins: [presenter(), header(),  crud()],
-  dicts: ["place_status"],
-  // cruds() {
-  //   return CRUD({
-  //     title: "渠道管理",
-  //     url: "api/place/getByPage",
-  //     // query:{placeStatus:JSON.stringify(this.placeStatus)},
-  //     // idField: "placeId,",
-  //     // sort: "placeId,desc",
-  //     crudMethod: { ...crudPlace }
-  //   });
-  // },
-  data() {
-    // 手机号码验证
+ // 手机号码验证
     var contactPhone = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('手机号不能为空'))
@@ -482,9 +505,17 @@ export default {
         }
       }
     };
+import crudPlace from "@/api/place/place";
+import agencyfee from "@/api/place/agencyfee";
+// import {getAllUser} from '@/api/system/user';
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+export default {
+  name: "placeMgr",
+  
+  data() {
     return {
       tabelData:[],
-
       editVisible:false,
       multipleSelection: [],
       addVisible:false,
@@ -502,8 +533,36 @@ export default {
       isCheck:true,
       checkVisible:false,
       currentRow: {}, selectIndex: '', placeCode: '', urlHistory: '',
-
-      ruleForm: {
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      // 个体商户表格数据
+      employedList: [],
+      // 弹出层标题
+      title: "",
+      titles:'',
+      titleh:'',
+      // 是否显示弹出层
+      open: false,
+      // 查询参数
+      queryParams: {
+        endStatus: 1,
+        pageNum: 1,
+        pageSize: 10,
+        placeName: null,
+        userName: null,
+        status:null,
+      },
+        ruleForm: {
         placeCode: '',
         placeName: '',
         placeLinkman: '',
@@ -539,7 +598,23 @@ export default {
         editOrdinaryProxyFee: '',
         editIsOrdinaryTax: '',//是否含税-普票
       },
-      rules: {
+      options: [
+        {
+          value: 0,
+          label:'正常'
+        },
+        {
+         
+          value: 2,
+           label:'休眠'
+        },
+        {
+          
+          value: 1,
+          label:'欠费',
+        },
+      ],
+       rules: {
             placeCode: [
                 { required: true, message: '请输入编号', trigger: 'blur' }
             ],
@@ -581,67 +656,95 @@ export default {
         { key: 'placeName', display_name: '渠道商名称' },
         { key: 'placeStatus', display_name: '渠道商状态' },
         { key: 'nickName', display_name: '业务经理' }
-      ]
+      ],
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {},
     };
   },
-  mounted: function(){
-    this.getAllUser();
+  created() {
+     this.getList();
     this.getPlaceCode();
-    this.getByPage();
+  },
+  mounted(){
+    //this.getAllUser();
+    //this.getPlaceCode();
+   
   },
   methods: {
-    getByPage(){
-        console.log("111");
-      crudPlace.getByPage().then(res=>{
-        console.log("res",res);
-        this.tabelData=res;
-        
-      })
-    },
+    
     getPlaceCode(){
       crudPlace.getCode().then(res=>{
         this.ruleForm.placeCode=res.message;
         console.log("placeCode",this.ruleForm.placeCode);
       })
     },
-    isDormancy(item){
-      var placeStatus;
-      if(item.placeStatus==0){
-        placeStatus=2;
-      }
-      if(item.placeStatus==1){
-        this.$message({
-            message: '欠费状态不能点哦',
-            type: 'warning',
-        });
-        return;
-      }
-      if(item.placeStatus==2){
-        placeStatus=0;
-      }
-      let params={
-        placeId:item.placeId,
-        placeStatus:placeStatus,
-      }
-      crudPlace.editPlace2(params).then((res) => {
-          if(res.id==0){
-            this.$message({
-                message: res.message,
-                type: 'success',
-            });      
-          }else{
-              this.$message({
-                message: res.message,
-                type: 'warning',
-            });
-          }
-          this.editVisible=false;
-      })
+      
+    /** 查询列表 */
+    getList() {
+      this.loading = true;
+       crudPlace.getByPage(this.queryParams).then((response) => {
+        this.employedList = response.rows;
+    
+        this.total = response.total;
+        this.loading = false;
+      });
     },
-    //修改渠道信息
-    editPlace(item){
-        this.editVisible=true;
-        console.log("item==",item);
+    // 取消按钮
+    cancel() {
+      this.addVisible = false;
+      this.reset();
+    },
+   
+    // 表单重置
+    reset() {
+      this.ruleForm.placeName=null;
+      this.ruleForm.placeLinkman=null;
+      this.ruleForm.placeTel=null;
+      this.ruleForm.userId=null;
+      this.ruleForm.userName=null;
+      this.ruleForm.specialInvoice6=null;
+      this.ruleForm.specialInvoice13=null;
+      this.ruleForm.specialSelfFee=null;
+      this.ruleForm.isSpecialTax=null;
+      this.ruleForm.ordinarySelfFee=null;
+      this.ruleForm.ordinaryProxyFee=null;
+      this.ruleForm.isOrdinaryTax=null;
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+      // this.ids = selection.map((item) => item.selfId);
+      // this.single = selection.length !== 1;
+      // this.multiple = !selection.length;
+    },
+   
+    handleChange(value) {
+      console.log(value);
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      
+      this.addVisible=true;
+      this.title = "新增渠道管理";
+    },
+    /** 修改按钮操作 */
+    handleUpdate(item) {
+        this.editVisible = true;
+        this.titles = "编辑渠道管理";
+         console.log("item==",item);
         var placeCode=item.placeCode;
         agencyfee.selectFeeByCode({placeCode:placeCode}).then(res=>{
             this.ruleForm.editAgencyFeeId=res.agencyFeeId;
@@ -673,176 +776,9 @@ export default {
         this.ruleForm.editOrdinaryProxyFee=item.ordinaryProxyFee;
         this.ruleForm.editIsOrdinaryTax=item.isOrdinaryTax;
     },
-    confirmEdit(formName){
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-              let params={
-                agencyFeeId:this.ruleForm.editAgencyFeeId,
-                placeId:this.ruleForm.editPlaceId,
-                placeCode:this.ruleForm.editPlaceCode,
-                placeName:this.ruleForm.editPlaceName,
-                placeLinkman:this.ruleForm.editPlaceLinkman,
-                editPlaceTel:this.ruleForm.editPlaceTel,
-                userId:this.ruleForm.editUserId,
-                userName:this.ruleForm.editUserName,
-
-                specialInvoice6:this.ruleForm.editSpecialInvoice6 ,
-                specialInvoice13:this.ruleForm.editSpecialInvoice13,
-                specialSelfFee:this.ruleForm.editSpecialSelfFee,
-                isSpecialTax:this.ruleForm.editIsSpecialTax,
-
-                ordinarySelfFee:this.ruleForm.editOrdinarySelfFee,
-                ordinaryProxyFee:this.ruleForm.editOrdinaryProxyFee,
-                isOrdinaryTax:this.ruleForm.editIsOrdinaryTax,
-              }
-              crudPlace.editPlace(params).then((res) => {
-                if(res.id==0){
-                  this.$message({
-                      message: res.message,
-                      type: 'success',
-                  });      
-                }else{
-                    this.$message({
-                      message: res.message,
-                      type: 'warning',
-                  });
-                }
-                this.editVisible=false;
-              })
-          }else {
-              this.$message({
-                  message: "请填写完整",
-                  type: 'warning',
-              });
-              return false;
-          }     
-      })    
-    },
-
-    //删除渠道
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
-    delPlace() {
-      let placeCodeStr=[];
-      this.multipleSelection.map((item)=> {
-         placeCodeStr.push(item.placeCode); 
-      })
-      let params={
-        placeCodes: placeCodeStr.join(',')//转换成字符串
-      };
-      if (this.multipleSelection.length != 0) {
-        if(confirm('你确定删除吗？')){
-          crudPlace.delPlace(params).then((res) => {
-            if (res != undefined) {
-              if(res.id==0){
-                this.$message({
-                    message: res.message,
-                    type: 'success',
-                });
-              }else{
-                this.$message({
-                    message: res.message,
-                    type: 'warning',
-                });
-              }
-            }
-          })
-        }
-      } else {
-        this.$message({
-            message: '数据没有选择',
-            type: 'warning',
-        });
-      }
-    },
-
-    //添加渠道
-    addPlace(formName){
-        this.addVisible=true;
-        this.ruleForm.placeName=null;
-        this.ruleForm.placeLinkman=null;
-        this.ruleForm.placeTel=null;
-        this.ruleForm.userId=null;
-        this.ruleForm.userName=null;
-        this.ruleForm.specialInvoice6=null;
-        this.ruleForm.specialInvoice13=null;
-        this.ruleForm.specialSelfFee=null;
-        this.ruleForm.isSpecialTax=null;
-        this.ruleForm.ordinarySelfFee=null;
-        this.ruleForm.ordinaryProxyFee=null;
-        this.ruleForm.isOrdinaryTax=null;
-    },
-    submitForm(formName){
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-                let data={           
-                    placeCode:this.ruleForm.placeCode,
-                    placeName:this.ruleForm.placeName,
-                    placeLinkman:this.ruleForm.placeLinkman,
-                    placeTel:this.ruleForm.placeTel,
-                    userId:this.ruleForm.userId,
-                    specialInvoice6:this.ruleForm.specialInvoice6,
-                    specialInvoice13:this.ruleForm.specialInvoice13,
-                    specialSelfFee:this.ruleForm.specialSelfFee,
-                    isSpecialTax:this.ruleForm.isSpecialTax,
-                    ordinarySelfFee:this.ruleForm.ordinarySelfFee,
-                    ordinaryProxyFee:this.ruleForm.ordinaryProxyFee,
-                    isOrdinaryTax:this.ruleForm.isOrdinaryTax,
-                    userName:this.ruleForm.userName,
-                };
-                agencyfee.add(data).then(res=>{//添加详情表
-                  if(res>0){//后端捕获重复键异常
-                    crudPlace.add(data)//添加主信息表
-                    this.$message({
-                        message: "添加成功",
-                        type: 'success',
-                    });
-                  }else{
-                    this.$message({
-                        message: "编号重复，自动返回，请重新创建",
-                        type: 'warning',
-                    });
-                  }
-                  this.addVisible=false;
-                  this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-                });                            
-            }
-            else {
-                this.$message({
-                    message: "请填写完整",
-                    type: 'warning',
-                });
-                return false;
-            }
-        });
-    },
-    //重置
-    resetForm(formName) {
-      console.log(111)
-        this.$refs[formName].resetFields();
-    },
-    //获取所有用户
-    getAllUser(){
-      getAllUser().then(res=>{
-        console.log("res==",res.content);
-        this.userLeaders=res.content;
-      })
-    },
-    selectUser(value){
-      this.ruleForm.userName=this.userLeaders.find((item)=> item.id==value).nickName;
-      this.ruleForm.editUserName=this.userLeaders.find((item)=> item.id==value).nickName;
-    },
-    changeStatus(value){
-      this.status=value;
-      console.log(this.status);
-    },
-    // 钩子：在获取表格数据之前执行，false 则代表不获取数据
-    // [CRUD.HOOK.beforeRefresh]() {
-    //   return true;
-    // },
-    check(item){
-        console.log("checkContent",item);
+    //详情
+    detail(item){
+        this.titleh='渠道管理详情';
         this.checkVisible=true;
         this.ruleForm.placeCode=item.placeCode;
         this.ruleForm.placeName=item.placeName;
@@ -892,15 +828,152 @@ export default {
         if(this.ruleForm.is_ordinary_tax=='1'){
             this.ruleForm.is_ordinary_tax="否";
         }  
+
     },
-    handleChange(value) {
-      console.log(value);
+     //获取所有用户
+    getAllUser(){
+      // getAllUser().then(res=>{
+      //   console.log("res==",res.content);
+      //   this.userLeaders=res.content;
+      // })
     },
-  }
+    selectUser(value){
+      this.ruleForm.userName='测试啊';
+      this.ruleForm.editUserName='111';
+      // this.ruleForm.userName=this.userLeaders.find((item)=> item.id==value).nickName;
+      // this.ruleForm.editUserName=this.userLeaders.find((item)=> item.id==value).nickName;
+    },
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate((valid) => {
+            if (valid) {
+                let data={           
+                    placeCode:this.ruleForm.placeCode,
+                    placeName:this.ruleForm.placeName,
+                    placeLinkman:this.ruleForm.placeLinkman,
+                    placeTel:this.ruleForm.placeTel,
+                    userId:this.ruleForm.userId,
+                    specialInvoice6:this.ruleForm.specialInvoice6,
+                    specialInvoice13:this.ruleForm.specialInvoice13,
+                    specialSelfFee:this.ruleForm.specialSelfFee,
+                    isSpecialTax:this.ruleForm.isSpecialTax,
+                    ordinarySelfFee:this.ruleForm.ordinarySelfFee,
+                    ordinaryProxyFee:this.ruleForm.ordinaryProxyFee,
+                    isOrdinaryTax:this.ruleForm.isOrdinaryTax,
+                    userName:this.ruleForm.userName,
+                };
+                agencyfee.add(data).then(res=>{//添加详情表
+                  if(res>0){//后端捕获重复键异常
+                    crudPlace.add(data)//添加主信息表
+                    this.$message({
+                        message: "添加成功",
+                        type: 'success',
+                    });
+                  }else{
+                    this.$message({
+                        message: "编号重复，自动返回，请重新创建",
+                        type: 'warning',
+                    });
+                  }
+                  this.addVisible=false;
+                  this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+                });                            
+            }
+            else {
+                this.$message({
+                    message: "请填写完整",
+                    type: 'warning',
+                });
+                return false;
+            }
+      });
+    },
+    //修改提交
+     confirmEdit(){
+      this.$refs['form'].validate((valid) => {
+          if (valid) {
+              let params={
+                agencyFeeId:this.ruleForm.editAgencyFeeId,
+                placeId:this.ruleForm.editPlaceId,
+                placeCode:this.ruleForm.editPlaceCode,
+                placeName:this.ruleForm.editPlaceName,
+                placeLinkman:this.ruleForm.editPlaceLinkman,
+                editPlaceTel:this.ruleForm.editPlaceTel,
+                userId:this.ruleForm.editUserId,
+                userName:this.ruleForm.editUserName,
+
+                specialInvoice6:this.ruleForm.editSpecialInvoice6 ,
+                specialInvoice13:this.ruleForm.editSpecialInvoice13,
+                specialSelfFee:this.ruleForm.editSpecialSelfFee,
+                isSpecialTax:this.ruleForm.editIsSpecialTax,
+
+                ordinarySelfFee:this.ruleForm.editOrdinarySelfFee,
+                ordinaryProxyFee:this.ruleForm.editOrdinaryProxyFee,
+                isOrdinaryTax:this.ruleForm.editIsOrdinaryTax,
+              }
+              crudPlace.editPlace(params).then((res) => {
+                if(res.id==0){
+                  this.$message({
+                      message: res.message,
+                      type: 'success',
+                  });      
+                }else{
+                    this.$message({
+                      message: res.message,
+                      type: 'warning',
+                  });
+                }
+                this.editVisible=false;
+              })
+          }else {
+              this.$message({
+                  message: "请填写完整",
+                  type: 'warning',
+              });
+              return false;
+          }     
+      })    
+    },
+
+
+    /** 删除按钮操作 */
+    handleDelete(row) {
+        let placeCodeStr=[];
+      this.multipleSelection.map((item)=> {
+         placeCodeStr.push(item.placeCode); 
+      })
+      let params={
+        placeCodes: placeCodeStr.join(',')//转换成字符串
+      };
+      if (this.multipleSelection.length != 0) {
+        if(confirm('你确定删除吗？')){
+          crudPlace.delPlace(params).then((res) => {
+            if (res != undefined) {
+              if(res.id==0){
+                this.$message({
+                    message: res.message,
+                    type: 'success',
+                });
+              }else{
+                this.$message({
+                    message: res.message,
+                    type: 'warning',
+                });
+              }
+            }
+          })
+        }
+      } else {
+        this.$message({
+            message: '数据没有选择',
+            type: 'warning',
+        });
+      }
+    },
+   
+  },
 };
-
 </script>
-
 <style lang="scss" scoped>
   .btnDiv {
     height: 50px;
@@ -915,3 +988,4 @@ export default {
         color: black;    
     }
 </style>
+

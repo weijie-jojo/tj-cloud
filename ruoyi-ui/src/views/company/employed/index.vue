@@ -36,47 +36,14 @@
     </el-row>
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" width="130" align="center" prop="legalPersonName">
-        <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="法人姓名"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.legalPersonName">
-            <div slot="reference" class="twoLineCls">{{scope.row.legalPersonName}}</div>
-        </el-popover>
-         </template>
-      </el-table-column> 
-      <el-table-column label="个体名称" width="130" align="center" prop="selfName">
-        <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="个体名称"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.selfName">
-            <div slot="reference" class="twoLineCls">{{scope.row.selfName}}</div>
-        </el-popover>
-         </template>
-      
-      </el-table-column>
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-       <el-table-column label="渠道商" align="center" width="130" prop="placeName">
-          <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="渠道商"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.placeName">
-            <div slot="reference" class="twoLineCls">{{scope.row.placeName}}</div>
-        </el-popover>
-         </template>
-
-      </el-table-column>
-      <el-table-column label="业务经理" align="center" prop="username" />
-      <!-- <el-table-column label="业务经理" align="center" prop="username" /> -->
-      <el-table-column label="完结时间" align="center" prop="endTime" width="180"  />
-      <el-table-column label="完结状态" align="center" prop="endStatus">
+       <el-table-column type="selection" width="55" align="center" />
+       <el-table-column label="法人姓名"  align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
+       <el-table-column label="个体名称"  align="center" prop="selfName" :show-overflow-tooltip="true" />
+       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+       <el-table-column label="渠道商"   align="center"  prop="placeName" :show-overflow-tooltip="true" />
+       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+       <el-table-column label="完结时间" align="center" prop="endTime" width="180"  />
+       <el-table-column label="完结状态" align="center" prop="endStatus">
       <template slot-scope="scope">
           <el-link :underline="false" type="danger" v-if="scope.row.endStatus == '0'">未完结</el-link>
           <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">已完结</el-link>
@@ -505,14 +472,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-     .twoLineCls{
-	text-overflow: -o-ellipsis-lastline;
-    overflow: hidden;
-     text-overflow: ellipsis;
-     display: -webkit-box;
-     -webkit-line-clamp: 1;
-     line-clamp: 1;
-     -webkit-box-orient: vertical;
-}
-</style>
+

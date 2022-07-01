@@ -63,4 +63,4 @@ export function getByPage(params) {
     params:params
   })
 }
-export default { add, edit, del ,delPlace,editPlace,editPlace2,getCode}
+export default { add, edit, del ,delPlace,editPlace,editPlace2,getCode,getByPage}
