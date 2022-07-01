@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: 'api/place',
+    url: 'place/place',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function add(data) {
 
 export function del(ids) {
   return request({
-    url: 'api/place/',
+    url: 'place/place/',
     method: 'delete',
     data: ids
   })
@@ -18,7 +18,7 @@ export function del(ids) {
 
 export function edit(data) {
   return request({
-    url: 'api/place',
+    url: 'place/place',
     method: 'put',
     data
   })
@@ -26,7 +26,7 @@ export function edit(data) {
 
 export function editPlace(params) {
   return request({
-    url: 'api/place/editPlace',
+    url: 'place/place/editPlace',
     method: 'put',
     params:params
   })
@@ -34,7 +34,7 @@ export function editPlace(params) {
 //删除渠道
 export function delPlace(params) {
   return request({
-    url: 'api/place/delPlace',
+    url: 'place/place/delPlace',
     method: 'put',
     params:params
   })
@@ -42,14 +42,14 @@ export function delPlace(params) {
 //改变状态
 export function editPlace2(params) {
   return request({
-    url: 'api/place/editPlace2',
+    url: 'place/place/editPlace2',
     method: 'put',
     params:params
   })
 }
 export function getCode(params) {
   return request({
-    url: 'api/place/getCode',
+    url: 'place/place/getCode',
     method: 'get',
     params
   })
@@ -58,8 +58,8 @@ export function getCode(params) {
 //分页查询
 export function getByPage(params) {
   return request({
-    url: 'api/place/getByPage',
-    method: 'put',
+    url: 'place/place/getByPage',
+    method: 'get',
     params:params
   })
 }

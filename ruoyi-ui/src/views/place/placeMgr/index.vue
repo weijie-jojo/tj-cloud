@@ -125,7 +125,7 @@
 
     <!-- 添加-->
     <el-dialog :title="title" :visible.sync="addVisible" width="500px" append-to-body>
-      <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
+      <el-form ref="form" :model="ruleForm"  :rules="rules"  size="small" label-width="auto" :inline="true">
        <!-- 卡1 -->
           <el-card class="box-card" id="form1">
             <div slot="header" class="clearfix">
@@ -143,7 +143,7 @@
             <el-form-item label="联系方式" prop="placeTel">
               <el-input v-model="ruleForm.placeTel"/>
             </el-form-item>
-            <el-form-item label="业务经理" prop="userId">
+            <el-form-item label="业务经理">
               <el-select 
                 v-model="ruleForm.userId" 
                 placeholder="业务经理" 
@@ -244,7 +244,7 @@
 
     <!-- 编辑-->
     <el-dialog :title="titles" :visible.sync="editVisible" width="500px" append-to-body>
-      <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
+      <el-form ref="form" :model="ruleForm"  :rules="rules"  size="small" label-width="auto" :inline="true">
        <!-- 卡1 -->
           <el-card class="box-card" id="form1">
             <div slot="header" class="clearfix">
@@ -556,8 +556,8 @@ export default {
       // 查询参数
       queryParams: {
         endStatus: 1,
-        pageNum: 1,
-        pageSize: 10,
+        page: 1,
+        Size: 10,
         placeName: null,
         userName: null,
         status:null,
@@ -567,7 +567,7 @@ export default {
         placeName: '',
         placeLinkman: '',
         placeTel: '',
-        userId:'',
+        userId:'26',
         userName:'',
 
         specialInvoice6: '',
@@ -660,7 +660,7 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {},
+      // rules: {},
     };
   },
   created() {
