@@ -251,6 +251,9 @@ export default {
       }, {
         "label": "经营部",
         "value": 2
+      },{
+        "label": "工作室",
+        "value": 3
       }],
       wordTypeOptions: [{
         "label": "选项一",
