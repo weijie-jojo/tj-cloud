@@ -74,39 +74,15 @@
       :data="employedList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" align="center" />
-
-      <el-table-column label="个体名称" width="130" align="center" prop="selfName">
-      <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="个体名称"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.selfName">
-            <div slot="reference" class="twoLineCls">{{scope.row.selfName}}</div>
-        </el-popover>
-    </template>
-   </el-table-column>
-
-      <el-table-column label="渠道商" width="130" align="center" prop="placeName">
-                <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="渠道商"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.placeName">
-            <div slot="reference" class="twoLineCls">{{scope.row.placeName}}</div>
-        </el-popover>
-    </template>
-       </el-table-column> 
-      <el-table-column label="业务经理" align="center" prop="username" />
+       <el-table-column type="selection" width="55" align="center" />
+       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
+       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="状态" align="center"  prop="isActive">
          <template slot-scope="scope">
-          
-          <span v-if="scope.row.isActive==0">休眠</span>
+           <span v-if="scope.row.isActive==0">休眠</span>
            <span v-if="scope.row.isActive==1">激活</span>
-             <span v-if="scope.row.isActive==2">报警</span>
-          
+           <span v-if="scope.row.isActive==2">报警</span>
         </template>
       </el-table-column>
       <el-table-column label="休眠/激活" align="center">
@@ -584,14 +560,4 @@ export default {
   },
 };
 </script>
-<style scoped>
-    .twoLineCls{
-	text-overflow: -o-ellipsis-lastline;
-    overflow: hidden;
-     text-overflow: ellipsis;
-     display: -webkit-box;
-     -webkit-line-clamp: 1;
-     line-clamp: 1;
-     -webkit-box-orient: vertical;
-}
-</style>
+

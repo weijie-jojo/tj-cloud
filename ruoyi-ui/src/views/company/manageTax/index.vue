@@ -49,32 +49,10 @@
          </template>
       </el-table-column>  
 
-        <el-table-column label="个体名称" width="130" align="center" prop="selfName">
-        <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="个体名称"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.selfName">
-            <div slot="reference" class="twoLineCls">{{scope.row.selfName}}</div>
-        </el-popover>
-         </template>
-      
-      </el-table-column>
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-      <el-table-column label="渠道商" align="center" width="130" prop="placeName">
-          <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="渠道商"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.placeName">
-            <div slot="reference" class="twoLineCls">{{scope.row.placeName}}</div>
-        </el-popover>
-         </template>
-
-      </el-table-column>
-      <el-table-column label="业务经理" align="center" prop="username" />
+        <el-table-column label="个体名称"  align="center" prop="selfName" :show-overflow-tooltip="true" />
+        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+      <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
         <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button>
