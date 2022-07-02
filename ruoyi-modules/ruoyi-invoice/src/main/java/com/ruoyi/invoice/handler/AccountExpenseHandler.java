@@ -1,6 +1,7 @@
 package com.ruoyi.invoice.handler;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.invoice.annotation.Log;
@@ -24,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -96,10 +99,11 @@ public class AccountExpenseHandler {
         dataDto.success(sysBankcard.getBankName());
         return dataDto;
     }
-    @PostMapping(value ="/addExpense")
+    @PostMapping
     @Log("插入报销单")
     @ApiOperation("插入报销单")
     public DataDto addExpense(AccountExpense accountExpense)  {
+//        System.out.println("accountExpense"+ accountExpense.getExpenseImage().split(",").toString());
         accountExpense.setIsDeleted(0);
         DataDto dataDto = new DataDto();
         try {

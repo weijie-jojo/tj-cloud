@@ -58,7 +58,7 @@
                 {{digitUppercase(ruleForm.totalMoney)}}      
             </el-form-item>
             
-            <el-form-item label="支付方式"  prop="paywayId" id="left">
+            <el-form-item label="支付方式"   id="left">
                 <el-select 
                     disabled
                     v-model="ruleForm.paywayId" 
@@ -152,7 +152,7 @@
                 <el-button  
                     type="primary"
                    @click="imgDialog=true"
-                   v-permission="['admin','borrow:upload']"
+                   v-hasPermi="['invoices:borrow:upload']"
                 >点击上传</el-button>
             </el-form-item>
              <!-- 上传付款凭证影像 -->
@@ -232,12 +232,12 @@
     import {getInfo} from '@/api/login'
     export default {
     name: 'borrow',
+    dicts: ['pay_way'],
     data() {
       return {
         //上传
         imgArr:[],
         imgDialog:false,
-        borrowImage:'',
         dialogImageUrl: '',
         dialogVisible: false,
         limitNum:10,//可上传数量
@@ -385,7 +385,7 @@
         this.$refs[formName].validate((valid) => {
             if (valid) {
                 this.ruleForm.roles.map(item=>{
-                    if(item.id==5||item.id==6){
+                    if(item.roleId==5||item.roleId==6){
                         if(this.ruleForm.gmCheck==undefined||this.ruleForm.gmCheck==""){//未审核过
                         console.log("总经理审核");
                             if(this.ruleForm.isAgree==1){
@@ -408,7 +408,7 @@
                                 gmCheck:this.ruleForm.gm,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:JSON.stringify(this.imgArr),
+                                borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -432,7 +432,7 @@
                                 });
                         };  
                     };
-                    if(item.id==7){
+                    if(item.roleId==7){
                         if(this.ruleForm.financeCheck==undefined||this.ruleForm.financeCheck==""){//未审核过
                             console.log("财务审核");
                             if(this.ruleForm.isAgree==1){
@@ -455,7 +455,7 @@
                                 financeCheck:this.ruleForm.finance,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:JSON.stringify(this.imgArr),
+                                borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -479,7 +479,7 @@
                                 });
                         };  
                     };
-                    if(item.id==10||item.id==12||item.id==4||item.id==8){
+                    if(item.roleId==10||item.roleId==12||item.roleId==4||item.roleId==8){
                         if(this.ruleForm.dmCheck==undefined||this.ruleForm.dmCheck==""){//未审核过
                             console.log("部门主管审核");
                             if(this.ruleForm.isAgree==1){
@@ -502,7 +502,7 @@
                                 dmCheck:this.ruleForm.dm,
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
-                                borrowImage:JSON.stringify(this.imgArr),
+                                borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
                                 this.$message({
@@ -744,8 +744,8 @@
         //上传图片
         handleRemove(file) {
             this.imgArr.map((item,index)=>{
-                if(item.value==file.name){
-                    delete this.imgArr[index];
+                if(item==file.name){
+                    this.imgArr.splice(index, 1);
                 }
             })
             this.$message("取消上传");
@@ -757,9 +757,7 @@
         },
         success(file) {
             this.$message(file.message);
-            var fileUrl = file.obj;
-            this.imgArr.push({value:fileUrl});
-            this.borrowImage = fileUrl;
+            this.imgArr.push(file.obj);
         },
         //取消按钮
         cancel() {

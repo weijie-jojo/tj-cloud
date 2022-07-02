@@ -301,7 +301,7 @@
 </template>
 <script>
     import {getAllGetUser} from '@/api/invoices/borrow'
-    import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
+    import {getAllCheck} from '@/api/invoices/checkInvoices'
     import {getAllCompany} from '@/api/invoices/borrow'
     import { getDepts,getAllGetCompany,getCardInfoBycompany,editExpense2,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
     import { getExpenseItem } from '@/api/invoices/travelExpense'
@@ -311,9 +311,9 @@
       return {
         //影像上传参数
         imgArr:[],
+        imgArr2:[],
         baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
         limitNum:10,
-        expenseImage2:'',
         imgDialog:false,
         dialogImageUrl: '',
         dialogVisible: false,
@@ -388,7 +388,7 @@
                 { required: true, message: '请选择付款方式', trigger: 'change' }
             ],
             expenseDate:[
-                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                { required: true, message: '请选择日期', trigger: 'change' }
             ],
             payway: [
                 { required: true, message: '请选择付款方式', trigger: 'change' }
@@ -488,10 +488,10 @@
 
         this.expenseImage=this.expenses[0].expenseImage;
         
-        var imgArr=JSON.parse(this.expenseImage);
+        var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
-            if(item!=null){
-                 this.imgArr.push({id:index,value:item.value});
+            if(item!=null&&item!=""){
+                 this.imgArr.push({id:index,value:item});
             }
         })
     },
@@ -515,148 +515,6 @@
                 console.log('selectAllCheck==',res);
                 this.checks = res
             })
-        },
-        //审核
-        checkInvoices(){
-            
-            if(this.ruleForm.role==1||this.ruleForm.role==5){
-                if(this.ruleForm.gmCheck==undefined||this.ruleForm.gmCheck==""){//未审核过
-                  console.log("总经理审核");
-                    if(this.isAgree==1){
-                        this.rejectReasult="总经理审批同意";
-                        this.checkType=3;
-                    };
-                    if(this.isAgree==2){//驳回
-                        this.checkType=6;
-                    };
-                    var params1={
-                        invoiceCode:this.ruleForm.expenseCode,
-                        checkReasult:this.rejectReasult,
-                        checkUser:this.ruleForm.gm,
-                        // checkDate:this.returnTime(new Date()),
-                        invoiceType:1,
-                    };
-                    var params2={
-                        filePath2:this.filePath2,
-                        gmCheck:this.ruleForm.gm,
-                        expenseId:this.expenseId,
-                        invoiceType:this.checkType,
-                        expenseImage:this.expenseImage2,
-                    };
-                    addCheckInvoices(params1).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    });
-                    editExpenseByExpenseId(params2).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    });
-                    this.$router.push({
-                        path: "/invoices/invoicesMgr"
-                    });
-                }else{
-                    this.$message({
-                            message: "审核过了",
-                            type: 'warning',
-                        });
-                };  
-            };
-             if(this.ruleForm.role==7){
-                if(this.ruleForm.financeCheck==undefined||this.ruleForm.financeCheck==""){//未审核过
-                    console.log("财务审核");
-                    if(this.isAgree==1){
-                        this.rejectReasult="财务审批同意";
-                        this.checkType=4;
-                    };
-                    if(this.isAgree==2){//驳回
-                        this.checkType=6;
-                    };
-                    var params1={
-                        invoiceCode:this.ruleForm.expenseCode,
-                        checkReasult:this.rejectReasult,
-                        checkUser:this.ruleForm.finance,
-                        // checkDate:this.returnTime(new Date()),
-                        invoiceType:1,
-                    };
-                    var params2={
-                        filePath2:this.filePath2,
-                        financeCheck:this.ruleForm.finance,
-                        expenseId:this.expenseId,
-                        invoiceType:this.checkType,
-                        expenseImage:this.expenseImage2,
-                    };
-                    addCheckInvoices(params1).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    });
-                    editExpenseByExpenseId(params2).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    }) 
-                    this.$router.push({
-                        path: "/invoices/invoicesMgr"
-                    });
-                }else{
-                    this.$message({
-                            message: "审核过了",
-                            type: 'warning',
-                        });
-                };  
-            };
-             if(this.ruleForm.role==12||this.ruleForm.role==10){
-                if(this.ruleForm.dmCheck==undefined||this.ruleForm.dmCheck==""){//未审核过
-                    console.log("部门主管审核");
-                    if(this.isAgree==1){
-                        this.rejectReasult="部门主管审批同意";
-                        this.checkType=2;
-                    };
-                     if(this.isAgree==2){//驳回
-                        this.checkType=6;
-                    };
-                    var params1={
-                        invoiceCode:this.ruleForm.expenseCode,
-                        checkReasult:this.rejectReasult,
-                        checkUser:this.ruleForm.dm,
-                        // checkDate:this.returnTime(new Date()),
-                        invoiceType:1,
-                    };
-                    var params2={
-                        filePath2:this.filePath2,
-                        dmCheck:this.ruleForm.dm,
-                        expenseId:this.expenseId,
-                        invoiceType:this.checkType,
-                        expenseImage:this.expenseImage2,
-                    };
-                    addCheckInvoices(params1).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    });
-                    editExpenseByExpenseId(params2).then(res => {
-                        this.$message({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    }) 
-                    this.$router.push({
-                        path: "/invoices/invoicesMgr"
-                    });
-                }else{
-                    this.$message({
-                            message: "审核过了",
-                            type: 'warning',
-                        });
-                };  
-            }   
         },
         selectPayWay(){
             console.log("paywayId",this.ruleForm.paywayId);
@@ -781,7 +639,7 @@
                         bankPaycode:this.ruleForm.bankPaycode,
                         bankPayname:this.ruleForm.bankPayname,
                         filePath:this.filePath,
-                        expenseImage:JSON.stringify(this.imgArr),
+                        expenseImage:this.imgArr2.join(),
                     };
                     console.log('submit!');
                     editExpense2(params).then(res => {
@@ -854,9 +712,9 @@
         },       
          //上传图片
         handleRemove(file) {
-            this.imgArr.map((item,index)=>{
-            if(item.value==file.name){
-                    delete this.imgArr[index];
+            this.imgArr2.map((item,index)=>{
+            if(item==file.name){
+                    this.imgArr2.splice(index, 1);
                 }
             })
             this.$message("取消上传");
@@ -868,9 +726,7 @@
         },
         success(file) {
             this.$message(file.message);
-            var fileUrl = file.obj;
-            this.imgArr.push({value:fileUrl});
-            this.expenseImage2 = fileUrl;
+            this.imgArr2.push(file.obj);
         },
         //取消按钮
         cancel() {
@@ -878,10 +734,17 @@
         },
         //获取图片
         getImage(){
-            this.imageVisible=true;
-            console.log("getImage",this.imgArr);
-            if (this.imgArr.length<=0) {      
-                this.imgArr.push({id:0,value:"404.jpg"})
+            if (this.imgArr.length<=0) {
+                this.imageVisible=false;
+                this.$message({
+                    message: "没有影像",
+                    type: 'warning',
+                });
+            }else{
+                this.imageVisible=true;
+                this.imgArr.map(item=>{//增加可预览功能
+                    this.srcList.push(this.baseImgPath+item.value);
+                })
             }
         },  
         toEditImg(){

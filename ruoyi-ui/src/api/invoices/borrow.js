@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function addBorrow(params) {
   return request({
-    url: 'api/borrow/addBorrow',
+    url: 'invoices/borrow/addBorrow',
     method: 'post',
     params:params
   })
@@ -10,7 +10,7 @@ export function addBorrow(params) {
 //登录用户的
 export function getBorrow(params) {
   return request({
-    url: 'api/borrow/getAllBorrow',
+    url: 'invoices/borrow/getAllBorrow',
     method: 'get',
     params
   })
@@ -18,14 +18,14 @@ export function getBorrow(params) {
 //所有的
 export function getAllBorrows(params) {
   return request({
-    url: 'api/borrow/getAllBorrows',
+    url: 'invoices/borrow/getAllBorrows',
     method: 'get',
     params
   })
 }
 export function getCheckBorrow(params) {
   return request({
-    url: 'api/borrow/getCheckBorrow',
+    url: 'invoices/borrow/getCheckBorrow',
     method: 'get',
     params
   })
@@ -33,7 +33,7 @@ export function getCheckBorrow(params) {
 //删除（伪删）
 export function editBorrow(borrowId) {
   return request({
-    url: 'api/borrow/editBorrow',
+    url: 'invoices/borrow/editBorrow',
     method: 'put',
     params:borrowId
   })
@@ -41,7 +41,7 @@ export function editBorrow(borrowId) {
 //修改借支单（编辑）
 export function editBorrow2(params) {
   return request({
-    url: 'api/borrow/editBorrow2',
+    url: 'invoices/borrow/editBorrow2',
     method: 'put',
     params:params
   })
@@ -49,7 +49,7 @@ export function editBorrow2(params) {
 //撤回操作
 export function editBorrowType(params) {
   return request({
-    url: 'api/borrow/editBorrowType',
+    url: 'invoices/borrow/editBorrowType',
     method: 'put',
     params:params
   })
@@ -57,7 +57,7 @@ export function editBorrowType(params) {
 
 export function editBorrowByBorrowId(params) {
   return request({
-    url: 'api/borrow/editBorrowByBorrowId',
+    url: 'invoices/borrow/editBorrowByBorrowId',
     method: 'put',
     params
   })
@@ -65,7 +65,7 @@ export function editBorrowByBorrowId(params) {
 
 export function getCode(params) {
   return request({
-    url: 'api/borrow/getBorrowCode',
+    url: 'invoices/borrow/getBorrowCode',
     method: 'get',
     params
   })
@@ -73,13 +73,13 @@ export function getCode(params) {
 
 export function getAllCompany() {
   return request({
-    url: 'api/borrow/getAllCompany',
+    url: 'invoices/borrow/getAllCompany',
     method: 'get',
   })
 }
 export function getAllGetUser() {
   return request({
-    url: 'api/borrow/getAllGetUser',
+    url: 'invoices/borrow/getAllGetUser',
     method: 'get',
   })
 }

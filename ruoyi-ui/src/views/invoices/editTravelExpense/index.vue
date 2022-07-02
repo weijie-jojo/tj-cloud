@@ -425,6 +425,7 @@
                  <el-image
                     style="width: 500px; height: 500px"
                     :src="baseImgPath+item.value"
+                     :preview-src-list="srcList"
                 ></el-image>
             </div>
             </el-dialog> 
@@ -465,6 +466,8 @@
     data() {
       return {
         imgArr:[],
+        imgArr2:[],
+        srcList:[],
         baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
         //影像上传参数
         limitNum:10,
@@ -547,7 +550,7 @@
                 { required: true, message: '请选择出款单位名', trigger: 'change' }
             ],
             expenseDate:[
-                { type: 'date', required: true, message: '请选择报销时间', trigger: 'change' }
+                {  required: true, message: '请选择报销时间', trigger: 'change' }
             ],
             expenseName: [
                 { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -583,23 +586,22 @@
         this.getAllGetUser();
         this.selectAllCheck();
         //获取登录用户信息
-        getInfo().then(res => {
-            console.log("getInfo==", res);
-            this.ruleForm.job=res.user.jobs[0].name;
-            this.ruleForm.expenseName=res.user.nickName;
-             //根据收款人id查找收款银行卡信息 
-            getCardInfoBycompany(res.user.id).then(res => {
-                console.log('getCardInfoBycompany==',res);
-                this.ruleForm.bankcardGetid=res.accountCard;
-                this.ruleForm.bankGetname=res.accountCardBank;
-                this.ruleForm.userGetid=res.nickName;
-            })
-        })
+        // getInfo().then(res => {
+        //     console.log("getInfo==", res);
+        //      //根据收款人id查找收款银行卡信息 
+        //     getCardInfoBycompany(res.user.id).then(res => {
+        //         console.log('getCardInfoBycompany==',res);
+        //         this.ruleForm.bankcardGetid=res.accountCard;
+        //         this.ruleForm.bankGetname=res.accountCardBank;
+        //         this.ruleForm.userGetid=res.nickName;
+        //     })
+        // })
         this.getExpenseItem();
         this.travelExpenses = JSON.parse(window.localStorage.getItem('travelExpenses')).list
         console.log("travelExpenses==",this.travelExpenses[0]);
         this.id=this.travelExpenses[0].id;
 
+        this.ruleForm.job=this.travelExpenses[0].job;
         this.ruleForm.expenseDate=this.travelExpenses[0].createTime;
         this.ruleForm.travelExpenseCode=this.travelExpenses[0].travelExpenseCode;
         this.ruleForm.expenseName=this.travelExpenses[0].nickName;
@@ -661,13 +663,13 @@
 
         this.expenseImage=this.travelExpenses[0].expenseImage;
         
-        var imgArr=JSON.parse(this.expenseImage);
-        console.log("imgArr===",imgArr);
+        var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
-            if(item!=null){
-                 this.imgArr.push({id:index,value:item.value});
+            if(item!=null&&item!=""){
+                 this.imgArr.push({id:index,value:item});
             }
         })
+        console.log( "imgArr=====",this.imgArr);
 
     },
     methods: {
@@ -942,7 +944,7 @@
                         bankPaycode:this.ruleForm.bankPaycode,
                         bankPayname:this.ruleForm.bankPayname,
 
-                        expenseImage:JSON.stringify(this.imgArr),
+                        expenseImage:this.imgArr2.join(),
 
                         //总费用
                         totalAllMoney:this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1+
@@ -1026,9 +1028,9 @@
         }, 
         //上传图片
         handleRemove(file) {
-            this.imgArr.map((item,index)=>{
-            if(item.value==file.name){
-                    delete this.imgArr[index];
+            this.imgArr2.map((item,index)=>{
+            if(item==file.name){
+                    this.imgArr2.splice(index, 1);
                 }
             })
             this.$message("取消上传");
@@ -1040,9 +1042,7 @@
         },
         success(file) {
             this.$message(file.message);
-            var fileUrl = file.obj;
-            this.imgArr.push({value:fileUrl});
-            this.expenseImage = fileUrl;
+            this.imgArr2.push(file.obj);
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
@@ -1063,10 +1063,17 @@
         },   
         //获取图片
         getImage(){
-            this.imageVisible=true;
-            console.log("getImage",this.imgArr);
             if (this.imgArr.length<=0) {
-                this.imgArr.push({id:0,value:"404.jpg"})
+                this.imageVisible=false;
+                this.$message({
+                    message: "没有影像",
+                    type: 'warning',
+                });
+            }else{
+                this.imageVisible=true;
+                this.imgArr.map(item=>{//增加可预览功能
+                    this.srcList.push(this.baseImgPath+item.value);
+                })
             }
         }, 
 

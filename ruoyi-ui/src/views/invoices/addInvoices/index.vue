@@ -584,7 +584,7 @@ export default {
         currentPage:1,limit:1 
       }).then(res=>{
         this.expenses=res;
-        console.log("expenses==",this.expenses);
+        console.log("expenses333==",this.expenses);
         window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
         window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
@@ -1066,10 +1066,11 @@ export default {
         currentPage:1,limit:1 
         }).then(res=>{
           this.expenses=res;
-          console.log("expenses==",this.expenses);
+          console.log("expensesvvv==",this.expenses);
           window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
           window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
+          console.log("asa");
           this.$router.push({
               path: "/invoices/showExpense"
           });

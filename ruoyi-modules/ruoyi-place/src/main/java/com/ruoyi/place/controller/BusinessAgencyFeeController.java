@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "渠道商代理费管理")
-@RequestMapping("api/agencyFee")
+@RequestMapping("/agencyFee")
 public class BusinessAgencyFeeController {
     private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
 

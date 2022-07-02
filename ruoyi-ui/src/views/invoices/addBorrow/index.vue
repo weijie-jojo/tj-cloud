@@ -1,15 +1,15 @@
 <template>
-    <div class="app-container">      
+    <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="200px" >
             <el-form-item id="title" >
-                <span style="font-size:30px">借支单</span>                  
+                <span style="font-size:30px">借支单</span>
             </el-form-item>
 
             <el-form-item label="借支单编号" >
-                <span>{{ruleForm.borrowCode}}</span>                  
+                <span>{{ruleForm.borrowCode}}</span>
             </el-form-item>
 
-            <el-form-item label="借款日期"   prop="borrowDate" class="middle2" >  
+            <el-form-item label="借款日期"   prop="borrowDate" class="middle2" >
                 <el-date-picker
                     v-model="ruleForm.borrowDate"
                     type="date"
@@ -22,13 +22,13 @@
             <el-form-item label="部门"  class="right2">
                 <el-input  v-model="ruleForm.deptName"  style="width:200px" disabled></el-input>
             </el-form-item>
-                 
+
             <el-form-item label="借支人姓名"  >
-                <el-input  v-model="ruleForm.borrowName"  style="width:200px" disabled></el-input> 
+                <el-input  v-model="ruleForm.borrowName"  style="width:200px" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="职务"    class="right2" >
-                <el-input  v-model="ruleForm.job"  style="width:200px" disabled></el-input> 
+            <el-form-item label="职务"    class="right2" prop="job">
+                <el-input  v-model="ruleForm.job"  style="width:200px" ></el-input>
                 <!-- <el-select v-model="ruleForm.job" placeholder="请选择职务" clearable >
                     <el-option v-for="item in jobs" :key="item.id" :label="item.name" :value="item.id"> </el-option>
                 </el-select> -->
@@ -44,34 +44,34 @@
                 </el-input>
             </el-form-item>
             <el-form-item  label="借款金额" prop="totalMoney" id="left" >
-                <el-input-number 
-                    v-model="ruleForm.totalMoney" 
-                    :precision="2" 
-                    :step="0.01" :min="0" 
-                    style="width:160px"  
+                <el-input-number
+                    v-model="ruleForm.totalMoney"
+                    :precision="2"
+                    :step="0.01" :min="0"
+                    style="width:160px"
                 ></el-input-number>
                 <span>元</span>
             </el-form-item>
-            <el-form-item  label="人民币(大写)" class="middle2">                 
-                {{digitUppercase(ruleForm.totalMoney)}}      
+            <el-form-item  label="人民币(大写)" class="middle2">
+                {{digitUppercase(ruleForm.totalMoney)}}
             </el-form-item>
-            
+
             <el-form-item label="支付方式"  prop="paywayId" id="left">
-                <el-select 
-                    v-model="ruleForm.paywayId" 
-                    placeholder="请选择支付方式"  
-                    clearable  
+                <el-select
+                    v-model="ruleForm.paywayId"
+                    placeholder="请选择支付方式"
+                    clearable
                     style=" width: 200PX;">
-                    <el-option 
-                        v-for="item in searchPayways" 
-                        :key="item.value" 
-                        :label="item.label" 
+                    <el-option
+                        v-for="item in searchPayways"
+                        :key="item.value"
+                        :label="item.label"
                         :value="item.value"
                     ></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="计划还款时间"  prop="payDate" class="middle2" >  
+            <el-form-item label="计划还款时间"  prop="payDate" class="middle2" >
                 <el-date-picker
                     v-model="ruleForm.payDate"
                     type="date"
@@ -80,64 +80,64 @@
             </el-form-item>
 
             <el-form-item label="收款人"   class="left">
-                <el-input 
+                <el-input
                     v-model="ruleForm.borrowName"
                     style="width:200px"
                     disabled
                 ></el-input>
-                <!-- <el-select 
-                    v-model="ruleForm.userGetid" 
+                <!-- <el-select
+                    v-model="ruleForm.userGetid"
                     @change="getCardInfoBycompany"
-                    placeholder="请选择收款单位"   
+                    placeholder="请选择收款单位"
                     style=" width: 200PX;"
                     :disabled="isDisabled">
-                    <el-option 
-                        v-for="item in searchGetUsers" 
-                        :key="item.userId" 
-                        :label="item.nickName" 
+                    <el-option
+                        v-for="item in searchGetUsers"
+                        :key="item.userId"
+                        :label="item.nickName"
                         :value="item.userId"
                     > </el-option>
                 </el-select> -->
             </el-form-item>
             <el-form-item label="收款账号"    class="middle2">
-                <el-input 
-                    v-model="ruleForm.bankcardGetid" 
+                <el-input
+                    v-model="ruleForm.bankcardGetid"
                     style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
             <el-form-item label="收款开户行"  class="right2">
-                <el-input 
-                    v-model="ruleForm.bankGetname" 
+                <el-input
+                    v-model="ruleForm.bankGetname"
                     style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
 
              <el-form-item label="借款单位"  prop="companyPayId"  class="left">
-                 <el-select 
-                    v-model="ruleForm.companyPayId" 
-                    placeholder="请选择付款单位" 
-                    @change="getCarInfoByCompanyId"   
+                 <el-select
+                    v-model="ruleForm.companyPayId"
+                    placeholder="请选择付款单位"
+                    @change="getCarInfoByCompanyId"
                     style=" width: 200PX;">
-                    <el-option 
-                        v-for="item in payCompanys" 
-                        :key="item.groupCode" 
-                        :label="item.groupName" 
+                    <el-option
+                        v-for="item in payCompanys"
+                        :key="item.groupCode"
+                        :label="item.groupName"
                         :value="item.groupCode"
                     > </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="借款账号"    class="middle2">
-              <el-input 
-                    v-model="ruleForm.bankPaycode" 
+              <el-input
+                    v-model="ruleForm.bankPaycode"
                     style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
             <el-form-item label="借款开户行"   class="right2">
-                <el-input 
-                    v-model="ruleForm.bankPayname" 
+                <el-input
+                    v-model="ruleForm.bankPayname"
                     style="width:200px"
                     disabled
                 ></el-input>
@@ -169,7 +169,7 @@
         isDisabled:false,
         companyCardInfos:[],//所选借款单位对应的银行卡信息
         userCardInfos:[],//所选收款人对应的银行卡信息
-        searchGetUsers:[],//所有借款人
+        // searchGetUsers:[],//所有借款人
         payCompanys:[],//所有借款单位
         jobs:[],//登录用户拥有的职务
         height: document.documentElement.clientHeight - 180 + 'px;',
@@ -195,7 +195,7 @@
             bankcardGetid:'',//收款单位/人银行卡号
             bankGetname:'',//收款单位/人银行卡所属银行
 
-          
+
             deptId:'',//部门id
             gmCheck:'',//总经理
             dmCheck:'',//部门主管
@@ -224,7 +224,10 @@
             userGetid: [
                 { required: true, message: '请选择收款人', trigger: 'change' }
             ],
-        
+            job: [
+                { required: true, message: '请输入借款职务', trigger: 'blur' }
+            ],
+
         },
         //后端查询的数据
         searchPayways:[],
@@ -233,10 +236,10 @@
     },
     mounted: function() {
         this.searchPayways=this.dict.type.pay_way;
-        console.log("searchPayways",this.searchPayways);  
+        console.log("searchPayways",this.searchPayways);
         this.ruleForm.borrowDate=new Date();
         this.getAllCompany();
-        this.getAllGetUser();
+        // this.getAllGetUser();
         this.getBorrowCode();
         this.getLoginUser();
         const that = this
@@ -247,7 +250,7 @@
         // console.log("borrows==",this.borrows[0]);
 
         // this.ruleForm.borrowCode=this.borrows[0].borrowCode;
-        
+
         //  this.type=location.search.split('=')[1];
         // console.log("type==",this.type);
         // if(this.borrows.length){
@@ -263,14 +266,14 @@
         //         isPass:this.isAgree,
         //         checkUser:this.rejectReasult,
         //     };
-            
+
         //     addBorrow(params).then(res => {
         //         console.log('addCheckInvoices==',res.message);
         //         this.$message({
         //             message: res.message,
         //             type: 'success',
         //         });
-        //     })    
+        //     })
         // },
         //获取所有审批结果
         // selectAllCheck(){
@@ -279,29 +282,29 @@
         //         this.checks = res
         //     })
         // },
-        //获取所有出款单位信息 
+        //获取所有出款单位信息
         getAllCompany() {
-            getAllCompany().then(res => {  
+            getAllCompany().then(res => {
                 this.payCompanys = res.list;
                 console.log('payCompanys==',this.payCompanys);
             })
-        }, 
-        //根据出款单位id查找出款银行卡信息 
+        },
+        //根据出款单位id查找出款银行卡信息
         getCarInfoByCompanyId() {
             var cardInfo=this.payCompanys.find((item) =>
             item.groupCode == this.ruleForm.companyPayId);
             this.ruleForm.bankPaycode= cardInfo.groupBankAccount;
             this.ruleForm.bankPayname= cardInfo.groupOpenBank;
             console.log('cardInfo==',cardInfo);
-        }, 
-        //获取报销人信息 
+        },
+        //获取报销人信息
         getAllGetUser() {
             getAllGetUser().then(res => {
                 console.log('getAllGetUser==',res.list);
                 this.searchGetUsers = res.list;
             })
-        }, 
-        //根据收款人id查找收款银行卡信息 
+        },
+        //根据收款人id查找收款银行卡信息
         getCardInfoBycompany() {
             console.log("userGetid11==",this.ruleForm.userGetid);
             getCardInfoBycompany(this.ruleForm.userGetid).then(res => {
@@ -310,7 +313,7 @@
                 this.ruleForm.bankGetname=res.accountCardBank;
                 this.ruleForm.userGetid=res.nickName;
             })
-        }, 
+        },
         selectPayWay(){
             console.log("paywayId",this.ruleForm.paywayId);
             if(this.ruleForm.paywayId==17){
@@ -323,7 +326,7 @@
                 this.isDisabled=false;
             }
         },
-        //根据收款人id查找收款银行卡信息 
+        //根据收款人id查找收款银行卡信息
         getCardInfoByUser() {
             this.ruleForm.cardGetId="";
             this.ruleForm.bankGetname="";
@@ -331,7 +334,7 @@
                 console.log('userCardInfos==',res.list);
                 this.userCardInfos = res.list
             })
-        }, 
+        },
         //根据收款单位银行卡id查找对应的银行名
         getBankNameByUserCardId() {
             getBankNameBycardId(this.ruleForm.cardGetId).then(res => {
@@ -340,21 +343,21 @@
             })
         },
 
-        //根据借款单位id查找借款银行卡信息 
+        //根据借款单位id查找借款银行卡信息
         getBankNameByCompanyCardId() {
             var cardInfo=this.payCompanys.find((item) => item.companyId == this.ruleForm.companyPayId);
             this.ruleForm.bankcardGetid= cardInfo.account;
             this.ruleForm.bankPayname= cardInfo.accountOpeningBank;
             console.log('cardInfo==',cardInfo);
-        }, 
+        },
 
-        //初始化下拉借款单位信息 
+        //初始化下拉借款单位信息
         getAllCompany() {
-            getAllCompany().then(res => {  
+            getAllCompany().then(res => {
                 this.payCompanys = res.list;
                 console.log('payCompanys==',this.payCompanys);
             })
-        },   
+        },
         getBorrowCode(){
             this.type=1;
             // var date = new Date();
@@ -374,14 +377,14 @@
         getLoginUser(){
             getInfo().then(res => {
                 console.log("getInfo==",res);
-                this.ruleForm.createUser=res.user.id;
+                this.ruleForm.createUser=res.user.userId;
                 this.ruleForm.borrowName=res.user.nickName;
-                this.ruleForm.deptName=res.user.dept.name;
-                this.ruleForm.deptId=res.user.dept.id;
-                this.ruleForm.job=res.user.jobs[0].name;
+                this.ruleForm.deptName=res.user.dept.deptName;
+                this.ruleForm.deptId=res.user.deptId;
+                // this.ruleForm.job=res.user.jobs[0].name;
                 this.roles=res.user.roles;
-                //根据收款人id查找收款银行卡信息 
-                getCardInfoBycompany(res.user.id).then(res => {
+                //根据收款人id查找收款银行卡信息
+                getCardInfoBycompany(res.user.userId).then(res => {
                     console.log('getCardInfoBycompany==',res);
                     this.ruleForm.bankcardGetid=res.accountCard;
                     this.ruleForm.bankGetname=res.accountCardBank;
@@ -391,15 +394,15 @@
         },
         handleResize () {
             this.fullWidth = document.documentElement.clientWidth
-        }, 
-       
+        },
+
         //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     var invoiceType=1;
                     this.roles.map(item=>{//总经理
-                        if(item.id==5){
+                        if(item.id==5||item.id==6){
                             invoiceType=3;
                             // this.ruleForm.dmCheck=this.ruleForm.borrowName;
                             this.ruleForm.gmCheck=this.ruleForm.borrowName;
@@ -416,7 +419,7 @@
                         borrowDate:this.returnTime(this.ruleForm.borrowDate),
                         deptName:this.ruleForm.deptName,
                         borrowName:this.ruleForm.borrowName,
-                        job:this.ruleForm.job,                       
+                        job:this.ruleForm.job,
                         borrowDesc:this.ruleForm.borrowDesc,
                         totalMoney:this.ruleForm.totalMoney,
                         paywayId:this.ruleForm.paywayId,
@@ -458,9 +461,9 @@
                         this.$refs[formName].resetFields();
                         this.$router.push({
                             path: "/invoices/addInvoices"
-                        }); 
+                        });
                     });
-                                                         
+
                 }
                 else {
                     console.log('error submit!!');
@@ -471,12 +474,12 @@
                     return false;
                 }
             });
-        }, 
+        },
         toReturn(){
             this.$router.push({
                  path: "/invoices/addInvoices"
             })
-        }, 
+        },
         //返回当前时间
         returnTime(time2){
             var time=new Date(time2);
@@ -512,49 +515,7 @@
             return head + s.replace(/(零.)*零元/, '元')
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
-        }, 
-         //上传文件  
-        //填单人 
-        handleRemove1(file) {
-            console.log(file);
-            this.filePath1=undefined;
         },
-        //点击文件时
-        handlePreview1(file) {
-            console.log(file);
-        },
-        //上传成功后
-        success1(file) {
-            this.$message(file.message);
-            var fileUrl = file.obj;
-            this.filePath1 = fileUrl;
-            console.log("filePath1=="+this.filePath1);
-        },
-        //删除前
-        beforeRemove1(file) {
-            return this.$confirm(`确定移除 ${ file.name }？`);
-        },  
-        //财务
-         //删除文件后 
-        handleRemove2(file) {
-            console.log(file);
-            this.filePath2=undefined;
-        },
-        //点击文件时
-        handlePreview2(file) {
-            console.log(file);
-        },
-        //上传成功后
-        success2(file) {
-            this.$message(file.message);
-            var fileUrl = file.obj;
-            this.filePath2 = fileUrl;
-            console.log("filePath2=="+this.filePath2);
-        },
-        //删除前
-        beforeRemove2(file) {
-            return this.$confirm(`确定移除 ${ file.name }？`);
-        }    
     },
   }
 </script>
@@ -562,7 +523,7 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
     #title{
-        margin-left: 420px; 
+        margin-left: 420px;
         margin-top: 30px;
         margin-bottom: 30px;
     }
@@ -577,14 +538,14 @@
     // }
     // .yuan{
     //     margin-left: 180px;
-    //     margin-top: -30px; 
+    //     margin-top: -30px;
     // }
     // .remarkCss {
     //     width: 440px;
     //     margin-left: 540px;
     //     margin-top: -55px;
     // }
-    
+
     .left{
         width: 400px;
     }
@@ -621,6 +582,6 @@
      // 改变input框字体颜色
      ::v-deep .is-disabled .el-input__inner{
         background-color: transparent !important;
-        color: black;    
+        color: black;
     }
 </style>

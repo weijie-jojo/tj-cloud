@@ -777,42 +777,32 @@
         this.expenseImage=this.travelExpenses[0].expenseImage;
         this.expenseImage2=this.travelExpenses[0].expenseImage2;
         
-        var imgArr=JSON.parse(this.expenseImage);
+        var imgArr= this.expenseImage.split(",");
 
-        if (imgArr.length<=0) {
-            // this.imgArr.push({id:0,value:"404.jpg"})
+        if (imgArr[0]=="") {
             console.log("404");
             this.isShowImg=false;
         }else{
             imgArr.map((item,index)=>{
-                if(item!=null){
-                    this.imgArr.push({id:index,value:item.value});
+                if(item!=null&&item!=""){
+                    this.imgArr.push({id:index,value:item});
                 }
             });
             this.isShowImg=true;
         }
 
-        var imgArr2=JSON.parse(this.expenseImage2);
-        if (imgArr2.length<=0) {
+        var imgArr2= this.expenseImage2.split(",");  
+        if (imgArr2[0]=="") {
             console.log("404");
             this.isShowImg2=false;
         }else{
             imgArr2.map((item,index)=>{
-                if(item!=null){
-                    this.imgArr2.push({id:index,value:item.value});
+                if(item!=null&&item!=""){
+                    this.imgArr2.push({id:index,value:item});
                 }
             })
             this.isShowImg2=true;
         }
-
-        // if (this.expenseImage2==""||this.expenseImage2==undefined) {
-        //     // this.imgpath2 =this.baseImgPath+"404.jpg";
-        //     console.log("404");
-        //     this.isShowImg2=false;
-        // }else{
-        //     this.imgpath2 =this.baseImgPath+this.expenseImage2;
-        //     this.isShowImg2=true;
-        // }
       
     },
     methods: {

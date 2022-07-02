@@ -302,29 +302,23 @@
             <el-form-item label="小计" style="margin-left:1460px;margin-top:-350px">
             </el-form-item>
             <el-form-item  class="subtotal">
-                <el-input-number 
-                    disabled
-                    v-model="ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1" 
-                    :precision="2" :step="0.01" :min="0"  
-                    style="width:140px"></el-input-number>
-                <!-- {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1}} -->
+                <el-input 
+                    v-model="subTotalMoney1" 
+                    style="width:100px"></el-input>
                 <span style="margin-left:10px">元</span>
             </el-form-item>
             <el-form-item  class="subtotal">
-                <el-input-number 
+                <el-input 
                     disabled
-                    v-model="ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2" 
-                    :precision="2" :step="0.01" :min="0"  
-                    style="width:140px"></el-input-number>
-                <!-- {{ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2}} -->
+                    v-model="subTotalMoney2" 
+                    style="width:100px"></el-input>
                     <span style="margin-left:10px">元</span>
             </el-form-item>
             <el-form-item  class="subtotal">
-                 <el-input-number 
+                 <el-input 
                     disabled
-                    v-model="ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3" 
-                    :precision="2" :step="0.01" :min="0"  
-                    style="width:140px"></el-input-number>
+                    v-model="subTotalMoney3" 
+                    style="width:100px"></el-input>
                 <!-- {{ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3}} -->
                     <span style="margin-left:10px">元</span>
             </el-form-item>
@@ -332,17 +326,11 @@
             <el-row style="margin-top:20px">
                 <el-col :span="10">
                     <el-form-item  label="总计金额(小写)" > 
-                        <el-input-number 
+                        <el-input 
                             disabled
-                            v-model="ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                            ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                            ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3" 
-                            :precision="2" :step="0.01" :min="0"  
-                            style="width:140px"></el-input-number>  
-                             <span style="margin-left:10px">元</span>     
-                        <!-- {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}     -->
+                            v-model="totalMoney" 
+                            style="width:140px"></el-input>  
+                            <span style="margin-left:10px">元</span>     
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -485,7 +473,7 @@
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
-    import { getCode,addTravelExpense,getExpenseItem } from '@/api/invoices/travelExpense'
+    import { getCode,addTravelExpense } from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
     data() {
@@ -493,7 +481,6 @@
         roles:[],
         //影像上传参数
         imgArr:[],  
-        expenseImage:'',
         imgDialog:false,
         dialogImageUrl: '',
         dialogVisible: false,
@@ -501,7 +488,6 @@
         hideUpload: false,
         limitNum:10,//可上传数量
 
-        items:[],
         payCompanys:[],//所有单位
         searchGetUsers:[],//所有收款用户信息
         ruleForm: {
@@ -592,12 +578,12 @@
         getInfo().then(res => {
             console.log("getInfo==", res);
             this.ruleForm.expenseName=res.user.nickName;
-            this.ruleForm.expenseId=res.user.id;
-            this.ruleForm.deptId=res.user.dept.id;
+            this.ruleForm.expenseId=res.user.userId;
+            this.ruleForm.deptId=res.user.deptId;
             this.roles=res.user.roles;
             this.ruleForm.userGetid=res.user.id;
             //根据收款人id查找收款银行卡信息 
-            getCardInfoBycompany(res.user.id).then(res => {
+            getCardInfoBycompany(res.user.userId).then(res => {
                 console.log('getCardInfoBycompany==',res);
                 this.ruleForm.bankcardGetid=res.accountCard;
                 this.ruleForm.bankGetname=res.accountCardBank;
@@ -606,10 +592,23 @@
         })
         
         this.ruleForm.expenseDate=new Date();
-        this.getExpenseItem();
         this.getTravelExpenseCode();
         this.getAllCompany();
-        this.getAllGetUser();
+        // this.getAllGetUser();
+    },
+    computed: {          
+        subTotalMoney1:function(){ 
+            return this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1;
+        },
+        subTotalMoney2:function(){ 
+             return this.ruleForm.traffic2+this.ruleForm.stay2+this.ruleForm.subsidy2+this.ruleForm.other2;
+        },
+        subTotalMoney3:function(){ 
+             return this.ruleForm.traffic3+this.ruleForm.stay3+this.ruleForm.subsidy3+this.ruleForm.other3;
+        },
+        totalMoney:function(){ 
+            return this.subTotalMoney1+this.subTotalMoney2+this.subTotalMoney3;
+        },
     },
     methods: {
          //获取所有出款单位信息 
@@ -628,14 +627,14 @@
             console.log('cardInfo==',cardInfo);
         }, 
         //获取报销人信息 
-        getAllGetUser() {
-            getAllGetUser().then(res => {
-                console.log('getAllGetUser==',res.list);
-                this.searchGetUsers = res.list;
-                // this.ruleForm.userGetid=res.list.userId;
+        // getAllGetUser() {
+        //     getAllGetUser().then(res => {
+        //         console.log('getAllGetUser==',res.list);
+        //         this.searchGetUsers = res.list;
+        //         // this.ruleForm.userGetid=res.list.userId;
                
-            })
-        }, 
+        //     })
+        // }, 
         //根据收款人id查找收款银行卡信息 
         // getCardInfoBycompany() {
         //     getCardInfoBycompany(this.ruleForm.userGetid).then(res => {
@@ -652,37 +651,14 @@
                 this.ruleForm.travelExpenseCode=res.message;
             })
         },
-        //获取报销项目的金额
-        // getItemMoney(){
-        //     console.log("item1money==",this.ruleForm.item1Money);
-        //     this.items.map(item=>{
-        //         if(item.id==this.ruleForm.item1){
-        //             this.ruleForm.item1Money=item.itemMoney;
-        //         }
-        //         if(item.id==this.ruleForm.item2){
-        //             this.ruleForm.item2Money=item.itemMoney;
-        //         }
-        //         if(item.id==this.ruleForm.item3){
-        //             this.ruleForm.item3Money=item.itemMoney;
-        //         }
-        //         if(item.id==this.ruleForm.item4){
-        //             this.ruleForm.item4Money=item.itemMoney;
-        //         }
-        //     })
-        // },
-        //获取报销项目
-        getExpenseItem(){
-            getExpenseItem().then(res=>{
-                this.items=res;
-            })    
-        },
+ 
         //提交表单
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     var invoiceType=1;
                     this.roles.map(item=>{//总经理
-                        if(item.id==5){
+                        if(item.id==5||item.id==6){
                             invoiceType=3;
                             // this.ruleForm.dmCheck=this.ruleForm.expenseName;
                             this.ruleForm.gmCheck=this.ruleForm.expenseName;
@@ -735,7 +711,7 @@
                         bankPaycode:this.ruleForm.bankPaycode,
                         bankPayname:this.ruleForm.bankPayname,
 
-                        expenseImage:JSON.stringify(this.imgArr),
+                        expenseImage:this.imgArr.join(),
 
                         //总费用
                         totalAllMoney:this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1+
@@ -833,8 +809,8 @@
          //上传图片
         handleRemove(file) {
             this.imgArr.map((item,index)=>{
-                if(item.value==file.name){
-                    delete this.imgArr[index];
+                if(item==file.name){
+                    this.imgArr.splice(index, 1);
                 }
             })
             this.$message("取消上传");
@@ -846,9 +822,7 @@
         },
         success(file) {
             this.$message(file.message);
-            var fileUrl = file.obj;
-            this.imgArr.push({value:fileUrl});
-            this.expenseImage = fileUrl;
+            this.imgArr.push(file.obj);
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';

@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function getAllInvoice(params) {
   return request({
-    url: 'api/invoicesMgr/getAllInvoice',
+    url: 'invoices/invoicesMgr/getAllInvoice',
     method: 'get',
     params
   })
 }
 export function addInvoice(params) {
   return request({
-    url: 'api/invoicesMgr/addInvoice',
+    url: 'invoices/invoicesMgr/addInvoice',
     method: 'post',
     params:params
   })

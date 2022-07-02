@@ -64,9 +64,9 @@
                     style=" width: 200PX;">
                     <el-option 
                         v-for="item in searchPayways" 
-                        :key="item.detailId" 
+                        :key="item.value" 
                         :label="item.label" 
-                        :value="item.detailId"
+                        :value="item.value"
                     ></el-option>
                 </el-select>
             </el-form-item>
@@ -159,6 +159,7 @@
     import {getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId,editBorrow2} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
+    dicts: ['pay_way'],
     name: 'borrow',
     data() {
       return {
@@ -246,7 +247,7 @@
       }
     },
     mounted: function() {
-        this.searchPayways=this.dict.type.pay_way;
+        
         this.selectAllCheck();
         // this.ruleForm.payDate="";
         // this.ruleForm.borrowDate=new Date();
@@ -268,7 +269,7 @@
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;
         this.ruleForm.totalMoney=this.borrows[0].totalMoney;
-        this.ruleForm.paywayId=this.borrows[0].paywayId;
+        
         this.ruleForm.payDate=this.borrows[0].payDate;
 
         this.ruleForm.companyPayId=this.borrows[0].payCompanyId;
@@ -293,8 +294,19 @@
         this.ruleForm.gmCheck=this.borrows[0].gmCheck;
         this.ruleForm.financeCheck=this.borrows[0].financeCheck;
         this.ruleForm.dmCheck=this.borrows[0].dmCheck;
+
+         this.getSearchPayways();
     },
     methods: {
+        getSearchPayways(){
+            this.searchPayways=this.dict.type.pay_way;
+            console.log("searchPayways",this.searchPayways);
+            var borrows = JSON.parse(window.localStorage.getItem('borrows')).list
+            console.log("paywayId111",this.ruleForm.paywayId);
+            this.ruleForm.paywayId=parseInt(borrows[0].paywayId);
+            console.log("paywayId222",this.ruleForm.paywayId);
+
+        },
         isAgrees(){
             console.log("点了是否同意");
             if(this.isAgree==2){

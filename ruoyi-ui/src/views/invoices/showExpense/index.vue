@@ -337,12 +337,6 @@
                     :preview-src-list="srcList2"
                 ></el-image>
             </div>
-            <!-- <div class="demo-image">
-                <el-image
-                    style="width:1100px;height: 700px;"
-                    :src="imgpath2"
-                ></el-image>
-            </div> -->
         </el-dialog>
     </div>
 </template>
@@ -356,6 +350,7 @@
     name: 'expense',
     data() {
       return {
+        expenses:[],
         isShowImg:false,
         isShowImg2:false,
         srcList:[],
@@ -371,7 +366,7 @@
         expenseImage2:'',
         imageVisible2:false,
 
-        checks:'',
+        checks:[],
         rejectReasult:'',
         imgDialog:false,
         imgDialog2:false,
@@ -491,10 +486,10 @@
         this.expenses = JSON.parse(window.localStorage.getItem('expenses')).list
         
         this.ruleForm.expenseCode=this.expenses[0].expenseCode;
-        console.log("expenseCode==",this.ruleForm.expenseCode);
+        console.log("expenses111==",this.expenses[0]);
         this.ruleForm.expenseDate=this.expenses[0].createTime;
         this.ruleForm.deptId=this.expenses[0].deptId;
-        this.ruleForm.deptName=this.expenses[0].name;
+        this.ruleForm.deptName=this.expenses[0].deptName;
 
         this.ruleForm.paywayId=this.expenses[0].paywayId;
         this.ruleForm.role=JSON.parse(window.localStorage.getItem('expenseRoles'))[0].id;
@@ -538,43 +533,32 @@
         
         this.expenseImage=this.expenses[0].expenseImage;
         this.expenseImage2=this.expenses[0].expenseImage2;
-
-        var imgArr=JSON.parse(this.expenseImage);
-        
-        if (imgArr.length<=0) {
-            // this.imgArr.push({id:0,value:"404.jpg"})
+ 
+        var imgArr= this.expenseImage.split(",");
+        if (imgArr[0]=="") {
             console.log("404");
             this.isShowImg=false;
         }else{
             imgArr.map((item,index)=>{
-                if(item!=null){
-                    this.imgArr.push({id:index,value:item.value});
+                if(item!=null&&item!=""){
+                    this.imgArr.push({id:index,value:item});
                 }
             })
             this.isShowImg=true;
         }
-
-        var imgArr2=JSON.parse(this.expenseImage2);
-        if (imgArr2.length<=0) {
+       
+        var imgArr2= this.expenseImage2.split(",");     
+        if (imgArr2[0]=="") {
             console.log("404");
             this.isShowImg2=false;
         }else{
             imgArr2.map((item,index)=>{
-                if(item!=null){
-                    this.imgArr2.push({id:index,value:item.value});
+                if(item!=null&&item!=""){
+                    this.imgArr2.push({id:index,value:item});
                 }
             })
             this.isShowImg2=true;
         }
-        // if (this.expenseImage2==""||this.expenseImage2==undefined) {
-        //     // this.imgpath2 =this.baseImgPath+"404.jpg";
-        //     console.log("404");
-        //     this.isShowImg2=false;
-        // }else{
-        //     this.imgpath2 =this.baseImgPath+this.expenseImage2;
-        //     this.isShowImg2=true;
-        // }
-        
     },
     methods: {
       

@@ -68,7 +68,7 @@
             </el-form-item>
             
             <el-form-item label="支付方式"  prop="paywayId" id="left">
-                <el-select 
+                <!-- <el-select 
                     disabled
                     v-model="ruleForm.paywayId" 
                     @change="selectPayWay"
@@ -81,7 +81,12 @@
                         :label="item.label" 
                         :value="item.detailId"
                     ></el-option>
-                </el-select>
+                </el-select> -->
+               <el-input 
+                    v-model="ruleForm.paywayId" 
+                    style="width:200px"
+                    disabled
+                ></el-input>
             </el-form-item>
 
             <el-form-item label="计划还款时间"   class="middle2" >  
@@ -194,11 +199,12 @@
             <el-form-item 
                 v-show="isShowImg2"
                 class="demo-image__preview" 
+                v-for="(item,index) in imgArr2" :key="index" 
                 style="margin-top:200px;margin-left: -60px;">
                 <span class="imgTitle">还凭证影像</span>
                 <el-image
                    style="width:1100px;height: 700px;"
-                    :src="imgpath2"
+                    :src="baseImgPath+item.value"
                 ></el-image>
             </el-form-item>
 
@@ -229,18 +235,15 @@
                     :preview-src-list="srcList"
                 ></el-image>
             </div>
-            <!-- <div class="demo-image">
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="imgpath"
-                ></el-image>
-            </div> -->
         </el-dialog>
         <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
-            <div class="demo-image">
+            <div class="demo-image" 
+                v-for="(item,index) in imgArr2" :key="index" 
+                style="margin-top:20px;">
                 <el-image
-                    style="width:1100px;height: 700px;"
-                    :src="imgpath2"
+                    style="width: 300px; height: 200px"
+                    :src="baseImgPath+item.value"
+                    :preview-src-list="srcList2"
                 ></el-image>
             </div>
         </el-dialog>
@@ -252,11 +255,14 @@
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
+    dicts: ['pay_way'],
     name: 'borrow',
     data() {
       return {
         imgArr:[],
+        imgArr2:[],
         srcList:[],
+        srcList2:[],
 
         isShowImg:false,
         isShowImg2:false,
@@ -319,7 +325,7 @@
         },
         rules: {
             borrowDate:[
-                { type: 'date', required: true, message: '请选择借款日期', trigger: 'change' }
+                {  required: true, message: '请选择借款日期', trigger: 'change' }
             ],
             borrowDesc: [
                 { required: true, message: '请输入借支事由', trigger: 'blur' }
@@ -369,7 +375,7 @@
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;
         this.ruleForm.totalMoney=this.borrows[0].totalMoney;
-        this.ruleForm.paywayId=this.borrows[0].label;
+        this.ruleForm.paywayId=this.borrows[0].dictLabel;
         this.ruleForm.payDate=this.borrows[0].payDate;
 
         this.ruleForm.companyPayId=this.borrows[0].payCompanyId;
@@ -398,37 +404,39 @@
         this.borrowImage=this.borrows[0].borrowImage;
         this.borrowImage2=this.borrows[0].borrowImage2;
         
-        var imgArr=JSON.parse(this.borrowImage);
-        if (imgArr.length<=0) {
-            // this.imgArr.push({id:0,value:"404.jpg"})
+        var imgArr= this.borrowImage.split(",");
+        if (imgArr[0]=="") {
             console.log("404");
             this.isShowImg=false;
         }else{
             imgArr.map((item,index)=>{
-                if(item!=null){
-                    this.imgArr.push({id:index,value:item.value});
+                if(item!=null&&item!=""){
+                    this.imgArr.push({id:index,value:item});
                 }
             })
             this.isShowImg=true;
         }
-        
-        // if (this.borrowImage==""||this.borrowImage==undefined) {
-        //     // this.imgpath =this.baseImgPath+"404.jpg";
-        //     console.log("404");
-        //     this.isShowImg=false;
-        // }else{
-        //     this.imgpath =this.baseImgPath+this.borrowImage
-        //     this.isShowImg=true;
-        // }
-
-        if (this.borrowImage2==""||this.borrowImage2==undefined) {
-            // this.imgpath2 =this.baseImgPath+"404.jpg";
+      
+       var imgArr2= this.borrowImage2.split(",");     
+        if (imgArr2[0]==""&&item!="") {
             console.log("404");
             this.isShowImg2=false;
         }else{
-            this.imgpath2 =this.baseImgPath+this.borrowImage2
+            imgArr2.map((item,index)=>{
+                if(item!=null&&item!=""){
+                    this.imgArr2.push({id:index,value:item});
+                }
+            })
             this.isShowImg2=true;
         }
+
+        // if (this.borrowImage2==""||this.borrowImage2==undefined) {
+        //     console.log("404");
+        //     this.isShowImg2=false;
+        // }else{
+        //     this.imgpath2 =this.baseImgPath+this.borrowImage2
+        //     this.isShowImg2=true;
+        // }
 
 
 
@@ -790,18 +798,9 @@
                 this.srcList.push(this.baseImgPath+item.value);
             })
         }
-        // if(this.borrowImage==""||this.borrowImage==undefined){
-        //     this.imageVisible=false;
-        //     this.$message({
-        //         message: "没有影像",
-        //         type: 'warning',
-        //     });
-        // }else{
-        //     this.imageVisible=true;
-        // }
     },
     getImage2(){
-        if(this.borrowImage2==""||this.borrowImage2==undefined){
+        if(this.imgArr2.length<=0){
             this.imageVisible2=false;
             this.$message({
                 message: "没有影像",
@@ -809,6 +808,9 @@
             });
         }else{
             this.imageVisible2=true;
+            this.imgArr2.map(item=>{//增加可预览功能
+                this.srcList2.push(this.baseImgPath+item.value);
+            })
         }
     },
        

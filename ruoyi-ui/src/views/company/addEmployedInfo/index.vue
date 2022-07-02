@@ -1106,7 +1106,7 @@ export default {
     },
     handlesuccess1(file, fileList) {
          this.formData.fileName5.push(file.obj);
-         console.log(file.obj);
+         console.log( this.formData.fileName5);
     },
     handleRemove1(file, fileList) {
         const i = this.formData.fileName5.findIndex((item) => item === fileList)

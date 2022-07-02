@@ -2,71 +2,71 @@ import request from '@/utils/request'
 
 export function getDepts() {
   return request({
-    url: 'api/expense/getAllDept',
+    url: 'invoices/expense/getAllDept',
     method: 'get',
   })
 }
 export function getAllPayway() {
   return request({
-    url: 'api/expense/getAllPayway',
+    url: 'invoices/expense/getAllPayway',
     method: 'get',
   })
 }
 export function getAllGetCompany() {
   return request({
-    url: 'api/expense/getAllGetCompany',
+    url: 'invoices/expense/getAllGetCompany',
     method: 'get',
   })
 }
 export function getCardInfoBycompany(userId) {
   return request({
-    url: 'api/expense/getCardInfoBycompany?userId=' + userId,
+    url: 'invoices/expense/getCardInfoBycompany?userId=' + userId,
     method: 'get',
-    
+
   })
 }
 export function getBankNameBycardId(bankcardId) {
   return request({
-    url: 'api/expense/getBankNameBycardId?bankcardId='+bankcardId,
+    url: 'invoices/expense/getBankNameBycardId?bankcardId='+bankcardId,
     method: 'get',
   })
 }
 export function addExpense(params) {
   return request({
-    url: 'api/expense/addExpense',
+    url: 'invoices/expense',
     method: 'post',
     params:params
   })
 }
 //登录用户的
 export function getExpenses(params) {
-  
+
   return request({
-    url: 'api/expense/getAllExpense',
+    url: 'invoices/expense/getAllExpense',
     method: 'get',
     params
   })
 }
 //所有的
 export function getAllExpenses(params) {
-  
+
   return request({
-    url: 'api/expense/getAllExpenses',
+    url: 'invoices/expense/getAllExpenses',
     method: 'get',
     params
   })
 }
 export function getCheckExpense(params) {
-  
+
   return request({
-    url: 'api/expense/getCheckExpense',
+    url: 'invoices/expense/getCheckExpense',
     method: 'get',
     params
   })
 }
 export function delExpense(expenseId) {
   return request({
-    url: 'api/expense/delExpense',
+    url: 'invoices/expense/delExpense',
     method: 'delete',
     params:expenseId
   })
@@ -74,7 +74,7 @@ export function delExpense(expenseId) {
 //删除（伪删）
 export function editExpense(expenseId) {
   return request({
-    url: 'api/expense/editExpense',
+    url: 'invoices/expense/editExpense',
     method: 'put',
     params:expenseId
   })
@@ -82,7 +82,7 @@ export function editExpense(expenseId) {
 //修改报销单（编辑）
 export function editExpense2(params) {
   return request({
-    url: 'api/expense/editExpense2',
+    url: 'invoices/expense/editExpense2',
     method: 'put',
     params:params
   })
@@ -90,7 +90,7 @@ export function editExpense2(params) {
 //撤回操作
 export function editExpenseType(params) {
   return request({
-    url: 'api/expense/editExpenseType',
+    url: 'invoices/expense/editExpenseType',
     method: 'put',
     params:params
   })
@@ -98,28 +98,28 @@ export function editExpenseType(params) {
 
 export function checkExpense(expenseId) {
   return request({
-    url: 'api/expense/checkExpense',
+    url: 'invoices/expense/checkExpense',
     method: 'put',
     params:expenseId
   })
 }
 export function getCode(params) {
   return request({
-    url: 'api/expense/getExpenseCode',
+    url: 'invoices/expense/getExpenseCode',
     method: 'get',
     params
   })
 }
 export function getAllUser(params) {
   return request({
-    url: 'api/expense/getAllUser',
+    url: 'invoices/expense/getAllUser',
     method: 'get',
     params
   })
 }
 export function editExpenseByExpenseId(params) {
   return request({
-    url: 'api/expense/editExpenseByExpenseId',
+    url: 'invoices/expense/editExpenseByExpenseId',
     method: 'put',
     params
   })

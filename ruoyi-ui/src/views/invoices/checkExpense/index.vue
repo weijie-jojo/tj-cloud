@@ -217,7 +217,7 @@
                 <el-button  
                     type="primary"
                    @click="imgDialog=true"
-                   v-permission="['admin','expense:upload']"
+                   v-hasPermi="['invoices:expense:upload']"
                 >点击上传</el-button>
             </el-form-item>
             <!-- 上传付款凭证影像 -->
@@ -335,12 +335,11 @@
         //上传
         imgArr2:[],
         imgDialog:false,
-        expenseImage2:'',
         dialogImageUrl: '',
         dialogVisible: false,
         limitNum:10,//可上传数量
 
-        checks:'',
+        checks:[],
         rejectReasult:'',
         
         isDisabled:true,
@@ -461,7 +460,7 @@
         this.ruleForm.expenseCode=this.expenses[0].expenseCode;
         this.ruleForm.expenseDate=this.expenses[0].createTime;
         this.ruleForm.deptId=this.expenses[0].deptId;
-        this.ruleForm.deptName=this.expenses[0].name;
+        this.ruleForm.deptName=this.expenses[0].deptName;
 
         this.ruleForm.paywayId=this.expenses[0].paywayId;
         this.ruleForm.roles=JSON.parse(window.localStorage.getItem('expenseRoles'));
@@ -504,10 +503,10 @@
         this.ruleForm.dmCheck=this.expenses[0].dmCheck;
 
         this.expenseImage=this.expenses[0].expenseImage;
-        var imgArr=JSON.parse(this.expenseImage);   
+        var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
-            if(item!=null){
-                 this.imgArr.push({id:index,value:item.value});
+            if(item!=null&&item!=""){
+                 this.imgArr.push({id:index,value:item});
             }
         })
     },
@@ -533,8 +532,10 @@
         },
         //审核
         checkInvoices(){
+            
            this.ruleForm.roles.map(item=>{
-               if(item.id==5||item.id==6){
+            console.log("item",item);
+               if(item.roleId==5||item.roleId==6){
                 if(this.ruleForm.gmCheck==undefined||this.ruleForm.gmCheck==""){//未审核过
                   console.log("总经理审核");
                     if(this.ruleForm.isAgree==1){
@@ -557,7 +558,7 @@
                         gmCheck:this.ruleForm.gm,
                         expenseId:this.expenseId,
                         invoiceType:this.checkType,
-                        expenseImage2:JSON.stringify(this.imgArr2),
+                        expenseImage2:this.imgArr2.join(),
                     };
                     addCheckInvoices(params1).then(res => {
                         this.$message({
@@ -581,7 +582,7 @@
                         });
                 };  
             };
-             if(item.id==7){
+             if(item.roleId==7){
                 if(this.ruleForm.financeCheck==undefined||this.ruleForm.financeCheck==""){//未审核过
                     console.log("财务审核");
                     if(this.ruleForm.isAgree==1){
@@ -603,7 +604,7 @@
                         financeCheck:this.ruleForm.finance,
                         expenseId:this.expenseId,
                         invoiceType:this.checkType,
-                         expenseImage2:JSON.stringify(this.imgArr2),
+                        expenseImage2:this.imgArr2.join(),
                     };
                     addCheckInvoices(params1).then(res => {
                         this.$message({
@@ -627,7 +628,7 @@
                         });
                 };  
             };
-             if(item.id==10||item.id==12||item.id==4||item.id==8){
+             if(item.roleId==10||item.roleId==12||item.roleId==4||item.roleId==8){
                 if(this.ruleForm.dmCheck==undefined||this.ruleForm.dmCheck==""){//未审核过
                     console.log("部门主管审核");
                     if(this.ruleForm.isAgree==1){
@@ -649,7 +650,7 @@
                         dmCheck:this.ruleForm.dm,
                         expenseId:this.expenseId,
                         invoiceType:this.checkType,
-                         expenseImage2:JSON.stringify(this.imgArr2),
+                         expenseImage2:this.imgArr2.join(),
                     };
                     addCheckInvoices(params1).then(res => {
                         this.$message({
@@ -854,8 +855,8 @@
         //上传图片
         handleRemove(file) {
             this.imgArr2.map((item,index)=>{
-                if(item.value==file.name){
-                    delete this.imgArr2[index];
+            if(item==file.name){
+                    this.imgArr2.splice(index, 1);
                 }
             })
             this.$message("取消上传");
@@ -867,9 +868,7 @@
         },
         success(file) {
             this.$message(file.message);
-            var fileUrl = file.obj;
-            this.imgArr2.push({value:fileUrl});
-            this.expenseImage2 = fileUrl;
+            this.imgArr2.push(file.obj);
         },
         //取消按钮
         cancel() {
@@ -877,24 +876,18 @@
         },
         //获取图片
         getImage(){
-            this.imageVisible=true;
             if (this.imgArr.length<=0) {
-                this.imgArr.push({id:0,value:"404.jpg"})
+                this.imageVisible=false;
+                this.$message({
+                    message: "没有影像",
+                    type: 'warning',
+                });
+            }else{
+                this.imageVisible=true;
+                this.imgArr.map(item=>{//增加可预览功能
+                    this.srcList.push(this.baseImgPath+item.value);
+                })
             }
-            this.imgArr.map(item=>{//增加可预览功能
-                this.srcList.push(this.baseImgPath+item.value);
-            })
-            // var expenseImage=this.expenseImage;
-            // this.imageVisible=true;
-            // console.log("expenseImage11==",this.expenseImage);
-            // if (expenseImage!= "") {
-            //     this.imgpath =
-            //         "http://36.133.2.179:8000/api/files/" +
-            //         "showImg?imgPath="+expenseImage;
-            // }else{
-            //     this.imgpath =
-            //     "http://36.133.2.179:8000/api/files/showImg?imgPath=404.jpg" ;
-            // }
         }, 
     },
   }
