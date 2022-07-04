@@ -55,12 +55,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectBusinessPlaceByUserId" parameterType="int" resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
-        where user_id = #{userId}
+        where is_delete=1 and user_id = #{userId}
     </select>
 
     <select id="selectBusinessPlaceByPlaceId" parameterType="String" resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
-        where place_id = #{placeId}
+        where  is_delete=1 and place_id = #{placeId}
     </select>
         
     <insert id="insertBusinessPlace" parameterType="com.ruoyi.company.domain.BusinessPlace" useGeneratedKeys="true" keyProperty="placeId">

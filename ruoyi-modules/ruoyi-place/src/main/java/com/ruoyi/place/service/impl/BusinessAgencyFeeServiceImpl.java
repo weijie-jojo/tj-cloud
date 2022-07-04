@@ -36,12 +36,8 @@ public class BusinessAgencyFeeServiceImpl extends ServiceImpl<BusinessAgencyFeeM
 
     @Override
     public Integer add(BusinessAgencyFee businessAgencyFee) {
-        try {
-            businessAgencyFee.setIsDelete(true);
-            return businessAgencyFeeMapper.insert(businessAgencyFee);
-        }catch (DuplicateKeyException duplicateKeyException){
-            return  -1;
-        }
+        businessAgencyFee.setIsDelete(true);
+        return businessAgencyFeeMapper.insert(businessAgencyFee);
 
     }
 }

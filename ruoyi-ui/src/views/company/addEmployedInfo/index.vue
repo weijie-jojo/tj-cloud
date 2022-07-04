@@ -882,7 +882,8 @@ export default {
     getLoginInfo(){
       getInfo().then(res=>{  
         this.formData.userName=res.user.nickName;
-        crudPlace.getPlaceByUserId({userId:26}).then(res=>{
+        console.log("getInfo==",res);
+        crudPlace.getPlaceByUserId({userId:res.user.userId}).then(res=>{
           console.log("getPlaceByUserId==",res.data);
           this.places=res.data;
         })

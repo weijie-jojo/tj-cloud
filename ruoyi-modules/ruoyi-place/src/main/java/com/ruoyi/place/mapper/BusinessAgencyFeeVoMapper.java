@@ -5,7 +5,6 @@ import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.vo.BusinessAgencyFeeVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import java.util.List;
  * @author lcc
  * @since 2022-06-03
  */
-public interface BusinessPlaceMapper extends MPJBaseMapper<BusinessPlace> {
-    @Select("SELECT * FROM business_place where place_name=#{placeName}")
-    List<BusinessPlace> getByPlaceName(@Param("placeName") String placeName);
+public interface BusinessAgencyFeeVoMapper extends MPJBaseMapper<BusinessAgencyFeeVo> {
+
 }

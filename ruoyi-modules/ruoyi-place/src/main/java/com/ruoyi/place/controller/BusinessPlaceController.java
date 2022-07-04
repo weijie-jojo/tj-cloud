@@ -6,14 +6,18 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.place.dto.DataDto;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.mapper.BusinessPlaceMapper;
 import com.ruoyi.place.qo.PageQo;
+import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import com.ruoyi.place.service.IBusinessPlaceService;
 import com.ruoyi.place.util.StringUtils;
+import com.ruoyi.place.vo.BusinessAgencyFeeVo;
 import com.ruoyi.place.vo.PlaceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,6 +43,8 @@ import java.util.List;
 public class BusinessPlaceController {
 
     private final IBusinessPlaceService iBusinessPlaceService;
+    private final BusinessPlaceMapper businessPlaceMapper;
+    private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
 
     @GetMapping(value ="/getByPage")
     @Log(title = "分页条件查询")
@@ -56,10 +62,57 @@ public class BusinessPlaceController {
     @Log(title = "新增渠道")
     @ApiOperation("新增渠道")
 //    @PreAuthorize("@el.check('place:add')")
-    public ResponseEntity<Object> addPlace(@Validated @RequestBody BusinessPlace businessPlace){
-        System.out.println("resources=="+businessPlace);
-        businessPlace.setPlaceStatus(0);
-        return new ResponseEntity<>(iBusinessPlaceService.addPlace(businessPlace),HttpStatus.CREATED);
+    public DataDto addPlace(@Validated @RequestBody BusinessAgencyFeeVo businessAgencyFeeVo){
+        System.out.println("resources=="+businessAgencyFeeVo);
+        BusinessAgencyFee businessAgencyFee=new BusinessAgencyFee();
+        businessAgencyFee.setSpecialInvoice6(businessAgencyFeeVo.getSpecialInvoice6());
+        businessAgencyFee.setSpecialInvoice13(businessAgencyFeeVo.getSpecialInvoice13());
+        businessAgencyFee.setSpecialSelfFee(businessAgencyFeeVo.getSpecialSelfFee());
+        businessAgencyFee.setIsSpecialTax(businessAgencyFeeVo.getIsSpecialTax());
+        businessAgencyFee.setOrdinarySelfFee(businessAgencyFeeVo.getOrdinarySelfFee());
+        businessAgencyFee.setOrdinaryProxyFee(businessAgencyFeeVo.getOrdinaryProxyFee());
+        businessAgencyFee.setIsOrdinaryTax(businessAgencyFeeVo.getIsOrdinaryTax());
+        businessAgencyFee.setPlaceCode(businessAgencyFeeVo.getPlaceCode());
+        businessAgencyFee.setCreateBy(businessAgencyFeeVo.getCreateBy());
+        businessAgencyFee.setUpdateBy(businessAgencyFeeVo.getUpdateBy());
+
+        BusinessPlace businessPlace=new BusinessPlace();
+        businessPlace.setPlaceCode(businessAgencyFeeVo.getPlaceCode());
+        businessPlace.setPlaceName(businessAgencyFeeVo.getPlaceName());
+        businessPlace.setPlaceAliasName(businessAgencyFeeVo.getPlaceAliasName()) ;
+        businessPlace.setPlaceType(businessAgencyFeeVo.getPlaceType());
+        businessPlace.setPlaceLinkman(businessAgencyFeeVo.getPlaceLinkman());
+        businessPlace.setPlaceTel(businessAgencyFeeVo.getPlaceTel());
+        businessPlace.setPlaceEmail(businessAgencyFeeVo.getPlaceEmail());
+        businessPlace.setPlaceOpenBank(businessAgencyFeeVo.getPlaceOpenBank());
+        businessPlace.setPlaceBankAccount(businessAgencyFeeVo.getPlaceBankAccount());
+        businessPlace.setPlaceStarLevel(businessAgencyFeeVo.getPlaceStarLevel());
+        businessPlace.setPlaceStatus(businessAgencyFeeVo.getPlaceStatus());
+        businessPlace.setRegistTime(businessAgencyFeeVo.getRegistTime());
+        businessPlace.setUserId(businessAgencyFeeVo.getUserId());
+        businessPlace.setRemark(businessAgencyFeeVo.getRemark());
+        businessPlace.setUserName(businessAgencyFeeVo.getUserName());
+        businessPlace.setCreateBy(businessPlace.getCreateBy());
+        businessPlace.setUpdateBy(businessPlace.getUpdateBy());
+
+        System.out.println("businessAgencyFee=="+businessAgencyFee);
+        System.out.println("businessPlace=="+businessPlace);
+
+        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessAgencyFeeVo.getPlaceName());
+        DataDto dataDto = new DataDto();
+        if(businessPlaces.size()>0){
+            return dataDto.err("渠道名重复");
+        }else {
+            try {
+                iBusinessPlaceService.addPlace(businessPlace);
+                iBusinessAgencyFeeService.add(businessAgencyFee);
+                return dataDto.success("添加成功");
+            }catch (DuplicateKeyException duplicateKeyException){
+                return dataDto.err("渠道编号重复");
+            }
+        }
+
+//        return new ResponseEntity<>(iBusinessPlaceService.addPlace(businessPlace),HttpStatus.CREATED);
     };
     @ApiOperation("删除渠道")
     @Log(title = "删除渠道")

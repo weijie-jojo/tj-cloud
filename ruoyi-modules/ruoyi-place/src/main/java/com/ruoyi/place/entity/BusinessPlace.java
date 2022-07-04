@@ -21,10 +21,9 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("business_place")
-public class BusinessPlace implements Serializable {
+public class BusinessPlace implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
     /**
      * id
      */

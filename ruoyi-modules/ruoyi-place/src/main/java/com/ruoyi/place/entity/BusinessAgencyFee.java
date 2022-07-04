@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -25,7 +26,11 @@ import java.util.Date;
 public class BusinessAgencyFee implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    /**
+     * 渠道商名称(不做orm映射)
+     */
+    @Transient
+    private String placeName;
     /**
      * id
      */

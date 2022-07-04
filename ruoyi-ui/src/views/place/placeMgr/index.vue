@@ -494,7 +494,7 @@ export default {
       // rules: {},
     };
   },
-  created() {
+  mounted() {
     this.getList();
     this.getAllUser();
     this.getPlaceCode();
@@ -756,24 +756,51 @@ export default {
             isOrdinaryTax: this.ruleForm.isOrdinaryTax,
             userName: this.ruleForm.userName,
           };
-          agencyfee.add(data).then(res => {//添加详情表
-            if (res > 0) {//后端捕获重复键异常
-              crudPlace.add(data)//添加主信息表
+          // agencyfee.add(data).then(res => {//添加详情表
+          //   if (res > 0) {//后端捕获重复键异常
+          //     crudPlace.add(data)//添加主信息表
+          //     this.$message({
+          //       message: "添加成功",
+          //       type: 'success',
+          //     });
+          //   } else {
+          //     this.$message({
+          //       message: "编号重复，自动返回，请重新创建",
+          //       type: 'warning',
+          //     });
+          //   }
+            // });
+          crudPlace.add(data).then(res=>{
+            if(res.id==0){
               this.$message({
-                message: "添加成功",
+                message: res.message,
                 type: 'success',
               });
-            } else {
+            }else{
               this.$message({
-                message: "编号重复，自动返回，请重新创建",
+                message: res.message,
                 type: 'warning',
               });
             }
+          });
+          // agencyfee.add(data).then(res=>{
+          //   if(res.id==0){
+          //     this.$message({
+          //       message: res.message,
+          //       type: 'success',
+          //     });
+          //   }else{
+          //     this.$message({
+          //       message: res.message,
+          //       type: 'warning',
+          //     });
+          //   }
+          // });
             this.addVisible = false;
             // this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
             this.$tab.refreshPage();
 
-          });
+        
         }
         else {
           this.$message({

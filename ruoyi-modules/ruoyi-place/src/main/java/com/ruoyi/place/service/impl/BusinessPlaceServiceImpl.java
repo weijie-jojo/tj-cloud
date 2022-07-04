@@ -8,11 +8,14 @@ import com.github.yulichang.query.MPJQueryWrapper;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.mapper.BusinessAgencyFeeMapper;
+import com.ruoyi.place.mapper.BusinessAgencyFeeVoMapper;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
 import com.ruoyi.place.qo.PageQo;
 import com.ruoyi.place.service.IBusinessPlaceService;
 import com.ruoyi.place.util.JudgeNull;
+import com.ruoyi.place.vo.BusinessAgencyFeeVo;
 import com.ruoyi.place.vo.PlaceVo;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,7 +37,8 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
     private BusinessPlaceMapper businessPlaceMapper;
     @Resource
     private BusinessAgencyFeeMapper businessAgencyFeeMapper;
-
+    @Resource
+    private BusinessAgencyFeeVoMapper businessAgencyFeeVoMapper;
     @Override
     public IPage<PlaceVo> selectByPage(BusinessPlace businessPlace, PageQo pageQo, String status) {
         String[] statusArr;
@@ -58,17 +62,19 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
                         .select("B.dict_label")
                         .innerJoin("sys_user A on t.user_id=A.user_id")
                         .innerJoin("sys_dict_data B on t.place_status=B.dict_value")
-                        .in(statusArr!=null,"place_status",statusArr)
-                        .eq("is_delete",1)
+                        .in(statusArr!=null,"t.place_status",statusArr)
+                        .eq("t.is_delete",1)
                         .eq("B.dict_type","place_status")
-                        .like(businessPlace.getUserName()!=null,"user_name",businessPlace.getUserName())
-                        .like(businessPlace.getPlaceName()!=null,"t.place_name", businessPlace.getPlaceName()));
+                        .like(businessPlace.getUserName()!=null,"t.user_name",businessPlace.getUserName())
+                        .like(businessPlace.getPlaceName()!=null,"t.place_name", businessPlace.getPlaceName())
+                        .orderByDesc("t.place_id"));
         return placeVos;
     }
 
     @Override
     public Integer addPlace(BusinessPlace businessPlace) {
         businessPlace.setIsDelete(true);
+        businessPlace.setPlaceStatus(0);
         return businessPlaceMapper.insert(businessPlace);
     }
 
