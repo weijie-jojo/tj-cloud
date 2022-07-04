@@ -44,7 +44,7 @@ public class BusinessPlaceController {
     @Log(title = "分页条件查询")
     @ApiOperation("分页条件查询")
     public HashMap<String, Object> getByPage(BusinessPlace businessPlace, PageQo pageQo, String status){
-        pageQo.setPage(pageQo.getPage()+1);
+//        pageQo.setPage(pageQo.getPage()+1);
         System.out.println("pageQo=="+pageQo);
         IPage<PlaceVo> placeVos = iBusinessPlaceService.selectByPage(businessPlace,pageQo,status);
         HashMap<String, Object> datasMap=new HashMap<String, Object>();

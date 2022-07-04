@@ -73,6 +73,16 @@ public class SysUserController extends BaseController
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
     }
+    /**
+     * 获取用户列表
+     */
+    @RequiresPermissions("system:user:list")
+    @GetMapping()
+    public List<SysUser> getAllUser()
+    {
+        List<SysUser> list = userService.selectAllUser();
+        return list;
+    }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:user:export")

@@ -61,6 +61,19 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     protected Validator validator;
 
+
+    /**
+     * 查询所有用户
+     *
+     * @return 用户信息集合信息
+     */
+    @Override
+    public List<SysUser> selectAllUser()
+    {
+        return userMapper.selectAllUser();
+    }
+
+
     /**
      * 根据条件分页查询用户列表
      * 
