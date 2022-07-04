@@ -125,3 +125,10 @@ export function updateAuthRole(data) {
     params: data
   })
 }
+
+export function getAllUser() {
+  return request({
+   url: '/system/user',
+   method: 'get',
+  })
+  }
