@@ -1,6 +1,7 @@
 package com.ruoyi.place.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.place.dto.DataDto;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -62,43 +64,12 @@ public class BusinessPlaceController {
     @Log(title = "新增渠道")
     @ApiOperation("新增渠道")
 //    @PreAuthorize("@el.check('place:add')")
-    public DataDto addPlace(@Validated @RequestBody BusinessAgencyFeeVo businessAgencyFeeVo){
-        System.out.println("resources=="+businessAgencyFeeVo);
-        BusinessAgencyFee businessAgencyFee=new BusinessAgencyFee();
-        businessAgencyFee.setSpecialInvoice6(businessAgencyFeeVo.getSpecialInvoice6());
-        businessAgencyFee.setSpecialInvoice13(businessAgencyFeeVo.getSpecialInvoice13());
-        businessAgencyFee.setSpecialSelfFee(businessAgencyFeeVo.getSpecialSelfFee());
-        businessAgencyFee.setIsSpecialTax(businessAgencyFeeVo.getIsSpecialTax());
-        businessAgencyFee.setOrdinarySelfFee(businessAgencyFeeVo.getOrdinarySelfFee());
-        businessAgencyFee.setOrdinaryProxyFee(businessAgencyFeeVo.getOrdinaryProxyFee());
-        businessAgencyFee.setIsOrdinaryTax(businessAgencyFeeVo.getIsOrdinaryTax());
-        businessAgencyFee.setPlaceCode(businessAgencyFeeVo.getPlaceCode());
-        businessAgencyFee.setCreateBy(businessAgencyFeeVo.getCreateBy());
-        businessAgencyFee.setUpdateBy(businessAgencyFeeVo.getUpdateBy());
-
-        BusinessPlace businessPlace=new BusinessPlace();
-        businessPlace.setPlaceCode(businessAgencyFeeVo.getPlaceCode());
-        businessPlace.setPlaceName(businessAgencyFeeVo.getPlaceName());
-        businessPlace.setPlaceAliasName(businessAgencyFeeVo.getPlaceAliasName()) ;
-        businessPlace.setPlaceType(businessAgencyFeeVo.getPlaceType());
-        businessPlace.setPlaceLinkman(businessAgencyFeeVo.getPlaceLinkman());
-        businessPlace.setPlaceTel(businessAgencyFeeVo.getPlaceTel());
-        businessPlace.setPlaceEmail(businessAgencyFeeVo.getPlaceEmail());
-        businessPlace.setPlaceOpenBank(businessAgencyFeeVo.getPlaceOpenBank());
-        businessPlace.setPlaceBankAccount(businessAgencyFeeVo.getPlaceBankAccount());
-        businessPlace.setPlaceStarLevel(businessAgencyFeeVo.getPlaceStarLevel());
-        businessPlace.setPlaceStatus(businessAgencyFeeVo.getPlaceStatus());
-        businessPlace.setRegistTime(businessAgencyFeeVo.getRegistTime());
-        businessPlace.setUserId(businessAgencyFeeVo.getUserId());
-        businessPlace.setRemark(businessAgencyFeeVo.getRemark());
-        businessPlace.setUserName(businessAgencyFeeVo.getUserName());
-        businessPlace.setCreateBy(businessPlace.getCreateBy());
-        businessPlace.setUpdateBy(businessPlace.getUpdateBy());
-
+    public DataDto addPlace(@Validated @RequestBody Map map){
+        BusinessAgencyFee businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFee.class);
+        BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
         System.out.println("businessAgencyFee=="+businessAgencyFee);
         System.out.println("businessPlace=="+businessPlace);
-
-        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessAgencyFeeVo.getPlaceName());
+        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessPlace.getPlaceName());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
             return dataDto.err("渠道名重复");
@@ -111,8 +82,6 @@ public class BusinessPlaceController {
                 return dataDto.err("渠道编号重复");
             }
         }
-
-//        return new ResponseEntity<>(iBusinessPlaceService.addPlace(businessPlace),HttpStatus.CREATED);
     };
     @ApiOperation("删除渠道")
     @Log(title = "删除渠道")

@@ -742,34 +742,25 @@ export default {
             this.ruleForm.isSpecialTax = false;
           }
           let data = {
-            placeCode: this.ruleForm.placeCode,
-            placeName: this.ruleForm.placeName,
-            placeLinkman: this.ruleForm.placeLinkman,
-            placeTel: this.ruleForm.placeTel,
-            userId: this.ruleForm.userId,
-            specialInvoice6: this.ruleForm.specialInvoice6,
-            specialInvoice13: this.ruleForm.specialInvoice13,
-            specialSelfFee: this.ruleForm.specialSelfFee,
-            isSpecialTax: this.ruleForm.isSpecialTax,
-            ordinarySelfFee: this.ruleForm.ordinarySelfFee,
-            ordinaryProxyFee: this.ruleForm.ordinaryProxyFee,
-            isOrdinaryTax: this.ruleForm.isOrdinaryTax,
-            userName: this.ruleForm.userName,
+            businessPlace:{
+              placeCode: this.ruleForm.placeCode,
+              placeName: this.ruleForm.placeName,
+              placeLinkman: this.ruleForm.placeLinkman,
+              placeTel:this.ruleForm.placeTel,
+              userId: this.ruleForm.userId,
+              userName:this.ruleForm.userName,
+            },
+            businessAgencyFee:{
+              placeCode:this.ruleForm.placeCode,
+              specialInvoice6:this.ruleForm.specialInvoice6,
+              specialInvoice13:this.ruleForm.specialInvoice13,
+              specialSelfFee:this.ruleForm.specialSelfFee,
+              isSpecialTax:this.ruleForm.isSpecialTax,
+              ordinarySelfFee:this.ruleForm.ordinarySelfFee,
+              ordinaryProxyFee:this.ruleForm.ordinaryProxyFee,
+              isOrdinaryTax:this.ruleForm.isOrdinaryTax,
+            }
           };
-          // agencyfee.add(data).then(res => {//添加详情表
-          //   if (res > 0) {//后端捕获重复键异常
-          //     crudPlace.add(data)//添加主信息表
-          //     this.$message({
-          //       message: "添加成功",
-          //       type: 'success',
-          //     });
-          //   } else {
-          //     this.$message({
-          //       message: "编号重复，自动返回，请重新创建",
-          //       type: 'warning',
-          //     });
-          //   }
-            // });
           crudPlace.add(data).then(res=>{
             if(res.id==0){
               this.$message({
@@ -783,24 +774,9 @@ export default {
               });
             }
           });
-          // agencyfee.add(data).then(res=>{
-          //   if(res.id==0){
-          //     this.$message({
-          //       message: res.message,
-          //       type: 'success',
-          //     });
-          //   }else{
-          //     this.$message({
-          //       message: res.message,
-          //       type: 'warning',
-          //     });
-          //   }
-          // });
-            this.addVisible = false;
-            // this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-            this.$tab.refreshPage();
-
-        
+          this.addVisible = false;
+          // this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+          this.$tab.refreshPage();
         }
         else {
           this.$message({
