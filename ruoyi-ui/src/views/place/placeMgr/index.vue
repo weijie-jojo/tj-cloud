@@ -809,7 +809,7 @@ export default {
             placeCode: this.ruleForm.editPlaceCode,
             placeName: this.ruleForm.editPlaceName,
             placeLinkman: this.ruleForm.editPlaceLinkman,
-            editPlaceTel: this.ruleForm.editPlaceTel,
+            placeTel: this.ruleForm.editPlaceTel,
             userId: this.ruleForm.editUserId,
             userName: this.ruleForm.editUserName,
 
