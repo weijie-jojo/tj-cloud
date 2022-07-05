@@ -29,8 +29,8 @@ public class BusinessAgencyFee implements Serializable {
     /**
      * 渠道商名称(不做orm映射)
      */
-    @Transient
-    private String placeName;
+//    @Transient
+//    private String placeName;
     /**
      * id
      */

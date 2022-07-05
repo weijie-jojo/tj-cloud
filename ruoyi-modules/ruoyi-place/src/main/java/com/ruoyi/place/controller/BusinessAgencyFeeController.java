@@ -41,31 +41,26 @@ public class BusinessAgencyFeeController {
         BusinessAgencyFee businessAgencyFee = iBusinessAgencyFeeService.selectFeeByCode(placeCode);
         return businessAgencyFee;
     };
-    @PostMapping
-    @Log(title = "新增渠道")
-    @ApiOperation("新增渠道")
-//    @PreAuthorize("@el.check('place:add')")
-    public DataDto addPlace(@Validated @RequestBody BusinessAgencyFee businessAgencyFee){
-//        if (num>0){
-//            return new ResponseEntity<>(num, HttpStatus.CREATED);
+//    @PostMapping
+//    @Log(title = "新增渠道")
+//    @ApiOperation("新增渠道")
+////    @PreAuthorize("@el.check('place:add')")
+//    public DataDto addPlace(@Validated @RequestBody BusinessAgencyFee businessAgencyFee){
+//        System.out.println("getPlaceName=="+businessAgencyFee.getPlaceName());
+//        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessAgencyFee.getPlaceName());
+//        DataDto dataDto = new DataDto();
+//
+//        if(businessPlaces.size()>0){
+//            return dataDto.err("渠道名重复");
 //        }else {
-//            return new ResponseEntity<>(-1, HttpStatus.CREATED);
+//            try {
+//                iBusinessAgencyFeeService.add(businessAgencyFee);
+//                return dataDto.success("添加成功");
+//            }catch (DuplicateKeyException duplicateKeyException){
+//                return dataDto.err("渠道编号重复");
+//            }
 //        }
-        System.out.println("getPlaceName=="+businessAgencyFee.getPlaceName());
-        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessAgencyFee.getPlaceName());
-        DataDto dataDto = new DataDto();
-
-        if(businessPlaces.size()>0){
-            return dataDto.err("渠道名重复");
-        }else {
-            try {
-                iBusinessAgencyFeeService.add(businessAgencyFee);
-                return dataDto.success("添加成功");
-            }catch (DuplicateKeyException duplicateKeyException){
-                return dataDto.err("渠道编号重复");
-            }
-        }
-
-    };
+//
+//    };
 
 }
