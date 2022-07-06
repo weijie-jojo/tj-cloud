@@ -245,16 +245,20 @@ export default {
        
       
       },
-      organizationalFormOptions: [{
+      organizationalFormOptions: [
+        {
         "label": "服务部",
         "value": 1
-      }, {
+        }, 
+        {
         "label": "经营部",
         "value": 2
-      },{
+        },
+        {
         "label": "工作室",
         "value": 3
-      }],
+        },
+      ],
       wordTypeOptions: [{
         "label": "选项一",
         "value": 1
@@ -303,6 +307,9 @@ export default {
       }
       if(value==2){
         this.formData.organizationalForm="经营部";
+      }
+       if(value==3){
+        this.formData.organizationalForm="工作室";
       }
     },
     //获取编号

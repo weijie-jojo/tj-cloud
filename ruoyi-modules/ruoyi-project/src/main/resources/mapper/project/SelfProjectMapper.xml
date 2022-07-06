@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.SelfProjectMapper">
+
+    <resultMap type="com.ruoyi.project.domain.SelfProject" id="SelfProjectResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectTrade"    column="project_trade"    />
+        <result property="projectOwner"    column="project_owner"    />
+        <result property="purchCompany"    column="purch_company"    />
+        <result property="projectTotalAmount"    column="project_total_amount"    />
+        <result property="projectLeader"    column="project_leader"    />
+        <result property="projectGrossMargin"    column="project_gross_margin"    />
+        <result property="projectGrossProfit"    column="project_gross_profit"    />
+        <result property="projectNetProfit"    column="project_net_profit"    />
+        <result property="projectPackageAmount"    column="project_package_amount"    />
+        <result property="projectDesc"    column="project_desc"    />
+        <result property="projectStatus"    column="project_status"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="checkContent"    column="check_content"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="projectTimeStart"    column="project_time_start"    />
+        <result property="projectTimeEnd"    column="project_time_end"    />
+        <result property="projectCheckStatus"    column="project_check_status"    />
+        <result property="projectTicketStatus"    column="project_ticket_status"    />
+        <result property="projectContractStatus"    column="project_contract_status"    />
+        <result property="projectAcceptanceStatus"    column="project_acceptance_status"    />
+        <result property="projectDutypaidStatus"    column="project_dutypaid_status"    />
+        <result property="placeCode"    column="place_code"    />
+    </resultMap>
+
+    <sql id="selectSelfProjectVo">
+        select project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code from self_project
+    </sql>
+
+    <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
+        <include refid="selectSelfProjectVo"/>
+        <where>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectTrade != null  and projectTrade != ''"> and project_trade = #{projectTrade}</if>
+            <if test="projectOwner != null  and projectOwner != ''"> and project_owner = #{projectOwner}</if>
+            <if test="purchCompany != null  and purchCompany != ''"> and purch_company = #{purchCompany}</if>
+            <if test="projectTotalAmount != null "> and project_total_amount = #{projectTotalAmount}</if>
+            <if test="projectLeader != null  and projectLeader != ''"> and project_leader = #{projectLeader}</if>
+            <if test="projectGrossMargin != null "> and project_gross_margin = #{projectGrossMargin}</if>
+            <if test="projectGrossProfit != null "> and project_gross_profit = #{projectGrossProfit}</if>
+            <if test="projectNetProfit != null "> and project_net_profit = #{projectNetProfit}</if>
+            <if test="projectPackageAmount != null "> and project_package_amount = #{projectPackageAmount}</if>
+            <if test="projectDesc != null  and projectDesc != ''"> and project_desc = #{projectDesc}</if>
+            <if test="projectStatus != null "> and project_status = #{projectStatus}</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+            <if test="checkContent != null  and checkContent != ''"> and check_content = #{checkContent}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="projectTimeStart != null "> and project_time_start = #{projectTimeStart}</if>
+            <if test="projectTimeEnd != null "> and project_time_end = #{projectTimeEnd}</if>
+            <if test="projectCheckStatus != null  and projectCheckStatus != ''"> and project_check_status = #{projectCheckStatus}</if>
+            <if test="projectTicketStatus != null  and projectTicketStatus != ''"> and project_ticket_status = #{projectTicketStatus}</if>
+            <if test="projectContractStatus != null  and projectContractStatus != ''"> and project_contract_status = #{projectContractStatus}</if>
+            <if test="projectAcceptanceStatus != null  and projectAcceptanceStatus != ''"> and project_acceptance_status = #{projectAcceptanceStatus}</if>
+            <if test="projectDutypaidStatus != null  and projectDutypaidStatus != ''"> and project_dutypaid_status = #{projectDutypaidStatus}</if>
+            <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfProjectByProjectId" parameterType="String" resultMap="SelfProjectResult">
+        <include refid="selectSelfProjectVo"/>
+        where project_id = #{projectId}
+    </select>
+
+    <insert id="insertSelfProject" parameterType="com.ruoyi.project.domain.SelfProject" useGeneratedKeys="true" keyProperty="projectId">
+        insert into self_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code,</if>
+            <if test="projectName != null and projectName != ''">project_name,</if>
+            <if test="projectTrade != null">project_trade,</if>
+            <if test="projectOwner != null">project_owner,</if>
+            <if test="purchCompany != null">purch_company,</if>
+            <if test="projectTotalAmount != null">project_total_amount,</if>
+            <if test="projectLeader != null">project_leader,</if>
+            <if test="projectGrossMargin != null">project_gross_margin,</if>
+            <if test="projectGrossProfit != null">project_gross_profit,</if>
+            <if test="projectNetProfit != null">project_net_profit,</if>
+            <if test="projectPackageAmount != null">project_package_amount,</if>
+            <if test="projectDesc != null">project_desc,</if>
+            <if test="projectStatus != null">project_status,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="checkContent != null">check_content,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="projectTimeStart != null">project_time_start,</if>
+            <if test="projectTimeEnd != null">project_time_end,</if>
+            <if test="projectCheckStatus != null">project_check_status,</if>
+            <if test="projectTicketStatus != null">project_ticket_status,</if>
+            <if test="projectContractStatus != null">project_contract_status,</if>
+            <if test="projectAcceptanceStatus != null">project_acceptance_status,</if>
+            <if test="projectDutypaidStatus != null">project_dutypaid_status,</if>
+            <if test="placeCode != null">place_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="projectTrade != null">#{projectTrade},</if>
+            <if test="projectOwner != null">#{projectOwner},</if>
+            <if test="purchCompany != null">#{purchCompany},</if>
+            <if test="projectTotalAmount != null">#{projectTotalAmount},</if>
+            <if test="projectLeader != null">#{projectLeader},</if>
+            <if test="projectGrossMargin != null">#{projectGrossMargin},</if>
+            <if test="projectGrossProfit != null">#{projectGrossProfit},</if>
+            <if test="projectNetProfit != null">#{projectNetProfit},</if>
+            <if test="projectPackageAmount != null">#{projectPackageAmount},</if>
+            <if test="projectDesc != null">#{projectDesc},</if>
+            <if test="projectStatus != null">#{projectStatus},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="checkContent != null">#{checkContent},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="projectTimeStart != null">#{projectTimeStart},</if>
+            <if test="projectTimeEnd != null">#{projectTimeEnd},</if>
+            <if test="projectCheckStatus != null">#{projectCheckStatus},</if>
+            <if test="projectTicketStatus != null">#{projectTicketStatus},</if>
+            <if test="projectContractStatus != null">#{projectContractStatus},</if>
+            <if test="projectAcceptanceStatus != null">#{projectAcceptanceStatus},</if>
+            <if test="projectDutypaidStatus != null">#{projectDutypaidStatus},</if>
+            <if test="placeCode != null">#{placeCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfProject" parameterType="com.ruoyi.project.domain.SelfProject">
+        update self_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="projectTrade != null">project_trade = #{projectTrade},</if>
+            <if test="projectOwner != null">project_owner = #{projectOwner},</if>
+            <if test="purchCompany != null">purch_company = #{purchCompany},</if>
+            <if test="projectTotalAmount != null">project_total_amount = #{projectTotalAmount},</if>
+            <if test="projectLeader != null">project_leader = #{projectLeader},</if>
+            <if test="projectGrossMargin != null">project_gross_margin = #{projectGrossMargin},</if>
+            <if test="projectGrossProfit != null">project_gross_profit = #{projectGrossProfit},</if>
+            <if test="projectNetProfit != null">project_net_profit = #{projectNetProfit},</if>
+            <if test="projectPackageAmount != null">project_package_amount = #{projectPackageAmount},</if>
+            <if test="projectDesc != null">project_desc = #{projectDesc},</if>
+            <if test="projectStatus != null">project_status = #{projectStatus},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="checkContent != null">check_content = #{checkContent},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="projectTimeStart != null">project_time_start = #{projectTimeStart},</if>
+            <if test="projectTimeEnd != null">project_time_end = #{projectTimeEnd},</if>
+            <if test="projectCheckStatus != null">project_check_status = #{projectCheckStatus},</if>
+            <if test="projectTicketStatus != null">project_ticket_status = #{projectTicketStatus},</if>
+            <if test="projectContractStatus != null">project_contract_status = #{projectContractStatus},</if>
+            <if test="projectAcceptanceStatus != null">project_acceptance_status = #{projectAcceptanceStatus},</if>
+            <if test="projectDutypaidStatus != null">project_dutypaid_status = #{projectDutypaidStatus},</if>
+            <if test="placeCode != null">place_code = #{placeCode},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteSelfProjectByProjectId" parameterType="String">
+        delete from self_project where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteSelfProjectByProjectIds" parameterType="String">
+        delete from self_project where project_id in
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+</mapper>
