@@ -53,7 +53,7 @@
       <el-table-column label="名称审核" align="center" prop="selfCode">
        <template slot-scope="scope">
           <el-link :underline="false" type="primary" @click="shenloading1(scope.row)" v-if="scope.row.nameStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">不通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">异常</el-link>
           <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已通过</el-link>
       </template>
       </el-table-column>
@@ -61,7 +61,7 @@
 
         <template slot-scope="scope">
           <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2(scope.row)">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">不通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)" v-if="scope.row.infoStatus == '2'">异常</el-link>
           <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已通过</el-link>
 
         </template>
@@ -69,9 +69,9 @@
       <el-table-column label="工商办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0" >未开始</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2 " >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link>
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
 
         </template>
@@ -79,9 +79,9 @@
       <el-table-column label="税务办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0" >未开始</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == 0">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)" v-if="scope.row.taxStatus == '2'">异常</el-link>
           <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
 
         </template>
@@ -89,9 +89,9 @@
       <el-table-column label="银行办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0" >未开始</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0  || scope.row.nameStatus==2 || scope.row.infoStatus==2" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.bankStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.approveStatus == '1'">不通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)" v-if="scope.row.bankStatus == '2'">异常</el-link>
           <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
         </template>
 
@@ -285,7 +285,18 @@ export default {
       
         });
     },
-    
+    //异常说明
+     errorsinfo(error){
+       this.$alert(error, '异常说明', {
+          confirmButtonText: '确定',
+          callback: action => {
+            // this.$message({
+            //   type: 'info',
+            //   message: `action: ${ action }`
+            // });
+          }
+        });
+     },
     newbusiness(){
         this.$alert('审核成功！', '审核说明', {
           confirmButtonText: '确定',

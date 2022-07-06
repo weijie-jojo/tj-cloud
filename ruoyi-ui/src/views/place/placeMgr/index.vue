@@ -494,6 +494,11 @@ export default {
       // rules: {},
     };
   },
+  created(){
+    this.$http.get('/getUsers').then(res=>{
+         console.log(res);
+    });
+  },
   mounted() {
     this.getList();
     this.getAllUser();

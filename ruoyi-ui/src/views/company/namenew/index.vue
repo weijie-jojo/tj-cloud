@@ -156,11 +156,27 @@
           </el-form-item>
         </el-col>
       </el-row>
-         <el-row type="flex" class="row-bg " justify="space-around">
+     
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright">
+                <el-radio v-model="isokradio" label="1"> 通过</el-radio>
+                <el-radio v-model="isokradio" label="2">驳回 </el-radio>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="驳回理由">
+            <el-input v-model="remark" :disabled="isokradio==1"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+        
+      <el-row type="flex" class="row-bg " justify="space-around">
          <el-col :span="8"></el-col>
          <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">拒绝</el-button> 
-             <el-button type="primary" @click="submitForm">通过</el-button>
+             <el-button type="danger" @click="resetForm">返回</el-button> 
+             <el-button v-if="isokradio==2" type="primary" @click="submitForm(2)">驳回</el-button>
+             <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
          </el-col>
          <el-col :span="8"></el-col>
        </el-row>
@@ -177,6 +193,8 @@ export default {
   props: [],
   data() {
     return {
+      remark:null,
+      isokradio:'1',
       isDisable: true,
       formData: {
         selfCode: "",
@@ -317,19 +335,33 @@ export default {
         });
       });
     },
-    submitForm() {
+    submitForm(type) {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms = {
-            selfId: this.formData.selfId,
-            nameStatus: 1,
+          let parms;
+       if(type==1){
+          parms = {
+              selfId: this.formData.selfId,
+              nameStatus: type,
           };
+          }else{
+           parms = {
+            selfId: this.formData.selfId,
+            nameStatus: type,
+            remarkName:this.remark
+            };
+          }
           updateReview(parms).then((res) => {
             if (res != undefined) {
               if (res != undefined) {
                 if (res.code === 200) {
-                  this.$modal.msgSuccess("名称审核通过成功!");
+                  if(type==1){
+                     this.$modal.msgSuccess("名称审核通过成功!");
+                  }else{
+                    this.$modal.msgSuccess("名称审核驳回成功!");
+                  }
+                 
                   this.$nextTick(function () {
                     this.$tab.refreshPage("/customer/employed").then(() => {
                       this.$tab.openPage("注册进度", "/customer/employed");
