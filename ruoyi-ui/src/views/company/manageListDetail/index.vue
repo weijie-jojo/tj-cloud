@@ -718,7 +718,8 @@
                 <br />
               </el-form-item>
               <el-form-item label="三方协议签约凭证">
-                <div v-for="(item, index) in formBank.fileName4" :key="index">
+                <div v-if="isok4==1">
+                        <div   v-for="(item, index) in formBank.fileName4" :key="index">
                   <el-image
                     lazy
                     :preview-src-list="formBank.fileName4"
@@ -726,6 +727,11 @@
                     :src="item"
                     alt=""
                   />
+                </div>
+                </div>
+              
+                <div v-else>
+                        <pdf   ref="pdf" src="http://localhost/漏洞和隐患发现工作备案表.pdf" ></pdf>
                 </div>
               </el-form-item>
             </el-col>
@@ -742,6 +748,7 @@
   </div>
 </template>
 <script>
+import pdf from "vue-pdf";
 import { addEmployed, updateEmployed } from "@/api/company/employed";
 import crudInformation from "@/api/company/information";
 import crudPerson from "@/api/company/person";
@@ -757,10 +764,13 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
   components: { Treeselect },
   dicts: ["political_status", "educational_level"],
-  components: {},
+  components: {
+       pdf 
+  },
   props: [],
   data() {
     return {
+      isok4:1,
       center: "center",
       options: [
         {
@@ -1217,13 +1227,16 @@ export default {
       this.formBank.fileName2[j] =
         this.baseImgPath + this.formBank.fileName2[j];
     }
-    for (let k in this.formBank.fileName1) {
+    for (let k in this.formBank.fileName3) {
       this.formBank.fileName3[k] =
         this.baseImgPath + this.formBank.fileName3[k];
     }
-    for (let g in this.formBank.fileName1) {
+    for (let g in this.formBank.fileName4) {
       this.formBank.fileName4[g] =
         this.baseImgPath + this.formBank.fileName4[g];
+        if( this.formBank.fileName4[g].endsWith('pdf')){
+          this.isok4=2;
+        }
     }
  
    this.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
