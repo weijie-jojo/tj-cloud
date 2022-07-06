@@ -16,7 +16,6 @@
         <result property="idCardNum"    column="id_card_num"    />
         <result property="password"    column="password"    />
         <result property="status"    column="status"    />
-        <result property="remark"    column="remark"    />
         <result property="placeName"    column="place_name"    />
         <result property="username"    column="username"    />
         <result property="expStatus"    column="exp_status"    />
@@ -60,28 +59,32 @@
         <result property="bankStatus"    column="bank_status"    />
         <result property="endTime"    column="end_time"    />
         <result property="endStatus"    column="end_status"    />
-        <result property="employedRemark"    column="employed_remark"    />
+        <result property="remarkInfo"    column="remark_info"    />
+        <result property="remarkName"    column="remark_name"    />
         <result property="businessTerm"    column="business_term"    />
         <result property="isActive"    column="is_active"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
         select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num,
-               password, status, remark, place_name, username, exp_status, maximum, register_time, industry_type,
+               password, status, place_name, username, exp_status, maximum, register_time, industry_type,
                industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce,
                free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank,
                private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2,
                account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
-               file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,employed_remark ,business_term,is_active from self_employed
+               file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
+               business_term,is_active,remark_name,remark_info from self_employed
     </sql>
-
+    <sql id="selectSelfEmployedJoin">
+        select * from self_employed t JOIN self_name_review A on t.self_code=A.self_code
+               JOIN  self_application_info B  on t.self_code=B.self_code JOIN  self_legal_person C  on t.self_code=C.self_code
+    </sql>
     <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
-        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code JOIN  self_application_info B  on t.self_code=B.self_code
-        JOIN  self_legal_person C  on t.self_code=C.self_code
+        <include refid="selectSelfEmployedJoin"/>
         <where>
             (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
-            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
-            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and t.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
             <if test="nameStatus != null  "> and A.name_status =#{nameStatus}</if>
             <if test="infoStatus != null  "> and t.info_status =#{infoStatus}</if>
             <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
@@ -91,12 +94,11 @@
     </select>
 
     <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
-        SELECT *FROM self_employed t JOIN self_name_review A on t.self_code=A.self_code JOIN  self_application_info B  on t.self_code=B.self_code
-        JOIN  self_legal_person C  on t.self_code=C.self_code
+        <include refid="selectSelfEmployedJoin"/>
         <where>
             t.end_status=1
-            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
-            <if test="isActive != null  and isActive != ''"> and is_active like concat('%', #{isActive}, '%')</if>
+            <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
+            <if test="isActive != null  and isActive != ''"> and t.is_active like concat('%', #{isActive}, '%')</if>
         </where>
     </select>
 
@@ -152,7 +154,6 @@
             <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
             <if test="endStatus != null "> and end_status = #{endStatus}</if>
-            <if test="employedRemark != null "> and employed_remark = #{employedRemark}</if>
             <if test="businessTerm != null "> and business_term = #{businessTerm}</if>
             <if test="isActive != null "> and is_active = #{isActive}</if>
         </where>
@@ -176,7 +177,6 @@
             <if test="idCardNum != null">id_card_num,</if>
             <if test="password != null">password,</if>
             <if test="status != null">status,</if>
-            <if test="remark != null">remark,</if>
             <if test="placeName != null">place_name,</if>
             <if test="username != null">username,</if>
             <if test="expStatus != null">exp_status,</if>
@@ -220,9 +220,10 @@
             <if test="bankStatus != null">bank_status,</if>
             <if test="endTime != null">end_time,</if>
             <if test="endStatus != null">end_status,</if>
-            <if test="employedRemark != null">employed_remark,</if>
             <if test="businessTerm != null">business_term,</if>
             <if test="isActive != null">is_active,</if>
+            <if test="remarkInfo != null">remark_info,</if>
+            <if test="remarkName != null">remark_name,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -235,7 +236,6 @@
             <if test="idCardNum != null">#{idCardNum},</if>
             <if test="password != null">#{password},</if>
             <if test="status != null">#{status},</if>
-            <if test="remark != null">#{remark},</if>
             <if test="placeName != null">#{placeName},</if>
             <if test="username != null">#{username},</if>
             <if test="expStatus != null">#{expStatus},</if>
@@ -279,9 +279,10 @@
             <if test="bankStatus != null">#{bankStatus},</if>
             <if test="endTime != null">#{endTime},</if>
             <if test="endStatus != null">#{endStatus},</if>
-            <if test="employedRemark != null">#{employedRemark},</if>
             <if test="businessTerm != null">#{businessTerm},</if>
             <if test="isActive != null">#{isActive},</if>
+            <if test="remarkInfo != null">#{remark_info},</if>
+            <if test="remarkName != null">#{remark_name},</if>
         </trim>
     </insert>
 
@@ -298,7 +299,6 @@
             <if test="idCardNum != null">id_card_num = #{idCardNum},</if>
             <if test="password != null">password = #{password},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="remark != null">remark = #{remark},</if>
             <if test="placeName != null">place_name = #{placeName},</if>
             <if test="username != null">username = #{username},</if>
             <if test="expStatus != null">exp_status = #{expStatus},</if>
@@ -342,9 +342,10 @@
             <if test="bankStatus != null">bank_status = #{bankStatus},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="endStatus != null">end_status = #{endStatus},</if>
-            <if test="employedRemark != null">employed_remark = #{employedRemark},</if>
             <if test="businessTerm != null">business_term = #{businessTerm},</if>
             <if test="isActive != null">is_active = #{isActive},</if>
+            <if test="remarkInfo != null">remark_info = #{remarkInfo},</if>
+            <if test="remarkName != null">remark_name = #{remarkName},</if>
         </trim>
         where self_id = #{selfId}
     </update>

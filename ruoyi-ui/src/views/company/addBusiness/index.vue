@@ -43,8 +43,8 @@
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input v-model="formbusiness.taxId"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="营业期限" prop="businessTerm">
-            <el-date-picker
+          <el-form-item class="comright" label="注册时间" prop="businessTerm">
+            <!-- <el-date-picker
               v-model="formbusiness.businessTerm"
               type="daterange"
               align="right"
@@ -54,6 +54,11 @@
               end-placeholder="结束日期"
               :picker-options="pickerOptions"
             >
+            </el-date-picker> -->
+            <el-date-picker
+              v-model="formbusiness.businessTerm"
+              type="date"
+              placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -165,27 +170,27 @@ export default {
     onSubmit() {
       this.$refs["formbusiness"].validate((valid) => {
         if (valid) {
-          var startDate = new Date(this.formbusiness.businessTerm[0]);
-          var endDate = new Date(this.formbusiness.businessTerm[1]);
-          var businessTerm =
-            startDate.getFullYear() +
-            "年" +
-            startDate.getMonth() +
-            "月" +
-            startDate.getDate() +
-            "日" +
-            "至" +
-            endDate.getFullYear() +
-            "年" +
-            endDate.getMonth() +
-            "月" +
-            endDate.getDate() +
-            "日";
-          console.log("businessTerm", businessTerm);
+          // var startDate = new Date(this.formbusiness.businessTerm[0]);
+          // var endDate = new Date(this.formbusiness.businessTerm[1]);
+          // var businessTerm =
+          //   startDate.getFullYear() +
+          //   "年" +
+          //   startDate.getMonth() +
+          //   "月" +
+          //   startDate.getDate() +
+          //   "日" +
+          //   "至" +
+          //   endDate.getFullYear() +
+          //   "年" +
+          //   endDate.getMonth() +
+          //   "月" +
+          //   endDate.getDate() +
+          //   "日";
+          // console.log("businessTerm", businessTerm);
           this.formbusiness.fileName1 = JSON.stringify(
             this.formbusiness.fileName1
           );
-          this.formbusiness.businessTerm = businessTerm;
+          // this.formbusiness.businessTerm = businessTerm;
           updateEmployed(this.formbusiness)
             .then((res) => {
               if (res != undefined) {

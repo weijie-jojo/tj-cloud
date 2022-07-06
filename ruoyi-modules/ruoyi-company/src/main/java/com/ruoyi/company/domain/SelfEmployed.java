@@ -34,9 +34,25 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "营业期限")
     private String businessTerm;
 
-    /** 审核不通过原因 */
-    @Excel(name = "审核不通过原因")
-    private String employedRemark;
+    /** 信息审核不通过原因 */
+    @Excel(name = "信息审核不通过原因")
+    private String remarkInfo;
+
+    /** 信息审核不通过原因 */
+    @Excel(name = "名称审核不通过原因")
+    private String remarkName;
+
+//    /** 工商审核不通过原因 */
+//    @Excel(name = "工商审核不通过原因")
+//    private String remark_business;
+
+//    /** 银行审核不通过原因 */
+//    @Excel(name = "银行审核不通过原因")
+//    private String remark_bank;
+//
+//    /** 税务审核不通过原因 */
+//    @Excel(name = "税务审核不通过原因")
+//    private String remark_tax;
 
     /** 完结状态 */
     @Excel(name = "完结状态")
