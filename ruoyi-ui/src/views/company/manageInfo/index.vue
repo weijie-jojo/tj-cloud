@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      
+
       <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
@@ -37,51 +37,14 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" width="130" prop="legalPersonName">
-          <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="法人姓名"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.legalPersonName">
-            <div slot="reference" class="twoLineCls">{{scope.row.legalPersonName}}</div>
-        </el-popover>
-         </template>
-      </el-table-column>  
-
-        <el-table-column label="个体名称" width="130" align="center" prop="selfName">
-        <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="个体名称"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.selfName">
-            <div slot="reference" class="twoLineCls">{{scope.row.selfName}}</div>
-        </el-popover>
-         </template>
-      
-      </el-table-column>
+      <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-      <el-table-column width="130" label="渠道商" align="center" prop="placeName">
-        <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="渠道商"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.placeName">
-            <div slot="reference" class="twoLineCls">{{scope.row.placeName}}</div>
-        </el-popover>
-         </template>
-      </el-table-column> 
-      <el-table-column label="业务经理" align="center" prop="username" />
-     
-     
-     
-      
-     
+      <el-table-column width="130" label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-         <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">审核信息</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">审核信息</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -90,7 +53,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
     <!-- 添加或修改个体商户对话框 -->
@@ -175,7 +138,7 @@
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
@@ -202,7 +165,7 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        infoStatus:0,
+        infoStatus: 0,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
@@ -231,25 +194,25 @@ export default {
   },
   methods: {
     //审核中
-    shenloading(){
-         this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+    shenloading() {
+      this.$alert('审核中,请耐心等待...', '审核说明', {
+        confirmButtonText: '确定',
+        callback: action => {
+          // this.$message({
+          //   type: 'info',
+          //   message: `action: ${ action }`
+          // });
+        }
+      });
     },
-    
-    
-    
+
+
+
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
       joinList(this.queryParams).then(response => {
-        
+
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -263,7 +226,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        placeName:null,
+        placeName: null,
         selfId: null,
         selfKey: null,
         placeCode: null,
@@ -310,11 +273,11 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    
-    bank(row){
-       this.$cache.local.setJSON('employedInfo', row);
-       this.$router.push("/customer/infonew");
-     },
+
+    bank(row) {
+      this.$cache.local.setJSON('employedInfo', row);
+      this.$router.push("/customer/infonew");
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
@@ -370,14 +333,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-     .twoLineCls{
-	text-overflow: -o-ellipsis-lastline;
-    overflow: hidden;
-     text-overflow: ellipsis;
-     display: -webkit-box;
-     -webkit-line-clamp: 1;
-     line-clamp: 1;
-     -webkit-box-orient: vertical;
-}
-</style>

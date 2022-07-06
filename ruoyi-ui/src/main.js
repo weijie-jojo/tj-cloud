@@ -41,6 +41,9 @@ import DictData from '@/components/DictData'
 import Print from 'vue-print-nb'
 Vue.use(Print)
 
+//mockjs请求
+import axios from 'axios';
+Vue.prototype.$http = axios;
 require('./mock');
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts

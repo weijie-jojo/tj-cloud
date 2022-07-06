@@ -37,19 +37,9 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="法人姓名" align="center" width="130" prop="legalPersonName">
-          <template slot-scope="scope">
-        <el-popover placement="top-start" 
-                    title="法人姓名"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.legalPersonName">
-            <div slot="reference" class="twoLineCls">{{scope.row.legalPersonName}}</div>
-        </el-popover>
-         </template>
-      </el-table-column>  
-
-        <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true"  />
+       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
        <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
