@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      
+
       <el-form-item label="个体户编号" prop="selfCode">
-        <el-input v-model="queryParams.selfCode" placeholder="请输入个体户编号" clearable
-          @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.selfCode" placeholder="请输入个体户编号" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="所在行政区划" prop="administrativeRegion">
-        <el-input v-model="queryParams.administrativeRegion" placeholder="请输入所在行政区划" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.administrativeRegion" placeholder="请输入所在行政区划" clearable
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -37,14 +37,14 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="个体户编号"  align="center" prop="selfCode" :show-overflow-tooltip="true"  />
+      <el-table-column label="个体户编号" align="center" prop="selfCode" :show-overflow-tooltip="true" />
       <el-table-column label="行政区划" align="center" prop="administrativeDivision" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true"/>
+      <el-table-column label="提交时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true" />
       <el-table-column label="所在行政区划" align="center" prop="administrativeRegion" :show-overflow-tooltip="true" />
-      <el-table-column label="登记机关" align="center" prop="registrationAuthority" :show-overflow-tooltip="true"   />
+      <el-table-column label="登记机关" align="center" prop="registrationAuthority" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-         <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">名称审核</el-button>
+          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">名称审核</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -53,7 +53,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
     <!-- 添加或修改个体商户对话框 -->
@@ -138,7 +138,7 @@
 
 <script>
 
-import {listReview,joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/review";
+import { listReview, joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/review";
 import { Row } from "element-ui";
 // import axios from 'axios'
 export default {
@@ -165,7 +165,7 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        nameStatus:0,
+        nameStatus: 0,
         pageNum: 1,
         pageSize: 10,
         selfCode: null,
@@ -197,7 +197,7 @@ export default {
     getList() {
       this.loading = true;
       listReview(this.queryParams).then(response => {
-        
+
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -211,7 +211,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        placeName:null,
+        placeName: null,
         selfId: null,
         selfKey: null,
         placeCode: null,
@@ -258,13 +258,13 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-   
-    bank(row){
-       
-       this.$cache.local.setJSON('employedName', row);
-        this.$router.push("/customer/namenew");
-      
-     
+
+    bank(row) {
+
+      this.$cache.local.setJSON('employedName', row);
+      this.$router.push("/customer/namenew");
+
+
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -316,7 +316,7 @@ export default {
     handleExport() {
       this.download('company/employed/export', {
         ...this.queryParams
-      }, `employed_${new Date().getTime()}.xlsx`)
+      }, `employed_${new Date().getTime()}.xlsx`) 
     }
   }
 };

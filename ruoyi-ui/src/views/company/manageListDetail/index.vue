@@ -718,8 +718,7 @@
                 <br />
               </el-form-item>
               <el-form-item label="三方协议签约凭证">
-                <div v-if="isok4==1">
-                        <div   v-for="(item, index) in formBank.fileName4" :key="index">
+                <div   v-for="(item, index) in formBank.fileName4" :key="index">
                   <el-image
                     lazy
                     :preview-src-list="formBank.fileName4"
@@ -727,11 +726,6 @@
                     :src="item"
                     alt=""
                   />
-                </div>
-                </div>
-              
-                <div v-else>
-                        <pdf   ref="pdf" src="http://localhost/漏洞和隐患发现工作备案表.pdf" ></pdf>
                 </div>
               </el-form-item>
             </el-col>
