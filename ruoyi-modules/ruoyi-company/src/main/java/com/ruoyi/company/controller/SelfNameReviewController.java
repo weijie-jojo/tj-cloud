@@ -134,9 +134,10 @@ public class SelfNameReviewController extends BaseController
         try {
             int num=selfNameReviewService.insertSelfNameReview(selfNameReview);
             if (num>0){
-                dataDto.success("填写成功");
+                return dataDto.success("填写成功");
+            }else {
+                return dataDto.err("插入失败");
             }
-            return dataDto;
         }catch (DuplicateKeyException ex){
             return dataDto.err("不允许插入重复单据，自动返回，请重新创建");
         }

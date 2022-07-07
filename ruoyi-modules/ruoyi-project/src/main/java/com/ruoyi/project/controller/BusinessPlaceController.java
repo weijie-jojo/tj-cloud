@@ -78,6 +78,19 @@ public class BusinessPlaceController extends BaseController
     }
 
     /**
+     * 获取平台渠道商详细信息(根据业务经理userId)
+     */
+    @ApiOperation("获取平台渠道商详细信息(根据业务经理userId)")
+//    @RequiresPermissions("company:place:query")
+    @GetMapping(value = "/getInfoByUserId")
+    public AjaxResult getInfoByUserId(Integer userId)
+    {
+        List<BusinessPlace> businessPlaces=businessPlaceService.selectBusinessPlaceByUserId(userId);
+        return AjaxResult.success(businessPlaces);
+    }
+
+
+    /**
      * 新增平台渠道商
      */
     @ApiOperation("新增平台渠道商")

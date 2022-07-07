@@ -20,6 +20,14 @@ public interface IBusinessPlaceService
     public BusinessPlace selectBusinessPlaceByPlaceId(String placeId);
 
     /**
+     * 查询平台渠道商
+     *
+     * @param userId 平台渠道商主键
+     * @return 平台渠道商
+     */
+    public List<BusinessPlace> selectBusinessPlaceByUserId(Integer userId);
+
+    /**
      * 查询平台渠道商列表
      *
      * @param businessPlace 平台渠道商

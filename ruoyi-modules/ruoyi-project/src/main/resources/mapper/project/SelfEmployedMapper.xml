@@ -132,6 +132,10 @@
         <include refid="selectSelfEmployedVo"/>
         where self_id = #{selfId}
     </select>
+    <select id="selectSelfEmployedByUser" parameterType="com.ruoyi.project.domain.qo.UserIndustyVo" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        WHERE industry_type= #{industryType} AND username= #{username}
+    </select>
 
     <insert id="insertSelfEmployed" parameterType="com.ruoyi.project.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">
         insert into self_employed

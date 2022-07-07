@@ -58,6 +58,11 @@
         where place_id = #{placeId}
     </select>
 
+    <select id="selectBusinessPlaceByUserId" parameterType="Integer" resultMap="BusinessPlaceResult">
+        <include refid="selectBusinessPlaceVo"/>
+        where user_id = #{userId}
+    </select>
+
     <insert id="insertBusinessPlace" parameterType="com.ruoyi.project.domain.BusinessPlace" useGeneratedKeys="true" keyProperty="placeId">
         insert into business_place
         <trim prefix="(" suffix=")" suffixOverrides=",">
