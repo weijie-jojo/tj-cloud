@@ -20,6 +20,14 @@ public class SelfProjectServiceImpl implements ISelfProjectService
 {
     @Autowired
     private SelfProjectMapper selfProjectMapper;
+    /*
+    *
+    * 查询最后一条数据
+    * */
+    @Override
+    public List<SelfProject> selectLast() {
+        return selfProjectMapper.selectLast();
+    }
 
     /**
      * 查询项目信息

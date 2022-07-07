@@ -74,6 +74,10 @@
         <include refid="selectSelfProjectVo"/>
         where project_id = #{projectId}
     </select>
+    <select id="selectLast" resultMap="SelfProjectResult">
+        <include refid="selectSelfProjectVo"/>
+        ORDER BY project_id DESC LIMIT 0,1
+    </select>
 
     <insert id="insertSelfProject" parameterType="com.ruoyi.project.domain.SelfProject" useGeneratedKeys="true" keyProperty="projectId">
         insert into self_project

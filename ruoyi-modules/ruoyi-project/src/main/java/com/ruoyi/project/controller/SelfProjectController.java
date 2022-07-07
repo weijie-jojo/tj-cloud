@@ -1,10 +1,13 @@
 package com.ruoyi.project.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.service.ISelfProjectService;
+import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,5 +114,24 @@ public class SelfProjectController extends BaseController
     {
         return toAjax(selfProjectService.deleteSelfProjectByProjectIds(projectIds));
     }
+
+    /**
+     * 获取编号
+     */
+    @GetMapping(value ="/getCode")
+    @ApiOperation("获取编码")
+    public String getCode(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = sdf.format(date);
+        List<SelfProject> selfProjects=selfProjectService.selectLast();
+        String code="";
+        if (selfProjects.size()>0){
+            code=  StringUtils.getCode("TJ-TG",selfProjects.get(0).getProjectCode(),"yyyyMMdd");
+        }else {//没有单据时
+            code="TJ-TG"+"-"+nowDate+"-"+"0001";
+        }
+        return code;
+    };
 }
 
