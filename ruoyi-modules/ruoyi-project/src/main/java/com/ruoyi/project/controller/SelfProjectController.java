@@ -11,6 +11,7 @@ import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -88,7 +89,13 @@ public class SelfProjectController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfProject selfProject)
     {
-        return toAjax(selfProjectService.insertSelfProject(selfProject));
+        try {
+            int num=selfProjectService.insertSelfProject(selfProject);
+            return toAjax(num);
+        }catch (DuplicateKeyException ex){
+            return error("不允许插入重复单据，自动返回，请重新创建");
+        }
+
     }
 
     /**

@@ -351,7 +351,7 @@ export default {
           type: 'warning'
         }).then(() => {
              this.$cache.local.setJSON('employedInfo', scope);
-             this.$router.push({ path: '/customer/infodetail'});  
+             this.$router.push("infodetail");  
         }).catch(() => {
       
         });

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.project.domain.SelfEmployed;
+import com.ruoyi.project.domain.qo.UserIndustyVo;
 import com.ruoyi.project.service.ISelfEmployedService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +39,20 @@ public class SelfEmployedController extends BaseController
 {
     @Autowired
     private ISelfEmployedService selfEmployedService;
+
+    /**
+     * 查询个体商户列表(根据业务员跟行业类型)
+     *
+     * @param userIndustyVo
+     * @return 个体商户集合
+     */
+    @ApiOperation("查询个体商户列表(根据业务员跟行业类型)")
+//    @RequiresPermissions("company:employed:query")
+    @GetMapping("/getByUserIndusty")
+    public List<SelfEmployed> getByUserIndusty(UserIndustyVo userIndustyVo)
+    {
+        return selfEmployedService.selectSelfEmployedByUser(userIndustyVo);
+    }
 
     /**
      * 查询个体商户列表
