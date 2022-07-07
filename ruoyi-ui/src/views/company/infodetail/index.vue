@@ -384,30 +384,7 @@
             </el-col>
             <el-col :span="9"></el-col>
           </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright">
-            <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-            <el-radio v-model="isokradio" label="2">驳回 </el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="驳回理由">
-            <el-input v-model="remark" :disabled="isokradio == 1"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="toReturn2">返回</el-button>
-          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm3(1)">通过</el-button>
-
-        </el-col>
-        <el-col :span="8"></el-col>
-      </el-row>
+    
 
 
 

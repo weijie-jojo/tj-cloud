@@ -1,18 +1,35 @@
 <template>
   <div>
-      <pdf   ref="pdf" src="http://192.168.2.17/漏洞和隐患发现工作备案表.pdf" ></pdf>
-  </div>  
+    <pdf
+      v-for="i in numPages"
+      :key="i"
+      :src="src"
+      :page="i"
+    />
+  </div>
 </template>
 
 <script>
-import pdf from "vue-pdf";
+
+import pdf from 'vue-pdf'
+
+var loadingTask = pdf.createLoadingTask('http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf')
+
 export default {
-    components:{
-        pdf
+  name: 'HomedDd',
+  components: {
+    pdf
+  },
+  data() {
+    return {
+      src: loadingTask,
+      numPages: undefined
     }
- }
+  },
+  mounted() {
+    this.src.promise.then(pdf => {
+      this.numPages = pdf.numPages
+    })
+  }
+}
 </script>
-
-<style>
-
-</style>
