@@ -345,15 +345,25 @@ export default {
     },
     //信息审核
     newisok(scope){
-        this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
+           this.$confirm('审核中,请耐心等待...', '审核说明', {
+          confirmButtonText: '查看',
+          cancelButtonText: '确定',
+          type: 'warning'
+        }).then(() => {
+             this.$cache.local.setJSON('employedInfo', scope);
+             this.$router.push({ path: '/customer/infodetail'});  
+        }).catch(() => {
+      
         });
+        // this.$alert('审核成功！', '审核说明', {
+        //   confirmButtonText: '确定',
+        //   callback: action => {
+        //     // this.$message({
+        //     //   type: 'info',
+        //     //   message: `action: ${ action }`
+        //     // });
+        //   }
+        // });
     },
     /** 查询个体商户列表 */
     getList() {
