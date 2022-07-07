@@ -12,6 +12,13 @@ import com.ruoyi.project.domain.SelfProject;
 public interface ISelfProjectService
 {
     /**
+     * 查询最后一条数据
+     *
+     * @return 项目信息
+     */
+    public List<SelfProject> selectLast();
+
+    /**
      * 查询项目信息
      *
      * @param projectId 项目信息主键
