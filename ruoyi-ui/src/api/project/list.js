@@ -31,4 +31,4 @@ export function edit(data) {
 
 
 
-export default { list , edit, del }
+export default { list , edit, del,getcode }

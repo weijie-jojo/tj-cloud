@@ -384,7 +384,7 @@ export default {
         },
         /** 新增按钮操作 */
         handleAdd() {
-
+           this.$router.push('addlist');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
