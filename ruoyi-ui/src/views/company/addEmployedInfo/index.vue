@@ -299,7 +299,31 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+
+             <el-row v-if="isPrivateBank" class="rowCss" :gutter="60" style="margin-left:260px">
+              <el-col :span="8">
+                <el-form-item label="对公开户银行" >
+                  <el-input 
+                    v-model="formData.publicDepositBank1 "  
+                    clearable 
+                    >
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="对公银行账号" >
+                  <el-input 
+                    v-model="formData.publicAccountNumber1"  
+                    clearable 
+                    >
+                  </el-input>
+                </el-form-item>
+              </el-col>
+            </el-row> 
+
+
+
+            <el-row v-else  class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="私账开户银行" >
                   <el-input 
@@ -319,6 +343,9 @@
                 </el-form-item>
               </el-col>
             </el-row>
+               
+              
+
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="渠道商" prop="placeName">
@@ -652,6 +679,10 @@ export default {
         idCard:'',
         politicalStatus:'',
         fileName5: [],
+
+        publicDepositBank1:'',
+        publicAccountNumber1:'',
+
       },
       rules: {
         fileName5: [{ 
