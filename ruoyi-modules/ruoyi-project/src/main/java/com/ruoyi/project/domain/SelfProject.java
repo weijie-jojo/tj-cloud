@@ -36,7 +36,7 @@ public class SelfProject extends BaseEntity
     private String projectTrade;
 
     /** 项目主体(乙方) */
-    @Excel(name = "项目主体(乙方)")
+    @Excel(name = "乙方(个体户编号)")
     private String projectOwner;
 
     /** 采购方公司（甲方） */
@@ -120,6 +120,10 @@ public class SelfProject extends BaseEntity
     /** 渠道商编码 */
     @Excel(name = "渠道商编码")
     private String placeCode;
+
+    /** 渠道商编码 */
+    @Excel(name = "甲方纳税人识别号")
+    private String purchCompanyTaxid;
 
     public void setProjectId(String projectId)
     {

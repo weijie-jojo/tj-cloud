@@ -2,6 +2,7 @@ package com.ruoyi.project.service;
 
 import java.util.List;
 import com.ruoyi.project.domain.SelfProject;
+import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 
 /**
  * 项目信息Service接口
@@ -11,6 +12,13 @@ import com.ruoyi.project.domain.SelfProject;
  */
 public interface ISelfProjectService
 {
+    /**
+     * 查询项目信息
+     *
+     * @param projectCode 项目编号
+     * @return 项目信息
+     */
+    public List<ProjectJoinTicketVo> selectProjectJoinTicketByCode(String projectCode);
     /**
      * 查询最后一条数据
      *
@@ -65,5 +73,21 @@ public interface ISelfProjectService
      * @return 结果
      */
     public int deleteSelfProjectByProjectId(String projectId);
+
+    /**
+     * 批量删除项目信息（伪删）
+     *
+     * @param projectIds 需要删除的项目信息主键集合
+     * @return 结果
+     */
+    public int deleteSelfProjectByProjectIds2(String[] projectIds);
+
+    /**
+     * 删除项目信息信息
+     *
+     * @param projectId 项目信息主键（伪删）
+     * @return 结果
+     */
+    public int deleteSelfProjectByProjectId2(String projectId);
 }
 

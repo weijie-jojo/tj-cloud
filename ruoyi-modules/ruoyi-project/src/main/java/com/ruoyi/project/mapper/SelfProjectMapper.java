@@ -1,6 +1,7 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfProject;
+import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 
 import java.util.List;
 
@@ -13,6 +14,15 @@ import java.util.List;
  */
 public interface SelfProjectMapper
 {
+
+    /**
+     * 查询项目信息
+     *
+     * @param projectCode 项目编号
+     * @return 项目信息
+     */
+    public List<ProjectJoinTicketVo>  selectProjectJoinTicketByCode(String projectCode);
+
     /**
      * 获取最后一条数据
      *
@@ -66,4 +76,20 @@ public interface SelfProjectMapper
      * @return 结果
      */
     public int deleteSelfProjectByProjectIds(String[] projectIds);
+
+    /**
+     * 删除项目信息（伪删）
+     *
+     * @param projectId 项目信息主键
+     * @return 结果
+     */
+    public int deleteSelfProjectByProjectId2(String projectId);
+
+    /**
+     * 批量删除项目信息（伪删）
+     *
+     * @param projectIds 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSelfProjectByProjectIds2(String[] projectIds);
 }

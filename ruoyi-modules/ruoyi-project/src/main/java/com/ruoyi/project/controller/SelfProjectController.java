@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.project.domain.BusinessPlace;
 import com.ruoyi.project.domain.SelfProject;
+import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.service.ISelfProjectService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
@@ -41,6 +43,22 @@ public class SelfProjectController extends BaseController
 {
     @Autowired
     private ISelfProjectService selfProjectService;
+
+    /**
+     * 查询项目信息
+     *
+     * @param projectCode 项目编号
+     * @return 项目信息
+     */
+    @ApiOperation("连表获取查询项目信息(根据projectCode)")
+//    @RequiresPermissions("company:place:query")
+    @GetMapping(value = "/selectProjectJoinTicketByCode")
+    public AjaxResult selectProjectJoinTicketByCode(String projectCode)
+    {
+        List<ProjectJoinTicketVo> selfProjects=selfProjectService.selectProjectJoinTicketByCode(projectCode);
+        return AjaxResult.success(selfProjects);
+    }
+
 
     /**
      * 查询项目信息列表
@@ -123,6 +141,18 @@ public class SelfProjectController extends BaseController
     }
 
     /**
+     * 删除项目信息（伪删）
+     */
+    @ApiOperation("删除项目信息（伪删）")
+//    @RequiresPermissions("company:place:remove")
+    @Log(title = "项目信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/del/{projectIds}")
+    public AjaxResult remove2(@PathVariable String[] projectIds)
+    {
+        return toAjax(selfProjectService.deleteSelfProjectByProjectIds2(projectIds));
+    }
+
+    /**
      * 获取编号
      */
     @GetMapping(value ="/getCode")
@@ -140,5 +170,6 @@ public class SelfProjectController extends BaseController
         }
         return code;
     };
+
 }
 

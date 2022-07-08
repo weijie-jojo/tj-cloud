@@ -66,5 +66,21 @@ public interface BusinessPlaceMapper
      * @return 结果
      */
     public int deleteBusinessPlaceByPlaceIds(String[] placeIds);
+
+    /**
+     * 删除平台渠道商(伪删)
+     *
+     * @param placeId 平台渠道商主键
+     * @return 结果
+     */
+    public int deleteBusinessPlaceByPlaceId2(String placeId);
+
+    /**
+     * 批量删除平台渠道商（伪删）
+     *
+     * @param placeIds 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteBusinessPlaceByPlaceIds2(String[] placeIds);
 }
 

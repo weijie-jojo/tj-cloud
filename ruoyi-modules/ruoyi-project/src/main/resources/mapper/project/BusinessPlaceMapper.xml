@@ -148,4 +148,20 @@
             #{placeId}
         </foreach>
     </delete>
+
+    <update id="deleteBusinessPlaceByPlaceId2" parameterType="String">
+        update business_place
+        set is_delete=0
+        where place_id = #{placeId}
+    </update>
+
+    <update id="deleteBusinessPlaceByPlaceIds2" parameterType="String">
+        update business_place
+        set is_delete=0
+        where place_id in
+        <foreach item="placeId" collection="array" open="(" separator="," close=")">
+            #{placeId}
+        </foreach>
+    </update>
+
 </mapper>

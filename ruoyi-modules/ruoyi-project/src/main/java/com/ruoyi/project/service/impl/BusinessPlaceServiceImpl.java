@@ -103,4 +103,28 @@ public class BusinessPlaceServiceImpl implements IBusinessPlaceService
     {
         return businessPlaceMapper.deleteBusinessPlaceByPlaceId(placeId);
     }
+
+    /**
+     * 批量删除平台渠道商（伪删）
+     *
+     * @param placeIds 需要删除的平台渠道商主键
+     * @return 结果
+     */
+    @Override
+    public int deleteBusinessPlaceByPlaceIds2(String[] placeIds)
+    {
+        return businessPlaceMapper.deleteBusinessPlaceByPlaceIds2(placeIds);
+    }
+
+    /**
+     * 删除平台渠道商信息（伪删）
+     *
+     * @param placeId 平台渠道商主键
+     * @return 结果
+     */
+    @Override
+    public int deleteBusinessPlaceByPlaceId2(String placeId)
+    {
+        return businessPlaceMapper.deleteBusinessPlaceByPlaceId2(placeId);
+    }
 }

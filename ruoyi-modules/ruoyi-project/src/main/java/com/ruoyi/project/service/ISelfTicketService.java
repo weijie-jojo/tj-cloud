@@ -59,4 +59,20 @@ public interface ISelfTicketService
      * @return 结果
      */
     public int deleteSelfTicketByTicketId(String ticketId);
+
+    /**
+     * 批量删除发票(伪删)
+     *
+     * @param ticketIds 需要删除的发票主键集合
+     * @return 结果
+     */
+    public int deleteSelfTicketByTicketIds2(String[] ticketIds);
+
+    /**
+     * 删除发票信息(伪删)
+     *
+     * @param ticketId 发票主键
+     * @return 结果
+     */
+    public int deleteSelfTicketByTicketId2(String ticketId);
 }

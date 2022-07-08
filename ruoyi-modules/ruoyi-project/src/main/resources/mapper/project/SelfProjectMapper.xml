@@ -34,12 +34,31 @@
         <result property="projectAcceptanceStatus"    column="project_acceptance_status"    />
         <result property="projectDutypaidStatus"    column="project_dutypaid_status"    />
         <result property="placeCode"    column="place_code"    />
+        <result property="purchCompanyTaxid"    column="purchCompanyTaxid"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
-        select project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code from self_project
+        select project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code,purch_company_taxid from self_project
     </sql>
 
+    <sql id="selectProjectJoinTicketByCodeVo">
+        select t.project_id, t.project_code, t.project_name, t.project_trade, t.project_owner, t.purch_company,
+               t.project_total_amount, t.project_leader, t.project_gross_margin, t.project_gross_profit,
+               t.project_net_profit, t.project_package_amount, t.project_desc, t.project_status, t.is_deleted,
+               t.create_by, t.update_by, t.create_time, t.update_time, t.check_content, t.file_name, t.project_time_start,
+               t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
+               t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,
+                A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,
+               A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,
+               A.create_time, A.update_time,B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
+                C.place_name,C.place_status
+            from self_project t JOIN self_ticket A ON t.project_code = A.project_code JOIN self_employed B ON t.project_owner = B.self_code
+                                JOIN business_place C ON t.place_code = C.place_code
+    </sql>
+    <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
+        <include refid="selectProjectJoinTicketByCodeVo"/>
+        where t.project_code=#{projectCode}
+    </select>
     <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
         <where>
@@ -67,6 +86,7 @@
             <if test="projectAcceptanceStatus != null  and projectAcceptanceStatus != ''"> and project_acceptance_status = #{projectAcceptanceStatus}</if>
             <if test="projectDutypaidStatus != null  and projectDutypaidStatus != ''"> and project_dutypaid_status = #{projectDutypaidStatus}</if>
             <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
+            <if test="purchCompanyTaxid != null  and purchCompanyTaxid != ''"> and purch_company_taxid = #{purchCompanyTaxid}</if>
         </where>
     </select>
 
@@ -110,6 +130,7 @@
             <if test="projectAcceptanceStatus != null">project_acceptance_status,</if>
             <if test="projectDutypaidStatus != null">project_dutypaid_status,</if>
             <if test="placeCode != null">place_code,</if>
+            <if test="purchCompanyTaxid != null">purch_company_taxid,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -140,6 +161,7 @@
             <if test="projectAcceptanceStatus != null">#{projectAcceptanceStatus},</if>
             <if test="projectDutypaidStatus != null">#{projectDutypaidStatus},</if>
             <if test="placeCode != null">#{placeCode},</if>
+            <if test="purchCompanyTaxid != null">#{purchCompanyTaxid},</if>
         </trim>
     </insert>
 
@@ -174,6 +196,7 @@
             <if test="projectAcceptanceStatus != null">project_acceptance_status = #{projectAcceptanceStatus},</if>
             <if test="projectDutypaidStatus != null">project_dutypaid_status = #{projectDutypaidStatus},</if>
             <if test="placeCode != null">place_code = #{placeCode},</if>
+            <if test="purchCompanyTaxid != null">purch_company_taxid = #{purchCompanyTaxid},</if>
         </trim>
         where project_id = #{projectId}
     </update>
@@ -188,4 +211,20 @@
             #{projectId}
         </foreach>
     </delete>
+
+    <update id="deleteSelfProjectByProjectId2" parameterType="String">
+        update self_project
+        set is_deleted=0
+        where project_id = #{projectId}
+    </update>
+
+    <update id="deleteSelfProjectByProjectIds2" parameterType="String">
+        update self_project
+        set is_deleted=0
+        where project_id in
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </update>
+
 </mapper>

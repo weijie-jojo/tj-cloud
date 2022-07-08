@@ -125,5 +125,17 @@ public class BusinessPlaceController extends BaseController
     {
         return toAjax(businessPlaceService.deleteBusinessPlaceByPlaceIds(placeIds));
     }
+
+    /**
+     * 删除平台渠道商（伪删）
+     */
+    @ApiOperation("删除平台渠道商（伪删）")
+//    @RequiresPermissions("company:place:remove")
+    @Log(title = "平台渠道商", businessType = BusinessType.UPDATE)
+    @PutMapping("/del/{placeIds}")
+    public AjaxResult remove2(@PathVariable String[] placeIds)
+    {
+        return toAjax(businessPlaceService.deleteBusinessPlaceByPlaceIds2(placeIds));
+    }
 }
 

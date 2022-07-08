@@ -94,4 +94,28 @@ public class SelfTicketServiceImpl implements ISelfTicketService
     {
         return selfTicketMapper.deleteSelfTicketByTicketId(ticketId);
     }
+
+    /**
+     * 批量删除发票（伪删）
+     *
+     * @param ticketIds 需要删除的发票主键
+     * @return 结果
+     */
+    @Override
+    public int deleteSelfTicketByTicketIds2(String[] ticketIds)
+    {
+        return selfTicketMapper.deleteSelfTicketByTicketIds2(ticketIds);
+    }
+
+    /**
+     * 删除发票信息（伪删）
+     *
+     * @param ticketId 发票主键
+     * @return 结果
+     */
+    @Override
+    public int deleteSelfTicketByTicketId2(String ticketId)
+    {
+        return selfTicketMapper.deleteSelfTicketByTicketId2(ticketId);
+    }
 }

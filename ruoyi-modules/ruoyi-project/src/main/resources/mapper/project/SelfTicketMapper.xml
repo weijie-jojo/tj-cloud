@@ -114,4 +114,19 @@
             #{ticketId}
         </foreach>
     </delete>
+
+    <update id="deleteSelfTicketByTicketId2" parameterType="String">
+        update self_ticket
+        set is_deleted=0
+        where ticket_id = #{ticketId}
+    </update>
+
+    <update id="deleteSelfTicketByTicketIds2" parameterType="String">
+        update self_ticket
+        set is_deleted=0
+        where ticket_id in
+        <foreach item="ticketId" collection="array" open="(" separator="," close=")">
+            #{ticketId}
+        </foreach>
+    </update>
 </mapper>

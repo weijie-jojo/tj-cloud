@@ -113,5 +113,17 @@ public class SelfTicketController extends BaseController
     {
         return toAjax(selfTicketService.deleteSelfTicketByTicketIds(ticketIds));
     }
+
+    /**
+     * 删除发票（伪删）
+     */
+    @ApiOperation("删除发票（伪删）")
+//    @RequiresPermissions("company:place:remove")
+    @Log(title = "发票", businessType = BusinessType.UPDATE)
+    @PutMapping("/del/{ticketIds}")
+    public AjaxResult remove2(@PathVariable String[] ticketIds)
+    {
+        return toAjax(selfTicketService.deleteSelfTicketByTicketIds2(ticketIds));
+    }
 }
 

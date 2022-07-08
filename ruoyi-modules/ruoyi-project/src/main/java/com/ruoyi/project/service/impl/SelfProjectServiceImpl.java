@@ -4,6 +4,7 @@ package com.ruoyi.project.service.impl;
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.SelfProject;
+import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.mapper.SelfProjectMapper;
 import com.ruoyi.project.service.ISelfProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,18 @@ public class SelfProjectServiceImpl implements ISelfProjectService
 {
     @Autowired
     private SelfProjectMapper selfProjectMapper;
+
+    /**
+     * 查询项目信息
+     *
+     * @param projectCode 项目编号
+     * @return 项目信息
+     */
+    @Override
+    public List<ProjectJoinTicketVo> selectProjectJoinTicketByCode(String projectCode) {
+        return selfProjectMapper.selectProjectJoinTicketByCode(projectCode);
+    }
+
     /*
     *
     * 查询最后一条数据
@@ -101,6 +114,30 @@ public class SelfProjectServiceImpl implements ISelfProjectService
     public int deleteSelfProjectByProjectId(String projectId)
     {
         return selfProjectMapper.deleteSelfProjectByProjectId(projectId);
+    }
+
+    /**
+     * 批量删除项目信息（伪删）
+     *
+     * @param projectIds 需要删除的项目信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteSelfProjectByProjectIds2(String[] projectIds)
+    {
+        return selfProjectMapper.deleteSelfProjectByProjectIds2(projectIds);
+    }
+
+    /**
+     * 删除项目信息信息（伪删）
+     *
+     * @param projectId 项目信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteSelfProjectByProjectId2(String projectId)
+    {
+        return selfProjectMapper.deleteSelfProjectByProjectId2(projectId);
     }
 }
 
