@@ -43,7 +43,7 @@ export default {
       dialogImageUrl1:'',
       dialogVisible1:false,
       closeDialog:false,
-      viewVisible:false,
+      viewVisible:true,
       src: loadingTask,
       numPages: undefined
     }
