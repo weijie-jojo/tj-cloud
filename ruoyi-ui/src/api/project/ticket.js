@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function list(query) {
   return request({
-    url: 'project/project/list',
+    url: 'project/ticket/list',
     method: 'get',
     params: query
   })
@@ -10,7 +10,7 @@ export function list(query) {
 
 export function ownlist(query) {
   return request({
-    url: 'project/employed/getByUserIndusty',
+    url: 'project/employed/list',
     method: 'get',
     params: query
   })
@@ -28,9 +28,9 @@ export function getcode(){
         method:'get'    
     })
 }
-export function del(projectIds) {
+export function del(ticketIds) {
   return request({
-    url: 'project/project/'+projectIds,
+    url: 'project/ticket/'+ticketIds,
     method: 'delete',
  })
 }

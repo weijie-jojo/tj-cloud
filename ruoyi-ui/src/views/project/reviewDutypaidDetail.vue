@@ -3,7 +3,7 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
            
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
                         <el-input v-model="formData.projectCode" disabled></el-input>
@@ -26,134 +26,17 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
+           <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商" prop="">
-                       <el-select @change="placeNew"  style="width:100%"  clearable v-model="formData.placeCode">
-                          <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeName" :value="item.placeCode">
-                        </el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item class="comright" label="甲方" prop="purchCompany">
+                  <el-form-item class="comright" label="甲方" prop="purchCompany">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
                         <el-input v-model="formData.purchCompany"></el-input>
                     </el-form-item>
-                </el-col>
-
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                        <el-radio v-model="isokradio" label="2"> 正常</el-radio>
-                        <el-radio v-model="isokradio" label="1">冻结 </el-radio>
-                    </el-form-item>
-                    <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input  v-model="formData.purchCompanyTaxid"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方(选择行业类型获取)" prop="projectOwner">
-                        <el-select @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
-                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.placeName"
-                                :value="item.placeName">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="owerTax"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="业务经理">
-                        <el-input v-model="formData.projectLeader" disabled></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业类型" prop="industryType">
-                          <treeselect 
-                    v-model="formData.industryType" 
-                    :options="industryTypes" 
-                    :show-count="true" 
-                      />
-                        <!-- <el-select disabled clearable v-model="owntype">
-                            <el-option v-for="item in ownindustry" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select> -->
-                    </el-form-item>
-
-                    <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
-                            <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业税率">
-                        <el-input disabled v-model="owerTaxfee"></el-input>
-                    </el-form-item>
-                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
-                    </el-form-item>
-                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
-
-
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
-                            <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="开票内容类型">
-                        <el-radio v-model="fileNameradio" label="1">手动输入</el-radio>
-                        <el-radio v-model="fileNameradio" label="2">上传附件 </el-radio>
-                    </el-form-item>
-
-
-
-                </el-col>
-
-                <el-col :span="9">
-                    <el-form-item class="comright" label="开票内容" prop="fileName" v-if="fileNameradio == 1">
-
-                        <el-input type="textarea" :rows="2" v-model="formData.fileName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
+                   
+                     <el-form-item class="comright" label="项目完税资料" prop="fileName">
 
                         <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
                             :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
@@ -165,36 +48,49 @@
                             <img width="100%" :src="dialogImageUrl1" alt="" />
                         </el-dialog>
                     </el-form-item>
+
+                   
                 </el-col>
-            </el-row>
 
+                <el-col :span="9">
 
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
-                        </el-input>
+                    <el-form-item class="comright" label="乙方" prop="projectOwner">
+                        <el-select style="width:100%" clearable v-model="formData.projectOwner">
+                            <el-option v-for="item in ownoptions" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
+                    
+                  
                 </el-col>
             </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+        
+        
+        
+        <el-col :span="9">
+          <el-form-item class="comright">
+            <el-radio v-model="isokradio" label="1"> 通过</el-radio>
+            <el-radio v-model="isokradio" label="2">驳回 </el-radio>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="驳回理由">
+            <el-input v-model="remark" :disabled="isokradio == 1"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-         <el-row type="flex" class="row-bg " justify="space-around">
-            <el-col :span="8"></el-col>
-            <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
-             <el-button type="primary" @click="onSubmit">提交</el-button>
-            </el-col>
-           <el-col :span="8"></el-col>
-        </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
+          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button v-if="isokradio == 2" type="primary" @click="submitForm(2)">驳回</el-button>
+          <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
 
 
 
@@ -220,8 +116,6 @@ export default {
      components: { Treeselect },
     data() {
         return {
-            projectStatus:1,//乙方状态
-            username:'',
             userid:'',
             industryId:'',
             industryTypes:[],
@@ -233,7 +127,7 @@ export default {
             natureBusiness: '',//经营范围
             tickettaxvipok: false,
             placename: '',
-            isokradio: '2',
+            isokradio: '1',
             companyTax: '',//甲方纳税人识别号
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
@@ -281,16 +175,17 @@ export default {
             options: [
                 {
                     value: 0,
-                    label: '异常'
+                    label: '进行'
                 },
                 {
 
                     value: 1,
-                    label: '正常'
-                },
-                 {
-                    value: 2,
                     label: '异常'
+                },
+                {
+
+                    value: 2,
+                    label: '完结',
                 },
             ],
             //甲方
@@ -506,10 +401,10 @@ export default {
                         trigger: "change",
                     },
                 ],
-                purchCompanyTaxid: [
+                nation: [
                     {
                         required: true,
-                        message: "请输入甲方纳税人识别号",
+                        message: "请输入民族",
                         trigger: "blur",
                     },
                 ],
@@ -570,9 +465,9 @@ export default {
     'formData.industryType':'selectIndustryType',
     },
     mounted() {
-        this.gettoday();
-        this.getcode();
-        this.getRate();
+         this.formData= this.$cache.local.getJSON("reviewContractDetail");
+        // this.gettoday();
+        // this.getcode();
         this.getinfoByUserId(); //渠道商
 
 
@@ -580,30 +475,9 @@ export default {
 
 
     methods: {
-        //乙方状态
-        ownnew(e){
-            console.log();
-          for(let i in this.ownoptions){
-            if(this.ownoptions[i].placeName==e){
-                console.log(this.ownoptions[i].isActive);
-                if(this.ownoptions[i].isActive >-1){
-                  return  this.placeStatus=parseInt(this.ownoptions[i].isActive);
-                }else{
-                    console.log(2222);
-                    this.placeStatus=0;
-                }
-            }
-        }
-        },
       //监听渠道商状态  
       placeNew(e){
         console.log(e);
-        for(let i in this.placeCodeOptions){
-            if(this.placeCodeOptions[i].placeCode==e){
-                this.isokradio=JSON.stringify(this.placeCodeOptions[i].placeStatus);
-            }
-        }
-        
 
       },
       //返回
@@ -636,7 +510,6 @@ export default {
         getinfoByUserId() {
           getInfo().then(res=>{  
             this.userId=26;
-            this.username='唐庆超';
             this.formData.projectLeader=res.user.nickName;
            getinfoByUserId({userId:this.userId}).then(res=>{
                this.placeCodeOptions=res.data;
@@ -675,10 +548,8 @@ export default {
       console.log("rate==",rate);
       this.industryId=rate.industryId;  //行业类型id
       this.owerTaxfee=rate.taxRate;
-      let  industryType=rate.industryId;
-      
-      ownlist({username:this.username,industryType:industryType}).then(res=>{
-        this.ownoptions=res;
+      ownlist({userId:this.userId,industryId:this.industryId}).then(res=>{
+         console.log(res);
       }).catch(err=>{
           console.log(err);
       });
@@ -738,12 +609,9 @@ export default {
                         if (res != undefined) {
                             if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("新增项目成功!");
+                                    this.$modal.msgSuccess("信息审核通过成功!");
                                     this.$nextTick(function () {
-                                         this.$tab.refreshPage("/project/list").then(() => {
-                                         this.$tab.openPage("项目列表", "/project/list");
-                                        });
-                                        //this.$router.push("employed");
+                                        this.$router.push("employed");
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
