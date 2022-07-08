@@ -664,6 +664,8 @@ export default {
         legalPersonName:'',
         privateDepositBank:'',
         privateAccountNumber:'',
+        publicDepositBank1:'',
+        publicAccountNumber1:'',
         placeName:'',
         userName:'',
 
@@ -680,8 +682,7 @@ export default {
         politicalStatus:'',
         fileName5: [],
 
-        publicDepositBank1:'',
-        publicAccountNumber1:'',
+       
 
       },
       rules: {
