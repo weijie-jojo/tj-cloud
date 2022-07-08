@@ -29,6 +29,14 @@ export function edit(data) {
   })
 }
 
+export function getinfoByUserId(data){
+  return request({
+    url:'project/place/getInfoByUserId',
+    method:'get',
+    params:data 
+  })
+}
 
 
-export default { list , edit, del,getcode }
+
+export default { list , edit, del, getcode , getinfoByUserId }
