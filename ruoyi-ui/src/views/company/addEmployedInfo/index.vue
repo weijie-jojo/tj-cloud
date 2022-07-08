@@ -1039,13 +1039,16 @@ export default {
               industryType:this.formData.industryType,
               industryTax:this.formData.industryTax,
               accountType:this.formData.accountType,
-              legalPersonName:this.formData.legalPersonName,
+              legalPersonName:this.formData.contactName,
+
               privateDepositBank:this.formData.privateDepositBank,
               privateAccountNumber:this.formData.privateAccountNumber,
               placeName:this.formData.placeName,
               username:this.formData.userName,
               fileName5:JSON.stringify(this.formData.fileName5),
               
+              publicDepositBank1:this.formData.publicDepositBank1,
+              publicAccountNumber1:this.formData.publicAccountNumber1,
               // createTime:new Date().toLocaleString(),
               // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,

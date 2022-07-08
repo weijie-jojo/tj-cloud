@@ -286,13 +286,35 @@
               <el-col :span="8">
                 <el-form-item label="私账名称" >
                   <el-input 
-                    v-model="formData.legalPersonName"  
+                    v-model="formData.privateName"  
                     disabled>
                   </el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="rowCss" :gutter="60" style="margin-left:260px">
+
+            <el-row v-if="isPrivateBank" class="rowCss" :gutter="60" style="margin-left:260px">
+              <el-col :span="8">
+                <el-form-item label="对公开户银行" >
+                  <el-input 
+                    v-model="formData.publicDepositBank1 "  
+                    clearable 
+                    >
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="对公银行账号" >
+                  <el-input 
+                    v-model="formData.publicAccountNumber1"  
+                    clearable 
+                    >
+                  </el-input>
+                </el-form-item>
+              </el-col>
+            </el-row> 
+
+            <el-row v-else class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="私账开户银行" >
                   <el-input 
@@ -312,6 +334,8 @@
                 </el-form-item>
               </el-col>
             </el-row>
+
+
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="渠道商" prop="placeName">
@@ -627,13 +651,16 @@ export default {
         natureBusiness:'',
         industryType:'',
         industryTax:'',
-        accountType:1,
+        accountType:'',
         legalPersonName:'',
         privateDepositBank:'',
         privateAccountNumber:'',
+        publicDepositBank1:'',
+        publicAccountNumber1:'',
         placeName:'',
         userName:'',
-
+        privateName:'',//私账名
+       
         //经营者
         legalPersonId:'',
         personnelType:'待业人员',
@@ -863,6 +890,13 @@ export default {
     var employedInfo= this.$cache.local.getJSON('employedInfo');
     this.formData=employedInfo;
     this.formData.fileName5=JSON.parse(this.formData.fileName5);
+    if(this.formData.accountType==1){//银行账号类型为私人时
+      this.formData.privateName=this.formData.legalPersonName;
+      this.isPrivateBank=false;
+    }
+    if(this.formData.accountType==2){
+        this.isPrivateBank=true;
+    }
     console.log("formData==",this.formData);
     // this.genders1=this.genders;
     this.getElectronicCommerce();
@@ -906,11 +940,11 @@ export default {
     },
     selectAccountType(value){  
         if(value==1){  
-          this.formData.legalPersonName=this.formData.contactName;
+          this.formData.privateName=this.formData.legalPersonName;
           this.isPrivateBank=false;
         }else{
           this.isPrivateBank=true;
-          this.formData.legalPersonName="";
+          this.formData.privateName="";
           this.formData.privateDepositBank="";
           this.formData.privateAccountNumber="";
         }
@@ -1020,12 +1054,14 @@ export default {
               industryType:this.formData.industryType,
               industryTax:this.formData.industryTax,
               accountType:this.formData.accountType,
-              legalPersonName:this.formData.legalPersonName,
+              legalPersonName:this.formData.contactName,
               privateDepositBank:this.formData.privateDepositBank,
               privateAccountNumber:this.formData.privateAccountNumber,
               placeName:this.formData.placeName,
               username:this.formData.userName,
               fileName5:JSON.stringify(this.formData.fileName5),
+              publicDepositBank1:this.formData.publicDepositBank1,
+              publicAccountNumber1:this.formData.publicAccountNumber1,
               // createTime:new Date().toLocaleString(),
               // updateTime:new Date().toLocaleString(),
               // createBy:this.formData.userName,
