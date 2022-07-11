@@ -157,14 +157,14 @@ public class SelfProjectController extends BaseController
      */
     @GetMapping(value ="/getCode")
     @ApiOperation("获取编码")
-    public String getCode(){
+    public String getCode(String selfCode){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(date);
         List<SelfProject> selfProjects=selfProjectService.selectLast();
         String code="";
         if (selfProjects.size()>0){
-            code=  StringUtils.getCode("TJ-TG",selfProjects.get(0).getProjectCode(),"yyyyMMdd");
+            code=  StringUtils.getCode(selfCode,selfProjects.get(0).getProjectCode(),"yyyyMMdd");
         }else {//没有单据时
             code="TJ-TG"+"-"+nowDate+"-"+"0001";
         }
