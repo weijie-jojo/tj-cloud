@@ -244,7 +244,12 @@
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
                 <el-form-item label="行业类型" prop="industryType">
-                 <el-select 
+                   <treeselect 
+                    v-model="formData.industryType" 
+                    :options="industryTypes" 
+                    :show-count="true" 
+                    placeholder="请选择归属部门" />
+                 <!-- <el-select 
                     v-model="formData.industryType" 
                     placeholder="请选择行业类型" 
                     clearable
@@ -256,7 +261,7 @@
                       :label="item.industryName"
                       :value="item.industryId" 
                     ></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -560,9 +565,11 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate' 
 import crudPlace from '@/api/company/place' 
 import {getInfo} from '@/api/login' 
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
+  components: { Treeselect },
   dicts: ['political_status', 'educational_level'],
-  components: {},
   props: [],
   data() {
     return {
@@ -606,6 +613,7 @@ export default {
       applyNames:[],
       contactNames:[],
       industryTypes:[],
+      industryTypeList:[],
       accountTypes1:[],
       accountTypes:[
          {
@@ -865,6 +873,8 @@ export default {
   },
   computed: {},
   watch: {
+    'formData.industryType':'selectIndustryType',
+
     'formData.contactName':{
         handler:function(){
           this.formData.legalPersonName=this.formData.contactName;
@@ -949,8 +959,9 @@ export default {
           this.formData.privateAccountNumber="";
         }
     },
-    selectIndustryType(value){
-      var rate= this.industryTypes.find((item)=>item.industryId==value);
+    selectIndustryType(){
+      // var rate= this.industryTypes.find((item)=>item.industryId==value);
+      var rate= this.industryTypeList.find((item)=>item.industryId==this.formData.industryType);
       this.formData.industryTax=rate.taxRate;
       console.log("rate==",rate);
     },
@@ -960,11 +971,39 @@ export default {
       this.formData.applyIdNum=applyName.idNo;
       console.log("selectApplyName==",applyName);
     },
+    // getRate(){
+    //   crudRate.getAllRate().then(res=>{
+    //       console.log("getAllRate",res.rows);
+    //       this.industryTypes=res.rows;
+    //   })
+    // },
     getRate(){
       crudRate.getAllRate().then(res=>{
           console.log("getAllRate",res.rows);
-          this.industryTypes=res.rows;
+          var employedInfo= this.$cache.local.getJSON('employedInfo');
+          this.formData.industryType=employedInfo.industryType;
+          console.log("industryType==",this.formData.industryType);
+          // this.industryTypes=res.rows;
+          let tree = []; // 用来保存树状的数据形式
+          this.parseTree(res.rows, tree, 0);
+          console.log("tree",tree);
+          this.industryTypes=tree;
+          this.industryTypeList=res.rows;
       })
+    },
+    //把数据整成树状
+    parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
+      }
     },
     getContactName(){
         crudPerson.getAllPerson().then(res=>{

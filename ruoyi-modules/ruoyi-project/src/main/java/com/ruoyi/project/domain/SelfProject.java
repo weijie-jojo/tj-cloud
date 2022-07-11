@@ -39,6 +39,10 @@ public class SelfProject extends BaseEntity
     @Excel(name = "乙方(个体户编号)")
     private String projectOwner;
 
+    /** 个体户名 */
+    @Excel(name = "个体户名")
+    private String selfName;
+
     /** 采购方公司（甲方） */
     @Excel(name = "采购方公司", readConverterExp = "甲=方")
     private String purchCompany;
