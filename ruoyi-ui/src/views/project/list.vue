@@ -3,7 +3,7 @@
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
             label-width="auto">
             <el-form-item label="乙方">
-                <el-input v-model="queryParams.projectOwner" placeholder="请输入乙方" clearable
+                <el-input v-model="queryParams.selfName" placeholder="请输入乙方" clearable
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item label="项目开始时间">
@@ -29,6 +29,7 @@
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
+        
             <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['company:employed:add']">新增</el-button>
@@ -46,7 +47,7 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="乙方" align="center" prop="projectOwner" :show-overflow-tooltip="true" />
+            <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
             <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
@@ -62,22 +63,22 @@
             <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" @click="shenloading1(scope.row)"
-                        v-if="scope.row.projectCheckStatus == '0'">审核中</el-link>
+                        v-if="scope.row.projectCheckStatus == '0'">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)"
                         v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
                     <el-link @click="nameisok(scope.row)" :underline="false" type="success"
-                        v-if="scope.row.projectCheckStatus == '1'">已通过</el-link>
+                        v-if="scope.row.projectCheckStatus == '1'">完结</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="项目票据" align="center">
 
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" v-if="scope.row.projectTicketStatus == '0'"
-                        @click="shenloading2(scope.row)">审核中</el-link>
+                        @click="shenloading2(scope.row)">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)"
                         v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
                     <el-link @click="newisok(scope.row)" :underline="false" type="success"
-                        v-if="scope.row.projectTicketStatus == '1'">已通过</el-link>
+                        v-if="scope.row.projectTicketStatus == '1'">完结</el-link>
 
                 </template>
             </el-table-column>
@@ -88,12 +89,12 @@
                         v-if="scope.row.projectCheckStatus == 0 || scope.row.projectTicketStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
                         未开始</el-link> -->
                     <el-link :underline="false" type="primary" @click="shenloading"
-                        v-if="scope.row.projectCheckStatus == 1 && scope.row.projectTicketStatus == 1 && scope.row.projectContractStatus == 0">审核中
+                        v-if="scope.row.projectContractStatus == 0">进行中
                     </el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)"
                         v-if="scope.row.projectContractStatus == '2'">异常</el-link>
                     <el-link :underline="false" @click="newbusiness(scope.row)" type="success"
-                        v-if="scope.row.projectContractStatus == '1'">已通过</el-link>
+                        v-if="scope.row.projectContractStatus == '1'">完结</el-link>
 
                 </template>
             </el-table-column>
@@ -104,11 +105,11 @@
                         v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.businessStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
                         未开始</el-link> -->
                     <el-link :underline="false" type="primary" @click="shenloading"
-                        v-if="scope.row.projectAcceptanceStatus == 0">审核中</el-link>
+                        v-if="scope.row.projectAcceptanceStatus == 0">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)"
                         v-if="scope.row.projectAcceptanceStatus == '2'">异常</el-link>
                     <el-link :underline="false" @click="newtax(scope.row)" type="success"
-                        v-if="scope.row.projectAcceptanceStatus == '1'">已通过</el-link>
+                        v-if="scope.row.projectAcceptanceStatus == '1'">完结</el-link>
 
                 </template>
             </el-table-column>
@@ -119,11 +120,11 @@
                         v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.businessStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
                         未开始</el-link> -->
                     <el-link :underline="false" type="primary" @click="shenloading"
-                        v-if="scope.row.projectDutypaidStatus == '0'">审核中</el-link>
+                        v-if="scope.row.projectDutypaidStatus == '0'">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)"
                         v-if="scope.row.projectDutypaidStatus == '2'">异常</el-link>
                     <el-link :underline="false" @click="newbank(scope.row)" type="success"
-                        v-if="scope.row.projectDutypaidStatus == '1'">已通过</el-link>
+                        v-if="scope.row.projectDutypaidStatus == '1'">完结</el-link>
                 </template>
 
             </el-table-column>
@@ -317,7 +318,7 @@ export default {
             });
         },
         detail(scope) {
-            this.$cache.local.setJSON("projectListInfo", scope);
+            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$router.push("detail");
         },
         //审核中
@@ -360,35 +361,14 @@ export default {
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
-        //工商管理
-        business(row) {
-            this.$cache.local.setJSON("employednewlist", row);
-            this.$router.push("addBusiness");
-        },
-        //税务管理
-        atx(row) {
-            if (row.businessStatus == 0) {
-                this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
-            } else {
-                this.$cache.local.setJSON("employednewlist", row);
-                this.$router.push("addTax");
-            }
-        },
-        bank(row) {
-            if (row.taxStatus == 0) {
-                this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-            } else {
-                this.$cache.local.setJSON("employednewlist", row);
-                this.$router.push("addBank");
-            }
-        },
+        
         /** 新增按钮操作 */
         handleAdd() {
            this.$router.push('addlist');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-            this.$cache.local.setJSON("projecteditInfo", row);
+            this.$cache.local.setJSON("projectCodeNew", row.projectCode);
             this.$router.push("editList");
 
         },

@@ -28,8 +28,8 @@
 <script>
 
 import pdf from 'vue-pdf'
-
-var loadingTask = pdf.createLoadingTask('/pdf/%E9%AA%8C%E6%94%B6%E6%8A%A5%E5%91%8A-20220321094519301.pdf', {withCredentials: false});
+// /pdf/%E9%AA%8C%E6%94%B6%E6%8A%A5%E5%91%8A-20220321094519301.pdf
+var loadingTask = pdf.createLoadingTask('http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf', {withCredentials: false});
 
 export default {
   name: 'HomedDd',
