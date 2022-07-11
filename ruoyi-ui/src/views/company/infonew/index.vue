@@ -242,6 +242,20 @@
           </el-form-item>
         </el-col>
       </el-row>
+        <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="对公开户银行">
+            <el-input disabled v-model="formData.publicDepositBank1" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="对公银行账号">
+            <el-input v-model="formData.publicAccountNumber1" clearable disabled>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商" prop="placeName">
