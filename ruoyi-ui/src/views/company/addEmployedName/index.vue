@@ -258,6 +258,18 @@ export default {
         "label": "工作室",
         "value": 3
         },
+        {
+          "label": "商行",
+          "value": 4
+        },
+         {
+          "label": "商店",
+          "value": 5
+        },
+        {
+          "label": "建材店",
+          "value": 6
+        },
       ],
       wordTypeOptions: [{
         "label": "选项一",
@@ -310,6 +322,15 @@ export default {
       }
        if(value==3){
         this.formData.organizationalForm="工作室";
+      }
+       if(value==4){
+        this.formData.organizationalForm="商行";
+      }
+       if(value==5){
+        this.formData.organizationalForm="商店";
+      }
+      if(value==6){
+        this.formData.organizationalForm="建材店";
       }
     },
     //获取编号

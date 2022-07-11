@@ -588,7 +588,7 @@
         getCardInfoBycompany() {
             getCardInfoBycompany(this.ruleForm.userGetid).then(res => {
                 console.log('getCardInfoBycompany==',res);
-                this.ruleForm.bankcardGetid=res.accountCard;
+                this.ruleForm.bankcardGetid=res.payCheck;
                 this.ruleForm.bankGetname=res.accountCardBank;
                 this.ruleForm.userGetid=res.nickName;
             })

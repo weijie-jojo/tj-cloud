@@ -585,7 +585,7 @@
             //根据收款人id查找收款银行卡信息 
             getCardInfoBycompany(res.user.userId).then(res => {
                 console.log('getCardInfoBycompany==',res);
-                this.ruleForm.bankcardGetid=res.accountCard;
+                this.ruleForm.bankcardGetid=res.payCheck;
                 this.ruleForm.bankGetname=res.accountCardBank;
                 this.ruleForm.userGetid=res.nickName;
             })

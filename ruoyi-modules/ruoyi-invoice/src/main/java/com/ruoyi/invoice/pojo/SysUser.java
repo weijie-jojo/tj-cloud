@@ -8,5 +8,5 @@ public class SysUser {
     private String nickName;
     private String payCheckBank;
     private String accountCardBank;
-
+    private String payCheck;
 }
