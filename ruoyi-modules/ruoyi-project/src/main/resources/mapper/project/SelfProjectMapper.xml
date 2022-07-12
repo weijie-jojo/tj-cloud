@@ -36,10 +36,12 @@
         <result property="placeCode"    column="place_code"    />
         <result property="purchCompanyTaxid"    column="purchCompanyTaxid"    />
         <result property="selfName"    column="self_name"    />
+        <result property="ticketType"    column="ticket_type"    />
+        <result property="ticketTax"    column="ticket_tax"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
-        select self_name,project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code,purch_company_taxid from self_project
+        select ticket_type,ticket_tax,self_name,project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code,purch_company_taxid from self_project
     </sql>
 
     <sql id="selectProjectJoinTicketByCodeVo">
@@ -48,7 +50,7 @@
                t.project_net_profit, t.project_package_amount, t.project_desc, t.project_status, t.is_deleted,
                t.create_by, t.update_by, t.create_time, t.update_time, t.check_content, t.file_name, t.project_time_start,
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
-               t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
+               t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,t.ticket_type,t.ticket_tax,
                 A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,
                A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,
                A.create_time, A.update_time,B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
@@ -89,6 +91,8 @@
             <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
             <if test="purchCompanyTaxid != null  and purchCompanyTaxid != ''"> and purch_company_taxid = #{purchCompanyTaxid}</if>
             <if test="selfName != null  and selfName != ''"> and self_name = #{selfName}</if>
+            <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
+            <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
         </where>
     </select>
 
@@ -134,6 +138,8 @@
             <if test="placeCode != null">place_code,</if>
             <if test="purchCompanyTaxid != null">purch_company_taxid,</if>
             <if test="selfName != null">self_name,</if>
+            <if test="ticketType != null">ticket_type,</if>
+            <if test="ticketTax != null">ticket_tax,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -166,6 +172,8 @@
             <if test="placeCode != null">#{placeCode},</if>
             <if test="purchCompanyTaxid != null">#{purchCompanyTaxid},</if>
             <if test="selfName != null">#{selfName},</if>
+            <if test="ticketType != null">#{ticketType},</if>
+            <if test="ticketTax != null">#{ticketTax},</if>
         </trim>
     </insert>
 
@@ -202,6 +210,8 @@
             <if test="placeCode != null">place_code = #{placeCode},</if>
             <if test="purchCompanyTaxid != null">purch_company_taxid = #{purchCompanyTaxid},</if>
             <if test="selfName != null">self_name = #{selfName},</if>
+            <if test="ticketType != null">ticket_type = #{ticketType},</if>
+            <if test="ticketTax != null">ticket_tax = #{ticketTax},</if>
         </trim>
         where project_id = #{projectId}
     </update>

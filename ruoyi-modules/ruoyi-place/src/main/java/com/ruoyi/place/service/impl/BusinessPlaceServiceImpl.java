@@ -65,6 +65,7 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
                         .in(statusArr!=null,"t.place_status",statusArr)
                         .eq("t.is_delete",1)
                         .eq("B.dict_type","place_status")
+                        .eq(businessPlace.getUserName()!=null,"t.user_name", businessPlace.getUserName())
                         .like(businessPlace.getUserName()!=null,"t.user_name",businessPlace.getUserName())
                         .like(businessPlace.getPlaceName()!=null,"t.place_name", businessPlace.getPlaceName())
                         .orderByDesc("t.place_id"));
