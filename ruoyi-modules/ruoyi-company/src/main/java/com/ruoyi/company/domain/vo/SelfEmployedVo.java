@@ -22,7 +22,6 @@ public class SelfEmployedVo extends SelfEmployed {
     private String poposedName1;
     private String poposedName2;
     private String poposedName3;
-    private String userName;
     //self_application_info
     private Integer id;
     private String oneselfApply;

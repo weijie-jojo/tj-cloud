@@ -50,6 +50,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                font_size10, poposed_name10,create_by,update_by,create_time,update_time,name_status,name_remark from self_name_review
     </sql>
 
+    <sql id="selectSelfNameReviewJoinVo">
+        select t.self_id,t.self_code,A.place_name,A.username,A.legal_person_name,A.create_time
+        from self_name_review t JOIN self_employed A on t.self_code=A.self_code
+    </sql>
+
+    <select id="selectSelfNameReviewJoin" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        <include refid="selectSelfNameReviewJoinVo"/>
+        <where>
+            <if test="placeName != null  and placeName != ''"> and A.place_name like concat('%', #{placeName}, '%')</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and A.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="username != null  and username != ''"> and A.username like concat('%', #{username}, '%')</if>
+        </where>
+    </select>
+
     <select id="selectSelfNameReviewList" parameterType="com.ruoyi.company.domain.SelfNameReview" resultMap="SelfNameReviewResult">
         <include refid="selectSelfNameReviewVo"/>
         <where>  

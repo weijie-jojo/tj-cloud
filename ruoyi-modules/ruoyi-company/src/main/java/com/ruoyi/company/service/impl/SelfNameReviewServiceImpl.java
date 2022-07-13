@@ -3,6 +3,7 @@ package com.ruoyi.company.service.impl;
 import java.util.List;
 
 import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfNameReviewMapper;
@@ -57,6 +58,16 @@ public class SelfNameReviewServiceImpl implements ISelfNameReviewService
     public List<SelfNameReview> selectSelfNameReviewList(SelfNameReview selfNameReview)
     {
         return selfNameReviewMapper.selectSelfNameReviewList(selfNameReview);
+    }
+    /**
+     * 查询个体户名字审核列表(连表)
+     *
+     * @param selfEmployedVo 个体户名字审核
+     * @return 个体户名字审核集合
+     */
+    @Override
+    public List<SelfEmployedVo> selectSelfNameReviewJoin(SelfEmployedVo selfEmployedVo) {
+        return selfNameReviewMapper.selectSelfNameReviewJoin(selfEmployedVo);
     }
 
     /**

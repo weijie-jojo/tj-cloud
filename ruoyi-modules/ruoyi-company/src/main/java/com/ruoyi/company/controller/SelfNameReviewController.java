@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.dto.DataDto;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,18 @@ public class SelfNameReviewController extends BaseController
         List<SelfNameReview> list = selfNameReviewService.selectSelfNameReviewList(selfNameReview);
         return getDataTable(list);
     }
-
+    /**
+     * 查询个体户名字审核列表(连表)
+     */
+    @ApiOperation("查询个体户名字审核列表(连表)")
+//    @RequiresPermissions("company:review:list")
+    @GetMapping("/joinList")
+    public TableDataInfo selectSelfNameReviewJoin(SelfEmployedVo selfEmployedVo)
+    {
+        startPage();
+        List<SelfEmployedVo> list = selfNameReviewService.selectSelfNameReviewJoin(selfEmployedVo);
+        return getDataTable(list);
+    }
     /**
      * 导出个体户名字审核列表
      */
