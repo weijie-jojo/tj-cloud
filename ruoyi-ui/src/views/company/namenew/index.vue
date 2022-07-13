@@ -1,10 +1,19 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="auto">
+     <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
+        <el-col :span="9">
+           <div class="bankno">审核结果</div>
+        
+        </el-col>
+        <el-col :span="8" >
+          <div></div>
+        </el-col>
+      </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户编号">
-            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号" :disabled="true" clearable></el-input>
+            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号"  :readonly="true" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
@@ -12,19 +21,19 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="冠名类型">
-            <el-input v-model="formData.titleType" placeholder="请输入行政区划" disabled></el-input>
+            <el-input v-model="formData.titleType" placeholder="请输入行政区划" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="行政区划">
-            <el-input v-model="formData.administrativeDivision" placeholder="请输入行政区划" disabled></el-input>
+            <el-input v-model="formData.administrativeDivision" placeholder="请输入行政区划" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业" prop="industry">
-            <el-input disabled v-model="formData.industry" placeholder="请输入行业" clearable></el-input>
+            <el-input :readonly="true" v-model="formData.industry" placeholder="请输入行业" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -40,12 +49,12 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="所在行政区划">
-            <el-input v-model="formData.administrativeRegion" placeholder="请输入所在行政区划" disabled></el-input>
+            <el-input v-model="formData.administrativeRegion" placeholder="请输入所在行政区划" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="登记机关">
-            <el-input v-model="formData.registrationAuthority" placeholder="请输入登记机关" disabled></el-input>
+            <el-input v-model="formData.registrationAuthority" placeholder="请输入登记机关" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -62,39 +71,67 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" prop="fontSize1">
-            <el-input v-model="formData.fontSize1" :disabled="isDisable" clearable>
+            <el-input v-model="formData.fontSize1" :readonly="true" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright">
-            <el-input v-model="formData.poposedName1" disabled></el-input>
+            <el-input v-model="formData.poposedName1" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" prop="fontSize2">
-            <el-input v-model="formData.fontSize2" :disabled="isDisable" clearable>
+            <el-input v-model="formData.fontSize2" :readonly="true" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright">
-            <el-input v-model="formData.poposedName2" disabled></el-input>
+            <el-input v-model="formData.poposedName2" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" prop="fontSize3">
-            <el-input v-model="formData.fontSize3" :disabled="isDisable" clearable>
+            <el-input v-model="formData.fontSize3" :readonly="true" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright">
-            <el-input v-model="formData.poposedName3" disabled></el-input>
+            <el-input v-model="formData.poposedName3" :readonly="true"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" prop="fontSize3">
+            <el-input v-model="formData.fontSize4" :readonly="true" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright">
+            <el-input v-model="formData.poposedName4" :readonly="true"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" prop="fontSize3">
+            <el-input v-model="formData.fontSize5" :readonly="true" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright">
+            <el-input v-model="formData.poposedName5" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,22 +140,36 @@
         <el-col :span="9">
           <el-form-item class="comright">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-            <el-radio v-model="isokradio" label="2">驳回 </el-radio>
+           
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="驳回理由">
-            <el-input v-model="remark" :disabled="isokradio == 1"></el-input>
+          <el-form-item class="comright">
+         
           </el-form-item>
         </el-col>
+      </el-row>
+
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4%;">
+          <div style="display: flex; align-items: center;">
+                <el-radio v-model="isokradio" label="2">不通过 </el-radio>
+             <el-input type="textarea" v-model="remark" :disabled="isokradio == 1"></el-input>
+          </div>
+            
+           
+          </el-form-item>
+        </el-col>
+       
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button v-if="isokradio == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
+          <el-button v-if="isokradio == 2" type="primary" @click="submitForm(2)">提交</el-button>
+          <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
         </el-col>
         <el-col :span="8"></el-col>
       </el-row>
@@ -278,6 +329,7 @@ export default {
       });
     },
     submitForm(type) {
+
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
@@ -295,22 +347,34 @@ export default {
             };
           }
           updateReview(parms).then((res) => {
+
+
+
             if (res != undefined) {
               if (res != undefined) {
                 if (res.code === 200) {
-                  if (type == 1) {
-                    this.$modal.msgSuccess("名称审核通过成功!");
+                     this.$nextTick(function () {
+                     this.$tab.refreshPage({ path: "/customer/manageName"}).then(() => {
+                     let resmsg='';
+                     if (type == 1) {
+                        resmsg='名称审核通过成功';
                   } else {
-                    this.$modal.msgSuccess("名称审核驳回成功!");
-                  }
+                        resmsg='名称审核不过成功';
+                     }
+                      let obj={
+                        title:'名称审核',
+                        backUrl:'/customer/manageName',
+                        resmsg:resmsg
 
-                  this.$nextTick(function () {
-                    this.$tab.refreshPage("/customer/employed").then(() => {
-                      this.$tab.openPage("注册进度", "/customer/employed");
+                      }
+                      this.$cache.local.setJSON('successNew', obj);
+                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
                     });
-                  });
+                   });
+
                 } else {
                   this.$modal.msgError(res.msg);
+                   this.$tab.closeOpenPage({ path: "/customer/manageName"});
                 }
               }
             }
@@ -358,5 +422,13 @@ export default {
   display: flex;
   justify-content: center;
 
+}
+.bankno {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 2px !important;
+  font-size: 20px !important;
+  color: blue !important;
+  margin-bottom: 10px !important;
 }
 </style>

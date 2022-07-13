@@ -65,7 +65,7 @@
       @pagination="getList" />
 
     <!-- 添加-->
-    <el-dialog :title="title" :visible.sync="addVisible" width="500px" append-to-body>
+    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="title" :visible.sync="addVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="rules" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">
@@ -141,15 +141,15 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="reset">重置</el-button>
+        <el-button type="primary" @click="submitForm">确认</el-button>
+        <el-button @click="cancelS(1)">取消</el-button>
       </div>
     </el-dialog>
 
 
 
     <!-- 编辑-->
-    <el-dialog :title="titles" :visible.sync="editVisible" width="500px" append-to-body>
+    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titles" :visible.sync="editVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="rules" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">
@@ -226,14 +226,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="confirmEdit">确 定</el-button>
-        <el-button @click="reset">重置</el-button>
+        <el-button @click="cancelS(2)">取消</el-button>
       </div>
     </el-dialog>
 
 
 
     <!-- 详情-->
-    <el-dialog :title="titleh" :visible.sync="checkVisible" width="500px" append-to-body>
+    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titleh" :visible.sync="checkVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">
@@ -541,7 +541,16 @@ export default {
       this.addVisible = false;
       this.reset();
     },
-
+    cancelS(type){
+      if(type==1){
+           this.addVisible = false;
+      }else if(type==2){
+           this.editVisible = false;
+      }else if(type==3){
+           this.checkVisible = false;
+      }
+      
+    },
     // 表单重置
     reset() {
       this.ruleForm.placeName = null;
@@ -925,6 +934,9 @@ export default {
 ::v-deep .is-disabled .el-input__inner {
   background-color: transparent !important;
   color: black;
+}
+::v-deep .el-dialog:not(.is-fullscreen){
+  margin-top: 1vh !important;
 }
 </style>
 

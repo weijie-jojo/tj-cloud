@@ -56,6 +56,7 @@
             >
             </el-date-picker> -->
             <el-date-picker
+              style="width:100%"
               v-model="formbusiness.businessTerm"
               type="date"
               placeholder="选择日期">
@@ -258,5 +259,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.flexs {
+  display: flex;
+  justify-content: center;
+
 }
 </style>

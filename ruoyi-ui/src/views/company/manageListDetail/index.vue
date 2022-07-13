@@ -1358,6 +1358,11 @@ export default {
   background-color: transparent !important;
   color: black;
 }
+// 改变input框字体颜色
+::v-deep textarea {
+  background-color: transparent !important;
+  color: black  !important;
+}
 
 .paddingbg-s {
   padding-top: 15px;

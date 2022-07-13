@@ -1,26 +1,27 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
-            label-width="auto">
+        <el-form :model="queryParams" ref="queryForm" size="small" v-show="showSearch" label-width="auto">
 
-           <el-row type="flex" class="row-bg rowCss combottom" style="padding-top;:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top;:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                       <el-input ></el-input>
+                        <el-input disabled v-model="publicList.projectCode"></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="项目金额" prop="projectName">
-                      <el-input ></el-input>
+                    <el-form-item class="comright" label="项目金额">
+                        <el-input disabled v-model="publicList.projectTotalAmount"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="已开金额" prop="createTime">
-                      <el-input ></el-input>
+                    <el-form-item class="comright" label="已开金额">
+                        <el-input-number disabled style="width:100%" v-model="issuedAmount" :precision="2" :step="0.00">
+                        </el-input-number>
                     </el-form-item>
-                    <el-form-item class="comright" label="剩余金额" prop="projectTotalAmount">
-                        <el-input ></el-input>
+                    <el-form-item class="comright" label="剩余金额">
+                        <el-input-number disabled style="width:100%" v-model="balance" :precision="2" :step="0.00">
+                        </el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -28,26 +29,35 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="发票类型" prop="">
-                       <el-input ></el-input>
+                    <el-form-item class="comright" label="发票类型">
+                        <el-input></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="发票税率" prop="purchCompany">
-                        <!-- <el-select  clearable v-model="formData.purchCompany">
-                          <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                        </el-select> -->
-                       <el-input ></el-input>
+                    <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
+
+                        <el-input disabled type="textarea" :rows="2" v-model="publicList.fileName">
+                        </el-input>
                     </el-form-item>
+                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+                        <div v-for="(item, index) in publicList.fileName" :key="index">
+                            <el-image lazy :preview-src-list="fileName2" style="width: 150px; height: 150px"
+                                :src="baseImgPath + item" alt="" />
+                        </div>
+
+                    </el-form-item>
+
+
+
                 </el-col>
 
                 <el-col :span="9">
+                    <el-form-item class="comright" label="发票税率">
 
-                    <el-form-item class="comright" label="开票内容" prop="isokradio">
-                         <el-input ></el-input>
+                        <el-input></el-input>
                     </el-form-item>
+
                     <el-form-item class="comright" label="发票备注">
-                        <el-input ></el-input>
+                        <el-input disabled v-model="publicList.projectDesc"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -84,7 +94,7 @@
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+                <el-button v-if="balance>0" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
             <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
@@ -103,7 +113,7 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="发票种类编号" align="center" prop="projectCode" :show-overflow-tooltip="true" />
+            <el-table-column label="发票种类编号" align="center" prop="ticketTypeCode" :show-overflow-tooltip="true" />
             <el-table-column label="发票编号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
             <el-table-column label="发票时间" align="center" prop="ticketTime" width="180" />
             <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true" />
@@ -119,10 +129,15 @@
 
 <script>
 import qs from 'qs';
-import { list,del} from "@/api/project/ticket";
+import { list, del } from "@/api/project/ticket";
 export default {
     data() {
         return {
+            baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+            fileNameradio:'1',
+            fileName2:[],
+            issuedAmount: 0.00,//已开金额
+            balance: 0.00,//剩余金额
             // 遮罩层
             loading: true,
             // 选中数组
@@ -146,12 +161,10 @@ export default {
 
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
-                projectTimeStart:null, //开始
-                projectTimeEnd:null,   //结束
-                projectStatus: null, //项目状态
+                projectCode: ''
             },
-            projectTime:[],
+            publicList: '',
+            projectTime: [],
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -202,17 +215,53 @@ export default {
         };
     },
     mounted() {
-        this.getList();
+        let params = {
+            projectCode: '',
+            projectTotalAmount: '',
+            projectDesc: '',
+            fileName: '',
+        }
+        this.publicList = this.$cache.local.getJSON('publicTickets') ? this.$cache.local.getJSON('publicTickets') : params;
+        this.queryParams = {
+            pageNum: 1,
+            pageSize: 10,
+            projectCode: this.publicList.projectCode
+        },
+
+         this.publicList.fileName=JSON.parse(this.publicList.fileName);
+                    if(Array.isArray(this.publicList.fileName) ){
+                          this.fileNameradio='2';
+                          //如果是图片的话
+                         for(let j in this.publicList.fileName){
+                            this.fileName2.push( this.baseImgPath+this.publicList.fileName[j]);
+                          }
+                    
+                    }else{
+                         this.fileNameradio='1';
+                    }
+
+            this.getList();
     },
     methods: {
 
         /** 查询项目列表 */
         getList() {
             this.loading = true;
-           
+
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
+                
+                if (this.total == 0) {
+                    this.issuedAmount = 0.00,//已开金额
+                        this.balance = this.publicList.projectTotalAmount * 1;//剩余金额
+                } else {
+                    this.issuedAmount = 0;
+                    for (let i in this.projectList) {
+                        this.issuedAmount += this.projectList[i].ticketAmount * 1;
+                    }
+                    this.balance = this.publicList.projectTotalAmount * 1 - this.issuedAmount * 1;
+                }
                 this.loading = false;
             });
 
@@ -293,56 +342,32 @@ export default {
 
         /** 搜索按钮操作 */
         handleQuery() {
-          
+
             this.queryParams.pageNum = 1;
             this.getList();
         },
         /** 重置按钮操作 */
         resetQuery() {
-            
+
             this.resetForm("queryForm");
-            this.queryParams={
+            this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
-                projectTimeStart:null, //开始
-                projectTimeEnd:null,   //结束
-                projectStatus: null, //项目状态
+                projectCode: this.publicList.projectCode
             }
             this.handleQuery();
         },
-        
+
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map((item) => item.selfId);
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
-        //工商管理
-        business(row) {
-            this.$cache.local.setJSON("employednewlist", row);
-            this.$router.push("addBusiness");
-        },
-        //税务管理
-        atx(row) {
-            if (row.businessStatus == 0) {
-                this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
-            } else {
-                this.$cache.local.setJSON("employednewlist", row);
-                this.$router.push("addTax");
-            }
-        },
-        bank(row) {
-            if (row.taxStatus == 0) {
-                this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-            } else {
-                this.$cache.local.setJSON("employednewlist", row);
-                this.$router.push("addBank");
-            }
-        },
+
         /** 新增按钮操作 */
         handleAdd() {
-           this.$router.push('addTicket');
+            this.$router.push('addTicket');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {

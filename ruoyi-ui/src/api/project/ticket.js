@@ -31,7 +31,7 @@ export function getcode(){
 export function del(ticketIds) {
   return request({
     url: 'project/ticket/'+ticketIds,
-    method: 'delete',
+    method: 'put',
  })
 }
 

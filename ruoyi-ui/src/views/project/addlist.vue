@@ -64,13 +64,13 @@
                         <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true" />
                     </el-form-item>
 
-                    <!-- <el-form-item class="comright" label="发票类型" prop="ticketType">
+                    <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item> -->
+                    </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
@@ -79,7 +79,7 @@
                     </el-form-item>
                  
                  
-                 <!-- <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
+                 <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
                         <el-input v-model="formData.ticketTax" disabled></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
@@ -88,7 +88,7 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                     </el-form-item> -->
+                     </el-form-item>
                 </el-col>
             </el-row>
 
@@ -159,7 +159,15 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
+            
+            
+              <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                    <el-form-item style="padding-right:4%" label="项目行业类型" prop="projectTrades">
+                     <treeselect v-model="formData.projectTrades" :options="projectTradeS" :show-count="true" />
+                   </el-form-item>
+                </el-col>
+            </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
@@ -202,6 +210,8 @@ export default {
     components: { Treeselect },
     data() {
         return {
+            projectTradeS:'',  //项目行业类型
+            projectTradeSList:'',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -226,7 +236,7 @@ export default {
                 projectDesc: '',//开票描述
                 purchCompanyTaxid: '',//甲方纳税人识别号
                 ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
+                ticketType: '',  //发票类型  0 普通 1 专用
                 // checkContent: "",
                 // createBy: "",
                 // createTime: "",
@@ -251,6 +261,7 @@ export default {
                 projectTimeStart: "",
                 projectTotalAmount: 0,
                 projectTrade: "",
+                projectTrades:'',
                 purchCompany: "",
                 remark: "",
                 industryType: '',
@@ -339,6 +350,14 @@ export default {
                         trigger: "change",
                     },
                 ],
+                projectTrades:[
+                
+                 {
+                        required: true,
+                        message: "请选择项目行业类型",
+                        trigger: "change",
+                 },
+                ],
                 placeCode: [
                     {
                         required: true,
@@ -401,6 +420,7 @@ export default {
     },
     watch: {
         'formData.industryType': 'selectIndustryType',
+        'formData.projectTrades': 'selectInType',
     },
     mounted() {
         this.gettoday();
@@ -480,8 +500,8 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = 10;
-                this.username = '豆红臣';
+                this.userId = res.user.userId;
+                this.username = res.user.userName;
                 this.formData.projectLeader = res.user.nickName;
                 getinfoByUserId({ userId: this.userId }).then(res => {
                     this.placeCodeOptions = res.data;
@@ -498,6 +518,8 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
+                this.projectTradeS=tree;
+                this.projectTradeSList = res.rows;
             })
         },
         //把数据整成树状
@@ -514,14 +536,14 @@ export default {
                 }
             }
         },
-        //监听行业类型
+        //监听乙方行业类型
         selectIndustryType() {
             console.log("industryType==", this.formData.industryType);
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
             console.log("rate==", rate);
             this.industryId = rate.industryId;  //行业类型id
             this.owerTaxfee = rate.taxRate;
-            this.formData.projectTrade = rate.industryName;//所属行业
+            //this.formData.projectTrade = rate.industryName;//所属行业
             let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
@@ -531,6 +553,12 @@ export default {
             });
            
         },
+           //监听行业类型
+        selectInType() {
+           var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
+            this.formData.projectTrade = rate.industryName;//所属行业
+            console.log(this.formData.projectTrade);
+         },
 
         //监听开票内容类型
         tickettaxvip(e) {
@@ -539,6 +567,7 @@ export default {
                 this.tickettaxvipok = true;
                 this.formData.ticketTax = 3;
             } else {
+                
                 this.tickettaxvipok = false;
 
             }
