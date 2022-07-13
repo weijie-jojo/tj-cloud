@@ -94,23 +94,23 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型">
-                       <el-input v-model="formData.projectTrade"></el-input>
+                         <treeselect  disabled   v-model="formData.industryType" :options="industryTypes" :show-count="true" />
                     </el-form-item>
-
-                    <!-- <el-form-item class="comright" label="发票类型" prop="ticketType">
+ 
+                    <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select disabled style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item> -->
+                    </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业税率">
                         <el-input disabled v-model="formData.industryTax"></el-input>
                     </el-form-item>
-                    <!-- <el-form-item v-if="tickettaxvipok" label="发票税率">
+                    <el-form-item v-if="tickettaxvipok" label="发票税率">
                         <el-input v-model="formData.ticketTax" disabled></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率">
@@ -122,7 +122,7 @@
                             </el-option>
                         </el-select>
 
-                    </el-form-item> -->
+                    </el-form-item>
                 </el-col>
             </el-row>
 
@@ -164,7 +164,14 @@
                 </el-col>
             </el-row>
 
-
+              <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                    <el-form-item style="padding-right:4%" label="项目行业类型">
+                        <el-input disabled  placeholder="请输入乙方经营范围" v-model="formData.projectTrade">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
@@ -187,12 +194,16 @@
 </template>
 <script>
 import qs from 'qs';
+import crudRate from '@/api/company/rate'
 import {getcode,getinfoByUserId,detail } from "@/api/project/list";
 import {getInfo} from '@/api/login' 
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
+      components: { Treeselect },
     data() {
         return {
-            
+            industryTypes:'',
             username:"",
             userId: '',
             fileName2: [],
@@ -295,7 +306,7 @@ export default {
 
     mounted() {
         this.getlist();
-       // this.getRate();
+        this.getRate();
         this.getinfoByUserId(); //渠道商
     },
 
@@ -433,6 +444,11 @@ export default {
     color: black;
 }
 
+// 改变input框字体颜色
+::v-deep textarea {
+  background-color: transparent !important;
+  color: black  !important;
+}
 .paddingbg-s {
     padding-top: 15px;
 }

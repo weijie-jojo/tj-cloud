@@ -49,8 +49,12 @@
 
                 <el-col :span="9">
                    <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                        <el-radio v-model="isokradio" disabled label="0">正常</el-radio>
-                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio>
+                      <el-input disabled v-if="isokradio==0" value="正常"></el-input>
+                      <el-input disabled v-if="isokradio==1" value="欠费"></el-input>
+                      <el-input disabled v-if="isokradio==2" value="冻结"></el-input>
+                        <!-- <el-radio v-model="isokradio" disabled label="0">正常</el-radio>
+                        <el-radio v-model="isokradio" disabled label="1">欠费 </el-radio>
+                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio> -->
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
                         <el-input v-model="formData.purchCompanyTaxid"></el-input>
@@ -60,9 +64,11 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业类型" prop="industryType">
-                        <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true" />
+                    <el-form-item  class="comright" label="乙方行业类型" prop="industryType">
+                        <treeselect  v-model="formData.industryType" :options="industryTypes" :show-count="true" />
                     </el-form-item>
+
+                 
 
                     <!-- <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
@@ -160,6 +166,13 @@
                 </el-col>
             </el-row>
 
+                <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                   <el-form-item style="padding-right:4%"  class="comright" label="项目行业类型" prop="projectTrades">
+                     <treeselect  v-model="formData.projectTrades" :options="projectTradeS" :show-count="true" />
+                             </el-form-item>
+                      </el-col>
+            </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
@@ -202,12 +215,18 @@ export default {
     components: { Treeselect },
     data() {
         return {
+            projectTradeS:'',  //项目行业类型
+            projectTradeSList:'',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
             industryId: '',
             industryTypes: [],
             industryTypeList: [],
+               
+            industryTypes1: [],
+            industryTypeList1: [],   
+
             fileName: [],
             fileNamefile: [],//附件
             dialogVisible1: false,
@@ -332,6 +351,14 @@ export default {
                         trigger: "change",
                     },
                 ],
+                 projectTrades:[
+                
+                 {
+                        required: true,
+                        message: "请选择项目行业类型",
+                        trigger: "change",
+                 },
+                ],
                 industryType: [
                     {
                         required: true,
@@ -402,17 +429,14 @@ export default {
     },
     watch: {
         'formData.industryType': 'selectIndustryType',
+        'formData.projectTrades': 'selectInType',
     },
     
     mounted() {
-           // this.$tab.openPage("项目列表", "/project/list");
         this.getRate();
         this.getinfoByUserId(); //渠道商
         this.getlist();
-        //this.gettoday();
-       
-
-    },
+      },
 
 
     methods: {
@@ -420,30 +444,13 @@ export default {
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
-             //this.projectList = response.rows;
-                 this.formData=response.data[0];
-           
-           
-             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-            this.formData.projectTrade = rate.industryName;//所属行业
-            let industryType = rate.industryId;
-           ownlist({ username: this.username, industryType: this.formData.industryType }).then(res => {
-                this.ownoptions = res;
-                   for(let i in this.ownoptions){
-                   if(this.ownoptions[i].selfCode==this.formData.projectOwner){
-                            this.owerTax = this.ownoptions[i].taxId;
-                       }
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-
-           this.isokradio=JSON.stringify(this.formData.placeStatus);
-               //  this.formData.placeStatus=parseInt(this.formData.placeStatus);
-                 if(this.formData.fileName){
+            this.formData=response.data[0];
+            this.formData.projectTrades = '';
+             var rate = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
+            // this.formData.projectTrade = rate.industryName;//所属行业
+            this.formData.projectTrades=rate.industryId;
+            this.isokradio=JSON.stringify(this.formData.placeStatus);
+             if(this.formData.fileName){
                     this.formData.fileName=JSON.parse(this.formData.fileName);
                     if(Array.isArray(this.formData.fileName) ){
                           this.fileNameradio='2';
@@ -455,16 +462,8 @@ export default {
 
                              })
                           }
-                         
-                        
-
-
-
-
-
-
                     }else{
-                         this.fileNameradio='1';
+                      this.fileNameradio='1';
                     }
                     
                  }else{
@@ -547,8 +546,8 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = 10;
-                this.username = '豆红臣';
+                this.userId = res.user.userId;
+                this.username = res.user.nickName;
                 this.formData.projectLeader = res.user.nickName;
                 getinfoByUserId({ userId: this.userId }).then(res => {
                     this.placeCodeOptions = res.data;
@@ -565,6 +564,9 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
+
+                this.projectTradeS=tree;
+                this.projectTradeSList = res.rows;
             })
         },
         //把数据整成树状
@@ -588,7 +590,7 @@ export default {
             console.log("rate==", rate);
             this.industryId = rate.industryId;  //行业类型id
             this.owerTaxfee = rate.taxRate;
-            this.formData.projectTrade = rate.industryName;//所属行业
+          //  this.formData.projectTrade = rate.industryName;//所属行业
             let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
@@ -598,7 +600,12 @@ export default {
             });
            
         },
-
+         //监听项目行业类型
+        selectInType() {
+           var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
+            this.formData.projectTrade = rate.industryName;//所属行业
+            console.log(this.formData.projectTrade);
+         },
         //监听开票内容类型
         tickettaxvip(e) {
             console.log(e);
@@ -691,13 +698,20 @@ export default {
 .rowCss {
     margin-top: 10px;
 }
-
-// 改变input框字体颜色
-::v-deep .is-disabled .el-input__inner {
-    background-color: transparent !important;
-    color: black;
-}
-
+// ::v-deep .is-disabled{
+//     background-color: #F5F7FA !important;
+//     border-color: black !important;
+// }
+// // 改变input框字体颜色
+// ::v-deep .el-input__inner {
+//     background-color: transparent !important;
+//    color: black  !important;
+// }
+// // 改变input框字体颜色
+// ::v-deep .el-textarea.is-disabled .el-textarea__inner {
+//   background-color: transparent !important;
+//   color: black  !important;
+// }
 .paddingbg-s {
     padding-top: 15px;
 }

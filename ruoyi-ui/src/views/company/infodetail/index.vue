@@ -3,7 +3,7 @@
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="auto">
       <el-row type="flex" class="row-bg rowCss" style="margin-top:20px" justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">审核信息</div>
+          <div class="bankno" style="width:35%">申请信息</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -95,7 +95,7 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">申请信息</div>
+          <div class="bankno" style="width:35%">基本情况</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -909,7 +909,11 @@ export default {
   background-color: transparent !important;
   color: black;
 }
-
+// 改变input框字体颜色
+::v-deep textarea {
+  background-color: transparent !important;
+  color: black  !important;
+}
 .paddingbg-s {
   padding-top: 15px;
 }

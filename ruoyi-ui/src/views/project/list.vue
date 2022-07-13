@@ -7,11 +7,13 @@
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item label="项目开始时间">
-              
-                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeStart" type="datetime" placeholder="选择日期时间"></el-date-picker>
+
+                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeStart"
+                    type="datetime" placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
-             <el-form-item label="项目结束时间">
-                 <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeEnd" type="datetime" placeholder="选择日期时间"></el-date-picker>
+            <el-form-item label="项目结束时间">
+                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeEnd" type="datetime"
+                    placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
             <el-form-item label="项目状态">
                 <el-select clearable v-model="queryParams.projectStatus" placeholder="请选择项目状态">
@@ -29,7 +31,7 @@
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
-        
+
             <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['company:employed:add']">新增</el-button>
@@ -74,7 +76,7 @@
 
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" v-if="scope.row.projectTicketStatus == '0'"
-                        @click="shenloading2(scope.row)">进行中</el-link>
+                        @click="tickets(scope.row)">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)"
                         v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
                     <el-link @click="newisok(scope.row)" :underline="false" type="success"
@@ -162,7 +164,7 @@
 
 <script>
 import qs from 'qs';
-import { list,del} from "@/api/project/list";
+import { list, del } from "@/api/project/list";
 export default {
     data() {
         return {
@@ -190,11 +192,11 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
                 projectOwner: null,  //乙方
-                projectTimeStart:null, //开始
-                projectTimeEnd:null,   //结束
+                projectTimeStart: null, //开始
+                projectTimeEnd: null,   //结束
                 projectStatus: null, //项目状态
             },
-            projectTime:[],
+            projectTime: [],
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -248,11 +250,24 @@ export default {
         this.getList();
     },
     methods: {
+        //跳转票据列表页
+        tickets(row) {
+            this.$confirm("审核中,请耐心等待...", "审核说明", {
+                confirmButtonText: '查看票据',
+                cancelButtonText: '确定',
+                type: 'warning'
+            }).then(() => {
+                this.$cache.local.setJSON('publicTickets', row);
+                this.$router.push('ticketlist');
+            }).catch(() => {
 
+            });
+
+        },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
-           
+
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
@@ -336,35 +351,35 @@ export default {
 
         /** 搜索按钮操作 */
         handleQuery() {
-          
+
             this.queryParams.pageNum = 1;
             this.getList();
         },
         /** 重置按钮操作 */
         resetQuery() {
-            
+
             this.resetForm("queryForm");
-            this.queryParams={
+            this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
                 projectOwner: null,  //乙方
-                projectTimeStart:null, //开始
-                projectTimeEnd:null,   //结束
+                projectTimeStart: null, //开始
+                projectTimeEnd: null,   //结束
                 projectStatus: null, //项目状态
             }
             this.handleQuery();
         },
-        
+
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map((item) => item.selfId);
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
-        
+
         /** 新增按钮操作 */
         handleAdd() {
-           this.$router.push('addlist');
+            this.$router.push('addlist');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {

@@ -9,6 +9,15 @@ export function listReview(query) {
   })
 }
 
+// 查询个体户名字审核列表(连表)
+export function reviewjoinList(query) {
+  return request({
+    url: '/company/review/joinList',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询个体户名字审核详细
 export function getReview(selfId) {
   return request({
