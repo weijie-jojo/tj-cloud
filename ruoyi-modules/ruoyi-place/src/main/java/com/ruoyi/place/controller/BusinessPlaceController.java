@@ -55,7 +55,7 @@ public class BusinessPlaceController {
     public HashMap<String, Object> getByPage(BusinessPlace businessPlace, PageQo pageQo, String status){
 //        pageQo.setPage(pageQo.getPage()+1);
         System.out.println("pageQo=="+pageQo);
-        businessPlace.setUserName(SecurityUtils.getUsername());
+        businessPlace.setUserId(SecurityUtils.getUserId());
         IPage<PlaceVo> placeVos = iBusinessPlaceService.selectByPage(businessPlace,pageQo,status);
         HashMap<String, Object> datasMap=new HashMap<String, Object>();
         datasMap.put("content", placeVos.getRecords());

@@ -106,7 +106,7 @@ public class BusinessPlace implements Serializable{
      * 归属业务员
      */
     @TableField("user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 是否删除(0:正常 1:删除)

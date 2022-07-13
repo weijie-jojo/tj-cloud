@@ -4,9 +4,9 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="业务经理" prop="userName">
+      <!-- <el-form-item label="业务经理" prop="userName">
         <el-input v-model="queryParams.userName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="状态" prop="status">
         <el-select clearable v-model="queryParams.status" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -85,9 +85,11 @@
             <el-input v-model="ruleForm.placeTel" />
           </el-form-item>
           <el-form-item label="业务经理">
-            <el-select v-model="ruleForm.userId" placeholder="业务经理" class="filter-item" @change="selectUser" style="">
+            <el-input v-model="ruleForm.userName" disabled></el-input>
+            <!-- {{ruleForm.userName}} -->
+            <!-- <el-select v-model="ruleForm.userId" placeholder="业务经理" class="filter-item" @change="selectUser" style="">
               <el-option v-for="item in userLeaders" :key="item.userId" :label="item.nickName" :value="item.userId" />
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-card>
         <!-- 卡2 -->
@@ -167,10 +169,11 @@
             <el-input v-model="ruleForm.editPlaceTel" />
           </el-form-item>
           <el-form-item label="业务经理" prop="editUserId">
-            <el-select clearable v-model="ruleForm.editUserId" placeholder="业务经理" class="filter-item"
+            <el-input v-model="ruleForm.userName" disabled></el-input>
+            <!-- <el-select clearable v-model="ruleForm.editUserId" placeholder="业务经理" class="filter-item"
               @change="selectUser" style="">
               <el-option v-for="item in userLeaders" :key="item.userId" :label="item.nickName" :value="item.userId" />
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-card>
         <!-- 卡2 -->
@@ -339,7 +342,8 @@ var numCheck = (rule, value, callback) => {
 };
 import crudPlace from "@/api/place/place";
 import agencyfee from "@/api/place/agencyfee";
-import { getAllUser } from '@/api/system/user';
+import { getAllUser} from '@/api/system/user';
+import { getInfo} from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
@@ -498,11 +502,19 @@ export default {
     this.$http.get('/getUsers').then(res=>{
          console.log(res);
     });
+
   },
   mounted() {
     this.getList();
     this.getAllUser();
     this.getPlaceCode();
+    //获取登录用户
+    getInfo().then(res=>{
+      this.ruleForm.userName=res.user.userName;
+      this.ruleForm.editUserName=res.user.userName;
+      this.ruleForm.userId=res.user.userId;
+      console.log("getInfo",this.ruleForm.userName);
+    })
   },
 
   methods: {
@@ -573,6 +585,13 @@ export default {
 
       this.addVisible = true;
       this.title = "新增渠道管理";
+      //获取登录用户
+      getInfo().then(res=>{
+        this.ruleForm.userName=res.user.userName;
+        this.ruleForm.editUserName=res.user.userName;
+        this.ruleForm.userId=res.user.userId;
+        console.log("getInfo",this.ruleForm.userName);
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(item) {
@@ -628,7 +647,6 @@ export default {
     detail(item) {
       this.titleh = '渠道管理详情';
       this.checkVisible = true;
-
       this.ruleForm.placeCode = item.placeCode;
       this.ruleForm.placeName = item.placeName;
       this.ruleForm.placeLinkman = item.placeLinkman;
@@ -721,10 +739,12 @@ export default {
     //获取所有用户
     getAllUser() {
       getAllUser().then(res => {
-
         this.userLeaders = res;
+        console.log("getAllUser",res)
       })
     },
+
+
     selectUser(value) {
       console.log(value);
       // this.ruleForm.userName='测试啊';
@@ -780,7 +800,7 @@ export default {
             }
           });
           this.addVisible = false;
-          // this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+          this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
           this.$tab.refreshPage();
         }
         else {
