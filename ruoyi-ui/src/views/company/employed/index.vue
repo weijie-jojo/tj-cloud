@@ -40,9 +40,8 @@
        <el-table-column label="法人姓名"  align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
        <el-table-column label="个体名称"  align="center" prop="selfName" :show-overflow-tooltip="true" />
        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-       <el-table-column label="渠道商"   align="center"  prop="placeName" :show-overflow-tooltip="true" />
+       <el-table-column width="400" label="渠道商"   align="center"  prop="placeName"  />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-       <el-table-column label="完结时间" align="center" prop="endTime" width="180"  />
        <el-table-column label="完结状态" align="center" prop="endStatus">
       <template slot-scope="scope">
           <el-link :underline="false" type="danger" v-if="scope.row.endStatus == '0'">未完结</el-link>
@@ -69,20 +68,30 @@
       <el-table-column label="工商办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2 " >未开始</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2  " >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link>
-          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.businessStatus=='1'" >已通过</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
+          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1" >已通过</el-link>
+ 
+        </template>
+      </el-table-column>
+        <el-table-column label="实名办理" align="center">
+
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 ||scope.row.businessStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.realnameStatus==0" >审核中</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
+          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.realnameStatus==1" >已通过</el-link>
  
         </template>
       </el-table-column>
       <el-table-column label="税务办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.taxStatus == 0">审核中</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)" v-if="scope.row.taxStatus == '2'">异常</el-link>
-          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.taxStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 ||scope.row.businessStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == 0">审核中</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)" v-if="scope.row.taxStatus == '2'">异常</el-link> -->
+          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == '1'">已通过</el-link>
 
         </template>
       </el-table-column>
@@ -91,24 +100,12 @@
         <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.businessStatus==0  || scope.row.nameStatus==2 || scope.row.infoStatus==2" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.businessStatus==1 && scope.row.bankStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)" v-if="scope.row.bankStatus == '2'">异常</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)" v-if="scope.row.bankStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.bankStatus == '1' && scope.row.businessStatus==1">已通过</el-link>
         </template>
 
       </el-table-column>
-      <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width"> -->
-        <!-- <template slot-scope="scope"> -->
-          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">工商管理</el-button>
-
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="atx(scope.row)">税务管理</el-button> -->
-
-
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button> -->
-        <!-- </template> -->
-      <!-- </el-table-column> -->
+      
     </el-table>
 
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"

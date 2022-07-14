@@ -117,12 +117,18 @@ export default {
             .then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
-                  this.$modal.msgSuccess("修改成功");
                   this.$nextTick(function () {
-                    this.$tab.refreshPage("/customer/manageTax").then(() => {
-                      this.$tab.openPage("税务办理", "/customer/manageTax");
+                     this.$tab.refreshPage({ path: "/customer/manageTax"}).then(() => {
+                     let  resmsg='办理税务成功';
+                     let obj={
+                        title:'税务办理',
+                        backUrl:'/customer/manageTax',
+                        resmsg:resmsg
+                        };
+                      this.$cache.local.setJSON('successNew', obj);
+                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
                     });
-                  });
+                   });
                 } else {
                   this.$modal.msgError(res.msg);
                 }

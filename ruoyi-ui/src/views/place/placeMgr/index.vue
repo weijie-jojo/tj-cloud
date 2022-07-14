@@ -160,13 +160,13 @@
             <el-input v-model="ruleForm.editPlaceCode" disabled />
           </el-form-item>
           <el-form-item label="渠道商名称" prop="editPlaceName">
-            <el-input v-model="ruleForm.editPlaceName" />
+            <el-input v-model="ruleForm.editPlaceName" :disabled="confirmEditStatus" />
           </el-form-item>
           <el-form-item label="联系人" prop="editPlaceLinkman">
-            <el-input v-model="ruleForm.editPlaceLinkman" />
+            <el-input v-model="ruleForm.editPlaceLinkman" :disabled="confirmEditStatus" />
           </el-form-item>
           <el-form-item label="联系方式" prop="editPlaceTel">
-            <el-input v-model="ruleForm.editPlaceTel" />
+            <el-input v-model="ruleForm.editPlaceTel" :disabled="confirmEditStatus" />
           </el-form-item>
           <el-form-item label="业务经理" prop="editUserId">
             <el-input v-model="ruleForm.userName" disabled></el-input>
@@ -182,23 +182,29 @@
             <span>增值税专用发票</span>
           </div>
           <el-form-item label="6%专票平台服务费" prop="editSpecialInvoice6">
-            <el-input-number v-model.number="ruleForm.editSpecialInvoice6" @change="handleChange" :step="0.01"
+            <el-input-number
+            :disabled="confirmEditStatus"
+            v-model.number="ruleForm.editSpecialInvoice6" @change="handleChange" :step="0.01"
               :precision="2" :min="0" :max="6"></el-input-number> (%)
           </el-form-item>
           <el-form-item label="13%专票平台服务费" prop="editSpecialInvoice13">
-            <el-input-number v-model.number="ruleForm.editSpecialInvoice13" @change="handleChange" :step="0.01"
+            <el-input-number
+            :disabled="confirmEditStatus"
+            v-model.number="ruleForm.editSpecialInvoice13" @change="handleChange" :step="0.01"
               :precision="2" :min="0" :max="13"></el-input-number> (%)
           </el-form-item>
           <el-form-item label="专票个体户代办费" prop="editSpecialSelfFee">
-            <el-input-number v-model.number="ruleForm.editSpecialSelfFee" @change="handleChange" :step="0.1"
+            <el-input-number
+            :disabled="confirmEditStatus"
+            v-model.number="ruleForm.editSpecialSelfFee" @change="handleChange" :step="0.1"
               :precision="1" :min="0" :max="9999" style="width: 200px;margin-right: 10px;"></el-input-number>元
             <!-- <el-input 
                 v-model="ruleForm.specialSelfFee" 
                 style="width: 200px;" /> -->
           </el-form-item>
           <el-form-item label="服务费含税" prop="editIsSpecialTax">
-            <el-radio v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
           </el-form-item>
         </el-card>
         <!-- 卡3 -->
@@ -207,25 +213,30 @@
             <span>增值税普通发票</span>
           </div>
           <el-form-item label="普票个体户代办费" prop="editOrdinarySelfFee">
-            <el-input-number v-model.number="ruleForm.editOrdinarySelfFee" @change="handleChange" :step="0.1"
+            <el-input-number
+            :disabled="confirmEditStatus"
+            v-model.number="ruleForm.editOrdinarySelfFee" @change="handleChange" :step="0.1"
               :precision="1" :min="0" :max="9999" style=""></el-input-number>元
             <!-- <el-input 
                 v-model="ruleForm.ordinarySelfFee" 
                 style="width: 130px;" /> -->
           </el-form-item>
           <el-form-item label="平台服务费(%)" prop="editOrdinaryProxyFee">
-            <el-input-number v-model.number="ruleForm.editOrdinaryProxyFee" @change="handleChange" :step="0.01"
+            <el-input-number
+            :disabled="confirmEditStatus"
+            v-model.number="ruleForm.editOrdinaryProxyFee" @change="handleChange" :step="0.01"
               :precision="2" :min="0" :max="13"></el-input-number>
           </el-form-item>
           <el-form-item label="服务费含税" prop="editIsOrdinaryTax">
-            <el-radio v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
         </el-card>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button type="primary" @click="confirmEdits" v-if="confirmEditStatus">编辑</el-button>
+        <el-button type="primary" @click="confirmEdit" v-else>确 认</el-button>
         <el-button @click="cancelS(2)">取消</el-button>
       </div>
     </el-dialog>
@@ -280,8 +291,8 @@
                 style="width: 200px;" /> -->
           </el-form-item>
           <el-form-item label="服务费含税" prop="isSpecialTax">
-            <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
           </el-form-item>
         </el-card>
         <!-- 卡3 -->
@@ -301,8 +312,8 @@
               :precision="2" :min="0" :max="13"></el-input-number>
           </el-form-item>
           <el-form-item label="服务费含税" prop="isOrdinaryTax">
-            <el-radio v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
+            <el-radio disabled  v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
+            <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
         </el-card>
 
@@ -351,6 +362,7 @@ export default {
 
   data() {
     return {
+      confirmEditStatus:true, //编辑页面编辑按钮
       tabelData: [],
       editVisible: false,
       multipleSelection: [],
@@ -541,6 +553,7 @@ export default {
       this.addVisible = false;
       this.reset();
     },
+    //取消按钮新
     cancelS(type){
       if(type==1){
            this.addVisible = false;
@@ -605,6 +618,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(item) {
       this.editVisible = true;
+      this.confirmEditStatus=true;// 开启编辑保护
       this.titles = "编辑渠道管理";
       var placeCode = item.placeCode;
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
@@ -820,6 +834,10 @@ export default {
           return false;
         }
       });
+    },
+    //编辑状态
+    confirmEdits(){
+       this.confirmEditStatus=false;
     },
     //修改提交
     confirmEdit() {

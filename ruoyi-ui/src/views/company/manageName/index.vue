@@ -155,7 +155,10 @@ export default {
     bank(row) {
 
       this.$cache.local.setJSON('employedName', row);
-      this.$router.push("/customer/namenew");
+      
+       this.$tab.closeOpenPage({ path: "/customer/namenew"});
+      
+      // this.$router.push("namenew");
 
 
     },

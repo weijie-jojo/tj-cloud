@@ -9,7 +9,7 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input v-model="formbusiness.selfName"></el-input>
+            <el-input v-model="formbusiness.selfName" placeholder="请输入个体户名称"></el-input>
           </el-form-item>
 
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input v-model="formbusiness.taxId"></el-input>
+            <el-input v-model="formbusiness.taxId" placeholder="请输入纳税人识别号"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="注册时间" prop="businessTerm">
             <!-- <el-date-picker
@@ -196,22 +196,24 @@ export default {
             .then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
-                  this.$modal.msgSuccess("修改成功");
                   this.$nextTick(function () {
-                    //  this.$tab.openPage("工商办理", "manageBusiness").then(() => {
-                    // })
-                    // this.$router.push({ path: "/customer/manageBusiness" });
-                    this.$tab
-                      .refreshPage("/customer/manageBusiness")
-                      .then(() => {
-                        this.$tab.openPage(
-                          "工商办理",
-                          "/customer/manageBusiness"
-                        );
-                      });
-                  });
+                     this.$tab.refreshPage({ path: "/customer/manageBusiness"}).then(() => {
+                     let  resmsg='办理工商成功';
+                     let obj={
+                        title:'工商办理',
+                        backUrl:'/customer/manageBusiness',
+                        resmsg:resmsg
+                        };
+                      this.$cache.local.setJSON('successNew', obj);
+                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                    });
+                   });
+
+
+                  
                 } else {
                   this.$modal.msgError(error);
+                   this.$tab.closeOpenPage({ path: "/customer/manageBusiness"});
                 }
               }
             })
