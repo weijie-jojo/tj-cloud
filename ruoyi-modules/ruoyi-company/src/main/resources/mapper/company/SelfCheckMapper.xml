@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfCheckMapper">
+
+    <resultMap type="com.ruoyi.company.domain.SelfCheck" id="SelfCheckResult">
+        <result property="id"    column="id"    />
+        <result property="checkDate"    column="check_date"    />
+        <result property="checkUser"    column="check_user"    />
+        <result property="checkReasult"    column="check_reasult"    />
+        <result property="selfCode"    column="self_code"    />
+        <result property="selfType"    column="self_type"    />
+    </resultMap>
+
+    <sql id="selectSelfCheckVo">
+        select id, check_date, check_user, check_reasult, self_code, self_type from self_check
+    </sql>
+
+    <select id="selectSelfCheckList" parameterType="com.ruoyi.company.domain.SelfCheck" resultMap="SelfCheckResult">
+        <include refid="selectSelfCheckVo"/>
+        <where>
+            <if test="checkDate != null "> and check_date = #{checkDate}</if>
+            <if test="checkUser != null  and checkUser != ''"> and check_user = #{checkUser}</if>
+            <if test="checkReasult != null  and checkReasult != ''"> and check_reasult = #{checkReasult}</if>
+            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
+            <if test="selfType != null  and selfType != ''"> and self_type = #{selfType}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfCheckById" parameterType="Long" resultMap="SelfCheckResult">
+        <include refid="selectSelfCheckVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSelfCheck" parameterType="com.ruoyi.company.domain.SelfCheck" useGeneratedKeys="true" keyProperty="id">
+        insert into self_check
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="checkDate != null">check_date,</if>
+            <if test="checkUser != null">check_user,</if>
+            <if test="checkReasult != null">check_reasult,</if>
+            <if test="selfCode != null">self_code,</if>
+            <if test="selfType != null">self_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="checkDate != null">#{checkDate},</if>
+            <if test="checkUser != null">#{checkUser},</if>
+            <if test="checkReasult != null">#{checkReasult},</if>
+            <if test="selfCode != null">#{selfCode},</if>
+            <if test="selfType != null">#{selfType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfCheck" parameterType="com.ruoyi.company.domain.SelfCheck">
+        update self_check
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="checkDate != null">check_date = #{checkDate},</if>
+            <if test="checkUser != null">check_user = #{checkUser},</if>
+            <if test="checkReasult != null">check_reasult = #{checkReasult},</if>
+            <if test="selfCode != null">self_code = #{selfCode},</if>
+            <if test="selfType != null">self_type = #{selfType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSelfCheckById" parameterType="Long">
+        delete from self_check where id = #{id}
+    </delete>
+
+    <delete id="deleteSelfCheckByIds" parameterType="String">
+        delete from self_check where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
