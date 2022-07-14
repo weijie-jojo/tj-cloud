@@ -42,26 +42,27 @@
        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
        <el-table-column width="400" label="渠道商"   align="center"  prop="placeName"  />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-       <el-table-column label="完结状态" align="center" prop="endStatus">
+       <el-table-column label="进度状态" align="center" prop="endStatus">
       <template slot-scope="scope">
-          <el-link :underline="false" type="danger" v-if="scope.row.endStatus == '0'">未完结</el-link>
-          <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">已完结</el-link>
+          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == '0' && scope.row.nameStatus==0 && scope.row.infoStatus==0 && scope.row.realnameStatus==0   && scope.row.businessStatus==0 && scope.row.taxStatus==0 && scope.row.bankStatus==0">办理</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.nameStatus==2 || scope.row.infoStatus==2 ">异常</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">完成</el-link>
       </template>
       </el-table-column>
 
-      <el-table-column label="名称审核" align="center" prop="selfCode">
+      <el-table-column label="名称审核" align="center" >
        <template slot-scope="scope">
           <el-link :underline="false" type="primary" @click="shenloading1(scope.row)" v-if="scope.row.nameStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">异常</el-link>
-          <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">不通过</el-link>
+          <el-link @click="nameisok(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">通过</el-link>
       </template>
       </el-table-column>
       <el-table-column label="信息审核" align="center">
 
         <template slot-scope="scope">
           <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2(scope.row)">审核中</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)" v-if="scope.row.infoStatus == '2'">异常</el-link>
-          <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)" v-if="scope.row.infoStatus == '2'">不通过</el-link>
+          <el-link @click="newisok(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">通过</el-link>
 
         </template>
       </el-table-column>
@@ -112,83 +113,8 @@
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改个体商户对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="个体户编码" prop="selfKey">
-          <el-input v-model="form.selfKey" placeholder="请输入个体户编码" />
-        </el-form-item>
-        <el-form-item label="渠道商编码" prop="placeCode">
-          <el-input v-model="form.placeCode" placeholder="请输入渠道商编码" />
-        </el-form-item>
-        <el-form-item label="税号" prop="taxId">
-          <el-input v-model="form.taxId" placeholder="请输入税号" />
-        </el-form-item>
-        <el-form-item label="个体户注册地址" prop="selfAddress">
-          <el-input v-model="form.selfAddress" placeholder="请输入个体户注册地址" />
-        </el-form-item>
-        <el-form-item label="个体户名称" prop="selfName">
-          <el-input v-model="form.selfName" placeholder="请输入个体户名称" />
-        </el-form-item>
-        <el-form-item label="法人姓名" prop="legalPersonName">
-          <el-input v-model="form.legalPersonName" placeholder="请输入法人姓名" />
-        </el-form-item>
-        <el-form-item label="法人身份证" prop="idCardNum">
-          <el-input v-model="form.idCardNum" placeholder="请输入法人身份证" />
-        </el-form-item>
-        <el-form-item label="登录密码" prop="password">
-          <el-input v-model="form.password" placeholder="请输入登录密码" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="每月可开票金额" prop="maximum">
-          <el-input v-model="form.maximum" placeholder="请输入每月可开票金额" />
-        </el-form-item>
-        <el-form-item label="注册时间" prop="registerTime">
-          <el-date-picker clearable v-model="form.registerTime" type="date" value-format="yyyy-MM-dd"
-            placeholder="请选择注册时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="组织形式" prop="organizationalForm">
-          <el-input v-model="form.organizationalForm" placeholder="请输入组织形式" />
-        </el-form-item>
-        <el-form-item label="从业人数" prop="numberEmployees">
-          <el-input v-model="form.numberEmployees" placeholder="请输入从业人数" />
-        </el-form-item>
-        <el-form-item label="出资金额" prop="contributionAmount">
-          <el-input v-model="form.contributionAmount" placeholder="请输入出资金额" />
-        </el-form-item>
-        <el-form-item label="城市" prop="city">
-          <el-input v-model="form.city" placeholder="请输入城市" />
-        </el-form-item>
-        <el-form-item label="区县" prop="county">
-          <el-input v-model="form.county" placeholder="请输入区县" />
-        </el-form-item>
-        <el-form-item label="电子商务经营者" prop="electronicCommerce">
-          <el-input v-model="form.electronicCommerce" placeholder="请输入电子商务经营者" />
-        </el-form-item>
-        <el-form-item label="所属自贸区" prop="freeTradeZone">
-          <el-input v-model="form.freeTradeZone" placeholder="请输入所属自贸区" />
-        </el-form-item>
-        <el-form-item label="所属自贸片区" prop="freeTradeArea">
-          <el-input v-model="form.freeTradeArea" placeholder="请输入所属自贸片区" />
-        </el-form-item>
-        <el-form-item label="产权" prop="propertyRight">
-          <el-input v-model="form.propertyRight" placeholder="请输入产权" />
-        </el-form-item>
-        <el-form-item label="行业" prop="industry">
-          <el-input v-model="form.industry" placeholder="请输入行业" />
-        </el-form-item>
-        <el-form-item label="经营范围" prop="natureBusiness">
-          <el-input v-model="form.natureBusiness" placeholder="请输入经营范围" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+   
+   
   </div>
 </template>
 

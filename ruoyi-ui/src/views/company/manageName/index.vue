@@ -12,6 +12,12 @@
       <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+         <el-form-item label="审核状态">
+        <el-select clearable v-model="queryParams.nameStatus" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -28,9 +34,21 @@
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <el-table-column label="审核状态" align="center" prop="nameStatus" >
+           <template slot-scope="scope">
+             <el-link :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">审核中</el-link>
+             <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">不通过</el-link>
+             <el-link :underline="false" type="success" v-if="scope.row.nameStatus == '1'">通过</el-link>
+           </template>
+      </el-table-column>
+     
+     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">名称审核</el-button>
+          <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+           <el-button size="mini" v-if="scope.row.nameStatus==0" type="text" icon="el-icon-s-check" @click="bank(scope.row)">名称审核</el-button>
+           <el-button size="mini" v-else  icon="el-icon-s-check" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>名称审核</el-button>
+          
+          <!-- <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">名称审核</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -68,13 +86,29 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        nameStatus: 0,
+        nameStatus:null,
         pageNum: 1,
         pageSize: 10,
         legalPersonName: null,
         placeName: null,
         username: null,
       },
+       options: [
+        {
+          value: 0,
+          label: '审核中'
+        },
+       {
+
+          value: 1,
+          label: '通过',
+        },
+         {
+
+          value: 2,
+          label: '不通过',
+        },
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -86,6 +120,10 @@ export default {
     this.getList();
   },
   methods: {
+    detail(row){
+         this.$cache.local.setJSON('employedName', row);
+         this.$tab.openPage("名称信息","/customer/nameDetail");
+    },
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
