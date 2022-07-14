@@ -49,10 +49,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+    
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column label="办理状态" align="center" prop="realnameStatus" >
+           <template slot-scope="scope">
+            <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2" >未开始</el-link>
+            <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==0" >审核中</el-link>
+            <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >已通过</el-link>
+           </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-coin" @click="cer(scope.row)">办理实名</el-button>
@@ -102,7 +109,7 @@ export default {
       queryParams: {
         nameStatus: 1,
         infoStatus: 1,
-        businessStatus:1,
+       
         pageNum: 1,
         pageSize: 10,
         placeName: null,

@@ -8,9 +8,9 @@
     >
       <el-row  type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="个体户名称" prop="selfName">
+          <!-- <el-form-item class="comright" label="个体户名称" prop="selfName">
             <el-input  v-model="formBank.selfName" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
             <el-input  v-model="formBank.legalPersonName" disabled></el-input>
@@ -19,7 +19,7 @@
        
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formBank.taxId" disabled></el-input>
+            <el-input  v-model="formBank.taxId" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
