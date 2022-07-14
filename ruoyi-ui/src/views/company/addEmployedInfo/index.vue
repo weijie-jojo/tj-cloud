@@ -1021,6 +1021,7 @@ export default {
             infoStatus: 0,
             taxStatus: 0,
             bankStatus: 0,
+            realnameStatus: 0,//实名认证
           };
           let parms3 = {
             selfCode: this.formData.selfCode,

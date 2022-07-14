@@ -65,26 +65,27 @@
 
         </template>
       </el-table-column>
+       <el-table-column label="实名办理" align="center">
+
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1  && scope.row.realnameStatus==0" >审核中</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
+          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >已通过</el-link>
+ 
+        </template>
+      </el-table-column>
       <el-table-column label="工商办理" align="center">
 
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.infoStatus==2  " >未开始</el-link>
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
           <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1" >已通过</el-link>
  
         </template>
       </el-table-column>
-        <el-table-column label="实名办理" align="center">
-
-        <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 ||scope.row.businessStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.realnameStatus==0" >审核中</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
-          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.businessStatus==1 && scope.row.realnameStatus==1" >已通过</el-link>
- 
-        </template>
-      </el-table-column>
+       
       <el-table-column label="税务办理" align="center">
 
         <template slot-scope="scope">

@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input v-model="formbusiness.taxId" placeholder="请输入纳税人识别号"></el-input>
+            <el-input v-model="formbusiness.taxId" disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="注册时间" prop="businessTerm">
             <!-- <el-date-picker
@@ -145,6 +145,7 @@ export default {
   created() {
     let list = this.$cache.local.getJSON("employednewlist");
     this.formbusiness.selfId = list.selfId;
+    this.formbusiness.taxId=list.taxId;
     this.formbusiness.legalPersonName = list.legalPersonName;
   },
   beforeRouteLeave(to, from, next) {
