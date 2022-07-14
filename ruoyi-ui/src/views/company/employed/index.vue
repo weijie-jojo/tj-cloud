@@ -170,7 +170,7 @@ export default {
     //审核中
     shenloading(){
          this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
+          confirmButtonText: '关闭',
           callback: action => {
             // this.$message({
             //   type: 'info',
@@ -185,7 +185,7 @@ export default {
       //  console.log(scope);
            this.$confirm('审核中,请耐心等待...', '审核说明', {
           confirmButtonText: '修改',
-          cancelButtonText: '确定',
+          cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
          this.$cache.local.setJSON('employedName', scope);
@@ -200,7 +200,7 @@ export default {
     shenloading2(scope){
            this.$confirm('审核中,请耐心等待...', '审核说明', {
           confirmButtonText: '修改',
-          cancelButtonText: '确定',
+          cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
              this.$cache.local.setJSON('employedInfo', scope);
@@ -212,7 +212,7 @@ export default {
     //异常说明
      errorsinfo(error){
        this.$alert(error, '异常说明', {
-          confirmButtonText: '确定',
+          confirmButtonText: '关闭',
           callback: action => {
             // this.$message({
             //   type: 'info',
@@ -223,7 +223,7 @@ export default {
      },
     newbusiness(){
         this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
+          confirmButtonText: '关闭',
           callback: action => {
             // this.$message({
             //   type: 'info',
@@ -234,7 +234,7 @@ export default {
     },
      newtax(){
          this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
+          confirmButtonText: '关闭',
           callback: action => {
             // this.$message({
             //   type: 'info',
@@ -245,7 +245,7 @@ export default {
     },
      newbank(){
          this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
+          confirmButtonText: '关闭',
           callback: action => {
             // this.$message({
             //   type: 'info',
@@ -257,21 +257,22 @@ export default {
     
     //名称审核
     nameisok(scope){
-      this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
+       this.$confirm('审核中,请耐心等待...', '审核说明', {
+          confirmButtonText: '查看',
+          cancelButtonText: '关闭',
+          type: 'warning'
+        }).then(() => {
+             this.$cache.local.setJSON('employedInfo', scope);
+             this.$router.push("namedetail");  
+        }).catch(() => {
+      
         });
     },
     //信息审核
     newisok(scope){
-           this.$confirm('审核中,请耐心等待...', '审核说明', {
+         this.$confirm('审核中,请耐心等待...', '审核说明', {
           confirmButtonText: '查看',
-          cancelButtonText: '确定',
+          cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
              this.$cache.local.setJSON('employedInfo', scope);
