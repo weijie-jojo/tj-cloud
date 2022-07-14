@@ -267,6 +267,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "税务实名")
     private String fileName7;
 
+    /** 实名认证是否通过 0未通过 1已通过 */
+    @Excel(name = "实名认证是否通过 0未通过 1已通过")
+    private Long realnameStatus;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

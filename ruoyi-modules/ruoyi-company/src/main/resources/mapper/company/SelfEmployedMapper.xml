@@ -65,6 +65,7 @@
         <result property="isActive"    column="is_active"    />
         <result property="fileName6"    column="file_name6"    />
         <result property="fileName7"    column="file_name7"    />
+        <result property="realnameStatus"    column="realname_status"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -75,7 +76,7 @@
                private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2,
                account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
                file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
-               business_term,is_active,remark_name,remark_info,file_name6,file_name7 from self_employed
+               business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
         select * from self_employed t JOIN self_name_review A on t.self_code=A.self_code
@@ -93,6 +94,7 @@
             <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
             <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
             <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
+            <if test="realnameStatus != null  "> and t.realname_status =#{realnameStatus}</if>
         </where>
     </select>
 
@@ -161,6 +163,7 @@
             <if test="isActive != null "> and is_active = #{isActive}</if>
             <if test="fileName6 != null  and fileName6 != ''"> and file_name6 = #{fileName6}</if>
             <if test="fileName7 != null  and fileName7 != ''"> and file_name7 = #{fileName7}</if>
+            <if test="realnameStatus != null "> and realname_status = #{realnameStatus}</if>
         </where>
     </select>
 
@@ -231,6 +234,7 @@
             <if test="remarkName != null">remark_name,</if>
             <if test="fileName6 != null">file_name6,</if>
             <if test="fileName7 != null">file_name7,</if>
+            <if test="realnameStatus != null">realname_status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -292,6 +296,7 @@
             <if test="remarkName != null">#{remark_name},</if>
             <if test="fileName6 != null">#{fileName6},</if>
             <if test="fileName7 != null">#{fileName7},</if>
+            <if test="realnameStatus != null">#{realnameStatus},</if>
         </trim>
     </insert>
 
@@ -357,6 +362,7 @@
             <if test="remarkName != null">remark_name = #{remarkName},</if>
             <if test="fileName6 != null">file_name6 = #{fileName6},</if>
             <if test="fileName7 != null">file_name7 = #{fileName7},</if>
+            <if test="realnameStatus != null">realname_status = #{realnameStatus},</if>
         </trim>
         where self_id = #{selfId}
     </update>
