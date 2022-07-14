@@ -3,6 +3,9 @@ package com.ruoyi.company.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +33,17 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/check")
+@Api(tags = "个体户审批进度")
 public class SelfCheckController extends BaseController
 {
     @Autowired
     private ISelfCheckService selfCheckService;
 
     /**
-     * 查询单据审批结果列表
+     * 查询审批进度列表
      */
-    @RequiresPermissions("company:check:list")
+    @ApiOperation("查询审批进度列表")
+//    @RequiresPermissions("company:check:list")
     @GetMapping("/list")
     public TableDataInfo list(SelfCheck selfCheck)
     {
@@ -48,9 +53,10 @@ public class SelfCheckController extends BaseController
     }
 
     /**
-     * 导出单据审批结果列表
+     * 导出审批列表
      */
-    @RequiresPermissions("company:check:export")
+    @ApiOperation("导出审批列表")
+//    @RequiresPermissions("company:check:export")
     @Log(title = "单据审批结果", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SelfCheck selfCheck)
@@ -61,9 +67,10 @@ public class SelfCheckController extends BaseController
     }
 
     /**
-     * 获取单据审批结果详细信息
+     * 查询审批列表明细
      */
-    @RequiresPermissions("company:check:query")
+    @ApiOperation("查询审批列表明细")
+//    @RequiresPermissions("company:check:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -71,9 +78,10 @@ public class SelfCheckController extends BaseController
     }
 
     /**
-     * 新增单据审批结果
+     * 新增审批进度
      */
-    @RequiresPermissions("company:check:add")
+    @ApiOperation("新增审批进度")
+//    @RequiresPermissions("company:check:add")
     @Log(title = "单据审批结果", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SelfCheck selfCheck)
@@ -82,9 +90,10 @@ public class SelfCheckController extends BaseController
     }
 
     /**
-     * 修改单据审批结果
+     * 修改审批进度
      */
-    @RequiresPermissions("company:check:edit")
+    @ApiOperation("修改审批进度")
+//    @RequiresPermissions("company:check:edit")
     @Log(title = "单据审批结果", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SelfCheck selfCheck)
@@ -93,9 +102,10 @@ public class SelfCheckController extends BaseController
     }
 
     /**
-     * 删除单据审批结果
+     * 删除审批进度结果
      */
-    @RequiresPermissions("company:check:remove")
+    @ApiOperation("删除审批进度结果")
+//    @RequiresPermissions("company:check:remove")
     @Log(title = "单据审批结果", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
