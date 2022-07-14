@@ -157,7 +157,7 @@ export default {
 
     this.getList();
   },
-  methods: {
+  methods: { 
       detail(row){
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("税率信息","/customer/detailTax");

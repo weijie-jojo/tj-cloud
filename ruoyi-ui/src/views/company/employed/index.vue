@@ -266,7 +266,7 @@ export default {
              this.$router.push("namedetail");  
         }).catch(() => {
       
-        });
+        }); 
     },
     //信息审核
     newisok(scope){

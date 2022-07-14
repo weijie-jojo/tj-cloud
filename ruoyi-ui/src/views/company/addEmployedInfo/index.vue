@@ -147,7 +147,7 @@
             <el-col :span="9">
               <el-form-item label="出资额" prop="contributionAmount">
 
-                <el-input type="number" v-model="formData.contributionAmount"
+                <el-input disabled type="number" v-model="formData.contributionAmount"
                   oninput="value=((value.replace(/[^0-9.]/g,'')).replace(/([0-9]+\.[0-9]{6})[0-9]*/,'$1'))" :step="0.01"
                   :min="0.000000">
                   <template slot="append">万元</template>

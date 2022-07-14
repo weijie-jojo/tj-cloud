@@ -121,7 +121,7 @@ export default {
         placeName: null,
         legalPersonName: null,
         username: null,
-      },
+      }, 
         options: [
         {
           value: 0,
