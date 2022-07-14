@@ -44,6 +44,14 @@
        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
        <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+       <el-table-column label="办理状态" align="center" prop="">
+         <template slot-scope="scope">
+          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
+          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
+          <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >已通过</el-link>
+         </template>
+       </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">办理工商</el-button>

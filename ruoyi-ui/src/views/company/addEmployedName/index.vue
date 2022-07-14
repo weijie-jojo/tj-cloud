@@ -345,7 +345,7 @@ export default {
         this.formData.organizationalForm = "商店";
       }
       if (value == 6) {
-        this.formData.organizationalForm = "建材店";
+        this.formData.organizationalForm = "店";
       }
     },
     //获取编号
