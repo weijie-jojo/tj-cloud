@@ -13,7 +13,7 @@
         <el-select clearable v-model="queryParams.bankStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
-        </el-select>
+        </el-select> 
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>

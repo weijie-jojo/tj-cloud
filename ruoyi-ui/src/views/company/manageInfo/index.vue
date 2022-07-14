@@ -56,7 +56,7 @@
           <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">不通过</el-link>
           <el-link :underline="false" type="success" v-if="scope.row.infoStatus == '1'">通过</el-link>
         </template>
-      </el-table-column>
+      </el-table-column> 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>

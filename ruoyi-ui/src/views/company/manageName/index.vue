@@ -12,7 +12,7 @@
       <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-         <el-form-item label="审核状态">
+         <el-form-item label="审核状态"> 
         <el-select clearable v-model="queryParams.nameStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
