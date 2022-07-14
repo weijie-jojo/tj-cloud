@@ -104,27 +104,27 @@ public class SelfEmployed extends BaseEntity
      6->审核强制终止
      7->停用 */
     @Excel(name = "认证状态 ")
-            private Long status;
+    private Long status;
 
-            /** 渠道名称 */
-            @Excel(name = "渠道名称")
-            private String placeName;
+    /** 渠道名称 */
+    @Excel(name = "渠道名称")
+    private String placeName;
 
-            /** 业务员名字 */
-            @Excel(name = "业务员名字")
-            private String username;
+    /** 业务员名字 */
+    @Excel(name = "业务员名字")
+    private String username;
 
-            /** 快递状态  0->未处理  1->已处理 */
-            @Excel(name = "快递状态  0->未处理  1->已处理")
-            private Long expStatus;
+    /** 快递状态  0->未处理  1->已处理 */
+    @Excel(name = "快递状态  0->未处理  1->已处理")
+    private Long expStatus;
 
-            /** 每月可开票金额 */
-            @Excel(name = "每月可开票金额")
-            private BigDecimal maximum;
+    /** 每月可开票金额 */
+    @Excel(name = "每月可开票金额")
+    private BigDecimal maximum;
 
-            /** 注册时间 */
-            @JsonFormat(pattern = "yyyy-MM-dd")
-            @Excel(name = "注册时间", width = 30, dateFormat = "yyyy-MM-dd")
+    /** 注册时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "注册时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date registerTime;
 
     /** 行业类型 */
@@ -258,6 +258,14 @@ public class SelfEmployed extends BaseEntity
     /** 银行审核是否通过 0未通过 1已通过 */
     @Excel(name = "银行审核是否通过 0未通过 1已通过")
     private Long bankStatus;
+
+    /** 工商实名 */
+    @Excel(name = "工商实名")
+    private String fileName6;
+
+    /** 税务实名 */
+    @Excel(name = "税务实名")
+    private String fileName7;
 
     public void setSelfId(String selfId)
     {
