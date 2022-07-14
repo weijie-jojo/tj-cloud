@@ -51,7 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <sql id="selectSelfNameReviewJoinVo">
-        select t.self_id,t.self_code,A.place_name,A.username,A.legal_person_name,A.create_time
+        select t.self_id, t.self_code, t.title_type, t.administrative_division, t.industry,
+               t.organizational_form, t.administrative_region, t.random, t.registration_authority,
+               t.font_size1, t.poposed_name1, t.font_size2, t.poposed_name2, t.font_size3, t.poposed_name3,
+               t.font_size4, t.poposed_name4, t.font_size5, t.poposed_name5, t.font_size6, t.poposed_name6,
+               t.font_size7, t.poposed_name7, t.font_size8, t.poposed_name8, t.font_size9, t.poposed_name9,
+               t.font_size10, t.poposed_name10,t.name_status,t.name_remark,
+               A.place_name,A.username,A.legal_person_name,A.create_time
         from self_name_review t JOIN self_employed A on t.self_code=A.self_code
     </sql>
 

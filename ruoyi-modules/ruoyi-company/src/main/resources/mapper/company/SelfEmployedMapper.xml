@@ -85,6 +85,7 @@
             (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
             <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
             <if test="legalPersonName != null  and legalPersonName != ''"> and t.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="username != null  and username != ''"> and t.username like concat('%', #{username}, '%')</if>
             <if test="nameStatus != null  "> and A.name_status =#{nameStatus}</if>
             <if test="infoStatus != null  "> and t.info_status =#{infoStatus}</if>
             <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
