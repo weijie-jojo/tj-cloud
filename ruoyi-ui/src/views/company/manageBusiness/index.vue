@@ -12,6 +12,12 @@
        <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+       <el-form-item label="办理状态">
+        <el-select clearable v-model="queryParams.businessStatus" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -47,14 +53,22 @@
        <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >审核中</el-link>
+          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >办理</el-link>
           <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
-          <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >已通过</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >完成</el-link>
          </template>
        </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">办理工商</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.businessStatus==1 || scope.row.businessStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
+          <el-button size="mini" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
+            @click="business(scope.row)">办理工商</el-button>
+          <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
+
+
+
+          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">办理工商</el-button> -->
           
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
@@ -78,7 +92,7 @@ export default {
   name: "Employed",
   data() {
     return {
-      // 遮罩层
+     // 遮罩层
       loading: true,
       // 选中数组
       ids: [],
@@ -100,13 +114,25 @@ export default {
       queryParams: {
         nameStatus:1,
         infoStatus:1,
-        // businessStatus:0,
+        realnameStatus:null,
+        businessStatus:null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         username: null,
       },
+        options: [
+        {
+          value: 0,
+          label: '办理'
+        },
+       {
+
+          value: 1,
+          label: '完成',
+        },
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -118,6 +144,11 @@ export default {
     this.getList();
   },
   methods: {
+    detail(row){
+         this.$cache.local.setJSON('employednewlist', row);
+         this.$tab.openPage("工商信息","/customer/detailBusiness");
+
+    },
     /** 查询可办理的工商列表 */
     getList() {
       this.loading = true;
@@ -169,13 +200,18 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+      this.queryParams.realnameStatus=1;
       this.queryParams.pageNum = 1;
       this.getList();
+      
     },
     /** 重置按钮操作 */
     resetQuery() {
+    
+      this.queryParams.realnameStatus=null;
+      this.queryParams.pageNum = 1;
       this.resetForm("queryForm");
-      this.handleQuery();
+      this.getList();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

@@ -2,15 +2,21 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
 
-      <el-form-item label="法人姓名" prop="legalPersonName">
+      <el-form-item label="法人姓名" >
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" prop="placeName">
+      <el-form-item label="渠道商">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
        <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+          <el-form-item label="办理状态">
+        <el-select clearable v-model="queryParams.realnameStatus" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -56,13 +62,16 @@
       <el-table-column label="办理状态" align="center" prop="realnameStatus" >
            <template slot-scope="scope">
             <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2" >未开始</el-link>
-            <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==0" >审核中</el-link>
-            <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >已通过</el-link>
+            <el-link :underline="false" type="primary" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==0" >办理</el-link>
+            <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >完成</el-link>
            </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="cer(scope.row)">办理实名</el-button>
+           <el-button size="mini" type="text" v-if="scope.row.realnameStatus==1 || scope.row.realnameStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 " icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
+          <el-button size="mini" v-if="scope.row.realnameStatus==0" type="text" icon="el-icon-user" @click="cer(scope.row)">办理实名</el-button>
+           <el-button size="mini" style="border:0 !important;background-color:rgba(0,0,0,0) !important" v-else  type="text" icon="el-icon-user" plain disabled>办理实名</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -109,13 +118,24 @@ export default {
       queryParams: {
         nameStatus: 1,
         infoStatus: 1,
-       
+        realnameStatus:null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         username: null,
       },
+      options: [
+        {
+          value: 0,
+          label: '办理'
+        },
+       {
+
+          value: 1,
+          label: '完成',
+        },
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -137,6 +157,10 @@ export default {
     this.getList();
   },
   methods: {
+    detail(row){
+         this.$cache.local.setJSON('employednewlist', row);
+         this.$tab.openPage("实名信息","/customer/detailCer");
+    },
    /** 查询个体商户列表 */
     getList() {
       this.loading = true;
@@ -211,6 +235,7 @@ export default {
        // this.$router.push("addTax");
       
     },
+    
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

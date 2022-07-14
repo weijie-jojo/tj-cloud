@@ -6,11 +6,17 @@
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" >
+      <el-form-item label="渠道商">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-          <el-form-item label="渠道商" >
+      <el-form-item label="渠道商">
         <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="审核状态">
+        <el-select clearable v-model="queryParams.infoStatus" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -44,9 +50,20 @@
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column label="审核状态" align="center" prop="nameStatus">
+        <template slot-scope="scope">
+          <el-link :underline="false" type="primary" v-if="scope.row.infoStatus == '0'">审核中</el-link>
+          <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">不通过</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.infoStatus == '1'">通过</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">审核信息</el-button>
+          <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" v-if="scope.row.infoStatus == 0" type="text" icon="el-icon-info"
+            @click="bank(scope.row)">审核信息</el-button>
+          <el-button size="mini" v-else icon="el-icon-info" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">审核信息</el-button> -->
           <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['company:employed:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -58,7 +75,7 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-   
+
   </div>
 </template>
 
@@ -91,13 +108,29 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        infoStatus: 0,
+        infoStatus: null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         username: null,
       },
+      options: [
+        {
+          value: 0,
+          label: '审核中'
+        },
+        {
+
+          value: 1,
+          label: '通过',
+        },
+        {
+
+          value: 2,
+          label: '不通过',
+        },
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -119,19 +152,11 @@ export default {
     this.getList();
   },
   methods: {
-    //审核中
-    shenloading() {
-      this.$alert('审核中,请耐心等待...', '审核说明', {
-        confirmButtonText: '确定',
-        callback: action => {
-          // this.$message({
-          //   type: 'info',
-          //   message: `action: ${ action }`
-          // });
-        }
-      });
+    detail(row) {
+    
+      this.$cache.local.setJSON('employedInfo', row);
+      this.$tab.openPage("信息列表查看", "/customer/infodetail");
     },
-
 
 
     /** 查询个体商户列表 */
@@ -202,7 +227,7 @@ export default {
 
     bank(row) {
       this.$cache.local.setJSON('employedInfo', row);
-      this.$tab.closeOpenPage({ path: "/customer/infonew"});
+      this.$tab.closeOpenPage({ path: "/customer/infonew" });
       // this.$router.push("/customer/infonew");
     },
     /** 新增按钮操作 */

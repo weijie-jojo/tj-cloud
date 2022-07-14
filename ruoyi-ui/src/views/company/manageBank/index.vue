@@ -9,6 +9,12 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+         <el-form-item label="办理状态">
+        <el-select clearable v-model="queryParams.bankStatus" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -38,13 +44,28 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
        <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-       <el-table-column label="个体名称"  align="center" prop="selfName" :show-overflow-tooltip="true"/>
+      
        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
        <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+        <el-table-column label="办理状态" align="center" prop="">
+         <template slot-scope="scope">
+           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 " >未开始</el-link>
+           <el-link :underline="false" type="primary"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 0">办理</el-link>
+           <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 1">完成</el-link>
+         </template>
+       </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-         <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">银行管理</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.bankStatus==1 || scope.row.bankStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
+          <el-button size="mini" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 0" type="text" icon="el-icon-s-goods"
+            @click="bank(scope.row)">银行办理</el-button>
+          <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>银行办理</el-button>
+
+
+
+         <!-- <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">银行办理</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -52,83 +73,7 @@
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改个体商户对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="个体户编码" prop="selfKey">
-          <el-input v-model="form.selfKey" placeholder="请输入个体户编码" />
-        </el-form-item>
-        <el-form-item label="渠道商编码" prop="placeCode">
-          <el-input v-model="form.placeCode" placeholder="请输入渠道商编码" />
-        </el-form-item>
-        <el-form-item label="税号" prop="taxId">
-          <el-input v-model="form.taxId" placeholder="请输入税号" />
-        </el-form-item>
-        <el-form-item label="个体户注册地址" prop="selfAddress">
-          <el-input v-model="form.selfAddress" placeholder="请输入个体户注册地址" />
-        </el-form-item>
-        <el-form-item label="个体户名称" prop="selfName">
-          <el-input v-model="form.selfName" placeholder="请输入个体户名称" />
-        </el-form-item>
-        <el-form-item label="法人姓名" prop="legalPersonName">
-          <el-input v-model="form.legalPersonName" placeholder="请输入法人姓名" />
-        </el-form-item>
-        <el-form-item label="法人身份证" prop="idCardNum">
-          <el-input v-model="form.idCardNum" placeholder="请输入法人身份证" />
-        </el-form-item>
-        <el-form-item label="登录密码" prop="password">
-          <el-input v-model="form.password" placeholder="请输入登录密码" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="每月可开票金额" prop="maximum">
-          <el-input v-model="form.maximum" placeholder="请输入每月可开票金额" />
-        </el-form-item>
-        <el-form-item label="注册时间" prop="registerTime">
-          <el-date-picker clearable v-model="form.registerTime" type="date" value-format="yyyy-MM-dd"
-            placeholder="请选择注册时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="组织形式" prop="organizationalForm">
-          <el-input v-model="form.organizationalForm" placeholder="请输入组织形式" />
-        </el-form-item>
-        <el-form-item label="从业人数" prop="numberEmployees">
-          <el-input v-model="form.numberEmployees" placeholder="请输入从业人数" />
-        </el-form-item>
-        <el-form-item label="出资金额" prop="contributionAmount">
-          <el-input v-model="form.contributionAmount" placeholder="请输入出资金额" />
-        </el-form-item>
-        <el-form-item label="城市" prop="city">
-          <el-input v-model="form.city" placeholder="请输入城市" />
-        </el-form-item>
-        <el-form-item label="区县" prop="county">
-          <el-input v-model="form.county" placeholder="请输入区县" />
-        </el-form-item>
-        <el-form-item label="电子商务经营者" prop="electronicCommerce">
-          <el-input v-model="form.electronicCommerce" placeholder="请输入电子商务经营者" />
-        </el-form-item>
-        <el-form-item label="所属自贸区" prop="freeTradeZone">
-          <el-input v-model="form.freeTradeZone" placeholder="请输入所属自贸区" />
-        </el-form-item>
-        <el-form-item label="所属自贸片区" prop="freeTradeArea">
-          <el-input v-model="form.freeTradeArea" placeholder="请输入所属自贸片区" />
-        </el-form-item>
-        <el-form-item label="产权" prop="propertyRight">
-          <el-input v-model="form.propertyRight" placeholder="请输入产权" />
-        </el-form-item>
-        <el-form-item label="行业" prop="industry">
-          <el-input v-model="form.industry" placeholder="请输入行业" />
-        </el-form-item>
-        <el-form-item label="经营范围" prop="natureBusiness">
-          <el-input v-model="form.natureBusiness" placeholder="请输入经营范围" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+  
   </div>
 </template>
 
@@ -163,14 +108,26 @@ export default {
       queryParams: {
         nameStatus:1,
         infoStatus:1,
-        businessStatus:1,
-        bankStatus:0,
+        businessStatus:null,
+        realnameStatus:null,
+        bankStatus:null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         userId: null,
       },
+       options: [
+        {
+          value: 0,
+          label: '办理'
+        },
+       {
+
+          value: 1,
+          label: '完成',
+        },
+      ],
       // 表单参数
       form: {},
       // 表单校验
@@ -192,17 +149,10 @@ export default {
     this.getList();
   },
   methods: {
-    //审核中
-    shenloading(){
-         this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '确定',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+      detail(row){
+         this.$cache.local.setJSON('employednewlist', row);
+         this.$tab.openPage("银行信息","/customer/detailBank");
+
     },
     
     
@@ -258,13 +208,18 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+         this.queryParams.businessStatus=1;
+      this.queryParams.realnameStatus=1;
       this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.queryParams.businessStatus=null;
+      this.queryParams.realnameStatus=null;
+      this.queryParams.pageNum = 1;
       this.resetForm("queryForm");
-      this.handleQuery();
+       this.getList();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
