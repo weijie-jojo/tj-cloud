@@ -64,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSelfNameReviewJoin" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfNameReviewJoinVo"/>
         <where>
+            <if test="nameStatus != null  "> and t.name_status =#{nameStatus}</if>
             <if test="placeName != null  and placeName != ''"> and A.place_name like concat('%', #{placeName}, '%')</if>
             <if test="legalPersonName != null  and legalPersonName != ''"> and A.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
             <if test="username != null  and username != ''"> and A.username like concat('%', #{username}, '%')</if>
