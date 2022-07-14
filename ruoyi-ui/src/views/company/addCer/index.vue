@@ -23,143 +23,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
-        <el-col :span="7">
-           <div class="bankno">银行账号</div>
-        
-        </el-col>
-        <el-col :span="7" >
-          <div></div>
-        </el-col>
-      </el-row>
+      
      
-      <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                 value="私人账号"
-                  disabled
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
-                <el-input
-                  v-model="formBank.privateDepositBank"
-                  disabled
-                ></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="9">
-              <el-form-item class="comright" label="账号名称" prop="legalPersonName">
-                <el-input
-                 v-model="formBank.legalPersonName"
-                  disabled
-                ></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
-                <el-input
-                  v-model="formBank.privateAccountNumber"
-                  disabled
-                ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-         <el-row v-if="accountType==2">
-            <el-col :span="9">
-               <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                  value="对公基本户"
-                  disabled
-                ></el-input>
-              </el-form-item>
-          
-
-              <el-form-item class="comright" label="开户银行">
-                <el-input   v-model="formBank.publicDepositBank1"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="9">
-                   <el-form-item class="comright" label="账号名称">
-                <el-input     v-model="formBank.selfName" disabled></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号">
-                <el-input     v-model="formBank.publicAccountNumber1"></el-input>
-              </el-form-item>
-            </el-col>
-            
-          </el-row>
-         <el-row v-if="accountType==2">
-            <el-col :span="9">
-                <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                 
-                  value="对公一般户"
-                  disabled
-                ></el-input>
-              </el-form-item>
-              
-
-              <el-form-item class="comright" label="开户银行">
-                <el-input  v-model="formBank.publicDepositBank2"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="9">
-               <el-form-item class="comright" label="账号名称">
-                <el-input  v-model="formBank.selfName" disabled></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号">
-                <el-input  v-model="formBank.publicAccountNumber2"></el-input>
-              </el-form-item>
-            </el-col>
-            
-          </el-row>
-          
-        
-        
-      </el-row>
-      <el-row type="flex" class="row-bg combottom" justify="space-around">
-        <el-col :span="7" >
-          <div class="bankno">纳税账号</div>
-        </el-col>
-        <el-col :span="7" >
-         
-        </el-col>
-      </el-row>
+    
 
       <el-row  type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="户名" prop="accountName">
-            <!-- <el-input v-model="formBank.accountName"></el-input> -->
-            <el-select
-               style="width:100%"
-              @change="changeValue($event)"
-              v-model="formBank.accountName"
-              filterable
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in accountName_options"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input  disabled v-model="formBank.publicDepositBank3"></el-input>
-            <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
-                     <el-option v-for="item in publicDepositBank3_options" :key="item.value" :label="item.value"
-                        :value="item.value">
-                     </el-option>
-                  </el-select> -->
-          </el-form-item>
-          <el-form-item  label="纳税委托协议" prop="fileName3">
+          
+          <el-form-item  label="工商实名" prop="fileName6">
             <el-upload
               class="upload-demo"
               action="http://36.133.2.179:8000/api/files/doUpload"
@@ -170,7 +41,7 @@
               multiple
               :limit="9"
               :on-exceed="handleExceed1"
-              :file-list="fileName3"
+              :file-list="fileName6"
               list-type="picture"
             >
               <el-button size="small" type="primary">点击上传</el-button>
@@ -182,21 +53,9 @@
         </el-col>
         
         <el-col :span="9">
-          <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
-            <el-input
-             
-              disabled
-              v-model="formBank.publicAccountNumber3"
-            ></el-input>
-            <!-- <el-select disabled v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
-                     <el-option v-for="item in publicAccountNumber3_options" :key="item.value" :label="item.value" :value="item.value">
-                     </el-option>
-                  </el-select> -->
-          </el-form-item>
-          <el-form-item style="color: rgba(0, 0, 0, 0)">
-            <br />
-          </el-form-item>
-          <el-form-item label="三方协议签约凭证" prop="fileName4">
+          
+           
+          <el-form-item label="税务实名" prop="fileName7">
             <el-upload
               class="upload-demo"
               action="http://36.133.2.179:8000/api/files/doUpload"
@@ -207,7 +66,7 @@
               multiple
               :limit="9"
               :on-exceed="handleExceed2"
-              :file-list="fileName4"
+              :file-list="fileName7"
               list-type="picture"
             >
               <el-button size="small" type="primary">点击上传</el-button>
@@ -237,29 +96,20 @@ export default {
   data() {
     return {
       formBank: {
-        bankStatus: 1,
+        realnameStatus: 1,
         selfId: "",
-        accountName: "",
-        privateDepositBank: "",
-        privateAccountNumber: "",
-        publicDepositBank1: "",
-        publicAccountNumber1: "",
-        publicDepositBank2: "",
-        publicAccountNumber2: "",
-        publicDepositBank3: "",
-        publicAccountNumber3: "",
         selfName: "",
         legalPersonName: "",
         taxId: "",
-        fileName3: [],
-        fileName4: [],
+        fileName6: [],
+        fileName7: [],
       },
       accountType: "",
       activeNames: ["1"],
       dialogImageUrl1: "",
-      fileName3: [],
+      fileName6: [],
       dialogImageUrl2: "",
-      fileName4: [],
+      fileName7: [],
       dialogVisible1: false,
       dialogVisible2: false,
       mylist: [],
@@ -332,17 +182,17 @@ export default {
           },
         ],
 
-        fileName3: [
+        fileName6: [
           {
             required: true,
-            message: "请上传纳税委托协议文件",
+            message: "请上传工商实名文件",
             trigger: "change",
           },
         ],
-        fileName4: [
+        fileName7: [
           {
             required: true,
-            message: "请上传三方协议签约凭证文件",
+            message: "请上传税务实名文件",
             trigger: "change",
           },
         ],
@@ -354,13 +204,7 @@ export default {
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
     this.formBank.legalPersonName = list.legalPersonName;
-
-    this.formBank.privateDepositBank = list.privateDepositBank;
-    this.formBank.privateAccountNumber = list.privateAccountNumber;
-    this.formBank.taxId = list.taxId;
-    this.accountType = list.accountType;
-    this.nailist();
-  },
+},
   beforeRouteLeave(to, from, next) {
     to.meta.keepAlive = true;
     next(0);
@@ -407,18 +251,18 @@ export default {
     onSubmit() {
       this.$refs["formBank"].validate((valid) => {
         if (valid) {
-          this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
-          this.formBank.fileName4 = JSON.stringify(this.formBank.fileName4);
+          this.formBank.fileName6 = JSON.stringify(this.formBank.fileName6);
+          this.formBank.fileName7 = JSON.stringify(this.formBank.fileName7);
           updateEmployed(this.formBank)
             .then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
                    this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageBank"}).then(() => {
-                     let  resmsg='办理银行成功';
+                     this.$tab.refreshPage({ path: "/customer/manageCer"}).then(() => {
+                     let  resmsg='办理实名成功';
                      let obj={
-                        title:'税务办理',
-                        backUrl:'/customer/manageBank',
+                        title:'实名办理',
+                        backUrl:'/customer/manageCer',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);

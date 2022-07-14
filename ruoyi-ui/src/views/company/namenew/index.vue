@@ -10,14 +10,37 @@
           <div></div>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="法人姓名">
+            <el-input v-model="formData.legalPersonName" :readonly="true" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright"  label="渠道商">
+            <el-input v-model="formData.placeName" :readonly="true" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="客户经理">
+            <el-input v-model="formData.username" :readonly="true" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="个体户编号">
             <el-input v-model="formData.selfCode" placeholder="请输入个体户编号"  :readonly="true" clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="9"></el-col>
       </el-row>
+
+     
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="冠名类型">
@@ -136,26 +159,34 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg" justify="space-around">
+
+
+
+        <el-row type="flex" class="row-bg "  justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright">
+           <div class="bankno">审核操作</div>
+        
+        </el-col>
+        <el-col :span="8" >
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
            
           </el-form-item>
         </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright">
-         
-          </el-form-item>
-        </el-col>
+      
       </el-row>
 
        <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4%;">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
           <div style="display: flex; align-items: center;">
                 <el-radio v-model="isokradio" label="2">不通过 </el-radio>
-             <el-input type="textarea" v-model="remark" :disabled="isokradio == 1"></el-input>
+             <el-input  placeholder="请输入不通过说明" type="textarea" v-model="remark" :disabled="isokradio == 1"></el-input>
           </div>
             
            

@@ -6,7 +6,18 @@
         <el-step title="个体户信息"></el-step>
         <el-step title="提交"></el-step>
       </el-steps>
-
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+        <el-form-item  label="填报提示">
+          <!-- <el-input style="color:red" readonly="true" type="textarea" :rows="3" value="1.个体工商户名称包含行政区划、乡镇街道社区、字号、行业、组织形式五个组成部分，例如“福州市鼓楼区中山社区天天服装店”中，行政区划为“福州市鼓楼区”，乡镇街道社区为“中山社区”，字号为“天天”，行业为“服装”，组织形式为“店”。
+2.请使用谷歌chrome浏览器或360等浏览器的极速模式访问本页面进行填报。">
+            </el-input> -->
+            <div style="color:red;font-size: 16px;">1.个体工商户名称包含行政区划、乡镇街道社区、字号、行业、组织形式五个组成部分，例如“福州市鼓楼区中山社区天天服装店”中，行政区划为“福州市鼓楼区”，乡镇街道社区为“中山社区”，字号为“天天”，行业为“服装”，组织形式为“店”。</div>
+            <div style="color:red;font-size: 16px;">2.请使用谷歌chrome浏览器或360等浏览器的极速模式访问本页面进行填报。</div>
+        </el-form-item>
+        </el-col>
+       
+      </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
@@ -268,7 +279,7 @@ export default {
           "value": 5
         },
         {
-          "label": "建材店",
+          "label": "店",
           "value": 6
         },
       ],

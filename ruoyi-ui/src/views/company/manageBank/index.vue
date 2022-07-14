@@ -277,22 +277,10 @@ export default {
       this.$cache.local.setJSON('employednewlist', row);
       this.$router.push('addBusiness');
     },
-    //税务管理
-    atx(row) {
-      if(row.businessStatus==0){
-         this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
-      }else{
-         this.$cache.local.setJSON('employednewlist', row);
-         this.$router.push("addTax");
-      }
-      
-    },
+    
     bank(row){
-       
        this.$cache.local.setJSON('employednewlist', row);
-       this.$router.push("addBank");
-      
-     
+       this.$tab.closeOpenPage({ path: "/customer/addBank"});
     },
     /** 新增按钮操作 */
     handleAdd() {

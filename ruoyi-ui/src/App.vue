@@ -45,4 +45,6 @@ export default  {
   background-color: transparent !important;
   color: black  !important;
 }
+
+
 </style>

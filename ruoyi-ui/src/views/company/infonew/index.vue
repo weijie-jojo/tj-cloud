@@ -36,7 +36,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="移动电话">
-            <el-input v-model="formData.applyPhone" readonly="true">
+            <el-input v-model="formData.applyPhone" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -45,13 +45,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="证件类型" prop="applyDocumentType">
-            <el-input v-model="formData.applyDocumentType" readonly="true">
+            <el-input v-model="formData.applyDocumentType" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="证件号码">
-            <el-input v-model="formData.applyIdNum" readonly="true">
+            <el-input v-model="formData.applyIdNum" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -68,13 +68,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="姓名" prop="contactName">
-            <el-input readonly="true" v-model="formData.contactName" clearable>
+            <el-input :readonly="true" v-model="formData.contactName" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="移动电话" prop="contactPhone">
-            <el-input readonly="true" v-model="formData.contactPhone" clearable>
+            <el-input :readonly="true" v-model="formData.contactPhone" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -82,13 +82,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="证件类型" prop="contactDocumentType">
-            <el-input v-model="formData.contactDocumentType" readonly="true">
+            <el-input v-model="formData.contactDocumentType" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="证件号码" prop="contactIdNum">
-            <el-input readonly="true" v-model="formData.contactIdNum" clearable>
+            <el-input :readonly="true" v-model="formData.contactIdNum" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -106,13 +106,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="组织形式" prop="organizationalForm">
-            <el-input v-model="formData.organizationalForm" readonly="true">
+            <el-input v-model="formData.organizationalForm" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="从业人数" prop="numberEmployees">
-            <el-input v-model="formData.numberEmployees" readonly="true">
+            <el-input v-model="formData.numberEmployees" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -127,7 +127,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="城市" prop="city">
-            <el-input v-model="formData.city" readonly="true">
+            <el-input v-model="formData.city" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -135,7 +135,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="区（县）" prop="county">
-            <el-input v-model="formData.county" readonly="true">
+            <el-input v-model="formData.county" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -150,8 +150,8 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
-          <el-form-item style="padding-right:4%" label="经营场所" prop="selfAddress">
-            <el-input v-model="formData.selfAddress" readonly="true">
+          <el-form-item style="padding-right:4.2%" label="经营场所" prop="selfAddress">
+            <el-input v-model="formData.selfAddress" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -160,13 +160,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="联系电话" prop="contactPhone">
-            <el-input v-model="formData.contactPhone" readonly="true">
+            <el-input v-model="formData.contactPhone" :change="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="所属自贸区" prop="freeTradeZone">
-            <el-input v-model="formData.freeTradeZone" readonly="true">
+            <el-input v-model="formData.freeTradeZone" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -174,21 +174,21 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="所属自贸片区" prop="freeTradeArea">
-            <el-input v-model="formData.freeTradeArea" readonly="true">
+            <el-input v-model="formData.freeTradeArea" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="产权" prop="propertyRight">
-            <el-input v-model="formData.propertyRight" readonly="true">
+            <el-input v-model="formData.propertyRight" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
-          <el-form-item style="padding-right:4%" label="经营范围" prop="natureBusiness">
-            <el-input readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+          <el-form-item style="padding-right:4.2%" label="经营范围" prop="natureBusiness">
+            <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
         </el-col>
@@ -206,7 +206,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="行业税率">
-            <el-input v-model="formData.industryTax" readonly="true">
+            <el-input v-model="formData.industryTax" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -223,7 +223,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="私账名称">
-            <el-input v-model="formData.legalPersonName" readonly="true">
+            <el-input v-model="formData.legalPersonName" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -231,13 +231,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="私账开户银行">
-            <el-input readonly="true" v-model="formData.privateDepositBank" clearable>
+            <el-input :readonly="true" v-model="formData.privateDepositBank" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="私账银行账号">
-            <el-input v-model="formData.privateAccountNumber" clearable readonly="true">
+            <el-input v-model="formData.privateAccountNumber" clearable :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -245,13 +245,13 @@
         <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="对公开户银行">
-            <el-input readonly="true" v-model="formData.publicDepositBank1" clearable>
+            <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="对公银行账号">
-            <el-input v-model="formData.publicAccountNumber1" clearable readonly="true">
+            <el-input v-model="formData.publicAccountNumber1" clearable :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -268,31 +268,31 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" readonly="true">
+            <el-input v-model="formData.userName" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:55%">经营者（负责人）信息</div>
-          <div style="width:40%;hegiht:10px"></div>
+        <el-col :span="9" >
+          <div class="bankno" >经营者（负责人）信息</div>
+         
         </el-col>
         <el-col :span="9">
-          <div></div>
+         
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="姓名">
-            <el-input v-model="formData.contactName" readonly="true">
+            <el-input v-model="formData.contactName" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="人员类型" prop="personnelType">
-            <el-input v-model="formData.personnelType" readonly="true">
+            <el-input v-model="formData.personnelType" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -300,13 +300,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="证件类型" prop="contactDocumentType">
-            <el-input v-model="formData.contactDocumentType" readonly="true">
+            <el-input v-model="formData.contactDocumentType" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="证件号码">
-            <el-input v-model="formData.contactIdNum" readonly="true">
+            <el-input v-model="formData.contactIdNum" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -330,7 +330,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="民族" prop="nation">
-            <el-input readonly="true" v-model="formData.nation" clearable>
+            <el-input :readonly="true" v-model="formData.nation" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -346,7 +346,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="申请前职业状况" prop="occupationalStatus">
-            <el-input v-model="formData.occupationalStatus" readonly="true">
+            <el-input v-model="formData.occupationalStatus" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -361,8 +361,8 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
-          <el-form-item style="padding-right:4%" label="经营者居所" prop="residence">
-            <el-input readonly="true" v-model="formData.residence" clearable>
+          <el-form-item style="padding-right:4.2%" label="经营者居所" prop="residence">
+            <el-input :readonly="true" v-model="formData.residence" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -370,13 +370,13 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="联系电话" prop="contactPhone">
-            <el-input style="width:240px" readonly="true" v-model="formData.contactPhone" clearable>
+            <el-input  :readonly="true" v-model="formData.contactPhone" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="电子邮箱" prop="mail">
-            <el-input style="width:240px" readonly="true" v-model="formData.mail" clearable>
+            <el-input  :readonly="true" v-model="formData.mail" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -398,11 +398,11 @@
             </el-col>
             <el-col :span="9"></el-col>
           </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-            <el-radio v-model="isokradio" label="2">驳回 </el-radio>
+            <el-radio v-model="isokradio" label="2">不通过 </el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -410,6 +410,40 @@
             <el-input v-model="remark" :disabled="isokradio == 1"></el-input>
           </el-form-item>
         </el-col>
+      </el-row> -->
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+       <el-col :span="9" class="flexs">
+          <div class="bankno" style="width:35%">审核操作</div>
+          <div style="width:50%;hegiht:10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+
+      
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio v-model="isokradio" label="1"> 通过</el-radio>
+           
+          </el-form-item>
+        </el-col>
+      
+      </el-row>
+
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+          <div style="display: flex; align-items: center;justify-content: flex-start;">
+                <el-radio v-model="isokradio" label="2">不通过 </el-radio>
+             <el-input  type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradio == 1"></el-input>
+          </div>
+            
+           
+          </el-form-item>
+        </el-col>
+       
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
@@ -876,28 +910,38 @@ export default {
 
           updateEmployed(parms).then(res => {
 
-            if (res != undefined) {
+            
               if (res != undefined) {
                 if (res.code === 200) {
-                  if (type == 1) {
-                    this.$modal.msgSuccess("信息审核通过成功!");
+                
+                this.$nextTick(function () {
+                     this.$tab.refreshPage({ path: "/customer/manageInfo"}).then(() => {
+                     let resmsg='';
+                     if (type == 1) {
+                        resmsg='信息审核通过成功';
                   } else {
-                    this.$modal.msgSuccess("信息审核驳回成功!");
-                  }
-                  this.$nextTick(function () {
+                        resmsg='信息审核不过成功';
+                     }
+                      let obj={
+                        title:'信息审核',
+                        backUrl:'/customer/manageInfo',
+                        resmsg:resmsg
 
-                    this.$tab.refreshPage("/customer/employed").then(() => {
-                      this.$tab.openPage("注册进度", "/customer/employed")
-                    })
-                  });
+                      }
+                      this.$cache.local.setJSON('successNew', obj);
+                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                    });
+                   });
+
                 } else {
                   this.$modal.msgError(res.msg);
+                    this.$tab.closeOpenPage({ path: "/customer/manageInfo"});
                 }
 
               }
 
 
-            }
+            
 
           });
 
