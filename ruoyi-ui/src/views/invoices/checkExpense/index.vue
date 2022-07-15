@@ -52,7 +52,7 @@
                 <el-input  v-model="ruleForm.item5desc"  style="width:200px" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="金额" style="margin-left:520px;margin-top:-310px">
+            <el-form-item label="金额" style="margin-left:500px;margin-top:-410px">
             </el-form-item>  
             <el-form-item  class="moneyCss">
                 <el-input-number disabled v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
@@ -75,12 +75,12 @@
                 <div class="yuan">元</div>
             </el-form-item>
 
-           <el-form-item label="备注" style="margin-left:1020px;margin-top:-310px">
+           <el-form-item label="备注" style="margin-left:1000px;margin-top:-390px">
             </el-form-item>  
             <el-form-item  class="remarkCss" >
                 <el-popover
                     placement="top-start"
-                    width="800px"
+                    width="780px"
                     trigger="hover"
                     :content="ruleForm.item1remark">
                     <el-button slot="reference" style="width:240px">{{ruleForm.item1remark}}</el-button>
@@ -89,7 +89,7 @@
             <el-form-item  class="remarkCss">
                  <el-popover
                     placement="top-start"
-                    width="800px"
+                    width="780px"
                     trigger="hover"
                     :content="ruleForm.item2remark">
                     <el-button slot="reference" style="width:240px">{{ruleForm.item2remark}}</el-button>
@@ -98,7 +98,7 @@
             <el-form-item  class="remarkCss">
                  <el-popover
                     placement="top-start"
-                    width="800px"
+                    width="780px"
                     trigger="hover"
                     :content="ruleForm.item3remark">
                     <el-button slot="reference" style="width:240px">{{ruleForm.item3remark}}</el-button>
@@ -107,7 +107,7 @@
             <el-form-item  class="remarkCss">
                 <el-popover
                     placement="top-start"
-                    width="800px"
+                    width="780px"
                     trigger="hover"
                     :content="ruleForm.item4remark">
                     <el-button slot="reference" style="width:240px">{{ruleForm.item4remark}}</el-button>
@@ -116,7 +116,7 @@
             <el-form-item  class="remarkCss" style="margin-bottom:20px">
                  <el-popover
                     placement="top-start"
-                    width="800px"
+                    width="780px"
                     trigger="hover"
                     :content="ruleForm.item5remark">
                     <el-button slot="reference" style="width:240px">{{ruleForm.item5remark}}</el-button>
@@ -911,7 +911,7 @@
         // margin-top: -50px;
     }
     .remarkCss {
-        margin-left: 880px;
+        margin-left: 860px;
         // margin-top: -55px;
     }
     .yuan{
@@ -925,15 +925,15 @@
     }
     .middle{
         margin-left: 310px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right{
         margin-left: 630px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right2{
         margin-left: 920px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     #btn{
       margin-left:260px;

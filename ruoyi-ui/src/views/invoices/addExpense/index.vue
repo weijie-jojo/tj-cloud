@@ -98,7 +98,7 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="金额" style="margin-left:520px;margin-top:-410px">
+            <el-form-item label="金额" style="margin-left:500px;margin-top:-410px">
             </el-form-item>
             <el-form-item  class="moneyCss" prop="item1money">
                 <el-input-number v-model="ruleForm.item1money" :precision="2" :step="0.01" :min="0"  style="width:160px"></el-input-number>

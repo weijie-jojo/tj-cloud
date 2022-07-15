@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.SelfNameReview;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 
 /**
  * 个体户名字审核Mapper接口
@@ -40,6 +41,14 @@ public interface SelfNameReviewMapper
      * @return 个体户名字审核集合
      */
     public List<SelfNameReview> selectSelfNameReviewList(SelfNameReview selfNameReview);
+
+    /**
+     * 查询个体户名字审核列表(连表)
+     *
+     * @param selfEmployedVo 个体户名字审核
+     * @return 个体户名字审核集合
+     */
+    public List<SelfEmployedVo> selectSelfNameReviewJoin(SelfEmployedVo selfEmployedVo);
 
     /**
      * 新增个体户名字审核
