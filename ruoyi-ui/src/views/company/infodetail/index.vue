@@ -118,11 +118,15 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" label="出资额" justify="space-around">
         <el-col :span="9">
-          <el-input disabled type="number" v-model="formData.contributionAmount">
+           <el-form-item class="comright" label="出资额" prop="contributionAmount">
+              <el-input disabled type="number" v-model="formData.contributionAmount">
                   <template slot="append">万元</template>
           </el-input>
+           </el-form-item>
+        
+          
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="城市" prop="city">

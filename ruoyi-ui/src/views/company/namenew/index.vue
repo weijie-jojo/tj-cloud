@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="auto">
-     <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
+      <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
         <el-col :span="9">
-           <div class="bankno">审核结果</div>
-        
+          <div class="bankno">审核结果</div>
+
         </el-col>
-        <el-col :span="8" >
+        <el-col :span="8">
           <div></div>
         </el-col>
       </el-row>
@@ -19,14 +19,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright"  label="渠道商">
+          <el-form-item class="comright" label="渠道商">
             <el-input v-model="formData.placeName" :readonly="true" clearable>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      
-       <el-row type="flex" class="row-bg" justify="space-around">
+
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="客户经理">
             <el-input v-model="formData.username" :readonly="true" clearable>
@@ -35,12 +35,12 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="个体户编号">
-            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号"  :readonly="true" clearable></el-input>
+            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号" :readonly="true" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-     
+
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="冠名类型">
@@ -131,7 +131,7 @@
         </el-col>
       </el-row>
 
-       <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" prop="fontSize3">
             <el-input v-model="formData.fontSize4" :readonly="true" clearable>
@@ -145,7 +145,7 @@
         </el-col>
       </el-row>
 
-       <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" prop="fontSize3">
             <el-input v-model="formData.fontSize5" :readonly="true" clearable>
@@ -162,12 +162,12 @@
 
 
 
-        <el-row type="flex" class="row-bg "  justify="space-around">
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-           <div class="bankno">审核操作</div>
-        
+          <div class="bankno">审核操作</div>
+
         </el-col>
-        <el-col :span="8" >
+        <el-col :span="8">
           <div></div>
         </el-col>
       </el-row>
@@ -175,24 +175,24 @@
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-           
+
           </el-form-item>
         </el-col>
-      
+
       </el-row>
 
-       <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-          <div style="display: flex; align-items: center;">
-                <el-radio v-model="isokradio" label="2">不通过 </el-radio>
-             <el-input  placeholder="请输入不通过说明" type="textarea" v-model="remark" :disabled="isokradio == 1"></el-input>
-          </div>
-            
-           
+            <div style="display: flex; align-items: center;">
+              <el-radio v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input placeholder="请输入不通过说明" type="textarea" v-model="remark" :disabled="isokradio == 1"></el-input>
+            </div>
+
+
           </el-form-item>
         </el-col>
-       
+
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
@@ -212,7 +212,7 @@ import crudReview from "@/api/company/review";
 import crudInformation from "@/api/company/information";
 import { getInfo } from "@/api/login";
 import { updateReview } from "@/api/company/review";
-import { check } from "@/api/company/employed";
+import crudEmployed from '@/api/company/employed'
 export default {
   components: {},
   props: [],
@@ -240,7 +240,8 @@ export default {
         poposedName3: "",
         userName: "",
       },
-      checkDate:'',
+      userinfo:{},
+      checkDate: '',
       rules: {
         industry: [
           {
@@ -303,12 +304,13 @@ export default {
   created() { },
   mounted() {
     this.formData = this.$cache.local.getJSON("employedName");
-    this.getSelfCode();
+   // this.getSelfCode();
     this.getLoginInfo();
   },
   methods: {
     getLoginInfo() {
       getInfo().then((res) => {
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
       });
     },
@@ -347,66 +349,58 @@ export default {
         this.formData.organizationalForm = "经营部";
       }
     },
-      repair(i) {
-            if (i >= 0 && i <= 9) {
-                return "0" + i;
-            } else {
-                return i;
-            }
-        },
-        gettoday() {
-            var date = new Date();//当前时间
-            var year = date.getFullYear() //年
-            var month = this.repair(date.getMonth() + 1);//月
-            var day = this.repair(date.getDate());//日
-
-            // var hour = this.repair(date.getHours());//时
-            // var minute = this.repair(date.getMinutes());//分
-            // var second = this.repair(date.getSeconds());//秒
-
-            //当前时间 
-            var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-            // this.formData.createTime = curTime;
-            this.checkDate = curTime;
-
-        },
-    //新增进度
-    check(resmsg){
-      let parms={
-        "checkDate":  this.checkDate,
-        "checkReasult":resmsg,
-        "checkUser": this.formData.userName,
-        "createBy": "",
-        "createTime": "",
-        "id": 0,
-        "params": {},
-        "remark": "",
-        "searchValue": "",
-        "selfCode": this.formData.selfCode,
-        "selfType": "工商审核",
-        "updateBy": "",
-        "updateTime": ""
+    repair(i) {
+      if (i >= 0 && i <= 9) {
+        return "0" + i;
+      } else {
+        return i;
       }
-       check().then(res=>{
-
-       }).catch(error=>{
-
-       });
     },
-    //获取编号
-    getSelfCode() {
-      //获取员工编号
-      getInfo().then((res) => {
-        var userId = res.user.userId;
-        crudInformation.getInformation(userId).then((res) => {
-          var employeeNumber = res.data.employeeNumber;
-          crudReview.getCode({ employeeNumber: employeeNumber }).then((res) => {
-            this.formData.selfCode = res;
-            console.log("selfCode", res);
-          });
-        });
+    gettoday() {
+      var date = new Date();//当前时间
+      var year = date.getFullYear() //年
+      var month = this.repair(date.getMonth() + 1);//月
+      var day = this.repair(date.getDate());//日
+
+      // var hour = this.repair(date.getHours());//时
+      // var minute = this.repair(date.getMinutes());//分
+      // var second = this.repair(date.getSeconds());//秒
+
+      //当前时间 
+      var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+      // this.formData.createTime = curTime;
+      this.checkDate = curTime;
+
+    },
+    //新增名称审核进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.formData.selfCode,
+        "selfType": "2",
+      }
+      crudEmployed.check(parms).then(res => {
+        console.log('名称审核插入日志成功！');
+      }).catch(error => {
+
       });
     },
+    //获取编号
+    // getSelfCode() {
+    //   //获取员工编号
+    //   getInfo().then((res) => {
+    //     var userId = res.user.userId;
+    //     crudInformation.getInformation(userId).then((res) => {
+    //       var employeeNumber = res.data.employeeNumber;
+    //       crudReview.getCode({ employeeNumber: employeeNumber }).then((res) => {
+    //         this.formData.selfCode = res;
+    //         console.log("selfCode", res);
+    //       });
+    //     });
+    //   });
+    // },
     submitForm(type) {
 
       this.$refs["elForm"].validate((valid) => {
@@ -429,36 +423,36 @@ export default {
 
 
 
-            
-              if (res != undefined) {
-                if (res.code === 200) {
-                     this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageName"}).then(() => {
-                     let resmsg='';
-                     if (type == 1) {
-                        resmsg='名称审核完成';
-                         this.check('名称审核已完成');
-                  } else {
-                        resmsg='名称审核完成';
-                        this.check('名称审核未通过');
-                     }
-                      let obj={
-                        title:'名称审核',
-                        backUrl:'/company/customer/manageName',
-                        resmsg:resmsg
 
-                      }
-                      this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
-                    });
-                   });
+            if (res != undefined) {
+              if (res.code === 200) {
+                this.$nextTick(function () {
+                  this.$tab.refreshPage({ path: "/company/customer/manageName" }).then(() => {
+                    let resmsg = '';
+                    if (type == 1) {
+                      resmsg = '名称审核完成';
+                      this.check('名称审核已完成');
+                    } else {
+                      resmsg = '名称审核完成';
+                      this.check('名称审核未通过');
+                    }
+                    let obj = {
+                      title: '名称审核',
+                      backUrl: '/company/customer/manageName',
+                      resmsg: resmsg
 
-                } else {
-                  this.$modal.msgError(res.msg);
-                   this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
-                }
+                    }
+                    this.$cache.local.setJSON('successNew', obj);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                  });
+                });
+
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({ path: "/company/customer/manageName" });
               }
-            
+            }
+
           });
         } else {
           this.$message({
@@ -469,7 +463,7 @@ export default {
       });
     },
     resetForm() {
-       this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
+      this.$tab.closeOpenPage({ path: "/company/customer/manageName" });
     },
   },
 };
@@ -504,6 +498,7 @@ export default {
   justify-content: center;
 
 }
+
 .bankno {
   display: flex;
   justify-content: space-between;

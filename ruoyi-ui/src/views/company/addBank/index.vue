@@ -231,11 +231,13 @@
 </template>
 
 <script>
+import { getInfo } from '@/api/login'
 import { all } from "@/api/company/payTaxInfo";
-import { addEmployed, updateEmployed } from "@/api/company/employed";
+import { addEmployed, updateEmployed,check } from "@/api/company/employed";
 export default {
   data() {
     return {
+        userinfo:{},
       formBank: {
         bankStatus: 1,
         selfId: "",
@@ -401,10 +403,33 @@ export default {
     handleChange(val) {
       console.log(val);
     },
+
+     //获取个人信息
+     getInfo(){
+        getInfo().then(res=>{
+          this.userinfo=res.user;
+        })
+    },
+    //新增银行办理进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfType": "7",
+      }
+      check(parms).then(res => {
+        console.log('工商办理插入日志成功！');
+      }).catch(error => {
+
+      });
+    },
+    //返回
     resetForm() {
-     // this.$router.back();
         this.$tab.closeOpenPage({ path: "/company/customer/manageBank"});
     },
+    //提交表单
     onSubmit() {
       this.$refs["formBank"].validate((valid) => {
         if (valid) {
@@ -417,8 +442,9 @@ export default {
                    this.$nextTick(function () {
                      this.$tab.refreshPage({ path: "/company/customer/manageBank"}).then(() => {
                      let  resmsg='办理银行完成';
+                      this.check(resmsg);
                      let obj={
-                        title:'税务办理',
+                        title:'银行办理',
                         backUrl:'/company/customer/manageBank',
                         resmsg:resmsg
                         };

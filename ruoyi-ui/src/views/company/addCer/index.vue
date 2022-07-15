@@ -7,27 +7,13 @@
       label-width="auto"
     >
       <el-row  type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9">
-          <!-- <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input  v-model="formBank.selfName" disabled></el-input>
-          </el-form-item> -->
-
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
+        <el-col :span="21">
+         <el-form-item style="padding-right:0.2%" class="comright" label="法人姓名" prop="legalPersonName">
             <el-input  v-model="formBank.legalPersonName" disabled></el-input>
           </el-form-item>
         </el-col>
-       
-        <el-col :span="9">
-          <!-- <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formBank.taxId" ></el-input>
-          </el-form-item> -->
-        </el-col>
-      </el-row>
-      
-     
-    
-
-      <el-row  type="flex" class="row-bg " justify="space-around">
+       </el-row>
+       <el-row  type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           
           <el-form-item  label="工商实名" prop="fileName6">
@@ -90,8 +76,9 @@
 </template>
 
 <script>
+import { getInfo } from '@/api/login'
 import { all } from "@/api/company/payTaxInfo";
-import { addEmployed, updateEmployed } from "@/api/company/employed";
+import { addEmployed, updateEmployed, check } from "@/api/company/employed";
 export default {
   data() {
     return {
@@ -100,10 +87,10 @@ export default {
         selfId: "",
         selfName: "",
         legalPersonName: "",
-        // taxId: "",
         fileName6: [],
         fileName7: [],
       },
+      userinfo:{},
       accountType: "",
       activeNames: ["1"],
       dialogImageUrl1: "",
@@ -112,77 +99,11 @@ export default {
       fileName7: [],
       dialogVisible1: false,
       dialogVisible2: false,
-      mylist: [],
-      accountName_options: [],
-      publicDepositBank3_options: [],
-      publicAccountNumber3_options: [],
-
       rules: {
-        selfName: [
-          { required: true, message: "请输入名称", trigger: "blur" },
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
         legalPersonName: [
           { required: true, message: "请输入法人姓名", trigger: "blur" },
         ],
-        taxId: [
-          { required: true, message: "请输入纳税人识别号", trigger: "blur" },
-        ],
-
-        publicDepositBank1: [
-          {
-            required: true,
-            message: "请输入对公基本户开户银行",
-            trigger: "blur",
-          },
-        ],
-        publicAccountNumber1: [
-          {
-            required: true,
-            message: "请输入对公基本户银行账号",
-            trigger: "blur",
-          },
-        ],
-        publicDepositBank2: [
-          {
-            required: true,
-            message: "请输入对公一般户开户银行",
-            trigger: "blur",
-          },
-        ],
-        publicAccountNumber2: [
-          {
-            required: true,
-            message: "请输入对公一般户银行账号",
-            trigger: "blur",
-          },
-        ],
-
-        privateDepositBank: [
-          { required: true, message: "请输入私人开户银行", trigger: "blur" },
-        ],
-        privateAccountNumber: [
-          { required: true, message: "请输入私人银行账号", trigger: "blur" },
-        ],
-        accountName: [
-          { required: true, message: "请输入纳税账号户名", trigger: "change" },
-        ],
-        publicDepositBank3: [
-          {
-            required: true,
-            message: "请输入纳税账号开户银行",
-            trigger: "change",
-          },
-        ],
-        publicAccountNumber3: [
-          {
-            required: true,
-            message: "请输入纳税账号银行账号",
-            trigger: "change",
-          },
-        ],
-
-        fileName6: [
+         fileName6: [
           {
             required: true,
             message: "请上传工商实名文件",
@@ -204,6 +125,7 @@ export default {
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
     this.formBank.legalPersonName = list.legalPersonName;
+    this.getInfo();
 },
   beforeRouteLeave(to, from, next) {
     to.meta.keepAlive = true;
@@ -211,42 +133,31 @@ export default {
   },
 
   methods: {
-    changeValue(res) {
-      for (let i in this.mylist) {
-        if (this.mylist[i].accountName == res) {
-          this.formBank.publicDepositBank3 = this.mylist[i].publicDepositBank3;
-          this.formBank.publicAccountNumber3 =
-            this.mylist[i].publicAccountNumber3;
-          return;
-        }
-      }
-    },
-    nailist() {
-      all()
-        .then((res) => {
-          if (res != undefined) {
-            console.log(res);
-            this.mylist = [];
-            this.accountName_options = [];
-            this.mylist = res;
-            // this.publicDepositBank3_options = [];
-            // this.publicAccountNumber3_options = [];
-            for (let i in res) {
-              this.accountName_options.push({ value: res[i].accountName });
-              // this.publicDepositBank3_options.push({value:res[i].publicDepositBank3});
-              // this.publicAccountNumber3_options.push({value:res[i].publicAccountNumber3});
-            }
-          }
-        })
-        .catch((error) => {
-          this.modal.msgError(error);
-        });
-    },
-    handleChange(val) {
+     handleChange(val) {
       console.log(val);
     },
     resetForm() {
         this.$tab.closeOpenPage({ path: "/company/customer/manageCer"});
+    },
+    getInfo(){
+        getInfo().then(res=>{
+          this.userinfo=res.user;
+        })
+    },
+    //新增实名办理进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfType": "4",
+      }
+      check(parms).then(res => {
+        console.log('实名办理插入日志成功！');
+      }).catch(error => {
+
+      });
     },
     onSubmit() {
       this.$refs["formBank"].validate((valid) => {
@@ -260,6 +171,7 @@ export default {
                    this.$nextTick(function () {
                      this.$tab.refreshPage({ path: "/company/customer/manageCer"}).then(() => {
                      let  resmsg='办理实名完成';
+                     this.check(resmsg);
                      let obj={
                         title:'实名办理',
                         backUrl:'/company/customer/manageCer',
@@ -284,11 +196,11 @@ export default {
       });
     },
     handlesuccess1(file, fileList) {
-      this.formBank.fileName3.push(file.obj);
+      this.formBank.fileName6.push(file.obj);
     },
     handleRemove1(file, fileList) {
-      const i = this.formBank.fileName3.findIndex((item) => item === fileList);
-      this.formBank.fileName3.splice(i, 1);
+      const i = this.formBank.fileName6.findIndex((item) => item === fileList);
+      this.formBank.fileName6.splice(i, 1);
     },
     handlePreview1(file) {
       this.dialogImageUrl1 = file.url;
@@ -305,11 +217,11 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
     handlesuccess2(file, fileList) {
-      this.formBank.fileName4.push(file.obj);
+      this.formBank.fileName7.push(file.obj);
     },
     handleRemove2(file, fileList) {
-      const i = this.formBank.fileName4.findIndex((item) => item === fileList);
-      this.formBank.fileName4.splice(i, 1);
+      const i = this.formBank.fileName7.findIndex((item) => item === fileList);
+      this.formBank.fileName7.splice(i, 1);
     },
     handlePreview2(file) {
       this.dialogImageUrl2 = file.url;

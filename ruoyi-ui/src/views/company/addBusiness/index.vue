@@ -77,7 +77,8 @@
 </template>
 
 <script>
-import { addEmployed, updateEmployed } from "@/api/company/employed";
+import { getInfo } from '@/api/login'
+import { addEmployed, updateEmployed , check } from "@/api/company/employed";
 export default {
   data() {
     return {
@@ -112,6 +113,7 @@ export default {
           },
         ],
       },
+       userinfo:{},
       formbusiness: {
         businessStatus: "1",
         selfId: "",
@@ -142,12 +144,7 @@ export default {
       },
     };
   },
-  created() {
-    let list = this.$cache.local.getJSON("employednewlist");
-    this.formbusiness.selfId = list.selfId;
-   // this.formbusiness.taxId=list.taxId;
-    this.formbusiness.legalPersonName = list.legalPersonName;
-  },
+
   beforeRouteLeave(to, from, next) {
     to.meta.keepAlive = true;
     next(0);
@@ -157,6 +154,9 @@ export default {
     let list = this.$cache.local.getJSON("employednewlist");
     this.formbusiness.selfId = list.selfId;
     this.formbusiness.legalPersonName = list.legalPersonName;
+  },
+  mounted(){
+    this.getInfo();
   },
   beforeRouteLeave(to, from, next) {
     to.meta.keepAlive = true;
@@ -166,11 +166,30 @@ export default {
   methods: {
     //返回
     resetForm() {
-      //this.$router.back();
-     this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
-
+      this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
     },
-    //返回
+    //获取个人信息
+     getInfo(){
+        getInfo().then(res=>{
+          this.userinfo=res.user;
+        })
+    },
+    //新增工商办理进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfType": "5",
+      }
+      check(parms).then(res => {
+        console.log('工商办理插入日志成功！');
+      }).catch(error => {
+
+      });
+    },
+    //提交表单
     onSubmit() {
       this.$refs["formbusiness"].validate((valid) => {
         if (valid) {
@@ -202,6 +221,7 @@ export default {
                   this.$nextTick(function () {
                      this.$tab.refreshPage({ path: "/company/customer/manageBusiness"}).then(() => {
                      let  resmsg='办理工商完成';
+                      this.check(resmsg);
                      let obj={
                         title:'工商办理',
                         backUrl:'/company/customer/manageBusiness',
