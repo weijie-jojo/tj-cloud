@@ -13,7 +13,7 @@
           </el-form-item>
         </el-col>
        </el-row>
-       <el-row  type="flex" class="row-bg " justify="space-around">
+       <el-row  type="flex" class="row-bg " justify="space-around" style="margin-top:50px">
         <el-col :span="9">
           
           <el-form-item  label="工商实名" prop="fileName6">
@@ -63,7 +63,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-        <el-row type="flex" class="row-bg " justify="space-around">
+        <el-row type="flex" class="row-bg " justify="space-around" style="margin-top:100px">
          <el-col :span="8"></el-col>
          <el-col :span='8' class="flexs">
              <el-button type="danger" @click="resetForm">返回</el-button> 

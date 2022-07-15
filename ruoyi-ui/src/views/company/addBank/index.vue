@@ -351,6 +351,9 @@ export default {
       },
     };
   },
+  mounted(){
+    this.getInfo();
+  },
   created() {
     let list = this.$cache.local.getJSON("employednewlist");
     this.formBank.selfId = list.selfId;
