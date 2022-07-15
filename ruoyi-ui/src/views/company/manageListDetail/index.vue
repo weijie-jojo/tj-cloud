@@ -24,14 +24,14 @@
               <el-form-item class="comright" label="个体户名称" prop="selfName">
                 <el-input
                   v-model="formBank.selfName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
 
               <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
                 <el-input
                   v-model="formBank.legalPersonName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -39,17 +39,17 @@
             <el-col :span="9">
               <el-form-item class="comright" label="纳税人识别号" prop="taxId">
                 <el-input
-                
-                  v-model="formBank.taxId"
-                  disabled
+                 v-model="formBank.taxId"
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
               <el-form-item class="comright"  label="从业人数" prop="numberEmployees">
                 <el-input
                 
                   v-model="formData.numberEmployees"
-                  disabled
+                  :readonly="true"
                 >
+                 <template slot="append">万元</template>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -57,21 +57,15 @@
 
           <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item class="comright" label="出资额" prop="contributionAmount">
-                <el-input-number
-                 style="width:100%"
-                  disabled
-                  v-model="formData.contributionAmount"
-                  :precision="6"
-                  :step="0.01"
-                  :min="0"
-                >
-                </el-input-number>
-              </el-form-item>
+             <el-form-item class="comright" label="出资额" prop="contributionAmount">
+              <el-input   :readonly="true" type="number" v-model="formData.contributionAmount">
+                  <template slot="append">万元</template>
+          </el-input>
+           </el-form-item>
             </el-col>
             <el-col :span="9">
               <el-form-item class="comright" label="城市" prop="city">
-                <el-input  v-model="formData.city" disabled>
+                <el-input  v-model="formData.city"   :readonly="true">
                 </el-input>
               </el-form-item>
             </el-col>
@@ -81,7 +75,7 @@
               <el-form-item  class="comright" label="区（县）" prop="county">
                 <el-input
                   v-model="formData.county"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -106,11 +100,11 @@
           </el-row>
           <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="21">
-              <el-form-item style="padding-right:4%" label="经营场所" prop="selfAddress">
+              <el-form-item style="padding-right:4.2%" label="经营场所" prop="selfAddress">
                 <el-input
                   
                   v-model="formData.selfAddress"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -121,7 +115,7 @@
               <el-form-item class="comright" label="联系电话" prop="contactPhone">
                 <el-input
                   v-model="formData.contactPhone"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -130,7 +124,7 @@
               <el-form-item class="comright" label="所属自贸区" prop="freeTradeZone">
                 <el-input
                   v-model="formData.freeTradeZone"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -142,7 +136,7 @@
                 <el-input
                  
                   v-model="formData.freeTradeArea"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -151,7 +145,7 @@
               <el-form-item class="comright" label="产权" prop="propertyRight">
                 <el-input
                   v-model="formData.propertyRight"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -159,9 +153,9 @@
           </el-row>
           <el-row type="flex" class="row-bg " justify="space-around" >
             <el-col :span="21" >
-              <el-form-item style="padding-right:4%" label="经营范围" prop="natureBusiness">
+              <el-form-item style="padding-right:4.2%" label="经营范围" prop="natureBusiness">
                 <el-input
-                 disabled
+                   :readonly="true"
                   type="textarea"
                   :rows="2"
                   placeholder="请输入经营范围"
@@ -200,7 +194,7 @@
               <el-form-item class="comright" label="行业税率">
                 <el-input
                   v-model="formData.industryTax"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -252,7 +246,7 @@
                 <el-input
                  
                   v-model="formData.contactName"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -261,7 +255,7 @@
               <el-form-item class="comright" label="人员类型" prop="personnelType">
                 <el-input
                   v-model="formData.personnelType"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -273,7 +267,7 @@
                 <el-input
                   
                   v-model="formData.contactDocumentType"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -283,7 +277,7 @@
                 <el-input
                  
                   v-model="formData.contactIdNum"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -327,7 +321,7 @@
               <el-form-item class="comright" label="民族" prop="nation">
                 <el-input
                 
-                  disabled
+                    :readonly="true"
                   v-model="formData.nation"
                   clearable
                 >
@@ -359,7 +353,7 @@
                 <el-input
                   
                   v-model="formData.occupationalStatus"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -385,10 +379,10 @@
           </el-row>
           <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="21">
-              <el-form-item style="padding-right:4%" label="经营者居所" prop="residence">
+              <el-form-item style="padding-right:4.2%" label="经营者居所" prop="residence">
                 <el-input
                   
-                  disabled
+                    :readonly="true"
                   v-model="formData.residence"
                   clearable
                 >
@@ -401,7 +395,7 @@
               <el-form-item class="comright" label="联系电话" prop="contactPhone">
                 <el-input
                   
-                  disabled
+                    :readonly="true"
                   v-model="formData.contactPhone"
                   clearable
                 >
@@ -412,7 +406,7 @@
               <el-form-item class="comright" label="电子邮箱" prop="mail">
                 <el-input
                  
-                  disabled
+                    :readonly="true"
                   v-model="formData.mail"
                   clearable
                 >
@@ -434,7 +428,39 @@
                 </div>
               </el-form-item>
             </el-col>
-            <el-col :span="9"></el-col>
+            <el-col :span="9">
+                <el-form-item label="工商实名">
+                <div v-for="(item, index) in fileName6" :key="index">
+                  <el-image
+                    lazy
+                    :preview-src-list="fileName6"
+                    style="width: 150px; height: 150px"
+                    :src="item"
+                    alt=""
+                  />
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+
+            <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="税务实名">
+                <div v-for="(item, index) in fileName7" :key="index">
+                  <el-image
+                    lazy
+                    :preview-src-list="fileName7"
+                    style="width: 150px; height: 150px"
+                    :src="item"
+                    alt=""
+                  />
+                </div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="9">
+               
+            </el-col>
           </el-row>
 
           <el-row type="flex" class="row-bg" style="margin-bottom:20px" justify="space-around">
@@ -450,7 +476,7 @@
             <el-col :span="9">
               <el-form-item class="comright" label="姓名" prop="contactName">
                 <el-input
-                  disabled
+                    :readonly="true"
                   v-model="formData.contactName"
                   clearable
                 >
@@ -460,7 +486,7 @@
             <el-col :span="9">
               <el-form-item class="comright" label="移动电话" prop="contactPhone">
                 <el-input
-                  disabled
+                    :readonly="true"
                   v-model="formData.contactPhone"
                   clearable
                 >
@@ -474,7 +500,7 @@
                 <el-input
                   
                   v-model="formData.contactDocumentType"
-                  disabled
+                    :readonly="true"
                 >
                 </el-input>
               </el-form-item>
@@ -483,7 +509,7 @@
               <el-form-item class="comright" label="证件号码" prop="contactIdNum">
                 <el-input
                  
-                  disabled
+                    :readonly="true"
                   v-model="formData.contactIdNum"
                   clearable
                 >
@@ -507,14 +533,14 @@
               <el-form-item class="comright" label="个体户名称" prop="selfName">
                 <el-input
                    v-model="formBank.selfName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
 
               <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
                 <el-input
                   v-model="formBank.legalPersonName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -523,7 +549,7 @@
               <el-form-item class="comright" label="纳税人识别号" prop="taxId">
                 <el-input
                  v-model="formBank.taxId"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -542,7 +568,7 @@
                 <el-input
                  
                   value="私人账号"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
 
@@ -550,7 +576,7 @@
                 <el-input
                  
                   v-model="formBank.privateDepositBank"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -560,14 +586,14 @@
                 <el-input
                  
                   v-model="formBank.legalPersonName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
                 <el-input
                   
                   v-model="formBank.privateAccountNumber"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -580,14 +606,14 @@
                 <el-input
                  
                   value="对公基本户"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
 
               <el-form-item class="comright" label="开户银行">
                 <el-input
                 
-                  disabled
+                    :readonly="true"
                   v-model="formBank.publicDepositBank1"
                 ></el-input>
               </el-form-item>
@@ -598,13 +624,13 @@
                 <el-input
                  
                   v-model="formBank.selfName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号">
                 <el-input
                  
-                  disabled
+                    :readonly="true"
                   v-model="formBank.publicAccountNumber1"
                 ></el-input>
               </el-form-item>
@@ -617,13 +643,13 @@
               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
                   value="对公一般户"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
 
               <el-form-item class="comright" label="开户银行">
                 <el-input
-                  disabled
+                    :readonly="true"
                   v-model="formBank.publicDepositBank2"
                 ></el-input>
               </el-form-item>
@@ -634,13 +660,13 @@
                 <el-input
                   
                   v-model="formBank.selfName"
-                  disabled
+                    :readonly="true"
                 ></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号">
                 <el-input
                  
-                  disabled
+                    :readonly="true"
                   v-model="formBank.publicAccountNumber2"
                 ></el-input>
               </el-form-item>
@@ -680,7 +706,7 @@
 
               <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
                 <el-input
-                 disabled
+                   :readonly="true"
                   v-model="formBank.publicDepositBank3"
                 ></el-input>
                 <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
@@ -706,7 +732,7 @@
               <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
                 <el-input
                  
-                  disabled
+                    :readonly="true"
                   v-model="formBank.publicAccountNumber3"
                 ></el-input>
                 <!-- <el-select disabled v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
@@ -916,6 +942,8 @@ export default {
       fileName1:[],
       dialogImageUrl2: "",
       fileName4: [],
+      fileName6: [],
+      fileName7: [],
       dialogVisible1: false,
       dialogVisible2: false,
       rules: {
@@ -1236,6 +1264,14 @@ export default {
    this.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
    for(let k1 in this.fileName5){
       this.fileName5[k1]=this.baseImgPath+this.fileName5[k1];
+    } 
+    this.fileName6=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
+   for(let k2 in this.fileName6){
+      this.fileName6[k2]=this.baseImgPath+this.fileName6[k2];
+    } 
+    this.fileName7=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
+   for(let k3 in this.fileName7){
+      this.fileName7[k3]=this.baseImgPath+this.fileName7[k3];
     } 
     this.formData.electronicCommerce=parseInt(this.formData.electronicCommerce);
     this.formData.gender=parseInt(this.formData.gender);

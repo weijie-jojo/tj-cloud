@@ -26,6 +26,16 @@ export function addEmployed(data) {
   })
 }
 
+// 查询个体商户进度
+export function checkdetail(query) {
+  return request({
+    url: '/company/employed/list',
+    method: 'get',
+    params: query
+  })
+}
+
+
 // 新增个体商户进度
 export function check(data) {
   return request({
@@ -69,4 +79,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check}
+export default {addEmployed,updateEmployed,check,checkdetail}

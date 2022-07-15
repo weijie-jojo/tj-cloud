@@ -127,10 +127,10 @@ export default {
         "checkUser": this.userinfo.userName,
         'phonenumber':this.userinfo.phonenumber,
         "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
-        "selfType": "5",
+        "selfType": "6",
       }
       check(parms).then(res => {
-        console.log('工商办理插入日志成功！');
+        console.log('税务办理插入日志成功！');
       }).catch(error => {
 
       });

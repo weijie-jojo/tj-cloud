@@ -44,7 +44,7 @@
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="进度状态" align="center" prop="endStatus">
       <template slot-scope="scope">
-          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == '0'">待办理</el-link>
+          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == '0' && scope.row.nameStatus !=2 && scope.row.infoStatus !=2">待办理</el-link>
           <el-link :underline="false" type="danger" v-if="scope.row.nameStatus==2 || scope.row.infoStatus==2 ">异常</el-link>
           <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">已完成</el-link>
       </template>
@@ -105,7 +105,7 @@
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed,checkdetail } from "@/api/company/employed";
 // import axios from 'axios'
 export default {
   name: "Employed",
@@ -251,6 +251,15 @@ export default {
             //   message: `action: ${ action }`
             // });
           }
+        });
+    },
+    check(self_code,self_type){
+       let parms={
+        // selfCode=self_code,
+        // selfType=self_
+       }
+       checkdetail().then(res=>{
+          
         });
     },
     
