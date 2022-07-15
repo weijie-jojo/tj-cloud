@@ -65,7 +65,10 @@
       @pagination="getList" />
 
     <!-- 添加-->
-    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="title" :visible.sync="addVisible" width="700px" append-to-body>
+    <el-dialog
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="title" :visible.sync="addVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="rules" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">
@@ -149,7 +152,10 @@
 
 
     <!-- 编辑-->
-    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titles" :visible.sync="editVisible" width="700px" append-to-body>
+    <el-dialog 
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titles" :visible.sync="editVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="rules" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">
@@ -244,7 +250,10 @@
 
 
     <!-- 详情-->
-    <el-dialog style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titleh" :visible.sync="checkVisible" width="700px" append-to-body>
+    <el-dialog
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    style="margin-top:1vh !important;margin-bottom: 1vh !important;" :title="titleh" :visible.sync="checkVisible" width="700px" append-to-body>
       <el-form ref="form" :model="ruleForm" :rules="ruleForm" size="small" label-width="auto" :inline="true">
         <!-- 卡1 -->
         <el-card class="box-card" id="form1">

@@ -407,15 +407,15 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                    this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageBank"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageBank"}).then(() => {
                      let  resmsg='办理银行成功';
                      let obj={
                         title:'税务办理',
-                        backUrl:'/customer/manageBank',
+                        backUrl:'/company/customer/manageBank',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
                   

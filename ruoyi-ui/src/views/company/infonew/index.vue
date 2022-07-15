@@ -915,27 +915,27 @@ export default {
                 if (res.code === 200) {
                 
                 this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageInfo"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageInfo"}).then(() => {
                      let resmsg='';
                      if (type == 1) {
-                        resmsg='信息审核通过成功';
+                        resmsg='信息审核完成';
                   } else {
-                        resmsg='信息审核不过成功';
+                        resmsg='信息审核完成';
                      }
                       let obj={
                         title:'信息审核',
-                        backUrl:'/customer/manageInfo',
+                        backUrl:'/company/customer/manageInfo',
                         resmsg:resmsg
 
                       }
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
 
                 } else {
                   this.$modal.msgError(res.msg);
-                    this.$tab.closeOpenPage({ path: "/customer/manageInfo"});
+                    this.$tab.closeOpenPage({ path: "/company/customer/manageInfo"});
                 }
 
               }
@@ -955,7 +955,7 @@ export default {
 
     },
     toReturn2() {
-      this.$router.back();
+           this.$tab.closeOpenPage({ path: "/company/customer/manageInfo"});
     },
   }
 }

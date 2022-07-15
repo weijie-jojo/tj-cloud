@@ -26,6 +26,15 @@ export function addEmployed(data) {
   })
 }
 
+// 新增个体商户进度
+export function check(data) {
+  return request({
+    url: '/company/check',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改个体商户
 export function updateEmployed(data) {
   return request({

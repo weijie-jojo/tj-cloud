@@ -188,15 +188,15 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageBusiness"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageBusiness"}).then(() => {
                      let  resmsg='办理工商成功';
                      let obj={
                         title:'工商办理',
-                        backUrl:'/customer/manageBusiness',
+                        backUrl:'/company/customer/manageBusiness',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
 
@@ -204,7 +204,7 @@ export default {
                   
                 } else {
                   this.$modal.msgError(error);
-                   this.$tab.closeOpenPage({ path: "/customer/manageBusiness"});
+                   this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
                 }
               }
             })

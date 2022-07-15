@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input v-model="formbusiness.taxId" disabled></el-input>
+            <el-input v-model="formbusiness.taxId" placeholder="请输入纳税人识别号"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="注册时间" prop="businessTerm">
             <!-- <el-date-picker
@@ -145,7 +145,7 @@ export default {
   created() {
     let list = this.$cache.local.getJSON("employednewlist");
     this.formbusiness.selfId = list.selfId;
-    this.formbusiness.taxId=list.taxId;
+   // this.formbusiness.taxId=list.taxId;
     this.formbusiness.legalPersonName = list.legalPersonName;
   },
   beforeRouteLeave(to, from, next) {
@@ -166,7 +166,9 @@ export default {
   methods: {
     //返回
     resetForm() {
-      this.$router.back();
+      //this.$router.back();
+     this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
+
     },
     //返回
     onSubmit() {
@@ -198,15 +200,15 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageBusiness"}).then(() => {
-                     let  resmsg='办理工商成功';
+                     this.$tab.refreshPage({ path: "/company/customer/manageBusiness"}).then(() => {
+                     let  resmsg='办理工商完成';
                      let obj={
                         title:'工商办理',
-                        backUrl:'/customer/manageBusiness',
+                        backUrl:'/company/customer/manageBusiness',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
 
@@ -214,7 +216,7 @@ export default {
                   
                 } else {
                   this.$modal.msgError(error);
-                   this.$tab.closeOpenPage({ path: "/customer/manageBusiness"});
+                   this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
                 }
               }
             })

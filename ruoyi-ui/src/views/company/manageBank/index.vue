@@ -1,8 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      
-      <el-form-item label="法人姓名" prop="legalPersonName">
+     <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
@@ -22,51 +21,29 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
        <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-      
-       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
        <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
         <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
-           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 " >未开始</el-link>
-           <el-link :underline="false" type="primary"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 0">办理</el-link>
-           <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 1">完成</el-link>
+           <el-link :underline="false" type="primary"  v-if="scope.row.bankStatus == 0">待办理</el-link>
+           <el-link :underline="false" type="success"  v-if=" scope.row.bankStatus == 1">已完成</el-link>
          </template>
        </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" v-if="scope.row.bankStatus==1 || scope.row.bankStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.bankStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
-          <el-button size="mini" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.bankStatus == 0" type="text" icon="el-icon-s-goods"
+          <el-button size="mini" v-if="scope.row.bankStatus == 0" type="text" icon="el-icon-s-goods"
             @click="bank(scope.row)">银行办理</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>银行办理</el-button>
-
-
-
-         <!-- <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">银行办理</el-button> -->
-        </template>
+      </template>
       </el-table-column>
     </el-table>
 
@@ -108,8 +85,9 @@ export default {
       queryParams: {
         nameStatus:1,
         infoStatus:1,
-        businessStatus:null,
-        realnameStatus:null,
+        businessStatus:1,
+        realnameStatus:1,
+        taxStatus:1,
         bankStatus:null,
         pageNum: 1,
         pageSize: 10,
@@ -120,12 +98,12 @@ export default {
        options: [
         {
           value: 0,
-          label: '办理'
+          label: '待办理'
         },
        {
 
           value: 1,
-          label: '完成',
+          label: '已完成',
         },
       ],
       // 表单参数
@@ -136,22 +114,12 @@ export default {
     };
   },
   created() {
-    // axios.get("/getUsers", {
-
-    //     }).then((res) => {
-    //       console.log(res);
-    //       this.loading = false;
-    //       let data = res.data.data.list;
-    //       this.employedList = data;
-
-    //     });
-
     this.getList();
   },
   methods: {
       detail(row){
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("银行信息","/customer/detailBank");
+         this.$tab.openPage("银行信息","/company/customer/detailBank");
 
     },
     
@@ -208,18 +176,14 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-         this.queryParams.businessStatus=1;
-      this.queryParams.realnameStatus=1;
+      
       this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.queryParams.businessStatus=null;
-      this.queryParams.realnameStatus=null;
-      this.queryParams.pageNum = 1;
       this.resetForm("queryForm");
-       this.getList();
+      this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -235,7 +199,7 @@ export default {
     
     bank(row){
        this.$cache.local.setJSON('employednewlist', row);
-       this.$tab.closeOpenPage({ path: "/customer/addBank"});
+       this.$tab.closeOpenPage({ path: "/company/customer/addBank"});
     },
     /** 新增按钮操作 */
     handleAdd() {

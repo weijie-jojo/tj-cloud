@@ -18,9 +18,9 @@
         </el-col>
        
         <el-col :span="9">
-          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
+          <!-- <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input  v-model="formBank.taxId" :readonly="true" ></el-input>
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
       </el-row>
       
@@ -244,15 +244,15 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                    this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageCer"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageCer"}).then(() => {
                      let  resmsg='办理实名成功';
                      let obj={
                         title:'实名办理',
-                        backUrl:'/customer/manageCer',
+                        backUrl:'/company/customer/manageCer',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
                   

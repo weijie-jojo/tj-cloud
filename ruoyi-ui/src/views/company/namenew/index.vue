@@ -198,7 +198,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">关闭</el-button>
+          <el-button type="danger" @click="resetForm">返回</el-button>
           <el-button v-if="isokradio == 2" type="primary" @click="submitForm(2)">提交</el-button>
           <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
         </el-col>
@@ -212,6 +212,7 @@ import crudReview from "@/api/company/review";
 import crudInformation from "@/api/company/information";
 import { getInfo } from "@/api/login";
 import { updateReview } from "@/api/company/review";
+import { check } from "@/api/company/employed";
 export default {
   components: {},
   props: [],
@@ -239,6 +240,7 @@ export default {
         poposedName3: "",
         userName: "",
       },
+      checkDate:'',
       rules: {
         industry: [
           {
@@ -345,6 +347,52 @@ export default {
         this.formData.organizationalForm = "经营部";
       }
     },
+      repair(i) {
+            if (i >= 0 && i <= 9) {
+                return "0" + i;
+            } else {
+                return i;
+            }
+        },
+        gettoday() {
+            var date = new Date();//当前时间
+            var year = date.getFullYear() //年
+            var month = this.repair(date.getMonth() + 1);//月
+            var day = this.repair(date.getDate());//日
+
+            // var hour = this.repair(date.getHours());//时
+            // var minute = this.repair(date.getMinutes());//分
+            // var second = this.repair(date.getSeconds());//秒
+
+            //当前时间 
+            var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+            // this.formData.createTime = curTime;
+            this.checkDate = curTime;
+
+        },
+    //新增进度
+    check(resmsg){
+      let parms={
+        "checkDate":  this.checkDate,
+        "checkReasult":resmsg,
+        "checkUser": this.formData.userName,
+        "createBy": "",
+        "createTime": "",
+        "id": 0,
+        "params": {},
+        "remark": "",
+        "searchValue": "",
+        "selfCode": this.formData.selfCode,
+        "selfType": "工商审核",
+        "updateBy": "",
+        "updateTime": ""
+      }
+       check().then(res=>{
+
+       }).catch(error=>{
+
+       });
+    },
     //获取编号
     getSelfCode() {
       //获取员工编号
@@ -381,34 +429,36 @@ export default {
 
 
 
-            if (res != undefined) {
+            
               if (res != undefined) {
                 if (res.code === 200) {
                      this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageName"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageName"}).then(() => {
                      let resmsg='';
                      if (type == 1) {
-                        resmsg='名称审核通过成功';
+                        resmsg='名称审核完成';
+                         this.check('名称审核已完成');
                   } else {
-                        resmsg='名称审核不过成功';
+                        resmsg='名称审核完成';
+                        this.check('名称审核未通过');
                      }
                       let obj={
                         title:'名称审核',
-                        backUrl:'/customer/manageName',
+                        backUrl:'/company/customer/manageName',
                         resmsg:resmsg
 
                       }
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
 
                 } else {
                   this.$modal.msgError(res.msg);
-                   this.$tab.closeOpenPage({ path: "/customer/manageName"});
+                   this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
                 }
               }
-            }
+            
           });
         } else {
           this.$message({
@@ -419,7 +469,7 @@ export default {
       });
     },
     resetForm() {
-      this.$router.back();
+       this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
     },
   },
 };

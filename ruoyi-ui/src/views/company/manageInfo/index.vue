@@ -52,9 +52,9 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="审核状态" align="center" prop="nameStatus">
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" v-if="scope.row.infoStatus == '0'">审核中</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">不通过</el-link>
-          <el-link :underline="false" type="success" v-if="scope.row.infoStatus == '1'">通过</el-link>
+          <el-link :underline="false" type="primary" v-if="scope.row.infoStatus == '0'">待审核</el-link>
+          <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">未通过</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已完成</el-link>
         </template>
       </el-table-column> 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -118,17 +118,17 @@ export default {
       options: [
         {
           value: 0,
-          label: '审核中'
+          label: '待审核'
         },
         {
 
           value: 1,
-          label: '通过',
+          label: '已完成',
         },
         {
 
           value: 2,
-          label: '不通过',
+          label: '未通过',
         },
       ],
       // 表单参数
@@ -155,7 +155,7 @@ export default {
     detail(row) {
     
       this.$cache.local.setJSON('employedInfo', row);
-      this.$tab.openPage("信息列表查看", "/customer/infodetail");
+      this.$tab.openPage("信息列表查看", "/company/customer/infodetail");
     },
 
 
@@ -227,8 +227,8 @@ export default {
 
     bank(row) {
       this.$cache.local.setJSON('employedInfo', row);
-      this.$tab.closeOpenPage({ path: "/customer/infonew" });
-      // this.$router.push("/customer/infonew");
+      this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
+      // this.$router.push("/company/customer/infonew");
     },
     /** 新增按钮操作 */
     handleAdd() {
