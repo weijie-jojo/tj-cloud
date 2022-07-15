@@ -2,6 +2,7 @@ package com.ruoyi.company.mapper;
 
 import java.util.List;
 import com.ruoyi.company.domain.SelfCheck;
+import com.ruoyi.company.domain.vo.SelfCheckVo;
 
 /**
  * 单据审批结果Mapper接口
@@ -25,7 +26,7 @@ public interface SelfCheckMapper
      * @param selfCheck 单据审批结果
      * @return 单据审批结果集合
      */
-    public List<SelfCheck> selectSelfCheckList(SelfCheck selfCheck);
+    public List<SelfCheckVo> selectSelfCheckList(SelfCheck selfCheck);
 
     /**
      * 新增单据审批结果

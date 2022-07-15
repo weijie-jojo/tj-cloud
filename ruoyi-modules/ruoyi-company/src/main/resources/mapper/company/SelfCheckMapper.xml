@@ -11,20 +11,27 @@
         <result property="checkReasult"    column="check_reasult"    />
         <result property="selfCode"    column="self_code"    />
         <result property="selfType"    column="self_type"    />
+        <result property="phonenumber"    column="phonenumber"    />
     </resultMap>
 
     <sql id="selectSelfCheckVo">
-        select id, check_date, check_user, check_reasult, self_code, self_type from self_check
+        select id, check_date, check_user, check_reasult, self_code, self_type,phonenumber from self_check
     </sql>
-
-    <select id="selectSelfCheckList" parameterType="com.ruoyi.company.domain.SelfCheck" resultMap="SelfCheckResult">
-        <include refid="selectSelfCheckVo"/>
+    <sql id="selectSelfCheckJoin">
+        select t.id, t.check_date, t.check_user, t.check_reasult, t.self_code, t.self_type,t.phonenumber,
+        A.dict_label from self_check t
+        JOIN sys_dict_data A ON t.self_type=A.dict_value
+    </sql>
+    <select id="selectSelfCheckList" parameterType="com.ruoyi.company.domain.SelfCheck" resultType="com.ruoyi.company.domain.vo.SelfCheckVo">
+        <include refid="selectSelfCheckJoin"/>
         <where>
-            <if test="checkDate != null "> and check_date = #{checkDate}</if>
-            <if test="checkUser != null  and checkUser != ''"> and check_user = #{checkUser}</if>
-            <if test="checkReasult != null  and checkReasult != ''"> and check_reasult = #{checkReasult}</if>
-            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
-            <if test="selfType != null  and selfType != ''"> and self_type = #{selfType}</if>
+            A.dict_type='self_type'
+            <if test="checkDate != null "> and t.check_date = #{checkDate}</if>
+            <if test="checkUser != null  and checkUser != ''"> and t.check_user = #{checkUser}</if>
+            <if test="checkReasult != null  and checkReasult != ''"> and t.check_reasult = #{checkReasult}</if>
+            <if test="selfCode != null  and selfCode != ''"> and t.self_code = #{selfCode}</if>
+            <if test="selfType != null  and selfType != ''"> and t.self_type = #{selfType}</if>
+            <if test="phonenumber != null  and phonenumber != ''"> and t.phonenumber = #{phonenumber}</if>
         </where>
     </select>
 
@@ -41,6 +48,7 @@
             <if test="checkReasult != null">check_reasult,</if>
             <if test="selfCode != null">self_code,</if>
             <if test="selfType != null">self_type,</if>
+            <if test="phonenumber != null">phonenumber,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="checkDate != null">#{checkDate},</if>
@@ -48,6 +56,7 @@
             <if test="checkReasult != null">#{checkReasult},</if>
             <if test="selfCode != null">#{selfCode},</if>
             <if test="selfType != null">#{selfType},</if>
+            <if test="phonenumber != null">#{phonenumber},</if>
         </trim>
     </insert>
 
@@ -59,6 +68,7 @@
             <if test="checkReasult != null">check_reasult = #{checkReasult},</if>
             <if test="selfCode != null">self_code = #{selfCode},</if>
             <if test="selfType != null">self_type = #{selfType},</if>
+            <if test="phonenumber != null">phonenumber = #{phonenumber},</if>
         </trim>
         where id = #{id}
     </update>

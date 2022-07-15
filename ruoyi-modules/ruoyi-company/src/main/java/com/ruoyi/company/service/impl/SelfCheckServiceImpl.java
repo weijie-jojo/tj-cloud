@@ -1,6 +1,8 @@
 package com.ruoyi.company.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.company.domain.vo.SelfCheckVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfCheckMapper;
@@ -38,7 +40,7 @@ public class SelfCheckServiceImpl implements ISelfCheckService
      * @return 单据审批结果
      */
     @Override
-    public List<SelfCheck> selectSelfCheckList(SelfCheck selfCheck)
+    public List<SelfCheckVo> selectSelfCheckList(SelfCheck selfCheck)
     {
         return selfCheckMapper.selectSelfCheckList(selfCheck);
     }

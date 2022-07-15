@@ -1,9 +1,12 @@
 package com.ruoyi.company.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.company.domain.vo.SelfCheckVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,23 +51,23 @@ public class SelfCheckController extends BaseController
     public TableDataInfo list(SelfCheck selfCheck)
     {
         startPage();
-        List<SelfCheck> list = selfCheckService.selectSelfCheckList(selfCheck);
+        List<SelfCheckVo> list = selfCheckService.selectSelfCheckList(selfCheck);
         return getDataTable(list);
     }
 
-    /**
-     * 导出审批列表
-     */
-    @ApiOperation("导出审批列表")
-//    @RequiresPermissions("company:check:export")
-    @Log(title = "单据审批结果", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, SelfCheck selfCheck)
-    {
-        List<SelfCheck> list = selfCheckService.selectSelfCheckList(selfCheck);
-        ExcelUtil<SelfCheck> util = new ExcelUtil<SelfCheck>(SelfCheck.class);
-        util.exportExcel(response, list, "单据审批结果数据");
-    }
+//    /**
+//     * 导出审批列表
+//     */
+//    @ApiOperation("导出审批列表")
+////    @RequiresPermissions("company:check:export")
+//    @Log(title = "单据审批结果", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, SelfCheck selfCheck)
+//    {
+//        List<SelfCheck> list = selfCheckService.selectSelfCheckList(selfCheck);
+//        ExcelUtil<SelfCheck> util = new ExcelUtil<SelfCheck>(SelfCheck.class);
+//        util.exportExcel(response, list, "单据审批结果数据");
+//    }
 
     /**
      * 查询审批列表明细
@@ -86,6 +89,10 @@ public class SelfCheckController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfCheck selfCheck)
     {
+        Date date = new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        String nowDate = formatter.format(date);
+        selfCheck.setCheckDate(date);
         return toAjax(selfCheckService.insertSelfCheck(selfCheck));
     }
 

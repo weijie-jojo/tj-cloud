@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.stringtemplate.v4.ST;
 
 /**
  * 单据审批结果对象 self_check
@@ -23,8 +24,8 @@ public class SelfCheck extends BaseEntity
     private Long id;
 
     /** 时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date checkDate;
 
     /** 审核人员 */
@@ -44,6 +45,10 @@ public class SelfCheck extends BaseEntity
     @Excel(name = "步骤 ")
     private String selfType;
 
+    /** 手机号码 */
+    @Excel(name = "手机号码")
+    private String phonenumber;
+
     public void setId(Long id)
     {
         this.id = id;
@@ -53,15 +58,7 @@ public class SelfCheck extends BaseEntity
     {
         return id;
     }
-    public void setCheckDate(Date checkDate)
-    {
-        this.checkDate = checkDate;
-    }
 
-    public Date getCheckDate()
-    {
-        return checkDate;
-    }
     public void setCheckUser(String checkUser)
     {
         this.checkUser = checkUser;
