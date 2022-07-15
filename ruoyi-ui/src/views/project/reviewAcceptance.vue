@@ -206,7 +206,7 @@ export default {
                                 // this.$tab.openPage("个体列表", "manageList")
                             })
 
-                            // this.$router.push({ path: "/customer/manageBank"});
+                            // this.$router.push({ path: "/company/customer/manageBank"});
                         });
                     } else {
                         this.$modal.msgError(res.msg);

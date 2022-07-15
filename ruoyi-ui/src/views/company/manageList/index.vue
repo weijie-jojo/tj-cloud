@@ -261,11 +261,8 @@ export default {
 
             this.$nextTick(function () {
               this.$tab.refreshPage().then(() => {
-                // this.$tab.openPage("个体列表", "manageList")
-              })
-
-              // this.$router.push({ path: "/customer/manageBank"});
-            });
+               })
+                });
           } else {
             this.$modal.msgError(res.msg);
           }
@@ -401,15 +398,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("editemployedInfo", row);
-      this.$router.push("manageListDdit");
-      // this.reset();
-      // const selfId = row.selfId || this.ids;
-      // getEmployed(selfId).then((response) => {
-      //   this.form = response.data;
-      //   this.open = true;
-      //   this.title = "修改个体商户";
-      // });
+    
     },
     /** 提交按钮 */
     submitForm() {

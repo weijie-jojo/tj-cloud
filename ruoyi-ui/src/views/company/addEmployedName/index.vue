@@ -99,7 +99,7 @@
           <el-form-item prop="fontSize1">
             <el-input v-if="isDisable" v-model="formData.fontSize1" :disabled="isDisable" clearable>
             </el-input>
-            <el-input v-else placeholder="请输入字号" v-model="formData.fontSize1" :disabled="isDisable" clearable>
+            <el-input v-else  placeholder="请输入字号" v-model="formData.fontSize1" :disabled="isDisable" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -131,7 +131,7 @@
           <el-form-item prop="fontSize3">
             <el-input v-if="isDisable" v-model="formData.fontSize3" :disabled="isDisable" clearable>
             </el-input>
-            <el-input v-else placeholder="请输入字号" v-model="formData.fontSize3" :disabled="isDisable" clearable>
+            <el-input v-else  placeholder="请输入字号" v-model="formData.fontSize3" :disabled="isDisable" clearable>
             </el-input>
 
           </el-form-item>
@@ -145,10 +145,10 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item prop="fontSize3">
+          <el-form-item prop="fontSize4">
             <el-input v-if="isDisable" v-model="formData.fontSize4" :disabled="isDisable" clearable>
             </el-input>
-            <el-input v-else placeholder="请输入字号" v-model="formData.fontSize4" :disabled="isDisable" clearable>
+            <el-input v-else  placeholder="请输入字号" v-model="formData.fontSize4" :disabled="isDisable" clearable>
             </el-input>
 
           </el-form-item>
@@ -163,10 +163,10 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item prop="fontSize3">
+          <el-form-item prop="fontSize5">
             <el-input v-if="isDisable" v-model="formData.fontSize5" :disabled="isDisable" clearable>
             </el-input>
-            <el-input v-else placeholder="请输入字号" v-model="formData.fontSize5" :disabled="isDisable" clearable>
+            <el-input v-else  placeholder="请输入字号" v-model="formData.fontSize5" :disabled="isDisable" clearable>
             </el-input>
 
           </el-form-item>
@@ -249,12 +249,17 @@ export default {
           message: '请输入登记机关',
           trigger: 'blur'
         }],
+
         random: [{
           required: false,
           message: '请输入随机字号',
           trigger: 'blur'
         }],
-
+          fontSize1: [{min: 3, message: '字号不能少于3个字符', trigger: 'blur'}],
+          fontSize2: [{min: 3, message: '字号不能少于3个字符', trigger: 'blur'}],
+          fontSize3: [{min: 3, message: '字号不能少于3个字符', trigger: 'blur'}],
+          fontSize4: [{min: 3, message: '字号不能少于3个字符', trigger: 'blur'}],
+          fontSize5: [{min: 3, message: '字号不能少于3个字符', trigger: 'blur'}]
 
       },
       organizationalFormOptions: [
@@ -305,6 +310,7 @@ export default {
     this.getLoginInfo();
   },
   methods: {
+       
     getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;

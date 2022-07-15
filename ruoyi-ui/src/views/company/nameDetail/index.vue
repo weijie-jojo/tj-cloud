@@ -345,7 +345,7 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                      this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageName"}).then(() => {
+                     this.$tab.refreshPage({ path: "/company/customer/manageName"}).then(() => {
                      let resmsg='';
                      if (type == 1) {
                         resmsg='名称审核通过成功';
@@ -354,18 +354,18 @@ export default {
                      }
                       let obj={
                         title:'名称审核',
-                        backUrl:'/customer/manageName',
+                        backUrl:'/company/customer/manageName',
                         resmsg:resmsg
 
                       }
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
 
                 } else {
                   this.$modal.msgError(res.msg);
-                   this.$tab.closeOpenPage({ path: "/customer/manageName"});
+                   this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
                 }
               }
             }

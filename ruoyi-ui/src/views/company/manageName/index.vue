@@ -36,9 +36,9 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
         <el-table-column label="审核状态" align="center" prop="nameStatus" >
            <template slot-scope="scope">
-             <el-link :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">审核中</el-link>
-             <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">不通过</el-link>
-             <el-link :underline="false" type="success" v-if="scope.row.nameStatus == '1'">通过</el-link>
+             <el-link :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">待审核</el-link>
+             <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">未通过</el-link>
+             <el-link :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已完成</el-link>
            </template>
       </el-table-column>
      
@@ -61,6 +61,7 @@
 <script>
 
 import { reviewjoinList, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/review";
+
 // import axios from 'axios'
 export default {
   name: "Employed",
@@ -96,17 +97,17 @@ export default {
        options: [
         {
           value: 0,
-          label: '审核中'
+          label: '待审核'
         },
        {
 
           value: 1,
-          label: '通过',
+          label: '已完成',
         },
          {
 
           value: 2,
-          label: '不通过',
+          label: '未通过',
         },
       ],
       // 表单参数
@@ -122,7 +123,7 @@ export default {
   methods: {
     detail(row){
          this.$cache.local.setJSON('employedName', row);
-         this.$tab.openPage("名称信息","/customer/nameDetail");
+         this.$tab.openPage("名称信息","/company/customer/nameDetail");
     },
     /** 查询个体商户列表 */
     getList() {
@@ -194,7 +195,7 @@ export default {
 
       this.$cache.local.setJSON('employedName', row);
       
-       this.$tab.closeOpenPage({ path: "/customer/namenew"});
+       this.$tab.closeOpenPage({ path: "/company/customer/namenew"});
       
       // this.$router.push("namenew");
 

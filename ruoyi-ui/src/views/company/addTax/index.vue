@@ -106,7 +106,8 @@ export default {
 
   methods: {
     resetForm() {
-      this.$router.back();
+     // this.$router.back();
+       this.$tab.closeOpenPage({ path: "/company/customer/manageTax"});
     },
     //提交
     onSubmit() {
@@ -118,15 +119,15 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/customer/manageTax"}).then(() => {
-                     let  resmsg='办理税务成功';
+                     this.$tab.refreshPage({ path: "/company/customer/manageTax"}).then(() => {
+                     let  resmsg='办理税务完成';
                      let obj={
                         title:'税务办理',
-                        backUrl:'/customer/manageTax',
+                        backUrl:'/company/customer/manageTax',
                         resmsg:resmsg
                         };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
                     });
                    });
                 } else {

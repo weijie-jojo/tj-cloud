@@ -25,57 +25,27 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" width="130" prop="legalPersonName">
-        <template slot-scope="scope">
-          <el-popover placement="top-start" title="法人姓名" width="200" trigger="hover"
-            :content="scope.row.legalPersonName">
-            <div slot="reference" class="twoLineCls">{{ scope.row.legalPersonName }}</div>
-          </el-popover>
-        </template>
-      </el-table-column>
-
-    
+      <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true"  />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="办理状态" align="center" prop="realnameStatus" >
            <template slot-scope="scope">
-            <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2" >未开始</el-link>
-            <el-link :underline="false" type="primary" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==0" >办理</el-link>
-            <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >完成</el-link>
+            <el-link :underline="false" type="primary" v-if="scope.row.realnameStatus==0" >待办理</el-link>
+            <el-link :underline="false" type="success" v-if="scope.row.realnameStatus==1" >已完成</el-link>
            </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-           <el-button size="mini" type="text" v-if="scope.row.realnameStatus==1 || scope.row.realnameStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 " icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+           <el-button size="mini" type="text" v-if="scope.row.realnameStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
           <el-button size="mini" v-if="scope.row.realnameStatus==0" type="text" icon="el-icon-user" @click="cer(scope.row)">办理实名</el-button>
            <el-button size="mini" style="border:0 !important;background-color:rgba(0,0,0,0) !important" v-else  type="text" icon="el-icon-user" plain disabled>办理实名</el-button>
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -128,12 +98,12 @@ export default {
       options: [
         {
           value: 0,
-          label: '办理'
+          label: '待办理'
         },
        {
 
           value: 1,
-          label: '完成',
+          label: '已完成',
         },
       ],
       // 表单参数
@@ -159,7 +129,7 @@ export default {
   methods: {
     detail(row){
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("实名信息","/customer/detailCer");
+         this.$tab.openPage("实名信息","/company/customer/detailCer");
     },
    /** 查询个体商户列表 */
     getList() {
@@ -231,7 +201,7 @@ export default {
     cer(row) {
       
         this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.closeOpenPage({ path: "/customer/addCer"});
+         this.$tab.closeOpenPage({ path: "/company/customer/addCer"});
        // this.$router.push("addTax");
       
     },

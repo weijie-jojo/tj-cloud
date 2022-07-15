@@ -147,9 +147,7 @@
             <el-col :span="9">
               <el-form-item label="出资额" prop="contributionAmount">
 
-                <el-input disabled type="number" v-model="formData.contributionAmount"
-                  oninput="value=((value.replace(/[^0-9.]/g,'')).replace(/([0-9]+\.[0-9]{6})[0-9]*/,'$1'))" :step="0.01"
-                  :min="0.000000">
+                <el-input disabled type="number" v-model="formData.contributionAmount">
                   <template slot="append">万元</template>
                 </el-input>
 
@@ -587,7 +585,7 @@ export default {
         //基本情况
         organizationalForm: '',
         numberEmployees: 5,
-        contributionAmount: '15.000000',
+        contributionAmount: 15,
         city: '龙岩市',
         county: '漳平市',
         electronicCommerce: 2,//1是 2否  是否是电子商务经营者
@@ -626,7 +624,7 @@ export default {
       rules: {
         fileName5: [{
           required: true,
-          message: '请上传纳税委托协议文件',
+          message: '请上传身份证扫描件',
           trigger: 'change'
         }],
         oneselfApply: [{

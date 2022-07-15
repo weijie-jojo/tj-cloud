@@ -52,17 +52,15 @@
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >办理</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
-          <el-link :underline="false" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >完成</el-link>
+            <el-link :underline="false" type="primary" v-if=" scope.row.businessStatus==0">待办理</el-link>
+           <el-link :underline="false" type="success"  v-if="  scope.row.businessStatus==1">已完成</el-link>
          </template>
        </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" v-if="scope.row.businessStatus==1 || scope.row.businessStatus==0 && scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.businessStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
-          <el-button size="mini" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
+          <el-button size="mini" v-if="scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
             @click="business(scope.row)">办理工商</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
 
@@ -114,7 +112,7 @@ export default {
       queryParams: {
         nameStatus:1,
         infoStatus:1,
-        realnameStatus:null,
+        realnameStatus:1,
         businessStatus:null,
         pageNum: 1,
         pageSize: 10,
@@ -125,12 +123,12 @@ export default {
         options: [
         {
           value: 0,
-          label: '办理'
+          label: '待办理'
         },
        {
 
           value: 1,
-          label: '完成',
+          label: '已完成',
         },
       ],
       // 表单参数
@@ -146,7 +144,7 @@ export default {
   methods: {
     detail(row){
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("工商信息","/customer/detailBusiness");
+         this.$tab.openPage("工商信息","/company/customer/detailBusiness");
 
     },
     /** 查询可办理的工商列表 */
@@ -200,18 +198,15 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      this.queryParams.realnameStatus=1;
+     
       this.queryParams.pageNum = 1;
       this.getList();
       
     },
     /** 重置按钮操作 */
     resetQuery() {
-    
-      this.queryParams.realnameStatus=null;
-      this.queryParams.pageNum = 1;
       this.resetForm("queryForm");
-      this.getList();
+      this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -222,7 +217,7 @@ export default {
     //工商管理
     business(row) {
       this.$cache.local.setJSON('employednewlist', row);
-      this.$tab.closeOpenPage({ path: "/customer/addBusiness"});
+      this.$tab.closeOpenPage({ path: "/company/customer/addBusiness"});
    },
    
  

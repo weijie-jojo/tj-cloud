@@ -203,11 +203,8 @@ export default {
 
                         this.$nextTick(function () {
                             this.$tab.refreshPage().then(() => {
-                                // this.$tab.openPage("个体列表", "manageList")
-                            })
-
-                            // this.$router.push({ path: "/customer/manageBank"});
-                        });
+                           })
+                           });
                     } else {
                         this.$modal.msgError(res.msg);
                     }

@@ -357,8 +357,8 @@ export default {
                   type: 'success',
               });
               // this.$router.push("employed");
-              this.$tab.refreshPage("/customer/employed").then(()=>{
-              this.$tab.openPage("注册进度", "/customer/employed")
+              this.$tab.refreshPage("/company/customer/employed").then(()=>{
+              this.$tab.openPage("注册进度", "/company/customer/employed")
             })
               // if(res!=undefined){
               //      if(res.id==0){
