@@ -113,17 +113,18 @@
         <el-col :span="9">
           <el-form-item class="comright" label="从业人数" prop="numberEmployees">
             <el-input v-model="formData.numberEmployees" :readonly="true">
+                  <template slot="append">人</template>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="出资额" prop="contributionAmount">
-            <el-input-number style="width:100%" disabled v-model="formData.contributionAmount" :precision="6"
-              :step="0.01" :min="0">
-            </el-input-number>
-          </el-form-item>
+            <el-form-item class="comright" label="出资额" prop="contributionAmount">
+              <el-input disabled type="number" v-model="formData.contributionAmount">
+                  <template slot="append">万元</template>
+          </el-input>
+           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="城市" prop="city">
@@ -188,7 +189,8 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.2%" label="经营范围" prop="natureBusiness">
-            <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+            <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
+              v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
         </el-col>
@@ -242,7 +244,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-        <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="对公开户银行">
             <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>
@@ -275,12 +277,12 @@
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9" >
-          <div class="bankno" >经营者（负责人）信息</div>
-         
+        <el-col :span="9">
+          <div class="bankno">经营者（负责人）信息</div>
+
         </el-col>
         <el-col :span="9">
-         
+
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
@@ -370,34 +372,28 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="联系电话" prop="contactPhone">
-            <el-input  :readonly="true" v-model="formData.contactPhone" clearable>
+            <el-input :readonly="true" v-model="formData.contactPhone" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="电子邮箱" prop="mail">
-            <el-input  :readonly="true" v-model="formData.mail" clearable>
+            <el-input :readonly="true" v-model="formData.mail" clearable>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      
+
       <el-row type="flex" class="row-bg " justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="身份证扫描件">
-                <div v-for="(item, index) in fileName5" :key="index">
-                  <el-image
-                    lazy
-                    :preview-src-list="fileName5"
-                    style="width: 150px; height: 150px"
-                    :src="item"
-                    alt=""
-                  />
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9"></el-col>
-          </el-row>
+        <el-col :span="9">
+          <el-form-item label="身份证扫描件">
+            <div v-for="(item, index) in fileName5" :key="index">
+              <el-image lazy :preview-src-list="fileName5" style="width: 150px; height: 150px" :src="item" alt="" />
+            </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9"></el-col>
+      </el-row>
       <!-- <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright">
@@ -412,7 +408,7 @@
         </el-col>
       </el-row> -->
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
-       <el-col :span="9" class="flexs">
+        <el-col :span="9" class="flexs">
           <div class="bankno" style="width:35%">审核操作</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
@@ -421,29 +417,29 @@
         </el-col>
       </el-row>
 
-      
+
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-           
+
           </el-form-item>
         </el-col>
-      
+
       </el-row>
 
-       <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-          <div style="display: flex; align-items: center;justify-content: flex-start;">
-                <el-radio v-model="isokradio" label="2">不通过 </el-radio>
-             <el-input  type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradio == 1"></el-input>
-          </div>
-            
-           
+            <div style="display: flex; align-items: center;justify-content: flex-start;">
+              <el-radio v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradio == 1"></el-input>
+            </div>
+
+
           </el-form-item>
         </el-col>
-       
+
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
@@ -482,8 +478,8 @@ export default {
   props: [],
   data() {
     return {
-      baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
-      fileName5:[],
+      baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+      fileName5: [],
       remark: null,
       isokradio: '1',
       center: 'center',
@@ -601,6 +597,7 @@ export default {
         idCard: '',
 
       },
+      userinfo:{},
       rules: {
         oneselfApply: [{
           required: true,
@@ -815,14 +812,15 @@ export default {
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
-    this.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
-    for(let k1 in this.fileName5){
-      this.fileName5[k1]=this.baseImgPath+this.fileName5[k1];
-    } 
+    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    for (let k1 in this.fileName5) {
+      this.fileName5[k1] = this.baseImgPath + this.fileName5[k1];
+    }
   },
   methods: {
     getLoginInfo() {
       getInfo().then(res => {
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: 26 }).then(res => {
           console.log("getPlaceByUserId==", res.data);
@@ -910,38 +908,41 @@ export default {
 
           updateEmployed(parms).then(res => {
 
-            
-              if (res != undefined) {
-                if (res.code === 200) {
-                
+
+            if (res != undefined) {
+              if (res.code === 200) {
+
                 this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageInfo"}).then(() => {
-                     let resmsg='';
-                     if (type == 1) {
-                        resmsg='信息审核完成';
-                  } else {
-                        resmsg='信息审核完成';
-                     }
-                      let obj={
-                        title:'信息审核',
-                        backUrl:'/company/customer/manageInfo',
-                        resmsg:resmsg
+                  this.$tab.refreshPage({ path: "/company/customer/manageInfo" }).then(() => {
+                    let resmsg = '';
+                    if (type == 1) {
+                      resmsg = '信息审核完成';
+                      this.check('信息审核完成');
+                    } else {
+                      this.check('信息审核未通过');
+                      resmsg = '信息审核完成';
+                    }
 
-                      }
-                      this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
-                    });
-                   });
+                   let obj = {
+                      title: '信息审核',
+                      backUrl: '/company/customer/manageInfo',
+                      resmsg: resmsg
 
-                } else {
-                  this.$modal.msgError(res.msg);
-                    this.$tab.closeOpenPage({ path: "/company/customer/manageInfo"});
-                }
+                    }
+                    this.$cache.local.setJSON('successNew', obj);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                  });
+                });
 
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({ path: "/company/customer/manageInfo" });
               }
 
+            }
 
-            
+
+
 
           });
 
@@ -955,7 +956,23 @@ export default {
 
     },
     toReturn2() {
-           this.$tab.closeOpenPage({ path: "/company/customer/manageInfo"});
+      this.$tab.closeOpenPage({ path: "/company/customer/manageInfo" });
+    },
+
+    //新增信息审核进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.formData.selfCode,
+        "selfType": "3",
+      }
+      crudEmployed.check(parms).then(res => {
+        console.log('名称审核插入日志成功！');
+      }).catch(error => {
+
+      });
     },
   }
 }
@@ -994,7 +1011,7 @@ export default {
 // 改变input框字体颜色
 ::v-deep textarea {
   background-color: transparent !important;
-  color: black  !important;
+  color: black !important;
 }
 
 .paddingbg-s {

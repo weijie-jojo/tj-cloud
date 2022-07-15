@@ -62,7 +62,7 @@
         <el-col :span="9">
           <el-form-item class="comright" label="组织形式" prop="organizationalForm">
             <el-select style="width:100%" disabled v-model="formData.organizationalForm" placeholder="请选择组织形式" clearable
-              @change="changeOrganizational">
+             >
               <el-option v-for="(item, index) in organizationalFormOptions" :key="index" :label="item.label"
                 :value="item.value" :disabled="item.disabled"></el-option>
             </el-select>
@@ -84,7 +84,7 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="字号">
-            <el-checkbox disabled v-model="formData.random" @change="isRandom">随机字号</el-checkbox>
+            <el-checkbox disabled v-model="formData.random">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -159,6 +159,30 @@
         </el-col>
       </el-row>
 
+         <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio disabled v-model="isokradio" label="1"> 通过</el-radio>
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;">
+              <el-radio disabled v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input placeholder="请输入不通过说明" type="textarea" v-model="this.formData.remarkName" :disabled="isokradio == 1"></el-input>
+            </div>
+
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
 
 
 
@@ -168,10 +192,7 @@
   </div>
 </template>
 <script>
-import crudReview from "@/api/company/review";
-import crudInformation from "@/api/company/information";
-import { getInfo } from "@/api/login";
-import { updateReview } from "@/api/company/review";
+
 export default {
   components: {},
   props: [],
@@ -250,137 +271,20 @@ export default {
     };
   },
   computed: {},
-  watch: {
-    formData: {
-      handler: function () {
-        this.getPoposedName();
-      },
-      deep: true,
-    },
-  },
+
   created() { },
   mounted() {
     this.formData = this.$cache.local.getJSON("employedName");
-    this.getSelfCode();
-    this.getLoginInfo();
-  },
+    if(this.formData.nameStatus==1){
+      this.isokradio='1';
+    }else if(this.formData.nameStatus==2){
+      this.isokradio='2';
+    }else if(this.formData.nameStatus==0){
+      this.isokradio='0';
+    }
+ },
   methods: {
-    getLoginInfo() {
-      getInfo().then((res) => {
-        this.formData.userName = res.user.nickName;
-      });
-    },
-    getPoposedName() {
-      this.formData.poposedName1 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize1 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-      this.formData.poposedName2 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize2 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-      this.formData.poposedName3 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize3 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-    },
-    isRandom() {
-      if (!this.formData.random) {
-        this.isDisable = false;
-      } else {
-        this.isDisable = true;
-        this.formData.fontSize1 = "";
-        this.formData.fontSize2 = "";
-        this.formData.fontSize3 = "";
-      }
-    },
-    changeOrganizational(value) {
-      if (value == 1) {
-        this.formData.organizationalForm = "服务部";
-      }
-      if (value == 2) {
-        this.formData.organizationalForm = "经营部";
-      }
-    },
-    //获取编号
-    getSelfCode() {
-      //获取员工编号
-      getInfo().then((res) => {
-        var userId = res.user.userId;
-        crudInformation.getInformation(userId).then((res) => {
-          var employeeNumber = res.data.employeeNumber;
-          crudReview.getCode({ employeeNumber: employeeNumber }).then((res) => {
-            this.formData.selfCode = res;
-            console.log("selfCode", res);
-          });
-        });
-      });
-    },
-    submitForm(type) {
-
-      this.$refs["elForm"].validate((valid) => {
-        // TODO 提交表单
-        if (valid) {
-          let parms;
-          if (type == 1) {
-            parms = {
-              selfId: this.formData.selfId,
-              nameStatus: type,
-            };
-          } else {
-            parms = {
-              selfId: this.formData.selfId,
-              nameStatus: type,
-              remarkName: this.remark
-            };
-          }
-          updateReview(parms).then((res) => {
-
-
-
-            if (res != undefined) {
-              if (res != undefined) {
-                if (res.code === 200) {
-                     this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageName"}).then(() => {
-                     let resmsg='';
-                     if (type == 1) {
-                        resmsg='名称审核通过成功';
-                  } else {
-                        resmsg='名称审核不过成功';
-                     }
-                      let obj={
-                        title:'名称审核',
-                        backUrl:'/company/customer/manageName',
-                        resmsg:resmsg
-
-                      }
-                      this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
-                    });
-                   });
-
-                } else {
-                  this.$modal.msgError(res.msg);
-                   this.$tab.closeOpenPage({ path: "/company/customer/manageName"});
-                }
-              }
-            }
-          });
-        } else {
-          this.$message({
-            message: "请填写完整",
-            type: "warning",
-          });
-        }
-      });
-    },
-    resetForm() {
-      this.$router.back();
-    },
+   
   },
 };
 </script>

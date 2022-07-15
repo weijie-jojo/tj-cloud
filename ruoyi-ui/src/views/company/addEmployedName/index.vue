@@ -193,9 +193,9 @@
   </div>
 </template>
 <script>
-import crudReview from '@/api/company/review'
-import crudInformation from '@/api/company/information'
-import { getInfo } from '@/api/login'
+import crudReview from '@/api/company/review';
+import crudInformation from '@/api/company/information';
+import { getInfo } from '@/api/login';
 export default {
   components: {},
   props: [],
@@ -408,7 +408,7 @@ export default {
                   type: 'warning',
                 });
               }
-              this.$router.push("addEmployedInfo");
+             this.$router.push("addEmployedInfo");
               window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
               window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
             }

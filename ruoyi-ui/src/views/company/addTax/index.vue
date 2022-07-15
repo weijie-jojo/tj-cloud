@@ -58,10 +58,12 @@
 </template>
 
 <script>
-import { addEmployed, updateEmployed } from "@/api/company/employed";
+import { getInfo } from '@/api/login'
+import { addEmployed, updateEmployed,check } from "@/api/company/employed";
 export default {
   data() {
     return {
+       userinfo:{},
       formtax: {
         taxStatus: 1,
         selfId: "",
@@ -103,11 +105,35 @@ export default {
     to.meta.keepAlive = true;
     next(0);
   },
+   mounted(){
+    this.getInfo();
+  },
 
   methods: {
+    //返回
     resetForm() {
-     // this.$router.back();
        this.$tab.closeOpenPage({ path: "/company/customer/manageTax"});
+    },
+     //获取个人信息
+     getInfo(){
+        getInfo().then(res=>{
+          this.userinfo=res.user;
+        })
+    },
+    //新增工商办理进度
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber':this.userinfo.phonenumber,
+        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfType": "5",
+      }
+      check(parms).then(res => {
+        console.log('工商办理插入日志成功！');
+      }).catch(error => {
+
+      });
     },
     //提交
     onSubmit() {
@@ -121,6 +147,7 @@ export default {
                   this.$nextTick(function () {
                      this.$tab.refreshPage({ path: "/company/customer/manageTax"}).then(() => {
                      let  resmsg='办理税务完成';
+                      this.check(resmsg);
                      let obj={
                         title:'税务办理',
                         backUrl:'/company/customer/manageTax',

@@ -11,15 +11,15 @@
       </el-steps>
       <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
         <el-col :span="8">
-            <div style="font-size: 30px;">提交成功，请等待审核办理结果</div>
+            <div style="font-size: 30px;text-align: center;">提交成功，请等待审核办理结果</div>
         </el-col>
       </el-row>
 
        <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
         <el-col :span="8">
         <div style="display:flex;justify-content: center;">
-               <el-button  @click="toEnd">结束</el-button> 
-               <el-button type="primary" @click="toContinue" style="margin-left:110px">继续注册</el-button>
+               <el-button style="width:140px"  @click="toEnd">结束</el-button> 
+               <el-button type="primary" @click="toContinue" style="margin-left:20px;width:140px">继续注册</el-button>
         </div>
          
         </el-col>

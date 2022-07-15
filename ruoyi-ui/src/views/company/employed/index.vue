@@ -53,61 +53,46 @@
       <el-table-column label="名称审核" align="center" >
        <template slot-scope="scope">
           <el-link :underline="false" type="primary" @click="shenloading1(scope.row)" v-if="scope.row.nameStatus == '0'">待审核</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">未通过</el-link>
+          <el-link :underline="false" type="danger" @click="errorsName(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">未通过</el-link>
           <el-link @click="nameLook(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已完成</el-link>
       </template>
       </el-table-column>
       <el-table-column label="信息审核" align="center">
-
-        <template slot-scope="scope">
+      <template slot-scope="scope">
           <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2(scope.row)">待审核</el-link>
           <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)" v-if="scope.row.infoStatus == '2'">未通过</el-link>
           <el-link @click="infoLook(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已完成</el-link>
-
         </template>
       </el-table-column>
        <el-table-column label="实名办理" align="center">
-
         <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1  && scope.row.realnameStatus==0" >待办理</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >已完成</el-link>
- 
         </template>
       </el-table-column>
       <el-table-column label="工商办理" align="center">
-
-        <template slot-scope="scope">
+      <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >待办理</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)" v-if="scope.row.businessStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >已完成</el-link>
- 
-        </template>
+      </template>
       </el-table-column>
        
       <el-table-column label="税务办理" align="center">
-
-        <template slot-scope="scope">
+      <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 " >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == 0">待办理</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)" v-if="scope.row.taxStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == 1">已完成</el-link>
-
-        </template>
+       </template>
       </el-table-column>
       <el-table-column label="银行办理" align="center">
-
-        <template slot-scope="scope">
+     <template slot-scope="scope">
           <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 || scope.row.taxStatus==0" >未开始</el-link>
           <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus==1 && scope.row.bankStatus == 0">待办理</el-link>
-          <!-- <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)" v-if="scope.row.bankStatus == '2'">异常</el-link> -->
           <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1  && scope.row.taxStatus==1 && scope.row.bankStatus == 1">已完成</el-link>
         </template>
-
-      </el-table-column>
-      
+     </el-table-column>
     </el-table>
 
     <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"

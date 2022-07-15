@@ -567,6 +567,7 @@ export default {
       places: [],
       dialogImageUrl1: '',
       dialogVisible1: false,
+      userinfo:{ },
       formData: {
         selfCode: '',
 
@@ -849,6 +850,8 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        // this.$cache.local.setJSON("userinfo", res.user);  //个人登录缓存
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
         console.log("getInfo==", res);
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
@@ -1087,6 +1090,21 @@ export default {
                   type: 'danger'
                 })
               }
+               let parms={
+                "checkReasult":  res.msg,
+                "checkUser": this.userinfo.userName,
+                'phonenumber':this.userinfo.phonenumber,
+                "selfCode":  this.formData.selfCode,
+                "selfType": "1",
+               }
+              crudEmployed.check(parms).then(res=>{
+                   console.log('写入日志成功',res);
+              }).catch(err=>{
+                  
+              });
+               
+
+
             }
           });
           this.$router.push("success");
