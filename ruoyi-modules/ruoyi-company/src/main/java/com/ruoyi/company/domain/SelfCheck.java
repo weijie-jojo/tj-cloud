@@ -24,7 +24,7 @@ public class SelfCheck extends BaseEntity
     private Long id;
 
     /** 时间 */
-//    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date checkDate;
 
