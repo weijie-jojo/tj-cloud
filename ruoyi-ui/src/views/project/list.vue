@@ -6,15 +6,26 @@
                 <el-input v-model="queryParams.selfName" placeholder="请输入乙方" clearable
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="项目开始时间">
+            
+            <el-form-item label="项目时间">
+                  <el-date-picker
+      v-model="queryParams.projectTimeStart"
+      type="datetimerange"
+      :picker-options="pickerOptions"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+      :default-time="['00:00:00', '23:59:59']"
 
-                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeStart"
-                    type="datetime" placeholder="选择日期时间"></el-date-picker>
+      align="right">
+    </el-date-picker>
+                <!-- <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeStart"
+                    type="datetime" placeholder="选择日期时间"></el-date-picker> -->
             </el-form-item>
-            <el-form-item label="项目结束时间">
+            <!-- <el-form-item label="项目结束时间">
                 <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeEnd" type="datetime"
                     placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="项目状态">
                 <el-select clearable v-model="queryParams.projectStatus" placeholder="请选择项目状态">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -250,15 +261,34 @@ export default {
         this.getList();
     },
     methods: {
-        //跳转票据列表页
+
+
+  filterTime(time) {
+        var date = new Date(time);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        var d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        var h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        var minute = date.getMinutes();
+        minute = minute < 10 ? "0" + minute : minute;
+        var s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
+      },
+
+  //跳转票据列表页
         tickets(row) {
-            this.$confirm("审核中,请耐心等待...", "审核说明", {
+            this.$confirm("点击查看进入详情", "票据说明", {
                 confirmButtonText: '查看票据',
-                cancelButtonText: '确定',
-                type: 'warning'
+                cancelButtonText: '关闭',
+                
             }).then(() => {
                 this.$cache.local.setJSON('publicTickets', row);
-                this.$router.push('ticketlist');
+                this.$tab.closeOpenPage({ path:'/project/ticketlist' })
+              //  this.$router.push('ticketlist');
             }).catch(() => {
 
             });
@@ -267,7 +297,13 @@ export default {
         /** 查询项目列表 */
         getList() {
             this.loading = true;
-
+             if(this.queryParams.projectTimeStart != null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+                this.queryParams.projectTimeStart[0] = this.filterTime(this.queryParams.projectTimeStart[0]),
+                this.queryParams.projectTimeStart[1] = this.filterTime(this.queryParams.projectTimeStart[1])
+              
+          }else {//判断选择时间再将时间清除
+                 this.queryParams.projectTimeStart=null;
+           }
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
@@ -392,7 +428,7 @@ export default {
         handleDelete(row) {
             const projectIds = row.projectId;
             this.$modal
-                .confirm('是否确认删除个体商户编号为"' + projectIds + '"的数据项？')
+                .confirm('是否确认删除id为"' + projectIds + '"的数据项？')
                 .then(function () {
                     return del(projectIds);
                 })

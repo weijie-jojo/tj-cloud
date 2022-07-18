@@ -55,7 +55,8 @@
 
       <el-table-column label="名称审核" align="center">
         <template slot-scope="scope">
-          <el-link @click="examine(scope.row.username)" :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">待审核
+          <el-link @click="examine(scope.row.applyName, scope.row, 1)" :underline="false" type="primary"
+            v-if="scope.row.nameStatus == '0'">待审核
           </el-link>
           <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode)"
             v-if="scope.row.nameStatus == '2'">未通过</el-link>
@@ -65,7 +66,8 @@
       </el-table-column>
       <el-table-column label="信息审核" align="center">
         <template slot-scope="scope">
-          <el-link @click="examine(scope.row.username)" :underline="false" type="primary" v-if="scope.row.infoStatus == '0'">待审核
+          <el-link @click="examine(scope.row.applyName, scope.row, 2)" :underline="false" type="primary"
+            v-if="scope.row.infoStatus == '0'">待审核
           </el-link>
           <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode)"
             v-if="scope.row.infoStatus == '2'">未通过</el-link>
@@ -75,10 +77,10 @@
       </el-table-column>
       <el-table-column label="实名办理" align="center">
         <template slot-scope="scope">
-          <el-link  :underline="false" type="info"
+          <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
             未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 3)"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 0">待办理</el-link>
           <el-link :underline="false" @click="finishCer(scope.row, scope.row.selfCode)" type="success"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1">已完成</el-link>
@@ -89,7 +91,7 @@
           <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2">
             未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 4)"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 0">
             待办理</el-link>
           <el-link :underline="false" @click="finishBus(scope.row, scope.row.selfCode)" type="success"
@@ -103,7 +105,7 @@
           <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0">
             未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 5)"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
             待办理</el-link>
           <el-link :underline="false" @click="finishTax(scope.row, scope.row.selfCode)" type="success"
@@ -116,7 +118,7 @@
           <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
             未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 6)"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
             待办理</el-link>
           <el-link :underline="false" @click="finishBank(scope.row, scope.row.selfCode)" type="success"
@@ -243,32 +245,15 @@
         <el-button type="primary" @click="bankDetail">查看</el-button>
       </span>
     </el-dialog>
-    
-    <el-dialog title="等待说明" :visible.sync="exmVisible" width="70%">
-      <el-table :data="exmList">
-      
-        
-        <el-table-column label="审核/办理人" align="center" prop="userName" />
-        <el-table-column label="联系方式" align="center" prop="phonenumber" />
-        <el-table-column label="审核说明" align="center">
-          <template>
-            请耐心等待
-          </template>
-        </el-table-column>
-        
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="exmVisible = false">关闭</el-button>
-        <!-- <el-button type="primary" @click="taxDetail">查看</el-button> -->
-      </span>
-    </el-dialog>
+
+
 
   </div>
 </template>
 
 <script>
 
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail , getLeaderByUserId } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
 // import axios from 'axios'
 export default {
   name: "Employed",
@@ -333,17 +318,73 @@ export default {
 
   methods: {
     //获取审核中的数据
-    
-    examine(username) {
-       
-       getLeaderByUserId({
-        username:username
-       }).then(res=>{
-       this.exmList=res;
-       this.exmVisible=true;
-       }).catch(error=>{
+
+    examine(applyName, scope, type) {
+      var msg = '审核';
+      if (type < 3) {
+        msg = '审核';
+      } else {
+        msg = '办理';
+      }
+      getLeaderByUserId({
+        userId: applyName
+      }).then(res => {
+        this.$confirm('请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg, '温馨提示', {
+          confirmButtonText: '查看',
+          cancelButtonText: '关闭',
+
+        }).then(() => {
+
+
+
+
+
+          switch (type) {
+            case 1:
+
+              this.$cache.local.setJSON('employedName', row);
+              this.$router.push("namedetail");
+              break;
+            case 2:
+              this.$cache.local.setJSON('employedInfo', scope);
+              this.$router.push("infodetail");
+              break;
+            case 3:
+              this.$cache.local.setJSON('employednewlist', scope);
+              this.$router.push("detailCer");
+              break;
+
+            case 4:
+              this.$cache.local.setJSON('employednewlist', scope);
+              this.$router.push("detailBusiness");
+              break;
+
+            case 5:
+              this.$cache.local.setJSON('employednewlist', scope);
+              this.$router.push("detailTax");
+              break;
+
+            case 6:
+              this.$cache.local.setJSON('employednewlist', scope);
+              this.$router.push("detailBank");
+              break;
+
+          }
+        }).catch(() => {
+
+        });
+
+
+
+
+      }).catch(error => {
         console.log(error);
-       })
+      })
+
+
+
+
+
     },
     //进度弹框
     progressNew(code) {

@@ -215,13 +215,7 @@ export default {
         };
     },
     mounted() {
-        let params = {
-            projectCode: '',
-            projectTotalAmount: '',
-            projectDesc: '',
-            fileName: '',
-        }
-        this.publicList = this.$cache.local.getJSON('publicTickets') ? this.$cache.local.getJSON('publicTickets') : params;
+       this.publicList = this.$cache.local.getJSON('publicTickets');
         this.queryParams = {
             pageNum: 1,
             pageSize: 10,

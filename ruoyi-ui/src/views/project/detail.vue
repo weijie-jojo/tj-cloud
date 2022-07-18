@@ -6,18 +6,18 @@
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true" ></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目名称">
-                        <el-input v-model="formData.projectName" disabled></el-input>
+                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="项目时间">
-                        <el-input v-model="formData.projectTimeStart" disabled></el-input>
+                        <el-input v-model="formData.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额">
                         <el-input-number disabled style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
@@ -31,7 +31,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商">
-                        <el-input  v-model="formData.placeName" disabled></el-input>
+                        <el-input  v-model="formData.placeName" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="甲方">
@@ -39,20 +39,20 @@
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
-                        <el-input v-model="formData.purchCompany"></el-input>
+                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                         <el-input  disabled v-if="isokradio==0" value="正常"></el-input>
-                        <el-input  disabled v-else value="冻结"></el-input>
+                         <el-input  :readonly="true" v-if="isokradio==0" value="正常"></el-input>
+                        <el-input  :readonly="true" v-else value="冻结"></el-input>
                         <!-- <el-radio v-model="isokradio" disabled label="0"> 正常</el-radio>
                         <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio> -->
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号">
-                        <el-input disabled v-model="formData.purchCompanyTaxid"></el-input>
+                        <el-input :readonly="true" v-model="formData.purchCompanyTaxid"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -62,7 +62,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方">
-                        <el-input disabled v-model="formData.selfName"></el-input>
+                        <el-input :readonly="true" v-model="formData.selfName"></el-input>
                         <!-- <el-select disabled style="width:100%" clearable v-model="formData.selfName">
                             <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
                                 :value="item.selfCode">
@@ -71,7 +71,7 @@
                     </el-form-item>
 
                     <el-form-item class="comright" label="乙方状态">
-                        <el-select  style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
+                        <el-select   style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -82,10 +82,10 @@
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="formData.taxId"></el-input>
+                        <el-input :readonly="true" v-model="formData.taxId"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="业务经理">
-                        <el-input v-model="formData.projectLeader" disabled></el-input>
+                        <el-input v-model="formData.projectLeader" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -108,10 +108,10 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业税率">
-                        <el-input disabled v-model="formData.industryTax"></el-input>
+                        <el-input :readonly="true" v-model="formData.industryTax"></el-input>
                     </el-form-item>
                     <el-form-item v-if="tickettaxvipok" label="发票税率">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
+                        <el-input v-model="formData.ticketTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率">
 
@@ -130,15 +130,15 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容类型">
-                        <el-input  disabled v-if="fileNameradio==1" value="手动输入"></el-input>
-                        <el-input  disabled v-else value="上传附件"></el-input>
+                        <el-input  :readonly="true" v-if="fileNameradio==1" value="手动输入"></el-input>
+                        <el-input  :readonly="true" v-else value="上传附件"></el-input>
                     </el-form-item>
                  </el-col>
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容"  v-if="fileNameradio == 1">
 
-                        <el-input disabled type="textarea" :rows="2" v-model="formData.fileName">
+                        <el-input :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件"  v-if="fileNameradio == 2">
@@ -167,7 +167,7 @@
               <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="项目行业类型">
-                        <el-input disabled  placeholder="请输入乙方经营范围" v-model="formData.projectTrade">
+                        <el-input :readonly="true"  placeholder="请输入乙方经营范围" v-model="formData.projectTrade">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -175,7 +175,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="formData.natureBusiness">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -184,7 +184,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
                 </el-col>

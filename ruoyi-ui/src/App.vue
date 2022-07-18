@@ -45,6 +45,10 @@ export default  {
   background-color: transparent !important;
   color: black  !important;
 }
+::v-deep .el-radio__input.is-disabled + span.el-radio__label{
+   background-color: transparent !important;
+  color: black  !important;
+}
 
 
 </style>

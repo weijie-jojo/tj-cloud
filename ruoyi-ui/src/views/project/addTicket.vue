@@ -255,6 +255,7 @@ export default {
                 remark: "",
                 industryType: '',
                 selfName:'',
+                isDeleted:1,
             },
             baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
             options: [

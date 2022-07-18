@@ -432,10 +432,13 @@ export default {
         'formData.projectTrades': 'selectInType',
     },
     
-    mounted() {
-        this.getRate();
+    mounted() { 
+        
         this.getinfoByUserId(); //渠道商
+        this.getRate();
+        
         this.getlist();
+       
       },
 
 
@@ -447,8 +450,15 @@ export default {
             this.formData=response.data[0];
             this.formData.projectTrades = '';
              var rate = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
-            // this.formData.projectTrade = rate.industryName;//所属行业
-            this.formData.projectTrades=rate.industryId;
+             this.formData.projectTrades=rate.industryId;
+          
+
+            this.selectIndustryType1();
+           
+            
+           
+            
+            
             this.isokradio=JSON.stringify(this.formData.placeStatus);
              if(this.formData.fileName){
                     this.formData.fileName=JSON.parse(this.formData.fileName);
@@ -488,12 +498,7 @@ export default {
             for (let i in this.ownoptions) {
                 if (this.ownoptions[i].selfCode == e) {
                     console.log(this.ownoptions[i].isActive);
-                    // if (this.ownoptions[i].isActive > -1) {
-                    //     this.placeStatus = parseInt(this.ownoptions[i].isActive);
-                    // } else {
-                    //     this.placeStatus = 0;
-                    // }
-                    if(this.ownoptions[i].isActive){
+                     if(this.ownoptions[i].isActive){
                          this.projectStatus=parseInt(this.ownoptions[i].isActive);
                     }else{
                         this.projectStatus=1;
@@ -501,8 +506,6 @@ export default {
                     this.formData.selfName=this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
                     this.owerTax = this.ownoptions[i].taxId;
-                   // this.getcode(this.ownoptions[i].selfCode);
-
                 }
             }
         },
@@ -583,6 +586,41 @@ export default {
                 }
             }
         },
+        
+        //监听行业类型
+        selectIndustryType1() {
+            console.log("industryType==", this.formData.industryType);
+            var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
+            console.log("rate==", rate);
+            this.industryId = rate.industryId;  //行业类型id
+            this.owerTaxfee = rate.taxRate;
+          
+            
+            let industryType = rate.industryId;
+
+            ownlist({ username: this.username, industryType: industryType }).then(res => {
+                this.ownoptions = res;
+
+
+                  for (let i in this.ownoptions) {
+                // console.log(1111,this.ownoptions[i].selfName);
+                 console.log(2222,this.formData.selfName);
+                if (this.ownoptions[i].selfName == this.formData.selfName) {
+                    this.natureBusiness = this.ownoptions[i].natureBusiness;
+                    this.owerTax = this.ownoptions[i].taxId;
+                   console.log(this.ownoptions[i]);
+                   }
+                }
+
+
+             }).catch(err => {
+                console.log(err);
+            });
+           
+        },
+
+
+
         //监听行业类型
         selectIndustryType() {
             console.log("industryType==", this.formData.industryType);
@@ -590,12 +628,13 @@ export default {
             console.log("rate==", rate);
             this.industryId = rate.industryId;  //行业类型id
             this.owerTaxfee = rate.taxRate;
-          //  this.formData.projectTrade = rate.industryName;//所属行业
+          
+            
             let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
-            }).catch(err => {
+             }).catch(err => {
                 console.log(err);
             });
            
