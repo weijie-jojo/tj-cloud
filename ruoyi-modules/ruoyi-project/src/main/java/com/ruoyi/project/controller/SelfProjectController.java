@@ -68,6 +68,7 @@ public class SelfProjectController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(SelfProject selfProject)
     {
+        System.out.println("projectTimeStart=="+selfProject.getStart());
         startPage();
         List<SelfProject> list = selfProjectService.selectSelfProjectList(selfProject);
         return getDataTable(list);

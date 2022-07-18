@@ -1,6 +1,7 @@
 package com.ruoyi.project.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -8,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.checkerframework.checker.formatter.qual.Format;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 项目信息对象 self_project
@@ -19,6 +22,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 public class SelfProject extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
+
+    /** 创建时间 */
+    private String start;
+
+    /** 创建时间 */
+    private String end;
 
     /** ID */
     private String projectId;
@@ -92,14 +101,16 @@ public class SelfProject extends BaseEntity
     private String fileName;
 
     /** 项目时间开始 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "项目时间开始", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date projectTimeStart;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @Excel(name = "项目时间开始", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime projectTimeStart;
 
     /** 项目时间结束 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "项目时间结束", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date projectTimeEnd;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @Excel(name = "项目时间结束", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime projectTimeEnd;
 
     /** 审核状态 0否 1是 */
     @Excel(name = "审核状态 0否 1是")
@@ -290,21 +301,21 @@ public class SelfProject extends BaseEntity
     {
         return fileName;
     }
-    public void setProjectTimeStart(Date projectTimeStart)
+    public void setProjectTimeStart(LocalDateTime projectTimeStart)
     {
         this.projectTimeStart = projectTimeStart;
     }
 
-    public Date getProjectTimeStart()
+    public LocalDateTime getProjectTimeStart()
     {
         return projectTimeStart;
     }
-    public void setProjectTimeEnd(Date projectTimeEnd)
+    public void setProjectTimeEnd(LocalDateTime projectTimeEnd)
     {
         this.projectTimeEnd = projectTimeEnd;
     }
 
-    public Date getProjectTimeEnd()
+    public LocalDateTime getProjectTimeEnd()
     {
         return projectTimeEnd;
     }

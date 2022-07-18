@@ -9,7 +9,8 @@
             
             <el-form-item label="项目时间">
                   <el-date-picker
-      v-model="queryParams.projectTimeStart"
+      v-model="projectTime"
+      value-format="yyyy-MM-dd HH:mm:ss"
       type="datetimerange"
       :picker-options="pickerOptions"
       range-separator="至"
@@ -206,6 +207,8 @@ export default {
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectStatus: null, //项目状态
+                start: null, //开始
+                end: null,   //结束
             },
             projectTime: [],
             pickerOptions: {
@@ -260,10 +263,14 @@ export default {
     mounted() {
         this.getList();
     },
-    methods: {
-
-
-  filterTime(time) {
+    methods: {  
+    //返回当前时间
+    returnTime(time2) {
+        var time = new Date(time2);
+        return time.toLocaleString();
+        // return time;
+    },
+    filterTime(time) {
         var date = new Date(time);
         var y = date.getFullYear();
         var m = date.getMonth() + 1;
@@ -297,13 +304,21 @@ export default {
         /** 查询项目列表 */
         getList() {
             this.loading = true;
-             if(this.queryParams.projectTimeStart != null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.projectTimeStart[0] = this.filterTime(this.queryParams.projectTimeStart[0]),
-                this.queryParams.projectTimeStart[1] = this.filterTime(this.queryParams.projectTimeStart[1])
-              
-          }else {//判断选择时间再将时间清除
-                 this.queryParams.projectTimeStart=null;
-           }
+            //  if(this.queryParams.projectTimeStart != null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+            //     this.queryParams.projectTimeStart[0] = this.filterTime(this.queryParams.projectTimeStart[0]),
+            //     this.queryParams.projectTimeStart[1] = this.filterTime(this.queryParams.projectTimeStart[1])
+            // }else {//判断选择时间再将时间清除
+            //         this.queryParams.projectTimeStart=null;
+            // };
+            if(this.projectTime!= null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+                this.queryParams.start =this.projectTime[0];
+                this.queryParams.end =this.projectTime[1];
+                console.log("start",this.queryParams.start);
+                console.log("end",this.queryParams.end);
+            }else {//判断选择时间再将时间清除
+                    this.projectTime=null;
+            };
+        //    console.log( "projectTimeStart1==",this.queryParams.projectTimeStart[1]);
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;

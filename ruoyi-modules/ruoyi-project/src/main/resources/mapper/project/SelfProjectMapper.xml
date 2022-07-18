@@ -60,11 +60,12 @@
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where t.project_code=#{projectCode}
+        where t.is_deleted=1 AND t.project_code=#{projectCode}
     </select>
     <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
         <where>
+            is_deleted=1
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
             <if test="projectTrade != null  and projectTrade != ''"> and project_trade = #{projectTrade}</if>
@@ -81,8 +82,12 @@
             <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
             <if test="checkContent != null  and checkContent != ''"> and check_content = #{checkContent}</if>
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="projectTimeStart != null "> and project_time_start = #{projectTimeStart}</if>
-            <if test="projectTimeEnd != null "> and project_time_end = #{projectTimeEnd}</if>
+            <if test="start != null and start != ''"><!-- 开始时间检索 -->
+                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') >= date_format(#{start},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="end != null and end != ''"><!-- 结束时间检索 -->
+                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{end},'%Y-%m-%d %H:%i:%s')
+            </if>
             <if test="projectCheckStatus != null  and projectCheckStatus != ''"> and project_check_status = #{projectCheckStatus}</if>
             <if test="projectTicketStatus != null  and projectTicketStatus != ''"> and project_ticket_status = #{projectTicketStatus}</if>
             <if test="projectContractStatus != null  and projectContractStatus != ''"> and project_contract_status = #{projectContractStatus}</if>
@@ -98,7 +103,7 @@
 
     <select id="selectSelfProjectByProjectId" parameterType="String" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
-        where project_id = #{projectId}
+        where is_deleted=1 AND project_id = #{projectId}
     </select>
     <select id="selectLast" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
