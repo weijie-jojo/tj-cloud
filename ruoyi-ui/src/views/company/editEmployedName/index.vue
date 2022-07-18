@@ -7,30 +7,43 @@
       size="medium" 
       label-position="right"
       label-width="110px">
-      <el-steps :space="1500" 
+      <el-steps 
         :active="1" 
         finish-status="success"
-        style="margin-left:280px;margin-top:30px;margin-bottom:80px;">
+        style="padding-left:7%;padding-right: 6%;margin-top:30px;margin-bottom:20px;">
         <el-step title="个体户名称"></el-step>
         <el-step title="个体户信息"></el-step>
         <el-step title="提交"></el-step>
       </el-steps>
 
-      <el-row  :gutter="60" class="rowCss" style="margin-left:260px">
-        <el-col :span="8">
-          <el-form-item label="个体户编号" >
-            <el-input 
-              v-model="formData.selfCode" 
-              placeholder="请输入个体户编号" 
-              :disabled='true'
-              clearable 
-              ></el-input>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+        <el-form-item  label="填报提示">
+          <!-- <el-input style="color:red" readonly="true" type="textarea" :rows="3" value="1.个体工商户名称包含行政区划、乡镇街道社区、字号、行业、组织形式五个组成部分，例如“福州市鼓楼区中山社区天天服装店”中，行政区划为“福州市鼓楼区”，乡镇街道社区为“中山社区”，字号为“天天”，行业为“服装”，组织形式为“店”。
+2.请使用谷歌chrome浏览器或360等浏览器的极速模式访问本页面进行填报。">
+            </el-input> -->
+            <div style="color:red;font-size: 16px;">1.个体工商户名称包含行政区划、乡镇街道社区、字号、行业、组织形式五个组成部分，例如“福州市鼓楼区中山社区天天服装店”中，行政区划为“福州市鼓楼区”，乡镇街道社区为“中山社区”，字号为“天天”，行业为“服装”，组织形式为“店”。</div>
+            <div style="color:red;font-size: 16px;">2.请使用谷歌chrome浏览器或360等浏览器的极速模式访问本页面进行填报。</div>
+        </el-form-item>
+        </el-col>
+       
+      </el-row>
+
+      
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item label="个体户编号">
+            <el-input v-model="formData.selfCode" placeholder="请输入个体户编号" :disabled='true' clearable></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="9"></el-col>
+
       </el-row>
+
       
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
           <el-form-item label="冠名类型" >
             <el-input 
               v-model="formData.titleType" 
@@ -39,7 +52,7 @@
               ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item label="行政区划" >
             <el-input 
               v-model="formData.administrativeDivision" 
@@ -50,8 +63,8 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
           <el-form-item label="行业" prop="industry">
             <el-input 
               v-model="formData.industry" 
@@ -60,9 +73,10 @@
               ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item label="组织形式" prop="organizationalForm">
             <el-select 
+              style="width:100%"
               v-model="formData.organizationalForm" 
               placeholder="请选择组织形式" 
               clearable
@@ -80,8 +94,8 @@
         </el-col>
       </el-row>
      
-     <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8" >
+     <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9" >
           <el-form-item  label="所在行政区划"  >
             <el-input 
               v-model="formData.administrativeRegion" 
@@ -90,7 +104,7 @@
               ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item label="登记机关" >
             <el-input 
               v-model="formData.registrationAuthority" 
@@ -101,23 +115,23 @@
         </el-col>
       </el-row>
 
-     <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+     <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
          <el-form-item label="字号">
           <el-checkbox 
             v-model="formData.random"
             @change="isRandom">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item label="拟设名称" >
             随机名称
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
          <el-form-item prop="fontSize1">
             <el-input 
               v-model="formData.fontSize1"
@@ -126,7 +140,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item >
             <el-input 
               v-model="formData.poposedName1" 
@@ -136,8 +150,8 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
          <el-form-item  prop="fontSize2">
           <el-input 
             v-model="formData.fontSize2"  
@@ -146,7 +160,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item>
             <el-input 
               v-model="formData.poposedName2"  
@@ -155,8 +169,8 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="60" style="margin-left:260px">
-        <el-col :span="8">
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
          <el-form-item  prop="fontSize3">
           <el-input 
             v-model="formData.fontSize3"  
@@ -165,7 +179,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item >
             <el-input 
             v-model="formData.poposedName3"  
@@ -174,17 +188,57 @@
         </el-col>
       </el-row>
 
-      <el-row class="rowCss" :gutter="220" style="margin-left:520px">
-        <el-col :span="2">
-            <el-button type="danger" @click="toReturn" class="btn">取消</el-button> 
+        <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+         <el-form-item  prop="fontSize4">
+          <el-input 
+            v-model="formData.fontSize4"  
+            :disabled="isDisable"
+            clearable >
+            </el-input>
+          </el-form-item>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="9">
+          <el-form-item >
+            <el-input 
+            v-model="formData.poposedName4"  
+            disabled ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+         <el-form-item  prop="fontSize5">
+          <el-input 
+            v-model="formData.fontSize5"  
+            :disabled="isDisable"
+            clearable >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item >
+            <el-input 
+            v-model="formData.poposedName5"  
+            disabled ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+      <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="8"></el-col>
+          <el-col :span="8" class="flexs">
+            <el-button type="danger" @click="toReturn" class="btn">取消</el-button> 
             <el-button 
               type="primary" 
               @click="submitForm" 
               class="btn"
                v-hasPermi="['company:review:edit']">确认修改</el-button>
-        </el-col>
+         </el-col>
+          <el-col :span="8"></el-col>
       </el-row>
 
     </el-form>
@@ -341,9 +395,13 @@ export default {
               fontSize1:this.formData.fontSize1,
               fontSize2:this.formData.fontSize2,
               fontSize3:this.formData.fontSize3,
+              fontSize4:this.formData.fontSize4,
+              fontSize5:this.formData.fontSize5,
               poposedName1:this.formData.poposedName1,
               poposedName2:this.formData.poposedName2,
               poposedName3:this.formData.poposedName3,
+              poposedName4:this.formData.poposedName4,
+              poposedName5:this.formData.poposedName5,
               // createTime:new Date().toLocaleString(),
               // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
@@ -404,4 +462,9 @@ export default {
      .btn{
       width: 90px;
     }
+    .flexs {
+  display: flex;
+  justify-content: center;
+
+}
 </style>

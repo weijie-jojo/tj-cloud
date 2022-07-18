@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      
+
       <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
@@ -36,81 +36,264 @@
     </el-row>
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
-       <el-table-column type="selection" width="55" align="center" />
-       <el-table-column label="法人姓名"  align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-       <el-table-column label="个体名称"  align="center" prop="selfName" :show-overflow-tooltip="true" />
-       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-       <el-table-column width="400" label="渠道商"   align="center"  prop="placeName"  />
-       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-       <el-table-column label="进度状态" align="center" prop="endStatus">
-      <template slot-scope="scope">
-          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == '0' && scope.row.nameStatus !=2 && scope.row.infoStatus !=2">待办理</el-link>
-          <el-link :underline="false" type="danger" v-if="scope.row.nameStatus==2 || scope.row.infoStatus==2 ">异常</el-link>
-          <el-link :underline="false" type="success" v-if="scope.row.endStatus == '1'">已完成</el-link>
-      </template>
-      </el-table-column>
-
-      <el-table-column label="名称审核" align="center" >
-       <template slot-scope="scope">
-          <el-link :underline="false" type="primary" @click="shenloading1(scope.row)" v-if="scope.row.nameStatus == '0'">待审核</el-link>
-          <el-link :underline="false" type="danger" @click="errorsName(scope.row.remarkName)" v-if="scope.row.nameStatus == '2'">未通过</el-link>
-          <el-link @click="nameLook(scope.row)" :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已完成</el-link>
-      </template>
-      </el-table-column>
-      <el-table-column label="信息审核" align="center">
-      <template slot-scope="scope">
-          <el-link :underline="false" type="primary"  v-if="scope.row.infoStatus == '0'"  @click="shenloading2(scope.row)">待审核</el-link>
-          <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remark)" v-if="scope.row.infoStatus == '2'">未通过</el-link>
-          <el-link @click="infoLook(scope.row)" :underline="false" type="success" v-if="scope.row.infoStatus == '1'">已完成</el-link>
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+      <el-table-column width="400" label="渠道商" align="center" prop="placeName" />
+      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column label="进度状态" align="center" prop="endStatus">
+        <template slot-scope="scope">
+          <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="primary"
+            v-if="scope.row.endStatus == '0' && scope.row.nameStatus != 2 && scope.row.infoStatus != 2">待办理</el-link>
+          <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="danger"
+            v-if="scope.row.nameStatus == 2 || scope.row.infoStatus == 2">异常</el-link>
+          <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="success"
+            v-if="scope.row.endStatus == '1'">已完成</el-link>
         </template>
       </el-table-column>
-       <el-table-column label="实名办理" align="center">
+
+      <el-table-column label="名称审核" align="center">
         <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2  || scope.row.infoStatus==2 " >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1  && scope.row.realnameStatus==0" >待办理</el-link>
-          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1" >已完成</el-link>
+          <el-link @click="examine(scope.row.username)" :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">待审核
+          </el-link>
+          <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode)"
+            v-if="scope.row.nameStatus == '2'">未通过</el-link>
+          <el-link @click="finishName(scope.row, scope.row.selfCode)" :underline="false" type="success"
+            v-if="scope.row.nameStatus == '1'">已完成</el-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="信息审核" align="center">
+        <template slot-scope="scope">
+          <el-link @click="examine(scope.row.username)" :underline="false" type="primary" v-if="scope.row.infoStatus == '0'">待审核
+          </el-link>
+          <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode)"
+            v-if="scope.row.infoStatus == '2'">未通过</el-link>
+          <el-link @click="finishInfo(scope.row, scope.row.selfCode)" :underline="false" type="success"
+            v-if="scope.row.infoStatus == '1'">已完成</el-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="实名办理" align="center">
+        <template slot-scope="scope">
+          <el-link  :underline="false" type="info"
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
+            未开始</el-link>
+          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 0">待办理</el-link>
+          <el-link :underline="false" @click="finishCer(scope.row, scope.row.selfCode)" type="success"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1">已完成</el-link>
         </template>
       </el-table-column>
       <el-table-column label="工商办理" align="center">
-      <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading" v-if=" scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==0" >待办理</el-link>
-          <el-link :underline="false" @click="newbusiness(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1  && scope.row.businessStatus==1" >已完成</el-link>
-      </template>
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2">
+            未开始</el-link>
+          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 0">
+            待办理</el-link>
+          <el-link :underline="false" @click="finishBus(scope.row, scope.row.selfCode)" type="success"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1">
+            已完成</el-link>
+        </template>
       </el-table-column>
-       
+
       <el-table-column label="税务办理" align="center">
-      <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 " >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == 0">待办理</el-link>
-          <el-link :underline="false" @click="newtax(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus == 1">已完成</el-link>
-       </template>
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0">
+            未开始</el-link>
+          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
+            待办理</el-link>
+          <el-link :underline="false" @click="finishTax(scope.row, scope.row.selfCode)" type="success"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1">
+            已完成</el-link>
+        </template>
       </el-table-column>
       <el-table-column label="银行办理" align="center">
-     <template slot-scope="scope">
-          <el-link :underline="false" type="info"  v-if="scope.row.nameStatus==0 || scope.row.infoStatus==0 || scope.row.nameStatus==2 || scope.row.realnameStatus==0 || scope.row.infoStatus==2 || scope.row.businessStatus==0 || scope.row.taxStatus==0" >未开始</el-link>
-          <el-link :underline="false" type="primary" @click="shenloading"  v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1 && scope.row.taxStatus==1 && scope.row.bankStatus == 0">待办理</el-link>
-          <el-link :underline="false" @click="newbank(scope.row)" type="success" v-if="scope.row.nameStatus==1 && scope.row.infoStatus==1 && scope.row.realnameStatus==1 && scope.row.businessStatus==1  && scope.row.taxStatus==1 && scope.row.bankStatus == 1">已完成</el-link>
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
+            未开始</el-link>
+          <el-link :underline="false" type="primary" @click="examine(scope.row.username)"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
+            待办理</el-link>
+          <el-link :underline="false" @click="finishBank(scope.row, scope.row.selfCode)" type="success"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1">
+            已完成</el-link>
         </template>
-     </el-table-column>
+      </el-table-column>
     </el-table>
 
-    <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
+    <!-- 进度提示 -->
+    <el-dialog title="进度详情" :visible.sync="dialogVisible" width="70%">
+      <el-table :data="progressList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+    </el-dialog>
 
-   
-   
+    <el-dialog title="名称详情" :visible.sync="nameVisible" width="70%">
+      <el-table :data="nameList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="nameVisible = false">关闭</el-button>
+        <el-button type="primary" @click="nameDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="名称异常说明" :visible.sync="errsnameVisible" width="70%">
+      <el-table :data="errsnameList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="errsnameVisible = false">关闭</el-button>
+        <el-button type="primary" @click="errsnameDetail">修改</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="信息异常说明" :visible.sync="errsinfoVisible" width="70%">
+      <el-table :data="errsinfoList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="errsinfoVisible = false">关闭</el-button>
+        <el-button type="primary" @click="errsinfoDetail">修改</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="信息详情" :visible.sync="infoVisible" width="70%">
+      <el-table :data="infoList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="infoVisible = false">关闭</el-button>
+        <el-button type="primary" @click="infoDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="实名详情" :visible.sync="cerVisible" width="70%">
+      <el-table :data="cerList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cerVisible = false">关闭</el-button>
+        <el-button type="primary" @click="cerDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+
+    <el-dialog title="工商详情" :visible.sync="busVisible" width="70%">
+      <el-table :data="busList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="busVisible = false">关闭</el-button>
+        <el-button type="primary" @click="busDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+
+    <el-dialog title="税务详情" :visible.sync="taxVisible" width="70%">
+      <el-table :data="taxList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="taxVisible = false">关闭</el-button>
+        <el-button type="primary" @click="taxDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="银行详情" :visible.sync="bankVisible" width="70%">
+      <el-table :data="bankList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="bankVisible = false">关闭</el-button>
+        <el-button type="primary" @click="bankDetail">查看</el-button>
+      </span>
+    </el-dialog>
+    
+    <el-dialog title="等待说明" :visible.sync="exmVisible" width="70%">
+      <el-table :data="exmList">
+      
+        
+        <el-table-column label="审核/办理人" align="center" prop="userName" />
+        <el-table-column label="联系方式" align="center" prop="phonenumber" />
+        <el-table-column label="审核说明" align="center">
+          <template>
+            请耐心等待
+          </template>
+        </el-table-column>
+        
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="exmVisible = false">关闭</el-button>
+        <!-- <el-button type="primary" @click="taxDetail">查看</el-button> -->
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed,checkdetail } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail , getLeaderByUserId } from "@/api/company/employed";
 // import axios from 'axios'
 export default {
   name: "Employed",
   data() {
     return {
+      exmList: [],//等待数据
+      errsinfoList: [],//信息数据异常
+      errsnameList: [],//名称数据异常
+      infoList: [],//信息数据
+      nameList: [],//名称数据
+      progressList: [],  //进度数据
+      cerList: [],//实名数据
+      busList: [],//工商数据
+      taxList: [],//税务数据
+      bankList: [],//银行数据
+      exmVisible: false, //等待弹框
+      bankVisible: false, //银行弹框
+      taxVisible: false, //税务弹框
+      busVisible: false, //工商弹框
+      cerVisible: false, //实名弹框
+      nameVisible: false, //名称弹框
+      infoVisible: false, //信息弹框
+      dialogVisible: false, //进度弹框
+      errsnameVisible: false, //名称弹框异常
+      errsinfoVisible: false, //信息弹框异常
       // 遮罩层
       loading: true,
       // 选中数组
@@ -145,164 +328,274 @@ export default {
     };
   },
   created() {
-    console.log(444444);
     this.getList();
   },
-  mounted(){
-//  this.$tab.refreshPage();
-  },
+
   methods: {
-    //审核中
-    shenloading(){
-         this.$alert('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '关闭',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
-    },
-    //审核中  名称
-    shenloading1(scope){
-      //  this.$cache.local.setJSON('employedName', scope);
-      //  console.log(scope);
-           this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '修改',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-         this.$cache.local.setJSON('employedName', scope);
-         this.$router.push("editEmployedName");   
+    //获取审核中的数据
     
-        }).catch(() => {
-        });
-      
-        
+    examine(username) {
+       
+       getLeaderByUserId({
+        username:username
+       }).then(res=>{
+       this.exmList=res;
+       this.exmVisible=true;
+       }).catch(error=>{
+        console.log(error);
+       })
     },
-    //审核中  信息
-    shenloading2(scope){
-           this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '修改',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-             this.$cache.local.setJSON('employedInfo', scope);
-             this.$router.push("editEmployedInfo");  
-        }).catch(() => {
-      
-        });
+    //进度弹框
+    progressNew(code) {
+      this.checkdetail(code);
     },
-    //异常
-    errosName(error){
-         this.$confirm(error, '异常', {
-          confirmButtonText: '修改',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-         this.$cache.local.setJSON('employedName', scope);
-         this.$router.push("editEmployedName");   
-    
-        }).catch(() => {
-        });
+    //进度详情列表
+    checkdetail(arr) {
+      this.progressList = [];
+      let parms = {
+        selfCode: arr
+      }
+      checkdetail(parms).then(res => {
+        this.dialogVisible = true;
+        this.progressList = res.rows;
+
+      });
     },
-    //异常说明
-     errorsinfo(error){
-          this.$confirm(error, '异常', {
-          confirmButtonText: '修改',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-             this.$cache.local.setJSON('employedInfo', scope);
-             this.$router.push("editEmployedInfo");  
-        }).catch(() => {
-      
-        });
-     },
-    newbusiness(){
-        this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '关闭',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+    //名称进度
+    checkName(arr) {
+      this.nameList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 2,
+      }
+      //名称进度
+      checkdetail(parms).then(res => {
+        this.nameList = res.rows;
+        this.nameVisible = true;
+      });
     },
-     newtax(){
-         this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '关闭',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+
+    //信息进度
+    checkInfo(arr) {
+      this.infoList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 3,
+      }
+      //信息进度
+      checkdetail(parms).then(res => {
+        this.infoList = res.rows;
+        this.infoVisible = true;
+      });
     },
-     newbank(){
-         this.$alert('审核成功！', '审核说明', {
-          confirmButtonText: '关闭',
-          callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-          }
-        });
+
+
+
+    //异常名称进度
+    checkNames(arr) {
+      this.errsnameList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 2,
+      }
+      //异常名称进度
+      checkdetail(parms).then(res => {
+        this.errsnameList = res.rows;
+        this.errsnameVisible = true;
+      });
     },
-    check(self_code,self_type){
-       let parms={
-        // selfCode=self_code,
-        // selfType=self_
-       }
-       checkdetail().then(res=>{
-          
-        });
+
+    //异常信息进度
+    checkInfos(arr) {
+      this.errsinfoList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 3,
+      }
+      //异常信息进度
+      checkdetail(parms).then(res => {
+        this.errsinfoList = res.rows;
+        this.errsinfoVisible = true;
+      });
     },
-    
+
+
+
+
+
+    //实名进度
+    checkCer(arr) {
+      this.cerList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 4,
+      }
+      //实名进度
+      checkdetail(parms).then(res => {
+        this.cerList = res.rows;
+        this.cerVisible = true;
+      });
+    },
+
+    //工商进度
+    checkBus(arr) {
+      this.busList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 5,
+      }
+      //工商进度
+      checkdetail(parms).then(res => {
+        this.busList = res.rows;
+        this.busVisible = true;
+      });
+    },
+
+    //税务进度
+    checkTax(arr) {
+      this.taxList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 6,
+      }
+      //税务进度
+      checkdetail(parms).then(res => {
+        this.taxList = res.rows;
+        this.taxVisible = true;
+      });
+    },
+
+    //银行进度
+    checkBank(arr) {
+      this.bankList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 7,
+      }
+      //银行进度
+      checkdetail(parms).then(res => {
+        this.bankList = res.rows;
+        this.bankVisible = true;
+      });
+    },
+
+    unfinish() {
+
+    },
+
+
+    //异常名称
+    errName(scope, selfCode) {
+      this.checkNames(selfCode);
+      this.$cache.local.setJSON('employedName', scope);
+      // this.$router.push("editEmployedName");   
+    },
+    //异常信息
+    errInfo(scope, selfCode) {
+      this.checkInfos(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+      //  this.$router.push("editEmployedInfo");  
+    },
+
+    errsnameDetail() {
+      this.errsnameVisible = false;
+      this.$router.push("editEmployedName");
+    },
+    errsinfoDetail() {
+      this.errsinfoVisible = false;
+      this.$router.push("editEmployedInfo");
+    },
+    check(self_code, self_type) {
+      let parms = {
+        selfCode: self_code,
+        selfType: self_type
+      }
+      checkdetail(parms).then(res => {
+
+      });
+    },
+
     //名称审核 已完成
-    nameLook(scope){
-       this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '查看',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-             this.$cache.local.setJSON('employedInfo', scope);
-             this.$router.push("namedetail");  
-        }).catch(() => {
-      
-        }); 
+    finishName(scope, selfCode) {
+      this.checkName(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+    },
+    //名称详情
+    nameDetail() {
+      this.nameVisible = false;
+      this.$router.push("namedetail");
     },
     //信息审核 已完成
-    infoLook(scope){
-         this.$confirm('审核中,请耐心等待...', '审核说明', {
-          confirmButtonText: '查看',
-          cancelButtonText: '关闭',
-          type: 'warning'
-        }).then(() => {
-             this.$cache.local.setJSON('employedInfo', scope);
-             this.$router.push("infodetail");  
-        }).catch(() => {
-      
-        });
-        // this.$alert('审核成功！', '审核说明', {
-        //   confirmButtonText: '确定',
-        //   callback: action => {
-        //     // this.$message({
-        //     //   type: 'info',
-        //     //   message: `action: ${ action }`
-        //     // });
-        //   }
-        // });
+    finishInfo(scope, selfCode) {
+      this.checkInfo(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+
     },
+
+    //信息详情
+    infoDetail() {
+      this.infoVisible = false;
+      this.$router.push("infodetail");
+    },
+
+    //办理实名 已完成
+    finishCer(scope, selfCode) {
+      this.checkCer(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+
+    },
+
+    //实名详情
+    cerDetail() {
+      this.cerVisible = false;
+      this.$router.push("detailCer");
+    },
+
+    //办理工商 已完成
+    finishBus(scope, selfCode) {
+      this.checkBus(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+
+    },
+
+    //工商详情
+    busDetail() {
+      this.busVisible = false;
+      this.$router.push("detailBusiness");
+    },
+
+    //办理税务 已完成
+    finishTax(scope, selfCode) {
+      this.checkTax(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+
+    },
+
+    //税务详情
+    taxDetail() {
+      this.taxVisible = false;
+      this.$router.push("detailTax");
+    },
+
+    //办理银行 已完成
+    finishBank(scope, selfCode) {
+      this.checkBank(selfCode);
+      this.$cache.local.setJSON('employedInfo', scope);
+
+    },
+
+    //银行详情
+    bankDetail() {
+      this.bankVisible = false;
+      this.$router.push("detailBank");
+    },
+
+
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
       joinList(this.queryParams).then(response => {
-        
+
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -316,7 +609,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        placeName:null,
+        placeName: null,
         selfId: null,
         selfKey: null,
         placeCode: null,
@@ -363,14 +656,7 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    //工商管理
-    business(row) {
-     
-    },
-    //税务管理
-    atx(row) {
-    
-    },
+
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

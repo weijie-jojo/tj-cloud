@@ -434,7 +434,7 @@ export default {
                       this.check('名称审核已完成');
                     } else {
                       resmsg = '名称审核完成';
-                      this.check('名称审核未通过');
+                      this.check('名称审核未通过'+'(原因)'+this.remark);
                     }
                     let obj = {
                       title: '名称审核',
