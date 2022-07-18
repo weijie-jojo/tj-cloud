@@ -71,12 +71,12 @@ public class SysUserController extends BaseController
      */
     @GetMapping("/getLeaderByUserId")
     @ApiOperation("根据userId获取他的部门领导信息")
-    public List<SysUser> getLeaderByUserId(String username)
+    public List<SysUser> getLeaderByUserId(Long userId)
     {
-        System.out.println("username=="+username);
-        SysUser user= userService.selectUserByUserName(username);
+        System.out.println("userId=="+userId);
+        SysUser user= userService.selectUserById(userId);
         System.out.println("user=="+user);
-        Long roleId= userService.selectUserByUserName(username).getRoles().get(0).getRoleId();
+        Long roleId= userService.selectUserById(userId).getRoles().get(0).getRoleId();
         System.out.println("roleId=="+roleId);
         List<SysUser> leaders=new ArrayList<>();
         if(roleId==3||roleId==12){//当业务员及业务主管
