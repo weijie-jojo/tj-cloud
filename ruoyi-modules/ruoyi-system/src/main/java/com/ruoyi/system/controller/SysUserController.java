@@ -1,10 +1,14 @@
 package com.ruoyi.system.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +49,7 @@ import com.ruoyi.system.service.ISysUserService;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户管理")
 public class SysUserController extends BaseController
 {
     @Autowired
@@ -61,6 +66,30 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysConfigService configService;
+    /**
+     * 根据userId获取他的部门领导信息
+     */
+    @GetMapping("/getLeaderByUserId")
+    @ApiOperation("根据userId获取他的部门领导信息")
+    public List<SysUser> getLeaderByUserId(Long userId)
+    {
+        System.out.println("userId=="+userId);
+        SysUser user= userService.selectUserById(userId);
+        System.out.println("user=="+user);
+        Long roleId= userService.selectUserById(userId).getRoles().get(0).getRoleId();
+        System.out.println("roleId=="+roleId);
+        List<SysUser> leaders=new ArrayList<>();
+        if(roleId==3||roleId==12){//当业务员及业务主管
+            Long roleLong=new Long(12);
+            leaders= userService.selectUserByRoleId(roleLong);
+        }
+        if(roleId==11||roleId==10){//行政文员及行政主管
+            Long roleLong=new Long(10);
+            leaders= userService.selectUserByRoleId(roleLong);
+        }
+        System.out.println("leaders=="+leaders);
+        return leaders;
+    }
 
     /**
      * 获取用户列表

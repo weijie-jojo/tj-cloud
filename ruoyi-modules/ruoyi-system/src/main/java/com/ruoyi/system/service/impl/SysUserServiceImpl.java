@@ -61,6 +61,16 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     protected Validator validator;
 
+    /**
+     * 通过角色ID查询用户
+     *
+     * @param roleId 角色ID
+     * @return 用户对象信息
+     */
+    @Override
+    public List<SysUser> selectUserByRoleId(Long roleId) {
+        return userMapper.selectUserByRoleId(roleId);
+    }
 
     /**
      * 查询所有用户
