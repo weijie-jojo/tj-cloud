@@ -25,11 +25,19 @@ export function addEmployed(data) {
     data: data
   })
 }
-
+//查询办理中数据
+export function getLeaderByUserId(query){
+  return request({
+    url:'/system/user/getLeaderByUserId',
+    method: 'GET',
+    params: query
+  })
+}
+    
 // 查询个体商户进度
 export function checkdetail(query) {
   return request({
-    url: '/company/employed/list',
+    url: '/company/check/list',
     method: 'get',
     params: query
   })
@@ -79,4 +87,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail}
+export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId}

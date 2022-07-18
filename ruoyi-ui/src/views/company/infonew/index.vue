@@ -919,7 +919,7 @@ export default {
                       resmsg = '信息审核完成';
                       this.check('信息审核完成');
                     } else {
-                      this.check('信息审核未通过');
+                      this.check('信息审核未通过'+'(原因)'+this.remark);
                       resmsg = '信息审核完成';
                     }
 
