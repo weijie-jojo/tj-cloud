@@ -38,7 +38,7 @@ export function getcode(query){
 }
 export function del(projectIds) {
   return request({
-    url: 'project/project/'+projectIds,
+    url: 'project/project/del/'+projectIds,
     method: 'put',
  })
 }
