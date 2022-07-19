@@ -57,44 +57,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业类型" prop="industryType">
-                        <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true" />
-                    </el-form-item>
-
-                    <!-- <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
-                            <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
-                </el-col>
-
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业税率">
-                        <el-input disabled v-model="owerTaxfee"></el-input>
-                    </el-form-item>
-                 
-                 
-                 <!-- <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
-                    </el-form-item>
-                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
-                            <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                     </el-form-item> -->
-                </el-col>
-            </el-row>
-
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
+             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-select @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
@@ -104,13 +67,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                   
                 </el-col>
 
                 <el-col :span="9">
@@ -118,9 +75,7 @@
                     <el-form-item class="comright" label="乙方纳税人识别号">
                         <el-input disabled v-model="owerTax"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="业务经理">
-                        <el-input v-model="formData.projectLeader" disabled></el-input>
-                    </el-form-item>
+                   
                 </el-col>
             </el-row>
 
@@ -161,14 +116,7 @@
             </el-row>
 
 
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+           
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">

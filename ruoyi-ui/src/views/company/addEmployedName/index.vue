@@ -50,13 +50,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-              <el-form-item label="组织形式" prop="organizationalForm">
+              <!-- <el-form-item label="组织形式" prop="organizationalForm">
             <el-select style="width:100%" v-model="formData.organizationalForm" placeholder="请选择组织形式" clearable
               @change="changeOrganizational">
               <el-option v-for="(item, index) in organizationalFormOptions" :key="index" :label="item.label"
                 :value="item.value" :disabled="item.disabled"></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
 
       </el-row>

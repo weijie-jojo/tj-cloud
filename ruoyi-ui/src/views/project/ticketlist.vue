@@ -5,22 +5,22 @@
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top;:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input disabled v-model="publicList.projectCode"></el-input>
+                        <el-input :readonly="true" v-model="publicList.projectCode"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目金额">
-                        <el-input disabled v-model="publicList.projectTotalAmount"></el-input>
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="已开金额">
-                        <el-input-number disabled style="width:100%" v-model="issuedAmount" :precision="2" :step="0.00">
+                        <el-input-number :readonly="true" style="width:100%" v-model="issuedAmount" :precision="2" :step="0.00">
                         </el-input-number>
                     </el-form-item>
                     <el-form-item class="comright" label="剩余金额">
-                        <el-input-number disabled style="width:100%" v-model="balance" :precision="2" :step="0.00">
+                        <el-input-number :readonly="true" style="width:100%" v-model="balance" :precision="2" :step="0.00">
                         </el-input-number>
                     </el-form-item>
                 </el-col>
@@ -30,12 +30,15 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票类型">
-                        <el-input></el-input>
+                        <el-select disabled style="width:100%" clearable v-model="publicList.ticketType">
+                            <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
 
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
-
-                        <el-input disabled type="textarea" :rows="2" v-model="publicList.fileName">
+                         <el-input :readonly="true" type="textarea" :rows="2" v-model="publicList.fileName">
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
@@ -52,12 +55,12 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票税率">
-
-                        <el-input></el-input>
+                         <el-input v-if="publicList.ticketTax==0" :readonly="true" value="免税"></el-input>
+                         <el-input v-else value="3%" :readonly="true" ></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="发票备注">
-                        <el-input disabled v-model="publicList.projectDesc"></el-input>
+                        <el-input :readonly="true" v-model="publicList.projectDesc"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -129,7 +132,7 @@
 
 <script>
 import qs from 'qs';
-import { list, del } from "@/api/project/ticket";
+import { list, del ,TicketByCode } from "@/api/project/ticket";
 export default {
     data() {
         return {
@@ -163,6 +166,17 @@ export default {
                 pageSize: 10,
                 projectCode: ''
             },
+            ticketTypeoptions: [
+                {
+                    value: 0,
+                    label: '增值税普通发票'
+                },
+                {
+
+                    value: 1,
+                    label: '增值税专用发票'
+                },
+            ],
             publicList: '',
             projectTime: [],
             pickerOptions: {
@@ -235,9 +249,27 @@ export default {
                     }
 
             this.getList();
+            this.ticketByCode();
     },
     methods: {
+        //计算已开和剩余金额
+        ticketByCode(){
+          TicketByCode({
+           projectCode:this.publicList.projectCode
+           }).then(res=>{
+            let arr=res;
+             this.issuedAmount=0.00;
+            for(let i in arr){
+                if(arr[i].ticketAmount>0){
+                   this.issuedAmount+=arr[i].ticketAmount*1;
+                }
+            }
+            this.balance=this.publicList.projectTotalAmount * 1-this.issuedAmount*1;
 
+          }).catch(err=>{
+
+          });
+        },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -245,17 +277,6 @@ export default {
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
-                
-                if (this.total == 0) {
-                    this.issuedAmount = 0.00,//已开金额
-                        this.balance = this.publicList.projectTotalAmount * 1;//剩余金额
-                } else {
-                    this.issuedAmount = 0;
-                    for (let i in this.projectList) {
-                        this.issuedAmount += this.projectList[i].ticketAmount * 1;
-                    }
-                    this.balance = this.publicList.projectTotalAmount * 1 - this.issuedAmount * 1;
-                }
                 this.loading = false;
             });
 

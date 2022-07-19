@@ -70,13 +70,13 @@
 
                  
 
-                    <!-- <el-form-item class="comright" label="发票类型" prop="ticketType">
+                    <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item> -->
+                    </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
@@ -85,7 +85,7 @@
                     </el-form-item>
                  
                  
-                 <!-- <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
+                 <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
                         <el-input v-model="formData.ticketTax" disabled></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
@@ -94,7 +94,7 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                     </el-form-item> -->
+                     </el-form-item>
                 </el-col>
             </el-row>
 

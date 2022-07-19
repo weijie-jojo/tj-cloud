@@ -76,7 +76,7 @@
 
             <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="primary" @click="shenloading1(scope.row)"
+                    <el-link :underline="false" type="primary" @click="shenloading"
                         v-if="scope.row.projectCheckStatus == '0'">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkName)"
                         v-if="scope.row.projectCheckStatus == '2'">异常</el-link>

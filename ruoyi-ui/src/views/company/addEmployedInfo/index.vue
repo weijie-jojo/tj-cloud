@@ -10,7 +10,7 @@
 
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="申请信息" name="first">
-          <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
+          <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="8">
               <div class="bankno">申请信息</div>
 
@@ -67,7 +67,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
+          <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="7">
               <div class="bankno">联络员</div>
 
@@ -118,7 +118,7 @@
 
         <el-tab-pane label="基本情况" name="second">
 
-        <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="8">
               <div class="bankno">基本情况</div>
 
@@ -129,7 +129,7 @@
           </el-row>
          <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
-              <el-form-item label="组织形式">
+              <el-form-item label="组成形式">
                 <el-input v-model="formData.organizationalForm" disabled>
                 </el-input>
               </el-form-item>
@@ -222,26 +222,12 @@
             </el-col>
           </el-row>
 
-          <el-row type="flex" class="row-bg" justify="space-around">
+          <!-- <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
-
               <el-form-item label="行业类型" prop="industryType">
                 <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true"
                   placeholder="请选择归属部门" />
-                <!-- <el-select 
-                    v-model="formData.industryType" 
-                    placeholder="请选择行业类型" 
-                    clearable
-                    @change="selectIndustryType"
-                    >
-                    <el-option 
-                      v-for="(item, index) in industryTypes" 
-                      :key="index" 
-                      :label="item.industryName"
-                      :value="item.industryId" 
-                    ></el-option>
-                  </el-select> -->
-              </el-form-item>
+               </el-form-item>
             </el-col>
             <el-col :span="9">
               <el-form-item label="行业税率">
@@ -249,7 +235,7 @@
                 </el-input>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
           <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
               <el-form-item label="银行账号类型" prop="accountType">
@@ -301,7 +287,7 @@
 
 
 
-          <el-row type="flex" class="row-bg" justify="space-around">
+          <!-- <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
               <el-form-item label="渠道商" prop="placeName">
                 <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
@@ -316,7 +302,7 @@
                 </el-input>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
          
          <el-row type="flex" class="row-bg " justify="space-around">
          <el-col :span="8"></el-col>
@@ -342,7 +328,7 @@
         <el-tab-pane label="经营者" name="third">
 
 
-              <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
+              <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="11">
               <div class="bankno">经营者（负责人）信息</div>
 
@@ -467,6 +453,58 @@
             <el-col :span="9"></el-col>
           </el-row>
 
+           <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          
+          <el-form-item  label="工商实名" prop="fileName6">
+            <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess1"
+              :on-preview="handlePreview1"
+              :on-remove="handleRemove1"
+              :before-remove="beforeRemove1"
+              multiple
+              :limit="9"
+              :on-exceed="handleExceed1"
+              :file-list="fileName6"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible1" append-to-body>
+              <img width="100%" :src="dialogImageUrl1" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-col>
+        
+        <el-col :span="9">
+          
+           
+          <el-form-item label="税务实名" prop="fileName7">
+            <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess2"
+              :on-preview="handlePreview2"
+              :on-remove="handleRemove2"
+              :before-remove="beforeRemove2"
+              multiple
+              :limit="9"
+              :on-exceed="handleExceed2"
+              :file-list="fileName7"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible2" append-to-body>
+              <img width="100%" :src="dialogImageUrl2" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
         <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
@@ -584,7 +622,7 @@ export default {
         contactIdNum: '',
 
         //基本情况
-        organizationalForm: '',
+        organizationalForm: '个人经营',
         numberEmployees: 5,
         contributionAmount: 15,
         city: '龙岩市',
@@ -675,7 +713,7 @@ export default {
 
         organizationalForm: [{
           required: true,
-          message: '请输入组织形式',
+          message: '请输入组成形式',
           trigger: 'blur'
         }],
         numberEmployees: [{
@@ -833,7 +871,7 @@ export default {
     this.getRate();
     //从上一个页面获取个体户编码
     this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
-    this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
+    //this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
     console.log("selfCode==", this.formData.selfCode)
   },
   methods: {
