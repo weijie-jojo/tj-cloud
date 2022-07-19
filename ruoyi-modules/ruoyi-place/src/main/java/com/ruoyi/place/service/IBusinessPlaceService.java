@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public interface IBusinessPlaceService  {
-    IPage<PlaceVo> selectByPage(BusinessPlace businessPlace, PageQo pageQo, String status);
+    List<BusinessPlace> selectByPage(List<String> userIdStr);
     Integer addPlace(BusinessPlace businessPlace);
     Integer delPlace(String placeCode);
     Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee);

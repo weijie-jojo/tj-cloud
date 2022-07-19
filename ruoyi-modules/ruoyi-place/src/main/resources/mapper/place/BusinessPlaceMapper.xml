@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.place.mapper.BusinessPlaceMapper">
+
+    <sql id="selectBusinessPlaceJoin">
+        select
+        t.place_id,t.place_code,t.place_name,t.place_alias_name,t.place_type,t.place_linkman,
+        t.place_tel,t.place_email,t.place_open_bank,t.place_bank_account,t.place_star_level,
+        t.place_status,t.regist_time,t.user_id,t.is_delete,t.remark,t.create_time,t.create_by,
+        t.update_by,t.update_time,t.user_name,A.nick_name,B.dict_label
+        from business_place t JOIN sys_user A ON t.user_id = A.user_id
+          JOIN sys_dict_data B ON t.place_status = B.dict_value </sql>
+    <select id="selectBusinessPlaceJoin"  resultType="com.ruoyi.place.entity.BusinessPlace">
+        <include refid="selectBusinessPlaceJoin"/>
+        <where>
+            t.is_delete=1 and B.dict_type="place_status"
+
+<!--            and user_id in-->
+<!--            <foreach item="userId" collection="userIdStr" open="(" separator="," close=")">-->
+<!--                #{userId}-->
+<!--            </foreach>-->
+
+<!--                    <if test="status != null  and status != ''"> and t.place_status in #{status}</if>-->
+            <if test="userIdStr != null  and userIdStr.size() >0 ">
+--                         and t.user_id in #{userIdStr}
+                AND t.user_id in
+                <foreach collection="userIdStr" index="index" item="item"  separator=",">
+                    #{item}
+                </foreach>
+            </if>
+<!--            <if test="userId != null  and userId != ''">-->
+<!--                and t.user_id in (#{userId})-->
+<!--            </if>-->
+<!--                <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>-->
+        </where>
+        ORDER BY
+        t.place_id DESC
+    </select>
+
+</mapper>

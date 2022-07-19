@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +25,7 @@ import java.util.Date;
 public class BusinessPlace implements Serializable{
 
     private static final long serialVersionUID = 1L;
+
     /**
      * id
      */
@@ -149,5 +151,11 @@ public class BusinessPlace implements Serializable{
      */
     @TableField("user_name")
     private String userName;
+
+//    /**
+//     * 部门id
+//     */
+//    @Transient
+//    private String userIdStr;
 
 }
