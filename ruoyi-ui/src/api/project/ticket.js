@@ -15,6 +15,15 @@ export function ownlist(query) {
     params: query
   })
 }
+
+export function TicketByCode(query) {
+  return request({
+    url: 'project/project/selectProjectJoinTicketByCode',
+    method: 'get',
+    params: query
+  })
+}
+
 export function add(query) {
   return request({
     url: 'project/project',
@@ -53,4 +62,4 @@ export function getinfoByUserId(data){
 
 
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist}
+export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode}
