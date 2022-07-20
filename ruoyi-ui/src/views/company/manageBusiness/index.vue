@@ -12,19 +12,26 @@
        <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-       <el-form-item label="办理状态">
+       <!-- <el-form-item label="办理状态">
         <el-select clearable v-model="queryParams.businessStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+    
     <el-row :gutter="10" class="mb8">
+      <el-col :span="15">
+     <el-tabs v-model="businessStatus" @tab-click="handleClick">
+     <el-tab-pane label="全部" name="-1"></el-tab-pane>
+     <el-tab-pane label="待办理" name="0"></el-tab-pane>
+     <el-tab-pane label="已完成" name="1"></el-tab-pane>
+      </el-tabs>
+     </el-col>
       <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['company:employed:add']">新增</el-button>
@@ -43,7 +50,6 @@
       </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
        <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true"  />
@@ -90,6 +96,7 @@ export default {
   name: "Employed",
   data() {
     return {
+      businessStatus:'-1',
      // 遮罩层
       loading: true,
       // 选中数组
@@ -142,6 +149,15 @@ export default {
     this.getList();
   },
   methods: {
+      handleClick(tab, event) {
+     if(this.businessStatus=='-1'){
+      this.queryParams.businessStatus=null;
+     }else{
+      this.queryParams.businessStatus=this.businessStatus;
+     }
+      this.queryParams.pageNum=1;
+      this.getList();
+      },
     detail(row){
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("工商信息","/company/customer/detailBusiness");
@@ -198,7 +214,8 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-     
+      this.businessStatus='-1';
+      this.queryParams.businessStatus=null;
       this.queryParams.pageNum = 1;
       this.getList();
       
@@ -276,4 +293,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
+</style>
 

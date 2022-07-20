@@ -12,20 +12,29 @@
       <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-         <el-form-item label="审核状态"> 
+      <!-- <el-form-item label="审核状态"> 
         <el-select clearable v-model="queryParams.nameStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
     <el-row :gutter="10" class="mb8">
+      <el-col :span="15">
+          <el-tabs v-model="nameStatus" @tab-click="handleClick">
+     <el-tab-pane label="全部" name="-1"></el-tab-pane>
+     <el-tab-pane label="待审核" name="0"></el-tab-pane>
+     <el-tab-pane label="已完成" name="1"></el-tab-pane>
+     <el-tab-pane label="未通过" name="2"></el-tab-pane>
+  </el-tabs>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+   
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -67,6 +76,7 @@ export default {
   name: "Employed",
   data() {
     return {
+      nameStatus:'-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -121,6 +131,15 @@ export default {
     this.getList();
   },
   methods: {
+     handleClick(tab, event) {
+     if(this.nameStatus=='-1'){
+      this.queryParams.nameStatus=null;
+     }else{
+      this.queryParams.nameStatus=this.nameStatus;
+     }
+      this.queryParams.pageNum=1;
+      this.getList();
+      },
     detail(row){
          this.$cache.local.setJSON('employedName', row);
          this.$tab.openPage("名称信息","/company/customer/nameDetail");
@@ -181,6 +200,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.nameStatus='-1';
+      this.queryParams.nameStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -256,4 +277,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
+</style>
 

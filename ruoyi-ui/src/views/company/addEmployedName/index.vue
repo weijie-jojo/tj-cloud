@@ -1,10 +1,13 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-position="right" label-width="auto">
-      <el-steps :active="1" finish-status="success" style="padding-left:7%;padding-right: 6%;margin-top:30px;margin-bottom:20px;">
+      <el-steps align-center :active="0" finish-status="success" style="padding-left: 2%;margin-top:30px;margin-bottom:10px;">
         <el-step title="个体户名称"></el-step>
-        <el-step title="个体户信息"></el-step>
-        <el-step title="提交"></el-step>
+        <el-step title="申请信息"></el-step>
+        <el-step title="基本情况"></el-step>
+        <el-step title="经营者信息"></el-step>
+        <el-step title="业务信息"></el-step>
+        <el-step title="提交审核"></el-step>
       </el-steps>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">

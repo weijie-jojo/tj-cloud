@@ -2,15 +2,21 @@
   <div>
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="120px" label-position="right">
 
-      <el-steps :active="2" finish-status="success"
-        style="padding-left:7%;padding-right: 6%;margin-top:30px;margin-bottom:20px;">
-        <el-step title="个体户名称"></el-step>
-        <el-step title="个体户信息"></el-step>
-        <el-step title="提交"></el-step>
+      <el-steps
+      align-center
+      :active="actives" finish-status="success"
+        style="padding-left: 2%;margin-top:30px;margin-bottom:10px;">
+       <el-step title="个体户名称"></el-step>
+        <el-step title="申请信息"></el-step>
+        <el-step title="基本情况"></el-step>
+        <el-step title="经营者信息"></el-step>
+        <el-step title="业务信息"></el-step>
+        <el-step title="确认修改"></el-step>
       </el-steps>
 
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="申请信息" name="first">
+      <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane label="申请信息" name="first"> -->
+          <div v-show="actives==1">
           <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="8">
               <div class="bankno">申请信息</div>
@@ -109,13 +115,15 @@
             <el-col :span="8"></el-col>
             <el-col :span="8" class="flexs">
               <el-button type="danger" @click="toReturn" class="btn">取消</el-button>
-              <el-button type="primary" @click="submitForm1" class="btn">下一步</el-button>
+              <el-button type="primary" @click="nextbasic" class="btn">下一步</el-button>
             </el-col>
             <el-col :span="8"></el-col>
           </el-row>
-        </el-tab-pane>
+          </div>
+        <!-- </el-tab-pane> -->
 
-        <el-tab-pane label="基本情况" name="second">
+        <!-- <el-tab-pane label="基本情况" name="second"> -->
+          <div v-show="actives==2">
           <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="8">
               <div class="bankno">基本情况</div>
@@ -127,7 +135,7 @@
           </el-row>
           <el-row type="flex" class="row-bg rowCss" justify="space-around">
             <el-col :span="9">
-              <el-form-item label="组织形式">
+              <el-form-item label="组成形式">
                 <el-input v-model="formData.organizationalForm" disabled>
                 </el-input>
               </el-form-item>
@@ -310,16 +318,18 @@
           <el-row type="flex" class="row-bg " justify="space-around">
              <el-col :span="8"></el-col>
             <el-col :span="8" class="flexs">
-                <el-button type="danger" @click="toReturn1" class="btn">返回</el-button>
-                <el-button type="primary" @click="submitForm2" class="btn">下一步</el-button>
+                <el-button type="danger" @click="backinfo" class="btn">返回</el-button>
+                <el-button type="primary" @click="nextbus" class="btn">下一步</el-button>
             </el-col>
             <el-col :span="8">
             
             </el-col>
           </el-row>
-        </el-tab-pane>
+          </div>
+        <!-- </el-tab-pane> -->
 
-        <el-tab-pane label="经营者" name="third">
+        <!-- <el-tab-pane label="经营者" name="third"> -->
+               <div v-show="actives==3">
                 <el-row type="flex" class="row-bg  combottom" justify="space-around">
             <el-col :span="11">
               <div class="bankno">经营者（负责人）信息</div>
@@ -433,30 +443,226 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
+          
+           
+         <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          
+          <el-form-item  label="工商实名" prop="fileName6">
+            <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess2"
+              :on-preview="handlePreview2"
+              :on-remove="handleRemove2"
+              :before-remove="beforeRemove2"
+               multiple
+              :on-exceed="handleExceed2"
+              :file-list="fileName6"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible2" append-to-body>
+              <img width="100%" :src="dialogImageUrl2" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-col>
+        
+        <el-col :span="9">
+          
+           
+          <el-form-item label="税务实名" prop="fileName7">
+            <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess3"
+              :on-preview="handlePreview3"
+              :on-remove="handleRemove3"
+              :before-remove="beforeRemove3"
+               multiple
+              :on-exceed="handleExceed3"
+              :file-list="fileName7"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible3" append-to-body>
+              <img width="100%" :src="dialogImageUrl3" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+      <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
               <el-form-item label="身份证扫描件">
-                <el-button type="primary" @click="toEditImg">点击上传</el-button>
-
+                <!-- <el-button type="primary" @click="toEditImg">点击上传</el-button> -->
+                 <el-upload
+              class="upload-demo"
+              action="http://36.133.2.179:8000/api/files/doUpload"
+              :on-success="handlesuccess1"
+              :on-preview="handlePreview1"
+              :on-remove="handleRemove1"
+              :before-remove="beforeRemove1"
+               multiple
+              :on-exceed="handleExceed1"
+              :file-list="fileName5"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible1" append-to-body>
+              <img width="100%" :src="dialogImageUrl1" alt="" />
+            </el-dialog>
               </el-form-item>
             </el-col>
             <el-col :span="9"></el-col>
           </el-row>
 
+
+
+
+
           <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="8"></el-col>
-            <el-col :span="8">
-              <el-button type="danger" @click="toReturn2" class="btn">返回</el-button>
-                 <el-button type="primary" @click="submitForm3" class="btn" v-hasPermi="['company:employed:add']">确认修改
-              </el-button>
+            <el-col :span="8" class="flexs">
+              <el-button type="danger" @click="backbs" class="btn">返回</el-button>
+                 <el-button type="primary" @click="nextYe" class="btn">下一步</el-button>
+               
             </el-col>
             <el-col :span="8">
            
             </el-col>
           </el-row>
-        </el-tab-pane>
-      </el-tabs>
-      <el-dialog title="身份证扫描件修改" :visible.sync="imgDialog" width="70%">
+          </div>
+        <!-- </el-tab-pane>
+      </el-tabs> -->
+
+         <div v-show="actives==4">
+           <el-row type="flex" class="row-bg  combottom" justify="space-around">
+            <el-col :span="8">
+              <div class="bankno">业务信息</div>
+
+            </el-col>
+            <el-col :span="8">
+              <div></div>
+            </el-col>
+          </el-row> 
+          
+          <el-row type="flex" class="row-bg" justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="渠道商" prop="placeName">
+                <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
+                  <el-option v-for="(item, index) in places" :key="index" :label="item.placeName"
+                    :value="item.placeName"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="9">
+              <el-form-item label="客户经理">
+                <el-input v-model="formData.userName" disabled>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row type="flex" class="row-bg" justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="行业类型" prop="industryType">
+                <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true"
+                  placeholder="请选择归属部门" />
+               </el-form-item>
+            </el-col>
+            <el-col :span="9">
+              <el-form-item label="行业税率">
+                <el-input v-model="formData.industryTax" disabled>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+           <el-row type="flex" class="row-bg" justify="space-around">
+               <el-col :span="9">
+                   <el-form-item label="单独结算">
+                      <el-radio v-model="singleRadio" label="1">是</el-radio>
+                      <el-radio v-model="singleRadio" label="2">否</el-radio>
+                   </el-form-item>
+               </el-col>
+               <el-col :span="9"></el-col>
+           </el-row>
+              
+           <el-row type="flex" class="row-bg" justify="space-around">
+              <el-col :span="9">
+              <el-form-item  label="普票服务费">
+                <div style="display:flex;">
+                     <el-radio v-model="basicRadio"  label="1">
+               <el-input-number  
+               :step="0.01" :precision="2" :min="0" ></el-input-number> (%)
+                </el-radio>
+                <el-radio style="margin-left:-20px" v-model="basicRadio"  label="2" >
+                       <el-input-number 
+               :step="0.01" :precision="2" :min="0" ></el-input-number> (元)
+                </el-radio>
+
+                </div>
+              
+                </el-form-item>
+              </el-col>
+              
+              <el-col :span="9">
+                 <el-form-item  label="专票服务费">
+                  <div style="display:flex;">
+                       <el-radio v-model="vipRadio"  label="1">
+               <el-input-number  
+               :step="0.01" :precision="2" :min="0" ></el-input-number> (%)
+                </el-radio>
+                <el-radio style="margin-left:-20px" v-model="vipRadio"  label="2" >
+                       <el-input-number 
+               :step="0.01" :precision="2" :min="0" ></el-input-number> (元)
+                </el-radio>
+                   </div>
+                 </el-form-item>
+              </el-col>
+          </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                  <el-col :span="9">
+                  <el-form-item label="服务费含税">
+                    <el-radio  v-model="IsSpecialTax" label='0'>是</el-radio>
+                    <el-radio  v-model="IsSpecialTax" label='1'>否</el-radio>
+                  </el-form-item>
+                  </el-col>
+                   <el-col :span="9">
+                       <el-form-item label="注册服务费">
+                      <el-input ></el-input>
+                   </el-form-item>
+                   </el-col>
+
+            </el-row>
+          
+           
+           <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
+            <el-button type="danger" @click="backBus" class="btn">返回</el-button>
+            <el-button type="primary" @click="submitForm3" class="btn" v-hasPermi="['company:employed:add']">确认修改
+              </el-button> 
+
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+       
+       </div>
+
+
+
+
+
+
+
+
+      <!-- <el-dialog title="身份证扫描件修改" :visible.sync="imgDialog" width="70%">
         <el-upload list-type="picture-card" action="http://36.133.2.179:8000/api/files/doUpload"
           :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
           :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1" :file-list="formData.fileName5">
@@ -466,7 +672,7 @@
           <img width="100%" :src="dialogImageUrl1" alt="" />
         </el-dialog>
         <el-button size="small" type="primary" @click="cancel">返回</el-button>
-      </el-dialog>
+      </el-dialog> -->
     </el-form>
   </div>
 </template>
@@ -486,6 +692,7 @@ export default {
   props: [],
   data() {
     return {
+      actives:1,
       imgDialog: false,
       isPrivateBank: false,
       activeName: 'first',
@@ -521,6 +728,9 @@ export default {
           label: '女',
         },
       ],
+      fileName5: [],
+      fileName6: [],
+      fileName7: [],
       eduations: [],
       politicalStatuList: [],
       applyNames: [],
@@ -538,9 +748,18 @@ export default {
           label: '对公账号',
         },
       ],
+      vipRadio:'1',
+      basicRadio:'1',
+      singleRadio:'2',
+      IsSpecialTax:'0',
       places: [],
       dialogImageUrl1: '',
       dialogVisible1: false,
+      dialogImageUrl2: '',
+      dialogVisible2: false,
+      dialogImageUrl3: '',
+      dialogVisible3: false,
+      baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
       formData: {
         selfCode: '',
 
@@ -559,7 +778,7 @@ export default {
 
         //基本情况
         selfId: '',
-        organizationalForm: '',
+        organizationalForm: '个人经营',
         numberEmployees: 5,
         contributionAmount: '',
         city: '龙岩市',
@@ -595,8 +814,20 @@ export default {
         idCard: '',
         politicalStatus: '',
         fileName5: [],
+        fileName6: [],
+        fileName7: [],
       },
       rules: {
+        fileName7: [{
+          required: true,
+          message: '请上传税务实名',
+          trigger: 'change'
+        }],
+        fileName6: [{
+          required: true,
+          message: '请上传工商实名',
+          trigger: 'change'
+        }],
         fileName5: [{
           required: true,
           message: '请上传纳税委托协议文件',
@@ -649,7 +880,7 @@ export default {
 
         organizationalForm: [{
           required: true,
-          message: '请输入组织形式',
+          message: '请输入组成形式',
           trigger: 'blur'
         }],
         numberEmployees: [{
@@ -813,6 +1044,42 @@ export default {
     var employedInfo = this.$cache.local.getJSON('employedInfo');
     this.formData = employedInfo;
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
+    this.formData.fileName6 = JSON.parse(this.formData.fileName6);
+    this.formData.fileName7 = JSON.parse(this.formData.fileName7);
+    this.fileName5=[];
+    this.fileName6=[];
+    this.fileName7=[];
+    let arr=this.formData.fileName5;
+    let brr=this.formData.fileName6;
+    let crr=this.formData.fileName7;
+      
+    for(let i in arr){
+      this.fileName5.push({
+       name:arr[i],
+       url:this.baseImgPath+arr[i]
+      })
+    }
+
+      
+      
+    for(let j in brr){
+      this.fileName6.push({
+       name:brr[j],
+       url:this.baseImgPath+brr[j]
+      })
+    }
+
+      
+      
+    for(let k in crr){
+      this.fileName7.push({
+       name:crr[k],
+       url:this.baseImgPath+crr[k]
+      })
+    }
+
+
+
     if (this.formData.accountType == 1) {//银行账号类型为私人时
       this.formData.privateName = this.formData.legalPersonName;
       this.isPrivateBank = false;
@@ -852,6 +1119,12 @@ export default {
     // }
   },
   methods: {
+     backBus(){
+     this.actives=3;
+    },
+    nextYe(){
+     this.actives=4;
+    },
     getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
@@ -951,18 +1224,19 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    submitForm1() {
-      this.activeName = 'second';
+    nextbasic() {
+      this.actives =2;
     },
     toReturn() {
-      this.$router.push("employed")
+      //this.$router.push("employed")
+       this.$tab.closeOpenPage({ path: "/company/customer/employed"});
     },
 
-    submitForm2() {
-      this.activeName = 'third';
+    nextbus() {
+      this.actives = 3;
     },
-    toReturn1() {
-      this.activeName = 'first';
+    backinfo() {
+      this.actives = 1;
     },
 
     submitForm3() {
@@ -1103,8 +1377,8 @@ export default {
         }
       })
     },
-    toReturn2() {
-      this.activeName = 'second';
+    backbs() {
+      this.actives = 2;
     },
     toEditImg() {
       this.imgDialog = true;
@@ -1130,6 +1404,44 @@ export default {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
     beforeRemove1(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+
+    handlesuccess2(file, fileList) {
+      this.formData.fileName5.push(file.obj);
+      console.log("fileName5", this.formData.fileName5);
+    },
+    handleRemove2(file, fileList) {
+      const i = this.formData.fileName5.findIndex((item) => item === fileList)
+      this.formData.fileName5.splice(i, 1);
+    },
+    handlePreview2(file) {
+      this.dialogImageUrl1 = file.url;
+      this.dialogVisible1 = true;
+    },
+    handleExceed2(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove2(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+
+    handlesuccess3(file, fileList) {
+      this.formData.fileName5.push(file.obj);
+      console.log("fileName5", this.formData.fileName5);
+    },
+    handleRemove3(file, fileList) {
+      const i = this.formData.fileName5.findIndex((item) => item === fileList)
+      this.formData.fileName5.splice(i, 1);
+    },
+    handlePreview3(file) {
+      this.dialogImageUrl1 = file.url;
+      this.dialogVisible1 = true;
+    },
+    handleExceed3(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove3(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
   }

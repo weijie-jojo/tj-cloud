@@ -8,22 +8,30 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-         <el-form-item label="办理状态">
+         <!-- <el-form-item label="办理状态">
         <el-select clearable v-model="queryParams.bankStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select> 
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+   
     <el-row :gutter="10" class="mb8">
+     <el-col :span="15">
+     <el-tabs v-model="bankStatus" @tab-click="handleClick">
+     <el-tab-pane label="全部" name="-1"></el-tab-pane>
+     <el-tab-pane label="待办理" name="0"></el-tab-pane>
+     <el-tab-pane label="已完成" name="1"></el-tab-pane>
+      </el-tabs>
+     </el-col>
+      
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+    
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
        <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
@@ -63,6 +71,7 @@ export default {
   name: "Employed",
   data() {
     return {
+      bankStatus:'-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -117,6 +126,15 @@ export default {
     this.getList();
   },
   methods: {
+      handleClick(tab, event) {
+     if(this.bankStatus=='-1'){
+      this.queryParams.bankStatus=null;
+     }else{
+      this.queryParams.bankStatus=this.bankStatus;
+     }
+      this.queryParams.pageNum=1;
+      this.getList();
+      },
       detail(row){
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("银行信息","/company/customer/detailBank");
@@ -182,6 +200,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.bankStatus='-1';
+      this.queryParams.bankStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -256,4 +276,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
+</style>
 
