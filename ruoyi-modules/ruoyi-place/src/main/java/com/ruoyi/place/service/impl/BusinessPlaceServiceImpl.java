@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.mapper.BusinessAgencyFeeMapper;
 import com.ruoyi.place.mapper.BusinessAgencyFeeVoMapper;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
 import com.ruoyi.place.service.IBusinessPlaceService;
+import com.ruoyi.place.util.JudgeNull;
 import com.ruoyi.place.vo.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,42 +39,18 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
     @Resource
     private BusinessAgencyFeeVoMapper businessAgencyFeeVoMapper;
     @Override
-    public List<BusinessPlace> selectByPage(List<String> userIdStr) {
-//        String[] statusArr;
-//        if (!StringUtils.hasText(status)){
-//            statusArr=null;
-//            System.out.println("空");
-//        }else {
-//            statusArr =status.split(",");
-//            for(String arr:statusArr){
-//                System.out.println("array=="+arr);
-//            }
-//        }
-//        businessPlace.setPlaceName(JudgeNull.isNull(businessPlace.getPlaceName()));
-//        businessPlace.setUserName(JudgeNull.isNull(businessPlace.getUserName()));
-//        pageQo.setPage(JudgeNull.isNull(pageQo.getPage()));
-//        pageQo.setSize(JudgeNull.isNull(pageQo.getSize()));
-//        System.out.println("pageQo"+pageQo);
-//        IPage<PlaceVo> placeVos=businessPlaceMapper.selectJoinPage(new Page<>(pageQo.getPage(),pageQo.getSize()), PlaceVo.class,
-//                new MPJQueryWrapper<BusinessPlace>()
-//                        .select("t.place_id,t.place_code,t.place_name,t.place_alias_name,t.place_type,t.place_linkman," +
-//                                "t.place_tel,t.place_email,t.place_open_bank,t.place_bank_account,t.place_star_level," +
-//                                "t.place_status,t.regist_time,t.user_id,t.is_delete,t.remark,t.create_time,t.create_by," +
-//                                "t.update_by,t.update_time,t.user_name,A.nick_name,B.dict_label")
-//                        .innerJoin("sys_user A on t.user_id=A.user_id")
-//                        .innerJoin("sys_dict_data B on t.place_status=B.dict_value")
-//                        .in(statusArr!=null,"t.place_status",statusArr)
-//                        .eq("t.is_delete",1)
-//                        .eq("B.dict_type","place_status")
-////                        .in(businessPlace.getUserId()!=null,"t.user_id", businessPlace.getUserId())
-//                        .in(userIdStr!=null,"t.user_id", userIdStr)
-////                        .eq(businessPlace.getUserId()!=null,"t.user_id", businessPlace.getUserId())
-//                        .like(businessPlace.getPlaceName()!=null,"t.place_name", businessPlace.getPlaceName())
-//                        .orderByDesc("t.place_id"));
-
-//        return placeVos;
-//        System.out.println("userIdStr=="+userIdStr);
-        return businessPlaceMapper.selectBusinessPlaceJoin(userIdStr);
+    public List<BusinessPlace> selectByPage(List<Long> userIdArr,PlaceVo placeVo) {
+        System.out.println("statusArr=="+placeVo.getStatus());
+        String[] statusArr;
+        if (!StringUtils.hasText(placeVo.getStatus())){
+            statusArr=null;
+            System.out.println("statusArr是空的");
+        }else {
+            statusArr =placeVo.getStatus().split(",");
+        }
+        String placeName=placeVo.getPlaceName();
+        System.out.println("statusArr=="+statusArr);
+        return businessPlaceMapper.selectBusinessPlaceJoin(userIdArr,statusArr,placeName);
     }
 
     @Override

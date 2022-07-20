@@ -15,6 +15,7 @@ import com.ruoyi.place.mapper.SysUserMapper;
 import com.ruoyi.place.qo.PageQo;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import com.ruoyi.place.service.IBusinessPlaceService;
+import com.ruoyi.place.util.JudgeNull;
 import com.ruoyi.place.util.StringUtils;
 import com.ruoyi.place.vo.BusinessAgencyFeeVo;
 import com.ruoyi.place.vo.PlaceVo;
@@ -59,55 +60,29 @@ public class BusinessPlaceController {
         Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
         //根据部门id获取用户集合
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //把用户id取出拼成string
-        List<String> userIdArr=new ArrayList<>();
-//        StringBuilder sb = new StringBuilder();
-        for (SysUserVo userVo:userVos){
-//            sb.append(userVo.getUserId()+",");
-            userIdArr.add(String.valueOf(userVo.getUserId()));
-        }
-
+        //存储用户id的list集合
+        List<Long> userIdArr=new ArrayList<>();
 //        String userIdStr= Joiner.on(",").join(userIdArr);
-        List<String> userIdStr=new ArrayList<>();
-
-//        for (String userId:userIdStr){
-//            System.out.println("userId===="+userId);
-//        }
         //获取登录用户id获取用户角色信息
         List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         System.out.println("roles==="+roles);
         for (SysUserVo role:roles){
             if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
                 System.out.println("部门主管");
-//                businessPlace.setUserIdStr(userIdStr);
-//                businessPlace.setUserId(Long.valueOf(userIdStr));
-//                placeVo.setUserId(userIdStr);
-//                placeVo.setUserIdStr(userIdStr);
-                userIdStr=userIdArr;
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
+                    userIdArr.add(userVo.getUserId());
+                }
             }
             else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
                 System.out.println("总经理");
-//                businessPlace.setUserId(null);
-//                placeVo.setUserIdStr(null);
-//                placeVo.setUserId("");
-//                userIdStr=null;
+                userIdArr=null;//显示所有
             }
             else {
                 System.out.println("其他人");
-//                StringBuilder sb1 = new StringBuilder();
-//                sb1.append(SecurityUtils.getUserId());
-//                String[] userIdStr1=sb1.;
-//                businessPlace.setUserId(SecurityUtils.getUserId());
-//                userIdArr=new ArrayList<>();
-//                userIdArr.add(String.valueOf(SecurityUtils.getUserId()));
-//                placeVo.setUserIdStr(userIdArr);
-//                userIdStr=String.valueOf(SecurityUtils.getUserId());
-//                placeVo.setUserId(String.valueOf(SecurityUtils.getUserId()));
+                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
             }
         }
-        System.out.println("userIdStr==="+userIdStr);
-//        System.out.println("getUserIdStr"+placeVo.getUserIdStr());
-        List<BusinessPlace> placeVos = iBusinessPlaceService.selectByPage( userIdStr);
+        List<BusinessPlace> placeVos = iBusinessPlaceService.selectByPage(userIdArr,placeVo);
         System.out.println("placeVos"+placeVos.size());
 //        HashMap<String, Object> datasMap=new HashMap<String, Object>();
 //        System.out.println("getRecords"+placeVos.getRecords());

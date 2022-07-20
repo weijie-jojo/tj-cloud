@@ -14,27 +14,22 @@
           JOIN sys_dict_data B ON t.place_status = B.dict_value </sql>
     <select id="selectBusinessPlaceJoin"  resultType="com.ruoyi.place.entity.BusinessPlace">
         <include refid="selectBusinessPlaceJoin"/>
-        <where>
+        <trim prefix="where" prefixOverrides="and|or">
             t.is_delete=1 and B.dict_type="place_status"
-
-<!--            and user_id in-->
-<!--            <foreach item="userId" collection="userIdStr" open="(" separator="," close=")">-->
-<!--                #{userId}-->
-<!--            </foreach>-->
-
-<!--                    <if test="status != null  and status != ''"> and t.place_status in #{status}</if>-->
-            <if test="userIdStr != null  and userIdStr.size() >0 ">
---                         and t.user_id in #{userIdStr}
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND t.user_id in
-                <foreach collection="userIdStr" index="index" item="item"  separator=",">
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
             </if>
-<!--            <if test="userId != null  and userId != ''">-->
-<!--                and t.user_id in (#{userId})-->
-<!--            </if>-->
-<!--                <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>-->
-        </where>
+            <if test="statusArr != null ">
+                AND t.place_status in
+                <foreach collection="statusArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+        </trim>
         ORDER BY
         t.place_id DESC
     </select>
