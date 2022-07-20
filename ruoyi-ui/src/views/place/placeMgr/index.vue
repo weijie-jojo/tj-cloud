@@ -61,7 +61,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.page" :limit.sync="queryParams.size"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
     <!-- 添加-->
@@ -140,22 +140,12 @@
           <el-form-item label="专票个体户代办费" prop="specialSelfFee">
                <el-row>
                    <el-col :span="24">
-                        <el-input type="number" :step="0.1" v-model.number="ruleForm.specialSelfFee">
+                        <el-input type="number" :step="0.1" :min="0" :max="9999" v-model="ruleForm.specialSelfFee">
                              <template slot="append">元</template>
                         </el-input>
-                       <!-- <el-radio v-model="radio" label="1" style="width:100%;">
-                                <el-input-number style="width:90%"  @change="handleChange" :step="0.1" :precision="1"
-                     :min="0" :max="9999" ></el-input-number>(元)
-                       </el-radio>    -->
-             
-           
-
-                   </el-col>
+                     </el-col>
                </el-row>
-           
-          
-           
-          </el-form-item>
+         </el-form-item>
           <el-form-item label="服务费含税" prop="isSpecialTax">
             <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
@@ -186,28 +176,22 @@
           </el-form-item>
           <el-form-item label="平台服务费(%)" prop="ordinaryProxyFee">
 
-              <el-row type="flex" justify="flex-end">
+              <!-- <el-row type="flex" justify="flex-end">
               <el-col :span="12">
-                <el-radio v-model="radio" label="1" style="width:100%">
+              
                   <el-input-number v-model.number="ruleForm.ordinaryProxyFee" @change="handleChange" :step="0.01"
               :precision="2" :min="0" :max="13" style="width:80%"></el-input-number> (%)
-                </el-radio>
+               
               </el-col>
-              <el-col :span="12">
-
-                <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
-                 <el-input-number v-model.number="ruleForm.ordinaryProxyFee" @change="handleChange" :step="0.01"
-              :precision="2" :min="0" :max="13" style="width:80%"></el-input-number> (元)
-                </el-radio>
-              </el-col>
-             </el-row>
-
-
-
-
-
-
-           
+              
+             </el-row> -->
+              <el-row>
+                   <el-col :span="24">
+                        <el-input type="number" :step="0.01" :min="0" :max="13" v-model="ruleForm.ordinaryProxyFee" @change="handleChange">
+                             <template slot="append">%</template>
+                        </el-input>
+                     </el-col>
+               </el-row>
           </el-form-item>
           <el-form-item label="服务费含税" prop="isOrdinaryTax">
             <el-radio v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
@@ -248,10 +232,6 @@
           </el-form-item>
           <el-form-item label="业务经理" prop="editUserId">
             <el-input v-model="ruleForm.userName" disabled></el-input>
-            <!-- <el-select clearable v-model="ruleForm.editUserId" placeholder="业务经理" class="filter-item"
-              @change="selectUser" style="">
-              <el-option v-for="item in userLeaders" :key="item.userId" :label="item.nickName" :value="item.userId" />
-            </el-select> -->
           </el-form-item>
         </el-card>
         <!-- 卡2 -->
@@ -260,21 +240,51 @@
             <span>增值税专用发票</span>
           </div>
           <el-form-item label="6%专票平台服务费" prop="editSpecialInvoice6">
-            <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice6"
-              @change="handleChange" :step="0.01" :precision="2" :min="0" :max="6"></el-input-number> (%)
+            <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+                <el-radio v-model="radio" label="1" style="width:100%">
+                    <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice6"
+                 @change="handleChange" :step="0.01" :precision="2" :min="0" :max="6"></el-input-number> (%)
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
 
-          </el-form-item>
+                <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                   <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice6"
+              @change="handleChange" :step="0.01" :precision="2" :min="0" :max="6"></el-input-number> (元)
+                </el-radio>
+              </el-col>
+          </el-row>
+         </el-form-item>
           <el-form-item label="13%专票平台服务费" prop="editSpecialInvoice13">
-            <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice13"
+           <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+                <el-radio v-model="radio" label="1" style="width:100%">
+                      <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice13"
               @change="handleChange" :step="0.01" :precision="2" :min="0" :max="13"></el-input-number> (%)
-          </el-form-item>
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
+                 <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                       <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialInvoice13"
+              @change="handleChange" :step="0.01" :precision="2" :min="0" :max="13"></el-input-number> (元)
+                </el-radio>
+              </el-col>
+          </el-row>
+         </el-form-item>
           <el-form-item label="专票个体户代办费" prop="editSpecialSelfFee">
-            <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialSelfFee"
+              <el-row>
+                   <el-col :span="24">
+                        <el-input type="number" :disabled="confirmEditStatus" :step="0.1" :min="0" :max="9999" v-model="ruleForm.editSpecialSelfFee">
+                             <template slot="append">元</template>
+                        </el-input>
+                     </el-col>
+               </el-row>
+
+            <!-- <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editSpecialSelfFee"
               @change="handleChange" :step="0.1" :precision="1" :min="0" :max="9999"
-              style="width: 200px;margin-right: 10px;"></el-input-number>元
-            <!-- <el-input 
-                v-model="ruleForm.specialSelfFee" 
-                style="width: 200px;" /> -->
+              style="width: 200px;margin-right: 10px;"></el-input-number>元 -->
+            
           </el-form-item>
           <el-form-item label="服务费含税" prop="editIsSpecialTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
@@ -287,15 +297,37 @@
             <span>增值税普通发票</span>
           </div>
           <el-form-item label="普票个体户代办费" prop="editOrdinarySelfFee">
-            <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editOrdinarySelfFee"
-              @change="handleChange" :step="0.1" :precision="1" :min="0" :max="9999" style=""></el-input-number>元
-            <!-- <el-input 
-                v-model="ruleForm.ordinarySelfFee" 
-                style="width: 130px;" /> -->
+            <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+                <el-radio v-model="radio" label="1" style="width:100%">
+                       <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editOrdinarySelfFee"
+              @change="handleChange" :step="0.1" :precision="1" :min="0" :max="9999" style=""></el-input-number> (%)
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
+                 <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                        <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editOrdinarySelfFee"
+              @change="handleChange" :step="0.1" :precision="1" :min="0" :max="9999" style=""></el-input-number> (元)
+                </el-radio>
+              </el-col>
+          </el-row>
+           
+           
+         
+           
           </el-form-item>
           <el-form-item label="平台服务费(%)" prop="editOrdinaryProxyFee">
-            <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editOrdinaryProxyFee"
-              @change="handleChange" :step="0.01" :precision="2" :min="0" :max="13"></el-input-number>
+
+              <el-row>
+                   <el-col :span="24">
+                        <el-input type="number" :disabled="confirmEditStatus" :step="0.01" :min="0" :max="13" v-model="ruleForm.editOrdinaryProxyFee" @change="handleChange">
+                             <template slot="append">%</template>
+                        </el-input>
+                     </el-col>
+               </el-row>
+
+            <!-- <el-input-number :disabled="confirmEditStatus" v-model.number="ruleForm.editOrdinaryProxyFee"
+              @change="handleChange" :step="0.01" :precision="2" :min="0" :max="13"></el-input-number> -->
           </el-form-item>
           <el-form-item label="服务费含税" prop="editIsOrdinaryTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
@@ -335,9 +367,9 @@
           <el-form-item label="联系方式" prop="placeTel">
             <el-input disabled v-model="ruleForm.placeTel" />
           </el-form-item>
-          <el-form-item label="业务经理" prop="userId">
+          <el-form-item label="业务经理">
             <el-select disabled v-model="ruleForm.userId" placeholder="业务经理" class="filter-item" @change="selectUser"
-              style="">
+              style="width:100%">
               <el-option v-for="item in userLeaders" :key="item.userId" :label="item.nickName" :value="item.userId" />
             </el-select>
           </el-form-item>
@@ -348,19 +380,61 @@
             <span>增值税专用发票</span>
           </div>
           <el-form-item label="6%专票平台服务费" prop="specialInvoice6">
-            <el-input-number disabled v-model.number="ruleForm.specialInvoice6" @change="handleChange" :step="0.01"
-              :precision="2" :min="0" :max="6"></el-input-number> (%)
+                <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+                <el-radio v-model="radio" label="1" style="width:100%">
+                  <el-input-number style="width:80%" v-model.number="ruleForm.specialInvoice6" @change="handleChange"
+                    :step="0.01" :precision="2" :min="0" :max="6"></el-input-number> (%)
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
+
+                <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                  <el-input-number style="width:80%" v-model.number="ruleForm.specialInvoice6" @change="handleChange"
+                    :step="0.01" :precision="2" :min="0" :max="6"></el-input-number> (元)
+                </el-radio>
+              </el-col>
+
+
+            </el-row>
+
+
+            <!-- <el-input-number disabled v-model.number="ruleForm.specialInvoice6" @change="handleChange" :step="0.01"
+              :precision="2" :min="0" :max="6"></el-input-number> (%) -->
           </el-form-item>
           <el-form-item label="13%专票平台服务费" prop="specialInvoice13">
-            <el-input-number disabled v-model.number="ruleForm.specialInvoice13" @change="handleChange" :step="0.01"
+             <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+                <el-radio v-model="radio" label="1" style="width:100%">
+                   <el-input-number style="width:80%" disabled v-model.number="ruleForm.specialInvoice13" @change="handleChange" :step="0.01"
               :precision="2" :min="0" :max="13"></el-input-number> (%)
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
+
+                <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                   <el-input-number style="width:80%"  disabled v-model.number="ruleForm.specialInvoice13" @change="handleChange" :step="0.01"
+              :precision="2" :min="0" :max="13"></el-input-number> (元)
+                </el-radio>
+              </el-col>
+
+
+            </el-row>
+           
           </el-form-item>
           <el-form-item label="专票个体户代办费" prop="specialSelfFee">
-            <el-input-number disabled v-model.number="ruleForm.specialSelfFee" @change="handleChange" :step="0.1"
-              :precision="1" :min="0" :max="9999" style="width: 200px;margin-right: 10px;"></el-input-number>元
-            <!-- <el-input 
-                v-model="ruleForm.specialSelfFee" 
-                style="width: 200px;" /> -->
+            <!-- <el-input-number disabled v-model.number="ruleForm.specialSelfFee" @change="handleChange" :step="0.1"
+              :precision="1" :min="0" :max="9999" style="width: 200px;margin-right: 10px;"></el-input-number>元 -->
+               <el-row>
+                   <el-col :span="24">
+                        <el-input type="number" @change="handleChange" disabled :step="0.1" :min="0" :max="9999" v-model="ruleForm.specialSelfFee">
+                             <template slot="append">%</template>
+                        </el-input>
+                     </el-col>
+               </el-row>
+
+
+
           </el-form-item>
           <el-form-item label="服务费含税" prop="isSpecialTax">
             <el-radio disabled v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
@@ -373,15 +447,36 @@
             <span>增值税普通发票</span>
           </div>
           <el-form-item label="普票个体户代办费" prop="ordinarySelfFee">
-            <el-input-number disabled v-model.number="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1"
-              :precision="1" :min="0" :max="9999" style=""></el-input-number>元
-            <!-- <el-input 
-                v-model="ruleForm.ordinarySelfFee" 
-                style="width: 130px;" /> -->
+            <!-- <el-input-number disabled v-model.number="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1"
+              :precision="1" :min="0" :max="9999" style=""></el-input-number>元 -->
+             <el-row type="flex" justify="flex-end">
+              <el-col :span="12">
+              <el-radio v-model="radio" label="1" style="width:100%">
+                <el-input-number  disabled v-model.number="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1"
+              :precision="1" :min="0" :max="9999" style="width:80%"></el-input-number>元
+                </el-radio>
+              </el-col>
+              <el-col :span="12">
+              <el-radio v-model="radio" label="2" style="width:100%;text-align: right;">
+                 <el-input-number disabled v-model.number="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1"
+              :precision="1" :min="0" :max="9999" style="width:80%"></el-input-number>元
+                </el-radio>
+              </el-col>
+
+
+            </el-row>
           </el-form-item>
           <el-form-item label="平台服务费(%)" prop="ordinaryProxyFee">
-            <el-input-number disabled v-model.number="ruleForm.ordinaryProxyFee" @change="handleChange" :step="0.01"
-              :precision="2" :min="0" :max="13"></el-input-number>
+            <!-- <el-input-number disabled v-model.number="ruleForm.ordinaryProxyFee" @change="handleChange" :step="0.01"
+              :precision="2" :min="0" :max="13"></el-input-number> -->
+              
+              <el-row>
+                   <el-col :span="24">
+                        <el-input type="number" disabled :step="0.01" :min="0" :max="13" v-model="ruleForm.ordinaryProxyFee" @change="handleChange">
+                             <template slot="append">%</template>
+                        </el-input>
+                     </el-col>
+               </el-row>
           </el-form-item>
           <el-form-item label="服务费含税" prop="isOrdinaryTax">
             <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
@@ -476,8 +571,8 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        page: 1,
-        size: 10,
+        pageNum: 1,
+        pageSize: 10,
         placeName: null,
         userName: null,
         status: '',
@@ -492,11 +587,11 @@ export default {
 
         specialInvoice6: '',
         specialInvoice13: '',
-        specialSelfFee: '',
+        specialSelfFee: 0,
         isSpecialTax: '',//是否含税-专票
 
         ordinarySelfFee: '',
-        ordinaryProxyFee: '',
+        ordinaryProxyFee: 0,
         isOrdinaryTax: '',//是否含税-普票
 
         //编辑参数
@@ -615,9 +710,9 @@ export default {
     getList() {
       this.loading = true;
       crudPlace.getByPage(this.queryParams).then((response) => {
-        this.employedList = response.content;
+        this.employedList = response.rows;
 
-        this.total = response.totalElements;
+        this.total = response.total;
         this.loading = false;
       });
     },
@@ -1023,10 +1118,16 @@ export default {
 }
 
 // 改变input框字体颜色
-::v-deep .is-disabled .el-input__inner {
+::v-deep  .el-input__inner {
   background-color: transparent !important;
   color: black;
+  border-color:none !important;
 }
+:v-deep .is-disabled{
+
+  border-color:none !important;
+}
+
 
 ::v-deep .el-dialog:not(.is-fullscreen) {
   margin-top: 1vh !important;

@@ -105,7 +105,7 @@
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="组织形式" prop="organizationalForm">
+          <el-form-item class="comright" label="组成形式" prop="organizationalForm">
             <el-input v-model="formData.organizationalForm" :readonly="true">
             </el-input>
           </el-form-item>
@@ -359,18 +359,48 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="联系电话" prop="contactPhone">
-            <el-input style="width:240px" :readonly="true" v-model="formData.contactPhone" clearable>
+            <el-input :readonly="true" v-model="formData.contactPhone" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="电子邮箱" prop="mail">
-            <el-input style="width:240px" :readonly="true" v-model="formData.mail" clearable>
+            <el-input style="width:100%" :readonly="true" v-model="formData.mail" clearable>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
       
+        <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="工商实名">
+                <div v-for="(item, index) in fileName6" :key="index">
+                  <el-image
+                    lazy
+                    :preview-src-list="fileName6"
+                    style="width: 150px; height: 150px"
+                    :src="item"
+                    alt=""
+                  />
+                </div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="9">
+               <el-form-item label="税务实名">
+                <div v-for="(item, index) in fileName7" :key="index">
+                  <el-image
+                    lazy
+                    :preview-src-list="fileName7"
+                    style="width: 150px; height: 150px"
+                    :src="item"
+                    alt=""
+                  />
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+
       <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
               <el-form-item label="身份证扫描件">
@@ -416,6 +446,8 @@ export default {
     return {
       baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
       fileName5:[],
+      fileName6:[],
+      fileName7:[],
       remark: null,
       isokradio: '1',
       center: 'center',
@@ -750,6 +782,14 @@ export default {
     this.fileName5=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
     for(let k1 in this.fileName5){
       this.fileName5[k1]=this.baseImgPath+this.fileName5[k1];
+    } 
+      this.fileName6=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
+    for(let k2 in this.fileName6){
+      this.fileName6[k2]=this.baseImgPath+this.fileName6[k2];
+    } 
+      this.fileName7=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
+    for(let k3 in this.fileName7){
+      this.fileName7[k3]=this.baseImgPath+this.fileName7[k3];
     } 
   },
   methods: {

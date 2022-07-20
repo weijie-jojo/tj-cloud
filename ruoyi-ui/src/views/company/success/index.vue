@@ -1,13 +1,16 @@
 <template>
   <div>
       <el-steps 
-        
-        :active="3" 
+        align-center
+        :active="5" 
         finish-status="success"
-        style="padding-left:7%;padding-right: 6%;margin-top:30px;margin-bottom:20px;">
-        <el-step title="个体户名称"></el-step>
-        <el-step title="个体户信息"></el-step>
-        <el-step title="提交"></el-step>
+        style="padding-left:2%;margin-top:30px;margin-bottom:20px;">
+       <el-step title="个体户名称"></el-step>
+        <el-step title="申请信息"></el-step>
+        <el-step title="基本情况"></el-step>
+        <el-step title="经营者信息"></el-step>
+        <el-step title="业务信息"></el-step>
+        <el-step title="提交审核"></el-step>
       </el-steps>
       <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
         <el-col :span="8">

@@ -34,6 +34,12 @@
       </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+    <el-tabs v-model="endStatus" @tab-click="handleClick">
+    <el-tab-pane label="全部" name="-1"></el-tab-pane>
+    <el-tab-pane label="待办理" name="0"></el-tab-pane>
+    <el-tab-pane label="已完成" name="1"></el-tab-pane>
+    <el-tab-pane label="异常" name="2"></el-tab-pane>
+  </el-tabs>
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -75,7 +81,7 @@
             v-if="scope.row.infoStatus == '1'">已完成</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="实名办理" align="center">
+      <!-- <el-table-column label="实名办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
@@ -85,7 +91,7 @@
           <el-link :underline="false" @click="finishCer(scope.row, scope.row.selfCode)" type="success"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1">已完成</el-link>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="工商办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
@@ -131,7 +137,10 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
     <!-- 进度提示 -->
-    <el-dialog title="进度详情" :visible.sync="dialogVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="进度详情" :visible.sync="dialogVisible" width="70%">
       <el-table :data="progressList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -140,7 +149,10 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog title="名称详情" :visible.sync="nameVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="名称详情" :visible.sync="nameVisible" width="70%">
       <el-table :data="nameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -153,7 +165,10 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="名称异常说明" :visible.sync="errsnameVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="名称异常说明" :visible.sync="errsnameVisible" width="70%">
       <el-table :data="errsnameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -166,7 +181,10 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="信息异常说明" :visible.sync="errsinfoVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="信息异常说明" :visible.sync="errsinfoVisible" width="70%">
       <el-table :data="errsinfoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -179,7 +197,10 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="信息详情" :visible.sync="infoVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="信息详情" :visible.sync="infoVisible" width="70%">
       <el-table :data="infoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -192,7 +213,10 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="实名详情" :visible.sync="cerVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="实名详情" :visible.sync="cerVisible" width="70%">
       <el-table :data="cerList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -206,7 +230,10 @@
     </el-dialog>
 
 
-    <el-dialog title="工商详情" :visible.sync="busVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="工商详情" :visible.sync="busVisible" width="70%">
       <el-table :data="busList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -220,7 +247,10 @@
     </el-dialog>
 
 
-    <el-dialog title="税务详情" :visible.sync="taxVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="税务详情" :visible.sync="taxVisible" width="70%">
       <el-table :data="taxList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -233,7 +263,10 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="银行详情" :visible.sync="bankVisible" width="70%">
+    <el-dialog
+    :closeOnClickModal=false
+    :closeOnPressEscape=false
+    title="银行详情" :visible.sync="bankVisible" width="70%">
       <el-table :data="bankList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -298,12 +331,14 @@ export default {
       // 是否显示弹出层
       open: false,
       // 查询参数
+      endStatus:'-1',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         userId: null,
+        endStatus:'',
       },
       // 表单参数
       form: {},
@@ -317,6 +352,15 @@ export default {
   },
 
   methods: {
+     handleClick(tab, event) {
+     if(this.endStatus=='-1'){
+      this.queryParams.endStatus=null;
+     }else{
+      this.queryParams.endStatus=this.endStatus;
+     }
+      this.queryParams.pageNum=1;
+      this.getList();
+      },
     //获取审核中的数据
 
     examine(applyName, scope, type) {
@@ -329,20 +373,26 @@ export default {
       getLeaderByUserId({
         userId: applyName
       }).then(res => {
-        this.$confirm('请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg, '温馨提示', {
+        const h = this.$createElement
+        this.$confirm(
+          '', {
+  message:h('div',null, [
+    h('i',{ class:'el-icon-question',style:'color:#f90;font-size:30px;' }),
+    h('span',{ style:'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;'}, '温馨提示'),
+    h('p',{ style:'margin:40px 0 0 40px;height:80px' },'请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg)
+  ]),
+
+
+      
           confirmButtonText: '查看',
           cancelButtonText: '关闭',
+          closeOnClickModal:false,
+          closeOnPressEscape:false,
 
         }).then(() => {
-
-
-
-
-
-          switch (type) {
+         switch (type) {
             case 1:
-
-              this.$cache.local.setJSON('employedName', row);
+              this.$cache.local.setJSON('employedName', scope);
               this.$router.push("namedetail");
               break;
             case 2:
@@ -688,6 +738,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.endStatus='-1';
+      this.queryParams.endStatus='';
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -753,4 +805,8 @@ export default {
   }
 };
 </script>
-
+<style>
+   ::v-deep .el-message-box__content{
+     height: 200px !important;
+   }
+</style>

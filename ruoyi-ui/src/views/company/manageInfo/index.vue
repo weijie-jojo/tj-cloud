@@ -12,12 +12,12 @@
       <el-form-item label="渠道商">
         <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="审核状态">
+      <!-- <el-form-item label="审核状态">
         <el-select clearable v-model="queryParams.infoStatus" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -25,6 +25,14 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
+    <el-col :span="15">
+         <el-tabs v-model="infoStatus" @tab-click="handleClick">
+     <el-tab-pane label="全部" name="-1"></el-tab-pane>
+     <el-tab-pane label="待审核" name="0"></el-tab-pane>
+     <el-tab-pane label="已完成" name="1"></el-tab-pane>
+     <el-tab-pane label="未通过" name="2"></el-tab-pane>
+  </el-tabs>
+     </el-col>
       <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['company:employed:add']">新增</el-button>
@@ -43,6 +51,7 @@
       </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+     
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -88,6 +97,7 @@ export default {
   name: "Employed",
   data() {
     return {
+      infoStatus:'-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -152,6 +162,15 @@ export default {
     this.getList();
   },
   methods: {
+     handleClick(tab, event) {
+     if(this.infoStatus=='-1'){
+      this.queryParams.infoStatus=null;
+     }else{
+      this.queryParams.infoStatus=this.infoStatus;
+     }
+      this.queryParams.pageNum=1;
+      this.getList();
+      },
     detail(row) {
     
       this.$cache.local.setJSON('employedInfo', row);
@@ -215,6 +234,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.infoStatus='-1';
+      this.queryParams.infoStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -285,3 +306,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
+</style>
