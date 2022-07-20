@@ -30,13 +30,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商">
-                        <el-select @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
-                            <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeName"
-                                :value="item.placeCode">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                    
 
                     <el-form-item class="comright" label="甲方" prop="purchCompany">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
@@ -45,16 +39,14 @@
                         </el-select> -->
                         <el-input v-model="formData.purchCompany"></el-input>
                     </el-form-item>
+                      
                 </el-col>
 
                 <el-col :span="9">
-                   <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                        <el-radio v-model="isokradio" disabled label="0">正常</el-radio>
-                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio>
-                    </el-form-item>
-                    <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
+                   <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
                         <el-input v-model="formData.purchCompanyTaxid"></el-input>
                     </el-form-item>
+                       
                 </el-col>
             </el-row>
              <el-row type="flex" class="row-bg " justify="space-around">
@@ -66,6 +58,9 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
+                     <el-form-item class="comright" label="已开金额">
+                        <el-input v-model="issuedAmount" disabled></el-input>
+                    </el-form-item>
 
                    
                 </el-col>
@@ -74,6 +69,9 @@
 
                     <el-form-item class="comright" label="乙方纳税人识别号">
                         <el-input disabled v-model="owerTax"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="剩余金额">
+                        <el-input v-model="balance" disabled></el-input>
                     </el-form-item>
                    
                 </el-col>
@@ -118,14 +116,7 @@
 
            
 
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="发票备注" prop="projectDesc">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
@@ -141,6 +132,7 @@
 <script>
 import qs from 'qs';
 import crudRate from '@/api/company/rate'
+import { TicketByCode } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import Treeselect from "@riophae/vue-treeselect";
@@ -150,6 +142,8 @@ export default {
     components: { Treeselect },
     data() {
         return {
+            issuedAmount:0.00,
+            balance:0.00,
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -169,7 +163,7 @@ export default {
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
-            placeCodeOptions: '',//渠道商
+          
             formData: {
                 projectDesc: '',//开票描述
                 purchCompanyTaxid: '',//甲方纳税人识别号
@@ -348,50 +342,81 @@ export default {
             deep: true,
             
         },
-    },
-    watch: {
         'formData.industryType': 'selectIndustryType',
     },
+   
     
     mounted() {
-           // this.$tab.openPage("项目列表", "/project/list");
-        this.getRate();
-        this.getinfoByUserId(); //渠道商
-        this.getlist();
+       this.getRate();
+       this.getlist();
+       this.ticketByCode();
         //this.gettoday();
-       
-
     },
 
 
     methods: {
+          //监听行业类型
+        selectIndustryType1() {
+            console.log("industryType==", this.formData.industryType);
+            var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
+            console.log("rate==", rate);
+            this.industryId = rate.industryId;  //行业类型id
+            this.owerTaxfee = rate.taxRate;
+          
+            
+            let industryType = rate.industryId;
+
+            ownlist({ username: this.username, industryType: industryType }).then(res => {
+                this.ownoptions = res;
+
+
+                  for (let i in this.ownoptions) {
+                // console.log(1111,this.ownoptions[i].selfName);
+                 console.log(2222,this.formData.selfName);
+                if (this.ownoptions[i].selfName == this.formData.selfName) {
+                    this.natureBusiness = this.ownoptions[i].natureBusiness;
+                    this.owerTax = this.ownoptions[i].taxId;
+                   console.log(this.ownoptions[i]);
+                   }
+                }
+
+
+             }).catch(err => {
+                console.log(err);
+            });
+           
+        },
+          //计算已开和剩余金额
+        ticketByCode(){
+          TicketByCode({
+           projectCode:this.formData.projectCode
+           }).then(res=>{
+            let arr=res;
+             this.issuedAmount=0.00;
+            for(let i in arr){
+                if(arr[i].ticketAmount>0){
+                   this.issuedAmount+=arr[i].ticketAmount*1;
+                }
+            }
+            this.balance=this.formData.projectTotalAmount * 1-this.issuedAmount*1;
+
+          }).catch(err=>{
+
+          });
+        },
          getlist(){
             detail({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then((response) => {
-             //this.projectList = response.rows;
+             
                  this.formData=response.data[0];
            
            
-             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-            this.formData.projectTrade = rate.industryName;//所属行业
-            let industryType = rate.industryId;
-           ownlist({ username: this.username, industryType: industryType }).then(res => {
-                this.ownoptions = res;
-                   for(let i in this.ownoptions){
-                   if(this.ownoptions[i].selfCode==this.formData.projectOwner){
-                            this.owerTax = this.ownoptions[i].taxId;
-                       }
-                }
-            }).catch(err => {
-                console.log(err);
-            });
+           
+            this.selectIndustryType1();
 
            this.isokradio=JSON.stringify(this.formData.placeStatus);
-               //  this.formData.placeStatus=parseInt(this.formData.placeStatus);
+              
                  if(this.formData.fileName){
                     this.formData.fileName=JSON.parse(this.formData.fileName);
                     if(Array.isArray(this.formData.fileName) ){
@@ -496,8 +521,8 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = 10;
-                this.username = '豆红臣';
+                this.userId = res.user.userId;
+                this.username = res.user.userName;
                 this.formData.projectLeader = res.user.nickName;
                 getinfoByUserId({ userId: this.userId }).then(res => {
                     this.placeCodeOptions = res.data;
