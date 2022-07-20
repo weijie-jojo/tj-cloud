@@ -103,6 +103,7 @@ public class BusinessPlaceController {
         BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
         System.out.println("businessAgencyFee=="+businessAgencyFee);
         System.out.println("businessPlace=="+businessPlace);
+        //根据渠道名查询渠道信息
         List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessPlace.getPlaceName());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){

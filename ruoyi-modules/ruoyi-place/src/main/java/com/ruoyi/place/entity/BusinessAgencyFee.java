@@ -116,4 +116,20 @@ public class BusinessAgencyFee implements Serializable {
     private Date updateTime;
 
 
+    /** 6%专票代开费率(元） */
+    @TableField("6%专票代开费率(元）")
+    private BigDecimal specialInvoice6Money;
+
+    /** 13%专票代开费率(元） */
+    @TableField("13%专票代开费率(元）")
+    private BigDecimal specialInvoice13Money;
+
+    /** 普票个体户代办费(元） */
+    @TableField("普票个体户代办费(元）")
+    private BigDecimal ordinarySelfMoney;
+
+    /** 普票代开收费(元） */
+    @TableField("普票代开收费(元）")
+    private BigDecimal ordinaryProxyMoney;
+
 }
