@@ -4,6 +4,8 @@ package com.ruoyi.place.controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.base.Joiner;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
@@ -45,7 +47,7 @@ import java.util.*;
 @RequiredArgsConstructor //代替了resouse或者Autowrited
 @Api(tags = "平台渠道商管理")
 @RequestMapping("/place")
-public class BusinessPlaceController {
+public class BusinessPlaceController extends BaseController {
 
     private final IBusinessPlaceService iBusinessPlaceService;
     private final BusinessPlaceMapper businessPlaceMapper;
@@ -55,7 +57,7 @@ public class BusinessPlaceController {
     @GetMapping(value ="/getByPage")
     @Log(title = "分页条件查询")
     @ApiOperation("分页条件查询")
-    public List<BusinessPlace> getByPage(PlaceVo placeVo){
+    public TableDataInfo getByPage(PlaceVo placeVo){
         //获取登录用户的部门id
         Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
         //根据部门id获取用户集合
@@ -92,7 +94,8 @@ public class BusinessPlaceController {
 //        datasMap.put("totalElements", placeVos.getTotal());
 
 //        return datasMap;
-        return placeVos;
+        startPage();
+        return getDataTable(placeVos);
     };
     @PostMapping
     @Log(title = "新增渠道")
