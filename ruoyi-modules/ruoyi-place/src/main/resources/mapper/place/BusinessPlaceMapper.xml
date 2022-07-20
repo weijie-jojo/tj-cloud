@@ -12,7 +12,7 @@
         t.update_by,t.update_time,t.user_name,A.nick_name,B.dict_label
         from business_place t JOIN sys_user A ON t.user_id = A.user_id
           JOIN sys_dict_data B ON t.place_status = B.dict_value </sql>
-    <select id="selectBusinessPlaceJoin"  resultType="com.ruoyi.place.entity.BusinessPlace">
+    <select id="selectBusinessPlaceJoin"  resultType="com.ruoyi.place.vo.PlaceVo">
         <include refid="selectBusinessPlaceJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             t.is_delete=1 and B.dict_type="place_status"
