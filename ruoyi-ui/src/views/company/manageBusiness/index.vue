@@ -66,6 +66,8 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text" v-if="scope.row.businessStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
+           <el-button size="mini" type="text" icon="el-icon-table-lamp"
+            @click="businessTable(scope.row)">工商表格</el-button>
           <el-button size="mini" v-if="scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
             @click="business(scope.row)">办理工商</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
@@ -214,14 +216,15 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      this.businessStatus='-1';
-      this.queryParams.businessStatus=null;
+      
       this.queryParams.pageNum = 1;
       this.getList();
       
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.businessStatus='-1';
+      this.queryParams.businessStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -236,7 +239,10 @@ export default {
       this.$cache.local.setJSON('employednewlist', row);
       this.$tab.closeOpenPage({ path: "/company/customer/addBusiness"});
    },
-   
+   //工商表格
+   businessTable(row){
+    
+   },
  
     /** 新增按钮操作 */
     handleAdd() {

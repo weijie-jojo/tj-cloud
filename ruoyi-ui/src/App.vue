@@ -20,7 +20,7 @@ export default  {
 <style lang="scss" scoped>
      ::v-deep .is-disabled{
     background-color: #F5F7FA !important;
-    border-color: black !important;
+   // border-color: black !important;
 }
 ::v-deep .el-checkbox{
     color: black !important;
