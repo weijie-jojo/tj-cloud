@@ -271,6 +271,30 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "实名认证是否通过 0未通过 1已通过")
     private Long realnameStatus;
 
+    /** 专票个体户代办费 */
+    @Excel(name = "专票个体户代办费")
+    private BigDecimal specialSelfFee;
+
+    /** 普票个体户代办费 */
+    @Excel(name = "普票个体户代办费")
+    private BigDecimal ordinarySelfFee;
+
+    /** 专票个体户代办费(元） */
+    @Excel(name = "专票个体户代办费(元）")
+    private BigDecimal specialSelfMoney;
+
+    /** 普票个体户代办费(元） */
+    @Excel(name = "普票个体户代办费(元）")
+    private BigDecimal ordinarySelfMoney;
+
+    /** 个体户服务费是否含税 */
+    @Excel(name = "个体户服务费是否含税")
+    private Long isSelfTax;
+
+    /** 注册服务费 1500 */
+    @Excel(name = "注册服务费 1500")
+    private Long registerMoney;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;
