@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.base.Joiner;
 import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.core.web.page.TableSupport;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
@@ -84,17 +86,8 @@ public class BusinessPlaceController extends BaseController {
                 userIdArr.add(SecurityUtils.getUserId());//登录用户的id
             }
         }
-        List<BusinessPlace> placeVos = iBusinessPlaceService.selectByPage(userIdArr,placeVo);
-        System.out.println("placeVos"+placeVos.size());
-//        HashMap<String, Object> datasMap=new HashMap<String, Object>();
-//        System.out.println("getRecords"+placeVos.getRecords());
-//        System.out.println("getTotal"+placeVos.getTotal());
-//        System.out.println("getSize"+placeVos.getSize());
-//        datasMap.put("content", placeVos.getRecords());
-//        datasMap.put("totalElements", placeVos.getTotal());
-
-//        return datasMap;
         startPage();
+        List<BusinessPlace> placeVos = iBusinessPlaceService.selectByPage(userIdArr,placeVo);
         return getDataTable(placeVos);
     };
     @PostMapping
