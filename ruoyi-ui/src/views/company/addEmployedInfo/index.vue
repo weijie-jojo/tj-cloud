@@ -489,7 +489,9 @@
           <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="9">
               <el-form-item label="渠道商" prop="placeName">
-                <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
+                <el-select 
+                @change="placenew"
+                style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
                   <el-option v-for="(item, index) in places" :key="index" :label="item.placeName"
                     :value="item.placeName"></el-option>
                 </el-select>
@@ -521,58 +523,94 @@
            <el-row type="flex" class="row-bg" justify="space-around">
                <el-col :span="9">
                    <el-form-item label="单独结算">
-                      <el-radio v-model="singleRadio" label="1">是</el-radio>
-                      <el-radio v-model="singleRadio" label="2">否</el-radio>
+                      <el-radio v-model="singleRadio" label="1" @change="singleOK">是</el-radio>
+                      <el-radio v-model="singleRadio" label="2" @change="singleOK">否</el-radio>
                    </el-form-item>
                </el-col>
                <el-col :span="9">
-                    <el-form-item label="注册服务费">
-                      <el-input ></el-input>
-                   </el-form-item>
+                   
                </el-col>
            </el-row>
               
            <el-row type="flex" class="row-bg" justify="space-around">
               <el-col :span="9">
               <el-form-item  label="普票服务费">
-                <div style="display:flex;">
-                     <el-radio v-model="basicRadio"  label="1">
-               <el-input-number  
-               :step="0.01" :precision="2" :min="0" ></el-input-number> (%)
-                </el-radio>
-                <el-radio style="margin-left:-20px" v-model="basicRadio"  label="2" >
-                       <el-input-number 
-               :step="0.01" :precision="2" :min="0" ></el-input-number> (元)
-                </el-radio>
-
-                </div>
-              
-                </el-form-item>
+                <div style="display:flex;align-items: center;">
+                   
+                     <el-radio
+                     :disabled="yecomfirm"
+                     v-model="basicRadio"  label="1">按定额收取</el-radio>
+                     <el-radio
+                     :disabled="yecomfirm"
+                     v-model="basicRadio"  label="2" >按百分比收取</el-radio>
+                       <el-input
+                   v-if="basicRadio==1"
+                   :disabled="yecomfirm"
+                   type="number"
+                   v-model="formData.ordinarySelfMoney"
+                    style="margin-right:10px" 
+                     :step="0.01"  :min="0" :max="9999" >
+                      <template slot="append">元</template>
+                 </el-input>
+                  <el-input
+                  v-else
+                   :disabled="yecomfirm"
+                   type="number"
+                   v-model="formData.ordinarySelfFee"
+                    style="margin-right:10px" 
+                     :step="0.01"  :min="0" :max="100" >
+                      <template slot="append">%</template>
+                 </el-input>
+                  </div>
+              </el-form-item>
               </el-col>
               
               <el-col :span="9">
                  <el-form-item  label="专票服务费">
-                  <div style="display:flex;">
-                       <el-radio v-model="vipRadio"  label="1">
-               <el-input-number  
-               :step="0.01" :precision="2" :min="0" ></el-input-number> (%)
-                </el-radio>
-                <el-radio style="margin-left:-20px" v-model="vipRadio"  label="2" >
-                       <el-input-number 
-               :step="0.01" :precision="2" :min="0" ></el-input-number> (元)
-                </el-radio>
-                   </div>
+                  <div style="display:flex;align-items: center;">
+                  <el-radio
+                     :disabled="yecomfirm"
+                     v-model="vipRadio"  label="1">按定额收取</el-radio>
+                     <el-radio
+                     :disabled="yecomfirm"
+                     v-model="vipRadio"  label="2" >按百分比收取</el-radio>
+                   <el-input
+                   v-if="vipRadio==1"
+                   :disabled="yecomfirm"
+                   type="number"
+                   v-model="formData.specialSelfMoney"
+                    style="margin-right:10px" 
+                     :step="0.01"  :min="0" >
+                      <template slot="append">元</template>
+                 </el-input>
+                  <el-input
+                  v-else
+                   :disabled="yecomfirm"
+                   type="number"
+                   v-model="formData.specialSelfFee"
+                    style="margin-right:10px" 
+                     :step="0.01"  :min="0" >
+                      <template slot="append">%</template>
+                 </el-input>
+                     
+                  </div>
                  </el-form-item>
               </el-col>
           </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                   <el-col :span="9">
                   <el-form-item label="服务费含税">
-                    <el-radio  v-model="IsSpecialTax" label='0'>是</el-radio>
-                    <el-radio  v-model="IsSpecialTax" label='1'>否</el-radio>
+                    <el-radio  :disabled="yecomfirm"  v-model="formData.isSelfTax" label='0'>是</el-radio>
+                    <el-radio  :disabled="yecomfirm"  v-model="formData.isSelfTax" label='1'>否</el-radio>
                   </el-form-item>
                   </el-col>
-                   <el-col :span="9"></el-col>
+                   <el-col :span="9">
+                      <el-form-item label="注册服务费">
+                      <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
+                       <template slot="append">元</template>
+                      </el-input>
+                   </el-form-item>
+                   </el-col>
 
             </el-row>
           
@@ -687,6 +725,12 @@ export default {
       dialogVisible3: false,
       userinfo:{ },
       formData: {
+        specialSelfFee:0,//专票个体户代办费(率)
+        specialSelfMoney:0,//专票个体户代办费(元）
+        ordinarySelfFee:0,//普票个体户代办费(率)
+        ordinarySelfMoney:0,//普票个体户代办费(元）
+        isSelfTax:'0',  //个体户服务费是否含税
+        registerMoney:'', //注册服务费
         selfCode: '',
 
         //申请信息
@@ -742,10 +786,19 @@ export default {
 
 
       },
+       unlist:{
+        specialSelfFee:0,//专票个体户代办费(率)
+        specialSelfMoney:0,//专票个体户代办费(元）
+        ordinarySelfFee:0,//普票个体户代办费(率)
+        ordinarySelfMoney:0,//普票个体户代办费(元）
+        isSelfTax:'0',  //个体户服务费是否含税
+        registerMoney:'', //注册服务费
+        },
+        yecomfirm:true,
         vipRadio:'1',
         basicRadio:'1',
         singleRadio:'2',
-         IsSpecialTax:'0',
+        IsSpecialTax:'0',
         fileName5: [],
         fileName6: [],
         fileName7: [],
@@ -972,8 +1025,47 @@ export default {
     this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
     //this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
     console.log("selfCode==", this.formData.selfCode)
+   
   },
   methods: {
+    placenew(){
+      for(let i in this.places){
+        if(this.places[i].placeName==this.formData.placeName){
+          crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res=>{
+           console.log(res);
+           this.unlist=res;
+          });
+          return;
+        }
+      }
+    },
+    
+    singleOK(e){
+      console.log(222,this.singleRadio);
+      if(this.singleRadio==1){
+        this.yecomfirm=false;
+        this.formData.specialSelfFee=0;
+        this.formData.specialSelfFee=0;
+        this.formData.specialSelfMoney=0;
+        this.formData.ordinarySelfMoney=0;
+        this.formData.isSelfTax='0';
+        this.formData.registerMoney='';
+      }else{
+        this.yecomfirm=true;
+        
+        // specialSelfMoney:0,//专票个体户代办费(元）
+        // ordinarySelfFee:0,//普票个体户代办费(率)
+        // ordinarySelfMoney:0,//普票个体户代办费(元）
+        // isSelfTax:'0',  //个体户服务费是否含税
+        // registerMoney:'', //注册服务费
+        this.formData.specialSelfFee=this.unlist.specialSelfFee;
+        this.formData.specialSelfMoney=this.unlist.specialSelfMoney;
+        this.formData.ordinarySelfFee=this.unlist.ordinarySelfFee;
+        this.formData.ordinarySelfMoney=this.unlist.ordinarySelfMoney;
+        this.formData.isSelfTax=this.unlist.isSelfTax;
+        this.formData.registerMoney=this.unlist.registerMoney;
+      }
+    },
     backBus(){
      this.actives=3;
     },
@@ -1000,7 +1092,7 @@ export default {
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
           this.places = res.data;
-        })
+         })
       })
     },
     selectAccountType(value) {
@@ -1104,6 +1196,34 @@ export default {
             this.$modal.msgError("请选择行业类型");
             return;
        }
+       if(!this.yecomfirm){
+             if(this.basicRadio=='1'){
+          this.formData.specialSelfFee=0;
+        if(this.formData.specialSelfMoney<=0 ){
+              this.$modal.msgError("请输入专票服务费并且大于0");
+              return;
+        }
+       }else{
+         this.formData.specialSelfMoney=0;
+         if(this.formData.specialSelfFee<=0 ){
+              this.$modal.msgError("请输入专票服务费并且大于0");
+              return;
+        }
+       }
+        if(this.vipRadio=='1'){
+          this.formData.ordinarySelfFee=0;
+           if(this.formData.ordinarySelfMoney<=0 ){
+              this.$modal.msgError("请输入普票服务费并且大于0");
+              return;
+            }
+       }else{
+         this.formData.ordinarySelfMoney=0;
+          if(this.formData.ordinarySelfFee<=0){
+              this.$modal.msgError("请输入普票服务费并且大于0");
+              return;
+         }
+       }
+       }
       this.$refs['elForm'].validate(valid => {
         if (valid) {
 
@@ -1161,6 +1281,14 @@ export default {
             // updateTime:new Date().toLocaleString(),
             createBy: this.formData.userName,
             updateBy: this.formData.userName,
+             
+
+           specialSelfFee: this.formData.specialSelfFee,
+           specialSelfMoney: this.formData.specialSelfMoney,
+           ordinarySelfFee: this.formData.ordinarySelfFee,
+           ordinarySelfMoney: this.formData.ordinarySelfMoney,
+           isSelfTax:this.formData.isSelfTax,
+           registerMoney:this.formData.registerMoney,
 
             businessStatus: 0,
             infoStatus: 0,

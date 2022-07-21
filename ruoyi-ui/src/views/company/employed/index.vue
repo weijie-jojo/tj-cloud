@@ -9,6 +9,19 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+            <el-form-item label="提交时间">
+                  <el-date-picker
+                     v-model="projectTime"
+                     value-format="yyyy-MM-dd HH:mm:ss"
+                     type="datetimerange"
+                    :picker-options="pickerOptions"
+                    range-separator="至"
+                   start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                   :default-time="['00:00:00', '23:59:59']"
+                    align="right">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -16,6 +29,15 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
+    <el-col :span="15">
+    <el-tabs v-model="endStatus" @tab-click="handleClick">
+     <el-tab-pane label="全部" name="-1"></el-tab-pane>
+     <el-tab-pane label="待办理" name="0"></el-tab-pane>
+     <el-tab-pane label="已完成" name="1"></el-tab-pane>
+     <el-tab-pane label="异常" name="2"></el-tab-pane>
+   </el-tabs>
+
+    </el-col>
       <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['company:employed:add']">新增</el-button>
@@ -34,12 +56,7 @@
       </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-    <el-tabs v-model="endStatus" @tab-click="handleClick">
-    <el-tab-pane label="全部" name="-1"></el-tab-pane>
-    <el-tab-pane label="待办理" name="0"></el-tab-pane>
-    <el-tab-pane label="已完成" name="1"></el-tab-pane>
-    <el-tab-pane label="异常" name="2"></el-tab-pane>
-  </el-tabs>
+   
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -53,7 +70,7 @@
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="primary"
             v-if="scope.row.endStatus == '0' && scope.row.nameStatus != 2 && scope.row.infoStatus != 2">待办理</el-link>
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="danger"
-            v-if="scope.row.nameStatus == 2 || scope.row.infoStatus == 2">异常</el-link>
+            v-if="scope.row.endStatus == 2">异常</el-link>
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="success"
             v-if="scope.row.endStatus == '1'">已完成</el-link>
         </template>
@@ -292,6 +309,34 @@ export default {
   name: "Employed",
   data() {
     return {
+      projectTime:'',
+      pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+       },
       exmList: [],//等待数据
       errsinfoList: [],//信息数据异常
       errsnameList: [],//名称数据异常
@@ -339,6 +384,8 @@ export default {
         legalPersonName: null,
         userId: null,
         endStatus:'',
+        start:null,
+        end:null,
       },
       // 表单参数
       form: {},
@@ -684,6 +731,14 @@ export default {
 
     /** 查询个体商户列表 */
     getList() {
+       if(this.projectTime!= null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+                this.queryParams.start =this.projectTime[0];
+                this.queryParams.end =this.projectTime[1];
+                console.log("start",this.queryParams.start);
+                console.log("end",this.queryParams.end);
+            }else {//判断选择时间再将时间清除
+                    this.projectTime=null;
+            };
       this.loading = true;
       joinList(this.queryParams).then(response => {
 
@@ -740,6 +795,8 @@ export default {
     resetQuery() {
       this.endStatus='-1';
       this.queryParams.endStatus='';
+      this.queryParams.start=null;
+      this.queryParams.end=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -805,8 +862,11 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
    ::v-deep .el-message-box__content{
      height: 200px !important;
+   }
+     ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
    }
 </style>

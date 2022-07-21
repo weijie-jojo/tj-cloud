@@ -900,7 +900,8 @@ export default {
             parms = {
               selfId: this.formData.selfId,
               infoStatus: type,
-              remark: this.remark
+              remark: this.remark,
+              endStatus:2,
             };
           }
 

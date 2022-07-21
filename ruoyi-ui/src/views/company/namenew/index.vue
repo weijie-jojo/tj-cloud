@@ -433,8 +433,15 @@ export default {
                       resmsg = '名称审核完成';
                       this.check('名称审核已完成');
                     } else {
+
                       resmsg = '名称审核完成';
                       this.check('名称审核未通过'+'(原因)'+this.remark);
+                      let parms12={
+                        selfId: this.formData.selfId,
+                        endStatus:2
+                      };
+                      crudEmployed.updateEmployed(parms12).then(res=>{
+                      });
                     }
                     let obj = {
                       title: '名称审核',

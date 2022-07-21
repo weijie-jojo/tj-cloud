@@ -16,6 +16,14 @@ export function getPlace(placeId) {
     method: 'get'
   })
 }
+// 根据渠道商编号查询代理费详情
+export function selectFeeByCode(query) {
+  return request({
+    url: 'place/agencyFee/selectFeeByCode',
+    method: 'get',
+    params: query
+  })
+}
 
 // 新增平台渠道商
 export function addPlace(data) {
@@ -51,4 +59,4 @@ export function getPlaceByUserId(query) {
     params: query
   })
 }
-export default {getPlaceByUserId}
+export default {getPlaceByUserId,selectFeeByCode}
