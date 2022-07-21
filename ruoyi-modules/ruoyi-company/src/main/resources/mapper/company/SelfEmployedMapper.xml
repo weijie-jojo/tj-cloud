@@ -93,7 +93,7 @@
     <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <where>
-            (t.end_status=0 OR DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)  )
+            DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)
             <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
             <if test="legalPersonName != null  and legalPersonName != ''"> and t.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
             <if test="username != null  and username != ''"> and t.username like concat('%', #{username}, '%')</if>
@@ -103,6 +103,14 @@
             <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
             <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
             <if test="realnameStatus != null  "> and t.realname_status =#{realnameStatus}</if>
+            <if test="endStatus != null  "> and t.end_status =#{endStatus}</if>
+            <if test="createTime != null  "> and t.create_time =#{createTime}</if>
+            <if test="start != null and start != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%Y-%m-%d %H:%i:%s') >= date_format(#{start},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="end != null and end != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{end},'%Y-%m-%d %H:%i:%s')
+            </if>
         </where>
     </select>
 

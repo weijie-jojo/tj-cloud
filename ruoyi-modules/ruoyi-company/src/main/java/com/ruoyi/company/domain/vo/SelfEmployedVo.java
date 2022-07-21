@@ -7,6 +7,12 @@ import java.util.Date;
 
 @Data
 public class SelfEmployedVo extends SelfEmployed {
+    /** 创建时间 */
+    private String start;
+
+    /** 创建时间 */
+    private String end;
+
     //selfNameReview
     private Integer nameStatus;//个体户名称
     private String titleType;

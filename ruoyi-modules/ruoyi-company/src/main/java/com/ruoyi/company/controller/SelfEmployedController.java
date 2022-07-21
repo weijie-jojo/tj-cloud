@@ -42,9 +42,9 @@ public class SelfEmployedController extends BaseController
     private ISelfEmployedService selfEmployedService;
 
     /**
-     * 查询个体商户列表
+     * 连表selfNameReview查询
      */
-    @ApiOperation("查询个体商户列表")
+    @ApiOperation("连表selfNameReview查询")
 //    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
@@ -56,9 +56,9 @@ public class SelfEmployedController extends BaseController
         return getDataTable(list);
     }
     /**
-     * 查询个体商户列表（完结）
+     * 连表selfNameReview查询（完结）
      */
-    @ApiOperation("查询个体商户列表")
+    @ApiOperation("连表selfNameReview查询（完结）")
 //    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinListEnd")
     public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
