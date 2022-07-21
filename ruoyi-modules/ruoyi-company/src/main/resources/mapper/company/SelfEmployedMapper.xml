@@ -72,6 +72,7 @@
         <result property="ordinarySelfMoney"    column="ordinary_self_money"    />
         <result property="isSelfTax"    column="is_self_tax"    />
         <result property="registerMoney"    column="register_money"    />
+        <result property="fileName8"    column="file_name8"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -83,7 +84,7 @@
                account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
                file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
-               special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money
+               special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -268,6 +269,7 @@
             <if test="ordinarySelfMoney != null">ordinary_self_money,</if>
             <if test="isSelfTax != null">is_self_tax,</if>
             <if test="registerMoney != null">register_money,</if>
+            <if test="fileName8 != null">file_name8,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -336,6 +338,7 @@
             <if test="ordinarySelfMoney != null">#{ordinarySelfMoney},</if>
             <if test="isSelfTax != null">#{isSelfTax},</if>
             <if test="registerMoney != null">#{registerMoney},</if>
+            <if test="fileName8 != null">#{fileName8},</if>
         </trim>
     </insert>
 
@@ -408,6 +411,7 @@
             <if test="ordinarySelfMoney != null">ordinary_self_money = #{ordinarySelfMoney},</if>
             <if test="isSelfTax != null">is_self_tax = #{isSelfTax},</if>
             <if test="registerMoney != null">register_money = #{registerMoney},</if>
+            <if test="fileName8 != null">file_name8 = #{fileName8},</if>
         </trim>
         where self_id = #{selfId}
     </update>

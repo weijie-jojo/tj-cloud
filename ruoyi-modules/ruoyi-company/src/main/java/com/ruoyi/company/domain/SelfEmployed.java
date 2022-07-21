@@ -295,6 +295,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "注册服务费 1500")
     private Long registerMoney;
 
+    /** 工商登记申请书pdf */
+    @Excel(name = "工商登记申请书pdf")
+    private String fileName8;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

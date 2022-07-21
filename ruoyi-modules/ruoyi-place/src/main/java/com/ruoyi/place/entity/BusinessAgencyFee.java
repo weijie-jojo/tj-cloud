@@ -124,8 +124,16 @@ public class BusinessAgencyFee implements Serializable {
     @TableField("special_invoice13_money")
     private BigDecimal specialInvoice13Money;
 
-    /** 普票代开收费(元） */
+    /** 普票平台服务费(元） */
     @TableField("ordinary_proxy_money")
     private BigDecimal ordinaryProxyMoney;
+
+    /** 专票平台服务费 */
+    @TableField("special_proxy_fee")
+    private BigDecimal specialProxyFee;
+
+    /** 专票平台服务费(元） */
+    @TableField("special_proxy_money")
+    private BigDecimal specialProxyMoney;
 
 }
