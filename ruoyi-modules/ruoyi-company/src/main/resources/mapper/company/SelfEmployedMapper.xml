@@ -113,15 +113,19 @@
                 AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{end},'%Y-%m-%d %H:%i:%s')
             </if>
         </trim>
+        ORDER BY
+        t.create_time DESC
     </select>
 
     <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
-        <where>
+        <trim prefix="where" prefixOverrides="and|or">
             t.end_status=1
             <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
             <if test="isActive != null  and isActive != ''"> and t.is_active like concat('%', #{isActive}, '%')</if>
-        </where>
+        </trim>
+        ORDER BY
+        t.create_time DESC
     </select>
 
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.company.domain.SelfEmployed" resultMap="SelfEmployedResult">

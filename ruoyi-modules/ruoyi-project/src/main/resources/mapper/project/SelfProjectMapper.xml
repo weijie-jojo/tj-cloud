@@ -99,6 +99,8 @@
             <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
             <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
         </where>
+        ORDER BY
+        create_time DESC
     </select>
 
     <select id="selectSelfProjectByProjectId" parameterType="String" resultMap="SelfProjectResult">
