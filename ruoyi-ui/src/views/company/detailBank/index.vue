@@ -219,7 +219,7 @@ import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
   data() {
     return {
-       baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+       baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
       formBank: {
         bankStatus: 1,
         selfId: "",

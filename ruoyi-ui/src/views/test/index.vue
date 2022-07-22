@@ -1,13 +1,27 @@
 <template>
-  <div>
-     <el-upload class="upload-demo myupload" action="https://jsonplaceholder.typicode.com/posts/"
+  <div class="app-container">
+    <el-select class="main-select-tree" ref="selectTree" v-model="value"  style="width: 560px;">
+      <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label" :value="item.value" style="display: none;" />      
+      <el-tree class="main-select-el-tree" ref="selecteltree" 
+        :data="industryTypes"
+        node-key="id" 
+        highlight-current  
+        :props="defaultProps"
+        @node-click="handleNodeClick"
+        :current-node-key="value"
+        :expand-on-click-node="expandOnClickNode"
+        default-expand-all />
+    </el-select>
+
+       <el-upload class="upload-demo myupload" action="/ontherRequest/api/files/doUpload"
          :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
          :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
         :file-list="fileName" 
         list-type="picture">
            <el-button size="small" type="primary">上传图片</el-button>
         </el-upload>
-   <!--PDF 预览-->
+
+         <!--PDF 预览-->
  <el-dialog 
  title="pdf预览"
   :visible.sync="viewVisible" width="80%" center
@@ -21,86 +35,149 @@
     />
   </div>
 </el-dialog>
-    
+
+
+
   </div>
+
 </template>
 
 <script>
-
+import crudRate from '@/api/company/rate'
 import pdf from 'vue-pdf'
+// http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf
 // /pdf/%E9%AA%8C%E6%94%B6%E6%8A%A5%E5%91%8A-20220321094519301.pdf
 var loadingTask = pdf.createLoadingTask('http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf', {withCredentials: false});
 
 export default {
-  name: 'HomedDd',
+  name: 'test',
   components: {
     pdf
   },
   data() {
     return {
-      fileName1:[],
+       fileName1:[],
       fileName:[],
       dialogImageUrl1:'',
       dialogVisible1:false,
       closeDialog:false,
       viewVisible:true,
       src: loadingTask,
-      numPages: undefined
+      numPages: undefined,
+      value: '-1',
+      expandOnClickNode: true,
+      options:[],
+      datas: [{
+        id: 1,
+        label: '云南',
+        children: [{
+          id: 2,
+          label: '昆明',
+          children: [
+            {id: 3,label: '五华区',children:[{id: 8,label: '北辰小区'}]},
+            {id: 4,label: '盘龙区'}
+          ]
+        }]
+      }, {
+        id: 5,
+        label: '湖南',
+        children: [
+          {id: 6,label: '长沙'},
+          {id: 7,label: '永州'}
+        ]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      industryTypeList:[],
+      industryTypes:[]
     }
+    
   },
-  mounted() {
-    this.src.promise.then(pdf => {
+  mounted(){
+    this.getRate();
+     this.src.promise.then(pdf => {
       this.numPages = pdf.numPages
     })
   },
-  methods:{
-    renderFileIcon() {
-	  //找出所有文件图标的class
-	  this.$nextTick(() => {
-	    let fileElementList = document.getElementsByClassName('el-upload-list__item-name');
-	    if (fileElementList && fileElementList.length > 0) {
-	      for (let ele of fileElementList) {
-	        let fileName = ele.innerText;
-	        //获取文件名后缀
-	        let fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
-	        let iconElement = ele.getElementsByTagName('i')[0];
-	        if (['png','jpg','jpeg',".gif",'PNG','JPG','JPEG',"GIF"].indexOf(fileType) != -1) {
-              iconElement.className = "imgicon-img" // 图⽚，动图
-            } else if (['mp4','3gp','avi',"flv",'MP4','3GP','AVI',"FLV"].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-video' // 视频
-            } else if (['doc','docx','DOC','DOCX'].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-docx' // 文档
-            } else if (['xls','xlsx','XLS','XLSX'].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-xlsx' // 表格
-            } else if (['ppt','pptx','PPT','PPTX'].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-pptx' // PPT
-            } else if (['zip','ZIP'].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-zip' // 压缩包
-            } else if (['pdf','PDF'].indexOf(fileType) != -1) {
-              iconElement.className = 'imgicon-pdf' // PDF
-            } else {
-              iconElement.className = 'imgicon-default' //默认图标
-            }
-	      }
-	    }
-	    })
-	   },
-
-       handlesuccess1(response,file, fileList) {
-            this.fileName1.push(file.obj);
-              var houzhui = file.name.split('.') // 获取上传文件的后缀
-      var title = document.getElementsByClassName('el-icon-document')[fileList.length-1] 
-      // [fileList.length-1]  这个需要特别注意，需要查看当前页面不上传之前有多少个后才能根据具体情况具体分析
-      if (houzhui[1]=='png'||houzhui[1]=='jpg'||houzhui[1]=='jpeg'||houzhui[1]=='gif') { 
-        title.classList.add('el-icon-picture-outline') // 图片，动图
-      } else if (houzhui[1]=='MP4'||houzhui[1]=='mp4'||houzhui[1]=='avi') {
-        title.classList.add('el-icon-video-camera') // 视频
-      } else if(houzhui[1]=='pdf') {
-        title.classList.add('el-icon-document') // 其他默认文档
+  methods: {
+      preview(e){
+      docx.renderAsync(this.$refs.file.files[0],this.$refs.preview) // 渲染到页面预览
+    },
+       getRate() {
+      crudRate.getAllRate().then(res => {
+        console.log("getAllRate", res.rows);
+        // this.industryTypes=res.rows;
+        
+        let tree = []; // 用来保存树状的数据形式
+        this.parseTree(res.rows, tree, 0);
+        let arr=[{
+         id: "-1",
+         label: '请选择行业类型', 
+         children:tree
+          
+        }];
+        console.log("tree", tree);
+        // let a={
+        //  children: tree,
+        //  id: "-1",
+        //  label: '请选择行业类型',
+        // };
+        // arr.push(a);
+        this.industryTypes = arr;
+       // console.log(arr);
+        
+        //this.industryType.push(a);
+        this.industryTypeList = res.rows;
+      })
+    },
+    //把数据整成树状
+    parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
       }
-           // this.renderFileIcon();
-        },
-        handleRemove1(file, fileList) {
+    },
+    // 四级菜单
+    formatData(data){
+      let options = [];
+      data.forEach((item,key) => {
+        options.push({label:item.label,value:item.id});
+        if(item.children){
+          item.children.forEach((items,keys) => {
+            options.push({label:items.label,value:items.id});
+            if(items.children){
+              items.children.forEach((itemss,keyss) => {
+                options.push({label:itemss.label,value:itemss.id});
+                if(itemss.children){
+                  itemss.children.forEach((itemsss,keysss) => {
+                    options.push({label:itemsss.label,value:itemsss.id});
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+      return options;
+    },
+    handlesuccess1(response,file, fileList) {
+            this.fileName1.push(file.obj);
+            
+    },
+    handleNodeClick(node){
+      this.value = node.id;
+      this.$refs.selectTree.blur();
+    },
+     handleRemove1(file, fileList) {
             const i = this.fileName1.findIndex((item) => item === fileList);
             this.fileName1.splice(i, 1);
         },
@@ -120,78 +197,7 @@ export default {
   }
 }
 </script>
-<style scoped>
-  
-	.myupload >>> .imgicon-video {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg");
-	}
-	.myupload >>> .imgicon-img {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg");
-	}
-	.myupload >>> .imgicon-pdf {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
-	.myupload >>> .imgicon-docx {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
-	.myupload >>> .imgicon-zip {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
-	.myupload >>> .imgicon-pptx {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
-	.myupload >>> .imgicon-xlsx {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
-	.myupload >>> .imgicon-default {
-	  display: inline-block;
-	  width: 20px;
-	  margin-bottom: -3px;
-	  height: 20px;
-	  background-size: 100% 100%;
-	  margin-right: 10px;
-	  background-image: url("~@/assets/images/pdf.jpg") !important;
-	}
+<style>
+.main-select-el-tree .el-tree-node .is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
+.main-select-el-tree .el-tree-node.is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
 </style>

@@ -267,7 +267,7 @@
         isShowImg:false,
         isShowImg2:false,
 
-        baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+        baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
 
         imgpath:'',
         borrowImage:'',

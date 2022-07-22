@@ -444,7 +444,7 @@ export default {
   props: [],
   data() {
     return {
-      baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+      baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
       fileName5:[],
       fileName6:[],
       fileName7:[],
@@ -584,12 +584,12 @@ export default {
 
         contactName: [{
           required: true,
-          message: '请输入联系人',
+          message: '请输入法人姓名',
           trigger: 'blur'
         }],
         contactPhone: [{
           required: true,
-          message: '请输入手机号',
+          message: '请输入法人手机号',
           trigger: 'blur'
         }, {
           pattern: /^1(3|4|5|7|8|9)\d{9}$/,
@@ -783,6 +783,7 @@ export default {
     for(let k1 in this.fileName5){
       this.fileName5[k1]=this.baseImgPath+this.fileName5[k1];
     } 
+    console.log(this.fileName5);
       this.fileName6=JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
     for(let k2 in this.fileName6){
       this.fileName6[k2]=this.baseImgPath+this.fileName6[k2];
@@ -796,7 +797,7 @@ export default {
     getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
-        crudPlace.getPlaceByUserId({ userId: 26 }).then(res => {
+        crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
           this.places = res.data;
         })

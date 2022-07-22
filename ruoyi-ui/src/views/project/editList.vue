@@ -48,13 +48,10 @@
                 </el-col>
 
                 <el-col :span="9">
-                   <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                      <el-input disabled v-if="isokradio==0" value="正常"></el-input>
-                      <el-input disabled v-if="isokradio==1" value="欠费"></el-input>
-                      <el-input disabled v-if="isokradio==2" value="冻结"></el-input>
-                        <!-- <el-radio v-model="isokradio" disabled label="0">正常</el-radio>
-                        <el-radio v-model="isokradio" disabled label="1">欠费 </el-radio>
-                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio> -->
+                    <el-form-item class="comright" label="渠道商状态" prop="isokradio">
+                        <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
+                        <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
+                        <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
                         <el-input v-model="formData.purchCompanyTaxid"></el-input>
@@ -64,11 +61,19 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item  class="comright" label="乙方行业类型" prop="industryType">
-                        <treeselect  v-model="formData.industryType" :options="industryTypes" :show-count="true" />
+                    <el-form-item class="comright" label="乙方行业类型" prop="industryType">
+                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
+                            style="width: 100%;">
+                            <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                            <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                                default-expand-all />
+                        </el-select>
                     </el-form-item>
 
-                 
+
 
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
@@ -83,9 +88,9 @@
                     <el-form-item class="comright" label="乙方行业税率">
                         <el-input disabled v-model="owerTaxfee"></el-input>
                     </el-form-item>
-                 
-                 
-                 <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
+
+
+                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
                         <el-input v-model="formData.ticketTax" disabled></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
@@ -94,7 +99,7 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                     </el-form-item>
+                    </el-form-item>
                 </el-col>
             </el-row>
 
@@ -153,10 +158,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
 
-                        <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture">
+                        <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+                            :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
+                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible1" append-to-body>
@@ -166,12 +170,21 @@
                 </el-col>
             </el-row>
 
-                <el-row type="flex" class="row-bg " justify="space-around">
+            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                   <el-form-item style="padding-right:4%"  class="comright" label="项目行业类型" prop="projectTrades">
-                     <treeselect  v-model="formData.projectTrades" :options="projectTradeS" :show-count="true" />
-                             </el-form-item>
-                      </el-col>
+                    <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" prop="projectTrades">
+                        <el-select @change="selectInType" class="main-select-tree" ref="selectTrees"
+                            v-model="formData.projectTrades" style="width: 100%;">
+                            <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                            <el-tree class="main-select-el-tree" ref="selecteltrees" :data="projectTradeS" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick1"
+                                :current-node-key="formData.projectTrades" :expand-on-click-node="expandOnClickNode"
+                                default-expand-all />
+                        </el-select>
+
+                    </el-form-item>
+                </el-col>
             </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
@@ -208,24 +221,26 @@ import qs from 'qs';
 import crudRate from '@/api/company/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
 export default {
-    components: { Treeselect },
+
     data() {
         return {
-            projectTradeS:'',  //项目行业类型
-            projectTradeSList:'',//项目行业类型
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
+            expandOnClickNode: true,
+            projectTradeS: '',  //项目行业类型
+            projectTradeSList: '',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
             industryId: '',
             industryTypes: [],
             industryTypeList: [],
-               
+
             industryTypes1: [],
-            industryTypeList1: [],   
+            industryTypeList1: [],
 
             fileName: [],
             fileNamefile: [],//附件
@@ -273,9 +288,9 @@ export default {
                 purchCompany: "",
                 remark: "",
                 industryType: '',
-                selfName:'',
+                selfName: '',
             },
-            baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
             options: [
                 {
                     value: 0,
@@ -351,13 +366,13 @@ export default {
                         trigger: "change",
                     },
                 ],
-                 projectTrades:[
-                
-                 {
+                projectTrades: [
+
+                    {
                         required: true,
                         message: "请选择项目行业类型",
                         trigger: "change",
-                 },
+                    },
                 ],
                 industryType: [
                     {
@@ -418,79 +433,102 @@ export default {
         };
     },
     computed: {},
-    watch: {
-        "formData.contactName": {
-            handler: function () {
-                this.formData.legalPersonName = this.formData.contactName;
-            },
-            deep: true,
-            
-        },
-    },
+
     watch: {
         'formData.industryType': 'selectIndustryType',
-        'formData.projectTrades': 'selectInType',
+
     },
-    
-    mounted() { 
-        
+
+    mounted() {
+        this.getlist();
         this.getinfoByUserId(); //渠道商
         this.getRate();
-        
-        this.getlist();
-       
-      },
+
+
+
+    },
 
 
     methods: {
-         getlist(){
+        handleNodeClick(node) {
+            this.formData.industryType = node.id;
+            this.$refs.selectTree.blur();
+        },
+        handleNodeClick1(node) {
+            console.log(node);
+            this.formData.projectTrades= node.id;
+            console.log(this.formData.projectTrades);
+            this.$refs.selectTrees.blur();
+        },
+        // 四级菜单
+        formatData(data) {
+            let options = [];
+            data.forEach((item, key) => {
+                options.push({ label: item.label, value: item.id });
+                if (item.children) {
+                    item.children.forEach((items, keys) => {
+                        options.push({ label: items.label, value: items.id });
+                        if (items.children) {
+                            items.children.forEach((itemss, keyss) => {
+                                options.push({ label: itemss.label, value: itemss.id });
+                                if (itemss.children) {
+                                    itemss.children.forEach((itemsss, keysss) => {
+                                        options.push({ label: itemsss.label, value: itemsss.id });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            return options;
+        },
+        getlist() {
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
-            this.formData=response.data[0];
-            this.formData.projectTrades = '';
-             var rate = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
-             this.formData.projectTrades=rate.industryId;
-          
+                this.formData = response.data[0];
 
-            this.selectIndustryType1();
-           
-            
-           
-            
-            
-            this.isokradio=JSON.stringify(this.formData.placeStatus);
-             if(this.formData.fileName){
-                    this.formData.fileName=JSON.parse(this.formData.fileName);
-                    if(Array.isArray(this.formData.fileName) ){
-                          this.fileNameradio='2';
-                          //如果是图片的话
-                          for(let j in this.formData.fileName){
-                             this.fileName.push({
-                                 name:this.formData.fileName[j],
-                                 url:this.baseImgPath+this.formData.fileName[j]
 
-                             })
-                          }
-                    }else{
-                      this.fileNameradio='1';
+
+                // this.selectIndustryType1();
+
+
+
+
+
+                this.isokradio = JSON.stringify(this.formData.placeStatus);
+                if (this.formData.fileName) {
+                    this.formData.fileName = JSON.parse(this.formData.fileName);
+                    if (Array.isArray(this.formData.fileName)) {
+                        this.fileNameradio = '2';
+                        //如果是图片的话
+                        for (let j in this.formData.fileName) {
+                            this.fileName.push({
+                                name: this.formData.fileName[j],
+                                url: this.baseImgPath + this.formData.fileName[j]
+
+                            })
+                        }
+                    } else {
+                        this.fileNameradio = '1';
                     }
-                    
-                 }else{
-                    this.fileNameradio='1';
-                 }
-                   if(this.formData.isActive){
-                         this.projectStatus=parseInt(this.formData.isActive);
-                    }else{
-                        this.projectStatus=1;
-                    }
+
+                } else {
+                    this.fileNameradio = '1';
+                }
+                if (this.formData.isActive) {
+                    this.projectStatus = parseInt(this.formData.isActive);
+                } else {
+                    this.projectStatus = 1;
+                }
             });
         },
         //监听开票内容选择
-        filenamer(e){
-          if(e==1){
-            this.formData.fileName='';
-          }
+        filenamer(e) {
+            if (e == 1) {
+                this.formData.fileName = '';
+            }
         },
         //监听乙方
         ownnew(e) {
@@ -498,12 +536,12 @@ export default {
             for (let i in this.ownoptions) {
                 if (this.ownoptions[i].selfCode == e) {
                     console.log(this.ownoptions[i].isActive);
-                     if(this.ownoptions[i].isActive){
-                         this.projectStatus=parseInt(this.ownoptions[i].isActive);
-                    }else{
-                        this.projectStatus=1;
+                    if (this.ownoptions[i].isActive) {
+                        this.projectStatus = parseInt(this.ownoptions[i].isActive);
+                    } else {
+                        this.projectStatus = 1;
                     }
-                    this.formData.selfName=this.ownoptions[i].selfName;
+                    this.formData.selfName = this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
                     this.owerTax = this.ownoptions[i].taxId;
                 }
@@ -560,16 +598,19 @@ export default {
         //获取税率
         getRate() {
             crudRate.getAllRate().then(res => {
-                console.log("getAllRate", res.rows);
-                // this.industryTypes=res.rows;
                 let tree = []; // 用来保存树状的数据形式
                 this.parseTree(res.rows, tree, 0);
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
 
-                this.projectTradeS=tree;
+                this.projectTradeS = tree;
                 this.projectTradeSList = res.rows;
+                this.formData.projectTrades = '';
+                var rate1 = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
+                this.formData.projectTrades = rate1.industryId;
+                console.log(this.formData.projectTrades);
+                this.selectIndustryType1();
             })
         },
         //把数据整成树状
@@ -586,37 +627,26 @@ export default {
                 }
             }
         },
-        
+
         //监听行业类型
         selectIndustryType1() {
-            console.log("industryType==", this.formData.industryType);
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
             this.industryId = rate.industryId;  //行业类型id
             this.owerTaxfee = rate.taxRate;
-          
-            
             let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
-
-
-                  for (let i in this.ownoptions) {
-                // console.log(1111,this.ownoptions[i].selfName);
-                 console.log(2222,this.formData.selfName);
-                if (this.ownoptions[i].selfName == this.formData.selfName) {
-                    this.natureBusiness = this.ownoptions[i].natureBusiness;
-                    this.owerTax = this.ownoptions[i].taxId;
-                   console.log(this.ownoptions[i]);
-                   }
+                for (let i in this.ownoptions) {
+                    if (this.ownoptions[i].selfName == this.formData.selfName) {
+                        this.natureBusiness = this.ownoptions[i].natureBusiness;
+                        this.owerTax = this.ownoptions[i].taxId;
+                    }
                 }
-
-
-             }).catch(err => {
+            }).catch(err => {
                 console.log(err);
             });
-           
+
         },
 
 
@@ -628,23 +658,25 @@ export default {
             console.log("rate==", rate);
             this.industryId = rate.industryId;  //行业类型id
             this.owerTaxfee = rate.taxRate;
-          
-            
+
+
             let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
-             }).catch(err => {
+            }).catch(err => {
                 console.log(err);
             });
-           
+
         },
-         //监听项目行业类型
+        //监听项目行业类型
         selectInType() {
-           var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
+            console.log(3333);
+            console.log(33333,this.formData.projectTrades);
+            var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
             this.formData.projectTrade = rate.industryName;//所属行业
             console.log(this.formData.projectTrade);
-         },
+        },
         //监听开票内容类型
         tickettaxvip(e) {
             console.log(e);
@@ -681,7 +713,7 @@ export default {
 
         },
         getcode(selfCode) {
-            getcode({selfCode:selfCode}).then((res) => {
+            getcode({ selfCode: selfCode }).then((res) => {
                 this.formData.projectCode = res;
             }).catch((errore) => {
                 console.log(errore);
@@ -737,20 +769,6 @@ export default {
 .rowCss {
     margin-top: 10px;
 }
-// ::v-deep .is-disabled{
-//     background-color: #F5F7FA !important;
-//     border-color: black !important;
-// }
-// // 改变input框字体颜色
-// ::v-deep .el-input__inner {
-//     background-color: transparent !important;
-//    color: black  !important;
-// }
-// // 改变input框字体颜色
-// ::v-deep .el-textarea.is-disabled .el-textarea__inner {
-//   background-color: transparent !important;
-//   color: black  !important;
-// }
 .paddingbg-s {
     padding-top: 15px;
 }
@@ -789,10 +807,4 @@ export default {
     color: blue;
 }
 
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

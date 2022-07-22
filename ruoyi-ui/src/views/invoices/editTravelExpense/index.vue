@@ -399,7 +399,7 @@
               <!-- 上传报销凭证影像 -->
             <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
                 <el-upload
-                    action="http://36.133.2.179:8000/api/files/doUpload"
+                    action="//ontherRequest/api/files/doUpload"
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"
@@ -468,7 +468,7 @@
         imgArr:[],
         imgArr2:[],
         srcList:[],
-        baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+        baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
         //影像上传参数
         limitNum:10,
         expenseImage:'',

@@ -931,7 +931,7 @@ export default {
         idCard: "",
          fileName5:[],
       },
-      baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+      baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
       accountName_options: [],
       accountType: "",
       activeNames: ["1"],

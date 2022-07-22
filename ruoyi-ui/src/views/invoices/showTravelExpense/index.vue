@@ -587,7 +587,7 @@
         imgArr:[],
         imgArr2:[],
         srcList2:[],
-        baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+        baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
         imgpath:'',
         expenseImage:'',
         imageVisible:false,
