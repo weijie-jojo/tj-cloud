@@ -28,8 +28,8 @@
      <el-col :span="15">
        <el-tabs v-model="taxStatus" @tab-click="handleClick">
        <el-tab-pane label="全部" name="-1"></el-tab-pane>
-       <el-tab-pane label="待办理" name="0"></el-tab-pane>
-       <el-tab-pane label="已完成" name="1"></el-tab-pane>
+       <el-tab-pane label="办理中" name="0"></el-tab-pane>
+       <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
    </el-col>
      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -42,8 +42,8 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
-           <el-link :underline="false" type="primary"   v-if=" scope.row.taxStatus == 0">待办理</el-link>
-           <el-link :underline="false"  type="success"  v-if=" scope.row.taxStatus == 1">已完成</el-link>
+           <el-link :underline="false" type="primary"   v-if=" scope.row.taxStatus == 0">办理中</el-link>
+           <el-link :underline="false"  type="success"  v-if=" scope.row.taxStatus == 1">完成</el-link>
          </template>
        </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -95,7 +95,7 @@ export default {
         nameStatus: 1,
         infoStatus: 1,
         businessStatus:1,
-        realnameStatus:1,
+        // realnameStatus:1,
         taxStatus: null,
         pageNum: 1,
         pageSize: 10,

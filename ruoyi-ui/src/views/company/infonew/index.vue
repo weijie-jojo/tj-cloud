@@ -478,7 +478,7 @@ export default {
   props: [],
   data() {
     return {
-      baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+      baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
       fileName5: [],
       remark: null,
       isokradio: '1',

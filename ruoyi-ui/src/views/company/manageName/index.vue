@@ -27,9 +27,10 @@
       <el-col :span="15">
           <el-tabs v-model="nameStatus" @tab-click="handleClick">
      <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="待审核" name="0"></el-tab-pane>
-     <el-tab-pane label="已完成" name="1"></el-tab-pane>
-     <el-tab-pane label="未通过" name="2"></el-tab-pane>
+     <el-tab-pane label="异常" name="2"></el-tab-pane>
+     <el-tab-pane label="审核中" name="0"></el-tab-pane>
+     <el-tab-pane label="完成" name="1"></el-tab-pane>
+    
   </el-tabs>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -45,9 +46,9 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
         <el-table-column label="审核状态" align="center" prop="nameStatus" >
            <template slot-scope="scope">
-             <el-link :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">待审核</el-link>
-             <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">未通过</el-link>
-             <el-link :underline="false" type="success" v-if="scope.row.nameStatus == '1'">已完成</el-link>
+             <el-link :underline="false" type="primary" v-if="scope.row.nameStatus == '0'">审核中</el-link>
+             <el-link :underline="false" type="danger" v-if="scope.row.nameStatus == '2'">异常</el-link>
+             <el-link :underline="false" type="success" v-if="scope.row.nameStatus == '1'">完成</el-link>
            </template>
       </el-table-column>
      

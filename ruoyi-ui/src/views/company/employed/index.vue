@@ -32,9 +32,10 @@
     <el-col :span="15">
     <el-tabs v-model="endStatus" @tab-click="handleClick">
      <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="待办理" name="0"></el-tab-pane>
-     <el-tab-pane label="已完成" name="1"></el-tab-pane>
      <el-tab-pane label="异常" name="2"></el-tab-pane>
+     <el-tab-pane label="办理中" name="0"></el-tab-pane>
+     <el-tab-pane label="完成" name="1"></el-tab-pane>
+     
    </el-tabs>
 
     </el-col>
@@ -68,34 +69,34 @@
       <el-table-column label="进度状态" align="center" prop="endStatus">
         <template slot-scope="scope">
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="primary"
-            v-if="scope.row.endStatus == '0' && scope.row.nameStatus != 2 && scope.row.infoStatus != 2">待办理</el-link>
+            v-if="scope.row.endStatus == '0' && scope.row.nameStatus != 2 && scope.row.infoStatus != 2">办理中</el-link>
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="danger"
             v-if="scope.row.endStatus == 2">异常</el-link>
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="success"
-            v-if="scope.row.endStatus == '1'">已完成</el-link>
+            v-if="scope.row.endStatus == '1'">完成</el-link>
         </template>
       </el-table-column>
 
       <el-table-column label="名称审核" align="center">
         <template slot-scope="scope">
           <el-link @click="examine(scope.row.applyName, scope.row, 1)" :underline="false" type="primary"
-            v-if="scope.row.nameStatus == '0'">待审核
+            v-if="scope.row.nameStatus == '0'">审核中
           </el-link>
           <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode)"
-            v-if="scope.row.nameStatus == '2'">未通过</el-link>
+            v-if="scope.row.nameStatus == '2'">异常</el-link>
           <el-link @click="finishName(scope.row, scope.row.selfCode)" :underline="false" type="success"
-            v-if="scope.row.nameStatus == '1'">已完成</el-link>
+            v-if="scope.row.nameStatus == '1'">完成</el-link>
         </template>
       </el-table-column>
       <el-table-column label="信息审核" align="center">
         <template slot-scope="scope">
           <el-link @click="examine(scope.row.applyName, scope.row, 2)" :underline="false" type="primary"
-            v-if="scope.row.infoStatus == '0'">待审核
+            v-if="scope.row.infoStatus == '0'">审核中
           </el-link>
           <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode)"
-            v-if="scope.row.infoStatus == '2'">未通过</el-link>
+            v-if="scope.row.infoStatus == '2'">异常</el-link>
           <el-link @click="finishInfo(scope.row, scope.row.selfCode)" :underline="false" type="success"
-            v-if="scope.row.infoStatus == '1'">已完成</el-link>
+            v-if="scope.row.infoStatus == '1'">完成</el-link>
         </template>
       </el-table-column>
       <!-- <el-table-column label="实名办理" align="center">
@@ -112,41 +113,41 @@
       <el-table-column label="工商办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
-            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2">
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 4)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 0">
-            待办理</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 0">
+            办理中</el-link>
           <el-link :underline="false" @click="finishBus(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1">
-            已完成</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1">
+            完成</el-link>
         </template>
       </el-table-column>
 
       <el-table-column label="税务办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
-            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0">
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 5)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
-            待办理</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
+            办理中</el-link>
           <el-link :underline="false" @click="finishTax(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1">
-            已完成</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1">
+            完成</el-link>
         </template>
       </el-table-column>
       <el-table-column label="银行办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
-            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.realnameStatus == 0 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2  || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 6)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
-            待办理</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
+            办理中</el-link>
           <el-link :underline="false" @click="finishBank(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1">
-            已完成</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1">
+            完成</el-link>
         </template>
       </el-table-column>
     </el-table>

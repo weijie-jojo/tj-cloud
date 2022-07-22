@@ -358,6 +358,8 @@ export default {
         this.formData.fontSize1="";
         this.formData.fontSize2="";
         this.formData.fontSize3="";
+        this.formData.fontSize4="";
+        this.formData.fontSize5="";
       }
     },
     changeOrganizational(value){

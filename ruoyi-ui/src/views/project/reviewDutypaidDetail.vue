@@ -38,7 +38,7 @@
                    
                      <el-form-item class="comright" label="项目完税资料" prop="fileName">
 
-                        <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
+                        <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload"
                             :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                             :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
                             :file-list="fileName" list-type="picture">
@@ -171,7 +171,7 @@ export default {
                 updateTime: "",
                 industryType:'',
             },
-            baseImgPath: "http://36.133.2.179:8000/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
             options: [
                 {
                     value: 0,

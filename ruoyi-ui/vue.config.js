@@ -46,10 +46,19 @@ module.exports = {
       '/pdf': {
         target: 'http://36.133.2.179:8087/txt',
         changOrigin: true,  
-        // pathRewrite: {
-        //     '^/pdf': ''  
-        // } 
-      }
+        pathRewrite: {
+            '^/pdf': ''  
+        } 
+      },
+      '/ontherRequest': {
+        target: 'http://36.133.2.179:8000',
+        changOrigin: true,  
+        pathRewrite: {
+         '^/ontherRequest': ''  
+        } 
+      },
+      
+
 
 
       

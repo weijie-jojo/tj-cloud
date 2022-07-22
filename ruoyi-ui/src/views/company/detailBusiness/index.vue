@@ -110,7 +110,7 @@ export default {
       dialogVisible: false,
       previewPath: "",
       dialogImageUrl: "",
-      baseImgPath:"http://36.133.2.179:8000/api/files/showImg?imgPath=",
+      baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
       rules: {
         selfName: [
           { required: true, message: "请输入个体户名称", trigger: "blur" },

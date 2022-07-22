@@ -26,6 +26,13 @@ export default  {
     color: black !important;
     background-color: transparent !important;
 }
+::v-deep .el-radio{
+   background-color: #FFFFFF !important;
+}
+::v-deep .el-radio__input.is-checked .el-radio__inner{
+  border-color: #1890ff !important;
+    background: #1890ff !important;
+}
 
 ::v-deep .el-checkbox__label{
      color: black !important;
@@ -45,10 +52,14 @@ export default  {
   background-color: transparent !important;
   color: black  !important;
 }
-::v-deep .el-radio__input.is-disabled + span.el-radio__label{
+::v-deep .el-radio__input.is-disabled + span.el-radio__label{ 
    background-color: transparent !important;
   color: black  !important;
 }
+.main-select-el-tree .el-tree-node .is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
+.main-select-el-tree .el-tree-node.is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
+
+
 
 
 </style>

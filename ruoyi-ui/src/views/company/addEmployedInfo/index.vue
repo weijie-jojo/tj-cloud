@@ -10,630 +10,766 @@
         <el-step title="业务信息"></el-step>
         <el-step title="提交审核"></el-step>
       </el-steps>
-      <div v-show="actives==1">
-                  <el-row type="flex" class="row-bg  combottom" justify="space-around">
-            <el-col :span="8">
-              <div class="bankno">申请信息</div>
+      <div v-show="actives == 0">
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item label="填报提示">
+              <div style="color:red;font-size: 16px;">
+                1.个体工商户名称包含行政区划、乡镇街道社区、字号、行业、组织形式五个组成部分，例如“福州市鼓楼区中山社区天天服装店”中，行政区划为“福州市鼓楼区”，乡镇街道社区为“中山社区”，字号为“天天”，行业为“服装”，组织形式为“店”。
+              </div>
+              <div style="color:red;font-size: 16px;">2.请使用谷歌chrome浏览器或360等浏览器的极速模式访问本页面进行填报。</div>
+            </el-form-item>
+          </el-col>
 
-            </el-col>
-            <el-col :span="8">
-              <div></div>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="本人申请">
-                <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
-                  <el-option v-for="(item, index) in oneselfApplys" :key="index" :label="item.label" :value="item.label"
-                    :disabled="item.disabled"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9"></el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="申请人姓名" prop="applyName">
-                <el-select style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
-                  @change="selectApplyName">
-                  <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username"
-                    :value="item.userId" :disabled="item.disabled"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
+        </el-row>
 
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="移动电话">
-                <el-input v-model="formData.applyPhone" :readonly="true">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9"></el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="证件类型">
-                <el-input v-model="formData.applyDocumentType" :readonly="true">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="证件号码">
-                <el-input v-model="formData.applyIdNum" :readonly="true">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg  combottom" justify="space-around">
-            <el-col :span="7">
-              <div class="bankno">联络员</div>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="个体户编号">
+              <el-input v-model="formData.selfCode" placeholder="请输入个体户编号" :disabled='true' clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9"></el-col>
 
-            </el-col>
-            <el-col :span="8">
-              <div></div>
-            </el-col>
-          </el-row>  
-          
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="姓名" prop="contactName">
-                <el-input v-model="formData.contactName" clearable placeholder="请输入法人姓名">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="移动电话" prop="contactPhone">
-                <el-input v-model="formData.contactPhone" clearable placeholder="请输入法人移动电话">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="证件类型">
-                <el-input v-model="formData.contactDocumentType" :readonly="true">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="证件号码" prop="contactIdNum">
-                <el-input v-model="formData.contactIdNum" clearable placeholder="请输入法人证件号码">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </el-row>
 
-         <el-row type="flex" class="row-bg " justify="space-around">
-         <el-col :span="8"></el-col>
-         <el-col :span='8' class="flexs">
-                <el-button type="danger" @click="resetInfo" class="btn">重置</el-button>
-                <el-button type="primary" @click="nextBasic" class="btn" >下一步</el-button>
-         </el-col>
-         <el-col :span="8"></el-col>
-         </el-row>
-          </div>
-         
-       <div v-show="actives==2">
-                <el-row type="flex" class="row-bg  combottom" justify="space-around">
-            <el-col :span="8">
-              <div class="bankno">基本情况</div>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="冠名类型">
+              <el-input v-model="formData.titleType" placeholder="请输入行政区划" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="行政区划">
+              <el-input v-model="formData.administrativeDivision" placeholder="请输入行政区划" disabled></el-input>
+            </el-form-item>
+          </el-col>
 
-            </el-col>
-            <el-col :span="8">
-              <div></div>
-            </el-col>
-          </el-row>
-         <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="组成形式">
-                <el-input v-model="formData.organizationalForm" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="从业人数">
-                <el-input v-model="formData.numberEmployees" disabled>
-                  <template slot="append">人</template>
-                </el-input>
+        </el-row>
 
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="出资额" prop="contributionAmount">
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="行业" prop="industry">
+              <el-input v-model="formData.industry" placeholder="请输入行业" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <!-- <el-form-item label="组织形式" prop="organizationalForm">
+            <el-select style="width:100%" v-model="formData.organizationalForm" placeholder="请选择组织形式" clearable
+              @change="changeOrganizational">
+              <el-option v-for="(item, index) in organizationalFormOptions" :key="index" :label="item.label"
+                :value="item.value" :disabled="item.disabled"></el-option>
+            </el-select>
+          </el-form-item> -->
+          </el-col>
 
-                <el-input disabled type="number" v-model="formData.contributionAmount">
-                  <template slot="append">万元</template>
-                </el-input>
+        </el-row>
 
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="所在行政区划">
+              <el-input v-model="formData.administrativeRegion" placeholder="请输入所在行政区划" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="登记机关">
+              <el-input v-model="formData.registrationAuthority" placeholder="请输入登记机关" disabled></el-input>
+            </el-form-item>
+          </el-col>
 
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="城市">
-                <el-input v-model="formData.city" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="区（县）">
-                <el-input v-model="formData.county" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="电子商务经营者">
-                <el-select style="width:100%" v-model="formData.electronicCommerce" placeholder="请选择是否是电子商务经营者" disabled>
-                  <el-option v-for="(item, index) in electronicCommerces" :key="index" :label="item.label"
-                    :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="21">
-              <el-form-item  label="经营场所">
-                <el-input v-model="formData.selfAddress" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="联系电话">
-                <el-input v-model="formData.contactPhone" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="所属自贸区">
-                <el-input v-model="formData.freeTradeZone" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="所属自贸片区">
-                <el-input v-model="formData.freeTradeArea" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="产权">
-                <el-input v-model="formData.propertyRight" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="21">
-              <el-form-item label="经营范围" prop="natureBusiness">
-                <el-input type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </el-row>
 
-          
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="银行账号类型" prop="accountType">
-                <el-select style="width:100%" v-model="formData.accountType" placeholder="请选择银行账号类型" @change="selectAccountType">
-                  <el-option v-for="(item, index) in accountTypes" :key="index" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="私账名称">
-                <el-input v-model="formData.legalPersonName" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="字号" :required="true">
+              <el-checkbox v-model="formData.random" @change="isRandom">随机字号</el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="拟设名称">
+              随机名称
+            </el-form-item>
+          </el-col>
 
-          <el-row v-if="isPrivateBank" type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="对公开户银行">
-                <el-input disabled v-model="formData.publicDepositBank1" clearable>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="对公银行账号">
-                <el-input disabled v-model="formData.publicAccountNumber1" clearable>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item prop="fontSize1">
+              <el-input v-if="isDisable" v-model="formData.fontSize1" :disabled="isDisable" clearable>
+              </el-input>
+              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize1" :disabled="isDisable" clearable>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-input v-model="formData.poposedName1" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item prop="fontSize2">
+              <el-input v-if="isDisable" v-model="formData.fontSize2" :disabled="isDisable" clearable>
+              </el-input>
+              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize2" :disabled="isDisable" clearable>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-input v-model="formData.poposedName2" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item prop="fontSize3">
+              <el-input v-if="isDisable" v-model="formData.fontSize3" :disabled="isDisable" clearable>
+              </el-input>
+              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize3" :disabled="isDisable" clearable>
+              </el-input>
+
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-input v-model="formData.poposedName3" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item prop="fontSize4">
+              <el-input v-if="isDisable" v-model="formData.fontSize4" :disabled="isDisable" clearable>
+              </el-input>
+              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize4" :disabled="isDisable" clearable>
+              </el-input>
+
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-input v-model="formData.poposedName4" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
 
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item prop="fontSize5">
+              <el-input v-if="isDisable" v-model="formData.fontSize5" :disabled="isDisable" clearable>
+              </el-input>
+              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize5" :disabled="isDisable" clearable>
+              </el-input>
 
-          <el-row v-else class="rowCss row-bg" type="flex" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="私账开户银行">
-                <el-input placeholder="请输入法人私账开户银行" v-model="formData.privateDepositBank" clearable :disabled="isPrivateBank">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="私账银行账号">
-                <el-input placeholder="请输入法人私账银行账号" v-model="formData.privateAccountNumber" clearable :disabled="isPrivateBank">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-
-         <el-row type="flex" class="row-bg " justify="space-around">
-         <el-col :span="8"></el-col>
-         <el-col :span='8' class="flexs">
-                <el-button type="danger" @click="BackInfo" class="btn">返回</el-button>
-                <el-button type="primary" @click="nextBus" class="btn" >下一步</el-button>
-         </el-col>
-         <el-col :span="8"></el-col>
-         </el-row>
-         </div>
-        <div v-show="actives==3">
-                      <el-row type="flex" class="row-bg  combottom" justify="space-around">
-            <el-col :span="11">
-              <div class="bankno">经营者（负责人）信息</div>
-
-            </el-col>
-            <el-col :span="8">
-              <div></div>
-            </el-col>
-          </el-row>  
-          
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="姓名">
-                <el-input v-model="formData.contactName" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="人员类型">
-                <el-input v-model="formData.personnelType" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="证件类型">
-                <el-input v-model="formData.contactDocumentType" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="证件号码">
-                <el-input v-model="formData.contactIdNum" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="性别" prop="gender">
-                <el-select style="width:100%" v-model="formData.gender" placeholder="请选择性别" clearable>
-                  <el-option v-for="(item, index) in genders" :key="index" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="出生日期" prop="dateBirth">
-                <el-date-picker style="width:100%" v-model="formData.dateBirth" type="date" placeholder="选择出生日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="民族" prop="nation">
-                <el-input v-model="formData.nation" clearable placeholder="请输入法人民族">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="文化程度" prop="eduation">
-                <el-select style="width:100%" v-model="formData.eduation" placeholder="请输入法人文化程度" clearable>
-                  <el-option v-for="dict in dict.type.educational_level" :key="dict.value" :label="dict.label"
-                    :value="dict.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="申请前职业状况">
-                <el-input v-model="formData.occupationalStatus" disabled>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="政治面貌" prop="politicalStatus">
-                <el-select style="width:100%" v-model="formData.politicalStatus" placeholder="请输入法人政治面貌" clearable>
-                  <el-option v-for="dict in dict.type.political_status" :key="dict.value" :label="dict.label"
-                    :value="dict.label" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="21">
-              <el-form-item label="经营者居所" prop="residence">
-                <el-input v-model="formData.residence" clearable placeholder="请输入法人居住地址">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="联系电话" prop="contactPhone">
-                <el-input v-model="formData.contactPhone" clearable placeholder="请输入联系电话">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="电子邮箱" prop="mail">
-                <el-input v-model="formData.mail" clearable placeholder="请输入电子邮箱">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-           <el-row  type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9">
-          
-          <el-form-item  label="工商实名" prop="fileName6">
-            <el-upload
-              class="upload-demo"
-              action="http://36.133.2.179:8000/api/files/doUpload"
-              :on-success="handlesuccess2"
-              :on-preview="handlePreview2"
-              :on-remove="handleRemove2"
-              :before-remove="beforeRemove2"
-               multiple
-              :on-exceed="handleExceed2"
-              :file-list="fileName6"
-              list-type="picture"
-            >
-              <el-button size="small" type="primary">点击上传</el-button>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible2" append-to-body>
-              <img width="100%" :src="dialogImageUrl2" alt="" />
-            </el-dialog>
-          </el-form-item>
-        </el-col>
-        
-        <el-col :span="9">
-          
-           
-          <el-form-item label="税务实名" prop="fileName7">
-            <el-upload
-              class="upload-demo"
-              action="http://36.133.2.179:8000/api/files/doUpload"
-              :on-success="handlesuccess3"
-              :on-preview="handlePreview3"
-              :on-remove="handleRemove3"
-              :before-remove="beforeRemove3"
-               multiple
-              :on-exceed="handleExceed3"
-              :file-list="fileName7"
-              list-type="picture"
-            >
-              <el-button size="small" type="primary">点击上传</el-button>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible3" append-to-body>
-              <img width="100%" :src="dialogImageUrl3" alt="" />
-            </el-dialog>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-
-
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="身份证扫描件" prop="fileName5">
-                <el-upload class="upload-demo" action="http://36.133.2.179:8000/api/files/doUpload"
-                  :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                  :before-remove="beforeRemove1" multiple  :on-exceed="handleExceed1"
-                  :file-list="formData.fileName5" list-type="picture">
-                  <el-button size="small" type="primary">点击上传</el-button>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                  <img width="100%" :src="dialogImageUrl1" alt="" />
-                </el-dialog>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9"></el-col>
-          </el-row>
-
-         
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-input v-model="formData.poposedName5" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
 
         <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
+          <el-col :span="8"></el-col>
+          <el-col :span='8' class="flexs">
+            <el-button type="danger" @click="resetForm" class="btn">取消</el-button>
+            <el-button type="primary" @click="submitFormName" class="btn">下一步</el-button>
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+
+      </div>
+      <div v-show="actives == 1">
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
+          <el-col :span="8">
+            <div class="bankno">申请信息</div>
+
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="本人申请">
+              <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
+                <el-option v-for="(item, index) in oneselfApplys" :key="index" :label="item.label" :value="item.label"
+                  :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9"></el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="申请人姓名" prop="applyName">
+              <el-select style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
+                @change="selectApplyName">
+                <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.userId"
+                  :disabled="item.disabled"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="移动电话">
+              <el-input v-model="formData.applyPhone" :readonly="true">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9"></el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="证件类型">
+              <el-input v-model="formData.applyDocumentType" :readonly="true">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="证件号码">
+              <el-input v-model="formData.applyIdNum" :readonly="true">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
+          <el-col :span="7">
+            <div class="bankno">联络员</div>
+
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="姓名" prop="contactName">
+              <el-input v-model="formData.contactName" clearable placeholder="请输入法人姓名">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="移动电话" prop="contactPhone">
+              <el-input v-model="formData.contactPhone" clearable placeholder="请输入法人移动电话">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="证件类型">
+              <el-input v-model="formData.contactDocumentType" :readonly="true">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="证件号码" prop="contactIdNum">
+              <el-input v-model="formData.contactIdNum" clearable placeholder="请输入法人证件号码">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="8"></el-col>
+          <el-col :span='8' class="flexs">
+            <el-button type="danger" @click="resetInfo" class="btn">返回</el-button>
+            <el-button type="primary" @click="nextBasic" class="btn">下一步</el-button>
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+      </div>
+
+      <div v-show="actives == 2">
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
+          <el-col :span="8">
+            <div class="bankno">基本情况</div>
+
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="组成形式">
+              <el-input v-model="formData.organizationalForm" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="从业人数">
+              <el-input v-model="formData.numberEmployees" disabled>
+                <template slot="append">人</template>
+              </el-input>
+
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="出资额" prop="contributionAmount">
+
+              <el-input disabled type="number" v-model="formData.contributionAmount">
+                <template slot="append">万元</template>
+              </el-input>
+
+
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="城市">
+              <el-input v-model="formData.city" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="区（县）">
+              <el-input v-model="formData.county" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="电子商务经营者">
+              <el-select style="width:100%" v-model="formData.electronicCommerce" placeholder="请选择是否是电子商务经营者" disabled>
+                <el-option v-for="(item, index) in electronicCommerces" :key="index" :label="item.label"
+                  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item label="经营场所">
+              <el-input v-model="formData.selfAddress" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="联系电话">
+              <el-input v-model="formData.contactPhone" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="所属自贸区">
+              <el-input v-model="formData.freeTradeZone" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="所属自贸片区">
+              <el-input v-model="formData.freeTradeArea" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="产权">
+              <el-input v-model="formData.propertyRight" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item label="经营范围" prop="natureBusiness">
+              <el-input type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="银行账号类型" prop="accountType">
+              <el-select style="width:100%" v-model="formData.accountType" placeholder="请选择银行账号类型"
+                @change="selectAccountType">
+                <el-option v-for="(item, index) in accountTypes" :key="index" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="私账名称">
+              <el-input v-model="formData.legalPersonName" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row v-if="isPrivateBank" type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="对公开户银行">
+              <el-input disabled v-model="formData.publicDepositBank1" clearable>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="对公银行账号">
+              <el-input disabled v-model="formData.publicAccountNumber1" clearable>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+
+        <el-row v-else class="rowCss row-bg" type="flex" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="私账开户银行" prop="privateDepositBank">
+              <el-input placeholder="请输入法人私账开户银行" v-model="formData.privateDepositBank" clearable
+                :disabled="isPrivateBank">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="私账银行账号">
+              <el-input placeholder="请输入法人私账银行账号" v-model="formData.privateAccountNumber" clearable
+                :disabled="isPrivateBank">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="8"></el-col>
+          <el-col :span='8' class="flexs">
+            <el-button type="danger" @click="BackInfo" class="btn">返回</el-button>
+            <el-button type="primary" @click="nextBus" class="btn">下一步</el-button>
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+      </div>
+      <div v-show="actives == 3">
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
+          <el-col :span="11">
+            <div class="bankno">经营者（负责人）信息</div>
+
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="姓名">
+              <el-input v-model="formData.contactName" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="人员类型">
+              <el-input v-model="formData.personnelType" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="证件类型">
+              <el-input v-model="formData.contactDocumentType" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="证件号码">
+              <el-input v-model="formData.contactIdNum" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="性别" prop="gender">
+              <el-select style="width:100%" v-model="formData.gender" placeholder="请选择性别" clearable>
+                <el-option v-for="(item, index) in genders" :key="index" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="出生日期" prop="dateBirth">
+              <el-date-picker style="width:100%" v-model="formData.dateBirth" type="date" placeholder="选择出生日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="民族" prop="nation">
+              <el-input v-model="formData.nation" clearable placeholder="请输入法人民族">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="文化程度" prop="eduation">
+              <el-select style="width:100%" v-model="formData.eduation" placeholder="请输入法人文化程度" clearable>
+                <el-option v-for="dict in dict.type.educational_level" :key="dict.value" :label="dict.label"
+                  :value="dict.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="申请前职业状况">
+              <el-input v-model="formData.occupationalStatus" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="政治面貌" prop="politicalStatus">
+              <el-select style="width:100%" v-model="formData.politicalStatus" placeholder="请输入法人政治面貌" clearable>
+                <el-option v-for="dict in dict.type.political_status" :key="dict.value" :label="dict.label"
+                  :value="dict.label" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item label="经营者居所" prop="residence">
+              <el-input v-model="formData.residence" clearable placeholder="请输入法人居住地址">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="联系电话" prop="contactPhone">
+              <el-input v-model="formData.contactPhone" clearable placeholder="请输入法人联系电话">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="电子邮箱" prop="mail">
+              <el-input v-model="formData.mail" clearable placeholder="请输入电子邮箱">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="9">
+
+            <el-form-item label="工商实名" prop="fileName6">
+              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess2"
+                :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple
+                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible2" append-to-body>
+                <img width="100%" :src="dialogImageUrl2" alt="" />
+              </el-dialog>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="9">
+
+
+            <el-form-item label="税务实名" prop="fileName7">
+              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess3"
+                :on-preview="handlePreview3" :on-remove="handleRemove3" :before-remove="beforeRemove3" multiple
+                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible3" append-to-body>
+                <img width="100%" :src="dialogImageUrl3" alt="" />
+              </el-dialog>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="身份证扫描件" prop="fileName5">
+              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+                :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple
+                :on-exceed="handleExceed1" :file-list="formData.fileName5" list-type="picture">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible1" append-to-body>
+                <img width="100%" :src="dialogImageUrl1" alt="" />
+              </el-dialog>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9"></el-col>
+        </el-row>
+
+
+
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="8"></el-col>
+          <el-col :span='8' class="flexs">
             <el-button type="danger" @click="backs" class="btn">返回</el-button>
-             <el-button type="primary" @click="nextYe" class="btn">下一步
-              </el-button>
+            <el-button type="primary" @click="nextYe" class="btn">下一步
+            </el-button>
 
-        </el-col>
-        <el-col :span="8"></el-col>
-      </el-row>
-        </div>
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+      </div>
 
-        <div v-show="actives==4">
-           <el-row type="flex" class="row-bg  combottom" justify="space-around">
-            <el-col :span="8">
-              <div class="bankno">业务信息</div>
+      <div v-show="actives == 4">
+        <el-row type="flex" class="row-bg  combottom" justify="space-around">
+          <el-col :span="8">
+            <div class="bankno">业务信息</div>
 
-            </el-col>
-            <el-col :span="8">
-              <div></div>
-            </el-col>
-          </el-row> 
-          
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="渠道商" prop="placeName">
-                <el-select 
-                @change="placenew"
-                style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
-                  <el-option v-for="(item, index) in places" :key="index" :label="item.placeName"
-                    :value="item.placeName"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="客户经理">
-                <el-input v-model="formData.userName" disabled>
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="渠道商" prop="placeName">
+              <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商"
+                clearable filterable>
+                <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="客户经理">
+              <el-input v-model="formData.userName" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="行业类型" prop="industryType">
+              <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+                <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                  :value="item.value" style="display: none;" />
+                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                  default-expand-all />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="行业税率" :required="true">
+              <el-input v-model="formData.industryTax" disabled>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="单独结算">
+              <el-radio v-model="singleRadio" label="1" @change="singleOK">是</el-radio>
+              <el-radio v-model="singleRadio" label="2" @change="singleOK">否</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="普票服务费">
+              <div style="">
+
+                <el-radio :disabled="yecomfirm" v-model="basicRadio" label="1">按定额收取</el-radio>
+                <el-radio :disabled="yecomfirm" v-model="basicRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="basicRadio == 1" :disabled="yecomfirm" type="number"
+                  v-model="formData.ordinarySelfMoney" style="margin-right:10px" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
                 </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item label="行业类型" prop="industryType">
-                <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true"
-                  placeholder="请选择归属部门" />
-               </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="行业税率">
-                <el-input v-model="formData.industryTax" disabled>
+                <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.ordinarySelfFee"
+                  style="margin-right:10px" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
                 </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+              </div>
+            </el-form-item>
+          </el-col>
 
-           <el-row type="flex" class="row-bg" justify="space-around">
-               <el-col :span="9">
-                   <el-form-item label="单独结算">
-                      <el-radio v-model="singleRadio" label="1" @change="singleOK">是</el-radio>
-                      <el-radio v-model="singleRadio" label="2" @change="singleOK">否</el-radio>
-                   </el-form-item>
-               </el-col>
-               <el-col :span="9">
-                   
-               </el-col>
-           </el-row>
-              
-           <el-row type="flex" class="row-bg" justify="space-around">
-              <el-col :span="9">
-              <el-form-item  label="普票服务费">
-                <div style="display:flex;align-items: center;">
-                   
-                     <el-radio
-                     :disabled="yecomfirm"
-                     v-model="basicRadio"  label="1">按定额收取</el-radio>
-                     <el-radio
-                     :disabled="yecomfirm"
-                     v-model="basicRadio"  label="2" >按百分比收取</el-radio>
-                       <el-input
-                   v-if="basicRadio==1"
-                   :disabled="yecomfirm"
-                   type="number"
-                   v-model="formData.ordinarySelfMoney"
-                    style="margin-right:10px" 
-                     :step="0.01"  :min="0" :max="9999" >
-                      <template slot="append">元</template>
-                 </el-input>
-                  <el-input
-                  v-else
-                   :disabled="yecomfirm"
-                   type="number"
-                   v-model="formData.ordinarySelfFee"
-                    style="margin-right:10px" 
-                     :step="0.01"  :min="0" :max="100" >
-                      <template slot="append">%</template>
-                 </el-input>
-                  </div>
-              </el-form-item>
-              </el-col>
-              
-              <el-col :span="9">
-                 <el-form-item  label="专票服务费">
-                  <div style="display:flex;align-items: center;">
-                  <el-radio
-                     :disabled="yecomfirm"
-                     v-model="vipRadio"  label="1">按定额收取</el-radio>
-                     <el-radio
-                     :disabled="yecomfirm"
-                     v-model="vipRadio"  label="2" >按百分比收取</el-radio>
-                   <el-input
-                   v-if="vipRadio==1"
-                   :disabled="yecomfirm"
-                   type="number"
-                   v-model="formData.specialSelfMoney"
-                    style="margin-right:10px" 
-                     :step="0.01"  :min="0" >
-                      <template slot="append">元</template>
-                 </el-input>
-                  <el-input
-                  v-else
-                   :disabled="yecomfirm"
-                   type="number"
-                   v-model="formData.specialSelfFee"
-                    style="margin-right:10px" 
-                     :step="0.01"  :min="0" >
-                      <template slot="append">%</template>
-                 </el-input>
-                     
-                  </div>
-                 </el-form-item>
-              </el-col>
-          </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
-                  <el-col :span="9">
-                  <el-form-item label="服务费含税">
-                    <el-radio  :disabled="yecomfirm"  v-model="formData.isSelfTax" label='0'>是</el-radio>
-                    <el-radio  :disabled="yecomfirm"  v-model="formData.isSelfTax" label='1'>否</el-radio>
-                  </el-form-item>
-                  </el-col>
-                   <el-col :span="9">
-                      <el-form-item label="注册服务费">
-                      <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
-                       <template slot="append">元</template>
-                      </el-input>
-                   </el-form-item>
-                   </el-col>
+          <el-col :span="9">
+            <el-form-item label="专票服务费">
+              <div style="">
+                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
+                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="vipRadio == 1" :disabled="yecomfirm" type="number" v-model="formData.specialSelfMoney"
+                  style="margin-right:10px" :step="0.01" :min="0">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.specialSelfFee"
+                  style="margin-right:10px" :step="0.01" :min="0">
+                  <template slot="append">%</template>
+                </el-input>
 
-            </el-row>
-          
-           
-           <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="服务费含税">
+              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='0'>是</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='1'>否</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="注册服务费">
+              <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
+                <template slot="append">元</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+          <el-col :span="8"></el-col>
+          <el-col :span='8' class="flexs">
             <el-button type="danger" @click="backBus" class="btn">返回</el-button>
-             <el-button type="primary" @click="submitForm" class="btn" v-hasPermi="['company:employed:add']">提交
-              </el-button>
+            <el-button type="primary" @click="submitForm" class="btn" v-hasPermi="['company:employed:add']">提交
+            </el-button>
 
-        </el-col>
-        <el-col :span="8"></el-col>
-      </el-row>
-       
-       </div>
-            
-   
-
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+      </div>
     </el-form>
   </div>
 </template>
 <script>
+
+import crudReview from '@/api/company/review';
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudInfo from '@/api/company/info'
@@ -641,16 +777,20 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
-  components: { Treeselect },
   dicts: ['political_status', 'educational_level'],
   props: [],
   data() {
     return {
-      IsSpecialTax:'0',
-      actives:1,
+      expandOnClickNode: true,
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      isDisable: true,
+      IsSpecialTax: '0',
+      actives: 0,
       options: [{
         id: 'a',
         label: 'a',
@@ -723,14 +863,40 @@ export default {
       dialogVisible2: false,
       dialogImageUrl3: '',
       dialogVisible3: false,
-      userinfo:{ },
+      userinfo: {},
       formData: {
-        specialSelfFee:0,//专票个体户代办费(率)
-        specialSelfMoney:0,//专票个体户代办费(元）
-        ordinarySelfFee:0,//普票个体户代办费(率)
-        ordinarySelfMoney:0,//普票个体户代办费(元）
-        isSelfTax:'0',  //个体户服务费是否含税
-        registerMoney:'', //注册服务费
+
+
+        titleType: '区县名',
+        administrativeDivision: '漳平市',
+        industry: '',
+        organizationalForm: '',
+        administrativeRegion: '龙岩市漳平市',
+        registrationAuthority: '漳平市市场监督管理局',
+        random: true,
+        //字号
+        fontSize1: '',
+        fontSize2: '',
+        fontSize3: '',
+        fontSize4: '',
+        fontSize5: '',
+        //拟设名称
+        poposedName1: '',
+        poposedName2: '',
+        poposedName3: '',
+        poposedName4: '',
+        poposedName5: '',
+
+        userName: '',
+        //名称
+
+
+        specialSelfFee: 0,//专票个体户代办费(率)
+        specialSelfMoney: 0,//专票个体户代办费(元）
+        ordinarySelfFee: 0,//普票个体户代办费(率)
+        ordinarySelfMoney: 0,//普票个体户代办费(元）
+        isSelfTax: '0',  //个体户服务费是否含税
+        registerMoney: '', //注册服务费
         selfCode: '',
 
         //申请信息
@@ -786,23 +952,33 @@ export default {
 
 
       },
-       unlist:{
-        specialSelfFee:0,//专票个体户代办费(率)
-        specialSelfMoney:0,//专票个体户代办费(元）
-        ordinarySelfFee:0,//普票个体户代办费(率)
-        ordinarySelfMoney:0,//普票个体户代办费(元）
-        isSelfTax:'0',  //个体户服务费是否含税
-        registerMoney:'', //注册服务费
-        },
-        yecomfirm:true,
-        vipRadio:'1',
-        basicRadio:'1',
-        singleRadio:'2',
-        IsSpecialTax:'0',
-        fileName5: [],
-        fileName6: [],
-        fileName7: [],
+      unlist: {
+        specialSelfFee: 0,//专票个体户代办费(率)
+        specialSelfMoney: 0,//专票个体户代办费(元）
+        ordinarySelfFee: 0,//普票个体户代办费(率)
+        ordinarySelfMoney: 0,//普票个体户代办费(元）
+        isSelfTax: '0',  //个体户服务费是否含税
+        registerMoney: '', //注册服务费
+      },
+      yecomfirm: true,
+      vipRadio: '1',
+      basicRadio: '1',
+      singleRadio: '2',
+      IsSpecialTax: '0',
+      fileName5: [],
+      fileName6: [],
+      fileName7: [],
       rules: {
+        privateDepositBank: [{
+          required: true,
+          message: '请输入法人私账开户银行',
+          trigger: 'blur'
+        }],
+        privateAccountNumber: [{
+          required: true,
+          message: '请输入法人私账银行账号',
+          trigger: 'blur'
+        }],
         fileName7: [{
           required: true,
           message: '请上传税务实名',
@@ -836,12 +1012,12 @@ export default {
 
         contactName: [{
           required: true,
-          message: '请输入联系人',
+          message: '请输入法人姓名',
           trigger: 'blur'
         }],
         contactPhone: [{
           required: true,
-          message: '请输入手机号',
+          message: '请输入联系电话',
           trigger: 'blur'
         }, {
           pattern: /^1(3|4|5|7|8|9)\d{9}$/,
@@ -961,12 +1137,12 @@ export default {
         }],
         nation: [{
           required: true,
-          message: '请输入民族',
+          message: '请输入法人民族',
           trigger: 'blur'
         }],
         eduation: [{
           required: true,
-          message: '请选择文化程度',
+          message: '请选择法人文化程度',
           trigger: 'change'
         }],
         occupationalStatus: [{
@@ -976,12 +1152,12 @@ export default {
         }],
         politicalStatus: [{
           required: true,
-          message: '请选择政治面貌',
+          message: '请选择法人政治面貌',
           trigger: 'change'
         }],
         residence: [{
           required: true,
-          message: '请输入经营者居所',
+          message: '请输入法人居住地址',
           trigger: 'blur'
         }],
         mail: [{
@@ -993,7 +1169,71 @@ export default {
           message: '邮箱地址格式错误',
           trigger: 'blur'
         }],
+
+        industry: [{
+          required: true,
+          message: '请输入行业',
+          trigger: 'blur'
+        }],
+
+        organizationalForm: [{
+          required: true,
+          message: '请选择组织形式',
+          trigger: 'change'
+        }],
+
+        administrativeRegion: [{
+          required: true,
+          message: '请输入所在行政区划',
+          trigger: 'blur'
+        }],
+        registrationAuthority: [{
+          required: true,
+          message: '请输入登记机关',
+          trigger: 'blur'
+        }],
+
+        random: [{
+          required: false,
+          message: '请输入随机字号',
+          trigger: 'blur'
+        }],
+        fontSize1: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        fontSize2: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        fontSize3: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        fontSize4: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        fontSize5: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }]
+
+
+
       },
+
+      organizationalFormOptions: [
+        {
+          "label": "服务部",
+          "value": 1
+        },
+        {
+          "label": "经营部",
+          "value": 2
+        },
+        {
+          "label": "工作室",
+          "value": 3
+        },
+        {
+          "label": "商行",
+          "value": 4
+        },
+        {
+          "label": "商店",
+          "value": 5
+        },
+        {
+          "label": "店",
+          "value": 6
+        },
+      ],
       wordTypeOptions: [{
         "label": "选项一",
         "value": 1
@@ -1002,6 +1242,12 @@ export default {
   },
   computed: {},
   watch: {
+    formData: {
+      handler: function () {
+        this.getPoposedName();
+      },
+      deep: true
+    },
     'formData.industryType': 'selectIndustryType',
 
     'formData.contactName': {
@@ -1013,7 +1259,11 @@ export default {
   },
   created() { },
   mounted() {
-    console.log("options", this.options);
+
+
+    this.getSelfCode();
+    // this.getLoginInfo();
+    // console.log("options", this.options);
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -1022,55 +1272,85 @@ export default {
     //个体户行业类型税率
     this.getRate();
     //从上一个页面获取个体户编码
-    this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
+    //  this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
     //this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
-    console.log("selfCode==", this.formData.selfCode)
-   
+    //console.log("selfCode==", this.formData.selfCode)
+
   },
   methods: {
-    placenew(){
-      for(let i in this.places){
-        if(this.places[i].placeName==this.formData.placeName){
-          crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res=>{
-           console.log(res);
-           this.unlist=res;
+    handleNodeClick(node) {
+      this.formData.industryType = node.id;
+      this.$refs.selectTree.blur();
+    },
+    // 四级菜单
+    formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: items.label, value: items.id });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: itemss.label, value: itemss.id });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label: itemsss.label, value: itemsss.id });
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+      return options;
+    },
+    submitFormName() {
+      this.actives = 1;
+    },
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeName == this.formData.placeName) {
+          crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
+            console.log(res);
+            this.unlist = res;
           });
           return;
         }
       }
     },
-    
-    singleOK(e){
-      console.log(222,this.singleRadio);
-      if(this.singleRadio==1){
-        this.yecomfirm=false;
-        this.formData.specialSelfFee=0;
-        this.formData.specialSelfFee=0;
-        this.formData.specialSelfMoney=0;
-        this.formData.ordinarySelfMoney=0;
-        this.formData.isSelfTax='0';
-        this.formData.registerMoney='';
-      }else{
-        this.yecomfirm=true;
-        
+
+    singleOK(e) {
+
+      if (this.singleRadio == 1) {
+        this.yecomfirm = false;
+        this.formData.specialSelfFee = 0;
+        this.formData.specialSelfMoney = 0;
+        this.formData.ordinarySelfFee = 0;
+        this.formData.ordinarySelfMoney = 0;
+        this.formData.isSelfTax = '0';
+        this.formData.registerMoney = '';
+      } else {
+        this.yecomfirm = true;
+
         // specialSelfMoney:0,//专票个体户代办费(元）
         // ordinarySelfFee:0,//普票个体户代办费(率)
         // ordinarySelfMoney:0,//普票个体户代办费(元）
         // isSelfTax:'0',  //个体户服务费是否含税
         // registerMoney:'', //注册服务费
-        this.formData.specialSelfFee=this.unlist.specialSelfFee;
-        this.formData.specialSelfMoney=this.unlist.specialSelfMoney;
-        this.formData.ordinarySelfFee=this.unlist.ordinarySelfFee;
-        this.formData.ordinarySelfMoney=this.unlist.ordinarySelfMoney;
-        this.formData.isSelfTax=this.unlist.isSelfTax;
-        this.formData.registerMoney=this.unlist.registerMoney;
+        this.formData.specialSelfFee = this.unlist.specialSelfFee;
+        this.formData.specialSelfMoney = this.unlist.specialSelfMoney;
+        this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
+        this.formData.ordinarySelfMoney = this.unlist.ordinarySelfMoney;
+        this.formData.isSelfTax = this.unlist.isSelfTax;
+        this.formData.registerMoney = this.unlist.registerMoney;
       }
     },
-    backBus(){
-     this.actives=3;
+    backBus() {
+      this.actives = 3;
     },
-    nextYe(){
-      this.actives=4;
+    nextYe() {
+      this.actives = 4;
     },
     /** 转换部门数据结构 */
     normalizer(node) {
@@ -1086,13 +1366,13 @@ export default {
     getLoginInfo() {
       getInfo().then(res => {
         // this.$cache.local.setJSON("userinfo", res.user);  //个人登录缓存
-        this.userinfo=res.user;
+        this.userinfo = res.user;
         this.formData.userName = res.user.nickName;
         console.log("getInfo==", res);
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
           this.places = res.data;
-         })
+        })
       })
     },
     selectAccountType(value) {
@@ -1125,14 +1405,15 @@ export default {
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         console.log("tree", tree);
-        let a={
-         children: [],
-         id: "-1",
-         label: '请选择行业类型',
-        };
-        tree.push(a);
-        this.industryTypes = tree;
-        
+        let arr = [{
+          id: "-1",
+          label: '请选择行业类型',
+          children: tree
+
+        }];
+        //tree.push(a);
+        this.industryTypes = arr;
+
         //this.industryType.push(a);
         this.industryTypeList = res.rows;
       })
@@ -1161,18 +1442,18 @@ export default {
       crudInformation.getAllInformation().then(res => {
         console.log("getApplyName", res.rows);
         //this.applyNames = res.rows;
-        let arr=res.rows;
-        let brr=[];
-        for(let i in arr){
-          if(arr[i].deptId==20){
+        let arr = res.rows;
+        let brr = [];
+        for (let i in arr) {
+          if (arr[i].deptId == 20) {
             brr.push(arr[i]);
           }
         }
-        this.applyNames=brr;
-         console.log(111,this.applyNames);
-     
+        this.applyNames = brr;
+        console.log(111, this.applyNames);
+
       })
-        
+
     },
     handleClick(tab, event) {
       console.log(tab, event);
@@ -1181,52 +1462,58 @@ export default {
       this.actives = 2;
     },
     resetInfo() {
-      this.$refs['elForm'].resetFields()
+      this.actives = 0;
+      // this.$refs['elForm'].resetFields()
     },
 
     nextBus() {
       this.actives = 3;
     },
     BackInfo() {
-      this.actives= 1;
+      this.actives = 1;
     },
 
     submitForm() {
-       if(this.formData.industryType=='-1'){
-            this.$modal.msgError("请选择行业类型");
+      if (this.formData.industryType == '-1') {
+        this.$modal.msgError("请选择行业类型");
+        return;
+      }
+      if (!this.formData.industryTax) {
+        this.$modal.msgError("税率不能为空");
+        return;
+      }
+      if (!this.yecomfirm) {
+        if (this.basicRadio == '1') {
+          this.formData.specialSelfFee = 0;
+          if (this.formData.specialSelfMoney <= 0) {
+            this.$modal.msgError("请输入专票服务费并且大于0");
             return;
-       }
-       if(!this.yecomfirm){
-             if(this.basicRadio=='1'){
-          this.formData.specialSelfFee=0;
-        if(this.formData.specialSelfMoney<=0 ){
-              this.$modal.msgError("请输入专票服务费并且大于0");
-              return;
+          }
+        } else {
+          this.formData.specialSelfMoney = 0;
+          if (this.formData.specialSelfFee <= 0) {
+            this.$modal.msgError("请输入专票服务费并且大于0");
+            return;
+          }
         }
-       }else{
-         this.formData.specialSelfMoney=0;
-         if(this.formData.specialSelfFee<=0 ){
-              this.$modal.msgError("请输入专票服务费并且大于0");
-              return;
+        if (this.vipRadio == '1') {
+          this.formData.ordinarySelfFee = 0;
+          if (this.formData.ordinarySelfMoney <= 0) {
+            this.$modal.msgError("请输入普票服务费并且大于0");
+            return;
+          }
+        } else {
+          this.formData.ordinarySelfMoney = 0;
+          if (this.formData.ordinarySelfFee <= 0) {
+            this.$modal.msgError("请输入普票服务费并且大于0");
+            return;
+          }
         }
-       }
-        if(this.vipRadio=='1'){
-          this.formData.ordinarySelfFee=0;
-           if(this.formData.ordinarySelfMoney<=0 ){
-              this.$modal.msgError("请输入普票服务费并且大于0");
-              return;
-            }
-       }else{
-         this.formData.ordinarySelfMoney=0;
-          if(this.formData.ordinarySelfFee<=0){
-              this.$modal.msgError("请输入普票服务费并且大于0");
-              return;
-         }
-       }
-       }
+      }
       this.$refs['elForm'].validate(valid => {
         if (valid) {
 
+          this.submitFormNameS(); //名称录入成功l
           console.log("placeName", this.formData.placeName,);
           let parms1 = {
             selfCode: this.formData.selfCode,
@@ -1248,7 +1535,7 @@ export default {
             updateBy: this.formData.userName,
 
           };
-         
+
           let parms2 = {
             selfCode: this.formData.selfCode,
 
@@ -1281,14 +1568,14 @@ export default {
             // updateTime:new Date().toLocaleString(),
             createBy: this.formData.userName,
             updateBy: this.formData.userName,
-             
 
-           specialSelfFee: this.formData.specialSelfFee,
-           specialSelfMoney: this.formData.specialSelfMoney,
-           ordinarySelfFee: this.formData.ordinarySelfFee,
-           ordinarySelfMoney: this.formData.ordinarySelfMoney,
-           isSelfTax:this.formData.isSelfTax,
-           registerMoney:this.formData.registerMoney,
+
+            specialSelfFee: this.formData.specialSelfFee,
+            specialSelfMoney: this.formData.specialSelfMoney,
+            ordinarySelfFee: this.formData.ordinarySelfFee,
+            ordinarySelfMoney: this.formData.ordinarySelfMoney,
+            isSelfTax: this.formData.isSelfTax,
+            registerMoney: this.formData.registerMoney,
 
             businessStatus: 0,
             infoStatus: 0,
@@ -1362,19 +1649,19 @@ export default {
                   type: 'danger'
                 })
               }
-               let parms={
-                "checkReasult":  res.msg,
+              let parms = {
+                "checkReasult": res.msg,
                 "checkUser": this.userinfo.userName,
-                'phonenumber':this.userinfo.phonenumber,
-                "selfCode":  this.formData.selfCode,
+                'phonenumber': this.userinfo.phonenumber,
+                "selfCode": this.formData.selfCode,
                 "selfType": "1",
-               }
-              crudEmployed.check(parms).then(res=>{
-                   console.log('写入日志成功',res);
-              }).catch(err=>{
-                  
+              }
+              crudEmployed.check(parms).then(res => {
+                console.log('写入日志成功', res);
+              }).catch(err => {
+
               });
-               
+
 
 
             }
@@ -1429,8 +1716,8 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
 
-   //税务实名
-     handlesuccess3(file, fileList) {
+    //税务实名
+    handlesuccess3(file, fileList) {
       this.formData.fileName7.push(file.obj);
       console.log(this.formData.fileName7);
     },
@@ -1452,13 +1739,133 @@ export default {
 
 
 
+    // getLoginInfo() {
+    //   getInfo().then(res => {
+    //     this.formData.userName = res.user.nickName;
+    //   })
+    // },
+    getPoposedName() {
+      this.formData.poposedName1 = this.formData.administrativeDivision + this.formData.fontSize1 + this.formData.industry + this.formData.organizationalForm;
+      this.formData.poposedName2 = this.formData.administrativeDivision + this.formData.fontSize2 + this.formData.industry + this.formData.organizationalForm;
+      this.formData.poposedName3 = this.formData.administrativeDivision + this.formData.fontSize3 + this.formData.industry + this.formData.organizationalForm;
+      this.formData.poposedName4 = this.formData.administrativeDivision + this.formData.fontSize4 + this.formData.industry + this.formData.organizationalForm;
+      this.formData.poposedName5 = this.formData.administrativeDivision + this.formData.fontSize5 + this.formData.industry + this.formData.organizationalForm;
+
+    },
+    isRandom() {
+      if (!this.formData.random) {
+        this.isDisable = false
+      } else {
+        this.isDisable = true
+        this.formData.fontSize1 = "";
+        this.formData.fontSize2 = "";
+        this.formData.fontSize3 = "";
+        this.formData.fontSize4 = "";
+        this.formData.fontSize5 = "";
+
+      }
+    },
+    changeOrganizational(value) {
+      if (value == 1) {
+        this.formData.organizationalForm = "服务部";
+      }
+      if (value == 2) {
+        this.formData.organizationalForm = "经营部";
+      }
+      if (value == 3) {
+        this.formData.organizationalForm = "工作室";
+      }
+      if (value == 4) {
+        this.formData.organizationalForm = "商行";
+      }
+      if (value == 5) {
+        this.formData.organizationalForm = "商店";
+      }
+      if (value == 6) {
+        this.formData.organizationalForm = "店";
+      }
+    },
+    //获取编号
+    getSelfCode() {
+      //获取员工编号
+      getInfo().then(res => {
+        var userId = res.user.userId;
+        crudInformation.getInformation(userId).then(res => {
+          var employeeNumber = res.data.employeeNumber;
+          crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
+            this.formData.selfCode = res;
+            console.log("selfCode", res);
+          })
+        });
+      })
+    },
+    submitFormNameS() {
+      this.$refs['elForm'].validate(valid => {
+        // TODO 提交表单
+        if (valid) {
+          console.log("date", new Date().toLocaleString())
+          let parms = {
+            selfCode: this.formData.selfCode,
+            titleType: this.formData.titleType,
+            administrativeDivision: this.formData.administrativeDivision,
+            industry: this.formData.industry,
+            organizationalForm: this.formData.organizationalForm,
+            administrativeRegion: this.formData.administrativeRegion,
+            registrationAuthority: this.formData.registrationAuthority,
+            random: this.formData.random,
+            fontSize1: this.formData.fontSize1,
+            fontSize2: this.formData.fontSize2,
+            fontSize3: this.formData.fontSize3,
+            poposedName1: this.formData.poposedName1,
+            poposedName2: this.formData.poposedName2,
+            poposedName3: this.formData.poposedName3,
+            // createTime:new Date().toLocaleString(),
+            // updateTime:new Date().toLocaleString(),
+            createBy: this.formData.userName,
+            updateBy: this.formData.userName,
+            nameStatus: 0,
+          };
+          crudReview.addReview(parms).then(res => {
+            console.log("addReview", res)
+            if (res != undefined) {
+              if (res.id == 0) {
+                this.$message({
+                  message: res.message,
+                  type: 'success',
+                });
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: 'warning',
+                });
+              }
+              // this.$router.push("addEmployedInfo");
+              window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
+              window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
+            }
+
+          });
+
+        } else {
+          this.$message({
+            message: '请填写完整',
+            type: 'warning'
+          })
+        }
+      })
+    },
+    resetForm() {
+      this.$refs['elForm'].resetFields()
+    },
+
+
+
+
   }
 }
 
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
-
-
 // 改变input框字体颜色
 ::v-deep .is-disabled .el-input__inner {
   background-color: transparent !important;
@@ -1480,14 +1887,16 @@ export default {
 .comright {
   padding-right: 10%;
 }
+
 .bankno {
- 
+
   letter-spacing: 2px;
 
   font-size: 20px;
 
   color: blue;
 }
+
 .flexs {
   display: flex;
   justify-content: center;
