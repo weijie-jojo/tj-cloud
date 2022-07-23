@@ -168,23 +168,23 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-scratchpad</artifactId>
-            <version>3.17</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.poi</groupId>-->
+<!--            <artifactId>poi-scratchpad</artifactId>-->
+<!--            <version>3.17</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml-schemas</artifactId>
-            <version>3.17</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.poi</groupId>-->
+<!--            <artifactId>poi-ooxml-schemas</artifactId>-->
+<!--            <version>3.17</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.12.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>xerces</groupId>-->
+<!--            <artifactId>xercesImpl</artifactId>-->
+<!--            <version>2.12.2</version>-->
+<!--        </dependency>-->
 
         <!-- fastjson -->
         <dependency>
