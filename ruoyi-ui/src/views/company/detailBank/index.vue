@@ -161,15 +161,14 @@
                   </el-select> -->
           </el-form-item>
           <el-form-item  label="纳税委托协议" prop="fileName3">
-               <div v-for="(item, index) in fileName3" :key="index">
-                  <el-image
-                    lazy
-                    :preview-src-list="fileName3"
-                    style="width: 150px; height: 150px"
-                    :src="item"
-                    alt=""
-                  />
-                </div>
+               <div v-for="(item, index) in previewList3" :key="index">
+              <el-image lazy :preview-src-list="previewList3" style="width: 150px; height: 150px" :src="item" alt="" />
+            </div>
+            <div v-for="(x, y) in pdfList3" :key="y">
+              <span @click="pdfdetail(x)">
+                {{ x }}
+              </span>
+            </div>
           </el-form-item>
         </el-col>
         
@@ -189,15 +188,14 @@
             <br />
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-               <div v-for="(item, index) in fileName4" :key="index">
-                  <el-image
-                    lazy
-                    :preview-src-list="fileName4"
-                    style="width: 150px; height: 150px"
-                    :src="item"
-                    alt=""
-                  />
-                </div>
+               <div v-for="(item, index) in previewList4" :key="index">
+              <el-image lazy :preview-src-list="previewList4" style="width: 150px; height: 150px" :src="item" alt="" />
+            </div>
+            <div v-for="(x, y) in pdfList4" :key="y">
+              <span @click="pdfdetail(x)">
+                {{ x }}
+              </span>
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -205,22 +203,63 @@
          <el-col :span="8"></el-col>
          <el-col :span='8' class="flexs">
              <el-button type="danger" @click="resetForm">返回</el-button> 
-             <el-button type="primary" @click="onSubmit">提交</el-button>
+            
          </el-col>
          <el-col :span="8"></el-col>
        </el-row>
     </el-form>
+     <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import pdf from 'vue-pdf'
 import { all } from "@/api/company/payTaxInfo";
 import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
+   components: {
+    pdf
+  },
   data() {
     return {
-       baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
-      formBank: {
+      titles: '',
+      pdfList3:[],
+      pdfList4:[],  //pdf 预览
+      previewList3:[], //预览
+      previewList4:[], //预览
+      //pdf预览
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+
+
+       baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
+       formBank: {
         bankStatus: 1,
         selfId: "",
         accountName: "",
@@ -342,14 +381,34 @@ export default {
     // this.formBank.privateDepositBank = list.privateDepositBank;
     // this.formBank.privateAccountNumber = list.privateAccountNumber;
     // this.formBank.taxId = list.taxId;
-    this.formBank=list;
-     this.fileName3=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName3);
+     this.formBank=list;
+     this.pdfList3=[];  //pdf 预览
+     this.previewList3=[]; //预览
+     this.pdfList4=[];  //pdf 预览
+     this.previewList4=[]; //预览
+    
+    this.fileName3=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName3);
     for(let k1 in this.fileName3){
-      this.fileName3[k1]=this.baseImgPath+this.fileName3[k1];
+      if (this.fileName3[k1].substring(this.fileName3[k1].lastIndexOf('.') + 1) == 'pdf') {
+
+        this.pdfList3.push(this.fileName3[k1]);
+      } else {
+        this.fileName3[k1] = this.baseImgPath + this.fileName3[k1];
+        this.previewList3.push(this.fileName3[k1]);
+      }
+
+     //  this.fileName3[k1]=this.baseImgPath+this.fileName3[k1];
     } 
      this.fileName4=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName4);
     for(let k2 in this.fileName4){
-      this.fileName4[k2]=this.baseImgPath+this.fileName4[k2];
+     // this.fileName4[k2]=this.baseImgPath+this.fileName4[k2];
+      if (this.fileName4[k2].substring(this.fileName4[k2].lastIndexOf('.') + 1) == 'pdf') {
+
+        this.pdfList4.push(this.fileName4[k2]);
+      } else {
+        this.fileName4[k2] = this.baseImgPath + this.fileName4[k2];
+        this.previewList4.push(this.fileName4[k2]);
+      }
     } 
     this.accountType = list.accountType;
     this.nailist();
@@ -360,6 +419,42 @@ export default {
   },
 
   methods: {
+   pdfdetail(i) {
+      this.titles = '正在预览' + i;
+      this.viewVisible = true;
+      this.url = this.baseImgPath + i;
+    },
+    // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+
+
+
     changeValue(res) {
       for (let i in this.mylist) {
         if (this.mylist[i].accountName == res) {
@@ -395,7 +490,7 @@ export default {
       console.log(val);
     },
     resetForm() {
-      this.$router.back();
+       this.$tab.closeOpenPage({ path: "/company/customer/manageBank"});
     },
     onSubmit() {
       this.$refs["formBank"].validate((valid) => {

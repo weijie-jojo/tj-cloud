@@ -267,7 +267,7 @@
         isShowImg:false,
         isShowImg2:false,
 
-        baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
+        baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
 
         imgpath:'',
         borrowImage:'',

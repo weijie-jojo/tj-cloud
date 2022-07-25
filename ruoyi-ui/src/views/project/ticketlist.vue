@@ -136,7 +136,7 @@ import { list, del ,TicketByCode } from "@/api/project/ticket";
 export default {
     data() {
         return {
-            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
             fileNameradio:'1',
             fileName2:[],
             issuedAmount: 0.00,//已开金额

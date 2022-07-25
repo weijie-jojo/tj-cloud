@@ -142,6 +142,10 @@ export default {
       this.getList();
       },
     detail(row){
+        let obj={
+         backUrl:'/company/customer/manageName',
+        };
+         this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employedName', row);
          this.$tab.openPage("名称信息","/company/customer/nameDetail");
     },
