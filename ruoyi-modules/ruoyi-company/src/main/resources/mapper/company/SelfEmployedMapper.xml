@@ -106,7 +106,7 @@
             <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
             <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
             <if test="realnameStatus != null  "> and t.realname_status =#{realnameStatus}</if>
-
+            <if test="selfCode != null  "> and t.self_code =#{selfCode}</if>
             <if test="start != null and start != ''"><!-- 开始时间检索 -->
                 AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') >= date_format(#{start},'%Y-%m-%d %H:%i:%s')
             </if>

@@ -3,7 +3,10 @@ package com.ruoyi.company.controller;
 
 import com.ruoyi.company.config.ConfigProps;
 import com.ruoyi.company.domain.SelfEmployed;
+import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.service.ISelfEmployedService;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -37,12 +40,14 @@ public class WordExportController {
     @GetMapping("/showTxt")
     @ApiOperation("查看文件")
     public void showTxt(String imgPath, HttpServletResponse response) throws IOException {
+        System.out.println("111");
         // 设置编码
 //        response.setCharacterEncoding("UTF-8");
 //        response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 //        response.addHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(imgPath, "UTF-8"));
 //        String path = configProps.getName() + imgPath;
         String path ="/data/img/" + imgPath;
+        System.out.println("path=="+path);
         File file=new File(path);
         System.out.println("绝对路径=="+file.getAbsolutePath());
         try {
@@ -101,7 +106,11 @@ public class WordExportController {
         String nowDate = sdf.format(date);
         String guid= UUID.randomUUID().toString();
         String fileName=nowDate+guid+selfCode+"createTable.docx";
-
+        //根据selfCode获取工商信息
+        SelfEmployedVo selfEmployedVo=new SelfEmployedVo();
+        selfEmployedVo.setSelfCode(selfCode);
+        List<SelfEmployedVo> selfEmployedVos= selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
+        System.out.println("selfEmployedVos=="+selfEmployedVos);
         //Blank Document
         XWPFDocument docxDocument = new XWPFDocument();
         File file=new File(configProps.getName()+fileName);
@@ -166,7 +175,7 @@ public class WordExportController {
         //写到本地
         docxDocument.write(out);
         out.close();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
 //        //word转成pdf
 //        FileInputStream fileInputStream = null;
@@ -175,10 +184,10 @@ public class WordExportController {
 //            // 读取docx文件
 //            fileInputStream = new FileInputStream(file.getAbsolutePath());
 //            XWPFDocument doc = new XWPFDocument(fileInputStream);
-////            doc.createStyles();
+//            doc.createStyles();
 //            PdfOptions pdfOptions = PdfOptions.create();
 //            // 输出路径
-//            fileOutputStream= new FileOutputStream(new File(configProps+nowDate+guid+"转换结果.pdf"));
+//            fileOutputStream= new FileOutputStream(new File(configProps.getName()+nowDate+guid+"转换结果.pdf"));
 //            // 调用转换
 //            PdfConverter.getInstance().convert(doc, fileOutputStream, pdfOptions);
 //        }catch (IOException ex){

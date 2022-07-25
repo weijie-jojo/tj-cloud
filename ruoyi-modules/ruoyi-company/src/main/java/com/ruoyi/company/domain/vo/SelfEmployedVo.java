@@ -25,9 +25,13 @@ public class SelfEmployedVo extends SelfEmployed {
     private String fontSize1;
     private String fontSize2;
     private String fontSize3;
+    private String fontSize4;
+    private String fontSize5;
     private String poposedName1;
     private String poposedName2;
     private String poposedName3;
+    private String poposedName4;
+    private String poposedName5;
     //self_application_info
     private Integer id;
     private String oneselfApply;
