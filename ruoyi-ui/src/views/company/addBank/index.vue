@@ -122,7 +122,7 @@
 
           </el-form-item>
           <el-form-item label="纳税委托协议" prop="fileName3">
-            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+            <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
               :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
               :on-exceed="handleExceed1" :file-list="fileName3" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
@@ -142,7 +142,7 @@
             <br />
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess2"
+            <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess2"
               :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple :limit="9"
               :on-exceed="handleExceed2" :file-list="fileName4" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
@@ -195,7 +195,7 @@ export default {
   },
   data() {
     return {
-      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       //pdf预览
       titles: '',
       url: '',

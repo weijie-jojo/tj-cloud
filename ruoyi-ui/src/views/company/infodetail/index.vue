@@ -495,7 +495,7 @@ export default {
 
 
 
-      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       fileName5: [],
       fileName6: [],
       fileName7: [],

@@ -103,7 +103,7 @@ export default {
         taxId: "",
         fileName2: [],
       },
-        baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
+        baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
 
       fileName2: [],
       dialogVisible: false,

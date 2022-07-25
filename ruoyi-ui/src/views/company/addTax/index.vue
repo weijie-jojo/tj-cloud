@@ -10,7 +10,7 @@
             <el-input v-model="formtax.legalPersonName" disabled></el-input>
           </el-form-item>
           <el-form-item label="核定通知书" prop="fileName2">
-            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess"
+            <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess"
               :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="9"
               :on-exceed="handleExceed" :file-list="fileName2" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       //pdf预览
       titles: '',
       url: '',

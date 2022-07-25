@@ -147,7 +147,7 @@ export default {
       dialogVisible: false,
       previewPath: "",
       dialogImageUrl: "",
-      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       rules: {
         selfName: [
           { required: true, message: "请输入个体户名称", trigger: "blur" },

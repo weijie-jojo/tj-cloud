@@ -8,7 +8,7 @@
         :expand-on-click-node="expandOnClickNode" default-expand-all />
     </el-select>
 
-    <el-upload class="upload-demo myupload" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+    <el-upload class="upload-demo myupload" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
       :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
       :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
       <el-button size="small" type="primary">上传图片</el-button>
@@ -42,7 +42,7 @@ import crudRate from '@/api/company/rate'
 import pdf from 'vue-pdf'
 // http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf
 // /pdf/%E9%AA%8C%E6%94%B6%E6%8A%A5%E5%91%8A-20220321094519301.pdf
-var loadingTask = pdf.createLoadingTask('/ontherRequest/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf', { withCredentials: false });
+var loadingTask = pdf.createLoadingTask('/eladmin/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf', { withCredentials: false });
 
 export default {
   name: 'test',
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
 
-      url: "/ontherRequest/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf",
+      url: "/eladmin/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf",
       pageNum: 1,
       pageTotalNum: 1,
       pageRotate: 0,
@@ -234,7 +234,7 @@ export default {
       console.log(file);
       if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
            this.url='';
-           this.url='/ontherRequest/api/files/showTxt?imgPath='+file.url;
+           this.url='/eladmin/api/files/showTxt?imgPath='+file.url;
       }else{
          this.dialogImageUrl1 =file.url;
          this.dialogVisible1 = true;

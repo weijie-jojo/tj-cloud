@@ -267,7 +267,7 @@
         isShowImg:false,
         isShowImg2:false,
 
-        baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
+        baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
 
         imgpath:'',
         borrowImage:'',
