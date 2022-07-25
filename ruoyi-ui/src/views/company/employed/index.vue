@@ -661,6 +661,10 @@ export default {
     },
     //名称详情
     nameDetail() {
+        let obj={
+         backUrl:'/company/customer/employed',
+        };
+      this.$cache.local.setJSON('backurls', obj);
       this.nameVisible = false;
       this.$router.push("namedetail");
     },
@@ -674,6 +678,10 @@ export default {
     //信息详情
     infoDetail() {
       this.infoVisible = false;
+        let obj={
+         backUrl:'/company/customer/employed',
+        };
+      this.$cache.local.setJSON('backurls', obj);
       this.$router.push("infodetail");
     },
 

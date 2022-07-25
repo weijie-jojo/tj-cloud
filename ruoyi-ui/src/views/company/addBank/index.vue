@@ -158,7 +158,7 @@
           <el-form-item  label="纳税委托协议" prop="fileName3">
             <el-upload
               class="upload-demo"
-              action="//ontherRequest/api/files/doUpload"
+              action="/ontherRequest/api/files/doUpload"
               :on-success="handlesuccess1"
               :on-preview="handlePreview1"
               :on-remove="handleRemove1"
@@ -192,7 +192,7 @@
           <el-form-item label="三方协议签约凭证" prop="fileName4">
             <el-upload
               class="upload-demo"
-              action="//ontherRequest/api/files/doUpload"
+              action="/ontherRequest/api/files/doUpload"
               :on-success="handlesuccess2"
               :on-preview="handlePreview2"
               :on-remove="handleRemove2"

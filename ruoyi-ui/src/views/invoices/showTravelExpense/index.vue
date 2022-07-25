@@ -587,7 +587,7 @@
         imgArr:[],
         imgArr2:[],
         srcList2:[],
-        baseImgPath:"/ontherRequest/api/files/showImg?imgPath=",
+        baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
         imgpath:'',
         expenseImage:'',
         imageVisible:false,

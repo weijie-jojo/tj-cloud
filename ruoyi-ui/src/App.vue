@@ -59,7 +59,9 @@ export default  {
 .main-select-el-tree .el-tree-node .is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
 .main-select-el-tree .el-tree-node.is-current > .el-tree-node__content{font-weight: bold; color: #409eff;}
 
-
+::v-deep .el-dialog:not(.is-fullscreen) {
+  margin-top: 1vh !important;
+}
 
 
 </style>

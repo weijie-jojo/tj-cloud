@@ -412,7 +412,7 @@
           <el-col :span="9">
 
             <el-form-item label="工商实名" prop="fileName6">
-              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess2"
+              <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess2"
                 :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple
                 :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture">
                 <el-button size="small" type="primary">点击上传</el-button>
@@ -427,7 +427,7 @@
 
 
             <el-form-item label="税务实名" prop="fileName7">
-              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess3"
+              <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess3"
                 :on-preview="handlePreview3" :on-remove="handleRemove3" :before-remove="beforeRemove3" multiple
                 :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture">
                 <el-button size="small" type="primary">点击上传</el-button>
@@ -444,7 +444,7 @@
           <el-col :span="9">
             <el-form-item label="身份证扫描件">
               <!-- <el-button type="primary" @click="toEditImg">点击上传</el-button> -->
-              <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+              <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
                 :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple
                 :on-exceed="handleExceed1" :file-list="fileName5" list-type="picture">
                 <el-button size="small" type="primary">点击上传</el-button>
@@ -699,7 +699,7 @@ export default {
       dialogVisible2: false,
       dialogImageUrl3: '',
       dialogVisible3: false,
-      baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
       formData: {
         specialSelfFee: 0,//专票个体户代办费(率)
         specialSelfMoney: 0,//专票个体户代办费(元）

@@ -241,7 +241,7 @@ export default {
                 purchCompany: "",
                 remark: "",
              },
-            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
             options: [
                 {
                     value: 0,

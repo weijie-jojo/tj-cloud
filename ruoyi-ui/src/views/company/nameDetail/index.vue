@@ -182,13 +182,16 @@
         </el-col>
 
       </el-row>
+        <el-row type="flex" class="row-bg " justify="space-around">
+         <el-col :span="8"></el-col>
+         <el-col :span='8' class="flexs">
+             <el-button type="danger" @click="resetForm">返回</el-button> 
+            
+         </el-col>
+         <el-col :span="8"></el-col>
+       </el-row>
 
-
-
-
-       
-
-    </el-form>
+     </el-form>
   </div>
 </template>
 <script>
@@ -284,7 +287,9 @@ export default {
     }
  },
   methods: {
-   
+      resetForm(){
+      this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backurls').backUrl});
+    },
   },
 };
 </script>

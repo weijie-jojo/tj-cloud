@@ -478,7 +478,7 @@ export default {
   props: [],
   data() {
     return {
-      baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
       fileName5: [],
       remark: null,
       isokradio: '1',
