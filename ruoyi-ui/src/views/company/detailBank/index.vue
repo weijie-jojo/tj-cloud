@@ -258,7 +258,7 @@ export default {
 
 
 
-       baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
+       baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
        formBank: {
         bankStatus: 1,
         selfId: "",

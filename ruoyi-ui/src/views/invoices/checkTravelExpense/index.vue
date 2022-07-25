@@ -518,7 +518,7 @@
              <!-- 上传付款凭证影像 -->
             <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
                 <el-upload
-                    action="/ontherRequest/api/files/doUpload"
+                    action="/eladmin/api/files/doUpload"
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"
@@ -566,7 +566,7 @@
       return {
         srcList:[],
         imgArr:[],
-        baseImgPath:"/ontherRequest/api/files/showTxt?imgPath=",
+        baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
         //查看
         expenseImage:'',
         imageVisible:false,

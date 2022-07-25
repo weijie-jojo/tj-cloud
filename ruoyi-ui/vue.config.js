@@ -50,13 +50,13 @@ module.exports = {
             '^/pdf': ''  
         } 
       },
-      '/ontherRequest': {
-        target: 'http://36.133.2.179:8000',
-        changOrigin: true,  
-        pathRewrite: {
-         '^/ontherRequest': ''  
-        } 
-      },
+      // '/eladmin': {
+      //   target: 'http://36.133.2.179:8000',
+      //   changOrigin: true,  
+      //   pathRewrite: {
+      //    '^/eladmin': ''  
+      //   } 
+      // },
       
 
 
