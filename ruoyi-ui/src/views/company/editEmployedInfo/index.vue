@@ -602,9 +602,29 @@
 
       </div>
     </el-form>
+      <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
+import pdf from 'vue-pdf'
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudInfo from '@/api/company/info'
@@ -613,11 +633,34 @@ import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
 export default {
-
+   components: {
+    pdf
+  },
   dicts: ['political_status', 'educational_level'],
   props: [],
   data() {
     return {
+
+     baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      //pdf预览
+      titles: '',
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+
+
+
+
+
+
+
       yecomfirm: true,
       unlist: {
         specialSelfFee: 0,//专票个体户代办费(率)
@@ -1075,7 +1118,34 @@ export default {
     // }
   },
   methods: {
-
+    // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
     singleOK(e) {
       console.log(222, this.singleRadio);
       if (this.singleRadio == 1) {
@@ -1301,6 +1371,8 @@ export default {
             placeName: this.formData.placeName,
             username: this.formData.userName,
             fileName5: JSON.stringify(this.formData.fileName5),
+            fileName6: JSON.stringify(this.formData.fileName6),
+            fileName7: JSON.stringify(this.formData.fileName7),
             publicDepositBank1: this.formData.publicDepositBank1,
             publicAccountNumber1: this.formData.publicAccountNumber1,
             // createTime:new Date().toLocaleString(),
@@ -1412,8 +1484,27 @@ export default {
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview1(file) {
-      this.dialogImageUrl1 = file.url;
-      this.dialogVisible1 = true;
+      console.log(file);
+      if(file.hasOwnProperty('response')){
+        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.response.obj;
+            this.viewVisible = true;
+             this.url = this.baseImgPath+file.response.obj;
+        }else{
+           this.dialogImageUrl1 = file.url;
+           this.dialogVisible1 = true;
+        }
+      }else{
+          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.url;
+            this.viewVisible = true;
+             this.url = file.url;
+        }else{
+           this.dialogImageUrl1 = file.url;
+           this.dialogVisible1 = true;
+        }
+      }
+      
     },
     handleExceed1(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -1431,8 +1522,30 @@ export default {
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview2(file) {
-      this.dialogImageUrl1 = file.url;
-      this.dialogVisible1 = true;
+      // this.dialogImageUrl1 = file.url;
+      // this.dialogVisible1 = true;
+       if(file.hasOwnProperty('response')){
+        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.response.obj;
+            this.viewVisible = true;
+             this.url = this.baseImgPath+file.response.obj;
+        }else{
+           this.dialogImageUrl2 = file.url;
+           this.dialogVisible2= true;
+        }
+      }else{
+          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.url;
+            this.viewVisible = true;
+             this.url = file.url;
+        }else{
+           this.dialogImageUrl2 = file.url;
+           this.dialogVisible2 = true;
+        }
+      }
+
+
+
     },
     handleExceed2(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -1450,8 +1563,25 @@ export default {
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview3(file) {
-      this.dialogImageUrl1 = file.url;
-      this.dialogVisible1 = true;
+       if(file.hasOwnProperty('response')){
+        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.response.obj;
+            this.viewVisible = true;
+             this.url = this.baseImgPath+file.response.obj;
+        }else{
+           this.dialogImageUrl3 = file.url;
+           this.dialogVisible3= true;
+        }
+      }else{
+          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
+            this.titles = '正在预览' + file.url;
+            this.viewVisible = true;
+             this.url = file.url;
+        }else{
+           this.dialogImageUrl3 = file.url;
+           this.dialogVisible3 = true;
+        }
+      }
     },
     handleExceed3(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);

@@ -1,11 +1,6 @@
 <template>
   <div class="paddingbg-s">
-    <el-form
-      ref="formbusiness"
-      :model="formbusiness"
-      :rules="rules"
-      label-width="auto"
-    >
+    <el-form ref="formbusiness" :model="formbusiness" :rules="rules" label-width="auto">
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
@@ -13,25 +8,12 @@
           </el-form-item>
 
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input
-              v-model="formbusiness.legalPersonName"
-              disabled
-            ></el-input>
+            <el-input v-model="formbusiness.legalPersonName" disabled></el-input>
           </el-form-item>
           <el-form-item label="营业执照" prop="fileName1">
-            <el-upload
-              class="upload-demo"
-              action="/ontherRequest/api/files/doUpload"
-              :on-success="handlesuccess"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="9"
-              :on-exceed="handleExceed"
-              :file-list="fileName1"
-              list-type="picture"
-            >
+            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess"
+              :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="9"
+              :on-exceed="handleExceed" :file-list="fileName1" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible" append-to-body>
@@ -55,11 +37,7 @@
               :picker-options="pickerOptions"
             >
             </el-date-picker> -->
-            <el-date-picker
-              style="width:100%"
-              v-model="formbusiness.businessTerm"
-              type="date"
-              placeholder="选择日期">
+            <el-date-picker style="width:100%" v-model="formbusiness.businessTerm" type="date" placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -73,15 +51,53 @@
         <el-col :span="8"></el-col>
       </el-row>
     </el-form>
+    <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import pdf from 'vue-pdf'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed , check } from "@/api/company/employed";
+import { addEmployed, updateEmployed, check } from "@/api/company/employed";
 export default {
+  components: {
+    pdf
+  },
   data() {
     return {
+      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      //pdf预览
+      titles: '',
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+
+
       pickerOptions: {
         shortcuts: [
           {
@@ -113,7 +129,7 @@ export default {
           },
         ],
       },
-       userinfo:{},
+      userinfo: {},
       formbusiness: {
         businessStatus: "1",
         selfId: "",
@@ -155,7 +171,7 @@ export default {
     this.formbusiness.selfId = list.selfId;
     this.formbusiness.legalPersonName = list.legalPersonName;
   },
-  mounted(){
+  mounted() {
     this.getInfo();
   },
   beforeRouteLeave(to, from, next) {
@@ -163,23 +179,56 @@ export default {
     next(0);
   },
 
+
   methods: {
+
+
+    // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+
+
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
+      this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness" });
     },
     //获取个人信息
-     getInfo(){
-        getInfo().then(res=>{
-          this.userinfo=res.user;
-        })
+    getInfo() {
+      getInfo().then(res => {
+        this.userinfo = res.user;
+      })
     },
     //新增工商办理进度
     check(resmsg) {
       let parms = {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
-        'phonenumber':this.userinfo.phonenumber,
+        'phonenumber': this.userinfo.phonenumber,
         "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
         "selfType": "5",
       }
@@ -219,24 +268,24 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageBusiness"}).then(() => {
-                     let  resmsg='办理工商完成';
+                    this.$tab.refreshPage({ path: "/company/customer/manageBusiness" }).then(() => {
+                      let resmsg = '办理工商完成';
                       this.check(resmsg);
-                     let obj={
-                        title:'工商办理',
-                        backUrl:'/company/customer/manageBusiness',
-                        resmsg:resmsg
-                        };
+                      let obj = {
+                        title: '工商办理',
+                        backUrl: '/company/customer/manageBusiness',
+                        resmsg: resmsg
+                      };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                     });
-                   });
+                  });
 
 
-                  
+
                 } else {
                   this.$modal.msgError(error);
-                   this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness"});
+                  this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness" });
                 }
               }
             })
@@ -259,13 +308,19 @@ export default {
       this.formbusiness.fileName1.splice(i, 1);
     },
     handlePreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+      if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+        this.titles = '正在预览' + file.response.obj;
+        this.viewVisible = true;
+        this.url = this.baseImgPath + file.response.obj;
+      } else {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
+
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
       );
     },
@@ -280,11 +335,13 @@ export default {
 .paddingbg-s {
   padding-top: 15px;
 }
+
 .footers {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .flexs {
   display: flex;
   justify-content: center;

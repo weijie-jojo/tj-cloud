@@ -27,8 +27,9 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+    
     <el-row :gutter="10" class="mb8">
+   
     <el-col :span="15">
     <el-tabs v-model="endStatus" @tab-click="handleClick">
      <el-tab-pane label="全部" name="-1"></el-tab-pane>
@@ -47,16 +48,18 @@
         <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
           v-hasPermi="['company:employed:edit']">修改</el-button>
       </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
+     
       <!-- <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['company:employed:export']">导出</el-button>
       </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+  
+       
+   <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
+    
+     
    
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
@@ -338,6 +341,7 @@ export default {
                     }
                 }]
        },
+      multipleSelection:[],
       exmList: [],//等待数据
       errsinfoList: [],//信息数据异常
       errsnameList: [],//名称数据异常
@@ -811,6 +815,9 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
+      this.multipleSelection = selection;
+
+
       this.ids = selection.map(item => item.selfId)
       this.single = selection.length !== 1
       this.multiple = !selection.length
@@ -852,15 +859,70 @@ export default {
         }
       });
     },
+   
     /** 删除按钮操作 */
-    handleDelete(row) {
-      const selfIds = row.selfId || this.ids;
-      this.$modal.confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？').then(function () {
-        return delEmployed(selfIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => { });
+    handleDelete() {
+
+      this.$confirm('是否确认删除seifId为'+this.ids+'个体户注册信息吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+       delEmployed(this.ids).then(res=>{
+        
+          
+            if (res.code == 200) {
+              this.$modal.msgSuccess("删除成功");
+            } else {
+              this.$modal.msgError("删除失败");
+            }
+            this.$tab.refreshPage();
+            // this.getList();
+            // this.$modal.msgSuccess("删除成功");
+          
+       })
+        
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+
+
+    //  this.$modal.confirm('是否确认删除seifId为'+this.ids+'个体户注册信息吗？','提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(function () {
+    //       console.log(22222222);
+    //     let params = {
+    //     selfIds: this.ids.join(',')//转换成字符串
+    //    };
+    //    delEmployed(params).then(res=>{
+        
+    //       if (res != undefined) {
+    //         if (res.id == 0) {
+    //           this.$message({
+    //             message: res.message,
+    //             type: 'success',
+    //           });
+    //         } else {
+    //           this.$message({
+    //             message: res.message,
+    //             type: 'warning',
+    //           });
+    //         }
+    //         this.$tab.refreshPage();
+    //           // this.getList();
+    //          this.$modal.msgSuccess("删除成功");
+    //       }
+    //    })
+    //   }).catch(() => {
+    //        console.log(22222222);
+
+    //    });
     },
     /** 导出按钮操作 */
     handleExport() {

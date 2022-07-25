@@ -1,174 +1,130 @@
 <template>
   <div class="paddingbg-s">
-    <el-form
-      ref="formBank"
-      :model="formBank"
-      :rules="rules"
-      label-width="auto"
-    >
-      <el-row  type="flex" class="row-bg " justify="space-around">
+    <el-form ref="formBank" :model="formBank" :rules="rules" label-width="auto">
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input  v-model="formBank.selfName" disabled></el-input>
+            <el-input v-model="formBank.selfName" disabled></el-input>
           </el-form-item>
 
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input  v-model="formBank.legalPersonName" disabled></el-input>
+            <el-input v-model="formBank.legalPersonName" disabled></el-input>
           </el-form-item>
         </el-col>
-       
+
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formBank.taxId" disabled></el-input>
+            <el-input v-model="formBank.taxId" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
+      <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
         <el-col :span="7">
-           <div class="bankno">银行账号</div>
-        
+          <div class="bankno">银行账号</div>
+
         </el-col>
-        <el-col :span="7" >
+        <el-col :span="7">
           <div></div>
         </el-col>
       </el-row>
-     
+
       <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
-            <el-col :span="9">
-              <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                 value="私人账号"
-                  disabled
-                ></el-input>
-              </el-form-item>
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号类型" prop="">
+              <el-input value="私人账号" disabled></el-input>
+            </el-form-item>
 
-              <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
-                <el-input
-                  v-model="formBank.privateDepositBank"
-                  disabled
-                ></el-input>
-              </el-form-item>
-            </el-col>
+            <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
+              <el-input v-model="formBank.privateDepositBank" disabled></el-input>
+            </el-form-item>
+          </el-col>
 
-            <el-col :span="9">
-              <el-form-item class="comright" label="账号名称" prop="legalPersonName">
-                <el-input
-                 v-model="formBank.legalPersonName"
-                  disabled
-                ></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
-                <el-input
-                  v-model="formBank.privateAccountNumber"
-                  disabled
-                ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-         <el-row v-if="accountType==2">
-            <el-col :span="9">
-               <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                  value="对公基本户"
-                  disabled
-                ></el-input>
-              </el-form-item>
-          
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号名称" prop="legalPersonName">
+              <el-input v-model="formBank.legalPersonName" disabled></el-input>
+            </el-form-item>
+            <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
+              <el-input v-model="formBank.privateAccountNumber" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="accountType == 2">
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号类型" prop="">
+              <el-input value="对公基本户" disabled></el-input>
+            </el-form-item>
 
-              <el-form-item class="comright" label="开户银行">
-                <el-input   v-model="formBank.publicDepositBank1"></el-input>
-              </el-form-item>
-            </el-col>
 
-            <el-col :span="9">
-                   <el-form-item class="comright" label="账号名称">
-                <el-input     v-model="formBank.selfName" disabled></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号">
-                <el-input     v-model="formBank.publicAccountNumber1"></el-input>
-              </el-form-item>
-            </el-col>
-            
-          </el-row>
-         <el-row v-if="accountType==2">
-            <el-col :span="9">
-                <el-form-item class="comright" label="账号类型" prop="">
-                <el-input
-                 
-                  value="对公一般户"
-                  disabled
-                ></el-input>
-              </el-form-item>
-              
+            <el-form-item class="comright" label="开户银行">
+              <el-input v-model="formBank.publicDepositBank1"></el-input>
+            </el-form-item>
+          </el-col>
 
-              <el-form-item class="comright" label="开户银行">
-                <el-input  v-model="formBank.publicDepositBank2"></el-input>
-              </el-form-item>
-            </el-col>
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号名称">
+              <el-input v-model="formBank.selfName" disabled></el-input>
+            </el-form-item>
+            <el-form-item class="comright" label="银行账号">
+              <el-input v-model="formBank.publicAccountNumber1"></el-input>
+            </el-form-item>
+          </el-col>
 
-            <el-col :span="9">
-               <el-form-item class="comright" label="账号名称">
-                <el-input  v-model="formBank.selfName" disabled></el-input>
-              </el-form-item>
-              <el-form-item class="comright" label="银行账号">
-                <el-input  v-model="formBank.publicAccountNumber2"></el-input>
-              </el-form-item>
-            </el-col>
-            
-          </el-row>
-          
-        
-        
+        </el-row>
+        <el-row v-if="accountType == 2">
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号类型" prop="">
+              <el-input value="对公一般户" disabled></el-input>
+            </el-form-item>
+
+
+            <el-form-item class="comright" label="开户银行">
+              <el-input v-model="formBank.publicDepositBank2"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="9">
+            <el-form-item class="comright" label="账号名称">
+              <el-input v-model="formBank.selfName" disabled></el-input>
+            </el-form-item>
+            <el-form-item class="comright" label="银行账号">
+              <el-input v-model="formBank.publicAccountNumber2"></el-input>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+
+
+
       </el-row>
       <el-row type="flex" class="row-bg combottom" justify="space-around">
-        <el-col :span="7" >
+        <el-col :span="7">
           <div class="bankno">纳税账号</div>
         </el-col>
-        <el-col :span="7" >
-         
+        <el-col :span="7">
+
         </el-col>
       </el-row>
 
-      <el-row  type="flex" class="row-bg " justify="space-around">
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="户名" prop="accountName">
             <!-- <el-input v-model="formBank.accountName"></el-input> -->
-            <el-select
-               style="width:100%"
-              @change="changeValue($event)"
-              v-model="formBank.accountName"
-              filterable
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in accountName_options"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              >
+            <el-select style="width:100%" @change="changeValue($event)" v-model="formBank.accountName" filterable
+              placeholder="请选择">
+              <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input  disabled v-model="formBank.publicDepositBank3"></el-input>
-           
+            <el-input disabled v-model="formBank.publicDepositBank3"></el-input>
+
           </el-form-item>
-          <el-form-item  label="纳税委托协议" prop="fileName3">
-            <el-upload
-              class="upload-demo"
-              action="/ontherRequest/api/files/doUpload"
-              :on-success="handlesuccess1"
-              :on-preview="handlePreview1"
-              :on-remove="handleRemove1"
-              :before-remove="beforeRemove1"
-              multiple
-              :limit="9"
-              :on-exceed="handleExceed1"
-              :file-list="fileName3"
-              list-type="picture"
-            >
+          <el-form-item label="纳税委托协议" prop="fileName3">
+            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+              :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
+              :on-exceed="handleExceed1" :file-list="fileName3" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible1" append-to-body>
@@ -176,33 +132,19 @@
             </el-dialog>
           </el-form-item>
         </el-col>
-        
+
         <el-col :span="9">
           <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
-            <el-input
-             
-              disabled
-              v-model="formBank.publicAccountNumber3"
-            ></el-input>
-           
+            <el-input disabled v-model="formBank.publicAccountNumber3"></el-input>
+
           </el-form-item>
           <el-form-item style="color: rgba(0, 0, 0, 0)">
             <br />
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <el-upload
-              class="upload-demo"
-              action="/ontherRequest/api/files/doUpload"
-              :on-success="handlesuccess2"
-              :on-preview="handlePreview2"
-              :on-remove="handleRemove2"
-              :before-remove="beforeRemove2"
-              multiple
-              :limit="9"
-              :on-exceed="handleExceed2"
-              :file-list="fileName4"
-              list-type="picture"
-            >
+            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess2"
+              :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple :limit="9"
+              :on-exceed="handleExceed2" :file-list="fileName4" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible2" append-to-body>
@@ -211,26 +153,62 @@
           </el-form-item>
         </el-col>
       </el-row>
-        <el-row type="flex" class="row-bg " justify="space-around">
-         <el-col :span="8"></el-col>
-         <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
-             <el-button type="primary" @click="onSubmit">提交</el-button>
-         </el-col>
-         <el-col :span="8"></el-col>
-       </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
+          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
     </el-form>
+    <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import pdf from 'vue-pdf'
 import { getInfo } from '@/api/login'
 import { all } from "@/api/company/payTaxInfo";
-import { addEmployed, updateEmployed,check } from "@/api/company/employed";
+import { addEmployed, updateEmployed, check } from "@/api/company/employed";
 export default {
+  components: {
+    pdf
+  },
   data() {
     return {
-        userinfo:{},
+      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      //pdf预览
+      titles: '',
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+      userinfo: {},
       formBank: {
         bankStatus: 1,
         selfId: "",
@@ -344,7 +322,7 @@ export default {
       },
     };
   },
-  mounted(){
+  mounted() {
     this.getInfo();
   },
   created() {
@@ -365,6 +343,38 @@ export default {
   },
 
   methods: {
+
+    // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+
+
+
     changeValue(res) {
       for (let i in this.mylist) {
         if (this.mylist[i].accountName == res) {
@@ -400,18 +410,18 @@ export default {
       console.log(val);
     },
 
-     //获取个人信息
-     getInfo(){
-        getInfo().then(res=>{
-          this.userinfo=res.user;
-        })
+    //获取个人信息
+    getInfo() {
+      getInfo().then(res => {
+        this.userinfo = res.user;
+      })
     },
     //新增银行办理进度
     check(resmsg) {
       let parms = {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
-        'phonenumber':this.userinfo.phonenumber,
+        'phonenumber': this.userinfo.phonenumber,
         "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
         "selfType": "7",
       }
@@ -423,7 +433,7 @@ export default {
     },
     //返回
     resetForm() {
-        this.$tab.closeOpenPage({ path: "/company/customer/manageBank"});
+      this.$tab.closeOpenPage({ path: "/company/customer/manageBank" });
     },
     //提交表单
     onSubmit() {
@@ -435,20 +445,20 @@ export default {
             .then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
-                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageBank"}).then(() => {
-                     let  resmsg='办理银行完成';
+                  this.$nextTick(function () {
+                    this.$tab.refreshPage({ path: "/company/customer/manageBank" }).then(() => {
+                      let resmsg = '办理银行完成';
                       this.check(resmsg);
-                     let obj={
-                        title:'银行办理',
-                        backUrl:'/company/customer/manageBank',
-                        resmsg:resmsg
-                        };
+                      let obj = {
+                        title: '银行办理',
+                        backUrl: '/company/customer/manageBank',
+                        resmsg: resmsg
+                      };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                     });
-                   });
-                  
+                  });
+
                 } else {
                   this.$modal.msgError(res.msg);
                 }
@@ -470,13 +480,18 @@ export default {
       this.formBank.fileName3.splice(i, 1);
     },
     handlePreview1(file) {
-      this.dialogImageUrl1 = file.url;
-      this.dialogVisible1 = true;
+      if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+        this.titles = '正在预览' + file.response.obj;
+        this.viewVisible = true;
+        this.url = this.baseImgPath + file.response.obj;
+      } else {
+        this.dialogImageUrl1 = file.url;
+        this.dialogVisible1 = true;
+      }
     },
     handleExceed1(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
       );
     },
@@ -491,13 +506,20 @@ export default {
       this.formBank.fileName4.splice(i, 1);
     },
     handlePreview2(file) {
-      this.dialogImageUrl2 = file.url;
-      this.dialogVisible2 = true;
+
+      if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+        this.titles = '正在预览' + file.response.obj;
+        this.viewVisible = true;
+        this.url = this.baseImgPath + file.response.obj;
+      } else {
+        this.dialogImageUrl2 = file.url;
+        this.dialogVisible2 = true;
+      }
+
     },
     handleExceed2(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
       );
     },
@@ -510,7 +532,7 @@ export default {
 
 <style>
 .bankno {
- 
+
   letter-spacing: 2px;
 
   font-size: 20px;
@@ -527,16 +549,20 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.combottom{
+
+.combottom {
   margin-bottom: 10px;
 }
+
 .rowCss {
   margin-top: 10px;
 }
-.comright{
+
+.comright {
   padding-right: 10%;
 }
-.flexs{
+
+.flexs {
   display: flex;
   justify-content: center;
 

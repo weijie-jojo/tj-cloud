@@ -63,9 +63,9 @@ export function updateEmployed(data) {
 }
 
 // 删除个体商户
-export function delEmployed(selfId) {
+export function delEmployed(selfIds) {
   return request({
-    url: '/company/employed/' + selfId,
+    url: '/company/employed/' + selfIds,
     method: 'delete'
   })
 }
@@ -87,4 +87,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId}
+export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed}
