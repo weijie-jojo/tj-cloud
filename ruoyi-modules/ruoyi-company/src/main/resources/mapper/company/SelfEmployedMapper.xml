@@ -426,4 +426,16 @@
             #{selfId}
         </foreach>
     </delete>
+
+    <delete id="deleteSelfNameReviewBySelfCode" parameterType="String">
+        delete from self_name_review where self_code =#{selfCode}
+    </delete>
+
+    <delete id="deleteSelfLegalPersonBySelfCode" parameterType="String">
+        delete from self_legal_person where self_code =#{selfCode}
+    </delete>
+
+    <delete id="deleteSelfApplicationInfoBySelfCode" parameterType="String">
+        delete from self_application_info where self_code =#{selfCode}
+    </delete>
 </mapper>

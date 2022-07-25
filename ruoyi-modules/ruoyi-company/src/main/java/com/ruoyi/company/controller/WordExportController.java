@@ -1,6 +1,7 @@
 package com.ruoyi.company.controller;
 
 
+import com.alibaba.csp.sentinel.transport.CommandCenter;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.util.TableTools;
 import com.ruoyi.company.config.ConfigProps;
@@ -143,8 +144,19 @@ public class WordExportController {
 
         //创建表格 16行*3列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table = doc.createTable(16,3);
+        //合并第一行的第0列到第8列单元格
         TableTools.mergeCellsHorizonal(table, 0, 0, 2);
+        // 设置表格宽度为A4纸最大宽度
+        TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 10);
 //        table.getRow(0).getCell(0).setText("基本信息（必填项）");
+        //获取第一行单元格
+        XWPFTableCell cell = table.getRow(0).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph addParagraph =  cell.addParagraph();
+        addParagraph.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun r1 = addParagraph.createRun();
+        r1.setText("基本信息（必填项）");
+        r1.setFontFamily("宋体");
 
 
 

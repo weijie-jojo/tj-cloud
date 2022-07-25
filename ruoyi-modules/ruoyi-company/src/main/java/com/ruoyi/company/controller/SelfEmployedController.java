@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
+import com.ruoyi.company.service.ISelfApplicationInfoService;
+import com.ruoyi.company.service.ISelfLegalPersonService;
+import com.ruoyi.company.service.ISelfNameReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,12 @@ public class SelfEmployedController extends BaseController
 {
     @Autowired
     private ISelfEmployedService selfEmployedService;
-
+    @Autowired
+    private ISelfLegalPersonService selfLegalPersonService;
+    @Autowired
+    private ISelfNameReviewService selfNameReviewService;
+    @Autowired
+    private ISelfApplicationInfoService selfApplicationInfoService;
     /**
      * 连表selfNameReview查询
      */
@@ -150,6 +158,12 @@ public class SelfEmployedController extends BaseController
 	@DeleteMapping("/{selfIds}")
     public AjaxResult remove(@PathVariable String[] selfIds)
     {
+        for (String selfId:selfIds){
+            String selfCode= selfEmployedService.selectSelfEmployedBySelfId(selfId).getSelfCode();
+            selfEmployedService.deleteSelfNameReviewBySelfCode(selfCode);
+            selfEmployedService.deleteSelfLegalPersonBySelfCode(selfCode);
+            selfEmployedService.deleteSelfApplicationInfoBySelfCode(selfCode);
+        };
         return toAjax(selfEmployedService.deleteSelfEmployedBySelfIds(selfIds));
     }
 }
