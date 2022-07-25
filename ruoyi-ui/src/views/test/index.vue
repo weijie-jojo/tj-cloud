@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { getWord } from "@/api/company/employed"
 import crudRate from '@/api/company/rate'
 import pdf from 'vue-pdf'
 // http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf
@@ -101,13 +102,18 @@ export default {
 
   },
   mounted() {
+    this.ass();
     this.getRate();
     this.src.promise.then(pdf => {
       this.numPages = pdf.numPages
     })
   },
   methods: {
-
+    ass(){
+      getWord({ selfCode:'TJYW0005000155' , selfId:'291'}).then(res=>{
+          console.log(res);
+      })
+    },
     // 上一页函数，
     prePage() {
       var page = this.pageNum

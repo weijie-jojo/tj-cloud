@@ -25,6 +25,15 @@ export function addEmployed(data) {
     data: data
   })
 }
+
+// 获取工商表格
+export function getWord(data) {
+  return request({
+    url: '/company/files/getWord',
+    method: 'post',
+    data: data
+  })
+}
 //查询办理中数据
 export function getLeaderByUserId(query){
   return request({
@@ -87,4 +96,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed}
+export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord}
