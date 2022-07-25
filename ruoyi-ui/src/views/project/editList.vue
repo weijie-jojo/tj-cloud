@@ -173,7 +173,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" prop="projectTrades">
-                        <el-select @change="selectInType" class="main-select-tree" ref="selectTrees"
+                        <el-select  class="main-select-tree" ref="selectTrees"
                             v-model="formData.projectTrades" style="width: 100%;">
                             <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
                                 :value="item.value" style="display: none;" />
@@ -451,13 +451,13 @@ export default {
 
     methods: {
         handleNodeClick(node) {
+            
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
         },
         handleNodeClick1(node) {
-            console.log(node);
             this.formData.projectTrades= node.id;
-            console.log(this.formData.projectTrades);
+            this.selectInType();
             this.$refs.selectTrees.blur();
         },
         // 四级菜单
@@ -609,7 +609,8 @@ export default {
                 this.formData.projectTrades = '';
                 var rate1 = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
                 this.formData.projectTrades = rate1.industryId;
-                console.log(this.formData.projectTrades);
+                
+                // console.log(4444,this.formData.projectTrades);
                 this.selectIndustryType1();
             })
         },
@@ -671,11 +672,12 @@ export default {
         },
         //监听项目行业类型
         selectInType() {
-            console.log(3333);
-            console.log(33333,this.formData.projectTrades);
+           
             var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
+          
             this.formData.projectTrade = rate.industryName;//所属行业
             console.log(this.formData.projectTrade);
+             console.log(this.formData.projectTrades);
         },
         //监听开票内容类型
         tickettaxvip(e) {
