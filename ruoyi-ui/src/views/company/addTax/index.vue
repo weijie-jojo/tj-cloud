@@ -4,31 +4,15 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input
-              v-model="formtax.selfName"
-              disabled
-            ></el-input>
+            <el-input v-model="formtax.selfName" disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input
-              v-model="formtax.legalPersonName"
-              disabled
-            ></el-input>
+            <el-input v-model="formtax.legalPersonName" disabled></el-input>
           </el-form-item>
           <el-form-item label="核定通知书" prop="fileName2">
-            <el-upload
-              class="upload-demo"
-              action="/ontherRequest/api/files/doUpload"
-              :on-success="handlesuccess"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="9"
-              :on-exceed="handleExceed"
-              :file-list="fileName2"
-              list-type="picture"
-            >
+            <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess"
+              :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="9"
+              :on-exceed="handleExceed" :file-list="fileName2" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible" append-to-body>
@@ -38,32 +22,65 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input
-              v-model="formtax.taxId"
-              disabled
-            ></el-input>
+            <el-input v-model="formtax.taxId" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
-         <el-col :span="8"></el-col>
-         <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
-             <el-button type="primary" @click="onSubmit">提交</el-button>
-         </el-col>
-         <el-col :span="8"></el-col>
-     </el-row>
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
+          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
     </el-form>
-   </div>
+    <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
+import pdf from 'vue-pdf'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed,check } from "@/api/company/employed";
+import { addEmployed, updateEmployed, check } from "@/api/company/employed";
 export default {
+   components: {
+    pdf
+  },
   data() {
     return {
-       userinfo:{},
+      baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
+      //pdf预览
+      titles: '',
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+      userinfo: {},
       formtax: {
         taxStatus: 1,
         selfId: "",
@@ -105,27 +122,55 @@ export default {
     to.meta.keepAlive = true;
     next(0);
   },
-   mounted(){
+  mounted() {
     this.getInfo();
   },
 
   methods: {
+    // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
     //返回
     resetForm() {
-       this.$tab.closeOpenPage({ path: "/company/customer/manageTax"});
+      this.$tab.closeOpenPage({ path: "/company/customer/manageTax" });
     },
-     //获取个人信息
-     getInfo(){
-        getInfo().then(res=>{
-          this.userinfo=res.user;
-        })
+    //获取个人信息
+    getInfo() {
+      getInfo().then(res => {
+        this.userinfo = res.user;
+      })
     },
     //新增工商办理进度
     check(resmsg) {
       let parms = {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
-        'phonenumber':this.userinfo.phonenumber,
+        'phonenumber': this.userinfo.phonenumber,
         "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
         "selfType": "6",
       }
@@ -145,18 +190,18 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageTax"}).then(() => {
-                     let  resmsg='办理税务完成';
+                    this.$tab.refreshPage({ path: "/company/customer/manageTax" }).then(() => {
+                      let resmsg = '办理税务完成';
                       this.check(resmsg);
-                     let obj={
-                        title:'税务办理',
-                        backUrl:'/company/customer/manageTax',
-                        resmsg:resmsg
-                        };
+                      let obj = {
+                        title: '税务办理',
+                        backUrl: '/company/customer/manageTax',
+                        resmsg: resmsg
+                      };
                       this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
+                      this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                     });
-                   });
+                  });
                 } else {
                   this.$modal.msgError(res.msg);
                 }
@@ -178,13 +223,18 @@ export default {
       this.formtax.fileName2.splice(i, 1);
     },
     handlePreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+      if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+        this.titles = '正在预览' + file.response.obj;
+        this.viewVisible = true;
+        this.url = this.baseImgPath + file.response.obj;
+      } else {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
       );
     },
@@ -205,13 +255,16 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .rowCss {
   margin-top: 10px;
 }
-.comright{
+
+.comright {
   padding-right: 10%;
 }
-.flexs{
+
+.flexs {
   display: flex;
   justify-content: center;
 

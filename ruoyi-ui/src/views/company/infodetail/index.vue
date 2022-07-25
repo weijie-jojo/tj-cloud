@@ -464,11 +464,12 @@ import Treeselect from '@riophae/vue-treeselect'
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
-  components: { Treeselect },
-  dicts: ['political_status', 'educational_level'],
-  components: {
-    pdf
+  components: { 
+    Treeselect,
+    pdf 
   },
+  dicts: ['political_status', 'educational_level'],
+ 
   props: [],
   data() {
     return {
