@@ -38,7 +38,7 @@
                    
                      <el-form-item class="comright" label="项目合同" prop="fileName">
 
-                        <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload"
+                        <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload"
                             :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                             :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
                             :file-list="fileName" list-type="picture">
@@ -169,7 +169,7 @@ export default {
                 updateTime: "",
                 industryType:'',
             },
-            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
             options: [
                 {
                     value: 0,

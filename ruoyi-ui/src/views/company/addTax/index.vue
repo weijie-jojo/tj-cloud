@@ -18,7 +18,7 @@
           <el-form-item label="核定通知书" prop="fileName2">
             <el-upload
               class="upload-demo"
-              action="//ontherRequest/api/files/doUpload"
+              action="/ontherRequest/api/files/doUpload"
               :on-success="handlesuccess"
               :on-preview="handlePreview"
               :on-remove="handleRemove"

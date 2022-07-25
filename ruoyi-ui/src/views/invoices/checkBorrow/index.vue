@@ -158,7 +158,7 @@
              <!-- 上传付款凭证影像 -->
             <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
                 <el-upload
-                    action="//ontherRequest/api/files/doUpload"
+                    action="/ontherRequest/api/files/doUpload"
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"

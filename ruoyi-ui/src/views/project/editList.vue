@@ -158,7 +158,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
 
-                        <el-upload class="upload-demo" action="//ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
+                        <el-upload class="upload-demo" action="/ontherRequest/api/files/doUpload" :on-success="handlesuccess1"
                             :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
                             multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -290,7 +290,7 @@ export default {
                 industryType: '',
                 selfName: '',
             },
-            baseImgPath: "/ontherRequest/api/files/showImg?imgPath=",
+            baseImgPath: "/ontherRequest/api/files/showTxt?imgPath=",
             options: [
                 {
                     value: 0,
