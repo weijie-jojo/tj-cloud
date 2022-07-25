@@ -531,6 +531,32 @@ public class WordExportController {
         XWPFFooter footer = doc.createFooter(HeaderFooterType.DEFAULT);
         footer.createParagraph().createRun().setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
 
+        //创建表格 17行*6列(创建table 时，会有一个默认一行一列的表格)
+        XWPFTable table3 = doc.createTable(6,6);
+        // 设置表格宽度为A4纸最大宽度
+        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 10);
+        // 设置表格居中
+        TableStyle style3 = new TableStyle();
+        style3.setAlign(STJc.CENTER);
+        TableTools.styleTable(table3, style3);
+        //合并单元格
+        TableTools.mergeCellsHorizonal(table3, 0, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 1, 1, 5);
+        TableTools.mergeCellsHorizonal(table3, 3, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 4, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 5, 0, 5);
+
+        //第一行单元格
+        XWPFTableCell table3_cell1_1 = table3.getRow(0).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_addParagraph1_1 =  table3_cell1_1.addParagraph();
+        table3_addParagraph1_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r1_1 = table3_addParagraph1_1.createRun();
+        table3_r1_1.setText("指定代表/委托代理人信息（必填项）");
+        table3_r1_1.setFontFamily("宋体");
+        table3_r1_1.setFontSize(16);
+        table3_r1_1.setBold(true);//字体加粗
+
         //写到本地
         File file =new File(configProps.getName()+fileName);
         try (FileOutputStream out = new FileOutputStream(file)) {
