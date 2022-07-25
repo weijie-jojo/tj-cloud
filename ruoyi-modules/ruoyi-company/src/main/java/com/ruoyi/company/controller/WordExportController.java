@@ -1,6 +1,8 @@
 package com.ruoyi.company.controller;
 
 
+import com.deepoove.poi.data.MiniTableRenderData;
+import com.deepoove.poi.util.TableTools;
 import com.ruoyi.company.config.ConfigProps;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
@@ -75,53 +77,51 @@ public class WordExportController {
 //        }
     }
 
-    private void setTableText(XWPFDocument docxDocument) {
-        //获取第一个表格
-        XWPFTable table = docxDocument.getTableArray(0);
-        List<XWPFTableRow> rows = table.getRows();
-        int i=1;
-        for(XWPFTableRow row :rows){
-            List<XWPFTableCell> cells = row.getTableCells();
-            for(XWPFTableCell cell: cells){
-                cell.setText("第"+String.valueOf(i++)+"格");
-                cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-                //cell.setWidthType(TableWidthType.PCT);
-                //cell.setWidth("30%");
-            }
-        }
-    }
-    public static CTTcPr getCellCTTcPr(XWPFTableCell cell) {
-        CTTc cttc = cell.getCTTc();
-        CTTcPr tcPr = cttc.isSetTcPr() ? cttc.getTcPr() : cttc.addNewTcPr();
-        return tcPr;
-    }
+//    private void setTableText(XWPFDocument docxDocument) {
+//        //获取第一个表格
+//        XWPFTable table = docxDocument.getTableArray(0);
+//        List<XWPFTableRow> rows = table.getRows();
+//        int i=1;
+//        for(XWPFTableRow row :rows){
+//            List<XWPFTableCell> cells = row.getTableCells();
+//            for(XWPFTableCell cell: cells){
+//                cell.setText("第"+String.valueOf(i++)+"格");
+//                cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+//                //cell.setWidthType(TableWidthType.PCT);
+//                //cell.setWidth("30%");
+//            }
+//        }
+//    }
+//    public static CTTcPr getCellCTTcPr(XWPFTableCell cell) {
+//        CTTc cttc = cell.getCTTc();
+//        CTTcPr tcPr = cttc.isSetTcPr() ? cttc.getTcPr() : cttc.addNewTcPr();
+//        return tcPr;
+//    }
 
 
     @PostMapping(value = "/getWord")
     @ApiOperation("下载工商登记申请书")
-    public String getWord(String selfId,String selfCode) throws Exception {
+    public List<SelfEmployedVo> getWord(String selfId,String selfCode) throws Exception {
         //生成文件名
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhss");
         String nowDate = sdf.format(date);
         String guid= UUID.randomUUID().toString();
         String fileName=nowDate+guid+selfCode+"createTable.docx";
+
         //根据selfCode获取工商信息
         SelfEmployedVo selfEmployedVo=new SelfEmployedVo();
         selfEmployedVo.setSelfCode(selfCode);
         List<SelfEmployedVo> selfEmployedVos= selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
         System.out.println("selfEmployedVos=="+selfEmployedVos);
-        //Blank Document
-        XWPFDocument docxDocument = new XWPFDocument();
-        File file=new File(configProps.getName()+fileName);
-        //Write the Document in file system
-        FileOutputStream out = new FileOutputStream(file);
 
-        //创建第一段落
-        XWPFParagraph firstParagraphX = docxDocument.createParagraph();
-        firstParagraphX.setAlignment(ParagraphAlignment.CENTER);
+        //创建word文档
+        XWPFDocument doc = new XWPFDocument();
 
-        XWPFRun runTitle = firstParagraphX.createRun();
+        //创建段落(标题)
+        XWPFParagraph p1 = doc.createParagraph();
+        p1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun runTitle = p1.createRun();
         runTitle.setText("个体工商户登记（备案）申请书");
         runTitle.setBold(true);
         runTitle.setFontSize(24);
@@ -129,53 +129,32 @@ public class WordExportController {
         runTitle.addCarriageReturn();//回车键
         runTitle.setKerning(30);
 
-        XWPFParagraph paragraphX = docxDocument.createParagraph();
+//        XWPFParagraph paragraphX = docxDocument.createParagraph();
+//        paragraphX.setAlignment(ParagraphAlignment.LEFT);//对齐方式
+//        paragraphX.setFirstLineIndent(400);//首行缩进
+//        //创建段落中的run
+//        XWPFRun run = paragraphX.createRun();
+//        run.setText("开始新的额一页了健康卡离开了危，机容量为金融界王仁君我快速建房可谓集，有分页吗，按时交付问我问问");
+//        //run.addCarriageReturn();//回车键
+//        XWPFRun run2 = paragraphX.createRun();
+//        run2.setText("这是第二段了吧，接口了就废了我今儿来将危及，不知道嗯么回事了了，啦啦啦啦啦啦啦");
+//        run2.setText("这个不是能分段吗，测试一下试试");
+//        run2.setBold(true);//加粗
 
-        paragraphX.setAlignment(ParagraphAlignment.LEFT);//对齐方式
-        paragraphX.setFirstLineIndent(400);//首行缩进
-        //创建段落中的run
-        XWPFRun run = paragraphX.createRun();
-        run.setText("开始新的额一页了健康卡离开了危，机容量为金融界王仁君我快速建房可谓集，有分页吗，按时交付问我问问");
-        //run.addCarriageReturn();//回车键
+        //创建表格 16行*3列(创建table 时，会有一个默认一行一列的表格)
+        XWPFTable table = doc.createTable(16,3);
+        TableTools.mergeCellsHorizonal(table, 0, 0, 2);
+//        table.getRow(0).getCell(0).setText("基本信息（必填项）");
 
-        XWPFRun run2 = paragraphX.createRun();
-        run2.setText("这是第二段了吧，接口了就废了我今儿来将危及，不知道嗯么回事了了，啦啦啦啦啦啦啦");
-        run2.setText("这个不是能分段吗，测试一下试试");
-        run2.setBold(true);//加粗
 
-        //创建第二段落
-        XWPFParagraph paragraphX2 = docxDocument.createParagraph();
-        paragraphX2.setIndentationFirstLine(420);//首行缩进
-        XWPFRun secondRun = paragraphX2.createRun();
-        secondRun.setText("第二天的开始，就忙吧尽快立法捡垃圾而");
-        secondRun.setColor("FFC0CB");
-        secondRun.setUnderline(UnderlinePatterns.SINGLE);
-        secondRun.addCarriageReturn();
-
-        //创建表格 4行*5列(创建table 时，会有一个默认一行一列的表格)
-        // XWPFTable table =  createTable( docxDocument,4,5);
-        XWPFTable table = docxDocument.createTable(4,5);
-        table.setWidth("95%");
-        table.setWidthType(TableWidthType.PCT);//设置表格相对宽度
-        table.setTableAlignment(TableRowAlign.CENTER);
-
-        //合并单元格
-        XWPFTableRow row1 = table.getRow(0);
-        XWPFTableCell cell1 = row1.getCell(0);
-        CTTcPr cellCtPr = getCellCTTcPr(cell1);
-        cellCtPr.addNewHMerge().setVal(STMerge.RESTART);
-
-        XWPFTableCell cell2 = row1.getCell(1);
-        CTTcPr cellCtPr2 = getCellCTTcPr(cell2);
-        cellCtPr2.addNewHMerge().setVal(STMerge.CONTINUE);
-
-        //给表格填充文本
-        setTableText(docxDocument);
 
         //写到本地
-        docxDocument.write(out);
-        out.close();
-        Thread.sleep(2000);
+        try (FileOutputStream out = new FileOutputStream(configProps.getName()+fileName)) {
+            doc.write(out);
+        }
+//        doc.write(out);
+//        out.close();
+//        Thread.sleep(2000);
 
 //        //word转成pdf
 //        FileInputStream fileInputStream = null;
@@ -202,7 +181,7 @@ public class WordExportController {
         selfEmployed.setFileName8(fileName);
         selfEmployed.setSelfId(selfId);
         selfEmployedService.updateSelfEmployed(selfEmployed);
-        return fileName;
+        return selfEmployedVos;
 
     }
 
