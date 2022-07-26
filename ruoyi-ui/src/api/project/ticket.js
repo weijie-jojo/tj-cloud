@@ -24,11 +24,11 @@ export function TicketByCode(query) {
   })
 }
 
-export function add(query) {
+export function add(data) {
   return request({
-    url: 'project/project',
+    url: '/project/ticket',
     method: 'post',
-    params: query
+    data: data
   })
 }
 export function getcode(){

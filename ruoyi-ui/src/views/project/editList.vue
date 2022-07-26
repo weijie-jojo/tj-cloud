@@ -92,7 +92,7 @@
 
 
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
                         <el-select style="width:100%" clearable v-model="formData.ticketTax">
