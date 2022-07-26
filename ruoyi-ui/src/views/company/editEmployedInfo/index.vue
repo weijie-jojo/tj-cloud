@@ -148,7 +148,7 @@
         </el-row>
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
-            <el-form-item label="出资额" prop="contributionAmount">
+            <el-form-item label="出资额">
               <el-input disabled type="number" v-model="formData.contributionAmount">
                 <template slot="append">万元</template>
               </el-input>
@@ -276,7 +276,8 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
             <el-form-item label="渠道商" prop="placeName">
-              <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
+              <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商"
+                clearable filterable>
                 <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
                 </el-option>
               </el-select>
@@ -300,7 +301,7 @@
           </el-col>
         </el-row>
       </div>
-     <div v-show="actives == 3">
+      <div v-show="actives == 3">
         <el-row type="flex" class="row-bg  combottom" justify="space-around">
           <el-col :span="11">
             <div class="bankno">经营者（负责人）信息</div>
@@ -381,7 +382,7 @@
             <el-form-item label="政治面貌" prop="politicalStatus">
               <el-input v-model="formData.politicalStatus" disabled placeholder="请输入法人政治面貌">
               </el-input>
-             </el-form-item>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
@@ -414,8 +415,11 @@
             <el-form-item label="工商实名" prop="fileName6">
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess2"
                 :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple
-                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture">
+                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture"
+                :before-upload="beforeAvatarUpload1"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible2" append-to-body>
                 <img width="100%" :src="dialogImageUrl2" alt="" />
@@ -429,8 +433,11 @@
             <el-form-item label="税务实名" prop="fileName7">
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess3"
                 :on-preview="handlePreview3" :on-remove="handleRemove3" :before-remove="beforeRemove3" multiple
-                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture">
+                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture"
+                :before-upload="beforeAvatarUpload2"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible3" append-to-body>
                 <img width="100%" :src="dialogImageUrl3" alt="" />
@@ -446,8 +453,11 @@
               <!-- <el-button type="primary" @click="toEditImg">点击上传</el-button> -->
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
                 :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple
-                :on-exceed="handleExceed1" :file-list="fileName5" list-type="picture">
+                :on-exceed="handleExceed1" :file-list="fileName5" list-type="picture"
+                :before-upload="beforeAvatarUpload3"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible1" append-to-body>
                 <img width="100%" :src="dialogImageUrl1" alt="" />
@@ -524,7 +534,7 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="单独结算">
+            <el-form-item label="单独结算" :required="true">
               <el-radio v-model="singleRadio" label="1" @change="singleOK">是</el-radio>
               <el-radio v-model="singleRadio" label="2" @change="singleOK">否</el-radio>
             </el-form-item>
@@ -536,7 +546,7 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="普票服务费">
+            <el-form-item label="普票服务费" :required="yecomfirms">
               <div style="">
 
                 <el-radio :disabled="yecomfirm" v-model="basicRadio" label="1">按定额收取</el-radio>
@@ -554,7 +564,7 @@
           </el-col>
 
           <el-col :span="9">
-            <el-form-item label="专票服务费">
+            <el-form-item label="专票服务费" :required="yecomfirms">
               <div style="">
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
@@ -579,7 +589,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="注册服务费">
+            <el-form-item label="注册服务费" :required="yecomfirms">
               <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
                 <template slot="append">元</template>
               </el-input>
@@ -602,7 +612,7 @@
 
       </div>
     </el-form>
-      <!--PDF 预览-->
+    <!--PDF 预览-->
     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
 
       <div>
@@ -633,7 +643,7 @@ import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
 export default {
-   components: {
+  components: {
     pdf
   },
   dicts: ['political_status', 'educational_level'],
@@ -641,7 +651,7 @@ export default {
   data() {
     return {
 
-     baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       //pdf预览
       titles: '',
       url: '',
@@ -654,14 +664,8 @@ export default {
       curPageNum: 0,
       closeDialog: false,
 
-
-
-
-
-
-
-
       yecomfirm: true,
+      yecomfirms: false,
       unlist: {
         specialSelfFee: 0,//专票个体户代办费(率)
         specialSelfMoney: 0,//专票个体户代办费(元）
@@ -1025,11 +1029,7 @@ export default {
       deep: true
     }
   },
-  created() {
-    //  var employedInfo= this.$cache.local.getJSON('employedInfo');
-    //    console.log("applyName11==",employedInfo.applyName);
-    //       this.formData.applyName=employedInfo.applyName;
-  },
+
   mounted() {
     this.getLoginInfo();
 
@@ -1086,38 +1086,62 @@ export default {
     if (this.formData.accountType == 2) {
       this.isPrivateBank = true;
     }
-    console.log("formData==", this.formData);
-    // this.genders1=this.genders;
+
     this.getElectronicCommerce();
     this.getAccountType();
     this.getGender();
-    // this.formData.electronicCommerce='';
-    // this.formData.accountType='';
-    // this.formData.gender='';
-
-    // this.formData.accountType=parseInt(employedInfo.accountType);
-    // this.formData.electronicCommerce=parseInt(employedInfo.electronicCommerce);
-    // this.formData.gender=parseInt(employedInfo.gender);
-    // if(this.formData.electronicCommerce==1){
-    //     this.formData.electronicCommerce='是'
-    // }
-    // if(this.formData.electronicCommerce==2){
-    //     this.formData.electronicCommerce='否'
-    // }
-    // if(this.formData.accountType==1){
-    //     this.formData.accountType='私人账号'
-    // }
-    // if(this.formData.accountType==2){
-    //     this.formData.accountType='对公账号'
-    // }
-    //  if(this.formData.gender==1){
-    //     this.formData.gender='男'
-    // }
-    // if(this.formData.gender==2){
-    //     this.formData.gender='女'
-    // }
   },
   methods: {
+      beforeAvatarUpload1(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+      beforeAvatarUpload2(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+      beforeAvatarUpload3(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+
+
     // 上一页函数，
     prePage() {
       var page = this.pageNum
@@ -1146,10 +1170,10 @@ export default {
     pdfError(error) {
       console.error(error)
     },
-    singleOK(e) {
-      console.log(222, this.singleRadio);
+    singleOK() {
       if (this.singleRadio == 1) {
         this.yecomfirm = false;
+        this.yecomfirms = true;
         this.formData.specialSelfFee = 0;
         this.formData.specialSelfMoney = 0;
         this.formData.ordinarySelfFee = 0;
@@ -1158,18 +1182,32 @@ export default {
         this.formData.registerMoney = '';
       } else {
         this.yecomfirm = true;
+        this.yecomfirms = false;
+        this.placenew();
 
-        // specialSelfMoney:0,//专票个体户代办费(元）
-        // ordinarySelfFee:0,//普票个体户代办费(率)
-        // ordinarySelfMoney:0,//普票个体户代办费(元）
-        // isSelfTax:'0',  //个体户服务费是否含税
-        // registerMoney:'', //注册服务费
-        this.formData.specialSelfFee = this.unlist.specialSelfFee;
-        this.formData.specialSelfMoney = this.unlist.specialSelfMoney;
-        this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
-        this.formData.ordinarySelfMoney = this.unlist.ordinarySelfMoney;
-        this.formData.isSelfTax = this.unlist.isSelfTax;
-        this.formData.registerMoney = this.unlist.registerMoney;
+
+      }
+    },
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeName == this.formData.placeName) {
+          crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
+            this.unlist = res;
+            this.formData.specialSelfFee = this.unlist.specialInvoice13;
+            this.formData.specialSelfMoney = this.unlist.specialInvoice13Money;
+            this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
+            this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
+            if (this.unlist.isOrdinaryTax) {
+              this.formData.isSelfTax = '0';
+            } else {
+              this.formData.isSelfTax = '1';
+            }
+            this.formData.registerMoney = this.unlist.ordinarySelfFee;
+
+          });
+
+          return;
+        }
       }
     },
     handleNodeClick(node) {
@@ -1210,7 +1248,7 @@ export default {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
-          console.log("getPlaceByUserId==", res.data);
+
           this.places = res.data;
         })
       })
@@ -1227,33 +1265,28 @@ export default {
       }
     },
     selectIndustryType() {
-      // var rate= this.industryTypes.find((item)=>item.industryId==value);
+
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-      this.formData.industryTax = rate.taxRate;
-      console.log("rate==", rate);
+      if (rate) {
+        this.formData.industryTax = rate.taxRate;
+      } else {
+        this.formData.industryTax = '';
+      }
+
+
     },
     selectApplyName(value) {
       var applyName = this.applyNames.find((item) => item.userId == value);
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
-      console.log("selectApplyName==", applyName);
+
     },
-    // getRate(){
-    //   crudRate.getAllRate().then(res=>{
-    //       console.log("getAllRate",res.rows);
-    //       this.industryTypes=res.rows;
-    //   })
-    // },
     getRate() {
       crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
         var employedInfo = this.$cache.local.getJSON('employedInfo');
         this.formData.industryType = employedInfo.industryType;
-        console.log("industryType==", this.formData.industryType);
-        // this.industryTypes=res.rows;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
-        console.log("tree", tree);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
       })
@@ -1274,16 +1307,13 @@ export default {
     },
     getContactName() {
       crudPerson.getAllPerson().then(res => {
-        console.log("getContactName", res.rows);
         this.contactNames = res.rows;
       })
     },
     getApplyName() {
       crudInformation.getAllInformation().then(res => {
-        console.log("getApplyName", res.rows);
         this.applyNames = res.rows;
         var employedInfo = this.$cache.local.getJSON('employedInfo');
-        console.log("applyName====", parseInt(employedInfo.applyName));
         this.formData.applyName = parseInt(employedInfo.applyName);
       })
     },
@@ -1303,7 +1333,7 @@ export default {
       this.formData.gender = parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+
     },
     nextbasic() {
       this.actives = 2;
@@ -1327,7 +1357,7 @@ export default {
       }
       this.$refs['elForm'].validate(valid => {
         if (valid) {
-          console.log("placeName", this.formData.placeName,);
+
           let parms1 = {
             id: this.formData.id,
             selfCode: this.formData.selfCode,
@@ -1477,34 +1507,34 @@ export default {
     },
     handlesuccess1(file, fileList) {
       this.formData.fileName5.push(file.obj);
-      console.log("fileName5", this.formData.fileName5);
+
     },
     handleRemove1(file, fileList) {
       const i = this.formData.fileName5.findIndex((item) => item === fileList)
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview1(file) {
-      console.log(file);
-      if(file.hasOwnProperty('response')){
-        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.response.obj;
-            this.viewVisible = true;
-             this.url = this.baseImgPath+file.response.obj;
-        }else{
-           this.dialogImageUrl1 = file.url;
-           this.dialogVisible1 = true;
+
+      if (file.hasOwnProperty('response')) {
+        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.response.obj;
+          this.viewVisible = true;
+          this.url = this.baseImgPath + file.response.obj;
+        } else {
+          this.dialogImageUrl1 = file.url;
+          this.dialogVisible1 = true;
         }
-      }else{
-          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.url;
-            this.viewVisible = true;
-             this.url = file.url;
-        }else{
-           this.dialogImageUrl1 = file.url;
-           this.dialogVisible1 = true;
+      } else {
+        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.url;
+          this.viewVisible = true;
+          this.url = file.url;
+        } else {
+          this.dialogImageUrl1 = file.url;
+          this.dialogVisible1 = true;
         }
       }
-      
+
     },
     handleExceed1(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -1515,7 +1545,7 @@ export default {
 
     handlesuccess2(file, fileList) {
       this.formData.fileName5.push(file.obj);
-      console.log("fileName5", this.formData.fileName5);
+
     },
     handleRemove2(file, fileList) {
       const i = this.formData.fileName5.findIndex((item) => item === fileList)
@@ -1524,23 +1554,23 @@ export default {
     handlePreview2(file) {
       // this.dialogImageUrl1 = file.url;
       // this.dialogVisible1 = true;
-       if(file.hasOwnProperty('response')){
-        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.response.obj;
-            this.viewVisible = true;
-             this.url = this.baseImgPath+file.response.obj;
-        }else{
-           this.dialogImageUrl2 = file.url;
-           this.dialogVisible2= true;
+      if (file.hasOwnProperty('response')) {
+        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.response.obj;
+          this.viewVisible = true;
+          this.url = this.baseImgPath + file.response.obj;
+        } else {
+          this.dialogImageUrl2 = file.url;
+          this.dialogVisible2 = true;
         }
-      }else{
-          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.url;
-            this.viewVisible = true;
-             this.url = file.url;
-        }else{
-           this.dialogImageUrl2 = file.url;
-           this.dialogVisible2 = true;
+      } else {
+        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.url;
+          this.viewVisible = true;
+          this.url = file.url;
+        } else {
+          this.dialogImageUrl2 = file.url;
+          this.dialogVisible2 = true;
         }
       }
 
@@ -1556,30 +1586,30 @@ export default {
 
     handlesuccess3(file, fileList) {
       this.formData.fileName5.push(file.obj);
-      console.log("fileName5", this.formData.fileName5);
+
     },
     handleRemove3(file, fileList) {
       const i = this.formData.fileName5.findIndex((item) => item === fileList)
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview3(file) {
-       if(file.hasOwnProperty('response')){
-        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.response.obj;
-            this.viewVisible = true;
-             this.url = this.baseImgPath+file.response.obj;
-        }else{
-           this.dialogImageUrl3 = file.url;
-           this.dialogVisible3= true;
+      if (file.hasOwnProperty('response')) {
+        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.response.obj;
+          this.viewVisible = true;
+          this.url = this.baseImgPath + file.response.obj;
+        } else {
+          this.dialogImageUrl3 = file.url;
+          this.dialogVisible3 = true;
         }
-      }else{
-          if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
-            this.titles = '正在预览' + file.url;
-            this.viewVisible = true;
-             this.url = file.url;
-        }else{
-           this.dialogImageUrl3 = file.url;
-           this.dialogVisible3 = true;
+      } else {
+        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.url;
+          this.viewVisible = true;
+          this.url = file.url;
+        } else {
+          this.dialogImageUrl3 = file.url;
+          this.dialogVisible3 = true;
         }
       }
     },

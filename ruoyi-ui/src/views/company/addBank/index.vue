@@ -124,8 +124,11 @@
           <el-form-item label="纳税委托协议" prop="fileName3">
             <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
               :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
-              :on-exceed="handleExceed1" :file-list="fileName3" list-type="picture">
+              :on-exceed="handleExceed1" :file-list="fileName3" list-type="picture"
+               :before-upload="beforeAvatarUpload"
+              >
               <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible1" append-to-body>
               <img width="100%" :src="dialogImageUrl1" alt="" />
@@ -144,8 +147,11 @@
           <el-form-item label="三方协议签约凭证" prop="fileName4">
             <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess2"
               :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple :limit="9"
-              :on-exceed="handleExceed2" :file-list="fileName4" list-type="picture">
+              :on-exceed="handleExceed2" :file-list="fileName4" list-type="picture"
+               :before-upload="beforeAvatarUpload2"
+              >
               <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible2" append-to-body>
               <img width="100%" :src="dialogImageUrl2" alt="" />
@@ -373,6 +379,39 @@ export default {
       console.error(error)
     },
 
+     beforeAvatarUpload(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+    
+     beforeAvatarUpload2(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
 
 
     changeValue(res) {

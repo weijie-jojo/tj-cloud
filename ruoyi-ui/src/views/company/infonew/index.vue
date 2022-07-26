@@ -120,7 +120,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-            <el-form-item class="comright" label="出资额" prop="contributionAmount">
+            <el-form-item class="comright" label="出资额">
               <el-input disabled type="number" v-model="formData.contributionAmount">
                   <template slot="append">万元</template>
           </el-input>

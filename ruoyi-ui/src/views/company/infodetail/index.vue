@@ -118,9 +118,9 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" label="出资额" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="出资额" prop="contributionAmount">
+          <el-form-item class="comright" label="出资额">
             <el-input disabled type="number" v-model="formData.contributionAmount">
               <template slot="append">万元</template>
             </el-input>
@@ -459,14 +459,9 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   components: { 
-    Treeselect,
-    pdf 
+   pdf 
   },
   dicts: ['political_status', 'educational_level'],
  

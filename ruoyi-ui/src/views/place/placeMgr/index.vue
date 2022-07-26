@@ -696,7 +696,7 @@ var contactPhone = (rule, value, callback) => {
 // 数字验证
 var numCheck = (rule, value, callback) => {
   if (!value) {
-    return callback(new Error('个体代办费不能为空'))
+    return callback(new Error('个体户注册服务费不能为空'))
   } else {
     const reg = /[^\d]/g;
     if (!reg.test(value)) {
@@ -859,15 +859,21 @@ export default {
         specialInvoice13: [
           { required: true, message: '请输入13%专票代开费率', trigger: 'blur' }
         ],
-        // specialSelfFee: [
-        //     {validator: numCheck,required: true, trigger: 'blur' }
-        // ],
+        specialSelfFee: [
+            {validator: numCheck,required: true, trigger: 'blur' }
+        ],
+        editSpecialSelfFee: [
+            {validator: numCheck,required: true, trigger: 'blur' }
+        ],
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
-        // ordinarySelfFee: [
-        //     { validator: numCheck,required: true, trigger: 'blur' }
-        // ],
+        ordinarySelfFee: [
+            { validator: numCheck,required: true, trigger: 'blur' }
+        ],
+        editOrdinarySelfFee: [
+            { validator: numCheck,required: true, trigger: 'blur' }
+        ],
         ordinaryProxyFee: [
           { required: true, message: '请输入普票代开收费', trigger: 'blur' }
         ],

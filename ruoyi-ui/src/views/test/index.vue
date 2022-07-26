@@ -8,10 +8,13 @@
         :expand-on-click-node="expandOnClickNode" default-expand-all />
     </el-select>
 
-    <el-upload class="upload-demo myupload" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
+    <el-upload class="upload-demo myupload" action="https://jsonplaceholder.typicode.com/posts/" :on-success="handlesuccess1"
       :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
-      :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
+      :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
+      :before-upload="beforeAvatarUpload"
+      >
       <el-button size="small" type="primary">上传图片</el-button>
+       <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
     </el-upload>
     <div>
       <div class="tools">
@@ -109,6 +112,22 @@ export default {
     })
   },
   methods: {
+    beforeAvatarUpload(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
     ass(){
       getWord({ selfCode:'TJYW0005000155' , selfId:'291'}).then(res=>{
           console.log(res);

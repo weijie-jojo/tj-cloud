@@ -20,9 +20,10 @@
                         <el-input v-model="formData.projectTimeStart" disabled></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input-number style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
+                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0">
-                        </el-input-number>
+                            <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -159,8 +160,11 @@
 
                         <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
                             :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
-                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
+                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
+                           :before-upload="beforeAvatarUpload"
+                            >
                             <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible1" append-to-body>
                             <img width="100%" :src="dialogImageUrl1" alt="" />
@@ -212,22 +216,57 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
+           <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
     </div>
 </template>
 <script>
-import qs from 'qs';
+import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
 import { list, getcode, getinfoByUserId, add, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
+    components: {
+    pdf
+    },
     data() {
         return {
+            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+              //pdf预览
+            titles: '',
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+             loadedRatio: 0,
+             curPageNum: 0,
+             closeDialog: false,
+
             defaultProps: {
                 children: 'children',
                 label: 'label'
             },
             expandOnClickNode: true,
-            projectTradeS: '',  //项目行业类型
+            projectTradeS: [],  //项目行业类型
             projectTradeSList: '',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
@@ -440,6 +479,54 @@ export default {
 
 
     methods: {
+       beforeAvatarUpload(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+       // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+
+
+
+
 
      handleNodeClick(node) {
       this.formData.industryType = node.id;
@@ -450,7 +537,9 @@ export default {
     },
     // 四级菜单
     formatData(data) {
+        // console.log(data);
       let options = [];
+      if(data.length>0){
       data.forEach((item, key) => {
         options.push({ label: item.label, value: item.id });
         if (item.children) {
@@ -469,6 +558,7 @@ export default {
           });
         }
       });
+      }
       return options;
     },
 
@@ -511,7 +601,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$router.back();
+            this.$tab.closeOpenPage({path:'/project/list'});
         },
 
 
@@ -523,8 +613,14 @@ export default {
             this.fileNamefile.splice(i, 1);
         },
         handlePreview1(file) {
+         if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+            this.titles = '正在预览' + file.response.obj;
+            this.viewVisible = true;
+            this.url = this.baseImgPath + file.response.obj;
+           } else {
             this.dialogImageUrl1 = file.url;
             this.dialogVisible1 = true;
+            }
         },
         handleExceed1(files, fileList) {
             this.$message.warning(

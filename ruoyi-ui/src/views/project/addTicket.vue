@@ -3,26 +3,27 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
 
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="Father.projectCode" disabled></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" prop="projectName">
-                        <el-input v-model="formData.projectName"></el-input>
+                    <el-form-item class="comright" label="项目名称" :required="true">
+                        <el-input disabled v-model="Father.projectName"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="项目时间" prop="projectTimeStart">
-                        <el-input v-model="formData.projectTimeStart" disabled></el-input>
+                    <el-form-item class="comright" label="项目时间" :required="true">
+                        <el-input v-model="Father.projectTimeStart" disabled></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input-number style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
+                    <el-form-item class="comright" label="项目金额" :required="true">
+                        <el-input disabled type="number" style="width:100%" v-model="Father.projectTotalAmount"
                             :step="0.01" :min="0">
-                        </el-input-number>
+                            <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -30,93 +31,142 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    
 
-                    <el-form-item class="comright" label="甲方" prop="purchCompany">
+
+                    <el-form-item class="comright" label="甲方" :required="true">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
-                        <el-input v-model="formData.purchCompany"></el-input>
+                        <el-input disabled v-model="Father.purchCompany"></el-input>
                     </el-form-item>
-                      
+
                 </el-col>
 
                 <el-col :span="9">
-                   <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input v-model="formData.purchCompanyTaxid"></el-input>
+                    <el-form-item class="comright" label="甲方纳税人识别号" :required="true">
+                        <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
                     </el-form-item>
-                       
+
                 </el-col>
             </el-row>
-             <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-select @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
-                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
-                                :value="item.selfCode">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                     <el-form-item class="comright" label="已开金额">
-                        <el-input v-model="issuedAmount" disabled></el-input>
-                    </el-form-item>
-
-                   
-                </el-col>
-
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="owerTax"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="剩余金额">
-                        <el-input v-model="balance" disabled></el-input>
-                    </el-form-item>
-                   
-                </el-col>
-            </el-row>
-
-
-
-
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
+                    <el-form-item class="comright" label="乙方" :required="true">
+                        <el-input v-model="Father.selfName" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="已开金额" :required="true">
+                        <el-input disabled type="number" style="width:100%" v-model="issuedAmount" :step="0.01"
+                            :min="0">
+                            <template slot="append">元</template>
+                        </el-input>
+
+                    </el-form-item>
+                    <el-form-item class="comright" label="发票类型" prop="ticketType">
+                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
+                            <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item class="comright" label="开票内容类型">
                         <el-radio v-model="fileNameradio" label="1" @change="filenamer">手动输入</el-radio>
                         <el-radio v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
                     </el-form-item>
-
+                    <el-form-item class="comright" label="发票种类编号" prop="ticketTypeCode">
+                        <el-input v-model="formData.ticketTypeCode"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="发票时间" :required="true">
+                        <el-input v-model="formData.ticketTime" disabled></el-input>
+                    </el-form-item>
 
 
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="开票内容" prop="fileName" v-if="fileNameradio == 1">
 
-                        <el-input type="textarea" :rows="2" v-model="formData.fileName">
+                    <el-form-item class="comright" label="乙方纳税人识别号" :required="true">
+                        <el-input disabled v-model="owerTax"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="剩余金额" :required="true">
+                        <el-input disabled type="number" style="width:100%" v-model="balance" :step="0.01" :min="0">
+                            <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
+                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
+                        <el-input v-model="formData.ticketTax" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
+                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
+                            <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
 
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture">
+                    <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
+                        <el-input type="textarea" disabled :rows="2" v-model="Father.fileName">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+
+                        <div v-for="(item, index) in previewList" :key="index">
+                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
+                                :src="item" alt="" />
+                        </div>
+                        <div v-for="(x, y) in pdfList" :key="y">
+                            <span @click="pdfdetail(x)">
+                                {{ x }}
+                            </span>
+                        </div>
+
+                    </el-form-item>
+
+
+                    <el-form-item class="comright" label="发票编号" prop="ticketCode">
+                        <el-input v-model="formData.ticketCode"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="发票金额" prop="ticketAmount">
+                        <el-input type="number" style="width:100%" v-model="formData.ticketAmount" :step="0.01"
+                            :min="0">
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+
+
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                    <el-form-item style="padding-right:4%" label="发票备注">
+                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="发票影像" prop="fileName">
+
+                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
+                            :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
+                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
+                              :before-upload="beforeAvatarUpload"
+                            >
                             <el-button size="small" type="primary">点击上传</el-button>
+                             <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible1" append-to-body>
                             <img width="100%" :src="dialogImageUrl1" alt="" />
                         </el-dialog>
                     </el-form-item>
                 </el-col>
+                <el-col :span="9">
+                </el-col>
             </el-row>
 
 
-           
-
-            
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
@@ -127,23 +177,57 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
+         <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
     </div>
 </template>
 <script>
-import qs from 'qs';
+import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
 import { TicketByCode } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
 export default {
-    components: { Treeselect },
+    components: {
+        pdf
+    },
     data() {
         return {
-            issuedAmount:0.00,
-            balance:0.00,
+            fileNames:'',
+            titles: '',
+            pdfList: [],  //pdf 预览
+            previewList: [], //预览
+            //pdf预览
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
+            issuedAmount: 0.00, //已开金额
+            balance: 0.00,  //剩余金额
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -163,41 +247,19 @@ export default {
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
-          
+            
+            Father:[],
             formData: {
-                projectDesc: '',//开票描述
-                purchCompanyTaxid: '',//甲方纳税人识别号
+                projectCode: '',//项目编号
+                ticketRemark: '',//发票备注
                 ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                // checkContent: "",
-                // createBy: "",
-                // createTime: "",
+                ticketType: 0,  //发票类型
+                ticketCode: '',//发票种类编号
+                ticketTypeCode: '',//发票编号
                 fileName: '',//开票内容
-                placeCode: "",
-                projectAcceptanceStatus: 0,
-                projectCheckStatus: 0,
-                projectCode: "",
-                projectContractStatus: 0,
-                projectDesc: "",
-                projectDutypaidStatus: 0,
-                projectGrossMargin: 0,
-                projectGrossProfit: 0,
-                projectLeader: "",
-                projectName: "",
-                projectNetProfit: 0,
-                projectOwner: "",
-                projectPackageAmount: 0,
-                projectStatus: 0,
-                projectTicketStatus: 0,
-                // projectTimeEnd: "",
-                projectTimeStart: "",
-                projectTotalAmount: 0,
-                projectTrade: "",
-                purchCompany: "",
-                remark: "",
-                industryType: '',
-                selfName:'',
-                isDeleted:1,
+                ticketAmount: '',//发票金额
+                ticketTime: '',  //发票时间
+                isDeleted: 1,
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -259,6 +321,13 @@ export default {
                         trigger: "blur",
                     },
                 ],
+                ticketAmount: [
+                    {
+                        required: true,
+                        message: "请输入发票金额额",
+                        trigger: "blur",
+                    },
+                ],
 
                 ticketType: [
                     {
@@ -317,7 +386,7 @@ export default {
                 fileName: [
                     {
                         required: true,
-                        message: "开票内容不能为空",
+                        message: "发票影像不能为空",
 
                     },
                 ],
@@ -328,134 +397,169 @@ export default {
                         trigger: "blur",
                     },
                 ],
+                ticketCode: [
+                    {
+                        required: true,
+                        message: "请输入发票编号",
+                        trigger: "blur",
+                    },
+                ],
+                ticketTypeCode: [
+                    {
+                        required: true,
+                        message: "请输入发票种类编号",
+                        trigger: "blur",
+                    },
+                ],
 
             },
 
         };
     },
-    computed: {},
-    watch: {
-        "formData.contactName": {
-            handler: function () {
-                this.formData.legalPersonName = this.formData.contactName;
-            },
-            deep: true,
-            
-        },
-        'formData.industryType': 'selectIndustryType',
-    },
-   
-    
     mounted() {
-       this.getRate();
-       this.getlist();
-       this.ticketByCode();
-        //this.gettoday();
+        this.getlist();
+        this.ticketByCode();
+        this.gettoday();
+        this.getRate();
     },
 
 
     methods: {
-          //监听行业类型
-        selectIndustryType1() {
-            console.log("industryType==", this.formData.industryType);
-            var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-          
-            
-            let industryType = rate.industryId;
-
-            ownlist({ username: this.username, industryType: industryType }).then(res => {
-                this.ownoptions = res;
-
-
-                  for (let i in this.ownoptions) {
-                // console.log(1111,this.ownoptions[i].selfName);
-                 console.log(2222,this.formData.selfName);
-                if (this.ownoptions[i].selfName == this.formData.selfName) {
-                    this.natureBusiness = this.ownoptions[i].natureBusiness;
-                    this.owerTax = this.ownoptions[i].taxId;
-                   console.log(this.ownoptions[i]);
-                   }
-                }
-
-
-             }).catch(err => {
-                console.log(err);
-            });
-           
-        },
-          //计算已开和剩余金额
-        ticketByCode(){
-          TicketByCode({
-           projectCode:this.formData.projectCode
-           }).then(res=>{
-            let arr=res;
-             this.issuedAmount=0.00;
-            for(let i in arr){
-                if(arr[i].ticketAmount>0){
-                   this.issuedAmount+=arr[i].ticketAmount*1;
-                }
-            }
-            this.balance=this.formData.projectTotalAmount * 1-this.issuedAmount*1;
-
-          }).catch(err=>{
-
-          });
-        },
-         getlist(){
-            detail({
+         beforeAvatarUpload(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+    pdfdetail(i) {
+      this.titles = '正在预览' + i;
+      this.viewVisible = true;
+      this.url = this.baseImgPath + i;
+    },
+     // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+        //计算已开和剩余金额
+        ticketByCode() {
+            TicketByCode({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
-            }).then((response) => {
-             
-                 this.formData=response.data[0];
-           
-           
-           
-            this.selectIndustryType1();
-
-           this.isokradio=JSON.stringify(this.formData.placeStatus);
-              
-                 if(this.formData.fileName){
-                    this.formData.fileName=JSON.parse(this.formData.fileName);
-                    if(Array.isArray(this.formData.fileName) ){
-                          this.fileNameradio='2';
-                          //如果是图片的话
-                          for(let j in this.formData.fileName){
-                             this.fileName.push({
-                                 name:this.formData.fileName[j],
-                                 url:this.baseImgPath+this.formData.fileName[j]
-
-                             })
-                          }
-                         
-                        
-
-
-
-
-
-
-                    }else{
-                         this.fileNameradio='1';
+            }).then(res => {
+                let arr = res;
+                this.issuedAmount = 0.00;
+                for (let i in arr) {
+                    if (arr[i].ticketAmount > 0) {
+                        this.issuedAmount += arr[i].ticketAmount * 1;
                     }
-                    
-                 }else{
-                    this.fileNameradio='1';
-                 }
-                   if(this.formData.isActive){
-                         this.projectStatus=parseInt(this.formData.isActive);
-                    }else{
-                        this.projectStatus=1;
-                    }
+                }
+                this.balance = this.formData.projectTotalAmount * 1 - this.issuedAmount * 1;
+
+            }).catch(err => {
+
             });
+        },
+        getlist() {
+            this.Father= this.$cache.local.getJSON("publicTickets");
+             if (this.Father.fileName) {
+                    this.Father.fileName = JSON.parse(this.Father.fileName);
+                    if (Array.isArray(this.Father.fileName)) {
+                        this.fileNameradio = '2';
+                        //如果是图片的话
+                        for (let j in this.Father.fileName) {
+                            if (this.Father.fileName[j].substring(this.Father.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+                                this.pdfList.push(this.Father.fileName[j]);
+                             } else {
+                                this.Father.fileName[j] = this.baseImgPath + this.Father.fileName[j];
+                                this.previewList.push(this.Father.fileName[j]);
+                            }
+                       }
+
+                    } else {
+                        this.fileNameradio = '1';
+                    }
+
+                } else {
+                    this.fileNameradio = '1';
+                }
+                if (this.formData.isActive) {
+                    this.projectStatus = parseInt(this.formData.isActive);
+                } else {
+                    this.projectStatus = 1;
+                }
+            // detail({
+            //     projectCode: this.$cache.local.getJSON("publicTickets").projectCode
+            // }).then((response) => {
+
+            //     //this.formData = response.data[0];
+
+            //     //this.isokradio = JSON.stringify(this.formData.placeStatus);
+
+            //     if (this.formData.fileName) {
+            //         this.formData.fileName = JSON.parse(this.formData.fileName);
+            //         if (Array.isArray(this.formData.fileName)) {
+            //             this.fileNameradio = '2';
+            //             //如果是图片的话
+            //             for (let j in this.formData.fileName) {
+            //                 this.fileName.push({
+            //                     name: this.formData.fileName[j],
+            //                     url: this.baseImgPath + this.formData.fileName[j]
+
+            //                 })
+            //             }
+
+            //         } else {
+            //             this.fileNameradio = '1';
+            //         }
+
+            //     } else {
+            //         this.fileNameradio = '1';
+            //     }
+            //     if (this.formData.isActive) {
+            //         this.projectStatus = parseInt(this.formData.isActive);
+            //     } else {
+            //         this.projectStatus = 1;
+            //     }
+            // });
         },
         //监听开票内容选择
-        filenamer(e){
-          if(e==1){
-            this.formData.fileName='';
-          }
+        filenamer(e) {
+            if (e == 1) {
+                this.formData.fileName = '';
+            }
         },
         //监听乙方
         ownnew(e) {
@@ -463,24 +567,61 @@ export default {
             for (let i in this.ownoptions) {
                 if (this.ownoptions[i].selfCode == e) {
                     console.log(this.ownoptions[i].isActive);
-                    // if (this.ownoptions[i].isActive > -1) {
-                    //     this.placeStatus = parseInt(this.ownoptions[i].isActive);
-                    // } else {
-                    //     this.placeStatus = 0;
-                    // }
-                    if(this.ownoptions[i].isActive){
-                         this.projectStatus=parseInt(this.ownoptions[i].isActive);
-                    }else{
-                        this.projectStatus=1;
+                    if (this.ownoptions[i].isActive) {
+                        this.projectStatus = parseInt(this.ownoptions[i].isActive);
+                    } else {
+                        this.projectStatus = 1;
                     }
-                    this.formData.selfName=this.ownoptions[i].selfName;
+                    this.formData.selfName = this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
                     this.owerTax = this.ownoptions[i].taxId;
-                   // this.getcode(this.ownoptions[i].selfCode);
+                    // this.getcode(this.ownoptions[i].selfCode);
 
                 }
             }
         },
+        
+    getRate(){
+      crudRate.getAllRate().then(res=>{
+          console.log("getAllRate",res.rows);
+          let tree = []; // 用来保存树状的数据形式
+          this.parseTree(res.rows, tree, 0);
+          console.log("tree",tree);
+          this.industryTypes=tree;
+          this.industryTypeList=res.rows;
+         
+          var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
+            console.log("rate==", rate);
+            // this.industryId = rate.industryId;  //行业类型id
+            // this.owerTaxfee = rate.taxRate;
+
+
+            let industryType = rate.industryId;
+
+            ownlist({ username: this.username, industryType: industryType }).then(res => {
+                this.ownoptions = res;
+            }).catch(err => {
+                console.log(err);
+            });
+      })
+    },
+    //把数据整成树状
+    parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
+      }
+    },
+
+
+
         //监听渠道商状态  
         placeNew(e) {
             console.log(e);
@@ -494,10 +635,8 @@ export default {
         },
         //返回
         resetForm() {
-            this.$router.back();
+            this.$tab.closeOpenPage({path:'/project/ticketlist'});
         },
-
-
         handlesuccess1(file, fileList) {
             this.fileNamefile.push(file.obj);
         },
@@ -506,8 +645,25 @@ export default {
             this.fileNamefile.splice(i, 1);
         },
         handlePreview1(file) {
-            this.dialogImageUrl1 = file.url;
-            this.dialogVisible1 = true;
+             if (file.hasOwnProperty('response')) {
+                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+                    this.titles = '正在预览' + file.response.obj;
+                    this.viewVisible = true;
+                    this.url = this.baseImgPath + file.response.obj;
+                } else {
+                    this.dialogImageUrl1 = file.url;
+                    this.dialogVisible1 = true;
+                }
+            } else {
+                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+                    this.titles = '正在预览' + file.url;
+                    this.viewVisible = true;
+                    this.url = file.url;
+                } else {
+                    this.dialogImageUrl1 = file.url;
+                    this.dialogVisible1 = true;
+                }
+            }
         },
         handleExceed1(files, fileList) {
             this.$message.warning(
@@ -529,56 +685,16 @@ export default {
                 })
             })
         },
-        //获取税率
-        getRate() {
-            crudRate.getAllRate().then(res => {
-                console.log("getAllRate", res.rows);
-                // this.industryTypes=res.rows;
-                let tree = []; // 用来保存树状的数据形式
-                this.parseTree(res.rows, tree, 0);
-                console.log("tree", tree);
-                this.industryTypes = tree;
-                this.industryTypeList = res.rows;
-            })
-        },
-        //把数据整成树状
-        parseTree(industry, tree, pid) {
-            for (var i = 0; i < industry.length; i++) {
-                if (industry[i].parentId == pid) {
-                    var obj = {
-                        id: industry[i].industryId,
-                        label: industry[i].industryName,
-                        children: [],
-                    };
-                    tree.push(obj);
-                    this.parseTree(industry, obj.children, obj.id);
-                }
-            }
-        },
-        //监听行业类型
-        selectIndustryType() {
-            console.log("industryType==", this.formData.industryType);
-            var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-            this.formData.projectTrade = rate.industryName;//所属行业
-            let industryType = rate.industryId;
 
-            ownlist({ username: this.username, industryType: industryType }).then(res => {
-                this.ownoptions = res;
-            }).catch(err => {
-                console.log(err);
-            });
-           
-        },
+
 
         //监听开票内容类型
         tickettaxvip(e) {
-            console.log(e);
+            // this.formData.ticketType=e;
             if (e > 0) {
+
                 this.tickettaxvipok = true;
-                this.formData.ticketTax = 3;
+                // this.formData.ticketTax = 3;
             } else {
                 this.tickettaxvipok = false;
 
@@ -604,12 +720,12 @@ export default {
 
             //当前时间 
             var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-            // this.formData.createTime = curTime;
-            this.formData.projectTimeStart = curTime;
+
+            this.formData.ticketTime = curTime;
 
         },
         getcode(selfCode) {
-            getcode({selfCode:selfCode}).then((res) => {
+            getcode({ selfCode: selfCode }).then((res) => {
                 this.formData.projectCode = res;
             }).catch((errore) => {
                 console.log(errore);
@@ -709,11 +825,4 @@ export default {
 
     color: blue;
 }
-
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

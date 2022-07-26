@@ -322,7 +322,7 @@
         </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="出资额" prop="contributionAmount">
+            <el-form-item label="出资额">
 
               <el-input disabled type="number" v-model="formData.contributionAmount">
                 <template slot="append">万元</template>
@@ -444,7 +444,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="私账银行账号">
+            <el-form-item label="私账银行账号" prop="privateAccountNumber">
               <el-input placeholder="请输入法人私账银行账号" v-model="formData.privateAccountNumber" clearable
                 :disabled="isPrivateBank">
               </el-input>
@@ -578,8 +578,11 @@
             <el-form-item label="工商实名" prop="fileName6">
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess2"
                 :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple
-                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture">
+                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture"
+                 :before-upload="beforeAvatarUpload1"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible2" append-to-body>
                 <img width="100%" :src="dialogImageUrl2" alt="" />
@@ -593,8 +596,11 @@
             <el-form-item label="税务实名" prop="fileName7">
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess3"
                 :on-preview="handlePreview3" :on-remove="handleRemove3" :before-remove="beforeRemove3" multiple
-                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture">
+                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture"
+                 :before-upload="beforeAvatarUpload2"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible3" append-to-body>
                 <img width="100%" :src="dialogImageUrl3" alt="" />
@@ -610,8 +616,11 @@
             <el-form-item label="身份证扫描件" prop="fileName5">
               <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
                 :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple
-                :on-exceed="handleExceed1" :file-list="formData.fileName5" list-type="picture">
+                :on-exceed="handleExceed1" :file-list="formData.fileName5" list-type="picture"
+                 :before-upload="beforeAvatarUpload3"
+                >
                 <el-button size="small" type="primary">点击上传</el-button>
+                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible1" append-to-body>
                 <img width="100%" :src="dialogImageUrl1" alt="" />
@@ -680,15 +689,17 @@
           </el-col>
           <el-col :span="9">
             <el-form-item label="行业税率" :required="true">
-              <el-input v-model="formData.industryTax" disabled>
+              <el-input v-model="industryTax" disabled>
+                  <template slot="append">%</template>
               </el-input>
+             
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="单独结算">
+            <el-form-item label="单独结算" :required="true">
               <el-radio v-model="singleRadio" label="1" @change="singleOK">是</el-radio>
               <el-radio v-model="singleRadio" label="2" @change="singleOK">否</el-radio>
             </el-form-item>
@@ -700,7 +711,7 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="普票服务费">
+            <el-form-item label="普票服务费" :required="yecomfirms">
               <div style="">
 
                 <el-radio :disabled="yecomfirm" v-model="basicRadio" label="1">按定额收取</el-radio>
@@ -718,7 +729,7 @@
           </el-col>
 
           <el-col :span="9">
-            <el-form-item label="专票服务费">
+            <el-form-item label="专票服务费" :required="yecomfirms">
               <div style="">
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
@@ -743,7 +754,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="注册服务费">
+            <el-form-item label="注册服务费" :required="yecomfirms">
               <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
                 <template slot="append">元</template>
               </el-input>
@@ -906,7 +917,7 @@ export default {
       userinfo: {},
       formData: {
 
-
+        userId:'',
         titleType: '区县名',
         administrativeDivision: '漳平市',
         industry: '',
@@ -992,6 +1003,7 @@ export default {
 
 
       },
+      industryTax:'',//行业税率展示用
       unlist: {
         specialSelfFee: 0,//专票个体户代办费(率)
         specialSelfMoney: 0,//专票个体户代办费(元）
@@ -1001,6 +1013,7 @@ export default {
         registerMoney: '', //注册服务费
       },
       yecomfirm: true,
+      yecomfirms: false,
       vipRadio: '1',
       basicRadio: '1',
       singleRadio: '2',
@@ -1302,8 +1315,6 @@ export default {
 
 
     this.getSelfCode();
-    // this.getLoginInfo();
-    // console.log("options", this.options);
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -1314,11 +1325,58 @@ export default {
     //从上一个页面获取个体户编码
     //  this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
     //this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
-    //console.log("selfCode==", this.formData.selfCode)
+    
 
   },
   methods: {
-
+       beforeAvatarUpload1(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+      beforeAvatarUpload2(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
+      beforeAvatarUpload3(file){
+     
+       const isLt2M = file.size / 1024 / 1024 < 5;
+       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+       const whiteList = ["jpg", "png",'pdf','jpeg'];
+       if (whiteList.indexOf(fileSuffix) === -1) {
+       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+         return false;
+      }
+       if (!isLt2M) {
+          this.$message.error('上传文件大小不能超过 10MB!');
+          return false;
+        }
+        return fileSuffix&isLt2M;
+       
+    },
     
     // 上一页函数，
     prePage() {
@@ -1385,9 +1443,20 @@ export default {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
-            console.log(res);
-            this.unlist = res;
+          this.unlist = res;
+          this.formData.specialSelfFee = this.unlist.specialInvoice13;
+          this.formData.specialSelfMoney = this.unlist.specialInvoice13Money;
+          this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
+          this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
+          if(this.unlist.isOrdinaryTax){
+            this.formData.isSelfTax ='0';
+          }else{
+            this.formData.isSelfTax ='1';
+          }
+          this.formData.registerMoney = this.unlist.ordinarySelfFee;
+     
           });
+        
           return;
         }
       }
@@ -1397,6 +1466,7 @@ export default {
 
       if (this.singleRadio == 1) {
         this.yecomfirm = false;
+        this.yecomfirms=true;
         this.formData.specialSelfFee = 0;
         this.formData.specialSelfMoney = 0;
         this.formData.ordinarySelfFee = 0;
@@ -1405,18 +1475,10 @@ export default {
         this.formData.registerMoney = '';
       } else {
         this.yecomfirm = true;
-
-        // specialSelfMoney:0,//专票个体户代办费(元）
-        // ordinarySelfFee:0,//普票个体户代办费(率)
-        // ordinarySelfMoney:0,//普票个体户代办费(元）
-        // isSelfTax:'0',  //个体户服务费是否含税
-        // registerMoney:'', //注册服务费
-        this.formData.specialSelfFee = this.unlist.specialSelfFee;
-        this.formData.specialSelfMoney = this.unlist.specialSelfMoney;
-        this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
-        this.formData.ordinarySelfMoney = this.unlist.ordinarySelfMoney;
-        this.formData.isSelfTax = this.unlist.isSelfTax;
-        this.formData.registerMoney = this.unlist.registerMoney;
+        this.yecomfirms=false;
+        this.placenew();
+      
+      
       }
     },
     backBus() {
@@ -1441,9 +1503,9 @@ export default {
         // this.$cache.local.setJSON("userinfo", res.user);  //个人登录缓存
         this.userinfo = res.user;
         this.formData.userName = res.user.nickName;
-        console.log("getInfo==", res);
+        this.formData.userId= res.user.userId;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
-          console.log("getPlaceByUserId==", res.data);
+        
           this.places = res.data;
         })
       })
@@ -1460,24 +1522,27 @@ export default {
       }
     },
     selectIndustryType() {
-      console.log("industryType==", this.formData.industryType);
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-      console.log("rate==", rate);
-      this.formData.industryTax = rate.taxRate;
+     if(rate){
+            this.formData.industryTax = rate.taxRate;
+            this.industryTax=rate.taxRate*1*100;
+      }else{
+            this.formData.industryTax='';
+            this.industryTax='';
+      }
+     
     },
     selectApplyName(value) {
       var applyName = this.applyNames.find((item) => item.userId == value);
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
-      console.log("applyName==", applyName);
+      
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
-        // this.industryTypes=res.rows;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
-        console.log("tree", tree);
+       
         let arr = [{
           id: "-1",
           label: '请选择行业类型',
@@ -1507,14 +1572,13 @@ export default {
     },
     getContactName() {
       crudPerson.getAllPerson().then(res => {
-        console.log("getContactName", res.rows);
+        
         this.contactNames = res.rows;
       })
     },
     getApplyName() {
       crudInformation.getAllInformation().then(res => {
-        console.log("getApplyName", res.rows);
-        //this.applyNames = res.rows;
+       
         let arr = res.rows;
         let brr = [];
         for (let i in arr) {
@@ -1523,13 +1587,13 @@ export default {
           }
         }
         this.applyNames = brr;
-        console.log(111, this.applyNames);
+       
 
       })
 
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      
     },
     nextBasic() {
       this.actives = 2;
@@ -1587,7 +1651,7 @@ export default {
         if (valid) {
 
           this.submitFormNameS(); //名称录入成功l
-          console.log("placeName", this.formData.placeName,);
+         
           let parms1 = {
             selfCode: this.formData.selfCode,
 
@@ -1730,7 +1794,7 @@ export default {
                 "selfType": "1",
               }
               crudEmployed.check(parms).then(res => {
-                console.log('写入日志成功', res);
+               
               }).catch(err => {
 
               });
@@ -1754,14 +1818,14 @@ export default {
     //身份证
     handlesuccess1(file, fileList) {
       this.formData.fileName5.push(file.obj);
-      console.log(this.formData.fileName5);
+    
     },
     handleRemove1(file, fileList) {
       const i = this.formData.fileName5.findIndex((item) => item === fileList)
       this.formData.fileName5.splice(i, 1);
     },
     handlePreview1(file) {
-      console.log(file);
+     
       if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
            this.titles = '正在预览' + file.response.obj;
            this.viewVisible = true;
@@ -1780,7 +1844,7 @@ export default {
     //工商实名
     handlesuccess2(file, fileList) {
       this.formData.fileName6.push(file.obj);
-      console.log(this.formData.fileName6);
+      
     },
     handleRemove2(file, fileList) {
       const i = this.formData.fileName6.findIndex((item) => item === fileList)
@@ -1807,7 +1871,7 @@ export default {
     //税务实名
     handlesuccess3(file, fileList) {
       this.formData.fileName7.push(file.obj);
-      console.log(this.formData.fileName7);
+     
     },
     handleRemove3(file, fileList) {
       const i = this.formData.fileName7.findIndex((item) => item === fileList)
@@ -1830,15 +1894,6 @@ export default {
     beforeRemove3(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
-
-
-
-
-    // getLoginInfo() {
-    //   getInfo().then(res => {
-    //     this.formData.userName = res.user.nickName;
-    //   })
-    // },
     getPoposedName() {
       this.formData.poposedName1 = this.formData.administrativeDivision + this.formData.fontSize1 + this.formData.industry + this.formData.organizationalForm;
       this.formData.poposedName2 = this.formData.administrativeDivision + this.formData.fontSize2 + this.formData.industry + this.formData.organizationalForm;
@@ -1889,7 +1944,7 @@ export default {
           var employeeNumber = res.data.employeeNumber;
           crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
             this.formData.selfCode = res;
-            console.log("selfCode", res);
+           
           })
         });
       })
@@ -1898,7 +1953,7 @@ export default {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
-          console.log("date", new Date().toLocaleString())
+        
           let parms = {
             selfCode: this.formData.selfCode,
             titleType: this.formData.titleType,
@@ -1923,7 +1978,7 @@ export default {
             nameStatus: 0,
           };
           crudReview.addReview(parms).then(res => {
-            console.log("addReview", res)
+           
             if (res != undefined) {
               if (res.id == 0) {
                 // this.$message({

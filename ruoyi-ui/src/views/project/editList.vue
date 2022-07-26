@@ -20,9 +20,10 @@
                         <el-input v-model="formData.projectTimeStart" disabled></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input-number style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
+                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0">
-                        </el-input-number>
+                              <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -173,14 +174,15 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" :required="true">
-                          <el-select class="main-select-tree" ref="selectTrees" v-model="projectTrades" style="width: 100%;">
-                         <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
-                             :value="item.value" style="display: none;" />
-                         <el-tree class="main-select-el-tree" ref="selecteltrees" :data="projectTradeS" node-key="id"
-                            highlight-current :props="defaultProps" @node-click="handleNodeClick1"
-                          :current-node-key="projectTrades" :expand-on-click-node="expandOnClickNode"
-                             default-expand-all />
-                   </el-select>
+                        <el-select class="main-select-tree" ref="selectTrees" v-model="projectTrades"
+                            style="width: 100%;">
+                            <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                            <el-tree class="main-select-el-tree" ref="selecteltrees" :data="projectTradeS" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick1"
+                                :current-node-key="projectTrades" :expand-on-click-node="expandOnClickNode"
+                                default-expand-all />
+                        </el-select>
 
                     </el-form-item>
                 </el-col>
@@ -213,17 +215,53 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
+             <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
     </div>
 </template>
 <script>
-import qs from 'qs';
+import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
-
+    components: {
+        pdf
+    },
     data() {
         return {
+            titles: '',
+            pdfList1: [],  //pdf 预览
+            previewList1: [], //预览
+            //pdf预览
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -255,9 +293,9 @@ export default {
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
             placeCodeOptions: '',//渠道商
-            projectTrades:'',
+            projectTrades: '',
             formData: {
-                projectTrades:'',
+                projectTrades: '',
                 projectDesc: '',//开票描述
                 purchCompanyTaxid: '',//甲方纳税人识别号
                 ticketTax: '',//发票税率
@@ -452,13 +490,44 @@ export default {
 
 
     methods: {
+        // 上一页函数，
+        prePage() {
+            var page = this.pageNum
+            page = page > 1 ? page - 1 : this.pageTotalNum
+            this.pageNum = page
+        },
+        // 下一页函数
+        nextPage() {
+            var page = this.pageNum
+            page = page < this.pageTotalNum ? page + 1 : 1
+            this.pageNum = page
+        },
+        // 页面顺时针翻转90度。
+        clock() {
+            this.pageRotate += 90
+        },
+        // 页面逆时针翻转90度。
+        counterClock() {
+            this.pageRotate -= 90
+        },
+        // 页面加载回调函数，其中e为当前页数
+        pageLoaded(e) {
+            this.curPageNum = e
+        },
+        // 其他的一些回调函数。
+        pdfError(error) {
+            console.error(error)
+        },
+
+
+
         handleNodeClick(node) {
-            
+
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
         },
         handleNodeClick1(node) {
-            this.projectTrades= node.id;
+            this.projectTrades = node.id;
             this.$refs.selectTrees.blur();
         },
         // 四级菜单
@@ -489,7 +558,7 @@ export default {
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
                 this.formData = response.data[0];
-                this.projectTrades='';
+                this.projectTrades = '';
                 this.isokradio = JSON.stringify(this.formData.placeStatus);
                 if (this.formData.fileName) {
                     this.formData.fileName = JSON.parse(this.formData.fileName);
@@ -565,8 +634,25 @@ export default {
             this.fileNamefile.splice(i, 1);
         },
         handlePreview1(file) {
-            this.dialogImageUrl1 = file.url;
-            this.dialogVisible1 = true;
+            if (file.hasOwnProperty('response')) {
+                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+                    this.titles = '正在预览' + file.response.obj;
+                    this.viewVisible = true;
+                    this.url = this.baseImgPath + file.response.obj;
+                } else {
+                    this.dialogImageUrl1 = file.url;
+                    this.dialogVisible1 = true;
+                }
+            } else {
+                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+                    this.titles = '正在预览' + file.url;
+                    this.viewVisible = true;
+                    this.url = file.url;
+                } else {
+                    this.dialogImageUrl1 = file.url;
+                    this.dialogVisible1 = true;
+                }
+            }
         },
         handleExceed1(files, fileList) {
             this.$message.warning(
@@ -605,10 +691,10 @@ export default {
 
 
                 this.selectIndustryType1();
-                
-                
-               
-               
+
+
+
+
             })
         },
         //把数据整成树状
@@ -669,11 +755,11 @@ export default {
         },
         //监听项目行业类型
         selectInType() {
-           
+
             var rate = this.projectTradeSList.find((item) => item.industryId == this.projectTrades);
-           this.formData.projectTrade = rate.industryName;//所属行业
+            this.formData.projectTrade = rate.industryName;//所属行业
             console.log(this.formData.projectTrade);
-             console.log(this.formData.projectTrades);
+            console.log(this.formData.projectTrades);
         },
         //监听开票内容类型
         tickettaxvip(e) {
@@ -767,6 +853,7 @@ export default {
 .rowCss {
     margin-top: 10px;
 }
+
 .paddingbg-s {
     padding-top: 15px;
 }
@@ -804,5 +891,4 @@ export default {
 
     color: blue;
 }
-
 </style>
