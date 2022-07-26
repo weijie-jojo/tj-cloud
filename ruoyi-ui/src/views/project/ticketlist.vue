@@ -9,19 +9,23 @@
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目金额">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"></el-input>
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount">
+                          <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="已开金额">
-                        <el-input-number :readonly="true" style="width:100%" v-model="issuedAmount" :precision="2" :step="0.00">
-                        </el-input-number>
+                        <el-input type="number" :readonly="true" style="width:100%" v-model="issuedAmount" :step="0.00" >
+                         <template slot="append">元</template>
+                       </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="剩余金额">
-                        <el-input-number :readonly="true" style="width:100%" v-model="balance" :precision="2" :step="0.00">
-                        </el-input-number>
+                        <el-input type="number" :readonly="true" style="width:100%" v-model="balance"  :step="0.00">
+                          <template slot="append">元</template>
+                       </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -64,14 +68,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-
-
-
-
-
-
-
             <!-- <el-form-item label="乙方">
                 <el-input v-model="queryParams.projectOwner" placeholder="请输入乙方" clearable
                     @keyup.enter.native="handleQuery" />
@@ -124,18 +120,55 @@
 
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
+     <!--PDF 预览-->
+     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+     <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
 
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
 
-    </div>
+      </div>
+    </el-dialog>
+   
+   </div>
 
 </template>
 
 <script>
-import qs from 'qs';
+import pdf from 'vue-pdf'
 import { list, del ,TicketByCode } from "@/api/project/ticket";
 export default {
+  components: { 
+    pdf 
+   },
     data() {
         return {
+           titles: '',
+           pdfList: [],  //pdf 预览
+           previewList: [], //预览
+          
+          //pdf预览
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
+
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             fileNameradio:'1',
             fileName2:[],
@@ -241,7 +274,12 @@ export default {
                           this.fileNameradio='2';
                           //如果是图片的话
                          for(let j in this.publicList.fileName){
-                            this.fileName2.push( this.baseImgPath+this.publicList.fileName[j]);
+                             if (this.publicList.fileName[j].substring(this.publicList.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+                                this.pdfList.push(this.publicList.fileName[j]);
+                             } else {
+                                this.publicList.fileName[j] = this.baseImgPath + this.publicList.fileName[j];
+                                this.previewList.push(this.publicList.fileName[j]);
+                            }
                           }
                     
                     }else{

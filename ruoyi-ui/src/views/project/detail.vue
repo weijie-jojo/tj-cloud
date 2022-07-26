@@ -374,7 +374,6 @@ export default {
     getRate(){
       crudRate.getAllRate().then(res=>{
           console.log("getAllRate",res.rows);
-          // this.industryTypes=res.rows;
           let tree = []; // 用来保存树状的数据形式
           this.parseTree(res.rows, tree, 0);
           console.log("tree",tree);

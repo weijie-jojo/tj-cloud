@@ -155,7 +155,7 @@
             </el-row>
             <el-row class="rowCss" :gutter="60" style="margin-left:260px">
               <el-col :span="8">
-                <el-form-item label="出资额" prop="contributionAmount">
+                <el-form-item label="出资额">
                   <el-input-number 
                     v-model="formData.contributionAmount" 
                     :precision="6" 
