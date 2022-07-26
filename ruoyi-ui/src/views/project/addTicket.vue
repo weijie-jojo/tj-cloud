@@ -71,8 +71,8 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容类型">
-                        <el-radio v-model="fileNameradio" label="1" @change="filenamer">手动输入</el-radio>
-                        <el-radio v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
+                        <el-radio disabled v-model="fileNameradio" label="1" @change="filenamer">手动输入</el-radio>
+                        <el-radio disabled v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
                     </el-form-item>
                     <el-form-item class="comright" label="发票种类编号" prop="ticketTypeCode">
                         <el-input v-model="formData.ticketTypeCode"></el-input>
@@ -95,7 +95,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :disabled="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
                         <el-select style="width:100%" clearable v-model="formData.ticketTax">
@@ -128,7 +128,9 @@
                         <el-input v-model="formData.ticketCode"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
-                        <el-input type="number" style="width:100%" v-model="formData.ticketAmount" :step="0.01"
+                        <el-input
+                        @change="ticketAsee"
+                        type="number" style="width:100%" v-model="formData.ticketAmount" :step="0.01"
                             :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -201,8 +203,8 @@
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import { TicketByCode } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
+import { TicketByCode,add } from "@/api/project/ticket";
+import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
     components: {
@@ -250,9 +252,9 @@ export default {
             
             Father:[],
             formData: {
-                projectCode: '',//项目编号
+                projectCode:this.$cache.local.getJSON("publicTickets").projectCode,//项目编号
                 ticketRemark: '',//发票备注
-                ticketTax: '',//发票税率
+                ticketTax: 3,//发票税率
                 ticketType: 0,  //发票类型
                 ticketCode: '',//发票种类编号
                 ticketTypeCode: '',//发票编号
@@ -474,6 +476,15 @@ export default {
     pdfError(error) {
       console.error(error)
     },
+    ticketAsee(e){
+        console.log(e);
+        console.log(this.balance);
+        if(e>this.balance){
+            this.$modal.msgError('发票金额不能大于剩余金额');
+            this.formData.ticketAmount='';
+        }
+        
+    },
         //计算已开和剩余金额
         ticketByCode() {
             TicketByCode({
@@ -486,7 +497,7 @@ export default {
                         this.issuedAmount += arr[i].ticketAmount * 1;
                     }
                 }
-                this.balance = this.formData.projectTotalAmount * 1 - this.issuedAmount * 1;
+                this.balance = this.Father.projectTotalAmount * 1 - this.issuedAmount * 1;
 
             }).catch(err => {
 
@@ -735,25 +746,20 @@ export default {
             console.log(val);
         },
         onSubmit() {
+            this.formData.fileName = this.fileNamefile;
+            this.formData.fileName = JSON.stringify(this.formData.fileName);
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
-                    if (this.fileNameradio == 2) {
-                        this.formData.fileName = this.fileNamefile;
-                        this.formData.fileName = JSON.stringify(this.formData.fileName);
-                    }
-
-
-
-                    edit(this.formData).then((res) => {
+                     add(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("编辑成功!");
+                                    this.$modal.msgSuccess("新增成功!");
                                     this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/list").then(() => {
-                                            this.$tab.openPage("项目列表", "/project/list");
+                                        this.$tab.refreshPage("/project/ticketlist").then(() => {
+                                            this.$tab.openPage("票据列表", "/project/ticketlist");
                                         });
                                         //this.$router.push("employed");
                                     });
