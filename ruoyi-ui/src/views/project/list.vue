@@ -20,13 +20,8 @@
 
       align="right">
     </el-date-picker>
-                <!-- <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeStart"
-                    type="datetime" placeholder="选择日期时间"></el-date-picker> -->
+              
             </el-form-item>
-            <!-- <el-form-item label="项目结束时间">
-                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="queryParams.projectTimeEnd" type="datetime"
-                    placeholder="选择日期时间"></el-date-picker>
-            </el-form-item> -->
             <el-form-item label="项目状态">
                 <el-select clearable v-model="queryParams.projectStatus" placeholder="请选择项目状态">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -43,19 +38,6 @@
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
-
-            <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-            <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -99,10 +81,7 @@
             <el-table-column label="项目合同" align="center">
 
                 <template slot-scope="scope">
-                    <!-- <el-link :underline="false" type="info"
-                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectTicketStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
-                        未开始</el-link> -->
-                    <el-link :underline="false" type="primary" @click="shenloading"
+                   <el-link :underline="false" type="primary" @click="addContract"
                         v-if="scope.row.projectContractStatus == 0">进行中
                     </el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBus)"
@@ -115,9 +94,6 @@
             <el-table-column label="项目验收" align="center">
 
                 <template slot-scope="scope">
-                    <!-- <el-link :underline="false" type="info"
-                        v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.businessStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
-                        未开始</el-link> -->
                     <el-link :underline="false" type="primary" @click="shenloading"
                         v-if="scope.row.projectAcceptanceStatus == 0">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkTax)"
@@ -130,9 +106,7 @@
             <el-table-column label="项目完税" align="center">
 
                 <template slot-scope="scope">
-                    <!-- <el-link :underline="false" type="info"
-                        v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.businessStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
-                        未开始</el-link> -->
+                   
                     <el-link :underline="false" type="primary" @click="shenloading"
                         v-if="scope.row.projectDutypaidStatus == '0'">进行中</el-link>
                     <el-link :underline="false" type="danger" @click="errorsinfo(scope.row.remarkBank)"
@@ -147,19 +121,6 @@
                     <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
                     </el-button>
-                    <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button> -->
-
-
-                    <!-- <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-         
-            >修改</el-button -->
-                    <!-- > -->
-                    <!-- v-hasPermi="['company:employed:edit']" -->
                     <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
@@ -398,6 +359,14 @@ export default {
                     // });
                 },
             });
+        },
+        addContract(){
+              this.$alert("是否新增合同", "提示", {
+                confirmButtonText: "新增",
+                callback: (action) => {
+                    this.$tab.closeOpenPage({path:'/project/contract'})
+                },
+            }); 
         },
 
         /** 搜索按钮操作 */
