@@ -705,6 +705,173 @@ public class WordExportController {
         table2_r4_6.setFontFamily("宋体");
         table2_r4_6.setFontSize(12);
 
+        //第五行单元格
+        XWPFTableCell table2_cell5_1 = table2.getRow(4).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_1 =  table2_cell5_1.addParagraph();
+        table2_paragraph5_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_1 = table2_paragraph5_1.createRun();
+        table2_r5_1.setText("经营者文化程度");
+        table2_r5_1.setFontFamily("宋体");
+        table2_r5_1.setFontSize(12);
+
+        XWPFTableCell table2_cell5_2 = table2.getRow(4).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_2 =  table2_cell5_2.addParagraph();
+        table2_paragraph5_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_2 = table2_paragraph5_2.createRun();
+        table2_r5_2.setText(selfEmployed.getEduation());
+        table2_r5_2.setFontFamily("宋体");
+        table2_r5_2.setFontSize(12);
+
+        XWPFTableCell table2_cell5_3 = table2.getRow(4).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_3 =  table2_cell5_3.addParagraph();
+        table2_paragraph5_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_3 = table2_paragraph5_3.createRun();
+        table2_r5_3.setText("经营者政治面貌");
+        table2_r5_3.setFontFamily("宋体");
+        table2_r5_3.setFontSize(12);
+
+        XWPFTableCell table2_cell5_4 = table2.getRow(4).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_4 =  table2_cell5_4.addParagraph();
+        table2_paragraph5_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_4 = table2_paragraph5_4.createRun();
+        table2_r5_4.setText(selfEmployed.getNation());
+        table2_r5_4.setFontFamily("宋体");
+        table2_r5_4.setFontSize(12);
+
+        XWPFTableCell table2_cell5_5 = table2.getRow(3).getCell(4);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_5 =  table2_cell5_5.addParagraph();
+        table2_paragraph5_5.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_5 = table2_paragraph5_5.createRun();
+        table2_r5_5.setText("经营者身份证件类型");
+        table2_r5_5.setFontFamily("宋体");
+        table2_r5_5.setFontSize(12);
+
+        XWPFTableCell table2_cell5_6 = table2.getRow(3).getCell(5);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph5_6 =  table2_cell5_6.addParagraph();
+        table2_paragraph5_6.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r5_6 = table2_paragraph5_6.createRun();
+        table2_r5_6.setText(selfEmployed.getNation());
+        table2_r5_6.setFontFamily("宋体");
+        table2_r5_6.setFontSize(12);
+
+        //第六行单元格
+        XWPFTableCell table2_cell6_1 = table2.getRow(5).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_1 =  table2_cell6_1.addParagraph();
+        table2_paragraph6_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_1 = table2_paragraph6_1.createRun();
+        table2_r6_1.setText("经营者身份证件号码");
+        table2_r6_1.setFontFamily("宋体");
+        table2_r6_1.setFontSize(12);
+
+        XWPFTableCell table2_cell6_2 = table2.getRow(5).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_2 =  table2_cell6_2.addParagraph();
+        table2_paragraph6_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_2 = table2_paragraph6_2.createRun();
+        table2_r6_2.setText(selfEmployed.getEduation());
+        table2_r6_2.setFontFamily("宋体");
+        table2_r6_2.setFontSize(12);
+
+        XWPFTableCell table2_cell6_3 = table2.getRow(5).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_3 =  table2_cell6_3.addParagraph();
+        table2_paragraph6_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_3 = table2_paragraph6_3.createRun();
+        table2_r6_3.setText("固定电话");
+        table2_r6_3.setFontFamily("宋体");
+        table2_r6_3.setFontSize(12);
+
+        XWPFTableCell table2_cell6_4 = table2.getRow(5).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_4 =  table2_cell6_4.addParagraph();
+        table2_paragraph6_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_4 = table2_paragraph6_4.createRun();
+        table2_r6_4.setText("无");
+        table2_r6_4.setFontFamily("宋体");
+        table2_r6_4.setFontSize(12);
+
+        XWPFTableCell table2_cell6_5 = table2.getRow(5).getCell(4);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_5 =  table2_cell6_5.addParagraph();
+        table2_paragraph6_5.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_5 = table2_paragraph6_5.createRun();
+        table2_r6_5.setText("移动电话");
+        table2_r6_5.setFontFamily("宋体");
+        table2_r6_5.setFontSize(12);
+
+        XWPFTableCell table2_cell6_6 = table2.getRow(5).getCell(5);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph6_6 =  table2_cell6_6.addParagraph();
+        table2_paragraph6_6.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r6_6 = table2_paragraph6_6.createRun();
+        table2_r6_6.setText(selfEmployed.getContactPhone());
+        table2_r6_6.setFontFamily("宋体");
+        table2_r6_6.setFontSize(12);
+
+        //第七行单元格
+        XWPFTableCell table2_cell7_1 = table2.getRow(6).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph7_1 =  table2_cell7_1.addParagraph();
+        table2_paragraph7_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r7_1 = table2_paragraph7_1.createRun();
+        table2_r7_1.setText("职业状况");
+        table2_r7_1.setFontFamily("宋体");
+        table2_r7_1.setFontSize(12);
+
+        XWPFTableCell table2_cell7_2 = table2.getRow(6).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph7_2 =  table2_cell7_2.addParagraph();
+        table2_paragraph7_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r7_2 = table2_paragraph7_2.createRun();
+        table2_r7_2.setText("待业");
+        table2_r7_2.setFontFamily("宋体");
+        table2_r7_2.setFontSize(12);
+
+        XWPFTableCell table2_cell7_3 = table2.getRow(6).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph7_3 =  table2_cell7_3.addParagraph();
+        table2_paragraph7_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r7_3 = table2_paragraph7_3.createRun();
+        table2_r7_3.setText("经营者住所");
+        table2_r7_3.setFontFamily("宋体");
+        table2_r7_3.setFontSize(12);
+
+        XWPFTableCell table2_cell7_4 = table2.getRow(6).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph7_4 =  table2_cell7_4.addParagraph();
+        table2_paragraph7_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r7_4 = table2_paragraph7_4.createRun();
+        table2_r7_4.setText(selfEmployed.getResidence());
+        table2_r7_4.setFontFamily("宋体");
+        table2_r7_4.setFontSize(12);
+
+        //第八行单元格
+        XWPFTableCell table2_cell8_1 = table2.getRow(7).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph8_1 =  table2_cell8_1.addParagraph();
+        table2_paragraph8_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r8_1 = table2_paragraph8_1.createRun();
+        table2_r8_1.setText("组成形式");
+        table2_r8_1.setFontFamily("宋体");
+        table2_r8_1.setFontSize(12);
+
+        XWPFTableCell table2_cell8_2 = table2.getRow(7).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph8_2 =  table2_cell8_2.addParagraph();
+        table2_paragraph8_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r8_2 = table2_paragraph8_2.createRun();
+        table2_r8_2.setText("□个人经营            □家庭经营");
+        table2_r8_2.setFontFamily("宋体");
+        table2_r8_2.setFontSize(12);
+
+
 
         //写到本地
         File file =new File(configProps.getName()+fileName);
