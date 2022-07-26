@@ -1,12 +1,17 @@
 package com.ruoyi.company.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
+import com.ruoyi.company.domain.vo.SysUserVo;
+import com.ruoyi.company.mapper.SysUserMapper;
 import com.ruoyi.company.service.ISelfApplicationInfoService;
 import com.ruoyi.company.service.ISelfLegalPersonService;
 import com.ruoyi.company.service.ISelfNameReviewService;
@@ -49,6 +54,8 @@ public class SelfEmployedController extends BaseController
     private ISelfNameReviewService selfNameReviewService;
     @Autowired
     private ISelfApplicationInfoService selfApplicationInfoService;
+    @Resource
+    private  SysUserMapper sysUserMapper;
     /**
      * 连表selfNameReview查询
      */
@@ -57,10 +64,32 @@ public class SelfEmployedController extends BaseController
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
-        System.out.println("getNameStatus=="+selfEmployedVo.getNameStatus());
-        System.out.println("business=="+selfEmployedVo.getBusinessStatus());
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户名
+            }
+        }
         startPage();
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         return getDataTable(list);
     }
     /**
@@ -71,8 +100,32 @@ public class SelfEmployedController extends BaseController
     @GetMapping("/joinListEnd")
     public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
     {
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户名
+            }
+        }
         startPage();
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(selfEmployedVo);
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(userIdArr,selfEmployedVo);
         return getDataTable(list);
     }
     /**

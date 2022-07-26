@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfEmployedMapper;
@@ -28,8 +29,8 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
      * @return 个体商户
      */
     @Override
-    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployedVo selfEmployedVo) {
-        return selfEmployedMapper.selectEmployedJoinReview(selfEmployedVo);
+    public List<SelfEmployedVo> selectEmployedJoinReview(List<Long> userIdArr, SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinReview(userIdArr,selfEmployedVo);
     }
 
     /**
@@ -39,8 +40,8 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
      * @return 个体商户
      */
     @Override
-    public List<SelfEmployedVo> selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo) {
-        return selfEmployedMapper.selectEmployedJoinEnd(selfEmployedVo);
+    public List<SelfEmployedVo> selectEmployedJoinEnd(List<Long> userIdArr,SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinEnd(userIdArr,selfEmployedVo);
     }
 
     /**

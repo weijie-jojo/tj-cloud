@@ -91,39 +91,51 @@
         select * from self_employed t JOIN self_name_review A on t.self_code=A.self_code
                JOIN  self_application_info B  on t.self_code=B.self_code JOIN  self_legal_person C  on t.self_code=C.self_code
     </sql>
-    <select id="selectEmployedJoinReview" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+    <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
-            <if test="endStatus == 0  ">t.end_status =0 </if>
-            <if test="endStatus == 1  ">t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
-            <if test="endStatus == 2  ">t.end_status =2 </if>
-            <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
-            <if test="legalPersonName != null  and legalPersonName != ''"> and t.legal_person_name like concat('%', #{legalPersonName}, '%')</if>
-            <if test="username != null  and username != ''"> and t.username like concat('%', #{username}, '%')</if>
-            <if test="nameStatus != null  "> and A.name_status =#{nameStatus}</if>
-            <if test="infoStatus != null  "> and t.info_status =#{infoStatus}</if>
-            <if test="taxStatus != null  "> and t.tax_status = #{taxStatus}</if>
-            <if test="bankStatus != null  "> and t.bank_status =#{bankStatus}</if>
-            <if test="businessStatus != null  "> and t.business_status =#{businessStatus}</if>
-            <if test="realnameStatus != null  "> and t.realname_status =#{realnameStatus}</if>
-            <if test="selfCode != null  "> and t.self_code =#{selfCode}</if>
-            <if test="start != null and start != ''"><!-- 开始时间检索 -->
-                AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') >= date_format(#{start},'%Y-%m-%d %H:%i:%s')
+            <if test="selfEmployedVo.endStatus == 0  ">t.end_status =0 </if>
+            <if test="selfEmployedVo.endStatus == 1  ">t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
+            <if test="selfEmployedVo.endStatus == 2  ">t.end_status =2 </if>
+            <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
+            <if test="selfEmployedVo.legalPersonName != null  and selfEmployedVo.legalPersonName != ''"> and t.legal_person_name like concat('%', #{selfEmployedVo.legalPersonName}, '%')</if>
+            <if test="selfEmployedVo.username != null  and selfEmployedVo.username != ''"> and t.username like concat('%', #{selfEmployedVo.username}, '%')</if>
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND t.user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
             </if>
-            <if test="end != null and end != ''"><!-- 结束时间检索 -->
-                AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{end},'%Y-%m-%d %H:%i:%s')
+            <if test="selfEmployedVo.nameStatus != null  "> and A.name_status =#{selfEmployedVo.nameStatus}</if>
+            <if test="selfEmployedVo.infoStatus != null  "> and t.info_status =#{selfEmployedVo.infoStatus}</if>
+            <if test="selfEmployedVo.taxStatus != null  "> and t.tax_status = #{selfEmployedVo.taxStatus}</if>
+            <if test="selfEmployedVo.bankStatus != null  "> and t.bank_status =#{selfEmployedVo.bankStatus}</if>
+            <if test="selfEmployedVo.businessStatus != null  "> and t.business_status =#{selfEmployedVo.businessStatus}</if>
+            <if test="selfEmployedVo.realnameStatus != null  "> and t.realname_status =#{selfEmployedVo.realnameStatus}</if>
+            <if test="selfEmployedVo.selfCode != null  "> and t.self_code =#{selfEmployedVo.selfCode}</if>
+            <if test="selfEmployedVo.start != null and selfEmployedVo.start != ''"><!-- 开始时间检索 -->
+                AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') >= date_format(#{selfEmployedVo.start},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="selfEmployedVo.end != null and selfEmployedVo.end != ''"><!-- 结束时间检索 -->
+                AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{selfEmployedVo.end},'%Y-%m-%d %H:%i:%s')
             </if>
         </trim>
         ORDER BY
         t.create_time DESC
     </select>
 
-    <select id="selectEmployedJoinEnd" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+    <select id="selectEmployedJoinEnd"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             t.end_status=1
-            <if test="placeName != null  and placeName != ''"> and t.place_name like concat('%', #{placeName}, '%')</if>
-            <if test="isActive != null  and isActive != ''"> and t.is_active like concat('%', #{isActive}, '%')</if>
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND t.user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
+            <if test="selfEmployedVo.isActive != null  and selfEmployedVo.isActive != ''"> and t.is_active like concat('%', #{selfEmployedVo.isActive}, '%')</if>
         </trim>
         ORDER BY
         t.create_time DESC

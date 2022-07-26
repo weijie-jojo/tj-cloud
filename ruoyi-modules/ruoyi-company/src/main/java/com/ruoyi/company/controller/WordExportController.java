@@ -116,7 +116,7 @@ public class WordExportController {
         //根据selfCode获取工商信息
         SelfEmployedVo selfEmployedVo=new SelfEmployedVo();
         selfEmployedVo.setSelfCode(selfCode);
-        List<SelfEmployedVo> selfEmployedVos= selfEmployedService.selectEmployedJoinReview(selfEmployedVo);
+        List<SelfEmployedVo> selfEmployedVos= selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
         SelfEmployedVo selfEmployed=selfEmployedVos.get(0);
         System.out.println("selfEmployed=="+selfEmployed);
 
@@ -147,6 +147,7 @@ public class WordExportController {
 //        run2.setBold(true);//加粗
 
         //创建表格 16行*4列(创建table 时，会有一个默认一行一列的表格)
+//        XWPFTable table =  doc.getTableArray(0);
         XWPFTable table = doc.createTable(16,4);
         // 设置表格宽度为A4纸最大宽度
         TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 10);
@@ -531,31 +532,179 @@ public class WordExportController {
         XWPFFooter footer = doc.createFooter(HeaderFooterType.DEFAULT);
         footer.createParagraph().createRun().setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
 
-        //创建表格 17行*6列(创建table 时，会有一个默认一行一列的表格)
-        XWPFTable table3 = doc.createTable(6,6);
+        XWPFParagraph p2= doc.createParagraph();
+        XWPFParagraph p3= doc.createParagraph();
+        XWPFParagraph p4= doc.createParagraph();
+
+        //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
+//        XWPFTable table3 =  doc.getTableArray(1);
+        XWPFTable table2 = doc.createTable(18,12);
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 10);
+        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 13);
         // 设置表格居中
-        TableStyle style3 = new TableStyle();
-        style3.setAlign(STJc.CENTER);
-        TableTools.styleTable(table3, style3);
+        TableStyle style2 = new TableStyle();
+        style2.setAlign(STJc.CENTER);
+        TableTools.styleTable(table2, style2);
         //合并单元格
-        TableTools.mergeCellsHorizonal(table3, 0, 0, 5);
-        TableTools.mergeCellsHorizonal(table3, 1, 1, 5);
-        TableTools.mergeCellsHorizonal(table3, 3, 0, 5);
-        TableTools.mergeCellsHorizonal(table3, 4, 0, 5);
-        TableTools.mergeCellsHorizonal(table3, 5, 0, 5);
+        TableTools.mergeCellsHorizonal(table2, 0, 0, 11);
+        TableTools.mergeCellsHorizonal(table2, 1, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 1, 1, 10);
+        TableTools.mergeCellsHorizonal(table2, 2, 0, 11);
+        TableTools.mergeCellsHorizonal(table2, 3, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 3, 1, 2);
+        TableTools.mergeCellsHorizonal(table2, 3, 2, 3);
+        TableTools.mergeCellsHorizonal(table2, 3, 3, 4);
+        TableTools.mergeCellsHorizonal(table2, 3, 4, 5);
+        TableTools.mergeCellsHorizonal(table2, 3, 5, 6);
+        TableTools.mergeCellsHorizonal(table2, 4, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 4, 1, 2);
+        TableTools.mergeCellsHorizonal(table2, 4, 2, 3);
+        TableTools.mergeCellsHorizonal(table2, 4, 3, 4);
+        TableTools.mergeCellsHorizonal(table2, 4, 4, 5);
+        TableTools.mergeCellsHorizonal(table2, 4, 5, 6);
+        TableTools.mergeCellsHorizonal(table2, 5, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 5, 1, 2);
+        TableTools.mergeCellsHorizonal(table2, 5, 2, 3);
+        TableTools.mergeCellsHorizonal(table2, 5, 3, 4);
+        TableTools.mergeCellsHorizonal(table2, 5, 4, 5);
+        TableTools.mergeCellsHorizonal(table2, 5, 5, 6);
+        TableTools.mergeCellsHorizonal(table2, 6, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 6, 1, 2);
+        TableTools.mergeCellsHorizonal(table2, 6, 2, 3);
+        TableTools.mergeCellsHorizonal(table2, 6, 3, 8);
+        TableTools.mergeCellsHorizonal(table2, 7, 0, 1);
+        TableTools.mergeCellsHorizonal(table2, 7, 1, 10);
+        TableTools.mergeCellsHorizonal(table2, 8, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 8, 1, 3);
+        TableTools.mergeCellsHorizonal(table2, 8, 2, 4);
+        TableTools.mergeCellsHorizonal(table2, 8, 3, 5);
+        TableTools.mergeCellsHorizonal(table2, 9, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 9, 1, 3);
+        TableTools.mergeCellsHorizonal(table2, 9, 2, 4);
+        TableTools.mergeCellsHorizonal(table2, 9, 3, 5);
+        TableTools.mergeCellsHorizonal(table2, 10, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 10, 1, 3);
+        TableTools.mergeCellsHorizonal(table2, 10, 2, 4);
+        TableTools.mergeCellsHorizonal(table2, 10, 3, 5);
+        TableTools.mergeCellsHorizonal(table2, 11, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 11, 1, 3);
+        TableTools.mergeCellsHorizonal(table2, 11, 2, 4);
+        TableTools.mergeCellsHorizonal(table2, 11, 3, 5);
+        TableTools.mergeCellsHorizonal(table2, 12, 0, 11);
+        TableTools.mergeCellsHorizonal(table2, 13, 0, 11);
+        TableTools.mergeCellsHorizonal(table2, 14, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 14, 1, 9);
+        TableTools.mergeCellsHorizonal(table2, 15, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 15, 1, 9);
+        TableTools.mergeCellsHorizonal(table2, 16, 0, 2);
+        TableTools.mergeCellsHorizonal(table2, 16, 1, 9);
 
         //第一行单元格
-        XWPFTableCell table3_cell1_1 = table3.getRow(0).getCell(0);
+        XWPFTableCell table2_cell1_1 = table2.getRow(0).getCell(0);
         // 获取单元格段落后设置对齐方式
-        XWPFParagraph table3_addParagraph1_1 =  table3_cell1_1.addParagraph();
-        table3_addParagraph1_1.setAlignment(ParagraphAlignment.CENTER);
-        XWPFRun table3_r1_1 = table3_addParagraph1_1.createRun();
-        table3_r1_1.setText("指定代表/委托代理人信息（必填项）");
-        table3_r1_1.setFontFamily("宋体");
-        table3_r1_1.setFontSize(16);
-        table3_r1_1.setBold(true);//字体加粗
+        XWPFParagraph table2_paragraph1_1 =  table2_cell1_1.addParagraph();
+        table2_paragraph1_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r1_1 = table2_paragraph1_1.createRun();
+        table2_r1_1.setText("□备案（仅备案填写）");
+        table2_r1_1.setFontFamily("宋体");
+        table2_r1_1.setFontSize(16);
+        table2_r1_1.setBold(true);//字体加粗
+
+        //第二行单元格
+        XWPFTableCell table2_cell2_1 = table2.getRow(1).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph2_1 =  table2_cell2_1.addParagraph();
+        table2_paragraph2_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r2_1 = table2_paragraph2_1.createRun();
+        table2_r2_1.setText("事   项");
+        table2_r2_1.setFontFamily("宋体");
+        table2_r2_1.setFontSize(12);
+
+        XWPFTableCell table2_cell2_2 = table2.getRow(1).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph2_2 =  table2_cell2_2.addParagraph();
+        table2_paragraph2_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r2_2 = table2_paragraph2_2.createRun();
+        table2_r2_2.setText("□联络员\n" +
+                "□参加家庭经营的家庭成员姓名");
+        table2_r2_2.setFontFamily("宋体");
+        table2_r2_2.setFontSize(12);
+
+        //第三行单元格
+        XWPFTableCell table2_cell3_1 = table2.getRow(2).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph3_1 =  table2_cell3_1.addParagraph();
+        table2_paragraph3_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r3_1 = table2_paragraph3_1.createRun();
+        table2_r3_1.setText("□经营者及家庭成员信息（设立登记必填项，变更经营者、备案家庭成员填写）");
+        table2_r3_1.setFontFamily("宋体");
+        table2_r3_1.setFontSize(16);
+        table2_r3_1.setBold(true);//字体加粗
+
+        //第四行单元格
+        XWPFTableCell table2_cell4_1 = table2.getRow(3).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_1 =  table2_cell4_1.addParagraph();
+        table2_paragraph4_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_1 = table2_paragraph4_1.createRun();
+        table2_r4_1.setText("经营者姓名");
+        table2_r4_1.setFontFamily("宋体");
+        table2_r4_1.setFontSize(12);
+
+        XWPFTableCell table2_cell4_2 = table2.getRow(3).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_2 =  table2_cell4_2.addParagraph();
+        table2_paragraph4_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_2 = table2_paragraph4_2.createRun();
+        table2_r4_2.setText(selfEmployed.getContactName());
+        table2_r4_2.setFontFamily("宋体");
+        table2_r4_2.setFontSize(12);
+
+        XWPFTableCell table2_cell4_3 = table2.getRow(3).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_3 =  table2_cell4_3.addParagraph();
+        table2_paragraph4_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_3 = table2_paragraph4_3.createRun();
+        table2_r4_3.setText("经营者性别");
+        table2_r4_3.setFontFamily("宋体");
+        table2_r4_3.setFontSize(12);
+
+        XWPFTableCell table2_cell4_4 = table2.getRow(3).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_4 =  table2_cell4_4.addParagraph();
+        table2_paragraph4_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_4 = table2_paragraph4_4.createRun();
+        String sex="";
+        System.out.println("getGender=="+selfEmployed.getGender());
+        if (selfEmployed.getGender().equals(1)){
+            sex="男";
+        }
+        if (selfEmployed.getGender().equals(2)){
+            sex="女";
+        }
+        System.out.println("sex=="+sex);
+        table2_r4_4.setText(sex);
+        table2_r4_4.setFontFamily("宋体");
+        table2_r4_4.setFontSize(12);
+
+        XWPFTableCell table2_cell4_5 = table2.getRow(3).getCell(4);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_5 =  table2_cell4_5.addParagraph();
+        table2_paragraph4_5.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_5 = table2_paragraph4_5.createRun();
+        table2_r4_5.setText("经营者民族");
+        table2_r4_5.setFontFamily("宋体");
+        table2_r4_5.setFontSize(12);
+
+        XWPFTableCell table2_cell4_6 = table2.getRow(3).getCell(5);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph4_6 =  table2_cell4_6.addParagraph();
+        table2_paragraph4_6.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r4_6 = table2_paragraph4_6.createRun();
+        table2_r4_6.setText(selfEmployed.getNation());
+        table2_r4_6.setFontFamily("宋体");
+        table2_r4_6.setFontSize(12);
+
 
         //写到本地
         File file =new File(configProps.getName()+fileName);

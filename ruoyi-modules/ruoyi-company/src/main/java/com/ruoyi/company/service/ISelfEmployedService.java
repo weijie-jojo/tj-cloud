@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 个体商户Service接口
@@ -20,14 +21,14 @@ public interface ISelfEmployedService
      * @param selfEmployedVo 个体商户
      * @return 个体商户集合
      */
-    public List<SelfEmployedVo> selectEmployedJoinReview(SelfEmployedVo selfEmployedVo);
+    public List<SelfEmployedVo> selectEmployedJoinReview(List<Long> userIdArr, SelfEmployedVo selfEmployedVo);
     /**
      * 连表selfNameReview查询(完结）
      *
      * @param selfEmployedVo 个体商户
      * @return 个体商户集合
      */
-    public List<SelfEmployedVo> selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo);
+    public List<SelfEmployedVo> selectEmployedJoinEnd(List<Long> userIdArr,SelfEmployedVo selfEmployedVo);
     /**
      * 查询个体商户
      * 
