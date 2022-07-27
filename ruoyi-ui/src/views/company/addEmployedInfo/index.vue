@@ -1500,10 +1500,12 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        console.log(res);
         // this.$cache.local.setJSON("userinfo", res.user);  //个人登录缓存
         this.userinfo = res.user;
         this.formData.userName = res.user.nickName;
         this.formData.userId= res.user.userId;
+        
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
         
           this.places = res.data;
@@ -1675,7 +1677,7 @@ export default {
 
           let parms2 = {
             selfCode: this.formData.selfCode,
-
+            userId: this.formData.userId ,
             organizationalForm: this.formData.organizationalForm,
             numberEmployees: this.formData.numberEmployees,
             contributionAmount: this.formData.contributionAmount,
@@ -1955,6 +1957,7 @@ export default {
         if (valid) {
         
           let parms = {
+            
             selfCode: this.formData.selfCode,
             titleType: this.formData.titleType,
             administrativeDivision: this.formData.administrativeDivision,
