@@ -267,7 +267,7 @@ export default {
                 label: 'label'
             },
             expandOnClickNode: true,
-            projectTradeS: '',  //项目行业类型
+            projectTradeS: [],  //项目行业类型
             projectTradeSList: '',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
@@ -295,39 +295,7 @@ export default {
             placeCodeOptions: '',//渠道商
             projectTrades: '',
             formData: {
-                projectTrades: '',
-                projectDesc: '',//开票描述
-                purchCompanyTaxid: '',//甲方纳税人识别号
-                ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                // checkContent: "",
-                // createBy: "",
-                // createTime: "",
-                fileName: '',//开票内容
-                placeCode: "",
-                projectAcceptanceStatus: 0,
-                projectCheckStatus: 0,
-                projectCode: "",
-                projectContractStatus: 0,
-                projectDesc: "",
-                projectDutypaidStatus: 0,
-                projectGrossMargin: 0,
-                projectGrossProfit: 0,
-                projectLeader: "",
-                projectName: "",
-                projectNetProfit: 0,
-                projectOwner: "",
-                projectPackageAmount: 0,
-                projectStatus: 0,
-                projectTicketStatus: 0,
-                // projectTimeEnd: "",
-                projectTimeStart: "",
-                projectTotalAmount: 0,
-                projectTrade: "",
-                purchCompany: "",
-                remark: "",
-                industryType: '',
-                selfName: '',
+                
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -533,6 +501,8 @@ export default {
         // 四级菜单
         formatData(data) {
             let options = [];
+            if(data.length>0){
+
             data.forEach((item, key) => {
                 options.push({ label: item.label, value: item.id });
                 if (item.children) {
@@ -551,15 +521,17 @@ export default {
                     });
                 }
             });
+            }
             return options;
         },
         getlist() {
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
-                this.formData = response.data[0];
+               this.formData = response.data[0];
+               // this.formData=this.$cache.local.getJSON("projectListNews");
                 this.projectTrades = '';
-                this.isokradio = JSON.stringify(this.formData.placeStatus);
+                // this.isokradio = JSON.stringify(this.formData.placeStatus);
                 if (this.formData.fileName) {
                     this.formData.fileName = JSON.parse(this.formData.fileName);
                     if (Array.isArray(this.formData.fileName)) {
@@ -671,6 +643,11 @@ export default {
                 this.formData.projectLeader = res.user.nickName;
                 getinfoByUserId({ userId: this.userId }).then(res => {
                     this.placeCodeOptions = res.data;
+                    for(let i in this.placeCodeOptions){
+                         if (this.placeCodeOptions[i].placeCode == this.formData.placeCode) {
+                           this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
+                        }
+                    }
                 })
             })
         },
@@ -682,20 +659,12 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
-
                 this.projectTradeS = tree;
                 this.projectTradeSList = res.rows;
                 var rate1 = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
                 this.projectTrades = rate1.industryId;
-
-
-
                 this.selectIndustryType1();
-
-
-
-
-            })
+              })
         },
         //把数据整成树状
         parseTree(industry, tree, pid) {
@@ -712,7 +681,7 @@ export default {
             }
         },
 
-        //监听行业类型
+        // //监听行业类型
         selectIndustryType1() {
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
             this.industryId = rate.industryId;  //行业类型id
@@ -737,20 +706,22 @@ export default {
 
         //监听行业类型
         selectIndustryType() {
-            console.log("industryType==", this.formData.industryType);
+            
+           
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-
-
-            let industryType = rate.industryId;
-
-            ownlist({ username: this.username, industryType: industryType }).then(res => {
+            if(rate){
+               this.industryId = rate.industryId;  //行业类型id
+               this.owerTaxfee = rate.taxRate;
+               let industryType = rate.industryId;
+             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
             }).catch(err => {
                 console.log(err);
             });
+            }else{
+                this.getRate();
+            }
+           
 
         },
         //监听项目行业类型
@@ -759,7 +730,7 @@ export default {
             var rate = this.projectTradeSList.find((item) => item.industryId == this.projectTrades);
             this.formData.projectTrade = rate.industryName;//所属行业
             console.log(this.formData.projectTrade);
-            console.log(this.formData.projectTrades);
+        
         },
         //监听开票内容类型
         tickettaxvip(e) {
@@ -815,6 +786,7 @@ export default {
                         this.formData.fileName = this.fileNamefile;
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
+                    
 
 
 

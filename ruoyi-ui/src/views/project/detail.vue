@@ -20,9 +20,9 @@
                         <el-input v-model="formData.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额">
-                        <el-input-number disabled style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
-                            :step="0.01" :min="0">
-                        </el-input-number>
+                        <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"  :step="0.01" :min="0">
+                        <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -44,12 +44,9 @@
                 </el-col>
 
                 <el-col :span="9">
-
                     <el-form-item class="comright" label="渠道商状态" prop="isokradio">
                          <el-input  :readonly="true" v-if="isokradio==0" value="正常"></el-input>
                         <el-input  :readonly="true" v-else value="冻结"></el-input>
-                        <!-- <el-radio v-model="isokradio" disabled label="0"> 正常</el-radio>
-                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio> -->
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号">
                         <el-input :readonly="true" v-model="formData.purchCompanyTaxid"></el-input>
@@ -142,15 +139,12 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件"  v-if="fileNameradio == 2">
-                    <div   v-for="(item, index) in formData.fileName" :key="index">
-                    <el-image
-                    lazy
-                    :preview-src-list="fileName2"
-                    style="width: 150px; height: 150px"
-                    :src="baseImgPath+item"
-                    alt=""
-                  />
-                </div>
+                         <div v-for="(item, index) in previewList" :key="index">
+                      <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px" :src="item" alt="" />
+                     </div>
+                     <div v-for="(x, y) in pdfList" :key="y">
+                       <span @click="pdfdetail(x)">  {{ x }} </span>  
+                     </div>
                  </el-form-item>
                 </el-col>
             </el-row>
@@ -180,21 +174,67 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+
+             <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                    <el-button type="danger" @click="resetForm">返回</el-button>
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
+
         </el-form>
+           <!--PDF 预览-->
+     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+     <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+     </el-dialog>
     </div>
 </template>
 <script>
-import qs from 'qs';
+import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
 import {getcode,getinfoByUserId,detail } from "@/api/project/list";
 import {getInfo} from '@/api/login' 
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
-      components: { Treeselect },
+    components: { Treeselect,pdf },
     data() {
         return {
-            industryTypes:'',
+
+            titles: '',
+            pdfList: [],  //pdf 预览
+            previewList: [], //预览
+          
+          //pdf预览
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
+
+
+            industryTypes:[],
             username:"",
             userId: '',
             fileName2: [],
@@ -303,7 +343,40 @@ export default {
 
 
     methods: {
-        getlist(){
+    pdfdetail(i) {
+         this.titles = '正在预览' + i;
+         this.viewVisible = true;
+         this.url = this.baseImgPath + i;
+       },
+         // 上一页函数，
+    prePage() {
+      var page = this.pageNum
+      page = page > 1 ? page - 1 : this.pageTotalNum
+      this.pageNum = page
+    },
+    // 下一页函数
+    nextPage() {
+      var page = this.pageNum
+      page = page < this.pageTotalNum ? page + 1 : 1
+      this.pageNum = page
+    },
+    // 页面顺时针翻转90度。
+    clock() {
+      this.pageRotate += 90
+    },
+    // 页面逆时针翻转90度。
+    counterClock() {
+      this.pageRotate -= 90
+    },
+    // 页面加载回调函数，其中e为当前页数
+    pageLoaded(e) {
+      this.curPageNum = e
+    },
+    // 其他的一些回调函数。
+    pdfError(error) {
+      console.error(error)
+    },
+    getlist(){
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
@@ -317,7 +390,12 @@ export default {
                           this.fileNameradio='2';
                           //如果是图片的话
                          for(let j in this.formData.fileName){
-                            this.fileName2.push( this.baseImgPath+this.formData.fileName[j]);
+                                if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+                                this.pdfList.push(this.formData.fileName[j]);
+                             } else {
+                                this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
+                                this.previewList.push(this.formData.fileName[j]);
+                            }
                           }
                     
                     }else{
@@ -335,7 +413,7 @@ export default {
             });
         },
         resetForm(){
-          this.$router.back();
+           this.$tab.closeOpenPage({path:'/project/list'});
         },
 
         handlesuccess1(file, fileList) {
@@ -343,7 +421,7 @@ export default {
         },
         handleRemove1(file, fileList) {
             const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formBank.fileName.splice(i, 1);
+            this.formData.fileName.splice(i, 1);
         },
         handlePreview1(file) {
             this.dialogImageUrl1 = file.url;
@@ -361,10 +439,8 @@ export default {
         //渠道商接口
         getinfoByUserId() {
           getInfo().then(res=>{  
-              this.userId = 10;
-              this.username = '豆红臣';
-            //    res.user.nickname;
-            //    res.user.userid;
+            this.userId = res.user.userId;
+            this.username = res.user.userName;
            getinfoByUserId({userId: this.userId }).then(res=>{
                this.placename=res.data;
               })

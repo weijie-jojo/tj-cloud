@@ -418,8 +418,12 @@ export default {
 
         };
     },
+    watch: {
+        'Father.industryType': 'selectIndustryType',
+    },
     mounted() {
         this.getlist();
+        this.getinfoByUserId();
         this.ticketByCode();
         this.gettoday();
         this.getRate();
@@ -427,6 +431,35 @@ export default {
 
 
     methods: {
+         //监听行业类型
+        selectIndustryType() {
+            var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
+           if(rate){
+               this.industryId = rate.industryId;  //行业类型id
+               this.owerTaxfee = rate.taxRate;
+               let industryType = rate.industryId;
+             ownlist({ username: this.username, industryType: industryType }).then(res => {
+                this.ownoptions = res;
+                
+                   for (let i in this.ownoptions) {
+                    if (this.ownoptions[i].selfName == this.Father.selfName) {
+                        this.natureBusiness = this.ownoptions[i].natureBusiness;
+                        this.owerTax = this.ownoptions[i].taxId;
+                    }
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+            }else{
+                this.getRate();
+               
+               
+            }
+           
+
+        },
+         // //监听行业类型
+        
          beforeAvatarUpload(file){
      
        const isLt2M = file.size / 1024 / 1024 < 5;
@@ -490,7 +523,7 @@ export default {
             TicketByCode({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then(res => {
-                let arr = res;
+                let arr = res.data;
                 this.issuedAmount = 0.00;
                 for (let i in arr) {
                     if (arr[i].ticketAmount > 0) {
@@ -504,8 +537,15 @@ export default {
             });
         },
         getlist() {
-            this.Father= this.$cache.local.getJSON("publicTickets");
-             if (this.Father.fileName) {
+         detail({
+                projectCode: this.$cache.local.getJSON("publicTickets").projectCode
+            }).then((response) => {
+                if(response.data.length==0){
+                  this.Father=this.$cache.local.getJSON("publicTickets");
+                }else{
+                   this.Father = response.data[0]; 
+                }
+               if (this.Father.fileName) {
                     this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
                         this.fileNameradio = '2';
@@ -531,41 +571,9 @@ export default {
                 } else {
                     this.projectStatus = 1;
                 }
-            // detail({
-            //     projectCode: this.$cache.local.getJSON("publicTickets").projectCode
-            // }).then((response) => {
+            });
 
-            //     //this.formData = response.data[0];
-
-            //     //this.isokradio = JSON.stringify(this.formData.placeStatus);
-
-            //     if (this.formData.fileName) {
-            //         this.formData.fileName = JSON.parse(this.formData.fileName);
-            //         if (Array.isArray(this.formData.fileName)) {
-            //             this.fileNameradio = '2';
-            //             //如果是图片的话
-            //             for (let j in this.formData.fileName) {
-            //                 this.fileName.push({
-            //                     name: this.formData.fileName[j],
-            //                     url: this.baseImgPath + this.formData.fileName[j]
-
-            //                 })
-            //             }
-
-            //         } else {
-            //             this.fileNameradio = '1';
-            //         }
-
-            //     } else {
-            //         this.fileNameradio = '1';
-            //     }
-            //     if (this.formData.isActive) {
-            //         this.projectStatus = parseInt(this.formData.isActive);
-            //     } else {
-            //         this.projectStatus = 1;
-            //     }
-            // });
-        },
+       },
         //监听开票内容选择
         filenamer(e) {
             if (e == 1) {
@@ -586,7 +594,7 @@ export default {
                     this.formData.selfName = this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
                     this.owerTax = this.ownoptions[i].taxId;
-                    // this.getcode(this.ownoptions[i].selfCode);
+                   
 
                 }
             }
@@ -594,26 +602,29 @@ export default {
         
     getRate(){
       crudRate.getAllRate().then(res=>{
-          console.log("getAllRate",res.rows);
           let tree = []; // 用来保存树状的数据形式
           this.parseTree(res.rows, tree, 0);
-          console.log("tree",tree);
           this.industryTypes=tree;
           this.industryTypeList=res.rows;
-         
-          var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            console.log("rate==", rate);
-            // this.industryId = rate.industryId;  //行业类型id
-            // this.owerTaxfee = rate.taxRate;
-
-
-            let industryType = rate.industryId;
+          var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
+        //   this.industryId = rate.industryId;  //行业类型id
+        //   this.owerTaxfee = rate.taxRate;
+          let industryType = rate.industryId;
 
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
+                for (let i in this.ownoptions) {
+
+                    if (this.ownoptions[i].selfName == this.Father.selfName) {
+                        this.natureBusiness = this.ownoptions[i].natureBusiness;
+                        this.owerTax = this.ownoptions[i].taxId;
+                    }
+                }
             }).catch(err => {
                 console.log(err);
             });
+         
+          
       })
     },
     //把数据整成树状

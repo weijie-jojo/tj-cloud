@@ -150,7 +150,6 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-
                         <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
                             :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
                             multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
@@ -163,7 +162,7 @@
                             <img width="100%" :src="dialogImageUrl1" alt="" />
                         </el-dialog>
                     </el-form-item>
-                </el-col>
+                   </el-col>
                 <el-col :span="9">
                 </el-col>
             </el-row>
@@ -203,7 +202,7 @@
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import { TicketByCode,add } from "@/api/project/ticket";
+import { TicketByCode,edit } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
@@ -216,6 +215,8 @@ export default {
             titles: '',
             pdfList: [],  //pdf 预览
             previewList: [], //预览
+            pdfList1: [],  //pdf 预览
+            previewList1: [], //预览
             //pdf预览
             url: '',
             viewVisible: false,
@@ -427,6 +428,15 @@ export default {
         this.ticketByCode();
         this.gettoday();
         this.getRate();
+        this.formData=this.$cache.local.getJSON("ticketDetails");
+        this.formData.fileName = JSON.parse(this.formData.fileName);
+         let arr = this.formData.fileName;
+        for (let i in arr) {
+         this.fileName.push({
+           name: arr[i],
+           url: this.baseImgPath + arr[i]
+         })
+    }
     },
 
 
@@ -570,12 +580,15 @@ export default {
             });
 
        },
+       filenamer(){
+        
+       },
         //监听开票内容选择
-        filenamer(e) {
-            if (e == 1) {
-                this.formData.fileName = '';
-            }
-        },
+        // filenamer(e) {
+        //     if (e == 1) {
+        //         this.formData.fileName = '';
+        //     }
+        // },
         //监听乙方
         ownnew(e) {
             console.log(e);
@@ -656,11 +669,11 @@ export default {
             this.$tab.closeOpenPage({path:'/project/ticketlist'});
         },
         handlesuccess1(file, fileList) {
-            this.fileNamefile.push(file.obj);
+            this.formData.fileName.push(file.obj);
         },
         handleRemove1(file, fileList) {
-            const i = this.fileNamefile.findIndex((item) => item === fileList);
-            this.fileNamefile.splice(i, 1);
+            const i =  this.formData.fileName.findIndex((item) => item === fileList);
+             this.formData.fileName.splice(i, 1);
         },
         handlePreview1(file) {
              if (file.hasOwnProperty('response')) {
@@ -753,17 +766,17 @@ export default {
             console.log(val);
         },
         onSubmit() {
-            this.formData.fileName = this.fileNamefile;
+           
             this.formData.fileName = JSON.stringify(this.formData.fileName);
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
-                     add(this.formData).then((res) => {
+                     edit(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("新增成功!");
+                                    this.$modal.msgSuccess("编辑成功!");
                                     this.$nextTick(function () {
                                         this.$tab.refreshPage("/project/ticketlist").then(() => {
                                             this.$tab.openPage("票据列表", "/project/ticketlist");
@@ -783,9 +796,6 @@ export default {
                     });
                 }
             });
-        },
-        toReturn2() {
-            this.$router.back();
         },
     },
 };
