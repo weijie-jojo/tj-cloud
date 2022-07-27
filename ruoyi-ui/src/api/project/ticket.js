@@ -39,14 +39,14 @@ export function getcode(){
 }
 export function del(ticketIds) {
   return request({
-    url: 'project/ticket/'+ticketIds,
+    url: 'project/ticket/del/'+ticketIds,
     method: 'put',
  })
 }
 
 export function edit(data) {
   return request({
-    url: 'place/agencyFee',
+    url: 'project/ticket',
     method: 'put',
     data:data
   })

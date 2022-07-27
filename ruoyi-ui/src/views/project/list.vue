@@ -345,6 +345,7 @@ export default {
             });
         },
         detail(scope) {
+            this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$router.push("detail");
         },

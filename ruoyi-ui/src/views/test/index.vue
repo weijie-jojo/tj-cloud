@@ -164,8 +164,8 @@ export default {
 
     // 打印全部
     pdfPrintAll() {
-      //this.$refs.printIframe.print();
-      document.getElementById('printIframe').contentWindow.print();
+      this.$refs.pdf.print();
+      //document.getElementById('printIframe').contentWindow.print();
     },
     like() {
       this.$refs.pdf.print();

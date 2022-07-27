@@ -289,6 +289,7 @@ export default {
             owerTaxfee: '',//乙方税率
             placeCodeOptions: '',//渠道商
             formData: {
+                projectOwnerTaxid:'',
                 projectDesc: '',//开票描述
                 purchCompanyTaxid: '',//甲方纳税人识别号
                 ticketTax: '',//发票税率
@@ -322,6 +323,7 @@ export default {
                 remark: "",
                 industryType: '',
                 selfName: '',
+                isDeleted:1,
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -741,6 +743,7 @@ export default {
                         this.formData.fileName = this.fileNamefile;
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
+                    this.formData.projectOwnerTaxid=this.owerTax;
 
 
 
