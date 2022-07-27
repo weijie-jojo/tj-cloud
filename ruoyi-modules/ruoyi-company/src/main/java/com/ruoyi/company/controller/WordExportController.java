@@ -721,7 +721,7 @@ public class WordExportController {
         XWPFParagraph table2_paragraph5_2 =  table2_cell5_2.addParagraph();
         table2_paragraph5_2.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r5_2 = table2_paragraph5_2.createRun();
-        table2_r5_2.setText(selfEmployed.getEduation());
+        table2_r5_2.setText(selfEmployed.getDictLabel());
         table2_r5_2.setFontFamily("宋体");
         table2_r5_2.setFontSize(12);
 
@@ -776,7 +776,7 @@ public class WordExportController {
         XWPFParagraph table2_paragraph6_2 =  table2_cell6_2.addParagraph();
         table2_paragraph6_2.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r6_2 = table2_paragraph6_2.createRun();
-        table2_r6_2.setText(selfEmployed.getIdCardNum());
+        table2_r6_2.setText(selfEmployed.getContactIdNum());
         table2_r6_2.setFontFamily("宋体");
         table2_r6_2.setFontSize(12);
 
@@ -1205,6 +1205,17 @@ public class WordExportController {
         XWPFParagraph p11= doc.createParagraph();
         XWPFParagraph p12= doc.createParagraph();
         XWPFParagraph p13= doc.createParagraph();
+
+        //创建段落(标题)
+        XWPFParagraph title_p2 = doc.createParagraph();
+        title_p2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun runTitle2 = title_p2.createRun();
+        runTitle2.setText("联络员信息");
+        runTitle2.setBold(true);
+        runTitle2.setFontSize(24);
+        runTitle2.setFontFamily("宋体");
+        runTitle2.addCarriageReturn();//回车键
+        runTitle2.setKerning(30);
 
         //创建表格 4行*4列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table4 = doc.createTable(4,4);

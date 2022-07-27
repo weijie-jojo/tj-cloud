@@ -13,6 +13,9 @@ public class SelfEmployedVo extends SelfEmployed {
     /** 创建时间 */
     private String end;
 
+    /** 字典表标签 */
+    private String dictLabel;
+
     //selfNameReview
     private Integer nameStatus;//个体户名称
     private String titleType;

@@ -88,12 +88,16 @@
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
-        select * from self_employed t JOIN self_name_review A on t.self_code=A.self_code
-               JOIN  self_application_info B  on t.self_code=B.self_code JOIN  self_legal_person C  on t.self_code=C.self_code
+        select * from self_employed t
+                JOIN self_name_review A on t.self_code=A.self_code
+                JOIN  self_application_info B  on t.self_code=B.self_code
+                JOIN  self_legal_person C  on t.self_code=C.self_code
+                JOIN sys_dict_data D on C.eduation=D.dict_value
     </sql>
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
+            D.dict_type="educational_level"
             <if test="selfEmployedVo.endStatus == 0  ">t.end_status =0 </if>
             <if test="selfEmployedVo.endStatus == 1  ">t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
             <if test="selfEmployedVo.endStatus == 2  ">t.end_status =2 </if>
@@ -127,6 +131,7 @@
     <select id="selectEmployedJoinEnd"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
+            D.dict_type="educational_level" AND
             t.end_status=1
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND t.user_id in

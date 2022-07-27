@@ -44,7 +44,9 @@
     <sql id="selectSelfProjectVo">
         select project_owner_taxid,ticket_type,ticket_tax,self_name,project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code,purch_company_taxid from self_project
     </sql>
-
+<!--    A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,-->
+<!--    A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,-->
+<!--    A.create_time, A.update_time,-->
     <sql id="selectProjectJoinTicketByCodeVo">
         select t.project_id, t.project_code, t.project_name, t.project_trade, t.project_owner, t.purch_company,
                t.project_total_amount, t.project_leader, t.project_gross_margin, t.project_gross_profit,
@@ -53,16 +55,14 @@
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
                t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
                t.ticket_type,t.ticket_tax,t.project_owner_taxid,
-                A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,
-               A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,
-               A.create_time, A.update_time,B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
+               B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status
-            from self_project t Left JOIN self_ticket A ON t.project_code = A.project_code JOIN self_employed B ON t.project_owner = B.self_code
+            from self_project t  JOIN self_employed B ON t.project_owner = B.self_code
                                 JOIN business_place C ON t.place_code = C.place_code
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where t.is_deleted=1 AND A.is_deleted=1  AND t.project_code=#{projectCode}
+        where t.is_deleted=1  AND t.project_code=#{projectCode}
     </select>
     <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
