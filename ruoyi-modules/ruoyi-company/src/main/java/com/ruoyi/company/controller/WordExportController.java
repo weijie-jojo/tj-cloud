@@ -1202,6 +1202,149 @@ public class WordExportController {
         XWPFRun run10 =  p10.createRun();
         run10.setText("2、香港、澳门、台湾居民个体工商户或台湾农民个体工商户不填写本申请书“经营者”一栏内容，分别填写“个体工商户经营者（港澳居民）登记表”或“个体工商户经营者（台湾居民、农民）登记表”。港、澳居民个体工商户和台湾农民个体工商户应当注明经营场所的面积和从业人数");
 
+        XWPFParagraph p11= doc.createParagraph();
+        XWPFParagraph p12= doc.createParagraph();
+        XWPFParagraph p13= doc.createParagraph();
+
+        //创建表格 4行*4列(创建table 时，会有一个默认一行一列的表格)
+        XWPFTable table4 = doc.createTable(4,4);
+        // 设置表格宽度为A4纸最大宽度
+        TableTools.widthTable(table4, MiniTableRenderData.WIDTH_A4_FULL, 13);
+        // 设置表格居中
+        TableStyle style4 = new TableStyle();
+        style4.setAlign(STJc.CENTER);
+        TableTools.styleTable(table4, style4);
+        //合并单元格
+        TableTools.mergeCellsHorizonal(table4, 3, 0, 3);
+
+        //第一行单元格
+        XWPFTableCell table4_cell1_1 = table4.getRow(0).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph1_1 =  table4_cell1_1.addParagraph();
+        table4_paragraph1_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r1_1 = table4_paragraph1_1.createRun();
+        table4_r1_1.setText("姓    名");
+        table4_r1_1.setFontFamily("宋体");
+        table4_r1_1.setFontSize(12);
+
+        XWPFTableCell table4_cell1_2 = table4.getRow(0).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph1_2 =  table4_cell1_2.addParagraph();
+        table4_paragraph1_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r1_2 = table4_paragraph1_2.createRun();
+        table4_r1_2.setText(selfEmployed.getContactName());
+        table4_r1_2.setFontFamily("宋体");
+        table4_r1_2.setFontSize(12);
+
+        XWPFTableCell table4_cell1_3 = table4.getRow(0).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph1_3 =  table4_cell1_3.addParagraph();
+        table4_paragraph1_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r1_3 = table4_paragraph1_3.createRun();
+        table4_r1_3.setText("固定电话");
+        table4_r1_3.setFontFamily("宋体");
+        table4_r1_3.setFontSize(12);
+
+        XWPFTableCell table4_cell1_4 = table4.getRow(0).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph1_4 =  table4_cell1_4.addParagraph();
+        table4_paragraph1_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r1_4 = table4_paragraph1_4.createRun();
+        table4_r1_4.setText("无");
+        table4_r1_4.setFontFamily("宋体");
+        table4_r1_4.setFontSize(12);
+
+        //第二行单元格
+        XWPFTableCell table4_cell2_1 = table4.getRow(1).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph2_1 =  table4_cell2_1.addParagraph();
+        table4_paragraph2_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r2_1 = table4_paragraph2_1.createRun();
+        table4_r2_1.setText("移动电话");
+        table4_r2_1.setFontFamily("宋体");
+        table4_r2_1.setFontSize(12);
+
+        XWPFTableCell table4_cell2_2 = table4.getRow(1).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph2_2 =  table4_cell2_2.addParagraph();
+        table4_paragraph2_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r2_2 = table4_paragraph2_2.createRun();
+        table4_r2_2.setText(selfEmployed.getContactPhone());
+        table4_r2_2.setFontFamily("宋体");
+        table4_r2_2.setFontSize(12);
+
+        XWPFTableCell table4_cell2_3 = table4.getRow(1).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph2_3 =  table4_cell2_3.addParagraph();
+        table4_paragraph2_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r2_3 = table4_paragraph2_3.createRun();
+        table4_r2_3.setText("电子邮箱");
+        table4_r2_3.setFontFamily("宋体");
+        table4_r2_3.setFontSize(12);
+
+        XWPFTableCell table4_cell2_4 = table4.getRow(1).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph2_4 =  table4_cell2_4.addParagraph();
+        table4_paragraph2_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r2_4 = table4_paragraph2_4.createRun();
+        table4_r2_4.setText(selfEmployed.getMail());
+        table4_r2_4.setFontFamily("宋体");
+        table4_r2_4.setFontSize(12);
+
+        //第三行单元格
+        XWPFTableCell table4_cell3_1 = table4.getRow(2).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph3_1 =  table4_cell3_1.addParagraph();
+        table4_paragraph3_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r3_1 = table4_paragraph3_1.createRun();
+        table4_r3_1.setText("身份证件类型");
+        table4_r3_1.setFontFamily("宋体");
+        table4_r3_1.setFontSize(12);
+
+        XWPFTableCell table4_cell3_2 = table4.getRow(2).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph3_2 =  table4_cell3_2.addParagraph();
+        table4_paragraph3_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r3_2 = table4_paragraph3_2.createRun();
+        table4_r3_2.setText("居民身份证");
+        table4_r3_2.setFontFamily("宋体");
+        table4_r3_2.setFontSize(12);
+
+        XWPFTableCell table4_cell3_3 = table4.getRow(2).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph3_3 =  table4_cell3_3.addParagraph();
+        table4_paragraph3_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r3_3 = table4_paragraph3_3.createRun();
+        table4_r3_3.setText("身份证件号码");
+        table4_r3_3.setFontFamily("宋体");
+        table4_r3_3.setFontSize(12);
+
+        XWPFTableCell table4_cell3_4 = table4.getRow(2).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph3_4 =  table4_cell3_4.addParagraph();
+        table4_paragraph3_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r3_4 = table4_paragraph3_4.createRun();
+        table4_r3_4.setText(selfEmployed.getContactIdNum());
+        table4_r3_4.setFontFamily("宋体");
+        table4_r3_4.setFontSize(12);
+
+        //第四行单元格
+        XWPFTableCell table4_cell4_1 = table4.getRow(3).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table4_paragraph4_1 =  table4_cell4_1.addParagraph();
+        table4_paragraph4_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table4_r4_1 = table4_paragraph4_1.createRun();
+        table4_r4_1.setText("（身份证件复、影印件粘贴处，可另附）");
+        table4_r4_1.setFontFamily("宋体");
+        table4_r4_1.setFontSize(12);
+
+        XWPFParagraph p14= doc.createParagraph();
+        XWPFRun run14 =  p14.createRun();
+        run14.setText("注：1、联络员主要负责本企业与企业登记机关的联系沟通，以本人个人信息登录国家企业信用信息公示系统依法向社会公示本企业有关信息等。联络员应了解企业登记相关法规和企业信息公示有关规定。");
+
+        XWPFParagraph p15= doc.createParagraph();
+        XWPFRun run15 =  p15.createRun();
+        run15.setText("2、《联络员信息》未变更的不需重填。");
 
         //写到本地
         File file =new File(configProps.getName()+fileName);

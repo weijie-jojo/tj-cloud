@@ -148,6 +148,10 @@ public class SelfProject extends BaseEntity
     @Excel(name = "发票税率")
     private BigDecimal ticketTax;
 
+    /** 乙方纳税人识别号 */
+    @Excel(name = "乙方纳税人识别号")
+    private String projectOwnerTaxid;
+
     public void setProjectId(String projectId)
     {
         this.projectId = projectId;
