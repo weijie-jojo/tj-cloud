@@ -60,7 +60,7 @@
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where t.is_deleted=1 AND t.project_code=#{projectCode}
+        where t.is_deleted=1 AND A.is_deleted=1  AND t.project_code=#{projectCode}
     </select>
     <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>

@@ -528,16 +528,17 @@ public class WordExportController {
 //        r16_3.setText("变更后登记内容");
 //        r16_3.setFontFamily("宋体");
 //        r16_3.setFontSize(12);
-        //页脚
-        XWPFFooter footer = doc.createFooter(HeaderFooterType.DEFAULT);
-        footer.createParagraph().createRun().setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
+
+        XWPFParagraph p8= doc.createParagraph();
+        XWPFRun run8 =  p8.createRun();
+        run8.setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
 
         XWPFParagraph p2= doc.createParagraph();
         XWPFParagraph p3= doc.createParagraph();
         XWPFParagraph p4= doc.createParagraph();
 
         //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
-//        XWPFTable table3 =  doc.getTableArray(1);
+//        XWPFTable table2 =  doc.getTableArray(1);
         XWPFTable table2 = doc.createTable(18,12);
         // 设置表格宽度为A4纸最大宽度
         TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 13);
@@ -738,11 +739,11 @@ public class WordExportController {
         XWPFParagraph table2_paragraph5_4 =  table2_cell5_4.addParagraph();
         table2_paragraph5_4.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r5_4 = table2_paragraph5_4.createRun();
-        table2_r5_4.setText(selfEmployed.getNation());
+        table2_r5_4.setText(selfEmployed.getPoliticalStatus());
         table2_r5_4.setFontFamily("宋体");
         table2_r5_4.setFontSize(12);
 
-        XWPFTableCell table2_cell5_5 = table2.getRow(3).getCell(4);
+        XWPFTableCell table2_cell5_5 = table2.getRow(4).getCell(4);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table2_paragraph5_5 =  table2_cell5_5.addParagraph();
         table2_paragraph5_5.setAlignment(ParagraphAlignment.CENTER);
@@ -751,12 +752,12 @@ public class WordExportController {
         table2_r5_5.setFontFamily("宋体");
         table2_r5_5.setFontSize(12);
 
-        XWPFTableCell table2_cell5_6 = table2.getRow(3).getCell(5);
+        XWPFTableCell table2_cell5_6 = table2.getRow(4).getCell(5);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table2_paragraph5_6 =  table2_cell5_6.addParagraph();
         table2_paragraph5_6.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r5_6 = table2_paragraph5_6.createRun();
-        table2_r5_6.setText(selfEmployed.getNation());
+        table2_r5_6.setText("居民身份证");
         table2_r5_6.setFontFamily("宋体");
         table2_r5_6.setFontSize(12);
 
@@ -775,7 +776,7 @@ public class WordExportController {
         XWPFParagraph table2_paragraph6_2 =  table2_cell6_2.addParagraph();
         table2_paragraph6_2.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r6_2 = table2_paragraph6_2.createRun();
-        table2_r6_2.setText(selfEmployed.getEduation());
+        table2_r6_2.setText(selfEmployed.getIdCardNum());
         table2_r6_2.setFontFamily("宋体");
         table2_r6_2.setFontSize(12);
 
@@ -871,6 +872,335 @@ public class WordExportController {
         table2_r8_2.setFontFamily("宋体");
         table2_r8_2.setFontSize(12);
 
+        //第九行单元格
+        XWPFTableCell table2_cell9_1 = table2.getRow(8).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph9_1 =  table2_cell9_1.addParagraph();
+        table2_paragraph9_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r9_1 = table2_paragraph9_1.createRun();
+        table2_r9_1.setText("参加经营的家庭成员姓名");
+        table2_r9_1.setFontFamily("宋体");
+        table2_r9_1.setFontSize(12);
+
+        XWPFTableCell table2_cell9_2 = table2.getRow(8).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph9_2 =  table2_cell9_2.addParagraph();
+        table2_paragraph9_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r9_2 = table2_paragraph9_2.createRun();
+        table2_r9_2.setText("参加经营的家庭成员身份证件类型");
+        table2_r9_2.setFontFamily("宋体");
+        table2_r9_2.setFontSize(12);
+
+        XWPFTableCell table2_cell9_3 = table2.getRow(8).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph9_3 =  table2_cell9_3.addParagraph();
+        table2_paragraph9_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r9_3 = table2_paragraph9_3.createRun();
+        table2_r9_3.setText("参加经营的家庭成员身份证件号码");
+        table2_r9_3.setFontFamily("宋体");
+        table2_r9_3.setFontSize(12);
+
+        XWPFTableCell table2_cell9_4 = table2.getRow(8).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph9_4 =  table2_cell9_4.addParagraph();
+        table2_paragraph9_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r9_4 = table2_paragraph9_4.createRun();
+        table2_r9_4.setText("参加经营的家庭成员政治面貌");
+        table2_r9_4.setFontFamily("宋体");
+        table2_r9_4.setFontSize(12);
+
+        //第十三行单元格
+        XWPFTableCell table2_cell13_1 = table2.getRow(12).getCell(0);
+//        table2_cell13_1.setWidth("2000");
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph13_1 =  table2_cell13_1.addParagraph();
+        table2_paragraph13_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r13_1 = table2_paragraph13_1.createRun();
+        table2_r13_1.setText("（身份证件复、影印件粘贴处，可另附页）");
+        table2_r13_1.setFontFamily("宋体");
+        table2_r13_1.setFontSize(12);
+
+        //第十四行单元格
+        XWPFTableCell table2_cell14_1 = table2.getRow(13).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph14_1 =  table2_cell14_1.addParagraph();
+        table2_paragraph14_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r14_1 = table2_paragraph14_1.createRun();
+        table2_r14_1.setText("□注销（仅注销登记填写）");
+        table2_r14_1.setFontFamily("宋体");
+        table2_r14_1.setFontSize(16);
+        table2_r14_1.setBold(true);//字体加粗
+
+        //第十五行单元格
+        XWPFTableCell table2_cell15_1 = table2.getRow(14).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph15_1 =  table2_cell15_1.addParagraph();
+        table2_paragraph15_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r15_1 = table2_paragraph15_1.createRun();
+        table2_r15_1.setText("注销方式");
+        table2_r15_1.setFontFamily("宋体");
+        table2_r15_1.setFontSize(12);
+
+        XWPFTableCell table2_cell15_2 = table2.getRow(14).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph15_2 =  table2_cell15_2.addParagraph();
+        table2_paragraph15_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r15_2 = table2_paragraph15_2.createRun();
+        table2_r15_2.setText("□普通注销      □简易注销");
+        table2_r15_2.setFontFamily("宋体");
+        table2_r15_2.setFontSize(12);
+
+        //第十六行单元格
+        XWPFTableCell table2_cell16_1 = table2.getRow(15).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph16_1 =  table2_cell16_1.addParagraph();
+        table2_paragraph16_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r16_1 = table2_paragraph16_1.createRun();
+        table2_r16_1.setText("注销原因");
+        table2_r16_1.setFontFamily("宋体");
+        table2_r16_1.setFontSize(12);
+
+        XWPFTableCell table2_cell16_2 = table2.getRow(15).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph16_2 =  table2_cell16_2.addParagraph();
+        table2_paragraph16_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r16_2 = table2_paragraph16_2.createRun();
+        table2_r16_2.setText("□停止经营      □转型升级为企业   □其他_________");
+        table2_r16_2.setFontFamily("宋体");
+        table2_r16_2.setFontSize(12);
+
+        //第十七行单元格
+        XWPFTableCell table2_cell17_1 = table2.getRow(16).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph17_1 =  table2_cell17_1.addParagraph();
+        table2_paragraph17_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r17_1 = table2_paragraph17_1.createRun();
+        table2_r17_1.setText("清税情况");
+        table2_r17_1.setFontFamily("宋体");
+        table2_r17_1.setFontSize(12);
+
+        XWPFTableCell table2_cell17_2 = table2.getRow(16).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table2_paragraph17_2 =  table2_cell17_2.addParagraph();
+        table2_paragraph17_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table2_r17_2 = table2_paragraph17_2.createRun();
+        table2_r17_2.setText("□已清理完毕    □未涉及纳税义务");
+        table2_r17_2.setFontFamily("宋体");
+        table2_r17_2.setFontSize(12);
+
+        XWPFParagraph p5= doc.createParagraph();
+        XWPFParagraph p6= doc.createParagraph();
+        XWPFParagraph p7= doc.createParagraph();
+
+        //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
+        XWPFTable table3 = doc.createTable(6,6);
+        // 设置表格宽度为A4纸最大宽度
+        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 13);
+        // 设置表格居中
+        TableStyle style3 = new TableStyle();
+        style3.setAlign(STJc.CENTER);
+        TableTools.styleTable(table3, style3);
+        //合并单元格
+        TableTools.mergeCellsHorizonal(table3, 0, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 1, 1, 5);
+        TableTools.mergeCellsHorizonal(table3, 3, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 4, 0, 5);
+        TableTools.mergeCellsHorizonal(table3, 5, 0, 5);
+
+        //第一行单元格
+        XWPFTableCell table3_cell1_1 = table3.getRow(0).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph1_1 =  table3_cell1_1.addParagraph();
+        table3_paragraph1_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r1_1 = table3_paragraph1_1.createRun();
+        table3_r1_1.setText("指定代表/委托代理人信息（必填项）");
+        table3_r1_1.setFontFamily("宋体");
+        table3_r1_1.setFontSize(16);
+        table3_r1_1.setBold(true);//字体加粗
+
+        //第二行单元格
+        XWPFTableCell table3_cell2_1 = table3.getRow(1).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph2_1 =  table3_cell2_1.addParagraph();
+        table3_paragraph2_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r2_1 = table3_paragraph2_1.createRun();
+        table3_r2_1.setText("委托权限");
+        table3_r2_1.setFontFamily("宋体");
+        table3_r2_1.setFontSize(12);
+
+        XWPFTableCell table3_cell2_2= table3.getRow(1).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph2_2 =  table3_cell2_2.addParagraph();
+        table3_paragraph2_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r2_2 = table3_paragraph2_2.createRun();
+        table3_r2_2.setText("1、同意不同意□核对登记材料中的复印件并签署核对意见；");
+        table3_r2_2.setFontFamily("宋体");
+        table3_r2_2.setFontSize(12);
+
+        XWPFParagraph table3_paragraph2_2_1 =  table3_cell2_2.addParagraph();
+        table3_paragraph2_2_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r2_2_1 = table3_paragraph2_2_1.createRun();
+        table3_r2_2_1.setText("2、同意不同意□修改企业自备文件的错误；");
+        table3_r2_2_1.setFontFamily("宋体");
+        table3_r2_2_1.setFontSize(12);
+
+        XWPFParagraph table3_paragraph2_2_2 =  table3_cell2_2.addParagraph();
+        table3_paragraph2_2_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r2_2_2 = table3_paragraph2_2_2.createRun();
+        table3_r2_2_2.setText("3、同意不同意□修改有关表格的填写错误；");
+        table3_r2_2_2.setFontFamily("宋体");
+        table3_r2_2_2.setFontSize(12);
+
+        XWPFParagraph table3_paragraph2_2_3 =  table3_cell2_2.addParagraph();
+        table3_paragraph2_2_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r2_2_3 = table3_paragraph2_2_3.createRun();
+        table3_r2_2_3.setText("4、同意不同意□领取营业执照和有关文书。");
+        table3_r2_2_3.setFontFamily("宋体");
+        table3_r2_2_3.setFontSize(12);
+
+        //第三行单元格
+        XWPFTableCell table3_cell3_1 = table3.getRow(2).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_1 =  table3_cell3_1.addParagraph();
+        table3_paragraph3_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_1 = table3_paragraph3_1.createRun();
+        table3_r3_1.setText("固定电话");
+        table3_r3_1.setFontFamily("宋体");
+        table3_r3_1.setFontSize(12);
+
+        XWPFTableCell table3_cell3_2 = table3.getRow(2).getCell(1);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_2 =  table3_cell3_2.addParagraph();
+        table3_paragraph3_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_2 = table3_paragraph3_2.createRun();
+        table3_r3_2.setText("无");
+        table3_r3_2.setFontFamily("宋体");
+        table3_r3_2.setFontSize(12);
+
+        XWPFTableCell table3_cell3_3 = table3.getRow(2).getCell(2);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_3 =  table3_cell3_3.addParagraph();
+        table3_paragraph3_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_3 = table3_paragraph3_3.createRun();
+        table3_r3_3.setText("移动电话");
+        table3_r3_3.setFontFamily("宋体");
+        table3_r3_3.setFontSize(12);
+
+        XWPFTableCell table3_cell3_4 = table3.getRow(2).getCell(3);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_4 =  table3_cell3_4.addParagraph();
+        table3_paragraph3_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_4 = table3_paragraph3_4.createRun();
+        table3_r3_4.setText(selfEmployed.getApplyPhone());
+        table3_r3_4.setFontFamily("宋体");
+        table3_r3_4.setFontSize(12);
+
+        XWPFTableCell table3_cell3_5 = table3.getRow(2).getCell(4);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_5 =  table3_cell3_5.addParagraph();
+        table3_paragraph3_5.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_5 = table3_paragraph3_5.createRun();
+        table3_r3_5.setText("指定代表/委托代理人签字");
+        table3_r3_5.setFontFamily("宋体");
+        table3_r3_5.setFontSize(12);
+
+        XWPFTableCell table3_cell3_6 = table3.getRow(2).getCell(5);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph3_6 =  table3_cell3_6.addParagraph();
+        table3_paragraph3_6.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r3_6 = table3_paragraph3_6.createRun();
+//        table3_r3_6.setText("委托权限");
+//        table3_r3_6.setFontFamily("宋体");
+//        table3_r3_6.setFontSize(12);
+
+        //第四行单元格
+        XWPFTableCell table3_cell4_1 = table3.getRow(3).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph4_1 =  table3_cell4_1.addParagraph();
+        table3_paragraph4_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r4_1 = table3_paragraph4_1.createRun();
+        table3_r4_1.setText("（指定代表或者委托代理人身份证件复、影印件粘贴处）");
+        table3_r4_1.setFontFamily("宋体");
+        table3_r4_1.setFontSize(12);
+
+        //第五行单元格
+        XWPFTableCell table3_cell5_1 = table3.getRow(4).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph5_1 =  table3_cell5_1.addParagraph();
+        table3_paragraph5_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r5_1 = table3_paragraph5_1.createRun();
+        table3_r5_1.setText("申请人签署（必填项）");
+        table3_r5_1.setFontFamily("宋体");
+        table3_r5_1.setFontSize(16);
+        table3_r5_1.setBold(true);
+
+        //第六行单元格
+        XWPFTableCell table3_cell6_1 = table3.getRow(5).getCell(0);
+        // 获取单元格段落后设置对齐方式
+        XWPFParagraph table3_paragraph6_1 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1 = table3_paragraph6_1.createRun();
+        table3_r6_1.setText("本申请人和签字人承诺如下，并承担相应的法律责任。");
+        table3_r6_1.setFontFamily("宋体");
+        table3_r6_1.setFontSize(12);
+        table3_r6_1.setBold(true);
+
+        XWPFParagraph table3_paragraph6_1_1 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_1.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_1 = table3_paragraph6_1_1.createRun();
+        table3_r6_1_1.setText("（一）填报的信息及提交的材料真实、准确、有效、完整。");
+        table3_r6_1_1.setFontFamily("宋体");
+        table3_r6_1_1.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_2 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_2.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_2 = table3_paragraph6_1_2.createRun();
+        table3_r6_1_2.setText("（二）使用的名称符合市场主体名称有关要求，不含有损国家、社会公共利益或违背公序良俗及有其他不良影响的内容；名称与他人使用的名称近似侵犯他人合法权益的，依法承担法律责任；如使用的名称被登记机关认定为不适宜名称，将主动配合登记机关进行纠正。");
+        table3_r6_1_2.setFontFamily("宋体");
+        table3_r6_1_2.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_3 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_3.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_3 = table3_paragraph6_1_3.createRun();
+        table3_r6_1_3.setText("（三）已依法取得住所（经营场所）使用权，申请登记的住所（经营场所）信息与实际一致。以网络经营场所作为经营场所登记的，仅通过互联网开展经营活动，不擅自改变其住宅房屋用途用于从事线下生产经营活动。");
+        table3_r6_1_3.setFontFamily("宋体");
+        table3_r6_1_3.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_4 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_4.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_4 = table3_paragraph6_1_4.createRun();
+        table3_r6_1_4.setText("（四）经营范围涉及法律、行政法规、国务院决定规定、地方行政法规和地方规章规定，需要办理许可的，在取得相关部门批准前，不从事相关经营活动。");
+        table3_r6_1_4.setFontFamily("宋体");
+        table3_r6_1_4.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_5 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_5.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_5 = table3_paragraph6_1_5.createRun();
+        table3_r6_1_5.setText("经营者签字：");
+        table3_r6_1_5.setFontFamily("宋体");
+        table3_r6_1_5.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_6 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_6.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_6 = table3_paragraph6_1_6.createRun();
+        table3_r6_1_6.setText("参加经营的家庭成员签字（仅家庭经营）：\t");
+        table3_r6_1_6.setFontFamily("宋体");
+        table3_r6_1_6.setFontSize(12);
+
+        XWPFParagraph table3_paragraph6_1_7 =  table3_cell6_1.addParagraph();
+        table3_paragraph6_1_7.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun table3_r6_1_7 = table3_paragraph6_1_7.createRun();
+        table3_r6_1_7.setText("年    月    日  ");
+        table3_r6_1_7.setFontFamily("宋体");
+        table3_r6_1_7.setFontSize(12);
+
+        XWPFParagraph p9= doc.createParagraph();
+        XWPFRun run9 =  p9.createRun();
+        run9.setText("注：1、申请登记为家庭经营的，以主持经营者作为经营者登记，由全体参加经营家庭成员在“申请人签署”中签字予以确认。");
+
+        XWPFParagraph p10= doc.createParagraph();
+        XWPFRun run10 =  p10.createRun();
+        run10.setText("2、香港、澳门、台湾居民个体工商户或台湾农民个体工商户不填写本申请书“经营者”一栏内容，分别填写“个体工商户经营者（港澳居民）登记表”或“个体工商户经营者（台湾居民、农民）登记表”。港、澳居民个体工商户和台湾农民个体工商户应当注明经营场所的面积和从业人数");
 
 
         //写到本地
