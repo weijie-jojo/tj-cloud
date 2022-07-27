@@ -28,6 +28,7 @@
 
     <select id="selectSelfTicketList" parameterType="com.ruoyi.project.domain.SelfTicket" resultMap="SelfTicketResult">
         <include refid="selectSelfTicketVo"/>
+        is_deleted=1;
         <where>
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
             <if test="ticketAmount != null "> and ticket_amount = #{ticketAmount}</if>
@@ -44,6 +45,7 @@
 
     <select id="selectSelfTicketByTicketId" parameterType="String" resultMap="SelfTicketResult">
         <include refid="selectSelfTicketVo"/>
+        is_deleted=1;
         where ticket_id = #{ticketId}
     </select>
 
@@ -64,6 +66,7 @@
             <if test="updateBy != null">update_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -80,6 +83,7 @@
             <if test="updateBy != null">#{updateBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
         </trim>
     </insert>
 
@@ -100,6 +104,7 @@
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
         </trim>
         where ticket_id = #{ticketId}
     </update>
