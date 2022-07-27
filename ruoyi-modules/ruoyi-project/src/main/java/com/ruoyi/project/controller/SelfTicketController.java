@@ -58,7 +58,7 @@ public class SelfTicketController extends BaseController
      */
     @ApiOperation("查询发票列表(不分页)")
 //    @RequiresPermissions("project:ticket:list")
-    @GetMapping("/list")
+    @GetMapping("/list2")
     public List<SelfTicket>  list2(SelfTicket selfTicket)
     {
         List<SelfTicket> list = selfTicketService.selectSelfTicketList(selfTicket);

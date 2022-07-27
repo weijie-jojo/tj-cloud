@@ -64,6 +64,11 @@ public class SelfTicket extends BaseEntity
     @Excel(name = "发票种类编号")
     private String ticketTypeCode;
 
+    /** 发票种类编号 */
+    @Excel(name = "是否删除")
+    private String isDeleted;
+
+
     public void setTicketId(String ticketId)
     {
         this.ticketId = ticketId;
