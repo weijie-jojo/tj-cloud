@@ -87,9 +87,8 @@
             <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
-                    </el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">票据审核</el-button>
+                    
                 </template>
             </el-table-column>
         </el-table>
@@ -391,7 +390,7 @@ export default {
         },
         detail(row) {
             this.$cache.local.setJSON("ticketDetails",row);
-            this.$router.push('ticketDetail');
+            this.$router.push('reviewTicketDetail');
         },
         //审核中
         shenloading() {

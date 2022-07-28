@@ -6,21 +6,21 @@
             <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="Father.projectCode" disabled></el-input>
+                        <el-input v-model="Father.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input disabled v-model="Father.projectName"></el-input>
+                    <el-form-item class="comright" label="项目名称">
+                        <el-input :readonly="true" v-model="Father.projectName"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="Father.projectTimeStart" disabled></el-input>
+                    <el-form-item class="comright" label="项目时间">
+                        <el-input v-model="Father.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="Father.projectTotalAmount"
+                    <el-form-item class="comright" label="项目金额">
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="Father.projectTotalAmount"
                             :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -33,19 +33,19 @@
                 <el-col :span="9">
 
 
-                    <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="甲方" >
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
-                        <el-input disabled v-model="Father.purchCompany"></el-input>
+                        <el-input  v-model="Father.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
 
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="甲方纳税人识别号" :required="true">
-                        <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
+                    <el-form-item class="comright" label="甲方纳税人识别号" >
+                        <el-input :readonly="true" v-model="Father.purchCompanyTaxid"></el-input>
                     </el-form-item>
 
                 </el-col>
@@ -53,18 +53,18 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" :required="true">
-                        <el-input v-model="Father.selfName" disabled></el-input>
+                    <el-form-item class="comright" label="乙方" >
+                        <el-input v-model="Father.selfName" :required="true" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已开金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="issuedAmount" :step="0.01"
+                    <el-form-item class="comright" label="已开金额">
+                        <el-input :required="true" :readonly="true" type="number" style="width:100%" v-model="issuedAmount" :step="0.01"
                             :min="0">
                             <template slot="append">元</template>
                         </el-input>
 
                     </el-form-item>
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -75,10 +75,10 @@
                         <el-radio disabled v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
                     </el-form-item>
                     <el-form-item class="comright" label="发票种类编号" prop="ticketTypeCode">
-                        <el-input v-model="formData.ticketTypeCode"></el-input>
+                        <el-input :readonly="true" v-model="formData.ticketTypeCode"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="发票时间" :required="true">
-                        <el-input v-model="formData.ticketTime" disabled></el-input>
+                    <el-form-item class="comright" label="发票时间">
+                        <el-input :readonly="true" v-model="formData.ticketTime" ></el-input>
                     </el-form-item>
 
 
@@ -86,19 +86,19 @@
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="乙方纳税人识别号" :required="true">
-                        <el-input disabled v-model="owerTax"></el-input>
+                    <el-form-item class="comright" label="乙方纳税人识别号">
+                        <el-input  v-model="owerTax" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="剩余金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="balance" :step="0.01" :min="0">
+                    <el-form-item class="comright" label="剩余金额">
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="balance" :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input style="width:86%" v-model="formData.ticketTax" :disabled="true"></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketTax">
                             <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -125,10 +125,11 @@
 
 
                     <el-form-item class="comright" label="发票编号" prop="ticketCode">
-                        <el-input v-model="formData.ticketCode"></el-input>
+                        <el-input v-model="formData.ticketCode" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
                         <el-input
+                        :readonly="true"
                         @change="ticketAsee"
                         type="number" style="width:100%" v-model="formData.ticketAmount" :step="0.01"
                             :min="0">
@@ -142,42 +143,63 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
                         </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="发票影像" prop="fileName">
-
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
-                            :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
-                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
-                              :before-upload="beforeAvatarUpload"
-                            >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                             <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
-                    </el-form-item>
+                 <el-form-item class="comright" label="发票影像" prop="fileName">
+                     <div v-for="(item, index) in previewList1" :key="index">
+                            <el-image lazy :preview-src-list="previewList1" style="width: 150px; height: 150px"
+                                :src="item" alt="" />
+                        </div>
+                        <div v-for="(x, y) in pdfList1" :key="y">
+                            <span @click="pdfdetail(x)">
+                                {{ x }}
+                            </span>
+                        </div>
+                    </el-form-item>    
                 </el-col>
                 <el-col :span="9">
                 </el-col>
             </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>   
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;justify-content: flex-start;">
+              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
+            </div>
 
 
+          </el-form-item>
+        </el-col>
 
+      </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">返回</el-button>
-                    <el-button type="primary" @click="onSubmit">提交</el-button>
+                
+                     <el-button type="danger" @click="resetForm">返回</el-button>
+                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
+                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
-            </el-row>
+            </el-row>     
+
+
+            
         </el-form>
          <!--PDF 预览-->
     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
@@ -203,8 +225,8 @@
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import { TicketByCode,add } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
+import { list2 } from "@/api/project/ticket";
+import { detail, getcode, getinfoByUserId, ownlist, edit} from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
     components: {
@@ -212,10 +234,13 @@ export default {
     },
     data() {
         return {
+            isokradioS: '1',
             fileNames:'',
             titles: '',
             pdfList: [],  //pdf 预览
             previewList: [], //预览
+            pdfList1: [],  //pdf 预览
+            previewList1: [], //预览
             //pdf预览
             url: '',
             viewVisible: false,
@@ -226,7 +251,7 @@ export default {
             loadedRatio: 0,
             curPageNum: 0,
             closeDialog: false,
-
+            remark:'',
 
             issuedAmount: 0.00, //已开金额
             balance: 0.00,  //剩余金额
@@ -427,10 +452,81 @@ export default {
         this.ticketByCode();
         this.gettoday();
         this.getRate();
+        this.formData=this.$cache.local.getJSON("ticketDetails");
+        this.formData.fileName = JSON.parse(this.formData.fileName);
+        for (let j in this.formData.fileName) {
+                            if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+                                this.pdfList1.push(this.formData.fileName[j]);
+                             } else {
+                                this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
+                                this.previewList1.push(this.formData.fileName[j]);
+                            }
+                       }
     },
 
 
     methods: {
+         submitForm(type) {
+
+      this.$refs['elForm'].validate(valid => {
+        // TODO 提交表单
+        if (valid) {
+          let parms;
+          if (type == 1) {
+            parms = {
+              projectId: this.Father.projectId,
+              projectTicketStatus:type,
+            };
+          } else {
+            parms = {
+              projectId: this.Father.projectId,
+              checkContent: this.remark,
+              projectTicketStatus:type,
+              projectStatus:1,
+            };
+          }
+           edit(parms).then((res) => {
+            if (res != undefined) {
+              if (res.code === 200) {
+                 this.$nextTick(function () {
+                  this.$tab.refreshPage({ path: "/project/reviewList" }).then(() => {
+                    let resmsg = '';
+                    if (type == 1) {
+                      resmsg = '票据审核完成';
+                     // this.check('项目审核完成');
+                    } else {
+                      //this.check('项目审核完成未通过'+'(原因)'+this.remark);
+                      resmsg = '票据审核完成';
+                    }
+
+                   let obj = {
+                      title: '票据审核',
+                      backUrl: '/project/reviewTIckets',
+                      resmsg: resmsg
+
+                    }
+                    this.$cache.local.setJSON('successNew', obj);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                  });
+                });
+
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({ path: "/project/reviewTIckets" });
+              }
+
+            }
+         });
+
+        } else {
+          this.$message({
+            message: '请填写完整',
+            type: 'warning'
+          })
+        }
+      })
+
+    },
          //监听行业类型
         selectIndustryType() {
             var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
@@ -520,10 +616,10 @@ export default {
     },
         //计算已开和剩余金额
         ticketByCode() {
-            TicketByCode({
+            list2({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then(res => {
-                let arr = res.data;
+                let arr = res;
                 this.issuedAmount = 0.00;
                 for (let i in arr) {
                     if (arr[i].ticketAmount > 0) {
@@ -542,7 +638,10 @@ export default {
             }).then((response) => {
                 this.Father = response.data[0];
                   if (this.Father.fileName) {
-                    this.Father.fileName = JSON.parse(this.Father.fileName);
+                     if(this.Father.fileName.indexOf("[") != -1 ){
+                        this.Father.fileName = JSON.parse(this.Father.fileName);
+                    }
+                   // this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
                         this.fileNameradio = '2';
                         //如果是图片的话
@@ -653,7 +752,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({path:'/project/ticketlist'});
+            this.$tab.closeOpenPage({path:'/project/ReviewticketNew'});
         },
         handlesuccess1(file, fileList) {
             this.fileNamefile.push(file.obj);
@@ -752,41 +851,7 @@ export default {
         handleChange(val) {
             console.log(val);
         },
-        onSubmit() {
-            this.formData.fileName = this.fileNamefile;
-            this.formData.fileName = JSON.stringify(this.formData.fileName);
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                if (valid) {
-                    //如果是附件的话
-                     add(this.formData).then((res) => {
-                        if (res != undefined) {
-                            if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("新增成功!");
-                                    this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/ticketlist").then(() => {
-                                            this.$tab.openPage("票据列表", "/project/ticketlist");
-                                        });
-                                        //this.$router.push("employed");
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
-                }
-            });
-        },
-        toReturn2() {
-            this.$router.back();
-        },
+       
     },
 };
 </script>

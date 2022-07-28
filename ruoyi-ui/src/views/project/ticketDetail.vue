@@ -54,10 +54,10 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方" >
-                        <el-input v-model="Father.selfName" :required="true"></el-input>
+                        <el-input v-model="Father.selfName" :required="true" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
-                        <el-input :required="true" type="number" style="width:100%" v-model="issuedAmount" :step="0.01"
+                        <el-input :required="true" :readonly="true" type="number" style="width:100%" v-model="issuedAmount" :step="0.01"
                             :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -201,7 +201,7 @@
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import { TicketByCode,edit } from "@/api/project/ticket";
+import { list2,edit } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
@@ -530,10 +530,10 @@ export default {
     },
         //计算已开和剩余金额
         ticketByCode() {
-            TicketByCode({
+            list2({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then(res => {
-                let arr = res.data;
+                let arr = res;
                 this.issuedAmount = 0.00;
                 for (let i in arr) {
                     if (arr[i].ticketAmount > 0) {
@@ -552,7 +552,10 @@ export default {
             }).then((response) => {
                 this.Father = response.data[0];
                   if (this.Father.fileName) {
-                    this.Father.fileName = JSON.parse(this.Father.fileName);
+                     if(this.Father.fileName.indexOf("[") != -1 ){
+                        this.Father.fileName = JSON.parse(this.Father.fileName);
+                    }
+                   // this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
                         this.fileNameradio = '2';
                         //如果是图片的话

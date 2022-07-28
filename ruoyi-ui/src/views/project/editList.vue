@@ -3,7 +3,7 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
 
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
                         <el-input v-model="formData.projectCode" disabled></el-input>
@@ -21,7 +21,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
                         <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="1">
                               <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -70,7 +70,13 @@
                             <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
                                 highlight-current :props="defaultProps" @node-click="handleNodeClick"
                                 :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                                default-expand-all />
+                            >
+                             <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                                 <span style="float: left">{{ node.label }}</span>
+                                 <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                             </span>
+                            </el-tree>
+                                
                         </el-select>
                     </el-form-item>
 
@@ -128,7 +134,7 @@
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="owerTax"></el-input>
+                        <el-input disabled v-model="formData.projectOwnerTaxid"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="业务经理">
                         <el-input v-model="formData.projectLeader" disabled></el-input>
@@ -173,17 +179,8 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" :required="true">
-                        <el-select class="main-select-tree" ref="selectTrees" v-model="projectTrades"
-                            style="width: 100%;">
-                            <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
-                                :value="item.value" style="display: none;" />
-                            <el-tree class="main-select-el-tree" ref="selecteltrees" :data="projectTradeS" node-key="id"
-                                highlight-current :props="defaultProps" @node-click="handleNodeClick1"
-                                :current-node-key="projectTrades" :expand-on-click-node="expandOnClickNode"
-                                default-expand-all />
-                        </el-select>
-
+                    <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" prop="projectTrade">
+                         <el-input disabled v-model="formData.projectTrade"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -238,9 +235,21 @@
 </template>
 <script>
 import pdf from 'vue-pdf'
+import {  list2 } from "@/api/project/ticket";
 import crudRate from '@/api/company/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
+//手机号验证
+var phoneVerify = (rule, value, callback) => {
+    if (value) {
+        var reg = /^\d{15,20}$/;
+        if (!reg.test(value)) {
+            callback(new Error('甲方纳税人号长度在15位到20位之间'));
+        }
+        callback();
+    }
+};
 export default {
     components: {
         pdf
@@ -267,8 +276,7 @@ export default {
                 label: 'label'
             },
             expandOnClickNode: true,
-            projectTradeS: [],  //项目行业类型
-            projectTradeSList: '',//项目行业类型
+    
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -293,10 +301,11 @@ export default {
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
             placeCodeOptions: '',//渠道商
-            projectTrades: '',
+           
             formData: {
                 
             },
+            projectTotalAmount:0,
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
                 {
@@ -373,12 +382,12 @@ export default {
                         trigger: "change",
                     },
                 ],
-                projectTrades: [
+                projectTrade: [
 
                     {
                         required: true,
-                        message: "请选择项目行业类型",
-                        trigger: "change",
+                        message: "项目行业类型不能为空",
+                       
                     },
                 ],
                 industryType: [
@@ -418,6 +427,7 @@ export default {
                         message: "请输入甲方纳税人识别号",
                         trigger: "blur",
                     },
+                     { validator: phoneVerify, trigger: 'blur' }
                 ],
 
                 fileName: [
@@ -443,21 +453,56 @@ export default {
 
     watch: {
         'formData.industryType': 'selectIndustryType',
-        'projectTrades': 'selectInType',
+        
 
     },
 
     mounted() {
+        this.getRate();
         this.getlist();
         this.getinfoByUserId(); //渠道商
-        this.getRate();
+       
+   },
+   methods: {
+          //计算已开和剩余金额
+        ticketByCode() {
+            list2({
+                projectCode: this.formData.projectCode
+            }).then(res => {
+                let arr = res;
+                if(Array.isArray(arr) && arr.length>0){
+                    this.$modal.msgError('项目金额只能没有开票才能修改!');
+                    return;
+                }else{
+                 this.formData.projectPackageAmount = 0;
+                 this.formData.projectRemainAmount = this.formData.projectTotalAmount;
+                }
+
+                 edit(this.formData).then((res) => {
+                        
+                            if (res != undefined) {
+                                if (res.code === 200) {
+                                    this.$modal.msgSuccess("编辑成功!");
+                                    this.$nextTick(function () {
+                                        this.$tab.refreshPage("/project/list").then(() => {
+                                            this.$tab.openPage("项目列表", "/project/list");
+                                        });
+                                    });
+                                } else {
+                                    this.$modal.msgError(res.msg);
+                                }
+                            }
+                        
+                    });
+                
+
+            }).catch(err => {
+
+            });
+            
+        },
 
 
-
-    },
-
-
-    methods: {
         // 上一页函数，
         prePage() {
             var page = this.pageNum
@@ -494,26 +539,23 @@ export default {
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
         },
-        handleNodeClick1(node) {
-            this.projectTrades = node.id;
-            this.$refs.selectTrees.blur();
-        },
+   
         // 四级菜单
         formatData(data) {
             let options = [];
             if(data.length>0){
 
             data.forEach((item, key) => {
-                options.push({ label: item.label, value: item.id });
+                options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
                 if (item.children) {
                     item.children.forEach((items, keys) => {
-                        options.push({ label: items.label, value: items.id });
+                        options.push({ label: items.label, value: items.id,taxRates:items.taxRates });
                         if (items.children) {
                             items.children.forEach((itemss, keyss) => {
-                                options.push({ label: itemss.label, value: itemss.id });
+                                options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates });
                                 if (itemss.children) {
                                     itemss.children.forEach((itemsss, keysss) => {
-                                        options.push({ label: itemsss.label, value: itemsss.id });
+                                        options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
                                     });
                                 }
                             });
@@ -528,12 +570,16 @@ export default {
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
+               this.formData.industryType='';
                this.formData = response.data[0];
-               // this.formData=this.$cache.local.getJSON("projectListNews");
-                this.projectTrades = '';
-                // this.isokradio = JSON.stringify(this.formData.placeStatus);
+               this.projectTotalAmount=this.formData.projectTotalAmount;
+             
+                this.isokradio = JSON.stringify(this.formData.placeStatus);
                 if (this.formData.fileName) {
-                    this.formData.fileName = JSON.parse(this.formData.fileName);
+                    if(this.formData.fileName.indexOf("[") != -1 ){
+                        this.formData.fileName = JSON.parse(this.formData.fileName);
+                    }
+                    
                     if (Array.isArray(this.formData.fileName)) {
                         this.fileNameradio = '2';
                         //如果是图片的话
@@ -575,9 +621,10 @@ export default {
                     } else {
                         this.projectStatus = 1;
                     }
+                    
                     this.formData.selfName = this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
-                    this.owerTax = this.ownoptions[i].taxId;
+                    this.formData.projectOwnerTaxid = this.ownoptions[i].taxId;
                 }
             }
         },
@@ -659,62 +706,56 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
-                this.projectTradeS = tree;
-                this.projectTradeSList = res.rows;
-                var rate1 = this.projectTradeSList.find((item) => item.industryName == this.formData.projectTrade);
-                this.projectTrades = rate1.industryId;
-                this.selectIndustryType1();
+              
+               
               })
         },
         //把数据整成树状
         parseTree(industry, tree, pid) {
             for (var i = 0; i < industry.length; i++) {
                 if (industry[i].parentId == pid) {
+                    let a=industry[i].taxRate;
+                    let b=null;
+                    if(a){
+                     b=new Decimal(a).mul(new Decimal(100));
+                     b="税率"+b+'%';
+                    }else{
+                      b=null;
+                    }
                     var obj = {
                         id: industry[i].industryId,
                         label: industry[i].industryName,
                         children: [],
+                        taxRates:b,
                     };
                     tree.push(obj);
                     this.parseTree(industry, obj.children, obj.id);
                 }
             }
         },
-
-        // //监听行业类型
-        selectIndustryType1() {
-            var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
-            let industryType = rate.industryId;
-
-            ownlist({ username: this.username, industryType: industryType }).then(res => {
-                this.ownoptions = res;
-                for (let i in this.ownoptions) {
-                    if (this.ownoptions[i].selfName == this.formData.selfName) {
-                        this.natureBusiness = this.ownoptions[i].natureBusiness;
-                        this.owerTax = this.ownoptions[i].taxId;
-                    }
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-
-        },
-
-
-
         //监听行业类型
         selectIndustryType() {
-            
-           
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-            if(rate){
+           if(rate){
                this.industryId = rate.industryId;  //行业类型id
-               this.owerTaxfee = rate.taxRate;
+               if(rate.taxRate){
+                this.owerTaxfee =new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
+              }else{
+                this.owerTaxfee = '';
+              }
                let industryType = rate.industryId;
+               this.formData.projectTrade = rate.industryName;//所属行业
              ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
+                let data=this.ownoptions;
+                for(let i in data){
+                    if(data[i].selfName==this.formData.selfName){
+                         this.natureBusiness = data[i].natureBusiness;
+                        //  this.formData.projectOwnerTaxid = '';
+                       
+                       
+                    }
+                }
             }).catch(err => {
                 console.log(err);
             });
@@ -724,14 +765,7 @@ export default {
            
 
         },
-        //监听项目行业类型
-        selectInType() {
-
-            var rate = this.projectTradeSList.find((item) => item.industryId == this.projectTrades);
-            this.formData.projectTrade = rate.industryName;//所属行业
-            console.log(this.formData.projectTrade);
         
-        },
         //监听开票内容类型
         tickettaxvip(e) {
             console.log(e);
@@ -778,6 +812,10 @@ export default {
             console.log(val);
         },
         onSubmit() {
+            if(this.formData.projectTotalAmount<this.projectTotalAmount){
+                this.$modal.msgError('项目金额不能小于原来的项目金额');
+                return;
+            }
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
@@ -786,27 +824,13 @@ export default {
                         this.formData.fileName = this.fileNamefile;
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
+                    this.ticketByCode();
+                    console.log(this.formData);
+                   
+
+
+
                     
-
-
-
-                    edit(this.formData).then((res) => {
-                        if (res != undefined) {
-                            if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("编辑成功!");
-                                    this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/list").then(() => {
-                                            this.$tab.openPage("项目列表", "/project/list");
-                                        });
-                                        //this.$router.push("employed");
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        }
-                    });
                 } else {
                     this.$message({
                         message: "请填写完整",
