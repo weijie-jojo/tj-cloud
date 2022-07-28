@@ -2,27 +2,28 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
-           
-            <el-row type="flex" class="row-bg rowCss combottom" style="margin-bottom:20px" justify="space-around">
+
+            <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" prop="projectName">
-                        <el-input v-model="formData.projectName"></el-input>
+                    <el-form-item class="comright" label="项目名称">
+                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="项目时间" prop="createTime">
-                        <el-input v-model="formData.createTime" disabled></el-input>
+                    <el-form-item class="comright" label="项目时间">
+                        <el-input v-model="formData.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input-number style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
+                    <el-form-item class="comright" label="项目金额">
+                        <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"
                             :step="0.01" :min="0">
-                        </el-input-number>
+                            <template slot="append">元</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -30,27 +31,26 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商" prop="">
-                        <el-input  v-model="placename" disabled></el-input>
+                    <el-form-item class="comright" label="渠道商">
+                        <el-input v-model="formData.placeName" :readonly="true"></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="甲方" prop="purchCompany">
+                    <el-form-item class="comright" label="甲方">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
-                        <el-input v-model="formData.purchCompany"></el-input>
+                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
-
                     <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                        <el-radio v-model="isokradio" label="1"> 正常</el-radio>
-                        <el-radio v-model="isokradio" label="2">冻结 </el-radio>
+                        <el-input :readonly="true" v-if="isokradio == 0" value="正常"></el-input>
+                        <el-input :readonly="true" v-else value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号">
-                        <el-input disabled v-model="companyTax"></el-input>
+                        <el-input :readonly="true" v-model="formData.purchCompanyTaxid"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -59,16 +59,17 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-select style="width:100%" clearable v-model="formData.projectOwner">
-                            <el-option v-for="item in ownoptions" :key="item.value" :label="item.label"
-                                :value="item.value">
+                    <el-form-item class="comright" label="乙方">
+                        <el-input :readonly="true" v-model="formData.selfName"></el-input>
+                        <!-- <el-select disabled style="width:100%" clearable v-model="formData.selfName">
+                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
+                                :value="item.selfCode">
                             </el-option>
-                        </el-select>
+                        </el-select> -->
                     </el-form-item>
 
-                    <el-form-item class="comright" label="乙方状态" prop="projectStatus">
-                        <el-select style="width:100%" disabled clearable v-model="formData.projectStatus" placeholder="请选择项目状态">
+                    <el-form-item class="comright" label="乙方状态">
+                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -79,10 +80,10 @@
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="owerTax"></el-input>
+                        <el-input :readonly="true" v-model="formData.taxId"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="业务经理">
-                        <el-input v-model="formData.projectLeader" disabled></el-input>
+                        <el-input v-model="formData.projectLeader" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -91,15 +92,28 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型">
-                        <el-select style="width:100%" disabled clearable v-model="owntype">
-                            <el-option v-for="item in ownindustry" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
+                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
+                            style="width: 100%;" disabled>
+                            <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                            <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
+                                <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                                    <span style="float: left">{{ node.label }}</span>
+                                    <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{
+                                            data.taxRates
+                                    }}</span>
+                                </span>
+                            </el-tree>
+
                         </el-select>
+                        <!-- <treeselect  disabled   v-model="formData.industryType" :options="industryTypes" :show-count="true" /> -->
                     </el-form-item>
 
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketType"
+                            @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -109,15 +123,15 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业税率">
-                        <el-input disabled v-model="owerTaxfee"></el-input>
+                        <el-input :readonly="true" v-model="formData.industryTax"></el-input>
                     </el-form-item>
-                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input v-model="formData.ticketTax" disabled></el-input>
+                    <el-form-item v-if="tickettaxvipok" label="发票税率">
+                        <el-input v-model="formData.ticketTax" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
+                    <el-form-item v-else class="comright" label="发票税率">
 
 
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketTax">
                             <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -131,40 +145,42 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容类型">
-                        <el-radio v-model="fileNameradio" label="1">手动输入</el-radio>
-                        <el-radio v-model="fileNameradio" label="2">上传附件 </el-radio>
+                        <el-input :readonly="true" v-if="fileNameradio == 1" value="手动输入"></el-input>
+                        <el-input :readonly="true" v-else value="上传附件"></el-input>
                     </el-form-item>
-
-
-
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="开票内容" prop="fileName" v-if="fileNameradio == 1">
+                    <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
 
-                        <el-input type="textarea" :rows="2" v-model="formData.fileName">
+                        <el-input :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
-
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
+                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+                        <div v-for="(item, index) in previewList" :key="index">
+                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
+                                :src="item" alt="" />
+                        </div>
+                        <div v-for="(x, y) in pdfList" :key="y">
+                            <span @click="pdfdetail(x)"> {{ x }} </span>
+                        </div>
                     </el-form-item>
                 </el-col>
             </el-row>
 
-
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                    <el-form-item style="padding-right:4%" label="项目行业类型">
+                        <el-input :readonly="true" v-model="formData.projectTrade">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
+                            v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -173,53 +189,108 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
+                            v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-          
-          
-          
-          <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright">
-            <el-radio v-model="isokradio" label="1"> 通过</el-radio>
-            <el-radio v-model="isokradio" label="2">驳回 </el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="驳回理由">
-            <el-input v-model="remark" :disabled="isokradio == 1"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
 
-      <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button v-if="isokradio == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+          </el-form-item>
         </el-col>
-        <el-col :span="8"></el-col>
+
+      </el-row>   
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;justify-content: flex-start;">
+              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
+            </div>
+
+
+          </el-form-item>
+        </el-col>
+
       </el-row>
-             <!-- <div class="footers grid-content">
-            <el-footer>
-              <el-button type="danger" @click="toReturn2">返回</el-button>
-              <el-button type="primary" @click="submitForm3">提交</el-button>
-            </el-footer>
-          </div> -->
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                
+                     <el-button type="danger" @click="resetForm">返回</el-button>
+                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
+                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
+
         </el-form>
+        <!--PDF 预览-->
+        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+            <div>
+                <div class="tools flexs" style=" align-items: center;">
+                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+                    </div>
+                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+                </div>
+                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    @link-clicked="page = $event">
+                </pdf>
+
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
-import qs from 'qs';
-import { list, getcode,getinfoByUserId } from "@/api/project/list";
-import {getInfo} from '@/api/login' 
+import pdf from 'vue-pdf'
+import crudRate from '@/api/company/rate'
+import { getcode, getinfoByUserId, detail,edit } from "@/api/project/list";
+import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
 export default {
+    components: {
+        pdf
+    },
     data() {
         return {
+            remark:'',
+            expandOnClickNode: true,
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
+            titles: '',
+            pdfList: [],  //pdf 预览
+            previewList: [], //预览
+
+            //pdf预览
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
+
+
+            industryTypes: [],
+            industryTypeList: [],
+            username: "",
+            userId: '',
+            fileName2: [],
             fileName: [],
             dialogVisible1: false,
             dialogImageUrl1: "",
@@ -228,63 +299,29 @@ export default {
             tickettaxvipok: false,
             placename: '',
             isokradio: '1',
+            isokradioS: '1',
             companyTax: '',//甲方纳税人识别号
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
-
+            projectStatus: 1,
             formData: {
-                // fileName:'',//开票内容
-                ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                checkContent: "",
-                createBy: "",
-                createTime: "",
-                fileName: [],
-                isDeleted: "",
-                params: {},
-                placeCode: "",
-                projectAcceptanceStatus: "",
-                projectCheckStatus: "",
-                projectCode: "",
-                projectContractStatus: "",
-                projectDesc: "",
-                projectDutypaidStatus: "",
-                projectGrossMargin: 0,
-                projectGrossProfit: 0,
-                projectId: "",
-                projectLeader: "",
-                projectName: "",
-                projectNetProfit: 0,
-                projectOwner: "",
-                projectPackageAmount: 0,
-                projectStatus: 0,
-                projectTicketStatus: "",
-                projectTimeEnd: "",
-                projectTimeStart: "",
-                projectTotalAmount: 0,
-                projectTrade: "",
-                purchCompany: "",
-                remark: "",
-                searchValue: "",
-                updateBy: "",
-                updateTime: ""
-            },
+              },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
                 {
                     value: 0,
-                    label: '进行'
-                },
-                {
-
-                    value: 1,
                     label: '异常'
                 },
                 {
 
+                    value: 1,
+                    label: '正常'
+                },
+                {
+
                     value: 2,
-                    label: '完结',
+                    label: '异常',
                 },
             ],
             //甲方
@@ -317,263 +354,188 @@ export default {
                 label: '3%'
             },],
             rules: {
-                projectName: [
-                    {
-                        required: true,
-                        message: "请输入项目名称",
-                        trigger: "blur",
-                    },
-                ],
-                projectTotalAmount: [
-                    {
-                        required: true,
-                        message: "请输入项目额",
-                        trigger: "blur",
-                    },
-                ],
 
-                ticketType: [
-                    {
-                        required: true,
-                        message: "请选择发票类型",
-                        trigger: "change",
-                    },
-                ],
-                contactPhone: [
-                    {
-                        required: true,
-                        message: "请输入手机号",
-                        trigger: "blur",
-                    },
-                    {
-                        pattern: /^1(3|4|5|7|8|9)\d{9}$/,
-                        message: "手机号格式错误",
-                        trigger: "blur",
-                    },
-                ],
-                ticketTax: [
-                    {
-                        required: true,
-                        message: "发票税率不能为空",
-                        trigger: "change",
-                    },
-                ],
-                contactIdNum: [
-                    {
-                        required: true,
-                        message: "请输入证件号码",
-                        trigger: "blur",
-                    },
-                    {
-                        pattern:
-                            /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
-                        message: "身份证号格式错误",
-                        trigger: "blur",
-                    },
-                ],
-
-                organizationalForm: [
-                    {
-                        required: true,
-                        message: "请输入组织形式",
-                        trigger: "blur",
-                    },
-                ],
-                numberEmployees: [
-                    {
-                        required: true,
-                        message: "请输入从业人数",
-                        trigger: "blur",
-                    },
-                ],
-
-                city: [
-                    {
-                        required: true,
-                        message: "请输入城市",
-                        trigger: "blur",
-                    },
-                ],
-                county: [
-                    {
-                        required: true,
-                        message: "请输入区（县）",
-                        trigger: "blur",
-                    },
-                ],
-                electronicCommerce: [
-                    {
-                        required: true,
-                        message: "请选择是否是电子商务经营者",
-                        trigger: "change",
-                    },
-                ],
-                // selfAddress: [
-                //     {
-                //         required: true,
-                //         message: "请输入经营场所",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // selfAddress: [
-                //     {
-                //         required: true,
-                //         message: "请输入所属自贸区",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // freeTradeZone: [
-                //     {
-                //         required: true,
-                //         message: "请输入所属自贸区",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // freeTradeArea: [
-                //     {
-                //         required: true,
-                //         message: "请输入所属自贸片区",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // propertyRight: [
-                //     {
-                //         required: true,
-                //         message: "请输入产权",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // natureBusiness: [
-                //     {
-                //         required: true,
-                //         message: "请输入经营范围",
-                //         trigger: "blur",
-                //     },
-                // ],
-                // industryType: [
-                //     {
-                //         required: true,
-                //         message: "请选择行业类型",
-                //         trigger: "change",
-                //     },
-                // ],
-                placeCode: [
-                    {
-                        required: true,
-                        message: "请选择渠道商",
-                        trigger: "change",
-                    },
-                ],
-                // placeName: [
-                //     {
-                //         required: true,
-                //         message: "请选择渠道商",
-                //         trigger: "change",
-                //     },
-                // ],
-                projectOwner: [
-                    {
-                        required: true,
-                        message: "请选择乙方",
-                        trigger: "change",
-                    },
-                ],
-
-                purchCompany: [
-                    {
-                        required: true,
-                        message: "请选择甲方",
-                        trigger: "change",
-                    },
-                ],
-                gender: [
-                    {
-                        required: true,
-                        message: "请选择性别",
-                        trigger: "change",
-                    },
-                ],
-                dateBirth: [
-                    {
-                        required: true,
-                        message: "选择出生日期",
-                        trigger: "change",
-                    },
-                ],
-                nation: [
-                    {
-                        required: true,
-                        message: "请输入民族",
-                        trigger: "blur",
-                    },
-                ],
-                eduation: [
-                    {
-                        required: true,
-                        message: "请选择文化程度",
-                        trigger: "change",
-                    },
-                ],
-                occupationalStatus: [
-                    {
-                        required: true,
-                        message: "请输入申请前职业状况",
-                        trigger: "blur",
-                    },
-                ],
-                fileName: [
-                    {
-                        required: true,
-                        message: "开票内容不能为空",
-
-                    },
-                ],
-                residence: [
-                    {
-                        required: true,
-                        message: "请输入经营者居所",
-                        trigger: "blur",
-                    },
-                ],
-                mail: [
-                    {
-                        required: true,
-                        message: "请输入电子邮箱地址",
-                        trigger: "blur",
-                    },
-                    {
-                        pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-                        message: "邮箱地址格式错误",
-                        trigger: "blur",
-                    },
-                ],
             },
-
         };
     },
     computed: {},
-    watch: {
-        "formData.contactName": {
-            handler: function () {
-                this.formData.legalPersonName = this.formData.contactName;
-            },
-            deep: true,
-        },
-    },
+
 
     mounted() {
-        this.formData= this.$cache.local.getJSON("projectListInfo");
-        // this.gettoday();
-        // this.getcode();
+        this.getlist();
+        this.getRate();
         this.getinfoByUserId(); //渠道商
-
-
     },
 
 
     methods: {
-        resetForm(){
-          this.$router.back();
+      submitForm(type) {
+
+      this.$refs['elForm'].validate(valid => {
+        // TODO 提交表单
+        if (valid) {
+          let parms;
+          if (type == 1) {
+            parms = {
+              projectId: this.formData.projectId,
+              projectCheckStatus:type,
+            };
+          } else {
+            parms = {
+              projectId: this.projectId,
+              checkContent: this.remark,
+              projectCheckStatus:type,
+              projectStatus:1,
+            };
+          }
+           edit(parms).then((res) => {
+            if (res != undefined) {
+              if (res.code === 200) {
+                 this.$nextTick(function () {
+                  this.$tab.refreshPage({ path: "/project/reviewList" }).then(() => {
+                    let resmsg = '';
+                    if (type == 1) {
+                      resmsg = '项目审核完成';
+                     // this.check('项目审核完成');
+                    } else {
+                      //this.check('项目审核完成未通过'+'(原因)'+this.remark);
+                      resmsg = '项目审核完成';
+                    }
+
+                   let obj = {
+                      title: '项目审核',
+                      backUrl: '/project/reviewList',
+                      resmsg: resmsg
+
+                    }
+                    this.$cache.local.setJSON('successNew', obj);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                  });
+                });
+
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({ path: "/project/reviewList" });
+              }
+
+            }
+         });
+
+        } else {
+          this.$message({
+            message: '请填写完整',
+            type: 'warning'
+          })
+        }
+      })
+
+    },
+        // 四级菜单
+        formatData(data) {
+            let options = [];
+            if (data.length > 0) {
+
+                data.forEach((item, key) => {
+                    options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
+                    if (item.children) {
+                        item.children.forEach((items, keys) => {
+                            options.push({ label: items.label, value: items.id, taxRates: items.taxRates });
+                            if (items.children) {
+                                items.children.forEach((itemss, keyss) => {
+                                    options.push({ label: itemss.label, value: itemss.id, taxRates: itemss.taxRates });
+                                    if (itemss.children) {
+                                        itemss.children.forEach((itemsss, keysss) => {
+                                            options.push({ label: itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            return options;
+        },
+        pdfdetail(i) {
+            this.titles = '正在预览' + i;
+            this.viewVisible = true;
+            this.url = this.baseImgPath + i;
+        },
+        // 上一页函数，
+        prePage() {
+            var page = this.pageNum
+            page = page > 1 ? page - 1 : this.pageTotalNum
+            this.pageNum = page
+        },
+        // 下一页函数
+        nextPage() {
+            var page = this.pageNum
+            page = page < this.pageTotalNum ? page + 1 : 1
+            this.pageNum = page
+        },
+        // 页面顺时针翻转90度。
+        clock() {
+            this.pageRotate += 90
+        },
+        // 页面逆时针翻转90度。
+        counterClock() {
+            this.pageRotate -= 90
+        },
+        // 页面加载回调函数，其中e为当前页数
+        pageLoaded(e) {
+            this.curPageNum = e
+        },
+        // 其他的一些回调函数。
+        pdfError(error) {
+            console.error(error)
+        },
+        handleNodeClick(node) {
+
+            this.formData.industryType = node.id;
+            this.$refs.selectTree.blur();
+        },
+        getlist() {
+            detail({
+                projectCode: this.$cache.local.getJSON("projectCodeNew")
+            }).then((response) => {
+
+                this.formData = response.data[0];
+                this.formData.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+                this.isokradio = JSON.stringify(this.formData.placeStatus);
+                this.formData.placeStatus = parseInt(this.formData.placeStatus);
+                if (this.formData.fileName) {
+                    if (this.formData.fileName.indexOf("[") != -1) {
+                        this.formData.fileName = JSON.parse(this.formData.fileName);
+                    }
+
+                    if (Array.isArray(this.formData.fileName)) {
+                        this.fileNameradio = '2';
+                        //如果是图片的话
+                        for (let j in this.formData.fileName) {
+                            if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+                                this.pdfList.push(this.formData.fileName[j]);
+                            } else {
+                                this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
+                                this.previewList.push(this.formData.fileName[j]);
+                            }
+                        }
+
+                    } else {
+                        this.fileNameradio = '1';
+                    }
+
+                } else {
+                    this.fileNameradio = '1';
+                }
+                if (this.formData.isActive) {
+                    this.projectStatus = parseInt(this.formData.isActive);
+                } else {
+                    this.projectStatus = 1;
+                }
+            });
+        },
+        resetForm() {
+            this.$tab.closeOpenPage({ path: '/project/reviewList' });
         },
 
         handlesuccess1(file, fileList) {
@@ -581,7 +543,7 @@ export default {
         },
         handleRemove1(file, fileList) {
             const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formBank.fileName.splice(i, 1);
+            this.formData.fileName.splice(i, 1);
         },
         handlePreview1(file) {
             this.dialogImageUrl1 = file.url;
@@ -598,38 +560,47 @@ export default {
         },
         //渠道商接口
         getinfoByUserId() {
-          getInfo().then(res=>{  
-           getinfoByUserId({userId:res.user.userId}).then(res=>{
-               this.placename=res.data;
-              })
-             })
-       },
+            getInfo().then(res => {
+                this.userId = res.user.userId;
+                this.username = res.user.userName;
+                getinfoByUserId({ userId: this.userId }).then(res => {
+                    this.placename = res.data;
+                })
+            })
+        },
 
-    getRate(){
-      crudRate.getAllRate().then(res=>{
-          console.log("getAllRate",res.rows);
-          // this.industryTypes=res.rows;
-          let tree = []; // 用来保存树状的数据形式
-          this.parseTree(res.rows, tree, 0);
-          console.log("tree",tree);
-          this.industryTypes=tree;
-          this.industryTypeList=res.rows;
-      })
-    },
-    //把数据整成树状
-    parseTree(industry, tree, pid) {
-      for (var i = 0; i < industry.length; i++) {
-        if (industry[i].parentId == pid) {
-          var obj = {
-            id: industry[i].industryId,
-            label: industry[i].industryName,
-            children: [],
-          };
-          tree.push(obj);
-          this.parseTree(industry, obj.children, obj.id);
-        }
-      }
-    },
+        getRate() {
+            crudRate.getAllRate().then(res => {
+                console.log("getAllRate", res.rows);
+                let tree = []; // 用来保存树状的数据形式
+                this.parseTree(res.rows, tree, 0);
+                console.log("tree", tree);
+                this.industryTypes = tree;
+                this.industryTypeList = res.rows;
+            })
+        },
+        //把数据整成树状
+        parseTree(industry, tree, pid) {
+            for (var i = 0; i < industry.length; i++) {
+                if (industry[i].parentId == pid) {
+                    let a = industry[i].taxRate;
+                    let b = null;
+                    if (a) {
+                        b = new Decimal(a).mul(new Decimal(100));
+                        b = "税率" + b + '%';
+                    } else {
+                        b = null;
+                    }
+                    var obj = {
+                        id: industry[i].industryId,
+                        label: industry[i].industryName,
+                        children: [],
+                    };
+                    tree.push(obj);
+                    this.parseTree(industry, obj.children, obj.id);
+                }
+            }
+        },
 
 
         tickettaxvip(e) {
@@ -643,23 +614,6 @@ export default {
             }
 
         },
-        repair(i) {
-            if (i >= 0 && i <= 9) {
-                return "0" + i;
-            } else {
-                return i;
-            }
-        },
-        gettoday() {
-            var date = new Date();//当前时间
-            var year = date.getFullYear() //年
-            var month = this.repair(date.getMonth() + 1);//月
-            var day = this.repair(date.getDate());//日
-            //当前时间 
-            var curTime = year + "-" + month + "-" + day
-            this.formData.createTime = curTime;
-
-        },
         getcode() {
             getcode().then((res) => {
                 this.formData.projectCode = res;
@@ -670,41 +624,8 @@ export default {
         handleChange(val) {
             console.log(val);
         },
-        submitForm() {
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                if (valid) {
-                    this.formData.fileName = JSON.stringify(this.formData.fileName);
 
-                    let parms = {
-                        selfId: this.formData.selfId,
-                        infoStatus: 1,
-                    };
-                    updateEmployed.addReview(parms).then((res) => {
-                        if (res != undefined) {
-                            if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("信息审核通过成功!");
-                                    this.$nextTick(function () {
-                                        this.$router.push("employed");
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
-                }
-            });
-        },
-        toReturn2() {
-            this.$router.back();
-        },
+
     },
 };
 </script>
@@ -717,6 +638,12 @@ export default {
 ::v-deep .is-disabled .el-input__inner {
     background-color: transparent !important;
     color: black;
+}
+
+// 改变input框字体颜色
+::v-deep textarea {
+    background-color: transparent !important;
+    color: black !important;
 }
 
 .paddingbg-s {
@@ -757,10 +684,4 @@ export default {
     color: blue;
 }
 
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

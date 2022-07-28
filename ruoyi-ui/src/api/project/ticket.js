@@ -37,6 +37,14 @@ export function getcode(){
         method:'get'    
     })
 }
+export function list2(data){
+  return request({
+      url:'/project/ticket/list2',
+      method:'get',
+      params:data 
+          
+  })
+}
 export function del(ticketIds) {
   return request({
     url: 'project/ticket/del/'+ticketIds,
@@ -62,4 +70,4 @@ export function getinfoByUserId(data){
 
 
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode}
+export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}

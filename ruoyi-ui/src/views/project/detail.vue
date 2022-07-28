@@ -2,11 +2,11 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
-           
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
+
+            <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="formData.projectCode" :readonly="true" ></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目名称">
@@ -20,8 +20,9 @@
                         <el-input v-model="formData.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额">
-                        <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"  :step="0.01" :min="0">
-                        <template slot="append">元</template>
+                        <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"
+                            :step="0.01" :min="0">
+                            <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -31,7 +32,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商">
-                        <el-input  v-model="formData.placeName" :readonly="true"></el-input>
+                        <el-input v-model="formData.placeName" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="甲方">
@@ -45,8 +46,8 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                         <el-input  :readonly="true" v-if="isokradio==0" value="正常"></el-input>
-                        <el-input  :readonly="true" v-else value="冻结"></el-input>
+                        <el-input :readonly="true" v-if="isokradio == 0" value="正常"></el-input>
+                        <el-input :readonly="true" v-else value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号">
                         <el-input :readonly="true" v-model="formData.purchCompanyTaxid"></el-input>
@@ -68,7 +69,7 @@
                     </el-form-item>
 
                     <el-form-item class="comright" label="乙方状态">
-                        <el-select   style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
+                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -91,11 +92,28 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型">
-                         <treeselect  disabled   v-model="formData.industryType" :options="industryTypes" :show-count="true" />
+                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
+                            style="width: 100%;" disabled>
+                            <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                            <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
+                                <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                                    <span style="float: left">{{ node.label }}</span>
+                                    <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{
+                                            data.taxRates
+                                    }}</span>
+                                </span>
+                            </el-tree>
+
+                        </el-select>
+                        <!-- <treeselect  disabled   v-model="formData.industryType" :options="industryTypes" :show-count="true" /> -->
                     </el-form-item>
- 
+
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select disabled style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketType"
+                            @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -127,32 +145,33 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容类型">
-                        <el-input  :readonly="true" v-if="fileNameradio==1" value="手动输入"></el-input>
-                        <el-input  :readonly="true" v-else value="上传附件"></el-input>
+                        <el-input :readonly="true" v-if="fileNameradio == 1" value="手动输入"></el-input>
+                        <el-input :readonly="true" v-else value="上传附件"></el-input>
                     </el-form-item>
-                 </el-col>
+                </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="开票内容"  v-if="fileNameradio == 1">
+                    <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
 
                         <el-input :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件"  v-if="fileNameradio == 2">
-                         <div v-for="(item, index) in previewList" :key="index">
-                      <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px" :src="item" alt="" />
-                     </div>
-                     <div v-for="(x, y) in pdfList" :key="y">
-                       <span @click="pdfdetail(x)">  {{ x }} </span>  
-                     </div>
-                 </el-form-item>
+                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+                        <div v-for="(item, index) in previewList" :key="index">
+                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
+                                :src="item" alt="" />
+                        </div>
+                        <div v-for="(x, y) in pdfList" :key="y">
+                            <span @click="pdfdetail(x)"> {{ x }} </span>
+                        </div>
+                    </el-form-item>
                 </el-col>
             </el-row>
 
-              <el-row type="flex" class="row-bg " justify="space-around">
+            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="项目行业类型">
-                        <el-input :readonly="true"  v-model="formData.projectTrade">
+                        <el-input :readonly="true" v-model="formData.projectTrade">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -160,7 +179,8 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="formData.natureBusiness">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
+                            v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -169,13 +189,14 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
+                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
+                            v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
 
-             <el-row type="flex" class="row-bg " justify="space-around">
+            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
                     <el-button type="danger" @click="resetForm">返回</el-button>
@@ -184,43 +205,49 @@
             </el-row>
 
         </el-form>
-           <!--PDF 预览-->
-     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-     <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+        <!--PDF 预览-->
+        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+            <div>
+                <div class="tools flexs" style=" align-items: center;">
+                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+                    </div>
+                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
 
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
+                </div>
+                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    @link-clicked="page = $event">
+                </pdf>
 
-      </div>
-     </el-dialog>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import {getcode,getinfoByUserId,detail } from "@/api/project/list";
-import {getInfo} from '@/api/login' 
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import { getcode, getinfoByUserId, detail } from "@/api/project/list";
+import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
 export default {
-    components: { Treeselect,pdf },
+    components: {
+        pdf
+    },
     data() {
         return {
-
+            expandOnClickNode: true,
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
             titles: '',
             pdfList: [],  //pdf 预览
             previewList: [], //预览
-          
-          //pdf预览
+
+            //pdf预览
             url: '',
             viewVisible: false,
             pageNum: 1,
@@ -234,8 +261,9 @@ export default {
 
 
 
-            industryTypes:[],
-            username:"",
+            industryTypes: [],
+            industryTypeList: [],
+            username: "",
             userId: '',
             fileName2: [],
             fileName: [],
@@ -250,9 +278,9 @@ export default {
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
-            projectStatus:1,
+            projectStatus: 1,
             formData: {
-                placeName:'',
+                placeName: '',
                 ticketTax: '',//发票税率
                 ticketType: '',  //发票类型
                 checkContent: "",
@@ -280,7 +308,7 @@ export default {
                 projectTrade: "",
                 purchCompany: "",
                 remark: "",
-             },
+            },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
                 {
@@ -328,12 +356,12 @@ export default {
                 label: '3%'
             },],
             rules: {
-               
+
             },
-            };
+        };
     },
     computed: {},
-    
+
 
     mounted() {
         this.getlist();
@@ -343,77 +371,112 @@ export default {
 
 
     methods: {
-    pdfdetail(i) {
-         this.titles = '正在预览' + i;
-         this.viewVisible = true;
-         this.url = this.baseImgPath + i;
-       },
-         // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
-    getlist(){
+        // 四级菜单
+        formatData(data) {
+            let options = [];
+            if (data.length > 0) {
+
+                data.forEach((item, key) => {
+                    options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
+                    if (item.children) {
+                        item.children.forEach((items, keys) => {
+                            options.push({ label: items.label, value: items.id, taxRates: items.taxRates });
+                            if (items.children) {
+                                items.children.forEach((itemss, keyss) => {
+                                    options.push({ label: itemss.label, value: itemss.id, taxRates: itemss.taxRates });
+                                    if (itemss.children) {
+                                        itemss.children.forEach((itemsss, keysss) => {
+                                            options.push({ label: itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            return options;
+        },
+        pdfdetail(i) {
+            this.titles = '正在预览' + i;
+            this.viewVisible = true;
+            this.url = this.baseImgPath + i;
+        },
+        // 上一页函数，
+        prePage() {
+            var page = this.pageNum
+            page = page > 1 ? page - 1 : this.pageTotalNum
+            this.pageNum = page
+        },
+        // 下一页函数
+        nextPage() {
+            var page = this.pageNum
+            page = page < this.pageTotalNum ? page + 1 : 1
+            this.pageNum = page
+        },
+        // 页面顺时针翻转90度。
+        clock() {
+            this.pageRotate += 90
+        },
+        // 页面逆时针翻转90度。
+        counterClock() {
+            this.pageRotate -= 90
+        },
+        // 页面加载回调函数，其中e为当前页数
+        pageLoaded(e) {
+            this.curPageNum = e
+        },
+        // 其他的一些回调函数。
+        pdfError(error) {
+            console.error(error)
+        },
+        handleNodeClick(node) {
+
+            this.formData.industryType = node.id;
+            this.$refs.selectTree.blur();
+        },
+        getlist() {
             detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
-             //this.projectList = response.rows;
-                 this.formData=response.data[0];
-                 this.isokradio=JSON.stringify(this.formData.placeStatus);
-               //  this.formData.placeStatus=parseInt(this.formData.placeStatus);
-                  if(this.formData.fileName){
-                    this.formData.fileName=JSON.parse(this.formData.fileName);
-                    if(Array.isArray(this.formData.fileName) ){
-                          this.fileNameradio='2';
-                          //如果是图片的话
-                         for(let j in this.formData.fileName){
-                                if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
+
+                this.formData = response.data[0];
+                this.formData.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+                this.isokradio = JSON.stringify(this.formData.placeStatus);
+                this.formData.placeStatus = parseInt(this.formData.placeStatus);
+                if (this.formData.fileName) {
+                    if (this.formData.fileName.indexOf("[") != -1) {
+                        this.formData.fileName = JSON.parse(this.formData.fileName);
+                    }
+
+                    if (Array.isArray(this.formData.fileName)) {
+                        this.fileNameradio = '2';
+                        //如果是图片的话
+                        for (let j in this.formData.fileName) {
+                            if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
                                 this.pdfList.push(this.formData.fileName[j]);
-                             } else {
+                            } else {
                                 this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
                                 this.previewList.push(this.formData.fileName[j]);
                             }
-                          }
-                    
-                    }else{
-                         this.fileNameradio='1';
+                        }
+
+                    } else {
+                        this.fileNameradio = '1';
                     }
-                    
-                 }else{
-                    this.fileNameradio='1';
-                 }
-                   if(this.formData.isActive){
-                         this.projectStatus=parseInt(this.formData.isActive);
-                    }else{
-                        this.projectStatus=1;
-                    }
+
+                } else {
+                    this.fileNameradio = '1';
+                }
+                if (this.formData.isActive) {
+                    this.projectStatus = parseInt(this.formData.isActive);
+                } else {
+                    this.projectStatus = 1;
+                }
             });
         },
-        resetForm(){
-           this.$tab.closeOpenPage({path:'/project/list'});
+        resetForm() {
+            this.$tab.closeOpenPage({ path: '/project/list' });
         },
 
         handlesuccess1(file, fileList) {
@@ -438,39 +501,47 @@ export default {
         },
         //渠道商接口
         getinfoByUserId() {
-          getInfo().then(res=>{  
-            this.userId = res.user.userId;
-            this.username = res.user.userName;
-           getinfoByUserId({userId: this.userId }).then(res=>{
-               this.placename=res.data;
-              })
-             })
-       },
+            getInfo().then(res => {
+                this.userId = res.user.userId;
+                this.username = res.user.userName;
+                getinfoByUserId({ userId: this.userId }).then(res => {
+                    this.placename = res.data;
+                })
+            })
+        },
 
-    getRate(){
-      crudRate.getAllRate().then(res=>{
-          console.log("getAllRate",res.rows);
-          let tree = []; // 用来保存树状的数据形式
-          this.parseTree(res.rows, tree, 0);
-          console.log("tree",tree);
-          this.industryTypes=tree;
-          this.industryTypeList=res.rows;
-      })
-    },
-    //把数据整成树状
-    parseTree(industry, tree, pid) {
-      for (var i = 0; i < industry.length; i++) {
-        if (industry[i].parentId == pid) {
-          var obj = {
-            id: industry[i].industryId,
-            label: industry[i].industryName,
-            children: [],
-          };
-          tree.push(obj);
-          this.parseTree(industry, obj.children, obj.id);
-        }
-      }
-    },
+        getRate() {
+            crudRate.getAllRate().then(res => {
+                console.log("getAllRate", res.rows);
+                let tree = []; // 用来保存树状的数据形式
+                this.parseTree(res.rows, tree, 0);
+                console.log("tree", tree);
+                this.industryTypes = tree;
+                this.industryTypeList = res.rows;
+            })
+        },
+        //把数据整成树状
+        parseTree(industry, tree, pid) {
+            for (var i = 0; i < industry.length; i++) {
+                if (industry[i].parentId == pid) {
+                    let a = industry[i].taxRate;
+                    let b = null;
+                    if (a) {
+                        b = new Decimal(a).mul(new Decimal(100));
+                        b = "税率" + b + '%';
+                    } else {
+                        b = null;
+                    }
+                    var obj = {
+                        id: industry[i].industryId,
+                        label: industry[i].industryName,
+                        children: [],
+                    };
+                    tree.push(obj);
+                    this.parseTree(industry, obj.children, obj.id);
+                }
+            }
+        },
 
 
         tickettaxvip(e) {
@@ -494,8 +565,8 @@ export default {
         handleChange(val) {
             console.log(val);
         },
-       
-       
+
+
     },
 };
 </script>
@@ -512,9 +583,10 @@ export default {
 
 // 改变input框字体颜色
 ::v-deep textarea {
-  background-color: transparent !important;
-  color: black  !important;
+    background-color: transparent !important;
+    color: black !important;
 }
+
 .paddingbg-s {
     padding-top: 15px;
 }
@@ -553,10 +625,4 @@ export default {
     color: blue;
 }
 
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

@@ -20,8 +20,8 @@
                         <el-input v-model="formData.projectTimeStart" disabled></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0">
+                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01"
+                            :min="1.00">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -63,16 +63,24 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型" prop="industryType">
                         <!-- <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true" /> -->
-                         <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-                <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
-                  :value="item.value" style="display: none;" />
-                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
-                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                  default-expand-all />
-                   </el-select>
-                    
-                    
+                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
+                            style="width: 100%;">
+                            <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                                :value="item.value" style="display: none;" />
+                           
+                            <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                                highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                             >
+                             <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                                 <span style="float: left">{{ node.label }}</span>
+                                 <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                             </span>
+                             
+                             </el-tree>
+                        </el-select>
+
+
                     </el-form-item>
 
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
@@ -161,8 +169,7 @@
                         <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
                             :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
                             multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
-                           :before-upload="beforeAvatarUpload"
-                            >
+                            :before-upload="beforeAvatarUpload">
                             <el-button size="small" type="primary">点击上传</el-button>
                             <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
                         </el-upload>
@@ -176,16 +183,9 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                 <el-form-item style="padding-right:4%" label="项目行业类型" prop="projectTrades">
-                 <el-select class="main-select-tree" ref="selectTrees" v-model="formData.projectTrades" style="width: 100%;">
-                <el-option v-for="item in formatData(projectTradeS)" :key="item.value" :label="item.label"
-                  :value="item.value" style="display: none;" />
-                <el-tree class="main-select-el-tree" ref="selecteltrees" :data="projectTradeS" node-key="id"
-                  highlight-current :props="defaultProps" @node-click="handleNodeClick1"
-                  :current-node-key="formData.projectTrades" :expand-on-click-node="expandOnClickNode"
-                  default-expand-all />
-                   </el-select>
-                 </el-form-item>
+                    <el-form-item label="项目行业类型" prop="projectTrade">
+                        <el-input disabled v-model="formData.projectTrade"></el-input>
+                    </el-form-item>
                 </el-col>
             </el-row>
 
@@ -216,25 +216,26 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
-           <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+        <!--PDF 预览-->
+        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
 
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+            <div>
+                <div class="tools flexs" style=" align-items: center;">
+                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+                    </div>
+                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
 
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
+                </div>
+                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    @link-clicked="page = $event">
+                </pdf>
 
-      </div>
-    </el-dialog>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -242,14 +243,36 @@ import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
 import { list, getcode, getinfoByUserId, add, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
+import {Decimal} from 'decimal.js'
+
+
+//手机号验证
+var phoneVerify = (rule, value, callback) => {
+    if (value) {
+        var reg = /^\d{15,20}$/;
+        if (!reg.test(value)) {
+            callback(new Error('甲方纳税人号长度在15位到20位之间'));
+        }
+        callback();
+    }
+};
+// var projectTotalAmounts= (rule, value, callback) => {
+//      if(value){
+//          var reg =/^.{15,20}$/;
+//          if(!reg.test(value)){
+//              callback(new Error('甲方纳税人号长度在15位到20位之间'));
+//          }
+//          callback();
+//      }
+//  };
 export default {
     components: {
-    pdf
+        pdf
     },
     data() {
         return {
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-              //pdf预览
+            //pdf预览
             titles: '',
             url: '',
             viewVisible: false,
@@ -257,17 +280,16 @@ export default {
             pageTotalNum: 1,
             pageRotate: 0,
             // 加载进度
-             loadedRatio: 0,
-             curPageNum: 0,
-             closeDialog: false,
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
 
             defaultProps: {
                 children: 'children',
-                label: 'label'
+                label: 'label',
+                taxRates:'taxRates'
             },
             expandOnClickNode: true,
-            projectTradeS: [],  //项目行业类型
-            projectTradeSList: '',//项目行业类型
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -289,14 +311,13 @@ export default {
             owerTaxfee: '',//乙方税率
             placeCodeOptions: '',//渠道商
             formData: {
-                projectOwnerTaxid:'',
+                projectOwnerTaxid: '',
                 projectDesc: '',//开票描述
                 purchCompanyTaxid: '',//甲方纳税人识别号
                 ticketTax: '',//发票税率
                 ticketType: '',  //发票类型  0 普通 1 专用
-                // checkContent: "",
-                // createBy: "",
-                // createTime: "",
+                projectRemainAmount:'', //项目可以用金额
+               
                 fileName: '',//开票内容
                 placeCode: "",
                 projectAcceptanceStatus: 0,
@@ -311,19 +332,19 @@ export default {
                 projectName: "",
                 projectNetProfit: 0,
                 projectOwner: "",
-                projectPackageAmount: 0,
+                projectPackageAmount: 0, ////已使用金额
                 projectStatus: 0,
                 projectTicketStatus: 0,
                 // projectTimeEnd: "",
                 projectTimeStart: "",
-                projectTotalAmount: 0,
+                projectTotalAmount: '1.00',
                 projectTrade: "",
-                projectTrades: '',
+
                 purchCompany: "",
                 remark: "",
                 industryType: '',
                 selfName: '',
-                isDeleted:1,
+                isDeleted: 1,
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -384,6 +405,7 @@ export default {
                         message: "请输入项目额",
                         trigger: "blur",
                     },
+                    // { validator: projectTotalAmounts, trigger: 'blur' }
                 ],
 
                 ticketType: [
@@ -408,12 +430,12 @@ export default {
                         trigger: "change",
                     },
                 ],
-                projectTrades: [
+                projectTrade: [
 
                     {
                         required: true,
-                        message: "请选择项目行业类型",
-                        trigger: "change",
+                        message: "行业类型不能为空",
+
                     },
                 ],
                 placeCode: [
@@ -446,6 +468,7 @@ export default {
                         message: "请输入甲方纳税人识别号",
                         trigger: "blur",
                     },
+                    { validator: phoneVerify, trigger: 'blur' }
                 ],
 
                 fileName: [
@@ -468,10 +491,10 @@ export default {
         };
     },
     computed: {},
-   
+
     watch: {
         'formData.industryType': 'selectIndustryType',
-        'formData.projectTrades': 'selectInType',
+
     },
     mounted() {
         this.gettoday();
@@ -481,88 +504,90 @@ export default {
 
 
     methods: {
-       beforeAvatarUpload(file){
-     
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
-       // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
 
+        beforeAvatarUpload(file) {
 
-
-
-
-     handleNodeClick(node) {
-      this.formData.industryType = node.id;
-      this.$refs.selectTree.blur();
-    },
-    handleNodeClick1(node) {
-       this.formData.projectTrades = node.id;
-    },
-    // 四级菜单
-    formatData(data) {
-        // console.log(data);
-      let options = [];
-      if(data.length>0){
-      data.forEach((item, key) => {
-        options.push({ label: item.label, value: item.id });
-        if (item.children) {
-          item.children.forEach((items, keys) => {
-            options.push({ label: items.label, value: items.id });
-            if (items.children) {
-              items.children.forEach((itemss, keyss) => {
-                options.push({ label: itemss.label, value: itemss.id });
-                if (itemss.children) {
-                  itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label: itemsss.label, value: itemsss.id });
-                  });
-                }
-              });
+            const isLt2M = file.size / 1024 / 1024 < 5;
+            const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+            const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
+            if (whiteList.indexOf(fileSuffix) === -1) {
+                this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+                return false;
             }
-          });
-        }
-      });
-      }
-      return options;
-    },
+            if (!isLt2M) {
+                this.$message.error('上传文件大小不能超过 10MB!');
+                return false;
+            }
+            return fileSuffix & isLt2M;
+
+        },
+        // 上一页函数，
+        prePage() {
+            var page = this.pageNum
+            page = page > 1 ? page - 1 : this.pageTotalNum
+            this.pageNum = page
+        },
+        // 下一页函数
+        nextPage() {
+            var page = this.pageNum
+            page = page < this.pageTotalNum ? page + 1 : 1
+            this.pageNum = page
+        },
+        // 页面顺时针翻转90度。
+        clock() {
+            this.pageRotate += 90
+        },
+        // 页面逆时针翻转90度。
+        counterClock() {
+            this.pageRotate -= 90
+        },
+        // 页面加载回调函数，其中e为当前页数
+        pageLoaded(e) {
+            this.curPageNum = e
+        },
+        // 其他的一些回调函数。
+        pdfError(error) {
+            console.error(error)
+        },
+
+
+
+
+
+        handleNodeClick(node) {
+            console.log(node);
+            this.formData.industryType = node.id;
+            this.$refs.selectTree.blur();
+        },
+
+        // 四级菜单
+        formatData(data) {
+            // console.log(data);
+            let options = [];
+            if (data.length > 0) {
+                data.forEach((item, key) => {
+                    options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+                    if (item.children) {
+                        item.children.forEach((items, keys) => {
+                            options.push({ label: items.label, value: items.id,taxRates:items.taxRates });
+                            if (items.children) {
+                                items.children.forEach((itemss, keyss) => {
+                                    options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                                    if (itemss.children) {
+                                        itemss.children.forEach((itemsss, keysss) => {
+                                            options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            console.log(options);
+            return options;
+
+        },
 
 
         //监听开票内容选择
@@ -603,7 +628,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({path:'/project/list'});
+            this.$tab.closeOpenPage({ path: '/project/list' });
         },
 
 
@@ -615,13 +640,13 @@ export default {
             this.fileNamefile.splice(i, 1);
         },
         handlePreview1(file) {
-         if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-            this.titles = '正在预览' + file.response.obj;
-            this.viewVisible = true;
-            this.url = this.baseImgPath + file.response.obj;
-           } else {
-            this.dialogImageUrl1 = file.url;
-            this.dialogVisible1 = true;
+            if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+                this.titles = '正在预览' + file.response.obj;
+                this.viewVisible = true;
+                this.url = this.baseImgPath + file.response.obj;
+            } else {
+                this.dialogImageUrl1 = file.url;
+                this.dialogVisible1 = true;
             }
         },
         handleExceed1(files, fileList) {
@@ -652,18 +677,28 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
-                this.projectTradeS = tree;
-                this.projectTradeSList = res.rows;
+
             })
         },
         //把数据整成树状
         parseTree(industry, tree, pid) {
             for (var i = 0; i < industry.length; i++) {
                 if (industry[i].parentId == pid) {
+                    let a=industry[i].taxRate;
+                    let b=null;
+                    if(a){
+                     b=new Decimal(a).mul(new Decimal(100));
+                     b="税率"+b+'%';
+                    }else{
+                      b=null;
+                    }
                     var obj = {
                         id: industry[i].industryId,
                         label: industry[i].industryName,
+                        
+                        taxRates:b,
                         children: [],
+                        
                     };
                     tree.push(obj);
                     this.parseTree(industry, obj.children, obj.id);
@@ -672,10 +707,22 @@ export default {
         },
         //监听乙方行业类型
         selectIndustryType() {
+            this.formData.selfName = '';
+            this.natureBusiness = '';
+            this.owerTax = '';
+            this.formData.projectCode='';
+            this.formData.projectOwner='';
+
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
             this.industryId = rate.industryId;  //行业类型id
-            this.owerTaxfee = rate.taxRate;
+            if(rate.taxRate){
+                this.owerTaxfee =new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
+            }else{
+                this.owerTaxfee = '';
+            }
+           
             let industryType = rate.industryId;
+            this.formData.projectTrade = rate.industryName
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
             }).catch(err => {
@@ -683,12 +730,8 @@ export default {
             });
 
         },
-        //监听行业类型
-        selectInType() {
-            var rate = this.projectTradeSList.find((item) => item.industryId == this.formData.projectTrades);
-            this.formData.projectTrade = rate.industryName;//所属行业
-        },
-       //监听开票内容类型
+
+        //监听开票内容类型
         tickettaxvip(e) {
             console.log(e);
             if (e > 0) {
@@ -743,8 +786,9 @@ export default {
                         this.formData.fileName = this.fileNamefile;
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
-                    this.formData.projectOwnerTaxid=this.owerTax;
-
+                    this.formData.projectOwnerTaxid = this.owerTax;
+                    this.formData.projectRemainAmount=this.formData.projectTotalAmount;//新增可以用金额为总金额
+                    this.formData.projectPackageAmount=0;  //已用金额为0
 
 
                     add(this.formData).then((res) => {
@@ -756,7 +800,7 @@ export default {
                                         this.$tab.refreshPage("/project/list").then(() => {
                                             this.$tab.openPage("项目列表", "/project/list");
                                         });
-                                        //this.$router.push("employed");
+                                        
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
@@ -827,10 +871,4 @@ export default {
     color: blue;
 }
 
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

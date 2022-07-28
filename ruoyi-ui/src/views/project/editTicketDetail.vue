@@ -129,6 +129,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
                         <el-input
+                        disabled
                         @change="ticketAsee"
                         type="number" style="width:100%" v-model="formData.ticketAmount" :step="0.01"
                             :min="0">
@@ -202,7 +203,7 @@
 <script>
 import pdf from 'vue-pdf'
 import crudRate from '@/api/company/rate'
-import { TicketByCode,edit } from "@/api/project/ticket";
+import { list2,edit } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
@@ -211,6 +212,7 @@ export default {
     },
     data() {
         return {
+            ticketAmount:0,
             fileNames:'',
             titles: '',
             pdfList: [],  //pdf 预览
@@ -327,8 +329,8 @@ export default {
                 ticketAmount: [
                     {
                         required: true,
-                        message: "请输入发票金额额",
-                        trigger: "blur",
+                        message: "请输入发票金额",
+                        trigger: "change",
                     },
                 ],
 
@@ -520,26 +522,30 @@ export default {
       console.error(error)
     },
     ticketAsee(e){
-        console.log(e);
-        console.log(this.balance);
-        if(e>this.balance){
+       if(e>this.balance){
             this.$modal.msgError('发票金额不能大于剩余金额');
-            this.formData.ticketAmount='';
+            this.formData.ticketAmount=this.ticketAmount;
+            this.ticketByCode();
+        }else{
+           //this.ticketByCode();
+           this.issuedAmount=this.issuedAmount-this.ticketAmount*1+this.formData.ticketAmount*1;
+           this.balance=this.Father.projectTotalAmount-this.issuedAmount;
         }
-        
     },
         //计算已开和剩余金额
         ticketByCode() {
-            TicketByCode({
+            list2({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then(res => {
-                let arr = res.data;
+                let arr = res;
                 this.issuedAmount = 0.00;
-                for (let i in arr) {
+                 for (let i in arr) {
                     if (arr[i].ticketAmount > 0) {
                         this.issuedAmount += arr[i].ticketAmount * 1;
                     }
                 }
+                this.ticketAmount=this.formData.ticketAmount*1;
+                this.issuedAmount=this.issuedAmount;
                 this.balance = this.Father.projectTotalAmount * 1 - this.issuedAmount * 1;
 
             }).catch(err => {
@@ -552,7 +558,10 @@ export default {
             }).then((response) => {
                 this.Father = response.data[0];
                   if (this.Father.fileName) {
-                    this.Father.fileName = JSON.parse(this.Father.fileName);
+                     if(this.Father.fileName.indexOf("[") != -1 ){
+                        this.Father.fileName = JSON.parse(this.Father.fileName);
+                    }
+                   // this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
                         this.fileNameradio = '2';
                         //如果是图片的话
