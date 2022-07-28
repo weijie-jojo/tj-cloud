@@ -98,9 +98,9 @@
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             D.dict_type="educational_level"
-            <if test="selfEmployedVo.endStatus == 0  ">t.end_status =0 </if>
-            <if test="selfEmployedVo.endStatus == 1  ">t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
-            <if test="selfEmployedVo.endStatus == 2  ">t.end_status =2 </if>
+            <if test="selfEmployedVo.endStatus == 0  ">AND t.end_status =0 </if>
+            <if test="selfEmployedVo.endStatus == 1  ">AND t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
+            <if test="selfEmployedVo.endStatus == 2  ">AND t.end_status =2 </if>
             <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
             <if test="selfEmployedVo.legalPersonName != null  and selfEmployedVo.legalPersonName != ''"> and t.legal_person_name like concat('%', #{selfEmployedVo.legalPersonName}, '%')</if>
             <if test="selfEmployedVo.username != null  and selfEmployedVo.username != ''"> and t.username like concat('%', #{selfEmployedVo.username}, '%')</if>
