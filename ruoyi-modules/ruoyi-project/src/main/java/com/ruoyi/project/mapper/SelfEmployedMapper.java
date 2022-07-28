@@ -1,7 +1,7 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfEmployed;
-import com.ruoyi.project.domain.qo.UserIndustyVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public interface SelfEmployedMapper
     /**
      * 查询个体商户列表(根据业务员跟行业类型)
      *
-     * @param userIndustyVo
+     * @param userIdArr,industryType
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectSelfEmployedByUser(UserIndustyVo userIndustyVo);
+    public List<SelfEmployed> selectSelfEmployedByUser(@Param("userIdArr") List<Long> userIdArr,@Param("industryType") String industryType);
     /**
      * 查询个体商户
      *

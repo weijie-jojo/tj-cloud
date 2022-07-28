@@ -132,9 +132,17 @@
         <include refid="selectSelfEmployedVo"/>
         where self_id = #{selfId}
     </select>
-    <select id="selectSelfEmployedByUser" parameterType="com.ruoyi.project.domain.qo.UserIndustyVo" resultMap="SelfEmployedResult">
+    <select id="selectSelfEmployedByUser"  resultMap="SelfEmployedResult">
         <include refid="selectSelfEmployedVo"/>
-        WHERE industry_type= #{industryType} AND username= #{username}
+        <trim prefix="where" prefixOverrides="and|or">
+            industry_type= #{industryType}
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
     </select>
 
     <insert id="insertSelfEmployed" parameterType="com.ruoyi.project.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">

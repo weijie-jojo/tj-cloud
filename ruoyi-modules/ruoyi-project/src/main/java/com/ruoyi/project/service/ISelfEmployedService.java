@@ -1,7 +1,6 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.SelfEmployed;
-import com.ruoyi.project.domain.qo.UserIndustyVo;
 
 import java.util.List;
 
@@ -16,10 +15,10 @@ public interface ISelfEmployedService
     /**
      * 查询个体商户列表(根据业务员跟行业类型)
      *
-     * @param userIndustyVo
+     * @param userIdArr,industryType
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectSelfEmployedByUser(UserIndustyVo userIndustyVo);
+    public List<SelfEmployed> selectSelfEmployedByUser(List<Long> userIdArr,String industryType);
 
     /**
      * 查询个体商户

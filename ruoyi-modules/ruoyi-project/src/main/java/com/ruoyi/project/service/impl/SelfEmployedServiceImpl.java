@@ -3,9 +3,9 @@ package com.ruoyi.project.service.impl;
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.SelfEmployed;
-import com.ruoyi.project.domain.qo.UserIndustyVo;
 import com.ruoyi.project.mapper.SelfEmployedMapper;
 import com.ruoyi.project.service.ISelfEmployedService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +24,12 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     /**
      * 查询个体商户列表(根据业务员跟行业类型)
      *
-     * @param userIndustyVo
+     * @param userIdArr,industryType
      * @return 个体商户集合
      */
     @Override
-    public List<SelfEmployed> selectSelfEmployedByUser(UserIndustyVo userIndustyVo) {
-        return selfEmployedMapper.selectSelfEmployedByUser(userIndustyVo);
+    public List<SelfEmployed> selectSelfEmployedByUser(List<Long> userIdArr,String industryType) {
+        return selfEmployedMapper.selectSelfEmployedByUser(userIdArr,industryType);
     }
 
     /**
