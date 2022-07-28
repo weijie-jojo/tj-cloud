@@ -683,14 +683,19 @@
                 <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
                   highlight-current :props="defaultProps" @node-click="handleNodeClick"
                   :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                  default-expand-all />
+                  >
+                     <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                         <span style="float: left">{{ node.label }}</span>
+                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                    </span>
+                  </el-tree>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="9">
             <el-form-item label="行业税率" :required="true">
               <el-input v-model="industryTax" disabled>
-                  <template slot="append">%</template>
+                 
               </el-input>
              
             </el-form-item>
@@ -807,6 +812,7 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
 
 export default {
   dicts: ['political_status', 'educational_level'],
@@ -1417,16 +1423,16 @@ export default {
     formatData(data) {
       let options = [];
       data.forEach((item, key) => {
-        options.push({ label: item.label, value: item.id });
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates  });
         if (item.children) {
           item.children.forEach((items, keys) => {
-            options.push({ label: items.label, value: items.id });
+            options.push({ label: items.label, value: items.id,taxRates:items.taxRates  });
             if (items.children) {
               items.children.forEach((itemss, keyss) => {
-                options.push({ label: itemss.label, value: itemss.id });
+                options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates  });
                 if (itemss.children) {
                   itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label: itemsss.label, value: itemsss.id });
+                    options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates  });
                   });
                 }
               });
@@ -1525,9 +1531,9 @@ export default {
     },
     selectIndustryType() {
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-     if(rate){
+     if(rate.taxRate){
             this.formData.industryTax = rate.taxRate;
-            this.industryTax=rate.taxRate*1*100;
+            this.industryTax=new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
       }else{
             this.formData.industryTax='';
             this.industryTax='';
@@ -1562,10 +1568,19 @@ export default {
     parseTree(industry, tree, pid) {
       for (var i = 0; i < industry.length; i++) {
         if (industry[i].parentId == pid) {
+          let a=industry[i].taxRate;
+           let b=null;
+           if(a){
+              b=new Decimal(a).mul(new Decimal(100));
+              b="税率"+b+'%';
+            }else{
+              b=null;
+           }
           var obj = {
             id: industry[i].industryId,
             label: industry[i].industryName,
             children: [],
+            taxRates:b,
           };
           tree.push(obj);
           this.parseTree(industry, obj.children, obj.id);

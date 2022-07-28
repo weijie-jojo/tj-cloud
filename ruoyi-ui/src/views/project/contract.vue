@@ -20,9 +20,12 @@
                         <el-input v-model="formData.createTime" disabled></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input-number style="width:100%" v-model="formData.projectTotalAmount" :precision="2"
+                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0">
-                        </el-input-number>
+                            <template slot="append">
+                              元
+                            </template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -54,11 +57,7 @@
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-select style="width:100%" clearable v-model="formData.projectOwner">
-                            <el-option v-for="item in ownoptions" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
+                        <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
                     
                   
@@ -77,7 +76,7 @@
 </template>
 <script>
 import pdf from 'vue-pdf'
-import {add} from "@/api/project/list";
+import {edit} from "@/api/project/list";
 export default {
      components: { pdf },
     data() {
@@ -152,14 +151,14 @@ export default {
     },
       //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/list'})
+         this.$tab.closeOpenPage({path:'/project/reviewContract'})
        },
        handlesuccess1(file, fileList) {
             this.formData.fileName.push(file.obj);
         },
         handleRemove1(file, fileList) {
             const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formBank.fileName.splice(i, 1);
+            this.formData.fileName.splice(i, 1);
         },
         handlePreview1(file) {
               if (file.hasOwnProperty('response')) {
@@ -201,22 +200,22 @@ export default {
                     this.formData.fileName = JSON.stringify(this.formData.fileName);
 
                     let parms = {
-                        selfId: this.formData.selfId,
-                        infoStatus: 1,
+                        projectId: this.formData.projectId,
+                      
                     };
-                    add(parms).then((res) => {
-                        if (res != undefined) {
-                            if (res != undefined) {
+                    edit(parms).then((res) => {
+                         if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("信息审核通过成功!");
+                                    this.$modal.msgSuccess("合同办理成功!");
                                     this.$nextTick(function () {
-                                        this.$router.push("employed");
+                                        this.resetForm();
+                                        
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
                                 }
                             }
-                        }
+                        
                     });
                 } else {
                     this.$message({
