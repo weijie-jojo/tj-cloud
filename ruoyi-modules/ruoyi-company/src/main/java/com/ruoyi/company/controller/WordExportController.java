@@ -4,6 +4,10 @@ package com.ruoyi.company.controller;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.style.TableStyle;
 import com.deepoove.poi.util.TableTools;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.ruoyi.company.config.ConfigProps;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
@@ -12,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.*;
+
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,7 +103,135 @@ public class WordExportController {
 //        CTTcPr tcPr = cttc.isSetTcPr() ? cttc.getTcPr() : cttc.addNewTcPr();
 //        return tcPr;
 //    }
+    public static byte[] docxToPdf(InputStream src,String outPutSrc) throws FileNotFoundException {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        new FileOutputStream(new File(configProps.getName()+nowDate+guid+"转换结果.pdf"));
+        FileOutputStream fileOutputStream= new FileOutputStream(new File(outPutSrc));
+        byte[] resBytes = null;
+        String result;
+        try {
+            // pdf文件的尺寸
+            Document pdfDocument = new Document(PageSize.A3, 72, 72, 72, 72);
+            XWPFDocument doc = new XWPFDocument(src);
+//            Document document=new Document()
+            PdfWriter pdfWriter = PdfWriter.getInstance( pdfDocument, fileOutputStream);
 
+            pdfWriter.setInitialLeading(20);
+            java.util.List<XWPFParagraph> plist = doc.getParagraphs();
+            List<XWPFTable> tableList = doc.getTables();
+            pdfWriter.open();
+            pdfDocument.open();
+
+            Iterator<XWPFTable> tableIterator = tableList.iterator();
+            while (tableIterator.hasNext()) {
+                XWPFTable table = tableIterator.next();
+                String text = table.getText();
+                byte[] tableBs;
+                if (text != null) {
+                    tableBs = text.getBytes();
+                    String str = new String(tableBs);
+                    Chunk chObj1 = new Chunk(str);
+                    pdfDocument.add(chObj1);
+                }
+            }
+            for (int i = 0; i < plist.size(); i++) {
+                XWPFParagraph pa = plist.get(i);
+                java.util.List<XWPFRun> runs = pa.getRuns();
+                for (int j = 0; j < runs.size(); j++) {
+                    XWPFRun run = runs.get(j);
+                    java.util.List<XWPFPicture> piclist = run.getEmbeddedPictures();
+                    Iterator<XWPFPicture> iterator = piclist.iterator();
+                    while (iterator.hasNext()) {
+                        XWPFPicture pic = iterator.next();
+                        XWPFPictureData picdata = pic.getPictureData();
+                        byte[] bytepic = picdata.getData();
+                        Image imag = Image.getInstance(bytepic);
+                        pdfDocument.add(imag);
+                    }
+                    // 中文字体的解决
+                    BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+                    Font font = new Font(bf, 11.0f, Font.NORMAL, BaseColor.BLACK);
+                    String text = run.getText(-1);
+                    byte[] bs;
+                    if (text != null) {
+                        bs = text.getBytes();
+                        String str = new String(bs);
+                        Chunk chObj1 = new Chunk(str, font);
+                        pdfDocument.add(chObj1);
+                    }
+                }
+                pdfDocument.add(new Chunk(Chunk.NEWLINE));
+            }
+            //需要关闭，不然无法获取到输出流
+            pdfDocument.close();
+            pdfWriter.close();
+//            resBytes = baos.toByteArray();
+        } catch (Exception e) {
+            System.out.println("docx转pdf文件异常："+e.getMessage());
+        }finally {
+//            try{
+//                if(baos != null){
+//                    baos.close();
+//                }
+//            }catch (IOException e){
+//                System.out.println("docx转pdf关闭io流异常：{}"+e);
+//            }
+        }
+        return resBytes;
+    }
+
+    //word 转 html
+//    public static void convert2Html(String fileName, String outPutFile)
+//            throws TransformerException, IOException,
+//            ParserConfigurationException {
+//
+//        HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(fileName));//WordToHtmlUtils.loadDoc(new FileInputStream(inputFile));
+//        //兼容2007 以上版本
+////        XSSFWorkbook  xssfwork=new XSSFWorkbook(new FileInputStream(fileName));
+//        WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(
+//                DocumentBuilderFactory.newInstance().newDocumentBuilder()
+//                        .newDocument());
+//        wordToHtmlConverter.setPicturesManager( new PicturesManager()
+//        {
+//            @Override
+//            public String savePicture(byte[] content,
+//                                      PictureType pictureType, String suggestedName,
+//                                      float widthInches, float heightInches )
+//            {
+//                return "test/"+suggestedName;
+//            }
+//        } );
+//        wordToHtmlConverter.processDocument(wordDocument);
+//        //save pictures
+//        List pics=wordDocument.getPicturesTable().getAllPictures();
+//        if(pics!=null){
+//            for(int i=0;i<pics.size();i++){
+//                Picture pic = (Picture)pics.get(i);
+//                System.out.println();
+//                try {
+//                    pic.writeImageContent(new FileOutputStream("D:/test/"
+//                            + pic.suggestFullFileName()));
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        Document htmlDocument = (Document) wordToHtmlConverter.getDocument();
+//
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        DOMSource domSource = new DOMSource((Node) htmlDocument);
+//        StreamResult streamResult = new StreamResult(out);
+//
+//
+//        TransformerFactory tf = TransformerFactory.newInstance();
+//        Transformer serializer = tf.newTransformer();
+//        serializer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+//        serializer.setOutputProperty(OutputKeys.METHOD, "HTML");
+//        serializer.transform(domSource, streamResult);
+//        out.close();
+//        writeFile(new String(out.toByteArray()), outPutFile);
+//    };
 
     @PostMapping(value = "/getWord")
     @ApiOperation("下载工商登记申请书")
@@ -104,7 +241,7 @@ public class WordExportController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhss");
         String nowDate = sdf.format(date);
         String guid= UUID.randomUUID().toString();
-        String fileName=nowDate+guid+selfCode+"createTable.docx";
+        String fileName=nowDate+guid+selfCode+"createTable.doc";
 
         //根据selfCode获取工商信息
         SelfEmployedVo selfEmployedVo=new SelfEmployedVo();
@@ -114,6 +251,7 @@ public class WordExportController {
         System.out.println("selfEmployed=="+selfEmployed);
 
         //创建word文档
+        File file =new File(configProps.getName()+fileName);
         XWPFDocument doc = new XWPFDocument();
 
         //创建段落(标题)
@@ -1337,20 +1475,27 @@ public class WordExportController {
         XWPFRun run15 =  p15.createRun();
         run15.setText("2、《联络员信息》未变更的不需重填。");
 
-        //写到本地
-        File file =new File(configProps.getName()+fileName);
+        //把word写到本地
         try (FileOutputStream out = new FileOutputStream(file)) {
             doc.write(out);
         }catch (IOException ex){
             ex.printStackTrace();
         }
+        //word 转 html
+//        try {
+//            File file1=new File(configProps.getName()+"20220728051335f07c23-eea0-4de7-9876-e4774e485b7eTJRK0006000146createTable.doc");
+//            convert2Html(file1.getAbsolutePath(),configProps.getName()+nowDate+guid+"转换结果.pdf");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        //word转成pdf
+        byte[] result=   docxToPdf(new FileInputStream(file),configProps.getName()+nowDate+guid+"转换结果.pdf");
+        System.out.println("result=="+result);
 //        FileInputStream fileInputStream = null;
 //        FileOutputStream  fileOutputStream=null;
 //        try {
 //            // 读取docx文件
-//            fileInputStream = new FileInputStream(file.getAbsolutePath());
+//            fileInputStream = new FileInputStream(file);
 //            XWPFDocument doc1 = new XWPFDocument(fileInputStream);
 //            doc1.createStyles();
 //            PdfOptions pdfOptions = PdfOptions.create();
@@ -1363,6 +1508,29 @@ public class WordExportController {
 //        }finally {
 //            fileInputStream.close();
 //            fileOutputStream.close();
+//        }
+
+        //word转html
+//        String sourceFileName = configProps.getName()+fileName;
+//        String targetFileName = configProps.getName()+nowDate+guid+"转换结果.html";
+//        String imagePathStr = configProps.getName();
+//        OutputStreamWriter outputStreamWriter = null;
+//        try {
+//            XWPFDocument document = new XWPFDocument(new FileInputStream(sourceFileName));
+//            document.createStyles();
+//            XHTMLOptions options = XHTMLOptions.create();
+//            // 存放图片的文件夹
+//            options.setExtractor(new FileImageExtractor(new File(imagePathStr)));
+//            // html中图片的路径
+//            options.URIResolver(new BasicURIResolver("image"));
+//            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(targetFileName), "utf-8");
+//            XHTMLConverter xhtmlConverter = (XHTMLConverter) XHTMLConverter.getInstance();
+//            xhtmlConverter.convert(document, outputStreamWriter, options);
+//        } finally {
+//            if (outputStreamWriter != null) {
+//                outputStreamWriter.close();
+//            }
+//
 //        }
 
         //插入文件名到数据库
