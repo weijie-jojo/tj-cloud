@@ -39,10 +39,16 @@
         <result property="ticketType"    column="ticket_type"    />
         <result property="ticketTax"    column="ticket_tax"    />
         <result property="projectOwnerTaxid"    column="project_owner_taxid"    />
+        <result property="projectRemainAmount"    column="project_remain_amount"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
-        select project_owner_taxid,ticket_type,ticket_tax,self_name,project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status, project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status, place_code,purch_company_taxid from self_project
+        select project_owner_taxid,ticket_type,ticket_tax,self_name,project_id, project_code, project_name, project_trade,
+               project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit,
+               project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by,
+               create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status,
+               project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status,
+               place_code,purch_company_taxid,project_remain_amount from self_project
     </sql>
 <!--    A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,-->
 <!--    A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,-->
@@ -54,7 +60,7 @@
                t.create_by, t.update_by, t.create_time, t.update_time, t.check_content, t.file_name, t.project_time_start,
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
                t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
-               t.ticket_type,t.ticket_tax,t.project_owner_taxid,
+               t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,
                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status
             from self_project t  JOIN self_employed B ON t.project_owner = B.self_code
@@ -101,6 +107,7 @@
             <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
             <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
             <if test="projectOwnerTaxid != null  and projectOwnerTaxid != ''"> and project_owner_taxid = #{projectOwnerTaxid}</if>
+            <if test="projectRemainAmount != null "> and project_remain_amount = #{projectRemainAmount}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -151,6 +158,7 @@
             <if test="ticketType != null">ticket_type,</if>
             <if test="ticketTax != null">ticket_tax,</if>
             <if test="projectOwnerTaxid != null">project_owner_taxid,</if>
+            <if test="projectRemainAmount != null">project_remain_amount,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -186,6 +194,7 @@
             <if test="ticketType != null">#{ticketType},</if>
             <if test="ticketTax != null">#{ticketTax},</if>
             <if test="projectOwnerTaxid != null">#{projectOwnerTaxid},</if>
+            <if test="projectRemainAmount != null">#{projectRemainAmount},</if>
         </trim>
     </insert>
 
@@ -225,6 +234,7 @@
             <if test="ticketType != null">ticket_type = #{ticketType},</if>
             <if test="ticketTax != null">ticket_tax = #{ticketTax},</if>
             <if test="projectOwnerTaxid != null">project_owner_taxid = #{projectOwnerTaxid},</if>
+            <if test="projectRemainAmount != null">project_remain_amount = #{projectRemainAmount},</if>
         </trim>
         where project_id = #{projectId}
     </update>

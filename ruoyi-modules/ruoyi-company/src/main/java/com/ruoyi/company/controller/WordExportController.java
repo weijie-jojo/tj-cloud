@@ -1,7 +1,6 @@
 package com.ruoyi.company.controller;
 
 
-import com.alibaba.csp.sentinel.transport.CommandCenter;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.style.TableStyle;
 import com.deepoove.poi.util.TableTools;
@@ -9,17 +8,11 @@ import com.ruoyi.company.config.ConfigProps;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.service.ISelfEmployedService;
-import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
-import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.usermodel.*;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTc;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -134,23 +127,11 @@ public class WordExportController {
         runTitle.addCarriageReturn();//回车键
         runTitle.setKerning(30);
 
-//        XWPFParagraph paragraphX = docxDocument.createParagraph();
-//        paragraphX.setAlignment(ParagraphAlignment.LEFT);//对齐方式
-//        paragraphX.setFirstLineIndent(400);//首行缩进
-//        //创建段落中的run
-//        XWPFRun run = paragraphX.createRun();
-//        run.setText("开始新的额一页了健康卡离开了危，机容量为金融界王仁君我快速建房可谓集，有分页吗，按时交付问我问问");
-//        //run.addCarriageReturn();//回车键
-//        XWPFRun run2 = paragraphX.createRun();
-//        run2.setText("这是第二段了吧，接口了就废了我今儿来将危及，不知道嗯么回事了了，啦啦啦啦啦啦啦");
-//        run2.setText("这个不是能分段吗，测试一下试试");
-//        run2.setBold(true);//加粗
-
         //创建表格 16行*4列(创建table 时，会有一个默认一行一列的表格)
 //        XWPFTable table =  doc.getTableArray(0);
         XWPFTable table = doc.createTable(16,4);
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 10);
+        TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 20);
         // 设置表格居中
         TableStyle style = new TableStyle();
         style.setAlign(STJc.CENTER);
@@ -533,15 +514,13 @@ public class WordExportController {
         XWPFRun run8 =  p8.createRun();
         run8.setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
 
-        XWPFParagraph p2= doc.createParagraph();
-        XWPFParagraph p3= doc.createParagraph();
-        XWPFParagraph p4= doc.createParagraph();
+        doc.createParagraph().createRun().addBreak(BreakType.PAGE);
 
         //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
 //        XWPFTable table2 =  doc.getTableArray(1);
         XWPFTable table2 = doc.createTable(18,12);
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 13);
+        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 20);
         // 设置表格居中
         TableStyle style2 = new TableStyle();
         style2.setAlign(STJc.CENTER);
@@ -988,14 +967,12 @@ public class WordExportController {
         table2_r17_2.setFontFamily("宋体");
         table2_r17_2.setFontSize(12);
 
-        XWPFParagraph p5= doc.createParagraph();
-        XWPFParagraph p6= doc.createParagraph();
-        XWPFParagraph p7= doc.createParagraph();
+        doc.createParagraph().createRun().addBreak(BreakType.PAGE);
 
         //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table3 = doc.createTable(6,6);
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 13);
+        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 20);
         // 设置表格居中
         TableStyle style3 = new TableStyle();
         style3.setAlign(STJc.CENTER);
@@ -1138,7 +1115,7 @@ public class WordExportController {
         XWPFTableCell table3_cell6_1 = table3.getRow(5).getCell(0);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table3_paragraph6_1 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1.setAlignment(ParagraphAlignment.CENTER);//对齐方式
         XWPFRun table3_r6_1 = table3_paragraph6_1.createRun();
         table3_r6_1.setText("本申请人和签字人承诺如下，并承担相应的法律责任。");
         table3_r6_1.setFontFamily("宋体");
@@ -1146,49 +1123,55 @@ public class WordExportController {
         table3_r6_1.setBold(true);
 
         XWPFParagraph table3_paragraph6_1_1 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_1.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_1.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_1.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_1 = table3_paragraph6_1_1.createRun();
         table3_r6_1_1.setText("（一）填报的信息及提交的材料真实、准确、有效、完整。");
         table3_r6_1_1.setFontFamily("宋体");
         table3_r6_1_1.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_2 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_2.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_2.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_2.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_2 = table3_paragraph6_1_2.createRun();
         table3_r6_1_2.setText("（二）使用的名称符合市场主体名称有关要求，不含有损国家、社会公共利益或违背公序良俗及有其他不良影响的内容；名称与他人使用的名称近似侵犯他人合法权益的，依法承担法律责任；如使用的名称被登记机关认定为不适宜名称，将主动配合登记机关进行纠正。");
         table3_r6_1_2.setFontFamily("宋体");
         table3_r6_1_2.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_3 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_3.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_3.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_3.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_3 = table3_paragraph6_1_3.createRun();
         table3_r6_1_3.setText("（三）已依法取得住所（经营场所）使用权，申请登记的住所（经营场所）信息与实际一致。以网络经营场所作为经营场所登记的，仅通过互联网开展经营活动，不擅自改变其住宅房屋用途用于从事线下生产经营活动。");
         table3_r6_1_3.setFontFamily("宋体");
         table3_r6_1_3.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_4 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_4.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_4.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_4.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_4 = table3_paragraph6_1_4.createRun();
         table3_r6_1_4.setText("（四）经营范围涉及法律、行政法规、国务院决定规定、地方行政法规和地方规章规定，需要办理许可的，在取得相关部门批准前，不从事相关经营活动。");
         table3_r6_1_4.setFontFamily("宋体");
         table3_r6_1_4.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_5 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_5.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_5.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_5.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_5 = table3_paragraph6_1_5.createRun();
         table3_r6_1_5.setText("经营者签字：");
         table3_r6_1_5.setFontFamily("宋体");
         table3_r6_1_5.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_6 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_6.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_6.setAlignment(ParagraphAlignment.LEFT);
+        table3_paragraph6_1_6.setFirstLineIndent(400);//首行缩进
         XWPFRun table3_r6_1_6 = table3_paragraph6_1_6.createRun();
         table3_r6_1_6.setText("参加经营的家庭成员签字（仅家庭经营）：\t");
         table3_r6_1_6.setFontFamily("宋体");
         table3_r6_1_6.setFontSize(12);
 
         XWPFParagraph table3_paragraph6_1_7 =  table3_cell6_1.addParagraph();
-        table3_paragraph6_1_7.setAlignment(ParagraphAlignment.CENTER);
+        table3_paragraph6_1_7.setAlignment(ParagraphAlignment.RIGHT);
         XWPFRun table3_r6_1_7 = table3_paragraph6_1_7.createRun();
         table3_r6_1_7.setText("年    月    日  ");
         table3_r6_1_7.setFontFamily("宋体");
@@ -1202,10 +1185,7 @@ public class WordExportController {
         XWPFRun run10 =  p10.createRun();
         run10.setText("2、香港、澳门、台湾居民个体工商户或台湾农民个体工商户不填写本申请书“经营者”一栏内容，分别填写“个体工商户经营者（港澳居民）登记表”或“个体工商户经营者（台湾居民、农民）登记表”。港、澳居民个体工商户和台湾农民个体工商户应当注明经营场所的面积和从业人数");
 
-        XWPFParagraph p11= doc.createParagraph();
-        XWPFParagraph p12= doc.createParagraph();
-        XWPFParagraph p13= doc.createParagraph();
-
+        doc.createParagraph().createRun().addBreak(BreakType.PAGE);
         //创建段落(标题)
         XWPFParagraph title_p2 = doc.createParagraph();
         title_p2.setAlignment(ParagraphAlignment.CENTER);
@@ -1220,7 +1200,7 @@ public class WordExportController {
         //创建表格 4行*4列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table4 = doc.createTable(4,4);
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table4, MiniTableRenderData.WIDTH_A4_FULL, 13);
+        TableTools.widthTable(table4, MiniTableRenderData.WIDTH_A4_FULL, 20);
         // 设置表格居中
         TableStyle style4 = new TableStyle();
         style4.setAlign(STJc.CENTER);

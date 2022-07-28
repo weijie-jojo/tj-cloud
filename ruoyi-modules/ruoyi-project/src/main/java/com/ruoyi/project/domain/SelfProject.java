@@ -152,6 +152,10 @@ public class SelfProject extends BaseEntity
     @Excel(name = "乙方纳税人识别号")
     private String projectOwnerTaxid;
 
+    /** 剩余可用金额 */
+    @Excel(name = "剩余可用金额")
+    private BigDecimal projectRemainAmount;
+
     public void setProjectId(String projectId)
     {
         this.projectId = projectId;
