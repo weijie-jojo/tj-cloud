@@ -31,7 +31,7 @@ export function getWord(data) {
   return request({
     url: '/company/files/getWord',
     method: 'post',
-    data: data
+    params: data
   })
 }
 //查询办理中数据

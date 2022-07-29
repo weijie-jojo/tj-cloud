@@ -803,7 +803,8 @@
   </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import crudReview from '@/api/company/review';
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -1846,7 +1847,7 @@ export default {
       if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
            this.titles = '正在预览' + file.response.obj;
            this.viewVisible = true;
-           this.url = this.baseImgPath + file.response.obj;
+                this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
         }else{
             this.dialogImageUrl1 = file.url;
             this.dialogVisible1 = true;
@@ -1872,7 +1873,7 @@ export default {
       if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
            this.titles = '正在预览' + file.response.obj;
            this.viewVisible = true;
-           this.url = this.baseImgPath + file.response.obj;
+            this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
         }else{
             this.dialogImageUrl2 = file.url;
             this.dialogVisible2 = true;
@@ -1898,7 +1899,7 @@ export default {
        if(file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf'){
            this.titles = '正在预览' + file.response.obj;
            this.viewVisible = true;
-           this.url = this.baseImgPath + file.response.obj;
+               this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
         }else{
            this.dialogImageUrl3 = file.url;
            this.dialogVisible3 = true;

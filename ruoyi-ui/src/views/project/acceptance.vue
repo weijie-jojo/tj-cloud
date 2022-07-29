@@ -72,10 +72,31 @@
            <el-col :span="8"></el-col>
         </el-row>
         </el-form>
+        <!--PDF 预览-->
+        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+
+            <div>
+                <div class="tools flexs" style=" align-items: center;">
+                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+                    </div>
+                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+
+                </div>
+                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    @link-clicked="page = $event">
+                </pdf>
+
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import {edit} from "@/api/project/list";
 export default {
      components: { pdf },
@@ -85,14 +106,24 @@ export default {
             fileName: [],
             dialogVisible1: false,
             dialogImageUrl1: "",
-          
+            //pdf预览
+            titles: '',
+            url: '',
+            viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
              formData: {
               
                 ticketTax: '',//发票税率
                 ticketType: '',  //发票类型
                 checkContent: "",
                 
-                fileName: [],
+                fileName2:[],
                 placeCode: "",
                 industryType:'',
             },
@@ -101,7 +132,8 @@ export default {
     },
     computed: {},
     mounted() {
-        this.formData=this.$cache.local.getJSON("publicTickets");
+        this.formData=this.$cache.local.getJSON("projectListNews");
+        this.formData.fileName2=[];
     },
     methods: {
      // 上一页函数，
@@ -154,18 +186,18 @@ export default {
          this.$tab.closeOpenPage({path:'/project/reviewAcceptance'})
        },
        handlesuccess1(file, fileList) {
-            this.formData.fileName.push(file.obj);
+            this.formData.fileName2.push(file.obj);
         },
         handleRemove1(file, fileList) {
-            const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formData.fileName.splice(i, 1);
+            const i = this.formData.fileName2.findIndex((item) => item === fileList);
+            this.formData.fileName2.splice(i, 1);
         },
         handlePreview1(file) {
               if (file.hasOwnProperty('response')) {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;
                     this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
+                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
                 } else {
                     this.dialogImageUrl1 = file.url;
                     this.dialogVisible1 = true;
@@ -197,16 +229,16 @@ export default {
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
-                    this.formData.fileName = JSON.stringify(this.formData.fileName);
+                    this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
 
                     let parms = {
                         projectId: this.formData.projectId,
-                      
+                        fileName2: this.formData.fileName2
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("合同办理成功!");
+                                    this.$modal.msgSuccess("验收办理成功!");
                                     this.$nextTick(function () {
                                         this.resetForm();
                                         

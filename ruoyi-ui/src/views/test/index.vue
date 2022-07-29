@@ -1,12 +1,6 @@
 <template>
   <div class="app-container">
-    <el-select class="main-select-tree" ref="selectTree" v-model="value" style="width: 560px;">
-      <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label" :value="item.value"
-        style="display: none;" />
-      <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id" highlight-current
-        :props="defaultProps" @node-click="handleNodeClick" :current-node-key="value"
-        :expand-on-click-node="expandOnClickNode" default-expand-all />
-    </el-select>
+   
 
     <el-upload class="upload-demo myupload" action="https://jsonplaceholder.typicode.com/posts/" :on-success="handlesuccess1"
       :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
@@ -26,8 +20,11 @@
         </el-button>
         <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click="pdfPrintAll" class="mr10"> 打印</el-button>
       </div>
-      <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+      <pdf ref="pdf" :src="url"
+       :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+        @page-loaded="pageLoaded($event)"
+         @num-pages="pageTotalNum = $event"
+          @error="pdfError($event)"
         @link-clicked="page = $event">
       </pdf>
 
@@ -40,12 +37,14 @@
 </template>
 
 <script>
-import { getWord } from "@/api/company/employed"
+// import { getWord } from "@/api/company/employed"
 import crudRate from '@/api/company/rate'
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+
 // http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf
 // /pdf/%E9%AA%8C%E6%94%B6%E6%8A%A5%E5%91%8A-20220321094519301.pdf
-var loadingTask = pdf.createLoadingTask('/eladmin/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf', { withCredentials: false });
+var loadingTask = '';
 
 export default {
   name: 'test',
@@ -55,7 +54,8 @@ export default {
   data() {
     return {
 
-      url: "/eladmin/api/files/showTxt?imgPath=漏洞和隐患发现工作备案表.pdf",
+      url:pdf.createLoadingTask({ url: '/eladmin/api/files/showTxt?imgPath=2022072908090bd84950-e118-4487-9d75-c1495728867b转换结果.pdf',CMapReaderFactory,
+cMapPacked: true }),
       pageNum: 1,
       pageTotalNum: 1,
       pageRotate: 0,
@@ -105,11 +105,10 @@ export default {
 
   },
   mounted() {
-    this.ass();
-    this.getRate();
-    this.src.promise.then(pdf => {
-      this.numPages = pdf.numPages
-    })
+  
+    // this.src.promise.then(pdf => {
+    //   this.numPages = pdf.numPages
+    // })
   },
   methods: {
     beforeAvatarUpload(file){
@@ -128,11 +127,11 @@ export default {
         return fileSuffix&isLt2M;
        
     },
-    ass(){
-      getWord({ selfCode:'TJYW0005000155' , selfId:'291'}).then(res=>{
-          console.log(res);
-      })
-    },
+    // ass(){
+    //   getWord({ selfCode:'TJYW0005000155' , selfId:'291'}).then(res=>{
+    //       console.log(res);
+    //   })
+    // },
     // 上一页函数，
     prePage() {
       var page = this.pageNum
@@ -159,7 +158,7 @@ export default {
     },
     // 其他的一些回调函数。
     pdfError(error) {
-      console.error(error)
+      console.error(33333,error)
     },
 
     // 打印全部
@@ -173,78 +172,11 @@ export default {
     preview(e) {
       docx.renderAsync(this.$refs.file.files[0], this.$refs.preview) // 渲染到页面预览
     },
-    getRate() {
-      crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
-        // this.industryTypes=res.rows;
-
-        let tree = []; // 用来保存树状的数据形式
-        this.parseTree(res.rows, tree, 0);
-        let arr = [{
-          id: "-1",
-          label: '请选择行业类型',
-          children: tree
-
-        }];
-        console.log("tree", tree);
-        // let a={
-        //  children: tree,
-        //  id: "-1",
-        //  label: '请选择行业类型',
-        // };
-        // arr.push(a);
-        this.industryTypes = arr;
-        // console.log(arr);
-
-        //this.industryType.push(a);
-        this.industryTypeList = res.rows;
-      })
-    },
-    //把数据整成树状
-    parseTree(industry, tree, pid) {
-      for (var i = 0; i < industry.length; i++) {
-        if (industry[i].parentId == pid) {
-          var obj = {
-            id: industry[i].industryId,
-            label: industry[i].industryName,
-            children: [],
-          };
-          tree.push(obj);
-          this.parseTree(industry, obj.children, obj.id);
-        }
-      }
-    },
-    // 四级菜单
-    formatData(data) {
-      let options = [];
-      data.forEach((item, key) => {
-        options.push({ label: item.label, value: item.id });
-        if (item.children) {
-          item.children.forEach((items, keys) => {
-            options.push({ label: items.label, value: items.id });
-            if (items.children) {
-              items.children.forEach((itemss, keyss) => {
-                options.push({ label: itemss.label, value: itemss.id });
-                if (itemss.children) {
-                  itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label: itemsss.label, value: itemsss.id });
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
-      return options;
-    },
     handlesuccess1(response, file, fileList) {
       this.fileName1.push(file.obj);
 
     },
-    handleNodeClick(node) {
-      this.value = node.id;
-      this.$refs.selectTree.blur();
-    },
+    
     handleRemove1(file, fileList) {
       const i = this.fileName1.findIndex((item) => item === fileList);
       this.fileName1.splice(i, 1);
@@ -253,7 +185,7 @@ export default {
       console.log(file);
       if(file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf'){
            this.url='';
-           this.url='/eladmin/api/files/showTxt?imgPath='+file.url;
+           this.url= pdf.createLoadingTask({ url: '/eladmin/api/files/showTxt?imgPath='+file.url,CMapReaderFactory,cMapPacked: true });
       }else{
          this.dialogImageUrl1 =file.url;
          this.dialogVisible1 = true;

@@ -191,10 +191,12 @@
 </template>
 
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import { getInfo } from '@/api/login'
 import { all } from "@/api/company/payTaxInfo";
 import { addEmployed, updateEmployed, check } from "@/api/company/employed";
+
 export default {
   components: {
     pdf
@@ -522,8 +524,8 @@ export default {
       if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
         this.titles = '正在预览' + file.response.obj;
         this.viewVisible = true;
-        this.url = this.baseImgPath + file.response.obj;
-      } else {
+         this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
+     } else {
         this.dialogImageUrl1 = file.url;
         this.dialogVisible1 = true;
       }
@@ -549,7 +551,8 @@ export default {
       if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
         this.titles = '正在预览' + file.response.obj;
         this.viewVisible = true;
-        this.url = this.baseImgPath + file.response.obj;
+         this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
+        
       } else {
         this.dialogImageUrl2 = file.url;
         this.dialogVisible2 = true;
