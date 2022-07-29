@@ -231,7 +231,8 @@
 </template>
 
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import { all } from "@/api/company/payTaxInfo";
 import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
@@ -422,7 +423,7 @@ export default {
    pdfdetail(i) {
       this.titles = '正在预览' + i;
       this.viewVisible = true;
-      this.url = this.baseImgPath + i;
+      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
     },
     // 上一页函数，
     prePage() {

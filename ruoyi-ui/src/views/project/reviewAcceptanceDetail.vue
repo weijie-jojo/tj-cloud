@@ -37,14 +37,15 @@
                    
                      <el-form-item class="comright" label="项目验收资料" :required="true">
 
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload"
+                        <el-upload
+                           disabled
+                          class="upload-demo" action="/eladmin/api/files/doUpload"
                             :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
                             :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
                             :file-list="fileName" list-type="picture"
                              :before-upload="beforeAvatarUpload"
                             >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
+                          
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible1" append-to-body>
                             <img width="100%" :src="dialogImageUrl1" alt="" />
@@ -96,19 +97,50 @@
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
+      </el-form>
+            <!--PDF 预览-->
+        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
 
+            <div>
+                <div class="tools flexs" style=" align-items: center;">
+                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+                    </div>
+                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
 
+                </div>
+                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    @link-clicked="page = $event">
+                </pdf>
 
-        </el-form>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import {edit} from "@/api/project/list";
 export default {
      components: { pdf },
     data() {
         return {
+            remark:'',
+            titles: '',
+             url: '',
+             viewVisible: false,
+            pageNum: 1,
+            pageTotalNum: 1,
+            pageRotate: 0,
+            // 加载进度
+            loadedRatio: 0,
+            curPageNum: 0,
+            closeDialog: false,
+
+
             isokradioS:'1',
             fileName: [],
             dialogVisible1: false,
@@ -129,7 +161,14 @@ export default {
     },
     computed: {},
     mounted() {
-        this.formData=this.$cache.local.getJSON("publicTickets");
+        this.formData=this.$cache.local.getJSON("projectListNews");
+        this.formData.fileName2=JSON.parse(this.formData.fileName2);
+        for(let i in this.formData.fileName2){
+           this.fileName.push({
+            name:this.formData.fileName2,
+            url:this.baseImgPath+this.formData.fileName2
+           })
+        }
     },
     methods: {
            submitForm(type) {
@@ -141,13 +180,13 @@ export default {
           if (type == 1) {
             parms = {
               projectId: this.formData.projectId,
-              projectCheckStatus:type,
+              projectAcceptanceStatus:type,
             };
           } else {
             parms = {
               projectId: this.projectId,
               checkContent: this.remark,
-              projectCheckStatus:type,
+              projectAcceptanceStatus:type,
               projectStatus:1,
             };
           }
@@ -254,7 +293,7 @@ export default {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;
                     this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
+                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
                 } else {
                     this.dialogImageUrl1 = file.url;
                     this.dialogVisible1 = true;

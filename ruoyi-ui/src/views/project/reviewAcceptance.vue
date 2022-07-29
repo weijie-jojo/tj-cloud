@@ -51,8 +51,8 @@
            
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                   <el-button size="mini"  type="text" icon="el-icon-add" @click="details(scope.row)">验收办理</el-button>
-                   <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核验收</el-button>
+                   <el-button size="mini" v-if="!scope.row.fileName2"  type="text" icon="el-icon-add" @click="details(scope.row)">验收办理</el-button>
+                   <el-button size="mini"  v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核验收</el-button>
                 </template>
             </el-table-column>
         </el-table>

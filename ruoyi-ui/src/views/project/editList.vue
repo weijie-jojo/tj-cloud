@@ -234,7 +234,8 @@
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import {  list2 } from "@/api/project/ticket";
 import crudRate from '@/api/company/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
@@ -657,7 +658,7 @@ export default {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;
                     this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
+                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
                 } else {
                     this.dialogImageUrl1 = file.url;
                     this.dialogVisible1 = true;

@@ -241,7 +241,8 @@ export default {
    },
    //工商表格
    businessTable(row){
-    
+     this.$cache.local.setJSON('employednewlist', row);
+      this.$tab.closeOpenPage({ path: "/company/customer/businessTable"});
    },
  
     /** 新增按钮操作 */

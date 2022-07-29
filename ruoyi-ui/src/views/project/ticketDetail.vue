@@ -199,7 +199,8 @@
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import crudRate from '@/api/company/rate'
 import { list2,edit } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
@@ -489,7 +490,7 @@ export default {
     pdfdetail(i) {
       this.titles = '正在预览' + i;
       this.viewVisible = true;
-      this.url = this.baseImgPath + i;
+      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
     },
      // 上一页函数，
     prePage() {
@@ -680,7 +681,7 @@ export default {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;
                     this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
+                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
                 } else {
                     this.dialogImageUrl1 = file.url;
                     this.dialogVisible1 = true;

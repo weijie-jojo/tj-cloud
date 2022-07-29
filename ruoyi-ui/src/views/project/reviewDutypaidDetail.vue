@@ -1,70 +1,66 @@
 <template>
-    <div>
-        <el-form ref="elForm" :model="formData"  size="medium" label-width="140px">
+  <div>
+    <el-form ref="elForm" :model="formData" size="medium" label-width="140px">
 
-           
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="项目编号" :required="true">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
-                    </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input v-model="formData.projectName"></el-input>
-                    </el-form-item>
-                </el-col>
+      <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="项目编号" :required="true">
+            <el-input v-model="formData.projectCode" disabled></el-input>
+          </el-form-item>
 
-                <el-col :span="9">
+          <el-form-item class="comright" label="项目名称" :required="true">
+            <el-input v-model="formData.projectName"></el-input>
+          </el-form-item>
+        </el-col>
 
-                    <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="formData.createTime" disabled></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0">
-                            <template slot="append">
-                              元
-                            </template>
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-           <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                  <el-form-item class="comright" label="甲方" :required="true">
-                        <el-input v-model="formData.purchCompany" disabled></el-input>
-                    </el-form-item>
-                   
-                     <el-form-item class="comright" label="项目完税资料" :required="true">
+        <el-col :span="9">
 
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture"
-                             :before-upload="beforeAvatarUpload"
-                            >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
-                    </el-form-item>
+          <el-form-item class="comright" label="项目时间" :required="true">
+            <el-input v-model="formData.createTime" disabled></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="项目金额" :required="true">
+            <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01" :min="0">
+              <template slot="append">
+                元
+              </template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="甲方" :required="true">
+            <el-input v-model="formData.purchCompany" disabled></el-input>
+          </el-form-item>
 
-                   
-                </el-col>
+          <el-form-item class="comright" label="项目完税资料" :required="true">
 
-                <el-col :span="9">
+            <el-upload disabled class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
+              :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple :limit="9"
+              :on-exceed="handleExceed1" :file-list="fileName" list-type="picture" :before-upload="beforeAvatarUpload">
 
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-input  v-model="formData.selfName" :readonly="true"></el-input>
-                    </el-form-item>
-                    
-                  
-                </el-col>
-            </el-row>
-              
-                <el-row type="flex" class="row-bg" justify="space-around">
+
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible1" append-to-body>
+              <img width="100%" :src="dialogImageUrl1" alt="" />
+            </el-dialog>
+          </el-form-item>
+
+
+        </el-col>
+
+        <el-col :span="9">
+
+          <el-form-item class="comright" label="乙方" prop="projectOwner">
+            <el-input v-model="formData.selfName" :readonly="true"></el-input>
+          </el-form-item>
+
+
+        </el-col>
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
@@ -72,8 +68,8 @@
           </el-form-item>
         </el-col>
 
-      </el-row>   
-       <el-row type="flex" class="row-bg" justify="space-around">
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
@@ -86,54 +82,84 @@
         </el-col>
 
       </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="8"></el-col>
-                <el-col :span='8' class="flexs">
-                
-                     <el-button type="danger" @click="resetForm">返回</el-button>
-                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
-                </el-col>
-                <el-col :span="8"></el-col>
-            </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
 
+          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
+          <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+    </el-form>
+    <!--PDF 预览-->
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
 
+      <div>
+        <div class="tools flexs" style=" align-items: center;">
+          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+          </div>
+          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
 
-        </el-form>
-    </div>
+        </div>
+        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+          @link-clicked="page = $event">
+        </pdf>
+
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
-import {edit} from "@/api/project/list";
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import { edit } from "@/api/project/list";
 export default {
-     components: { pdf },
-    data() {
-        return {
-            isokradioS:'1',
-            fileName: [],
-            dialogVisible1: false,
-            dialogImageUrl1: "",
-          
-             formData: {
-              
-                ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                checkContent: "",
-                
-                fileName: [],
-                placeCode: "",
-                industryType:'',
-            },
-            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-           };
-    },
-    computed: {},
-    mounted() {
-        this.formData=this.$cache.local.getJSON("publicTickets");
-    },
-    methods: {
-           submitForm(type) {
+  components: { pdf },
+  data() {
+    return {
 
+      titles: '',
+      url: '',
+      viewVisible: false,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
+      // 加载进度
+      loadedRatio: 0,
+      curPageNum: 0,
+      closeDialog: false,
+
+      isokradioS: '1',
+      fileName: [],
+      dialogVisible1: false,
+      dialogImageUrl1: "",
+
+      remark: '',
+      formData: {
+
+        ticketTax: '',//发票税率
+        ticketType: '',  //发票类型
+        checkContent: "",
+
+        fileName: [],
+        placeCode: "",
+        industryType: '',
+      },
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+    };
+  },
+  computed: {},
+  mounted() {
+    this.formData = this.$cache.local.getJSON("projectListNews");
+  },
+  methods: {
+    submitForm(type) {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
@@ -141,33 +167,33 @@ export default {
           if (type == 1) {
             parms = {
               projectId: this.formData.projectId,
-              projectCheckStatus:type,
+              projectDutypaidStatus: type,
             };
           } else {
             parms = {
               projectId: this.projectId,
-              checkContent: this.remark,
-              projectCheckStatus:type,
-              projectStatus:1,
+              taxRemark: this.remark,
+              projectDutypaidStatus: type,
+              projectStatus: 1,
             };
           }
-           edit(parms).then((res) => {
+          edit(parms).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                 this.$nextTick(function () {
+                this.$nextTick(function () {
                   this.$tab.refreshPage({ path: "/project/reviewDutypaid" }).then(() => {
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '完税审核完成';
-                     // this.check('项目审核完成');
+                      // this.check('项目审核完成');
                     } else {
                       //this.check('项目审核完成未通过'+'(原因)'+this.remark);
                       resmsg = '完税审核完成';
                     }
 
-                   let obj = {
+                    let obj = {
                       title: '完税审核',
-                      backUrl: '/project/reviewContract',
+                      backUrl: '/project/reviewDutypaid',
                       resmsg: resmsg
 
                     }
@@ -182,7 +208,7 @@ export default {
               }
 
             }
-         });
+          });
 
         } else {
           this.$message({
@@ -193,7 +219,7 @@ export default {
       })
 
     },
-     // 上一页函数，
+    // 上一页函数，
     prePage() {
       var page = this.pageNum
       page = page > 1 ? page - 1 : this.pageTotalNum
@@ -223,156 +249,115 @@ export default {
     },
 
 
-       beforeAvatarUpload(file){
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 5;
+      const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
+      if (whiteList.indexOf(fileSuffix) === -1) {
+        this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
+        return false;
       }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
-      //返回
-       resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewContract'})
-       },
-       handlesuccess1(file, fileList) {
-            this.formData.fileName.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formData.fileName.splice(i, 1);
-        },
-        handlePreview1(file) {
-              if (file.hasOwnProperty('response')) {
-                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.response.obj;
-                    this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            } else {
-                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.url;
-                    this.viewVisible = true;
-                    this.url = file.url;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            }
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
-        handleChange(val) {
-            console.log(val);
-        },
-        onSubmit() {
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                if (valid) {
-                    this.formData.fileName = JSON.stringify(this.formData.fileName);
+      if (!isLt2M) {
+        this.$message.error('上传文件大小不能超过 10MB!');
+        return false;
+      }
+      return fileSuffix & isLt2M;
 
-                    let parms = {
-                        projectId: this.formData.projectId,
-                      
-                    };
-                    edit(parms).then((res) => {
-                         if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("合同办理成功!");
-                                    this.$nextTick(function () {
-                                        this.resetForm();
-                                        
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        
-                    });
-                } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
-                }
-            });
-        },
-        toReturn2() {
-            this.$router.back();
-        },
     },
+    //返回
+    resetForm() {
+      this.$tab.closeOpenPage({ path: '/project/reviewContract' })
+    },
+    handlesuccess1(file, fileList) {
+      this.formData.fileName3.push(file.obj);
+    },
+    handleRemove1(file, fileList) {
+      const i = this.formData.fileName3.findIndex((item) => item === fileList);
+      this.formData.fileName3.splice(i, 1);
+    },
+    handlePreview1(file) {
+      if (file.hasOwnProperty('response')) {
+        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.response.obj;
+          this.viewVisible = true;
+              this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
+        } else {
+          this.dialogImageUrl1 = file.url;
+          this.dialogVisible1 = true;
+        }
+      } else {
+        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
+          this.titles = '正在预览' + file.url;
+          this.viewVisible = true;
+          this.url = file.url;
+        } else {
+          this.dialogImageUrl1 = file.url;
+          this.dialogVisible1 = true;
+        }
+      }
+    },
+    handleExceed1(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
+        } 个文件`
+      );
+    },
+    beforeRemove1(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    handleChange(val) {
+      console.log(val);
+    },
+  },
 };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .rowCss {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 // 改变input框字体颜色
 ::v-deep .is-disabled .el-input__inner {
-    background-color: transparent !important;
-    color: black;
+  background-color: transparent !important;
+  color: black;
 }
 
 .paddingbg-s {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 .footers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rowCss {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .comright {
-    padding-right: 10%;
+  padding-right: 10%;
 }
 
 .combottom {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 
 }
 
 .flexs {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
 }
 
 .bankno {
 
-    letter-spacing: 2px;
+  letter-spacing: 2px;
 
-    font-size: 20px;
+  font-size: 20px;
 
-    color: blue;
+  color: blue;
 }
 
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

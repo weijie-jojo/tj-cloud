@@ -223,7 +223,8 @@
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import crudRate from '@/api/company/rate'
 import { list2 } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist, edit} from "@/api/project/list";
@@ -480,7 +481,7 @@ export default {
           } else {
             parms = {
               projectId: this.Father.projectId,
-              checkContent: this.remark,
+              ticketRemark: this.remark,
               projectTicketStatus:type,
               projectStatus:1,
             };
@@ -489,7 +490,7 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                  this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/project/reviewList" }).then(() => {
+                  this.$tab.refreshPage({ path: "/project/reviewTIckets" }).then(() => {
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '票据审核完成';
@@ -575,7 +576,7 @@ export default {
     pdfdetail(i) {
       this.titles = '正在预览' + i;
       this.viewVisible = true;
-      this.url = this.baseImgPath + i;
+      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
     },
      // 上一页函数，
     prePage() {
@@ -766,7 +767,7 @@ export default {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;
                     this.viewVisible = true;
-                    this.url = this.baseImgPath + file.response.obj;
+                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
                 } else {
                     this.dialogImageUrl1 = file.url;
                     this.dialogVisible1 = true;
