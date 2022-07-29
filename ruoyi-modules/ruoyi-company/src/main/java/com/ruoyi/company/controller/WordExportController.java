@@ -248,7 +248,6 @@ public class WordExportController {
         selfEmployedVo.setSelfCode(selfCode);
         List<SelfEmployedVo> selfEmployedVos= selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
         SelfEmployedVo selfEmployed=selfEmployedVos.get(0);
-        System.out.println("selfEmployed=="+selfEmployed);
 
         //创建word文档
         File file =new File(configProps.getName()+fileName);
@@ -1561,7 +1560,8 @@ public class WordExportController {
         selfEmployed2.setFileName8(pdfFileName);
         selfEmployed2.setSelfId(selfId);
         selfEmployedService.updateSelfEmployed(selfEmployed2);
-        return selfEmployedVos;
+        List<SelfEmployedVo> selfEmployedVos2= selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
+        return selfEmployedVos2;
 
     }
 
