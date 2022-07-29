@@ -268,8 +268,11 @@ public class WordExportController {
         //创建表格 16行*4列(创建table 时，会有一个默认一行一列的表格)
 //        XWPFTable table =  doc.getTableArray(0);
         XWPFTable table = doc.createTable(16,4);
+        TableTools.borderTable(table,14);//表格边框粗细
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 20);
+//        TableTools.widthTable(table, MiniTableRenderData.WIDTH_A4_FULL, 2000);
+        float[] colWidths={5,4,5,4};
+        TableTools.widthTable(table,colWidths);
         // 设置表格居中
         TableStyle style = new TableStyle();
         style.setAlign(STJc.CENTER);
@@ -296,7 +299,7 @@ public class WordExportController {
         XWPFRun r1 = addParagraph1.createRun();
         r1.setText("基本信息（必填项）");
         r1.setFontFamily("宋体");
-        r1.setFontSize(16);
+        r1.setFontSize(14);
         r1.setBold(true);//字体加粗
 
         //第二行单元格
@@ -408,7 +411,7 @@ public class WordExportController {
         XWPFRun r6_1 = addParagraph6_1.createRun();
         r6_1.setText("设立（仅设立登记填写）");
         r6_1.setFontFamily("宋体");
-        r6_1.setFontSize(16);
+        r6_1.setFontSize(14);
         r6_1.setBold(true);//字体加粗
 
         //第七行单元格
@@ -469,7 +472,7 @@ public class WordExportController {
         XWPFRun r9_1 = addParagraph9_1.createRun();
         r9_1.setText("□变更（仅变更登记填写，只填写与本次申请有关的事项）");
         r9_1.setFontFamily("宋体");
-        r9_1.setFontSize(16);
+        r9_1.setFontSize(14);
         r9_1.setBold(true);//字体加粗
 
         //第十行单元格
@@ -647,18 +650,23 @@ public class WordExportController {
 //        r16_3.setText("变更后登记内容");
 //        r16_3.setFontFamily("宋体");
 //        r16_3.setFontSize(12);
+        XWPFParagraph p7= doc.createParagraph();
+//        XWPFRun run7 =  p7.createRun();
 
         XWPFParagraph p8= doc.createParagraph();
+        p8.setFirstLineIndent(400);//首行缩进
         XWPFRun run8 =  p8.createRun();
         run8.setText("注:本申请书适用个体工商户申请设立、变更、备案、注销。");
 
         doc.createParagraph().createRun().addBreak(BreakType.PAGE);
-
         //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
 //        XWPFTable table2 =  doc.getTableArray(1);
-        XWPFTable table2 = doc.createTable(18,12);
+        XWPFTable table2 = doc.createTable(17,12);
+        TableTools.borderTable(table2,14);//表格边框粗细
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 20);
+//        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 20);
+        float[] colWidths2={2,1,2,1,2,1,2,1,2,1,2,1};
+        TableTools.widthTable(table2,colWidths2);
         // 设置表格居中
         TableStyle style2 = new TableStyle();
         style2.setAlign(STJc.CENTER);
@@ -792,16 +800,14 @@ public class WordExportController {
         XWPFParagraph table2_paragraph4_4 =  table2_cell4_4.addParagraph();
         table2_paragraph4_4.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table2_r4_4 = table2_paragraph4_4.createRun();
-        String sex="";
-        System.out.println("getGender=="+selfEmployed.getGender());
-        if (selfEmployed.getGender().equals(1)){
-            sex="男";
+        if (selfEmployed.getGender().equals("1")){
+            System.out.println("我是男的");
+            table2_r4_4.setText("男");
         }
-        if (selfEmployed.getGender().equals(2)){
-            sex="女";
+        if (selfEmployed.getGender().equals("2")){
+            System.out.println("我是女的");
+            table2_r4_4.setText("女");
         }
-        System.out.println("sex=="+sex);
-        table2_r4_4.setText(sex);
         table2_r4_4.setFontFamily("宋体");
         table2_r4_4.setFontSize(12);
 
@@ -1109,8 +1115,11 @@ public class WordExportController {
 
         //创建表格 17行*12列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table3 = doc.createTable(6,6);
+        TableTools.borderTable(table3,14);//表格边框粗细
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 20);
+//        TableTools.widthTable(table3, MiniTableRenderData.WIDTH_A4_FULL, 20);
+        float[] colWidths3={3,3,3,3,3,3};
+        TableTools.widthTable(table3,colWidths3);
         // 设置表格居中
         TableStyle style3 = new TableStyle();
         style3.setAlign(STJc.CENTER);
@@ -1315,11 +1324,17 @@ public class WordExportController {
         table3_r6_1_7.setFontFamily("宋体");
         table3_r6_1_7.setFontSize(12);
 
+        XWPFParagraph p20= doc.createParagraph();
+
         XWPFParagraph p9= doc.createParagraph();
+        p9.setAlignment(ParagraphAlignment.LEFT);
+        p9.setFirstLineIndent(400);//首行缩进
         XWPFRun run9 =  p9.createRun();
         run9.setText("注：1、申请登记为家庭经营的，以主持经营者作为经营者登记，由全体参加经营家庭成员在“申请人签署”中签字予以确认。");
 
         XWPFParagraph p10= doc.createParagraph();
+        p10.setAlignment(ParagraphAlignment.LEFT);
+        p10.setFirstLineIndent(400);//首行缩进
         XWPFRun run10 =  p10.createRun();
         run10.setText("2、香港、澳门、台湾居民个体工商户或台湾农民个体工商户不填写本申请书“经营者”一栏内容，分别填写“个体工商户经营者（港澳居民）登记表”或“个体工商户经营者（台湾居民、农民）登记表”。港、澳居民个体工商户和台湾农民个体工商户应当注明经营场所的面积和从业人数");
 
@@ -1337,8 +1352,11 @@ public class WordExportController {
 
         //创建表格 4行*4列(创建table 时，会有一个默认一行一列的表格)
         XWPFTable table4 = doc.createTable(4,4);
+        TableTools.borderTable(table4,14);//表格边框粗细
         // 设置表格宽度为A4纸最大宽度
-        TableTools.widthTable(table4, MiniTableRenderData.WIDTH_A4_FULL, 20);
+//        TableTools.widthTable(table4, MiniTableRenderData.WIDTH_A4_FULL, 20);
+        float[] colWidths4={5,4,5,4};
+        TableTools.widthTable(table4,colWidths4);
         // 设置表格居中
         TableStyle style4 = new TableStyle();
         style4.setAlign(STJc.CENTER);
@@ -1467,11 +1485,16 @@ public class WordExportController {
         table4_r4_1.setFontFamily("宋体");
         table4_r4_1.setFontSize(12);
 
+        XWPFParagraph p21= doc.createParagraph();
+
         XWPFParagraph p14= doc.createParagraph();
+        p14.setFirstLineIndent(400);//首行缩进
         XWPFRun run14 =  p14.createRun();
         run14.setText("注：1、联络员主要负责本企业与企业登记机关的联系沟通，以本人个人信息登录国家企业信用信息公示系统依法向社会公示本企业有关信息等。联络员应了解企业登记相关法规和企业信息公示有关规定。");
 
         XWPFParagraph p15= doc.createParagraph();
+        p15.setAlignment(ParagraphAlignment.LEFT);
+        p15.setFirstLineIndent(400);//首行缩进
         XWPFRun run15 =  p15.createRun();
         run15.setText("2、《联络员信息》未变更的不需重填。");
 
