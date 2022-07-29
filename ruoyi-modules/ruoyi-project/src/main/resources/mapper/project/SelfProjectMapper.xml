@@ -40,6 +40,13 @@
         <result property="ticketTax"    column="ticket_tax"    />
         <result property="projectOwnerTaxid"    column="project_owner_taxid"    />
         <result property="projectRemainAmount"    column="project_remain_amount"    />
+        <result property="ticketRemark"    column="ticket_remark"    />
+        <result property="contractRemark"    column="contract_remark"    />
+        <result property="checkRemark"    column="check_remark"    />
+        <result property="taxRemark"    column="tax_remark"    />
+        <result property="fileName1"    column="file_name1"    />
+        <result property="fileName2"    column="file_name2"    />
+        <result property="fileName3"    column="file_name3"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -48,7 +55,8 @@
                project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by,
                create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status,
                project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status,
-               place_code,purch_company_taxid,project_remain_amount from self_project
+               place_code,purch_company_taxid,project_remain_amount ,ticket_remark, contract_remark, check_remark, tax_remark,
+               file_name1, file_name2, file_name3 from self_project
     </sql>
 <!--    A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,-->
 <!--    A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,-->
@@ -61,6 +69,7 @@
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
                t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
                t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,
+               t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3
                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status
             from self_project t  JOIN self_employed B ON t.project_owner = B.self_code
@@ -108,6 +117,13 @@
             <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
             <if test="projectOwnerTaxid != null  and projectOwnerTaxid != ''"> and project_owner_taxid = #{projectOwnerTaxid}</if>
             <if test="projectRemainAmount != null "> and project_remain_amount = #{projectRemainAmount}</if>
+            <if test="ticketRemark != null  and ticketRemark != ''"> and ticket_remark = #{ticketRemark}</if>
+            <if test="contractRemark != null  and contractRemark != ''"> and contract_remark = #{contractRemark}</if>
+            <if test="checkRemark != null  and checkRemark != ''"> and check_remark = #{checkRemark}</if>
+            <if test="taxRemark != null  and taxRemark != ''"> and tax_remark = #{taxRemark}</if>
+            <if test="fileName1 != null  and fileName1 != ''"> and file_name1 = #{fileName1}</if>
+            <if test="fileName2 != null  and fileName2 != ''"> and file_name2 = #{fileName2}</if>
+            <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -159,6 +175,13 @@
             <if test="ticketTax != null">ticket_tax,</if>
             <if test="projectOwnerTaxid != null">project_owner_taxid,</if>
             <if test="projectRemainAmount != null">project_remain_amount,</if>
+            <if test="ticketRemark != null">ticket_remark,</if>
+            <if test="contractRemark != null">contract_remark,</if>
+            <if test="checkRemark != null">check_remark,</if>
+            <if test="taxRemark != null">tax_remark,</if>
+            <if test="fileName1 != null">file_name1,</if>
+            <if test="fileName2 != null">file_name2,</if>
+            <if test="fileName3 != null">file_name3,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -195,6 +218,13 @@
             <if test="ticketTax != null">#{ticketTax},</if>
             <if test="projectOwnerTaxid != null">#{projectOwnerTaxid},</if>
             <if test="projectRemainAmount != null">#{projectRemainAmount},</if>
+            <if test="ticketRemark != null">#{ticketRemark},</if>
+            <if test="contractRemark != null">#{contractRemark},</if>
+            <if test="checkRemark != null">#{checkRemark},</if>
+            <if test="taxRemark != null">#{taxRemark},</if>
+            <if test="fileName1 != null">#{fileName1},</if>
+            <if test="fileName2 != null">#{fileName2},</if>
+            <if test="fileName3 != null">#{fileName3},</if>
         </trim>
     </insert>
 
@@ -235,6 +265,13 @@
             <if test="ticketTax != null">ticket_tax = #{ticketTax},</if>
             <if test="projectOwnerTaxid != null">project_owner_taxid = #{projectOwnerTaxid},</if>
             <if test="projectRemainAmount != null">project_remain_amount = #{projectRemainAmount},</if>
+            <if test="ticketRemark != null">ticket_remark = #{ticketRemark},</if>
+            <if test="contractRemark != null">contract_remark = #{contractRemark},</if>
+            <if test="checkRemark != null">check_remark = #{checkRemark},</if>
+            <if test="taxRemark != null">tax_remark = #{taxRemark},</if>
+            <if test="fileName1 != null">file_name1 = #{fileName1},</if>
+            <if test="fileName2 != null">file_name2 = #{fileName2},</if>
+            <if test="fileName3 != null">file_name3 = #{fileName3},</if>
         </trim>
         where project_id = #{projectId}
     </update>

@@ -156,6 +156,34 @@ public class SelfProject extends BaseEntity
     @Excel(name = "剩余可用金额")
     private BigDecimal projectRemainAmount;
 
+    /** 票据审核不通过备注 */
+    @Excel(name = "票据审核不通过备注")
+    private String ticketRemark;
+
+    /** 合同审核不通过备注 */
+    @Excel(name = "合同审核不通过备注")
+    private String contractRemark;
+
+    /** 验收审核不通过备注 */
+    @Excel(name = "验收审核不通过备注")
+    private String checkRemark;
+
+    /** 完税审核不通过备注 */
+    @Excel(name = "完税审核不通过备注")
+    private String taxRemark;
+
+    /** 合同 */
+    @Excel(name = "合同")
+    private String fileName1;
+
+    /** 验收 */
+    @Excel(name = "验收")
+    private String fileName2;
+
+    /** 完税 */
+    @Excel(name = "完税")
+    private String fileName3;
+
     public void setProjectId(String projectId)
     {
         this.projectId = projectId;
