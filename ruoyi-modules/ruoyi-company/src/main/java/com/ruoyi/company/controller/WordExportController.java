@@ -1,22 +1,22 @@
 package com.ruoyi.company.controller;
 
 
-import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.style.TableStyle;
 import com.deepoove.poi.util.TableTools;
-import com.itextpdf.text.*;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.ruoyi.company.config.ConfigProps;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.service.ISelfEmployedService;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.*;
-
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -1503,22 +1500,19 @@ public class WordExportController {
         }catch (IOException ex){
             ex.printStackTrace();
         }
-        //word 转 html
-//        try {
-//            File file1=new File(configProps.getName()+"20220728051335f07c23-eea0-4de7-9876-e4774e485b7eTJRK0006000146createTable.doc");
-//            convert2Html(file1.getAbsolutePath(),configProps.getName()+nowDate+guid+"转换结果.pdf");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
         String pdfFileName=nowDate+guid+"转换结果.pdf";
+
         byte[] result=   docxToPdf(new FileInputStream(file),configProps.getName()+pdfFileName);
         System.out.println("result=="+result);
+
 //        FileInputStream fileInputStream = null;
 //        FileOutputStream  fileOutputStream=null;
+//        XWPFDocument doc1 =new XWPFDocument();
 //        try {
 //            // 读取docx文件
 //            fileInputStream = new FileInputStream(file);
-//            XWPFDocument doc1 = new XWPFDocument(fileInputStream);
+//            doc1 = new XWPFDocument(fileInputStream);
 //            doc1.createStyles();
 //            PdfOptions pdfOptions = PdfOptions.create();
 //            // 输出路径
@@ -1528,6 +1522,7 @@ public class WordExportController {
 //        }catch (IOException ex){
 //            ex.printStackTrace();
 //        }finally {
+//            doc1.close();
 //            fileInputStream.close();
 //            fileOutputStream.close();
 //        }

@@ -69,7 +69,7 @@
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
                t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
                t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,
-               t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3
+               t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3,
                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status
             from self_project t  JOIN self_employed B ON t.project_owner = B.self_code

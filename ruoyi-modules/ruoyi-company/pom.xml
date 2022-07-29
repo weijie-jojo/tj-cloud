@@ -185,11 +185,11 @@
             <version>1.5.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>fr.opensagres.xdocreport</groupId>-->
-<!--            <artifactId>fr.opensagres.poi.xwpf.converter.pdf-gae</artifactId>-->
-<!--            <version>2.0.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>fr.opensagres.poi.xwpf.converter.pdf-gae</artifactId>
+            <version>2.0.2</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
 <!--        <dependency>-->
