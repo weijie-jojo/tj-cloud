@@ -118,22 +118,22 @@ public class WordExportController {
 
             pdfWriter.setInitialLeading(20);
             java.util.List<XWPFParagraph> plist = doc.getParagraphs();
-            List<XWPFTable> tableList = doc.getTables();
+//            List<XWPFTable> tableList = doc.getTables();
             pdfWriter.open();
             pdfDocument.open();
 
-            Iterator<XWPFTable> tableIterator = tableList.iterator();
-            while (tableIterator.hasNext()) {
-                XWPFTable table = tableIterator.next();
-                String text = table.getText();
-                byte[] tableBs;
-                if (text != null) {
-                    tableBs = text.getBytes();
-                    String str = new String(tableBs);
-                    Chunk chObj1 = new Chunk(str);
-                    pdfDocument.add(chObj1);
-                }
-            }
+//            Iterator<XWPFTable> tableIterator = tableList.iterator();
+//            while (tableIterator.hasNext()) {
+//                XWPFTable table = tableIterator.next();
+//                String text = table.getText();
+//                byte[] tableBs;
+//                if (text != null) {
+//                    tableBs = text.getBytes();
+//                    String str = new String(tableBs);
+//                    Chunk chObj1 = new Chunk(str);
+//                    pdfDocument.add(chObj1);
+//                }
+//            }
             for (int i = 0; i < plist.size(); i++) {
                 XWPFParagraph pa = plist.get(i);
                 java.util.List<XWPFRun> runs = pa.getRuns();
@@ -1511,8 +1511,8 @@ public class WordExportController {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-        byte[] result=   docxToPdf(new FileInputStream(file),configProps.getName()+nowDate+guid+"转换结果.pdf");
+        String pdfFileName=nowDate+guid+"转换结果.pdf";
+        byte[] result=   docxToPdf(new FileInputStream(file),configProps.getName()+pdfFileName);
         System.out.println("result=="+result);
 //        FileInputStream fileInputStream = null;
 //        FileOutputStream  fileOutputStream=null;
@@ -1558,7 +1558,7 @@ public class WordExportController {
 
         //插入文件名到数据库
         SelfEmployed selfEmployed2=new SelfEmployed();
-        selfEmployed2.setFileName8(fileName);
+        selfEmployed2.setFileName8(pdfFileName);
         selfEmployed2.setSelfId(selfId);
         selfEmployedService.updateSelfEmployed(selfEmployed2);
         return selfEmployedVos;
