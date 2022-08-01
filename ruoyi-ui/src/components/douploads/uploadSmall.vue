@@ -23,12 +23,14 @@
                     <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
                     <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
                     <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
+    
                 </div>
+                <div class="tools flexs" style="color:red;font-size: 20px;margin-top: 40px;" v-if="errOk">pdf文件已损坏</div>
                 <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
                     @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
                     @link-clicked="page = $event">
                 </pdf>
+                
 
             </div>
         </el-dialog>
@@ -45,10 +47,11 @@ export default {
     },
    data(){
      return {
+      errOk:false,
       dialogVisible: false,
       dialogImageUrl: "",
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-	  fileNameOlds:this.$options.propsData.fileNameOld,
+	    fileNameOlds:this.$options.propsData.fileNameOld,
       fileNames: this.$options.propsData.fileName,
       titles: '',
       pdfList: [],  //pdf 预览
@@ -86,15 +89,11 @@ export default {
      
    },
    mounted(){
-     console.log(this.fileNameOlds);
-     console.log(this.fileNames);
+     
    },
    methods:{
         isDetailArr(){
-          console.log(this.isDetails);
-            if(this.isDetails==1){
-              //this.pdfdetail(this.url);
-            } 
+          
         },
         pdfdetail(i) {
             this.titles = '正在预览' + i;
@@ -127,7 +126,10 @@ export default {
         },
         // 其他的一些回调函数。
         pdfError(error) {
-            console.error(error)
+            console.error(error);
+            if(error){
+              this.errOk=true;
+            }
         },
 
          beforeAvatarUpload(file) {
@@ -160,6 +162,7 @@ export default {
             this.$emit('getfileName',this.fileNames);
         },
         handlePreview(file) {
+             this.errOk=false;
             if (file.hasOwnProperty('response')) {
                 if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
                     this.titles = '正在预览' + file.response.obj;

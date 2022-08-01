@@ -257,7 +257,7 @@ export default {
                 this.$cache.local.setJSON('projectCodeNew', row.projectCode);
                 this.$cache.local.setJSON('publicTickets', row);
                 this.$tab.closeOpenPage({ path:'/project/ticketlist' })
-              //  this.$router.push('ticketlist');
+              
             }).catch(() => {
 
             });
@@ -266,17 +266,10 @@ export default {
         /** 查询项目列表 */
         getList() {
             this.loading = true;
-            //  if(this.queryParams.projectTimeStart != null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-            //     this.queryParams.projectTimeStart[0] = this.filterTime(this.queryParams.projectTimeStart[0]),
-            //     this.queryParams.projectTimeStart[1] = this.filterTime(this.queryParams.projectTimeStart[1])
-            // }else {//判断选择时间再将时间清除
-            //         this.queryParams.projectTimeStart=null;
-            // };
             if(this.projectTime!= null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
                 this.queryParams.start =this.projectTime[0];
                 this.queryParams.end =this.projectTime[1];
-                console.log("start",this.queryParams.start);
-                console.log("end",this.queryParams.end);
+               
             }else {//判断选择时间再将时间清除
                     this.projectTime=null;
             };
@@ -330,10 +323,9 @@ export default {
 
                         this.$nextTick(function () {
                             this.$tab.refreshPage().then(() => {
-                                // this.$tab.openPage("个体列表", "manageList")
+                            
                             })
 
-                            // this.$router.push({ path: "/company/customer/manageBank"});
                         });
                     } else {
                         this.$modal.msgError(res.msg);
@@ -349,7 +341,8 @@ export default {
             console.log(scope);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            //this.$router.push("detail");
+             //this.$tab.closeOpenPage({ path:'/project/detail' })
+            this.$router.push("detail");
         },
         //审核中
         shenloading() {

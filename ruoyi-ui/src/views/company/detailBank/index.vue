@@ -154,21 +154,9 @@
 
           <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
             <el-input  disabled v-model="formBank.publicDepositBank3" :readonly="true"></el-input>
-            <!-- <el-select disabled v-model="formBank.publicDepositBank3" filterable placeholder="请选择">
-                     <el-option v-for="item in publicDepositBank3_options" :key="item.value" :label="item.value"
-                        :value="item.value">
-                     </el-option>
-                  </el-select> -->
           </el-form-item>
           <el-form-item  label="纳税委托协议" prop="fileName3">
-               <div v-for="(item, index) in previewList3" :key="index">
-              <el-image lazy :preview-src-list="previewList3" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList3" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+              <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         
@@ -179,23 +167,12 @@
               disabled
               v-model="formBank.publicAccountNumber3"
             ></el-input>
-            <!-- <el-select disabled v-model="formBank.publicAccountNumber3" filterable placeholder="请选择">
-                     <el-option v-for="item in publicAccountNumber3_options" :key="item.value" :label="item.value" :value="item.value">
-                     </el-option>
-                  </el-select> -->
           </el-form-item>
           <el-form-item style="color: rgba(0, 0, 0, 0)">
             <br />
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-               <div v-for="(item, index) in previewList4" :key="index">
-              <el-image lazy :preview-src-list="previewList4" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList4" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+              <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -208,57 +185,22 @@
          <el-col :span="8"></el-col>
        </el-row>
     </el-form>
-     <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
-
-      </div>
-    </el-dialog>
-  </div>
+   </div>
 </template>
 
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { all } from "@/api/company/payTaxInfo";
-import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
    components: {
-    pdf
+    uploadSmall
   },
   data() {
     return {
-      titles: '',
-      pdfList3:[],
-      pdfList4:[],  //pdf 预览
-      previewList3:[], //预览
-      previewList4:[], //预览
-      //pdf预览
-      url: '',
-      viewVisible: false,
-      pageNum: 1,
-      pageTotalNum: 1,
-      pageRotate: 0,
-      // 加载进度
-      loadedRatio: 0,
-      curPageNum: 0,
-      closeDialog: false,
-
-
-
+       isDetail:'1',
+       isNone:[],
+       fileNameN1:[],
+       fileNameN2:[],
        baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
        formBank: {
         bankStatus: 1,
@@ -294,7 +236,7 @@ export default {
       rules: {
         selfName: [
           { required: true, message: "请输入名称", trigger: "blur" },
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          
         ],
         legalPersonName: [
           { required: true, message: "请输入法人姓名", trigger: "blur" },
@@ -375,88 +317,32 @@ export default {
   },
   created() {
     let list = this.$cache.local.getJSON("employednewlist");
-    // this.formBank.selfId = list.selfId;
-    // this.formBank.selfName = list.selfName;
-    // this.formBank.legalPersonName = list.legalPersonName;
-
-    // this.formBank.privateDepositBank = list.privateDepositBank;
-    // this.formBank.privateAccountNumber = list.privateAccountNumber;
-    // this.formBank.taxId = list.taxId;
-     this.formBank=list;
-     this.pdfList3=[];  //pdf 预览
-     this.previewList3=[]; //预览
-     this.pdfList4=[];  //pdf 预览
-     this.previewList4=[]; //预览
-    
+    this.formBank=list;
+    this.fileNameN1=[];
+    this.fileNameN2=[];
     this.fileName3=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName3);
     for(let k1 in this.fileName3){
-      if (this.fileName3[k1].substring(this.fileName3[k1].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList3.push(this.fileName3[k1]);
-      } else {
-        this.fileName3[k1] = this.baseImgPath + this.fileName3[k1];
-        this.previewList3.push(this.fileName3[k1]);
-      }
-
-     //  this.fileName3[k1]=this.baseImgPath+this.fileName3[k1];
+       this.fileNameN1.push({
+          url:this.baseImgPath+this.fileName3[k1],
+          name:this.fileName3[k1],
+        });
     } 
      this.fileName4=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName4);
     for(let k2 in this.fileName4){
-     // this.fileName4[k2]=this.baseImgPath+this.fileName4[k2];
-      if (this.fileName4[k2].substring(this.fileName4[k2].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList4.push(this.fileName4[k2]);
-      } else {
-        this.fileName4[k2] = this.baseImgPath + this.fileName4[k2];
-        this.previewList4.push(this.fileName4[k2]);
-      }
+    
+     this.fileNameN2.push({
+          url:this.baseImgPath+this.fileName4[k2],
+          name:this.fileName4[k2],
+        });
     } 
     this.accountType = list.accountType;
     this.nailist();
   },
-  beforeRouteLeave(to, from, next) {
-    to.meta.keepAlive = true;
-    next(0);
-  },
-
   methods: {
-   pdfdetail(i) {
-      this.titles = '正在预览' + i;
-      this.viewVisible = true;
-      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-    },
-    // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
+   getfileNameS(){
 
-
-
-    changeValue(res) {
+   },
+   changeValue(res) {
       for (let i in this.mylist) {
         if (this.mylist[i].accountName == res) {
           this.formBank.publicDepositBank3 = this.mylist[i].publicDepositBank3;
@@ -493,83 +379,8 @@ export default {
     resetForm() {
        this.$tab.closeOpenPage({ path: "/company/customer/manageBank"});
     },
-    onSubmit() {
-      this.$refs["formBank"].validate((valid) => {
-        if (valid) {
-          this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
-          this.formBank.fileName4 = JSON.stringify(this.formBank.fileName4);
-          updateEmployed(this.formBank)
-            .then((res) => {
-              if (res != undefined) {
-                if (res.code === 200) {
-                   this.$nextTick(function () {
-                     this.$tab.refreshPage({ path: "/company/customer/manageBank"}).then(() => {
-                     let  resmsg='办理银行成功';
-                     let obj={
-                        title:'税务办理',
-                        backUrl:'/company/customer/manageBank',
-                        resmsg:resmsg
-                        };
-                      this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew"});
-                    });
-                   });
-                  
-                } else {
-                  this.$modal.msgError(res.msg);
-                }
-              }
-            })
-            .catch((error) => {
-              this.$modal.msgError(error);
-            });
-        } else {
-          this.$modal.msgError("请填写完整");
-        }
-      });
-    },
-    handlesuccess1(file, fileList) {
-      this.formBank.fileName3.push(file.obj);
-    },
-    handleRemove1(file, fileList) {
-      const i = this.formBank.fileName3.findIndex((item) => item === fileList);
-      this.formBank.fileName3.splice(i, 1);
-    },
-    handlePreview1(file) {
-      this.dialogImageUrl1 = file.url;
-      this.dialogVisible1 = true;
-    },
-    handleExceed1(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
-    },
-    beforeRemove1(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    handlesuccess2(file, fileList) {
-      this.formBank.fileName4.push(file.obj);
-    },
-    handleRemove2(file, fileList) {
-      const i = this.formBank.fileName4.findIndex((item) => item === fileList);
-      this.formBank.fileName4.splice(i, 1);
-    },
-    handlePreview2(file) {
-      this.dialogImageUrl2 = file.url;
-      this.dialogVisible2 = true;
-    },
-    handleExceed2(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
-    },
-    beforeRemove2(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
+   
+    
   },
 };
 </script>

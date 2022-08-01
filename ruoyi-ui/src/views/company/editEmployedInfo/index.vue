@@ -11,9 +11,6 @@
         <el-step title="业务信息"></el-step>
         <el-step title="确认修改"></el-step>
       </el-steps>
-
-      <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="申请信息" name="first"> -->
       <div v-show="actives == 1">
         <el-row type="flex" class="row-bg  combottom" justify="space-around">
           <el-col :span="8">
@@ -413,35 +410,13 @@
           <el-col :span="9">
 
             <el-form-item label="工商实名" prop="fileName6">
-              <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess2"
-                :on-preview="handlePreview2" :on-remove="handleRemove2" :before-remove="beforeRemove2" multiple
-                :on-exceed="handleExceed2" :file-list="fileName6" list-type="picture"
-                :before-upload="beforeAvatarUpload1"
-                >
-                <el-button size="small" type="primary">点击上传</el-button>
-                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible2" append-to-body>
-                <img width="100%" :src="dialogImageUrl2" alt="" />
-              </el-dialog>
+             <uploadSmall v-if="fileNameOld2.length>0" @getfileName="getfileName6" :fileName="formData.fileName6" :fileNameOld="fileNameOld2" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
 
           <el-col :span="9">
-
-
-            <el-form-item label="税务实名" prop="fileName7">
-              <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess3"
-                :on-preview="handlePreview3" :on-remove="handleRemove3" :before-remove="beforeRemove3" multiple
-                :on-exceed="handleExceed3" :file-list="fileName7" list-type="picture"
-                :before-upload="beforeAvatarUpload2"
-                >
-                <el-button size="small" type="primary">点击上传</el-button>
-                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible3" append-to-body>
-                <img width="100%" :src="dialogImageUrl3" alt="" />
-              </el-dialog>
+             <el-form-item label="税务实名" prop="fileName7">
+              <uploadSmall v-if="fileNameOld3.length>0" @getfileName="getfileName7" :fileName="formData.fileName7" :fileNameOld="fileNameOld3" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
         </el-row>
@@ -449,19 +424,8 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="身份证扫描件">
-              <!-- <el-button type="primary" @click="toEditImg">点击上传</el-button> -->
-              <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
-                :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1" multiple
-                :on-exceed="handleExceed1" :file-list="fileName5" list-type="picture"
-                :before-upload="beforeAvatarUpload3"
-                >
-                <el-button size="small" type="primary">点击上传</el-button>
-                 <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                <img width="100%" :src="dialogImageUrl1" alt="" />
-              </el-dialog>
+            <el-form-item label="身份证扫描件" prop="fileName5">
+              <uploadSmall v-if="fileNameOld1.length>0" @getfileName="getfileName5" :fileName="formData.fileName5" :fileNameOld="fileNameOld1" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
           <el-col :span="9"></el-col>
@@ -617,30 +581,10 @@
 
       </div>
     </el-form>
-    <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
-
-      </div>
-    </el-dialog>
   </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudInfo from '@/api/company/info'
@@ -651,7 +595,7 @@ import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
   components: {
-    pdf
+    uploadSmall
   },
   dicts: ['political_status', 'educational_level'],
   props: [],
@@ -660,16 +604,10 @@ export default {
 
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       //pdf预览
-      titles: '',
-      url: '',
-      viewVisible: false,
-      pageNum: 1,
-      pageTotalNum: 1,
-      pageRotate: 0,
-      // 加载进度
-      loadedRatio: 0,
-      curPageNum: 0,
-      closeDialog: false,
+      isDetail:'0',
+      fileNameOld1:[],
+      fileNameOld2:[],
+      fileNameOld3:[],
 
       yecomfirm: true,
       yecomfirms: false,
@@ -1053,15 +991,16 @@ export default {
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
     this.formData.fileName6 = JSON.parse(this.formData.fileName6);
     this.formData.fileName7 = JSON.parse(this.formData.fileName7);
-    this.fileName5 = [];
-    this.fileName6 = [];
-    this.fileName7 = [];
+    
+    this.fileNameOld1=[];
+    this.fileNameOld2=[];
+    this.fileNameOld3=[];
     let arr = this.formData.fileName5;
     let brr = this.formData.fileName6;
     let crr = this.formData.fileName7;
 
     for (let i in arr) {
-      this.fileName5.push({
+      this.fileNameOld1.push({
         name: arr[i],
         url: this.baseImgPath + arr[i]
       })
@@ -1070,7 +1009,7 @@ export default {
 
 
     for (let j in brr) {
-      this.fileName6.push({
+      this.fileNameOld2.push({
         name: brr[j],
         url: this.baseImgPath + brr[j]
       })
@@ -1079,7 +1018,7 @@ export default {
 
 
     for (let k in crr) {
-      this.fileName7.push({
+      this.fileNameOld3.push({
         name: crr[k],
         url: this.baseImgPath + crr[k]
       })
@@ -1100,84 +1039,21 @@ export default {
     this.getGender();
   },
   methods: {
-      beforeAvatarUpload1(file){
+     getfileName5(data){
+       this.formData.fileName5=data;
+       console.log(data);
+      },
      
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
-      beforeAvatarUpload2(file){
+     getfileName6(data){
+       this.formData.fileName6=data;
+      },
      
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
-      beforeAvatarUpload3(file){
-     
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
+     getfileName7(data){
+       this.formData.fileName7=data;
+      },
+      
 
-
-    // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
+   
     singleOK() {
       if (this.singleRadio == 1) {
         this.yecomfirm = false;
@@ -1358,7 +1234,6 @@ export default {
       this.actives = 2;
     },
     toReturn() {
-      //this.$router.push("employed")
       this.$tab.closeOpenPage({ path: "/company/customer/employed" });
     },
 
@@ -1390,12 +1265,6 @@ export default {
             contactPhone: this.formData.contactPhone,
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
-
-            // createTime:new Date().toLocaleString(),
-            // updateTime:new Date().toLocaleString(),
-            // createBy:this.formData.userName,
-            // updateBy:this.formData.userName,
-
           };
           let parms2 = {
             selfId: this.formData.selfId,
@@ -1424,16 +1293,7 @@ export default {
             fileName7: JSON.stringify(this.formData.fileName7),
             publicDepositBank1: this.formData.publicDepositBank1,
             publicAccountNumber1: this.formData.publicAccountNumber1,
-            // createTime:new Date().toLocaleString(),
-            // updateTime:new Date().toLocaleString(),
-            // createBy:this.formData.userName,
-            // updateBy:this.formData.userName,
-
-            // businessStatus:0,
-            // infoStatus:1,
-            // taxStatus:0,
-            // bankStatus:0,
-          };
+           };
           let parms3 = {
             legalPersonId: this.formData.legalPersonId,
             selfCode: this.formData.selfCode,
@@ -1449,20 +1309,11 @@ export default {
             residence: this.formData.residence,
             contactPhone: this.formData.contactPhone,
             mail: this.formData.mail,
-
-            // createTime:new Date().toLocaleString(),
-            // updateTime:new Date().toLocaleString(),
-            // createBy:this.formData.userName,
-            // updateBy:this.formData.userName,
-
-          };
+         };
           crudInfo.updateInfo(parms1).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'success'
-                })
+                
               } else {
                 this.$message({
                   message: res.msg,
@@ -1474,10 +1325,7 @@ export default {
           crudEmployed.updateEmployed(parms2).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'success'
-                })
+              
               } else {
                 this.$message({
                   message: res.msg,
@@ -1489,10 +1337,7 @@ export default {
           crudPerson.updatePerson(parms3).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'success'
-                })
+               
               } else {
                 this.$message({
                   message: res.msg,
@@ -1501,7 +1346,6 @@ export default {
               }
             }
           });
-          // this.$router.push("employed");
           this.$tab.refreshPage("/company/customer/employed").then(() => {
             this.$tab.openPage("注册进度", "/company/customer/employed")
           })
@@ -1524,121 +1368,7 @@ export default {
     cancel() {
       this.imgDialog = false;
     },
-    handlesuccess1(file, fileList) {
-      this.formData.fileName5.push(file.obj);
-
-    },
-    handleRemove1(file, fileList) {
-      const i = this.formData.fileName5.findIndex((item) => item === fileList)
-      this.formData.fileName5.splice(i, 1);
-    },
-    handlePreview1(file) {
-
-      if (file.hasOwnProperty('response')) {
-        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.response.obj;
-          this.viewVisible = true;
-              this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-        } else {
-          this.dialogImageUrl1 = file.url;
-          this.dialogVisible1 = true;
-        }
-      } else {
-        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.url;
-          this.viewVisible = true;
-          this.url = file.url;
-        } else {
-          this.dialogImageUrl1 = file.url;
-          this.dialogVisible1 = true;
-        }
-      }
-
-    },
-    handleExceed1(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove1(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-
-    handlesuccess2(file, fileList) {
-      this.formData.fileName5.push(file.obj);
-
-    },
-    handleRemove2(file, fileList) {
-      const i = this.formData.fileName5.findIndex((item) => item === fileList)
-      this.formData.fileName5.splice(i, 1);
-    },
-    handlePreview2(file) {
-      // this.dialogImageUrl1 = file.url;
-      // this.dialogVisible1 = true;
-      if (file.hasOwnProperty('response')) {
-        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.response.obj;
-          this.viewVisible = true;
-              this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-        } else {
-          this.dialogImageUrl2 = file.url;
-          this.dialogVisible2 = true;
-        }
-      } else {
-        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.url;
-          this.viewVisible = true;
-          this.url = file.url;
-        } else {
-          this.dialogImageUrl2 = file.url;
-          this.dialogVisible2 = true;
-        }
-      }
-
-
-
-    },
-    handleExceed2(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove2(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-
-    handlesuccess3(file, fileList) {
-      this.formData.fileName5.push(file.obj);
-
-    },
-    handleRemove3(file, fileList) {
-      const i = this.formData.fileName5.findIndex((item) => item === fileList)
-      this.formData.fileName5.splice(i, 1);
-    },
-    handlePreview3(file) {
-      if (file.hasOwnProperty('response')) {
-        if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.response.obj;
-          this.viewVisible = true;
-              this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-        } else {
-          this.dialogImageUrl3 = file.url;
-          this.dialogVisible3 = true;
-        }
-      } else {
-        if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-          this.titles = '正在预览' + file.url;
-          this.viewVisible = true;
-          this.url = file.url;
-        } else {
-          this.dialogImageUrl3 = file.url;
-          this.dialogVisible3 = true;
-        }
-      }
-    },
-    handleExceed3(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove3(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-  }
+   }
 }
 
 </script>

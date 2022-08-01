@@ -119,6 +119,8 @@ service.interceptors.response.use(res => {
     }
     else if (message.includes("Request failed with status code")) {
       message = "系统接口" + message.substr(message.length - 3) + "异常";
+    }else{
+      message='系统繁忙,请联系管理员！';
     }
     Message({
       message: message,
