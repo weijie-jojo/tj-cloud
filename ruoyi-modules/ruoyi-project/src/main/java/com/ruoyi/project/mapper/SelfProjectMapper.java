@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public interface SelfProjectMapper
      * @param selfProject 项目信息
      * @return 项目信息集合
      */
-    public List<SelfProject> selectSelfProjectList(SelfProject selfProject);
+    public List<SelfProject> selectSelfProjectList(@Param("userIdArr") List<Long> userIdArr,@Param("selfProject") SelfProject selfProject);
 
     /**
      * 新增项目信息

@@ -40,7 +40,7 @@ public interface ISelfProjectService
      * @param selfProject 项目信息
      * @return 项目信息集合
      */
-    public List<SelfProject> selectSelfProjectList(SelfProject selfProject);
+    public List<SelfProject> selectSelfProjectList(List<Long> userIdArr,SelfProject selfProject);
 
     /**
      * 新增项目信息

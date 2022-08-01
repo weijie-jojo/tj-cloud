@@ -47,6 +47,7 @@
         <result property="fileName1"    column="file_name1"    />
         <result property="fileName2"    column="file_name2"    />
         <result property="fileName3"    column="file_name3"    />
+        <result property="userId"    column="user_id"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -56,7 +57,7 @@
                create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status,
                project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status,
                place_code,purch_company_taxid,project_remain_amount ,ticket_remark, contract_remark, check_remark, tax_remark,
-               file_name1, file_name2, file_name3 from self_project
+               file_name1, file_name2, file_name3, user_id  from self_project
     </sql>
 <!--    A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,-->
 <!--    A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,-->
@@ -68,8 +69,8 @@
                t.create_by, t.update_by, t.create_time, t.update_time, t.check_content, t.file_name, t.project_time_start,
                t.project_time_end, t.project_check_status, t.project_ticket_status, t.project_contract_status,
                t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
-               t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,
-               t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3,
+               t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,t.user_id,
+                t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3,
                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status
             from self_project t  JOIN self_employed B ON t.project_owner = B.self_code
@@ -79,51 +80,57 @@
         <include refid="selectProjectJoinTicketByCodeVo"/>
         where t.is_deleted=1  AND t.project_code=#{projectCode}
     </select>
-    <select id="selectSelfProjectList" parameterType="com.ruoyi.project.domain.SelfProject" resultMap="SelfProjectResult">
+    <select id="selectSelfProjectList"  resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
         <where>
             is_deleted=1
-            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
-            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
-            <if test="projectTrade != null  and projectTrade != ''"> and project_trade = #{projectTrade}</if>
-            <if test="projectOwner != null  and projectOwner != ''"> and project_owner = #{projectOwner}</if>
-            <if test="purchCompany != null  and purchCompany != ''"> and purch_company = #{purchCompany}</if>
-            <if test="projectTotalAmount != null "> and project_total_amount = #{projectTotalAmount}</if>
-            <if test="projectLeader != null  and projectLeader != ''"> and project_leader = #{projectLeader}</if>
-            <if test="projectGrossMargin != null "> and project_gross_margin = #{projectGrossMargin}</if>
-            <if test="projectGrossProfit != null "> and project_gross_profit = #{projectGrossProfit}</if>
-            <if test="projectNetProfit != null "> and project_net_profit = #{projectNetProfit}</if>
-            <if test="projectPackageAmount != null "> and project_package_amount = #{projectPackageAmount}</if>
-            <if test="projectDesc != null  and projectDesc != ''"> and project_desc = #{projectDesc}</if>
-            <if test="projectStatus != null "> and project_status = #{projectStatus}</if>
-            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
-            <if test="checkContent != null  and checkContent != ''"> and check_content = #{checkContent}</if>
-            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="start != null and start != ''"><!-- 开始时间检索 -->
-                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') >= date_format(#{start},'%Y-%m-%d %H:%i:%s')
+            <if test="selfProject.projectCode != null  and selfProject.projectCode != ''"> and project_code = #{selfProject.projectCode}</if>
+            <if test="selfProject.projectName != null  and selfProject.projectName != ''"> and project_name like concat('%', #{selfProject.projectName}, '%')</if>
+            <if test="selfProject.projectTrade != null  and selfProject.projectTrade != ''"> and project_trade = #{selfProject.projectTrade}</if>
+            <if test="selfProject.projectOwner != null  and selfProject.projectOwner != ''"> and project_owner = #{selfProject.projectOwner}</if>
+            <if test="selfProject.purchCompany != null  and selfProject.purchCompany != ''"> and purch_company = #{selfProject.purchCompany}</if>
+            <if test="selfProject.projectTotalAmount != null "> and project_total_amount = #{selfProject.projectTotalAmount}</if>
+            <if test="selfProject.projectLeader != null  and selfProject.projectLeader != ''"> and project_leader = #{selfProject.projectLeader}</if>
+            <if test="selfProject.projectGrossMargin != null "> and project_gross_margin = #{selfProject.projectGrossMargin}</if>
+            <if test="selfProject.projectGrossProfit != null "> and project_gross_profit = #{selfProject.projectGrossProfit}</if>
+            <if test="selfProject.projectNetProfit != null "> and project_net_profit = #{selfProject.projectNetProfit}</if>
+            <if test="selfProject.projectPackageAmount != null "> and project_package_amount = #{selfProject.projectPackageAmount}</if>
+            <if test="selfProject.projectDesc != null  and selfProject.projectDesc != ''"> and project_desc = #{selfProject.projectDesc}</if>
+            <if test="selfProject.projectStatus != null "> and project_status = #{selfProject.projectStatus}</if>
+            <if test="selfProject.isDeleted != null  and selfProject.isDeleted != ''"> and is_deleted = #{selfProject.isDeleted}</if>
+            <if test="selfProject.checkContent != null  and selfProject.checkContent != ''"> and check_content = #{selfProject.checkContent}</if>
+            <if test="selfProject.fileName != null  and selfProject.fileName != ''"> and file_name like concat('%', #{fselfProject.ileName}, '%')</if>
+            <if test="selfProject.start != null and selfProject.start != ''"><!-- 开始时间检索 -->
+                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') >= date_format(#{selfProject.start},'%Y-%m-%d %H:%i:%s')
             </if>
-            <if test="end != null and end != ''"><!-- 结束时间检索 -->
-                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{end},'%Y-%m-%d %H:%i:%s')
+            <if test="selfProject.end != null and selfProject.end != ''"><!-- 结束时间检索 -->
+                AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{selfProject.end},'%Y-%m-%d %H:%i:%s')
             </if>
-            <if test="projectCheckStatus != null  and projectCheckStatus != ''"> and project_check_status = #{projectCheckStatus}</if>
-            <if test="projectTicketStatus != null  and projectTicketStatus != ''"> and project_ticket_status = #{projectTicketStatus}</if>
-            <if test="projectContractStatus != null  and projectContractStatus != ''"> and project_contract_status = #{projectContractStatus}</if>
-            <if test="projectAcceptanceStatus != null  and projectAcceptanceStatus != ''"> and project_acceptance_status = #{projectAcceptanceStatus}</if>
-            <if test="projectDutypaidStatus != null  and projectDutypaidStatus != ''"> and project_dutypaid_status = #{projectDutypaidStatus}</if>
-            <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
-            <if test="purchCompanyTaxid != null  and purchCompanyTaxid != ''"> and purch_company_taxid = #{purchCompanyTaxid}</if>
-            <if test="selfName != null  and selfName != ''"> and self_name = #{selfName}</if>
-            <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
-            <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
-            <if test="projectOwnerTaxid != null  and projectOwnerTaxid != ''"> and project_owner_taxid = #{projectOwnerTaxid}</if>
-            <if test="projectRemainAmount != null "> and project_remain_amount = #{projectRemainAmount}</if>
-            <if test="ticketRemark != null  and ticketRemark != ''"> and ticket_remark = #{ticketRemark}</if>
-            <if test="contractRemark != null  and contractRemark != ''"> and contract_remark = #{contractRemark}</if>
-            <if test="checkRemark != null  and checkRemark != ''"> and check_remark = #{checkRemark}</if>
-            <if test="taxRemark != null  and taxRemark != ''"> and tax_remark = #{taxRemark}</if>
-            <if test="fileName1 != null  and fileName1 != ''"> and file_name1 = #{fileName1}</if>
-            <if test="fileName2 != null  and fileName2 != ''"> and file_name2 = #{fileName2}</if>
-            <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
+            <if test="selfProject.projectCheckStatus != null  and selfProject.projectCheckStatus != ''"> and project_check_status = #{selfProject.projectCheckStatus}</if>
+            <if test="selfProject.projectTicketStatus != null  and selfProject.projectTicketStatus != ''"> and project_ticket_status = #{selfProject.projectTicketStatus}</if>
+            <if test="selfProject.projectContractStatus != null  and selfProject.projectContractStatus != ''"> and project_contract_status = #{selfProject.projectContractStatus}</if>
+            <if test="selfProject.projectAcceptanceStatus != null  and selfProject.projectAcceptanceStatus != ''"> and project_acceptance_status = #{selfProject.projectAcceptanceStatus}</if>
+            <if test="selfProject.projectDutypaidStatus != null  and selfProject.projectDutypaidStatus != ''"> and project_dutypaid_status = #{selfProject.projectDutypaidStatus}</if>
+            <if test="selfProject.placeCode != null  and selfProject.placeCode != ''"> and place_code = #{selfProject.placeCode}</if>
+            <if test="selfProject.purchCompanyTaxid != null  and selfProject.purchCompanyTaxid != ''"> and purch_company_taxid = #{selfProject.purchCompanyTaxid}</if>
+            <if test="selfProject.selfName != null  and selfProject.selfName != ''"> and selfProject.self_name = #{selfName}</if>
+            <if test="selfProject.ticketType != null "> and ticket_type = #{selfProject.ticketType}</if>
+            <if test="selfProject.ticketTax != null "> and ticket_tax = #{selfProject.ticketTax}</if>
+            <if test="selfProject.projectOwnerTaxid != null  and selfProject.projectOwnerTaxid != ''"> and project_owner_taxid = #{selfProject.projectOwnerTaxid}</if>
+            <if test="selfProject.projectRemainAmount != null "> and project_remain_amount = #{selfProject.projectRemainAmount}</if>
+            <if test="selfProject.ticketRemark != null  and selfProject.ticketRemark != ''"> and ticket_remark = #{selfProject.ticketRemark}</if>
+            <if test="selfProject.contractRemark != null  and selfProject.contractRemark != ''"> and contract_remark = #{selfProject.contractRemark}</if>
+            <if test="selfProject.checkRemark != null  and selfProject.checkRemark != ''"> and check_remark = #{selfProject.checkRemark}</if>
+            <if test="selfProject.taxRemark != null  and selfProject.taxRemark != ''"> and tax_remark = #{selfProject.taxRemark}</if>
+            <if test="selfProject.fileName1 != null  and selfProject.fileName1 != ''"> and file_name1 = #{selfProject.fileName1}</if>
+            <if test="selfProject.fileName2 != null  and selfProject.fileName2 != ''"> and file_name2 = #{selfProject.fileName2}</if>
+            <if test="selfProject.fileName3 != null  and selfProject.fileName3 != ''"> and file_name3 = #{selfProject.fileName3}</if>
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
         </where>
         ORDER BY
         create_time DESC
@@ -182,6 +189,7 @@
             <if test="fileName1 != null">file_name1,</if>
             <if test="fileName2 != null">file_name2,</if>
             <if test="fileName3 != null">file_name3,</if>
+            <if test="userId != null">user_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -225,6 +233,7 @@
             <if test="fileName1 != null">#{fileName1},</if>
             <if test="fileName2 != null">#{fileName2},</if>
             <if test="fileName3 != null">#{fileName3},</if>
+            <if test="userId != null">#{userId},</if>
         </trim>
     </insert>
 
@@ -272,6 +281,7 @@
             <if test="fileName1 != null">file_name1 = #{fileName1},</if>
             <if test="fileName2 != null">file_name2 = #{fileName2},</if>
             <if test="fileName3 != null">file_name3 = #{fileName3},</if>
+            <if test="userId != null">user_id = #{userId},</if>
         </trim>
         where project_id = #{projectId}
     </update>

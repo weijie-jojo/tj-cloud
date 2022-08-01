@@ -61,9 +61,9 @@ public class SelfProjectServiceImpl implements ISelfProjectService
      * @return 项目信息
      */
     @Override
-    public List<SelfProject> selectSelfProjectList(SelfProject selfProject)
+    public List<SelfProject> selectSelfProjectList(List<Long> userIdArr,SelfProject selfProject)
     {
-        return selfProjectMapper.selectSelfProjectList(selfProject);
+        return selfProjectMapper.selectSelfProjectList(userIdArr,selfProject);
     }
 
     /**

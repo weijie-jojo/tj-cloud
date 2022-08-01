@@ -184,6 +184,10 @@ public class SelfProject extends BaseEntity
     @Excel(name = "完税")
     private String fileName3;
 
+    /** 业务员（登录用户id） */
+    @Excel(name = "业务员", readConverterExp = "登录用户id")
+    private Long userId;
+
     public void setProjectId(String projectId)
     {
         this.projectId = projectId;
