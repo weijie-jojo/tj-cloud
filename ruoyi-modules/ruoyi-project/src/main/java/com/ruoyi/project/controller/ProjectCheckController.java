@@ -54,7 +54,7 @@ public class ProjectCheckController extends BaseController
     @RequiresPermissions("company:check:export")
     @Log(title = "个体户审批进度", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ProjectCheck projectCheck)
+    public void export(HttpServletResponse response, ProjectCheckVo projectCheck)
     {
         List<ProjectCheck> list = projectCheckService.selectProjectCheckList(projectCheck);
         ExcelUtil<ProjectCheck> util = new ExcelUtil<ProjectCheck>(ProjectCheck.class);
