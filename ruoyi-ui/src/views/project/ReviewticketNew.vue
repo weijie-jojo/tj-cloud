@@ -44,13 +44,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <div v-for="(item, index) in previewList" :key="index">
-                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
-                                :src="item" alt="" />
-                        </div>
-                        <div v-for="(x, y) in pdfList" :key="y">
-                            <span @click="pdfdetail(x)"> {{ x }} </span>
-                        </div>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
 
@@ -94,61 +88,25 @@
         </el-table>
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
-
-    </div>
+   </div>
 
 </template>
 
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { list, del } from "@/api/project/ticket";
 import {detail } from "@/api/project/list";
-import { Skeleton } from 'element-ui';
+
 
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
             multipleSelection: [],
-            titles: '',
-            pdfList: [],  //pdf 预览
-            previewList: [], //预览
-
-            //pdf预览
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
-
+            isDetail:'1',
+            isNone:[],
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             fileNameradio: '1',
             fileName2: [],
@@ -242,6 +200,7 @@ export default {
         };
     },
     mounted() {
+      
        // this.publicList = this.$cache.local.getJSON('publicTickets');
           detail({
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
@@ -260,14 +219,13 @@ export default {
        
         if (Array.isArray(this.publicList.fileName)) {
             this.fileNameradio = '2';
+            this.fileName=[];
             //如果是图片的话
             for (let j in this.publicList.fileName) {
-                if (this.publicList.fileName[j].substring(this.publicList.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
-                    this.pdfList.push(this.publicList.fileName[j]);
-                } else {
-                    this.publicList.fileName[j] = this.baseImgPath + this.publicList.fileName[j];
-                    this.previewList.push(this.publicList.fileName[j]);
-                }
+               this.fileName.push({
+                url:this.baseImgPath+this.publicList.fileName[j],
+                name:this.publicList.fileName[j]
+               })
             }
 
         } else {
@@ -285,38 +243,9 @@ export default {
         
     },
     methods: {
-        pdfdetail(i) {
-            this.titles = '正在预览' + i;
-            this.viewVisible = true;
-            this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-        },
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
+        
+          getfileNameS(){
+
         },
 
         
@@ -331,29 +260,8 @@ export default {
                 this.loading = false;
             });
 
-            //mock请求
-            // let params = qs.parse(this.queryParams);
-
-            // this.$http.get('/getProjectList', {
-            //     params, headers: {
-            //         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-            //     },
-            // }).then(response => {
-            //     console.log(response);
-            //     this.projectList = response.data.rows;
-            //     this.total = response.data.total;
-            //     this.loading = false;
-
-            // }).catch(error => {
-            //     this.$modal.msgError(error);
-            // })
-        },
-
-
-
-
-
-        //激活休眠
+           },
+         //激活休眠
         changeSwitch(scope) {
             let isActive = scope.isActive;
             console.log(isActive);

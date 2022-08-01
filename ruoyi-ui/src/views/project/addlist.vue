@@ -212,7 +212,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
-import { list, getcode, getinfoByUserId, add, ownlist } from "@/api/project/list";
+import { list, getcode, getinfoByUserId, add, ownlist,check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import {Decimal} from 'decimal.js'
 
@@ -659,10 +659,11 @@ export default {
             console.log(val);
         },
         onSubmit() {
-            if(this.formData.projectTotalAmount<=0){
-                 this.$alert('项目金额必须大于0', '提示', {
+            if(this.formData.projectTotalAmount<1){
+                 this.$alert('项目金额必须大于1', '提示', {
                 confirmButtonText: '确定',
               });
+              return;
             }
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单

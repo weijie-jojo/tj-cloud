@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import qs from 'qs';
+
 import { list, del } from "@/api/project/list";
 export default {
     data() {
@@ -279,27 +279,8 @@ export default {
                 this.total = response.total;
                 this.loading = false;
             });
-
-            //mock请求
-            // let params = qs.parse(this.queryParams);
-
-            // this.$http.get('/getProjectList', {
-            //     params, headers: {
-            //         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-            //     },
-            // }).then(response => {
-            //     console.log(response);
-            //     this.projectList = response.data.rows;
-            //     this.total = response.data.total;
-            //     this.loading = false;
-
-            // }).catch(error => {
-            //     this.$modal.msgError(error);
-            // })
+        
         },
-
-
-
 
 
         //激活休眠

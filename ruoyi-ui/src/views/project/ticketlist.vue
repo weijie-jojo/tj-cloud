@@ -8,21 +8,23 @@
                         <el-input :readonly="true" v-model="publicList.projectCode"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="publicList.projectPackageAmount" :step="0.00">
+                        <el-input type="number" :readonly="true" style="width:100%"
+                            v-model="publicList.projectPackageAmount" :step="0.00">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
-                      <el-form-item class="comright" label="项目金额">
+                    <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    
+
                     <el-form-item class="comright" label="剩余金额">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="publicList.projectRemainAmount" :step="0.00">
+                        <el-input type="number" :readonly="true" style="width:100%"
+                            v-model="publicList.projectRemainAmount" :step="0.00">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -44,13 +46,8 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <div v-for="(item, index) in previewList" :key="index">
-                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
-                                :src="item" alt="" />
-                        </div>
-                        <div v-for="(x, y) in pdfList" :key="y">
-                            <span @click="pdfdetail(x)"> {{ x }} </span>
-                        </div>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="publicList.fileName" :fileNameOld="fileName"
+                            :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
 
@@ -69,7 +66,8 @@
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
+                <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus"
+                    size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
             <el-col :span="1.5">
@@ -95,61 +93,22 @@
         </el-table>
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
-
     </div>
-
 </template>
 
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { list, del } from "@/api/project/ticket";
-import {detail } from "@/api/project/list";
-import { Skeleton } from 'element-ui';
-
+import { detail } from "@/api/project/list";
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
             multipleSelection: [],
-            titles: '',
-            pdfList: [],  //pdf 预览
-            previewList: [], //预览
-
-            //pdf预览
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
-
+            isDetail: '1',
+            fileName: [],
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             fileNameradio: '1',
             fileName2: [],
@@ -243,86 +202,46 @@ export default {
         };
     },
     mounted() {
-       // this.publicList = this.$cache.local.getJSON('publicTickets');
-          detail({
-                projectCode: this.$cache.local.getJSON("projectCodeNew")
-            }).then((response) => {
-              this.publicList=response.data[0];
-              this.$cache.local.setJSON('publicTickets',this.publicList);
-
-               this.queryParams = {
-            pageNum: 1,
-            pageSize: 10,
-            projectCode: this.publicList.projectCode
-        };
-        if(this.publicList.fileName.indexOf("[") != -1 ){
-           this.publicList.fileName = JSON.parse(this.publicList.fileName);
-        }
-       
-        if (Array.isArray(this.publicList.fileName)) {
-            this.fileNameradio = '2';
-            //如果是图片的话
-            for (let j in this.publicList.fileName) {
-                if (this.publicList.fileName[j].substring(this.publicList.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
-                    this.pdfList.push(this.publicList.fileName[j]);
-                } else {
-                    this.publicList.fileName[j] = this.baseImgPath + this.publicList.fileName[j];
-                    this.previewList.push(this.publicList.fileName[j]);
-                }
+        detail({
+            projectCode: this.$cache.local.getJSON("projectCodeNew")
+        }).then((response) => {
+            this.publicList = response.data[0];
+            if(this.publicList.projectPackageAmount==0){
+                this.publicList.projectRemainAmount=this.publicList.projectTotalAmount;
             }
+            this.$cache.local.setJSON('publicTickets', this.publicList);
+            this.queryParams = {
+                pageNum: 1,
+                pageSize: 10,
+                projectCode: this.publicList.projectCode
+            };
+            if (this.publicList.fileName.indexOf("[") != -1) {
+                this.publicList.fileName = JSON.parse(this.publicList.fileName);
+            }
+            
+            if (Array.isArray(this.publicList.fileName)) {
+             this.fileName=[];
+             this.fileNameradio = '2';
+                //如果是图片的话
+                for (let j in this.publicList.fileName) {
+                    this.fileName.push({
+                        name: this.publicList.fileName[j],
+                        url: this.baseImgPath + this.publicList.fileName[j]
 
-        } else {
-            this.fileNameradio = '1';
-        }
+                    })
+                }
 
-        this.getList();
-
-
-
-
-           }); 
-       
-       
-        
+            } else {
+                this.fileNameradio = '1';
+            }
+            this.getList();
+        });
     },
     methods: {
-        pdfdetail(i) {
-            this.titles = '正在预览' + i;
-            this.viewVisible = true;
-            this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-        },
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
-        },
+        getfileNameS(){
 
-        
-      
-        /** 查询项目列表 */
+        },
+        /** 查询列表 */
         getList() {
             this.loading = true;
 
@@ -331,82 +250,12 @@ export default {
                 this.total = response.total;
                 this.loading = false;
             });
-
-            //mock请求
-            // let params = qs.parse(this.queryParams);
-
-            // this.$http.get('/getProjectList', {
-            //     params, headers: {
-            //         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-            //     },
-            // }).then(response => {
-            //     console.log(response);
-            //     this.projectList = response.data.rows;
-            //     this.total = response.data.total;
-            //     this.loading = false;
-
-            // }).catch(error => {
-            //     this.$modal.msgError(error);
-            // })
-        },
-
-
-
-
-
-        //激活休眠
-        changeSwitch(scope) {
-            let isActive = scope.isActive;
-            console.log(isActive);
-
-
-            let obj = {
-                isActive: isActive,
-                selfId: scope.selfId
-            };
-            updateEmployed(obj).then(res => {
-                if (res != undefined) {
-                    if (res.code === 200) {
-                        if (obj.isActive == 1) {
-                            this.$modal.msgSuccess("激活成功");
-                        } else {
-                            this.$modal.msgSuccess("休眠成功");
-                        }
-
-                        this.$nextTick(function () {
-                            this.$tab.refreshPage().then(() => {
-
-                            })
-
-
-                        });
-                    } else {
-                        this.$modal.msgError(res.msg);
-                    }
-
-                }
-
-            }).catch(error => {
-                this.$modal.msgError(error);
-            });
         },
         detail(row) {
-            this.$cache.local.setJSON("ticketDetails",row);
+            this.$cache.local.setJSON("ticketDetails", row);
             this.$router.push('ticketDetail');
         },
-        //审核中
-        shenloading() {
-            this.$alert("审核中,请耐心等待...", "审核说明", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: `action: ${ action }`
-                    // });
-                },
-            });
-        },
-
+        
         /** 搜索按钮操作 */
         handleQuery() {
 
@@ -439,14 +288,14 @@ export default {
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-            this.$cache.local.setJSON("ticketDetails",row);
+            this.$cache.local.setJSON("ticketDetails", row);
             this.$router.push("editTicketDetail");
 
         },
 
         /** 删除按钮操作 */
         handleDelete() {
-             if (confirm('你确定删除吗？')) {
+            if (confirm('你确定删除吗？')) {
                 del(this.multipleSelection).then((res) => {
                     if (res != undefined) {
                         if (res.code == 200) {
@@ -465,7 +314,7 @@ export default {
                     }
                 })
             }
-            
+
         },
 
     },

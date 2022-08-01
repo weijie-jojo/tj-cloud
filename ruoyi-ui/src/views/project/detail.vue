@@ -375,39 +375,7 @@ export default {
             }
             return options;
         },
-        pdfdetail(i) {
-            this.titles = '正在预览' + i;
-            this.viewVisible = true;
-            this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-        },
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
-        },
+        
         handleNodeClick(node) {
 
             this.formData.industryType = node.id;
@@ -457,26 +425,7 @@ export default {
             this.$tab.closeOpenPage({ path: '/project/list' });
         },
 
-        handlesuccess1(file, fileList) {
-            this.formData.fileName.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formData.fileName.splice(i, 1);
-        },
-        handlePreview1(file) {
-            this.dialogImageUrl1 = file.url;
-            this.dialogVisible1 = true;
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
+        
         //渠道商接口
         getinfoByUserId() {
             getInfo().then(res => {
