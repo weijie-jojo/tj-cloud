@@ -1,5 +1,6 @@
 package com.ruoyi.project.controller;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -86,6 +87,8 @@ public class ProjectCheckController extends BaseController
     @ApiOperation("新增审批进度")
     public AjaxResult add(@RequestBody ProjectCheck projectCheck)
     {
+        Date date = new Date();
+        projectCheck.setCheckDate(date);
         return toAjax(projectCheckService.insertProjectCheck(projectCheck));
     }
 
