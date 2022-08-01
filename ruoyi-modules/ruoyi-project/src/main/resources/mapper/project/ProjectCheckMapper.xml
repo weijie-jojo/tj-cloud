@@ -20,13 +20,13 @@
 
     <sql id="selectProjectCheckJoin">
         select t.id, t.check_date, t.check_user, t.check_reasult, t.project_code, t.project_type, t.phonenumber from project_check t
-        JOIN sys_dict_data A ON t.self_type=A.dict_value
+        JOIN sys_dict_data A ON t.project_type=A.dict_value
     </sql>
 
     <select id="selectProjectCheckList" parameterType="com.ruoyi.project.domain.ProjectCheck" resultType="com.ruoyi.project.domain.vo.ProjectCheckVo">
         <include refid="selectProjectCheckJoin"/>
         <where>
-            A.dict_type='self_type'
+            A.dict_type='project_type'
             <if test="checkDate != null "> and check_date = #{checkDate}</if>
             <if test="checkUser != null  and checkUser != ''"> and check_user = #{checkUser}</if>
             <if test="checkReasult != null  and checkReasult != ''"> and check_reasult = #{checkReasult}</if>
