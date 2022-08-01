@@ -157,13 +157,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <div v-for="(item, index) in previewList" :key="index">
-                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
-                                :src="item" alt="" />
-                        </div>
-                        <div v-for="(x, y) in pdfList" :key="y">
-                            <span @click="pdfdetail(x)"> {{ x }} </span>
-                        </div>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="formData.fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -205,40 +199,23 @@
             </el-row>
 
         </el-form>
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
+       
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
 import { getcode, getinfoByUserId, detail } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
+            isDetail:'1',
+            isNone:[],
             expandOnClickNode: true,
             defaultProps: {
                 children: 'children',
@@ -452,14 +429,14 @@ export default {
 
                     if (Array.isArray(this.formData.fileName)) {
                         this.fileNameradio = '2';
+                        this.fileName=[];
                         //如果是图片的话
                         for (let j in this.formData.fileName) {
-                            if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
-                                this.pdfList.push(this.formData.fileName[j]);
-                            } else {
-                                this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
-                                this.previewList.push(this.formData.fileName[j]);
-                            }
+                           this.fileName.push({
+                                name: this.formData.fileName[j],
+                                url: this.baseImgPath + this.formData.fileName[j]
+
+                            })
                         }
 
                     } else {

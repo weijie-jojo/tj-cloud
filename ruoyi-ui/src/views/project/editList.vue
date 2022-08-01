@@ -21,7 +21,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
                         <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="1">
+                            :step="0.01" :min="0.00">
                               <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -164,16 +164,8 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
-
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
-                            :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
-                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
-                    </el-form-item>
+                       <uploadSmall @getfileName="getfileNameS" :fileName="formData.fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                   </el-form-item>
                 </el-col>
             </el-row>
 
@@ -212,30 +204,10 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
-             <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
-
-      </div>
-    </el-dialog>
-    </div>
+     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import {  list2 } from "@/api/project/ticket";
 import crudRate from '@/api/company/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
@@ -253,26 +225,13 @@ var phoneVerify = (rule, value, callback) => {
 };
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
-            titles: '',
-            pdfList1: [],  //pdf 预览
-            previewList1: [], //预览
-            //pdf预览
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
-            defaultProps: {
+           isDetail:'0',
+           isNone:[],
+           defaultProps: {
                 children: 'children',
                 label: 'label'
             },
@@ -503,39 +462,7 @@ export default {
             
         },
 
-
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
-        },
-
-
-
-        handleNodeClick(node) {
+      handleNodeClick(node) {
 
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
@@ -608,7 +535,7 @@ export default {
         //监听开票内容选择
         filenamer(e) {
             if (e == 1) {
-                this.formData.fileName = '';
+                this.formData.fileName = [];
             }
         },
         //监听乙方
@@ -642,47 +569,9 @@ export default {
         },
         //返回
         resetForm() {
-            this.$router.back();
+            this.$tab.closeOpenPage({ path: "/project/list" });
         },
 
-
-        handlesuccess1(file, fileList) {
-            this.fileNamefile.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.fileNamefile.findIndex((item) => item === fileList);
-            this.fileNamefile.splice(i, 1);
-        },
-        handlePreview1(file) {
-            if (file.hasOwnProperty('response')) {
-                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.response.obj;
-                    this.viewVisible = true;
-                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            } else {
-                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.url;
-                    this.viewVisible = true;
-                    this.url = file.url;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            }
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
@@ -812,11 +701,22 @@ export default {
         handleChange(val) {
             console.log(val);
         },
+        getfileNameS(data){
+           this.fileNamefile=data;
+        },
         onSubmit() {
-            if(this.formData.projectTotalAmount<this.projectTotalAmount){
-                this.$modal.msgError('项目金额不能小于原来的项目金额');
+            if(this.formData.projectTotalAmount<=0){
+                 this.$alert('项目金额必须大于0', '提示', {
+                confirmButtonText: '确定',
+              });
+                return;
+            }else  if(this.formData.projectTotalAmount<this.projectTotalAmount){
+              this.$alert('项目金额不能小于原来的项目金额', '提示', {
+                confirmButtonText: '确定',
+              });
                 return;
             }
+          
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
@@ -840,9 +740,7 @@ export default {
                 }
             });
         },
-        toReturn2() {
-            this.$router.back();
-        },
+        
     },
 };
 </script>

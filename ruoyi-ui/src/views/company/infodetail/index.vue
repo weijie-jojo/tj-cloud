@@ -374,12 +374,12 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名">
-            <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名">
-           <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
+           <uploadSmall v-if="fileNameN3.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -388,7 +388,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件">
-           <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
+           <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
@@ -424,6 +424,7 @@ export default {
   props: [],
   data() {
     return {
+      isNone:[],
       isDetail:'1',
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       isNone:[],
@@ -743,7 +744,7 @@ export default {
     }
   },
   methods: {
-    getfileName6(){
+   getfileNameS(){
 
     },
    getLoginInfo() {
