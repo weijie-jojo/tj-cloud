@@ -190,7 +190,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
-          <el-form-item style="padding-right:4%" label="经营范围" prop="natureBusiness">
+          <el-form-item style="padding-right:4.2%" label="经营范围" prop="natureBusiness">
             <el-input disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
@@ -350,7 +350,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
-          <el-form-item style="padding-right:4%" label="经营者居所" prop="residence">
+          <el-form-item style="padding-right:4.2%" label="经营者居所" prop="residence">
             <el-input :readonly="true" v-model="formData.residence" clearable>
             </el-input>
           </el-form-item>
@@ -374,26 +374,12 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名">
-            <div v-for="(item, index) in previewList6" :key="index">
-              <el-image lazy :preview-src-list="previewList6" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList6" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+            <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名">
-            <div v-for="(item, index) in previewList7" :key="index">
-              <el-image lazy :preview-src-list="previewList7" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList7" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+           <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -402,14 +388,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件">
-            <div v-for="(item, index) in previewList5" :key="index">
-              <el-image lazy :preview-src-list="previewList5" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList5" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+           <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileName6" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
@@ -423,35 +402,11 @@
          </el-col>
          <el-col :span="8"></el-col>
        </el-row>
-
-
-    </el-form>
-    <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
-
-      </div>
-    </el-dialog>
-
-
-  </div>
+      </el-form>
+    </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { addEmployed, updateEmployed } from "@/api/company/employed";
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -462,39 +417,22 @@ import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
 export default {
   components: { 
-   pdf 
+   uploadSmall 
   },
   dicts: ['political_status', 'educational_level'],
  
   props: [],
   data() {
     return {
-      titles: '',
-      pdfList5: [],  //pdf 预览
-      pdfList6: [],  //pdf 预览
-      pdfList7: [],  //pdf 预览
-
-      previewList5: [], //预览
-      previewList6: [], //预览
-      previewList7: [], //预览
-
-      //pdf预览
-      url: '',
-      viewVisible: false,
-      pageNum: 1,
-      pageTotalNum: 1,
-      pageRotate: 0,
-      // 加载进度
-      loadedRatio: 0,
-      curPageNum: 0,
-      closeDialog: false,
-
-
-
+      isDetail:'1',
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+      isNone:[],
       fileName5: [],
       fileName6: [],
       fileName7: [],
+      fileNameN1: [],
+      fileNameN2: [],
+      fileNameN3: [],
       remark: null,
       isokradio: '1',
       center: 'center',
@@ -565,53 +503,8 @@ export default {
       places: [],
 
       formData: {
-        selfCode: '',
-
-        //申请信息
-        oneselfApply: '否',
-        applyName: '',
-        applyPhone: '',
-        applyDocumentType: '中华人民共和国居民身份证',
-        applyIdNum: '',
-        //联络员
-        contactName: '',
-        contactPhone: '',
-        contactDocumentType: '中华人民共和国居民身份证',
-        contactIdNum: '',
-
-        //基本情况
-        organizationalForm: '',
-        numberEmployees: 5,
-        contributionAmount: '',
-        city: '龙岩市',
-        county: '漳平市',
-        electronicCommerce: 2,//1是 2否  是否是电子商务经营者
-        selfAddress: '漳平市菁城街道双拥路202号A栋210室（集群注册）',
-        freeTradeZone: '无',
-        freeTradeArea: '不属自贸区',
-        propertyRight: '租赁',
-        natureBusiness: '',
-        industryType: '',
-        industryTax: '',
-        accountType: 1,
-        legalPersonName: '',
-        privateDepositBank: '',
-        privateAccountNumber: '',
-        placeName: '',
-        userName: '',
-
-        //经营者
-        personnelType: '待业人员',
-        gender: '',//1 男 2女
-        dateBirth: '',
-        nation: '',
-        eduation: '',
-        occupationalStatus: '待业人员',
-        residence: '',
-        mail: '',
-        idCard: '',
-
-      },
+       
+       },
       rules: {
         oneselfApply: [{
           required: true,
@@ -817,95 +710,43 @@ export default {
     //个体户行业类型税率
     this.getRate();
     //从上一个页面获取个体户编码
-    // this.formData.selfCode = JSON.parse(window.localStorage.getItem('selfCode'));
-    // this.formData.organizationalForm = JSON.parse(window.localStorage.getItem('organizationalForm'));
-    // console.log("selfCode==", this.formData.selfCode)
-
     this.formData = this.$cache.local.getJSON('employedInfo');
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
-
-    this.pdfList5 = [];  //pdf 预览
-    this.pdfList6 = [];  //pdf 预览
-    this.pdfList7 = [];  //pdf 预览
-
-    this.previewList5 = []; //预览
-    this.previewList6 = []; //预览
-    this.previewList7 = []; //预览
+    this.fileNameN1=[];
+    this.fileNameN2=[];
+    this.fileNameN3=[];
 
     this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
     for (let k1 in this.fileName5) {
-
-      if (this.fileName5[k1].substring(this.fileName5[k1].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList5.push(this.fileName5[k1]);
-      } else {
-        this.fileName5[k1] = this.baseImgPath + this.fileName5[k1];
-        this.previewList5.push(this.fileName5[k1]);
-      }
+         this.fileNameN1.push({
+          url:this.baseImgPath+this.fileName5[k1],
+          name:this.fileName5[k1],
+        });
+      
     }
     this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
     for (let k2 in this.fileName6) {
-
-      if (this.fileName6[k2].substring(this.fileName6[k2].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList6.push(this.fileName6[k2]);
-      } else {
-        this.fileName6[k2] = this.baseImgPath + this.fileName6[k2];
-        this.previewList6.push(this.fileName6[k2]);
-      }
+        this.fileNameN2.push({
+          url:this.baseImgPath+this.fileName6[k2],
+          name:this.fileName6[k2],
+        });
     }
     this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
     for (let k3 in this.fileName7) {
-      if (this.fileName7[k3].substring(this.fileName7[k3].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList7.push(this.fileName7[k3]);
-      } else {
-        this.fileName7[k3] = this.baseImgPath + this.fileName7[k3];
-        this.previewList7.push(this.fileName7[k3]);
-      }
+       this.fileNameN3.push({
+          url:this.baseImgPath+this.fileName7[k3],
+          name:this.fileName7[k3],
+        });
     }
   },
   methods: {
-
-    pdfdetail(i) {
-      this.titles = '正在预览' + i;
-      this.viewVisible = true;
-      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
+    getfileName6(){
 
     },
-    // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
-
-    getLoginInfo() {
+   getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
