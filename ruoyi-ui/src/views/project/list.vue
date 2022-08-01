@@ -254,6 +254,7 @@ export default {
                 cancelButtonText: '关闭',
                 
             }).then(() => {
+                this.$cache.local.setJSON('projectCodeNew', row.projectCode);
                 this.$cache.local.setJSON('publicTickets', row);
                 this.$tab.closeOpenPage({ path:'/project/ticketlist' })
               //  this.$router.push('ticketlist');
@@ -345,9 +346,10 @@ export default {
             });
         },
         detail(scope) {
+            console.log(scope);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$router.push("detail");
+            //this.$router.push("detail");
         },
         //审核中
         shenloading() {

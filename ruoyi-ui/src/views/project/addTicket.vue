@@ -676,6 +676,7 @@ export default {
         },
         handlesuccess1(file, fileList) {
             this.fileNamefile.push(file.obj);
+            console.log(this.fileNamefile);
         },
         handleRemove1(file, fileList) {
             const i = this.fileNamefile.findIndex((item) => item === fileList);
@@ -703,13 +704,13 @@ export default {
             }
         },
         handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
+            // this.$message.warning(
+            //     `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
+            //     } 个文件`
+            // );
         },
         beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
+            //return this.$confirm(`确定移除 ${file.name}？`);
         },
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
