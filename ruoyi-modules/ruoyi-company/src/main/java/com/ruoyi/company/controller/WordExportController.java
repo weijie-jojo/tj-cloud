@@ -249,7 +249,6 @@ public class WordExportController {
         //创建word文档
         File file =new File(configProps.getName()+fileName);
         XWPFDocument doc = new XWPFDocument();
-
         //创建段落(标题)
         XWPFParagraph p1 = doc.createParagraph();
         p1.setAlignment(ParagraphAlignment.CENTER);
@@ -661,7 +660,7 @@ public class WordExportController {
         TableTools.borderTable(table2,14);//表格边框粗细
         // 设置表格宽度为A4纸最大宽度
 //        TableTools.widthTable(table2, MiniTableRenderData.WIDTH_A4_FULL, 20);
-        float[] colWidths2={2,1,2,1,2,1,2,1,2,1,2,1};
+        float[] colWidths2={1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F,1.5F};
         TableTools.widthTable(table2,colWidths2);
         // 设置表格居中
         TableStyle style2 = new TableStyle();
@@ -1020,6 +1019,8 @@ public class WordExportController {
         table2_r9_3.setFontSize(12);
 
         XWPFTableCell table2_cell9_4 = table2.getRow(8).getCell(3);
+//        XWPFTableRow table2_cell9 = table2.getRow(8);
+//        table2_cell9.setHeight(300);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table2_paragraph9_4 =  table2_cell9_4.addParagraph();
         table2_paragraph9_4.setAlignment(ParagraphAlignment.CENTER);
@@ -1028,9 +1029,16 @@ public class WordExportController {
         table2_r9_4.setFontFamily("宋体");
         table2_r9_4.setFontSize(12);
 
+        XWPFTableRow table2_cell10 = table2.getRow(9);
+        table2_cell10.setHeight(800);
+        XWPFTableRow table2_cell11 = table2.getRow(10);
+        table2_cell11.setHeight(800);
+        XWPFTableRow table2_cell12 = table2.getRow(11);
+        table2_cell12.setHeight(800);
         //第十三行单元格
         XWPFTableCell table2_cell13_1 = table2.getRow(12).getCell(0);
-//        table2_cell13_1.setWidth("2000");
+        XWPFTableRow table2_cell13 = table2.getRow(12);
+        table2_cell13.setHeight(1200);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table2_paragraph13_1 =  table2_cell13_1.addParagraph();
         table2_paragraph13_1.setAlignment(ParagraphAlignment.CENTER);
@@ -1133,7 +1141,7 @@ public class WordExportController {
         XWPFParagraph table3_paragraph1_1 =  table3_cell1_1.addParagraph();
         table3_paragraph1_1.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table3_r1_1 = table3_paragraph1_1.createRun();
-        table3_r1_1.setText("指定代表/委托代理人信息（必填项）");
+        table3_r1_1.setText("□指定代表/委托代理人信息（必填项）");
         table3_r1_1.setFontFamily("宋体");
         table3_r1_1.setFontSize(16);
         table3_r1_1.setBold(true);//字体加粗
@@ -1249,13 +1257,15 @@ public class WordExportController {
         XWPFParagraph table3_paragraph5_1 =  table3_cell5_1.addParagraph();
         table3_paragraph5_1.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun table3_r5_1 = table3_paragraph5_1.createRun();
-        table3_r5_1.setText("申请人签署（必填项）");
+        table3_r5_1.setText("□申请人签署（必填项）");
         table3_r5_1.setFontFamily("宋体");
         table3_r5_1.setFontSize(16);
         table3_r5_1.setBold(true);
 
         //第六行单元格
         XWPFTableCell table3_cell6_1 = table3.getRow(5).getCell(0);
+        XWPFTableRow table3_cell6 = table3.getRow(5);
+        table3_cell6.setHeight(4600);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table3_paragraph6_1 =  table3_cell6_1.addParagraph();
         table3_paragraph6_1.setAlignment(ParagraphAlignment.CENTER);//对齐方式
@@ -1296,6 +1306,8 @@ public class WordExportController {
         table3_r6_1_4.setText("（四）经营范围涉及法律、行政法规、国务院决定规定、地方行政法规和地方规章规定，需要办理许可的，在取得相关部门批准前，不从事相关经营活动。");
         table3_r6_1_4.setFontFamily("宋体");
         table3_r6_1_4.setFontSize(12);
+
+        table3_r6_1_4.addBreak();
 
         XWPFParagraph table3_paragraph6_1_5 =  table3_cell6_1.addParagraph();
         table3_paragraph6_1_5.setAlignment(ParagraphAlignment.LEFT);
@@ -1473,6 +1485,8 @@ public class WordExportController {
 
         //第四行单元格
         XWPFTableCell table4_cell4_1 = table4.getRow(3).getCell(0);
+        XWPFTableRow table4_cell4 = table4.getRow(3);
+        table4_cell4.setHeight(3200);
         // 获取单元格段落后设置对齐方式
         XWPFParagraph table4_paragraph4_1 =  table4_cell4_1.addParagraph();
         table4_paragraph4_1.setAlignment(ParagraphAlignment.CENTER);
