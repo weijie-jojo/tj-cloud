@@ -702,7 +702,7 @@ export default {
             console.log(val);
         },
         getfileNameS(data){
-           this.fileNamefile=data;
+           this.formData.fileName=data;
         },
         onSubmit() {
             if(this.formData.projectTotalAmount<=0){
@@ -719,10 +719,14 @@ export default {
           
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
+               
+                 
+
+                
                 if (valid) {
                     //如果是附件的话
                     if (this.fileNameradio == 2) {
-                        this.formData.fileName = this.fileNamefile;
+                       
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
                     this.ticketByCode();
