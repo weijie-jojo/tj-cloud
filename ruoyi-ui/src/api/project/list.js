@@ -59,6 +59,14 @@ export function getinfoByUserId(data){
   })
 }
 
+// 新增个体商户进度
+export function check(data) {
+  return request({
+    url: '/project/check',
+    method: 'post',
+    data: data
+  })
+}
 
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail}
+export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check}

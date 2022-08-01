@@ -157,13 +157,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <div v-for="(item, index) in previewList" :key="index">
-                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
-                                :src="item" alt="" />
-                        </div>
-                        <div v-for="(x, y) in pdfList" :key="y">
-                            <span @click="pdfdetail(x)"> {{ x }} </span>
-                        </div>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -178,7 +172,7 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围">
+                    <el-form-item style="padding-right:4.2%" label="乙方经营范围">
                         <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
                             v-model="formData.natureBusiness">
                         </el-input>
@@ -188,7 +182,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
+                    <el-form-item style="padding-right:4.2%" label="发票备注" prop="ticketRemark">
                         <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
                             v-model="formData.projectDesc">
                         </el-input>
@@ -197,7 +191,7 @@
             </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+          <el-form-item class="comright" style="padding-right: 4%;margin-left: -7%;">
             <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
 
           </el-form-item>
@@ -229,64 +223,30 @@
             </el-row>
 
         </el-form>
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
+        
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
-import { getcode, getinfoByUserId, detail,edit } from "@/api/project/list";
+import { getcode, getinfoByUserId, detail,edit,check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
+            isDetail:'1',
+            isNone:[],
             remark:'',
             expandOnClickNode: true,
             defaultProps: {
                 children: 'children',
                 label: 'label'
             },
-            titles: '',
-            pdfList: [],  //pdf 预览
-            previewList: [], //预览
-
-            //pdf预览
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
-
-
+            userinfo:{},
             industryTypes: [],
             industryTypeList: [],
             username: "",
@@ -363,6 +323,7 @@ export default {
 
 
     mounted() {
+        this.getInfo();
         this.getlist();
         this.getRate();
         this.getinfoByUserId(); //渠道商
@@ -370,6 +331,29 @@ export default {
 
 
     methods: {
+        getfileNameS(){
+
+        },
+    //获取个人信息
+    getInfo() {
+      getInfo().then(res => {
+        this.userinfo = res.user;
+      })
+    },
+    check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber': this.userinfo.phonenumber,
+        "projectCode": this.formData.projectCode,
+        "projectType": "1",
+      }
+      check(parms).then(res => {
+        console.log('项目审核完成插入日志成功！');
+      }).catch(error => {
+
+      });
+    },
       submitForm(type) {
 
       this.$refs['elForm'].validate(valid => {
@@ -383,7 +367,7 @@ export default {
             };
           } else {
             parms = {
-              projectId: this.projectId,
+              projectId: this.formData.projectId,
               checkContent: this.remark,
               projectCheckStatus:type,
               projectStatus:1,
@@ -397,9 +381,9 @@ export default {
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '项目审核完成';
-                     // this.check('项目审核完成');
+                      this.check('项目审核完成');
                     } else {
-                      //this.check('项目审核完成未通过'+'(原因)'+this.remark);
+                      this.check('项目审核完成未通过'+'(原因)'+this.remark);
                       resmsg = '项目审核完成';
                     }
 
@@ -457,39 +441,7 @@ export default {
             }
             return options;
         },
-        pdfdetail(i) {
-            this.titles = '正在预览' + i;
-            this.viewVisible = true;
-            this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-        },
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
-        },
+       
         handleNodeClick(node) {
 
             this.formData.industryType = node.id;
@@ -511,14 +463,13 @@ export default {
 
                     if (Array.isArray(this.formData.fileName)) {
                         this.fileNameradio = '2';
+                        this.fileName=[];
                         //如果是图片的话
                         for (let j in this.formData.fileName) {
-                            if (this.formData.fileName[j].substring(this.formData.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
-                                this.pdfList.push(this.formData.fileName[j]);
-                            } else {
-                                this.formData.fileName[j] = this.baseImgPath + this.formData.fileName[j];
-                                this.previewList.push(this.formData.fileName[j]);
-                            }
+                            this.fileName.push({
+                                url:this.baseImgPath+this.formData.fileName[j],
+                                name:this.formData.fileName[j]
+                            });
                         }
 
                     } else {
@@ -539,26 +490,7 @@ export default {
             this.$tab.closeOpenPage({ path: '/project/reviewList' });
         },
 
-        handlesuccess1(file, fileList) {
-            this.formData.fileName.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formData.fileName.splice(i, 1);
-        },
-        handlePreview1(file) {
-            this.dialogImageUrl1 = file.url;
-            this.dialogVisible1 = true;
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
+        
         //渠道商接口
         getinfoByUserId() {
             getInfo().then(res => {

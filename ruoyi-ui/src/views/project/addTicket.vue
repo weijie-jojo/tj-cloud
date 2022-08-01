@@ -110,25 +110,13 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-
-                        <div v-for="(item, index) in previewList" :key="index">
-                            <el-image lazy :preview-src-list="previewList" style="width: 150px; height: 150px"
-                                :src="item" alt="" />
-                        </div>
-                        <div v-for="(x, y) in pdfList" :key="y">
-                            <span @click="pdfdetail(x)">
-                                {{ x }}
-                            </span>
-                        </div>
-
-                    </el-form-item>
-
-
+                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames" :isDetail="isDetail"></uploadSmall>
+                     </el-form-item>
                     <el-form-item class="comright" label="发票编号" prop="ticketCode">
                         <el-input v-model="formData.ticketCode"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
-                        <el-input @change="ticketAsee" type="number" style="width:100%" v-model="formData.ticketAmount"
+                        <el-input @input="ticketAsee" @change="ticketAsee" type="number" style="width:100%" v-model="formData.ticketAmount"
                             :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -139,7 +127,7 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="发票备注">
+                    <el-form-item style="padding-right:4.2%" label="发票备注">
                         <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
                         </el-input>
                     </el-form-item>
@@ -148,17 +136,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload" :on-success="handlesuccess1"
-                            :on-preview="handlePreview1" :on-remove="handleRemove1" :before-remove="beforeRemove1"
-                            multiple :limit="9" :on-exceed="handleExceed1" :file-list="fileName" list-type="picture"
-                            :before-upload="beforeAvatarUpload">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
+                        <uploadSmall @getfileName="getfileNameSS" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetails"></uploadSmall>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
@@ -176,31 +154,11 @@
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
+      
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
 import { list2, add } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist,edit } from "@/api/project/list";
@@ -209,26 +167,14 @@ import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
     components: {
-        pdf
+        uploadSmall
     },
     data() {
         return {
-            fileNames: '',
-            titles: '',
-            pdfList: [],  //pdf 预览
-            previewList: [], //预览
-            //pdf预览
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
+            isDetail:'1',
+            isDetails:'0',
+            isNone:[],
+            fileNames: [],
             issuedAmount: 0.00, //已开金额
             balance: 0.00,  //剩余金额
             projectStatus: 1,//乙方状态
@@ -260,7 +206,7 @@ export default {
                 ticketCode: '',//发票种类编号
                 ticketTypeCode: '',//发票编号
                 fileName: '',//开票内容
-                ticketAmount: '',//发票金额
+                ticketAmount: '0',//发票金额
                 ticketTime: '',  //发票时间
                 isDeleted: 1,
             },
@@ -459,61 +405,19 @@ export default {
 
 
         },
-        // //监听行业类型
-
-        beforeAvatarUpload(file) {
-
-            const isLt2M = file.size / 1024 / 1024 < 5;
-            const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-            const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
-            if (whiteList.indexOf(fileSuffix) === -1) {
-                this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-                return false;
-            }
-            if (!isLt2M) {
-                this.$message.error('上传文件大小不能超过 10MB!');
-                return false;
-            }
-            return fileSuffix & isLt2M;
+        
+        getfileNameS(){
 
         },
-        pdfdetail(i) {
-            this.titles = '正在预览' + i;
-            this.viewVisible = true;
-            this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
-        },
-        // 上一页函数，
-        prePage() {
-            var page = this.pageNum
-            page = page > 1 ? page - 1 : this.pageTotalNum
-            this.pageNum = page
-        },
-        // 下一页函数
-        nextPage() {
-            var page = this.pageNum
-            page = page < this.pageTotalNum ? page + 1 : 1
-            this.pageNum = page
-        },
-        // 页面顺时针翻转90度。
-        clock() {
-            this.pageRotate += 90
-        },
-        // 页面逆时针翻转90度。
-        counterClock() {
-            this.pageRotate -= 90
-        },
-        // 页面加载回调函数，其中e为当前页数
-        pageLoaded(e) {
-            this.curPageNum = e
-        },
-        // 其他的一些回调函数。
-        pdfError(error) {
-            console.error(error)
+        getfileNameSS(data){
+             this.formData.fileName=data;
         },
         ticketAsee(e) {
             if (e > this.Father.projectRemainAmount) {
                 this.$modal.msgError('发票金额不能大于剩余金额');
                 this.formData.ticketAmount = 0;
+                 this.ticketByCode();
+                return;
             }else{
                this.ticketByCode();
             }
@@ -528,9 +432,7 @@ export default {
                 projectCode: this.Father.projectCode
             }).then(res => {
                 let arr = res;
-                    // this.Father.projectPackageAmount = 0;
-
-                 if(Array.isArray(arr) && arr.length>0){
+                   if(Array.isArray(arr) && arr.length>0){
                     this.Father.projectPackageAmount = 0;
                    for (let i in arr) {
                     if (arr[i].ticketAmount > 0) {
@@ -561,17 +463,19 @@ export default {
                     this.Father = response.data[0];
                 }
                 if (this.Father.fileName) {
-                    this.Father.fileName = JSON.parse(this.Father.fileName);
+                   if(this.Father.fileName.indexOf("[") != -1 ){
+                       this.Father.fileName = JSON.parse(this.Father.fileName);
+                    }
+                    
                     if (Array.isArray(this.Father.fileName)) {
+                        this.fileNames=[];
                         this.fileNameradio = '2';
                         //如果是图片的话
                         for (let j in this.Father.fileName) {
-                            if (this.Father.fileName[j].substring(this.Father.fileName[j].lastIndexOf('.') + 1) == 'pdf') {
-                                this.pdfList.push(this.Father.fileName[j]);
-                            } else {
-                                this.Father.fileName[j] = this.baseImgPath + this.Father.fileName[j];
-                                this.previewList.push(this.Father.fileName[j]);
-                            }
+                           this.fileNames.push({
+                            url:this.baseImgPath+this.Father.fileName[j],
+                            name:this.Father.fileName[j]
+                           })
                         }
 
                     } else {
@@ -622,10 +526,7 @@ export default {
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
                 var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
-                //   this.industryId = rate.industryId;  //行业类型id
-                //   this.owerTaxfee = rate.taxRate;
                 let industryType = rate.industryId;
-
                 ownlist({ username: this.username, industryType: industryType }).then(res => {
                     this.ownoptions = res;
                     for (let i in this.ownoptions) {
@@ -674,44 +575,7 @@ export default {
         resetForm() {
             this.$tab.closeOpenPage({ path: '/project/ticketlist' });
         },
-        handlesuccess1(file, fileList) {
-            this.fileNamefile.push(file.obj);
-            console.log(this.fileNamefile);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.fileNamefile.findIndex((item) => item === fileList);
-            this.fileNamefile.splice(i, 1);
-        },
-        handlePreview1(file) {
-            if (file.hasOwnProperty('response')) {
-                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.response.obj;
-                    this.viewVisible = true;
-                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            } else {
-                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.url;
-                    this.viewVisible = true;
-                    this.url = file.url;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            }
-        },
-        handleExceed1(files, fileList) {
-            // this.$message.warning(
-            //     `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-            //     } 个文件`
-            // );
-        },
-        beforeRemove1(file, fileList) {
-            //return this.$confirm(`确定移除 ${file.name}？`);
-        },
+       
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
@@ -768,13 +632,25 @@ export default {
             console.log(val);
         },
         onSubmit() {
-            this.formData.fileName = this.fileNamefile;
+            
             this.formData.fileName = JSON.stringify(this.formData.fileName);
+            if(this.formData.ticketAmount<1){
+               this.$alert('发票金额必须大于1', '提示', {
+                 confirmButtonText: '确定',
+               });
+                return;
+            }
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
-                     edit(this.Father).then((res) => {
+                    let params={
+                        projectId:this.Father.projectId,
+                        projectRemainAmount:this.Father.projectRemainAmount,
+                        projectPackageAmount:this.Father.projectPackageAmount,
+                    }
+                     edit(params).then((res) => {
+                        console.log(res);
                      });
                     add(this.formData).then((res) => {
                         if (res != undefined) {
@@ -799,9 +675,7 @@ export default {
                 }
             });
         },
-        toReturn2() {
-            this.$router.back();
-        },
+       
     },
 };
 </script>
