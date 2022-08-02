@@ -168,6 +168,7 @@ import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
 import { list2, edit } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
+import arrss from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
@@ -378,7 +379,7 @@ export default {
     mounted() {
         this.getlist();
         this.getinfoByUserId();
-        this.ticketByCode();
+        
         this.gettoday();
         this.getRate();
         this.formData = this.$cache.local.getJSON("ticketDetails");
@@ -453,7 +454,7 @@ export default {
                         }
                     }
                     //如果存在发票 累计发票 加上发票金额 
-                    this.Father.projectPackageAmount = new Decimal(this.Father.projectPackageAmount).add(new Decimal(this.formData.ticketAmount));
+                  
                     this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
                 } else {
                     this.Father.projectPackageAmount = this.formData.ticketAmount;
@@ -468,6 +469,7 @@ export default {
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then((response) => {
                 this.Father = response.data[0];
+                this.ticketByCode();
                 if (this.Father.fileName) {
                     if (this.Father.fileName.indexOf("[") != -1) {
                         this.Father.fileName = JSON.parse(this.Father.fileName);
@@ -646,13 +648,11 @@ export default {
         },
         onSubmit() {
             this.formData.fileName = JSON.stringify(this.formData.fileName);
-            this.formData.projectTotalAmount=this.Father.projectTotalAmount;           
-            this.formData.projectRemainAmount=this.Father.projectRemainAmount;
-            this.formData.projectPackageAmount=this.Father.projectPackageAmount;
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
+                    arrss.edit(this.Father);
                     edit(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res != undefined) {
