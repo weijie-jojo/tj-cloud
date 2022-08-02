@@ -68,5 +68,14 @@ export function check(data) {
   })
 }
 
+// 查询个体商户进度
+export function checkdetail(query) {
+  return request({
+    url: '/project/check/list',
+    method: 'get',
+    params: query
+  })
+}
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check}
+
+export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail}

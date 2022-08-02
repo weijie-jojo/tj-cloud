@@ -98,8 +98,9 @@
 
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { list, del } from "@/api/project/ticket";
-import { detail } from "@/api/project/list";
+import { list, del ,list2 ,edit } from "@/api/project/ticket"
+import { detail } from "@/api/project/list"
+import { Decimal } from 'decimal.js'
 export default {
     components: {
         uploadSmall
@@ -238,6 +239,37 @@ export default {
         });
     },
     methods: {
+          //计算已开和剩余金额
+        ticketByCode() {
+
+            list2({
+                projectCode: this.publicList.projectCode
+            }).then(res => {
+                let arr = res;
+                if (Array.isArray(arr) && arr.length > 0) {
+                    this.publicList.projectPackageAmount = 0;
+                    for (let i in arr) {
+                        if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
+                            this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
+                        }
+                    }
+                    //如果存在发票 累计发票 加上发票金额 
+                    this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
+                    this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
+                   
+                }
+                 let params={
+                        projectId:this.publicList.projectId,
+                        projectTotalAmount:this.publicList.projectTotalAmount,
+                        projectRemainAmount:this.publicList.projectRemainAmount,
+                        projectPackageAmount:this.publicList.projectPackageAmount,
+                    }
+                    edit(params);
+
+            }).catch(err => {
+
+            });
+        },
         getfileNameS(){
 
         },

@@ -6,21 +6,21 @@
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input v-model="formData.projectName"></el-input>
+                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="formData.createTime" disabled></el-input>
+                        <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0">
                             <template slot="append">
                               元
@@ -32,45 +32,26 @@
            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                   <el-form-item class="comright" label="甲方" :required="true">
-                        <el-input v-model="formData.purchCompany" disabled></el-input>
+                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
                      <el-form-item class="comright" label="项目验收资料" :required="true">
-
-                        <el-upload
-                           disabled
-                          class="upload-demo" action="/eladmin/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture"
-                             :before-upload="beforeAvatarUpload"
-                            >
-                          
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
+                          <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
-
-                   
                 </el-col>
 
                 <el-col :span="9">
-
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
+                 <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
-                    
-                  
-                </el-col>
+                  </el-col>
             </el-row>
               
-                <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
-
-          </el-form-item>
+             <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+              <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
+           </el-form-item>
         </el-col>
 
       </el-row>   
@@ -98,64 +79,23 @@
                 <el-col :span="8"></el-col>
             </el-row>
       </el-form>
-            <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
-    </div>
+     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
-import {edit} from "@/api/project/list";
+import uploadSmall from '@/components/douploads/uploadSmall'
+import {edit,check} from "@/api/project/list"
+import { getInfo } from '@/api/login'
 export default {
-     components: { pdf },
+     components: { uploadSmall },
     data() {
         return {
             remark:'',
-            titles: '',
-             url: '',
-             viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-
-
+            isNone:[],
+            isDetail:'1',
             isokradioS:'1',
             fileName: [],
-            dialogVisible1: false,
-            dialogImageUrl1: "",
-          
-             formData: {
-              
-                ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                checkContent: "",
-                
-                fileName: [],
-                placeCode: "",
-                industryType:'',
-            },
+            userinfo:{},
+            formData:{},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
            };
     },
@@ -165,14 +105,34 @@ export default {
         this.formData.fileName2=JSON.parse(this.formData.fileName2);
         for(let i in this.formData.fileName2){
            this.fileName.push({
-            name:this.formData.fileName2,
-            url:this.baseImgPath+this.formData.fileName2
+            name:this.formData.fileName2[i],
+            url:this.baseImgPath+this.formData.fileName2[i]
            })
         }
     },
     methods: {
-           submitForm(type) {
+      check(resmsg) {
+        getInfo().then(res => {
+            this.userinfo=res.user;
+             let parms = {
+              "checkReasult": resmsg,
+              "checkUser": this.userinfo.userName,
+              'phonenumber': this.userinfo.phonenumber,
+              "projectCode": this.formData.projectCode,
+              "projectType": "4",
+            };
+            check(parms).then(res => {
+                console.log('验收审核完成');
+            }).catch(error => {
 
+            });
+          })
+       
+       },
+      getfileNameS(){
+
+      },
+      submitForm(type) {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
@@ -184,7 +144,7 @@ export default {
             };
           } else {
             parms = {
-              projectId: this.projectId,
+              projectId: this.formData.projectId,
               checkContent: this.remark,
               projectAcceptanceStatus:type,
               projectStatus:1,
@@ -198,9 +158,9 @@ export default {
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '验收审核完成';
-                     // this.check('项目审核完成');
+                      this.check('验收审核完成');
                     } else {
-                      //this.check('项目审核完成未通过'+'(原因)'+this.remark);
+                      this.check('验收审核完成未通过'+'(原因)'+this.remark);
                       resmsg = '验收审核完成';
                     }
 

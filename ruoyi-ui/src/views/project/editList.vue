@@ -20,7 +20,7 @@
                         <el-input v-model="formData.projectTimeStart" disabled></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input :disabled="isticket" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0.00">
                               <template slot="append">元</template>
                         </el-input>
@@ -229,6 +229,7 @@ export default {
     },
     data() {
         return {
+           isticket:false,
            isDetail:'0',
            isNone:[],
            defaultProps: {
@@ -418,8 +419,10 @@ export default {
     },
 
     mounted() {
+        
         this.getRate();
         this.getlist();
+        this.ticketByCode();
         this.getinfoByUserId(); //渠道商
        
    },
@@ -431,29 +434,16 @@ export default {
             }).then(res => {
                 let arr = res;
                 if(Array.isArray(arr) && arr.length>0){
-                    this.$modal.msgError('项目金额只能没有开票才能修改!');
-                    return;
+                  this.isticket=true;
+                    // this.$modal.msgError('项目金额只能没有开票才能修改!');
+                    // return;
                 }else{
+                 this.isticket=false;
                  this.formData.projectPackageAmount = 0;
                  this.formData.projectRemainAmount = this.formData.projectTotalAmount;
                 }
 
-                 edit(this.formData).then((res) => {
-                        
-                            if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("编辑成功!");
-                                    this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/list").then(() => {
-                                            this.$tab.openPage("项目列表", "/project/list");
-                                        });
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        
-                    });
+                
                 
 
             }).catch(err => {
@@ -510,6 +500,7 @@ export default {
                     
                     if (Array.isArray(this.formData.fileName)) {
                         this.fileNameradio = '2';
+                        this.fileName=[];
                         //如果是图片的话
                         for (let j in this.formData.fileName) {
                             this.fileName.push({
@@ -730,13 +721,25 @@ export default {
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
                     this.ticketByCode();
-                    console.log(this.formData);
-                   
-
-
-
+                     edit(this.formData).then((res) => {
+                        
+                            if (res != undefined) {
+                                if (res.code === 200) {
+                                    this.$modal.msgSuccess("编辑成功!");
+                                    
+                                    this.$nextTick(function () {
+                                        this.$tab.refreshPage("/project/list").then(() => {
+                                            this.$tab.openPage("项目列表", "/project/list");
+                                        });
+                                    });
+                                } else {
+                                    this.$modal.msgError(res.msg);
+                                }
+                            }
+                        
+                    });
                     
-                } else {
+                    } else {
                     this.$message({
                         message: "请填写完整",
                         type: "warning",

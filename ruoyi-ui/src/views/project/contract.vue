@@ -1,26 +1,26 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData"  size="medium" label-width="140px">
+        <el-form ref="elForm" :model="formData" :rules="rules"  size="medium" label-width="140px">
 
            
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input v-model="formData.projectName"></el-input>
+                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="formData.createTime" disabled></el-input>
+                        <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input type="number" :readonly="true" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0">
                             <template slot="append">
                               元
@@ -32,23 +32,11 @@
            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                   <el-form-item class="comright" label="甲方" :required="true">
-                        <el-input v-model="formData.purchCompany" disabled></el-input>
+                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
-                     <el-form-item class="comright" label="项目合同" :required="true">
-
-                        <el-upload class="upload-demo" action="/eladmin/api/files/doUpload"
-                            :on-success="handlesuccess1" :on-preview="handlePreview1" :on-remove="handleRemove1"
-                            :before-remove="beforeRemove1" multiple :limit="9" :on-exceed="handleExceed1"
-                            :file-list="fileName" list-type="picture"
-                             :before-upload="beforeAvatarUpload"
-                            >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip" style="color:red">仅支持jpg/png/jpeg/pdf文件，且不超过10M</div>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible1" append-to-body>
-                            <img width="100%" :src="dialogImageUrl1" alt="" />
-                        </el-dialog>
+                     <el-form-item class="comright" label="项目合同资料" prop="fileName1">
+                        <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
 
                    
@@ -72,167 +60,72 @@
            <el-col :span="8"></el-col>
         </el-row>
         </el-form>
-
-        <!--PDF 预览-->
-        <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-            <div>
-                <div class="tools flexs" style=" align-items: center;">
-                    <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-                    </div>
-                    <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-                    <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-                </div>
-                <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                    @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                    @link-clicked="page = $event">
-                </pdf>
-
-            </div>
-        </el-dialog>
-
-    </div>
+     </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
-import {edit} from "@/api/project/list";
+import uploadSmall from '@/components/douploads/uploadSmall'
+import {edit,check} from "@/api/project/list";
+import { getInfo } from '@/api/login'
 export default {
-     components: { pdf },
+     components: { uploadSmall },
     data() {
         return {
-             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-            //pdf预览
-            titles: '',
-            url: '',
-            viewVisible: false,
-            pageNum: 1,
-            pageTotalNum: 1,
-            pageRotate: 0,
-            // 加载进度
-            loadedRatio: 0,
-            curPageNum: 0,
-            closeDialog: false,
-           
-            fileName: [],
-            dialogVisible1: false,
-            dialogImageUrl1: "",
-          
-             formData: {
-              
-                ticketTax: '',//发票税率
-                ticketType: '',  //发票类型
-                checkContent: "",
-                
-                fileName1: [],
-                placeCode: "",
-                industryType:'',
-            },
+            userinfo:{},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+            fileName: [],
+            isDetail:'0',
+            formData: {
+            },
+            rules: {
+                fileName1: [
+                    {
+                        required: true,
+                        message: "合同不能为空",
+                        trigger: "change",
+
+                    },
+                ],
+            },
+           
            };
     },
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
+       
         this.formData.fileName1=[];
     },
     methods: {
-     // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
+        check(resmsg) {
+        getInfo().then(res => {
+            this.userinfo=res.user;
+             let parms = {
+              "checkReasult": resmsg,
+              "checkUser": this.userinfo.userName,
+              'phonenumber': this.userinfo.phonenumber,
+              "projectCode": this.formData.projectCode,
+              "projectType": "8",
+            };
+            check(parms).then(res => {
+                console.log('添加合同成功！');
+            }).catch(error => {
 
-
-       beforeAvatarUpload(file){
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
+            });
+          })
        
-    },
+       },
+        getfileNameS(data){
+         this.formData.fileName1=data; 
+        },
       //返回
        resetForm(){
          this.$tab.closeOpenPage({path:'/project/reviewContract'})
        },
-       handlesuccess1(file, fileList) {
-            this.formData.fileName1.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.formData.fileName1.findIndex((item) => item === fileList);
-            this.formData.fileName1.splice(i, 1);
-        },
-        handlePreview1(file) {
-              if (file.hasOwnProperty('response')) {
-                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.response.obj;
-                    this.viewVisible = true;
-                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            } else {
-                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.url;
-                    this.viewVisible = true;
-                    this.url = file.url;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            }
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
         handleChange(val) {
             console.log(val);
         },
         onSubmit() {
-            if(this.formData.fileName1.length==0){
-                this.$modal.msgError('项目合同资料不能为空！');
-            }
+           
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
@@ -246,13 +139,23 @@ export default {
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("合同办理成功!");
+                                  
                                     this.$nextTick(function () {
-                                        this.resetForm();
+                                     this.$tab.refreshPage({ path: "/project/reviewContract" }).then(() => {
+                                     this.check('合同办理完成');
+                                          let obj = {
+                                            title: '合同审核',
+                                            backUrl: '/project/reviewContract',
+                                            resmsg: '合同办理完成'
+                                            };
+                                        this.$cache.local.setJSON('successNew', obj);
+                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                                    });
                                         
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
+                                    this.$tab.closeOpenPage({ path: "/project/reviewContract" });
                                 }
                             }
                         
@@ -265,9 +168,7 @@ export default {
                 }
             });
         },
-        toReturn2() {
-            this.$router.back();
-        },
+       
     },
 };
 </script>
