@@ -161,8 +161,7 @@
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/company/rate'
 import { list2, add } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist,edit } from "@/api/project/list";
-
+import { detail, getcode, getinfoByUserId, ownlist,edit,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
@@ -175,8 +174,6 @@ export default {
             isDetails:'0',
             isNone:[],
             fileNames: [],
-            issuedAmount: 0.00, //已开金额
-            balance: 0.00,  //剩余金额
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -378,6 +375,24 @@ export default {
 
 
     methods: {
+        check(resmsg) {
+        getInfo().then(res => {
+            this.userinfo=res.user;
+             let parms = {
+              "checkReasult": resmsg,
+              "checkUser": this.userinfo.userName,
+              'phonenumber': this.userinfo.phonenumber,
+              "projectCode": this.Father.projectCode,
+              "projectType": "7",
+            };
+            check(parms).then(res => {
+                console.log('添加票据成功！');
+            }).catch(error => {
+
+            });
+          })
+       
+       },
         //监听行业类型
         selectIndustryType() {
             var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
@@ -640,6 +655,7 @@ export default {
                });
                 return;
             }
+            
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
@@ -649,21 +665,25 @@ export default {
                         projectRemainAmount:this.Father.projectRemainAmount,
                         projectPackageAmount:this.Father.projectPackageAmount,
                     }
-                     edit(params).then((res) => {
-                        console.log(res);
-                     });
+                    edit(params);
                     add(this.formData).then((res) => {
                         if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("新增成功!");
-                                    this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/ticketlist").then(() => {
-                                            this.$tab.openPage("票据列表", "/project/ticketlist");
-                                        });
-                                        
+                                 this.$nextTick(function () {
+                                       this.$tab.refreshPage({ path: "/project/ticketlist" }).then(() => {
+                                       this.check('票据办理完成');
+                                          let obj = {
+                                            title: '票据审核',
+                                            backUrl: '/project/ticketlist',
+                                            resmsg: '票据办理完成'
+                                            };
+                                        this.$cache.local.setJSON('successNew', obj);
+                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                                     });
+                                     });
                                 } else {
-                                    this.$modal.msgError(res.msg);
+                                     this.$modal.msgError(res.msg);
+                                     this.$tab.closeOpenPage({ path: "/project/ticketlist" });
                                 }
                        }
                     });

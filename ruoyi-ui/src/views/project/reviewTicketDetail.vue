@@ -113,7 +113,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
 
-                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName"
+                        <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName"
                             :isDetail="isDetail"></uploadSmall>
 
                     </el-form-item>
@@ -144,7 +144,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames"
+                        <uploadSmall v-if="fileNames.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames"
                             :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
@@ -204,8 +204,9 @@ export default {
     data() {
         return {
             isokradioS: '1',
-            fileNames: '',
-
+            fileNames: [],
+            isDetail:'1',
+            isNone:[],
             remark: '',
 
             issuedAmount: 0.00, //已开金额
@@ -423,20 +424,20 @@ export default {
         getfileNameS() {
 
         },
-         check(resmsg) {
-      let parms = {
-        "checkReasult": resmsg,
-        "checkUser": this.userinfo.userName,
-        'phonenumber': this.userinfo.phonenumber,
-        "projectCode": this.Father.projectCode,
-        "projectType": "2",
-      }
-      check(parms).then(res => {
-        console.log('票据审核完成插入日志成功！');
-      }).catch(error => {
+        check(resmsg) {
+        let parms = {
+            "checkReasult": resmsg,
+            "checkUser": this.userinfo.userName,
+            'phonenumber': this.userinfo.phonenumber,
+            "projectCode": this.Father.projectCode,
+            "projectType": "2",
+        }
+        check(parms).then(res => {
+            console.log('票据审核完成插入日志成功！');
+        }).catch(error => {
 
-      });
-    },
+        });
+         },
         submitForm(type) {
 
             this.$refs['elForm'].validate(valid => {

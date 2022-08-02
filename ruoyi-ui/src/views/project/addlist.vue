@@ -242,6 +242,7 @@ export default {
                 label: 'label',
                 taxRates:'taxRates'
             },
+            userinfo:{},
             expandOnClickNode: true,
             projectStatus: 1,//乙方状态
             username: '',
@@ -542,6 +543,7 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
+                this.userinfo=res.user;
                 this.userId = res.user.userId;
                 this.username = res.user.userName;
                 this.formData.projectLeader = res.user.nickName;
@@ -658,6 +660,22 @@ export default {
         handleChange(val) {
             console.log(val);
         },
+        check(resmsg) {
+             let parms = {
+              "checkReasult": resmsg,
+              "checkUser": this.userinfo.userName,
+              'phonenumber': this.userinfo.phonenumber,
+              "projectCode": this.formData.projectCode,
+              "projectType": "6",
+            };
+            check(parms).then(res => {
+                console.log('添加合同成功！');
+            }).catch(error => {
+
+            });
+          
+       
+       },
         onSubmit() {
             if(this.formData.projectTotalAmount<1){
                  this.$alert('项目金额必须大于1', '提示', {
@@ -679,13 +697,20 @@ export default {
 
 
                     add(this.formData).then((res) => {
-                        if (res != undefined) {
+                       
                             if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("新增成功!");
                                     this.$nextTick(function () {
                                         this.$tab.refreshPage("/project/list").then(() => {
-                                            this.$tab.openPage("项目列表", "/project/list");
+                                        let resmsg = '项目填写完成';
+                                        this.check('项目填写完成');
+                                        let obj = {
+                                            title: '项目列表',
+                                            backUrl: '/project/list',
+                                            resmsg: resmsg
+                                         };
+                                        this.$cache.local.setJSON('successNew', obj);
+                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                                         });
                                         
                                     });
@@ -693,7 +718,7 @@ export default {
                                     this.$modal.msgError(res.msg);
                                 }
                             }
-                        }
+                        
                     });
                 } else {
                     this.$message({

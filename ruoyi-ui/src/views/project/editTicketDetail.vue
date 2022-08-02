@@ -448,7 +448,7 @@ export default {
                 if (Array.isArray(arr) && arr.length > 0) {
                     this.Father.projectPackageAmount = 0;
                     for (let i in arr) {
-                        if (arr[i].ticketAmount > 0) {
+                        if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
                             this.Father.projectPackageAmount = new Decimal(this.Father.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
                         }
                     }
@@ -646,6 +646,9 @@ export default {
         },
         onSubmit() {
             this.formData.fileName = JSON.stringify(this.formData.fileName);
+            this.formData.projectTotalAmount=this.Father.projectTotalAmount;           
+            this.formData.projectRemainAmount=this.Father.projectRemainAmount;
+            this.formData.projectPackageAmount=this.Father.projectPackageAmount;
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {

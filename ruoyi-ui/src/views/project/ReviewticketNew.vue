@@ -8,21 +8,23 @@
                         <el-input :readonly="true" v-model="publicList.projectCode"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="publicList.projectPackageAmount" :step="0.00">
+                        <el-input type="number" :readonly="true" style="width:100%"
+                            v-model="publicList.projectPackageAmount" :step="0.00">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
-                      <el-form-item class="comright" label="项目金额">
+                    <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    
+
                     <el-form-item class="comright" label="剩余金额">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="publicList.projectRemainAmount" :step="0.00">
+                        <el-input type="number" :readonly="true" style="width:100%"
+                            v-model="publicList.projectRemainAmount" :step="0.00">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -44,7 +46,8 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName"
+                            :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
 
@@ -63,7 +66,8 @@
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
+                <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus"
+                    size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
             <el-col :span="1.5">
@@ -81,21 +85,23 @@
             <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">票据审核</el-button>
-                    
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">票据审核
+                    </el-button>
+
                 </template>
             </el-table-column>
         </el-table>
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
-   </div>
+    </div>
 
 </template>
 
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { list, del } from "@/api/project/ticket";
-import {detail } from "@/api/project/list";
+import { list, del,edit,list2 } from "@/api/project/ticket"
+import { detail } from "@/api/project/list"
+import { Decimal } from 'decimal.js'
 
 
 export default {
@@ -105,8 +111,8 @@ export default {
     data() {
         return {
             multipleSelection: [],
-            isDetail:'1',
-            isNone:[],
+            isDetail: '1',
+            isNone: [],
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             fileNameradio: '1',
             fileName2: [],
@@ -200,57 +206,84 @@ export default {
         };
     },
     mounted() {
-      
-       // this.publicList = this.$cache.local.getJSON('publicTickets');
-          detail({
-                projectCode: this.$cache.local.getJSON("projectCodeNew")
-            }).then((response) => {
-              this.publicList=response.data[0];
-              this.$cache.local.setJSON('publicTickets',this.publicList);
 
-               this.queryParams = {
-            pageNum: 1,
-            pageSize: 10,
-            projectCode: this.publicList.projectCode
-        };
-        if(this.publicList.fileName.indexOf("[") != -1 ){
-           this.publicList.fileName = JSON.parse(this.publicList.fileName);
-        }
-       
-        if (Array.isArray(this.publicList.fileName)) {
-            this.fileNameradio = '2';
-            this.fileName=[];
-            //如果是图片的话
-            for (let j in this.publicList.fileName) {
-               this.fileName.push({
-                url:this.baseImgPath+this.publicList.fileName[j],
-                name:this.publicList.fileName[j]
-               })
+
+        detail({
+            projectCode: this.$cache.local.getJSON("projectCodeNew")
+        }).then((response) => {
+            this.publicList = response.data[0];
+            this.$cache.local.setJSON('publicTickets', this.publicList);
+            this.queryParams = {
+                pageNum: 1,
+                pageSize: 10,
+                projectCode: this.publicList.projectCode
+            };
+            if (this.publicList.fileName.indexOf("[") != -1) {
+                this.publicList.fileName = JSON.parse(this.publicList.fileName);
             }
 
-        } else {
-            this.fileNameradio = '1';
-        }
+            if (Array.isArray(this.publicList.fileName)) {
+                this.fileNameradio = '2';
+                this.fileName = [];
+                //如果是图片的话
+                for (let j in this.publicList.fileName) {
+                    this.fileName.push({
+                        url: this.baseImgPath + this.publicList.fileName[j],
+                        name: this.publicList.fileName[j]
+                    })
+                }
 
-        this.getList();
+            } else {
+                this.fileNameradio = '1';
+            }
+
+            this.getList();
 
 
 
 
-           }); 
-       
-       
-        
+        });
+
+
+
     },
     methods: {
-        
-          getfileNameS(){
+
+           //计算已开和剩余金额
+        ticketByCode() {
+
+            list2({
+                projectCode: this.publicList.projectCode
+            }).then(res => {
+                let arr = res;
+                if (Array.isArray(arr) && arr.length > 0) {
+                    this.publicList.projectPackageAmount = 0;
+                    for (let i in arr) {
+                        if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
+                            this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
+                        }
+                    }
+                    //如果存在发票 累计发票 加上发票金额 
+                    this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
+                    this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
+                   
+                }
+                 let params={
+                        projectId:this.publicList.projectId,
+                        projectTotalAmount:this.publicList.projectTotalAmount,
+                        projectRemainAmount:this.publicList.projectRemainAmount,
+                        projectPackageAmount:this.publicList.projectPackageAmount,
+                    }
+                    edit(params);
+
+            }).catch(err => {
+
+            });
+        },
+        getfileNameS() {
 
         },
-
-        
-      
-        /** 查询项目列表 */
+         /** 查询项目列表 */
         getList() {
             this.loading = true;
 
@@ -260,8 +293,8 @@ export default {
                 this.loading = false;
             });
 
-           },
-         //激活休眠
+        },
+        //激活休眠
         changeSwitch(scope) {
             let isActive = scope.isActive;
             console.log(isActive);
@@ -298,7 +331,7 @@ export default {
             });
         },
         detail(row) {
-            this.$cache.local.setJSON("ticketDetails",row);
+            this.$cache.local.setJSON("ticketDetails", row);
             this.$router.push('reviewTicketDetail');
         },
         //审核中
@@ -346,14 +379,14 @@ export default {
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-            this.$cache.local.setJSON("ticketDetails",row);
+            this.$cache.local.setJSON("ticketDetails", row);
             this.$router.push("editTicketDetail");
 
         },
 
         /** 删除按钮操作 */
         handleDelete() {
-             if (confirm('你确定删除吗？')) {
+            if (confirm('你确定删除吗？')) {
                 del(this.multipleSelection).then((res) => {
                     if (res != undefined) {
                         if (res.code == 200) {
@@ -372,7 +405,7 @@ export default {
                     }
                 })
             }
-            
+
         },
 
     },
