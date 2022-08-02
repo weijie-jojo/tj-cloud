@@ -72,7 +72,7 @@
             </el-col>
             <el-col :span="1.5">
                 <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple"
-                    @click="handleDelete">删除</el-button>
+                    @click="handleDelete">作废</el-button>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -83,6 +83,12 @@
             <el-table-column label="发票编号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
             <el-table-column label="发票时间" align="center" prop="ticketTime" width="180" />
             <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true" />
+            <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
+                <template slot-scope="scope">
+                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
@@ -98,8 +104,8 @@
 
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { list, del ,list2 ,edit } from "@/api/project/ticket"
-import { detail } from "@/api/project/list"
+import { list, del ,list2 } from "@/api/project/ticket"
+import { detail,edit } from "@/api/project/list"
 import { Decimal } from 'decimal.js'
 export default {
     components: {
@@ -236,6 +242,7 @@ export default {
                 this.fileNameradio = '1';
             }
             this.getList();
+            this.ticketByCode();
         });
     },
     methods: {
@@ -254,7 +261,7 @@ export default {
                         }
                     }
                     //如果存在发票 累计发票 加上发票金额 
-                    this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
+                   // this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
                     this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
                    
                 }
@@ -263,7 +270,7 @@ export default {
                         projectTotalAmount:this.publicList.projectTotalAmount,
                         projectRemainAmount:this.publicList.projectRemainAmount,
                         projectPackageAmount:this.publicList.projectPackageAmount,
-                    }
+                 };
                     edit(params);
 
             }).catch(err => {
@@ -327,12 +334,12 @@ export default {
 
         /** 删除按钮操作 */
         handleDelete() {
-            if (confirm('你确定删除吗？')) {
+            if (confirm('你确定作废吗？')) {
                 del(this.multipleSelection).then((res) => {
                     if (res != undefined) {
                         if (res.code == 200) {
                             this.$message({
-                                message: '删除成功',
+                                message: '作废成功',
                                 type: 'success',
                             });
                         } else {

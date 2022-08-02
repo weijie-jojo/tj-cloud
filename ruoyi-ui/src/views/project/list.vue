@@ -42,63 +42,57 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" @click="progressNew(scope.row.projectCode)" type="danger"
+                    <el-link :underline="false" @click="progressNew(scope.row.projectCode, 0)" type="danger"
                         v-if="scope.row.projectStatus == '1'">异常</el-link>
-                    <el-link :underline="false" @click="progressNew(scope.row.projectCode)" type="success"
+                    <el-link :underline="false" @click="progressNew(scope.row.projectCode, 0)" type="success"
                         v-if="scope.row.projectStatus == '2'">完成</el-link>
-                    <el-link :underline="false" @click="progressNew(scope.row.projectCode)" type="primary"
+                    <el-link :underline="false" @click="progressNew(scope.row.projectCode, 0)" type="primary"
                         v-if="scope.row.projectStatus == '0'">办理中</el-link>
                 </template>
             </el-table-column>
 
             <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
                 <template slot-scope="scope">
-                    <el-link  :underline="false" type="primary" 
-                          @click="examine(scope.row.userId, scope.row, 1)"
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '0'">办理中</el-link>
-                    <el-link :underline="false" type="danger" 
+                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 1)" 
                         v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
-                    <el-link  :underline="false" type="success"
+                    <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '1'">完成</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="项目票据" align="center">
 
                 <template slot-scope="scope">
-                      <el-link :underline="false" type="info"
-                         v-if=" scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus==2">
-                      未开始</el-link>
-                   
-                    <el-link 
-                     @click="examine(scope.row.userId, scope.row, 2)"
-                    :underline="false" type="primary" 
-                    v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectTicketStatus == '0'"
-                        >办理中</el-link>
-                   
-                    <el-link :underline="false" type="danger"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectTicketStatus == '2'">异常</el-link>
-                    
-                    <el-link @click="tickets(scope.row)"  :underline="false" type="success"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectTicketStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="info"
+                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
+                        未开始</el-link>
+
+                    <el-link @click="examine(scope.row.userId, scope.row, 2)" :underline="false" type="primary"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">办理中</el-link>
+
+                    <el-link :underline="false" type="danger" @click="progressError(scope.row.projectCode, scope.row, 2)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '2'">异常</el-link>
+
+                    <el-link @click="progressNe(scope.row.projectCode, scope.row, 2)" :underline="false" type="success"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '1'">完成</el-link>
 
                 </template>
             </el-table-column>
             <el-table-column label="项目合同" align="center">
 
                 <template slot-scope="scope">
-                     <el-link :underline="false" type="info"
-                         v-if=" scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus==2">
-                      未开始</el-link>
+                    <el-link :underline="false" type="info"
+                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
+                        未开始</el-link>
 
-                    <el-link 
-                      @click="examine(scope.row.userId, scope.row, 3)"
-                     :underline="false" type="primary" 
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectContractStatus == 0">办理中
+                    <el-link @click="examine(scope.row.userId, scope.row, 3)" :underline="false" type="primary"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == 0">办理中
                     </el-link>
-                    <el-link :underline="false" type="danger" 
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectContractStatus == '2'">异常</el-link>
-                    <el-link :underline="false"  type="success"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectContractStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 3)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 3)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '1'">完成</el-link>
 
                 </template>
             </el-table-column>
@@ -106,33 +100,31 @@
 
                 <template slot-scope="scope">
                     <el-link :underline="false" type="info"
-                         v-if=" scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus==2">
-                      未开始</el-link>
+                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
+                        未开始</el-link>
 
-                    <el-link :underline="false" type="primary"
-                         @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectAcceptanceStatus == 0">办理中</el-link>
-                    <el-link :underline="false" type="danger" 
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectAcceptanceStatus == '2'">异常</el-link>
-                    <el-link :underline="false"  type="success"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectAcceptanceStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == 0">办理中</el-link>
+                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '1'">完成</el-link>
 
                 </template>
             </el-table-column>
             <el-table-column label="项目完税" align="center">
 
                 <template slot-scope="scope">
-                     <el-link :underline="false" type="info"
-                         v-if=" scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus==2">
-                      未开始</el-link>
+                    <el-link :underline="false" type="info"
+                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
+                        未开始</el-link>
 
-                    <el-link :underline="false" type="primary" 
-                         @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectDutypaidStatus == '0'">办理中</el-link>
-                    <el-link :underline="false"  type="danger" 
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectDutypaidStatus == '2'">异常</el-link>
-                    <el-link :underline="false"  type="success"
-                        v-if="scope.row.projectCheckStatus=='1'&& scope.row.projectDutypaidStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '0'">办理中</el-link>
+                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 5)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 5)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '1'">完成</el-link>
                 </template>
 
             </el-table-column>
@@ -150,10 +142,7 @@
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
         <!-- 进度提示 -->
-        <el-dialog 
-        :closeOnClickModal=false 
-        :closeOnPressEscape=false 
-        :title="title" :visible.sync="dialogVisible"
+        <el-dialog :closeOnClickModal=false :closeOnPressEscape=false :title="title" :visible.sync="dialogVisible"
             width="70%">
             <el-table :data="progressList">
                 <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -161,11 +150,11 @@
                 <el-table-column label="用户" align="center" prop="checkUser" />
                 <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
             </el-table>
-             <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible = false">关闭</el-button>
-                  <el-button type="primary" v-if="lookstatus" @click="findList">查看</el-button>
-                  <el-button type="primary" v-if="editstatus" @click="editList">修改</el-button>
-              </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">关闭</el-button>
+                <el-button type="primary" v-if="lookstatus" @click="findList">查看</el-button>
+                <el-button type="primary" v-if="editstatus" @click="editList">修改</el-button>
+            </span>
         </el-dialog>
 
     </div>
@@ -173,14 +162,16 @@
 </template>
 
 <script>
-import { getLeaderByUserId } from "@/api/company/employed";
+import { getLeaderByUserId } from "@/api/company/employed"
+import { getUser } from "@/api/system/user"
 import { list, del, checkdetail } from "@/api/project/list"
 
 export default {
     data() {
         return {
-            lookstatus:false,
-            editstatus:false,
+            types: 0,
+            lookstatus: false,
+            editstatus: false,
             dialogVisible: false,
             progressList: [],
             // 遮罩层
@@ -267,96 +258,201 @@ export default {
         this.getList();
     },
     methods: {
-     ASS(scope){
-       
-     },   
-    examine(applyName, scope, type) {
-      var msg = '审核';
-      if (type < 3) {
-        msg = '审核';
-      } else {
-        msg = '办理';
-      }
-      getLeaderByUserId({
-        userId: applyName
-      }).then(res => {
-        const h = this.$createElement
-        this.$confirm(
-          '', {
-  message:h('div',null, [
-    h('i',{ class:'el-icon-question',style:'color:#f90;font-size:30px;' }),
-    h('span',{ style:'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;'}, '温馨提示'),
-    h('p',{ style:'margin:40px 0 0 40px;height:80px' },'请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg)
-  ]),
+        ASS(scope) {
 
+        },
+        examine(applyName, scope, type) {
+            var msg = '办理';
+            this.types=type;
+            getLeaderByUserId({
+                userId: applyName
+            }).then(res => {
+                // let userName;
+                // let phonenumber;
+               if(!res){
+                 getUser(applyName).then(success=>{
+                   console.log(success);
+                  let  userName=success.data.nickName;
+                  let  phonenumber=success.data.phonenumber;
+                  const h = this.$createElement
+                  this.$confirm(
+                    '', {
+                    message: h('div', null, [
+                        h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+                        h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+                        h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                    ]),
+                    confirmButtonText: '查看',
+                    cancelButtonText: '关闭',
+                    closeOnClickModal: false,
+                    closeOnPressEscape: false,
 
-      
-          confirmButtonText: '查看',
-          cancelButtonText: '关闭',
-          closeOnClickModal:false,
-          closeOnPressEscape:false,
+                }).then(() => {
+                   this.findList();
+                }).catch(() => {
 
-        }).then(() => {
-         switch (type) {
-            case 1:
-              this.$cache.local.setJSON('employedName', scope);
-              this.$router.push("namedetail");
-              break;
-            case 2:
-              this.$cache.local.setJSON('employedInfo', scope);
-              this.$router.push("infodetail");
-              break;
-            case 3:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailCer");
-              break;
-
-            case 4:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailBusiness");
-              break;
-
-            case 5:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailTax");
-              break;
-
-            case 6:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailBank");
-              break;
-
-          }
-        }).catch(() => {
-
-        });
+                });
+                 });
+               }else{
+                let   userName=res[0].userName;
+                let   phonenumber=res[0].phonenumber;
+                    const h = this.$createElement
+                this.$confirm(
+                    '', {
+                    message: h('div', null, [
+                        h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+                        h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+                        h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                    ]),
 
 
 
+                    confirmButtonText: '查看',
+                    cancelButtonText: '关闭',
+                    closeOnClickModal: false,
+                    closeOnPressEscape: false,
 
-      }).catch(error => {
-        console.log(error);
-      })
+                }).then(() => {
+                   this.findList();
+                }).catch(() => {
 
+                });
+               }
+               
+             }).catch(error => {
+                console.log(error);
+            })
+        },
+        //修改
+        editList(){
+             switch (this.types) {
+                case 1:
+                    this.$cache.local.setJSON('projectisdetail', 1);
+                    this.$tab.closeOpenPage({ path: '/project/reviewDetail' })
+                    break;
+                case 2:
+                    this.$tab.closeOpenPage({ path: '/project/ticketlist' })
+                    break;
+                case 3:
 
+                    break;
+                case 4:
+                    break;
 
+                case 5:
 
+                    this.$router.push("detailTax");
+                    break;
 
-    },
+            }
+        },
+        //详情
+        findList() {
+            switch (this.types) {
+                case 1:
+                    this.$tab.closeOpenPage({ path: '/project/DetailS' })
+                    break;
+                case 2:
+                    this.$tab.closeOpenPage({ path: '/project/ticketlist' })
+                    break;
+                case 3:
+                    this.$tab.closeOpenPage({ path: '/project/ContractDetailS' })
+                    break;
+                case 4:
+                    this.$tab.closeOpenPage({ path: '/project/AcceptanceDetailS' })
+                    break;
+                case 5:
+                    this.$tab.closeOpenPage({ path: '/project/DutypaidDetailS' })    
+                    break;
+
+            }
+        },
         //进度弹框
-        progressNew(code) {
-            this.checkdetail(code,'','进度详情');
+        progressNew(code, type) {
+            this.lookstatus = false;
+            this.editstatus = false;
+            let msg = '进度详情';
+            if (type == 0) {
+                
+                msg = '进度详情';
+            } else if (type == 1) {
+                msg = '项目详情';
+            } else if (type == 2) {
+                msg = '票据详情';
+            } else if (type == 3) {
+                msg = '合同详情';
+            } else if (type == 4) {
+                msg = '验收详情';
+            } else if (type == 5) {
+                msg = '完税详情';
+            }
+            if(type>0){
+               this.types = type;
+            }else{
+                this.types='';
+            }
+           
+            this.checkdetail(code, this.types, msg);
+        },
+        //进度弹框
+        progressNe(code, row, type) {
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', row);
+
+            this.$cache.local.setJSON("projectListNews", row);
+
+            this.lookstatus = true;
+            this.editstatus = false;
+            let msg = '';
+            if (type == 1) {
+                msg = '项目详情';
+            } else if (type == 2) {
+                msg = '票据详情';
+            } else if (type == 3) {
+                msg = '合同详情';
+            } else if (type == 4) {
+                msg = '验收详情';
+            } else if (type == 5) {
+                msg = '完税详情';
+            }
+            this.types = type;
+            this.checkdetail(code, this.types, msg);
+        },
+        //异常
+        progressError(code, row, type){
+            this.lookstatus = false;
+            this.editstatus = true;
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', row);
+
+            this.$cache.local.setJSON("projectListNews", row);
+
+            
+            let msg = '';
+            if (type == 1) {
+                msg = '项目详情';
+            } else if (type == 2) {
+                msg = '票据详情';
+            } else if (type == 3) {
+                msg = '合同详情';
+            } else if (type == 4) {
+                msg = '验收详情';
+            } else if (type == 5) {
+                msg = '完税详情';
+            }
+            this.types = type;
+            this.checkdetail(code, this.types, msg); 
         },
         //进度详情列表
-        checkdetail(arr,brr,crr) {
-            
+        checkdetail(arr, brr, crr) {
+
             this.progressList = [];
             let parms = {
-                projectCode:arr,
-                projectType:brr
+                projectCode: arr,
+                projectType: brr
             };
             checkdetail(parms).then(res => {
-                this.title=crr;
+                this.title = crr;
                 this.dialogVisible = true;
                 this.progressList = res.rows;
             });
@@ -384,21 +480,21 @@ export default {
         },
 
         //跳转票据列表页
-        tickets(row) {
-            this.$confirm("点击查看进入详情", "票据说明", {
-                confirmButtonText: '查看票据',
-                cancelButtonText: '关闭',
+        // tickets(row) {
+        //     this.$confirm("点击查看进入详情", "票据说明", {
+        //         confirmButtonText: '查看票据',
+        //         cancelButtonText: '关闭',
 
-            }).then(() => {
-                this.$cache.local.setJSON('projectCodeNew', row.projectCode);
-                this.$cache.local.setJSON('publicTickets', row);
-                this.$tab.closeOpenPage({ path: '/project/ticketlist' })
+        //     }).then(() => {
+        //         this.$cache.local.setJSON('projectCodeNew', row.projectCode);
+        //         this.$cache.local.setJSON('publicTickets', row);
+        //         this.$tab.closeOpenPage({ path: '/project/ticketlist' })
 
-            }).catch(() => {
+        //     }).catch(() => {
 
-            });
+        //     });
 
-        },
+        // },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -461,26 +557,8 @@ export default {
             //this.$tab.closeOpenPage({ path:'/project/detail' })
             this.$router.push("detail");
         },
-        //审核中
-        shenloading() {
-            this.$alert("审核中,请耐心等待...", "审核说明", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: `action: ${ action }`
-                    // });
-                },
-            });
-        },
-        addContract() {
-            this.$alert("是否新增合同", "提示", {
-                confirmButtonText: "新增",
-                callback: (action) => {
-                    this.$tab.closeOpenPage({ path: '/project/contract' })
-                },
-            });
-        },
+
+
 
         /** 搜索按钮操作 */
         handleQuery() {
