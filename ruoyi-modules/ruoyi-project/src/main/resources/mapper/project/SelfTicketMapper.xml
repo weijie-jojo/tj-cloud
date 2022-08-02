@@ -20,16 +20,16 @@
         <result property="updateBy"    column="update_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
     </resultMap>
 
     <sql id="selectSelfTicketVo">
-        select ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time from self_ticket
+        select is_deleted,ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time from self_ticket
     </sql>
 
     <select id="selectSelfTicketList" parameterType="com.ruoyi.project.domain.SelfTicket" resultMap="SelfTicketResult">
         <include refid="selectSelfTicketVo"/>
         <where>
-            is_deleted=1
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
             <if test="ticketAmount != null "> and ticket_amount = #{ticketAmount}</if>
             <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
@@ -45,7 +45,7 @@
 
     <select id="selectSelfTicketByTicketId" parameterType="String" resultMap="SelfTicketResult">
         <include refid="selectSelfTicketVo"/>
-        where is_deleted=1 AND ticket_id = #{ticketId}
+        where  ticket_id = #{ticketId}
     </select>
 
     <insert id="insertSelfTicket" parameterType="com.ruoyi.project.domain.SelfTicket" useGeneratedKeys="true" keyProperty="ticketId">
