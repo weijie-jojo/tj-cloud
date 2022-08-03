@@ -118,7 +118,7 @@
             <if test="selfProject.projectDutypaidStatus != null  and selfProject.projectDutypaidStatus != ''"> and project_dutypaid_status = #{selfProject.projectDutypaidStatus}</if>
             <if test="selfProject.placeCode != null  and selfProject.placeCode != ''"> and place_code = #{selfProject.placeCode}</if>
             <if test="selfProject.purchCompanyTaxid != null  and selfProject.purchCompanyTaxid != ''"> and purch_company_taxid = #{selfProject.purchCompanyTaxid}</if>
-            <if test="selfProject.selfName != null  and selfProject.selfName != ''"> and selfProject.self_name = #{selfName}</if>
+            <if test="selfProject.selfName != null  and selfProject.selfName != ''"> and self_name like concat('%', #{selfProject.selfName}, '%')</if>
             <if test="selfProject.ticketType != null "> and ticket_type = #{selfProject.ticketType}</if>
             <if test="selfProject.ticketTax != null "> and ticket_tax = #{selfProject.ticketTax}</if>
             <if test="selfProject.projectOwnerTaxid != null  and selfProject.projectOwnerTaxid != ''"> and project_owner_taxid = #{selfProject.projectOwnerTaxid}</if>
