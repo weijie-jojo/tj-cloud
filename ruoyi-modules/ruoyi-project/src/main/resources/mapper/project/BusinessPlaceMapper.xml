@@ -35,7 +35,7 @@
     <select id="selectBusinessPlaceList"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
         <trim prefix="where" prefixOverrides="and|or">
-            t.is_delete=1
+            is_delete=1
             <if test="businessPlace.placeCode != null  and businessPlace.placeCode != ''"> and place_code = #{businessPlace.placeCode}</if>
             <if test="businessPlace.placeName != null  and businessPlace.placeName != ''"> and place_name like concat('%', #{businessPlace.placeName}, '%')</if>
             <if test="businessPlace.placeAliasName != null  and businessPlace.placeAliasName != ''"> and place_alias_name like concat('%', #{businessPlace.placeAliasName}, '%')</if>
@@ -61,7 +61,7 @@
     <select id="selectBusinessPlaceByUserId"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
         <trim prefix="where" prefixOverrides="and|or">
-            t.is_delete=1
+            is_delete=1
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
