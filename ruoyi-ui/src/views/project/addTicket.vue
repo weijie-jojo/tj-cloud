@@ -170,6 +170,7 @@ export default {
     },
     data() {
         return {
+            projectRemainAmount:'0',
             isDetail:'1',
             isDetails:'0',
             isNone:[],
@@ -428,7 +429,7 @@ export default {
              this.formData.fileName=data;
         },
         ticketAsee(e) {
-            if (e > this.Father.projectRemainAmount) {
+            if (e > this.projectRemainAmount) {
                 this.$modal.msgError('发票金额不能大于剩余金额');
                 this.formData.ticketAmount = 0;
                  this.ticketByCode();
@@ -442,15 +443,14 @@ export default {
        
           //计算已开和剩余金额
         ticketByCode() {
-           
-              list2({
+            list2({
                 projectCode: this.Father.projectCode
             }).then(res => {
                 let arr = res;
                    if(Array.isArray(arr) && arr.length>0){
                     this.Father.projectPackageAmount = 0;
                    for (let i in arr) {
-                    if (arr[i].ticketAmount > 0) {
+                    if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
                         this.Father.projectPackageAmount=new Decimal(this.Father.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
                     }
                   }
@@ -477,6 +477,7 @@ export default {
                 } else {
                     this.Father = response.data[0];
                 }
+                this.projectRemainAmount=this.Father.projectRemainAmount;
                 if (this.Father.fileName) {
                    if(this.Father.fileName.indexOf("[") != -1 ){
                        this.Father.fileName = JSON.parse(this.Father.fileName);

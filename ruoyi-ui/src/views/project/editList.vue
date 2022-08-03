@@ -210,7 +210,7 @@
 import uploadSmall from '@/components/douploads/uploadSmall'
 import {  list2 } from "@/api/project/ticket";
 import crudRate from '@/api/company/rate'
-import { detail, getcode, getinfoByUserId, edit, ownlist } from "@/api/project/list";
+import { detail, getcode, getinfoByUserId, edit, ownlist,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 //手机号验证
@@ -229,6 +229,7 @@ export default {
     },
     data() {
         return {
+           userinfo:{},
            isticket:false,
            isDetail:'0',
            isNone:[],
@@ -414,8 +415,6 @@ export default {
 
     watch: {
         'formData.industryType': 'selectIndustryType',
-        
-
     },
 
     mounted() {
@@ -427,6 +426,24 @@ export default {
        
    },
    methods: {
+     check(resmsg) {
+        getInfo().then(res => {
+            this.userinfo=res.user;
+             let parms = {
+              "checkReasult": resmsg,
+              "checkUser": this.userinfo.userName,
+              'phonenumber': this.userinfo.phonenumber,
+              "projectCode": this.formData.projectCode,
+              "projectType": "1",
+            };
+            check(parms).then(res => {
+                console.log('项目修改！');
+            }).catch(error => {
+
+            });
+          })
+       
+       },
           //计算已开和剩余金额
         ticketByCode() {
             list2({
@@ -710,26 +727,28 @@ export default {
           
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
-               
-                 
-
-                
                 if (valid) {
                     //如果是附件的话
                     if (this.fileNameradio == 2) {
-                       
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
+                    }
+                    if(this.$cache.local.getJSON("iscxxiu")==1){
+                        this.formData.projectCheckStatus=0;
                     }
                     this.ticketByCode();
                      edit(this.formData).then((res) => {
-                        
-                            if (res != undefined) {
+                          if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("编辑成功!");
-                                    
                                     this.$nextTick(function () {
                                         this.$tab.refreshPage("/project/list").then(() => {
-                                            this.$tab.openPage("项目列表", "/project/list");
+                                        //this.check('项目修改完成');
+                                          let obj = {
+                                            title: '项目列表',
+                                            backUrl: '/project/list',
+                                            resmsg: '项目修改完成'
+                                            };
+                                        this.$cache.local.setJSON('successNew', obj);
+                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                                         });
                                     });
                                 } else {

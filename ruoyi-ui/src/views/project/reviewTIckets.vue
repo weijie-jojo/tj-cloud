@@ -96,8 +96,8 @@ export default {
                 projectOwner: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectStatus: null, //项目状态
-                projectTicketStatus:0,
+                projectCheckStatus: 1, //项目状态
+                // projectTicketStatus:0,
                 start: null, //开始
                 end: null,   //结束
             },
