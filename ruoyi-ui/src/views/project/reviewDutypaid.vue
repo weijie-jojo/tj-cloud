@@ -6,28 +6,15 @@
                 <el-input v-model="queryParams.selfName" placeholder="请输入乙方" clearable
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            
-            <el-form-item label="项目时间">
-                  <el-date-picker
-      v-model="projectTime"
-      value-format="yyyy-MM-dd HH:mm:ss"
-      type="datetimerange"
-      :picker-options="pickerOptions"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      :default-time="['00:00:00', '23:59:59']"
 
-      align="right">
-    </el-date-picker>
-              
+            <el-form-item label="项目时间">
+                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange"
+                    :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                    :default-time="['00:00:00', '23:59:59']" align="right">
+                </el-date-picker>
+
             </el-form-item>
-            <!-- <el-form-item label="项目状态">
-                <el-select clearable v-model="queryParams.projectStatus" placeholder="请选择项目状态">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item> -->
+
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -35,8 +22,14 @@
         </el-form>
 
         <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+             <el-col :span="15">
+                <el-tabs v-model="endStatus" @tab-click="handleClick">
+                    <el-tab-pane label="全部" name="-1"></el-tab-pane>
+                    <el-tab-pane label="异常" name="1"></el-tab-pane>
+                    <el-tab-pane label="办理中" name="0"></el-tab-pane>
+                    <el-tab-pane label="完成" name="2"></el-tab-pane>
+
+                </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -48,11 +41,13 @@
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
             <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
-           
+
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                   <el-button size="mini" v-if="!scope.row.fileName3"  type="text" icon="el-icon-add" @click="details(scope.row)">完税办理</el-button>
-                   <el-button size="mini" v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核完税</el-button>
+                    <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-add"
+                        @click="details(scope.row)">完税办理</el-button>
+                    <el-button size="mini" v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核完税
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -71,6 +66,7 @@ import { list, del } from "@/api/project/list";
 export default {
     data() {
         return {
+            endStatus:'-1',
             // 遮罩层
             loading: true,
             // 选中数组
@@ -94,11 +90,11 @@ export default {
 
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
+                selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectStatus: null, //项目状态
-                projectContractStatus:0,
+                projectCheckStatus: 1, //项目状态
+                projectDutypaidStatus: null,
                 start: null, //开始
                 end: null,   //结束
             },
@@ -155,140 +151,66 @@ export default {
     mounted() {
         this.getList();
     },
-    methods: {  
-    //返回当前时间
-    returnTime(time2) {
-        var time = new Date(time2);
-        return time.toLocaleString();
-        // return time;
-    },
-    filterTime(time) {
-        var date = new Date(time);
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        m = m < 10 ? "0" + m : m;
-        var d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        var h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        var minute = date.getMinutes();
-        minute = minute < 10 ? "0" + minute : minute;
-        var s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
-      },
-
-  //跳转票据列表页
-        tickets(row) {
-            this.$confirm("点击查看进入详情", "票据说明", {
-                confirmButtonText: '查看票据',
-                cancelButtonText: '关闭',
-                
-            }).then(() => {
-                this.$cache.local.setJSON('publicTickets', row);
-                this.$tab.closeOpenPage({ path:'/project/ticketlist' })
-              //  this.$router.push('ticketlist');
-            }).catch(() => {
-
-            });
-
+    methods: {
+         handleClick(){
+            if(this.endStatus=='-1'){
+             this.queryParams.projectDutypaidStatus=null;
+           }else{
+              this.queryParams.projectDutypaidStatus=this.endStatus;
+            }
+              this.queryParams.pageNum=1;
+              this.getList();
         },
-        /** 查询项目列表 */
+        //返回当前时间
+        returnTime(time2) {
+            var time = new Date(time2);
+            return time.toLocaleString();
+            // return time;
+        },
+        filterTime(time) {
+            var date = new Date(time);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? "0" + m : m;
+            var d = date.getDate();
+            d = d < 10 ? "0" + d : d;
+            var h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            var minute = date.getMinutes();
+            minute = minute < 10 ? "0" + minute : minute;
+            var s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
+        },
+       /** 查询项目列表 */
         getList() {
             this.loading = true;
-            //  if(this.queryParams.projectTimeStart != null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-            //     this.queryParams.projectTimeStart[0] = this.filterTime(this.queryParams.projectTimeStart[0]),
-            //     this.queryParams.projectTimeStart[1] = this.filterTime(this.queryParams.projectTimeStart[1])
-            // }else {//判断选择时间再将时间清除
-            //         this.queryParams.projectTimeStart=null;
-            // };
-            if(this.projectTime!= null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.start =this.projectTime[0];
-                this.queryParams.end =this.projectTime[1];
-                console.log("start",this.queryParams.start);
-                console.log("end",this.queryParams.end);
-            }else {//判断选择时间再将时间清除
-                    this.projectTime=null;
+            if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+                this.queryParams.start = this.projectTime[0];
+                this.queryParams.end = this.projectTime[1];
+                console.log("start", this.queryParams.start);
+                console.log("end", this.queryParams.end);
+            } else {//判断选择时间再将时间清除
+                this.projectTime = null;
             };
-        //    console.log( "projectTimeStart1==",this.queryParams.projectTimeStart[1]);
+
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
             });
 
-         },
-
-
-
-
-
-        //激活休眠
-        changeSwitch(scope) {
-            let isActive = scope.isActive;
-            console.log(isActive);
-
-
-            let obj = {
-                isActive: isActive,
-                selfId: scope.selfId
-            };
-            updateEmployed(obj).then(res => {
-                if (res != undefined) {
-                    if (res.code === 200) {
-                        if (obj.isActive == 1) {
-                            this.$modal.msgSuccess("激活成功");
-                        } else {
-                            this.$modal.msgSuccess("休眠成功");
-                        }
-
-                        this.$nextTick(function () {
-                            this.$tab.refreshPage().then(() => {
-                                // this.$tab.openPage("个体列表", "manageList")
-                            })
-
-                            // this.$router.push({ path: "/company/customer/manageBank"});
-                        });
-                    } else {
-                        this.$modal.msgError(res.msg);
-                    }
-
-                }
-
-            }).catch(error => {
-                this.$modal.msgError(error);
-            });
         },
         detail(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({path:'/project/reviewDutypaidDetail'});
+            this.$tab.closeOpenPage({ path: '/project/reviewDutypaidDetail' });
         },
         //办理合同
-         details(scope) {
+        details(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({path:'/project/dutypaid'});
-        },
-        //审核中
-        shenloading() {
-            this.$alert("审核中,请耐心等待...", "审核说明", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: `action: ${ action }`
-                    // });
-                },
-            });
-        },
-        addContract(){
-              this.$alert("是否新增合同", "提示", {
-                confirmButtonText: "新增",
-                callback: (action) => {
-                    this.$tab.closeOpenPage({path:'/project/contract'})
-                },
-            }); 
+            this.$tab.closeOpenPage({ path: '/project/dutypaid' });
         },
 
         /** 搜索按钮操作 */
@@ -301,13 +223,17 @@ export default {
         resetQuery() {
 
             this.resetForm("queryForm");
+            this.endStatus='-1';
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
+                selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectStatus: null, //项目状态
+                projectCheckStatus: 1, //项目状态
+                projectDutypaidStatus: null,
+                start: null, //开始
+                end: null,   //结束
             }
             this.handleQuery();
         },
@@ -318,19 +244,7 @@ export default {
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
-
-        /** 新增按钮操作 */
-        handleAdd() {
-            this.$router.push('addlist');
-        },
-        /** 修改按钮操作 */
-        handleUpdate(row) {
-            this.$cache.local.setJSON("projectCodeNew", row.projectCode);
-            this.$router.push("editList");
-
-        },
-
-        /** 删除按钮操作 */
+         /** 删除按钮操作 */
         handleDelete(row) {
             const projectIds = row.projectId;
             this.$modal
@@ -349,5 +263,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  ::v-deep .el-message-box__content{
+     height: 200px !important;
+   }
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
 </style>

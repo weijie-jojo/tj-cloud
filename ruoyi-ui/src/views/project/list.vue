@@ -14,12 +14,7 @@
                 </el-date-picker>
 
             </el-form-item>
-            <el-form-item label="项目状态">
-                <el-select clearable v-model="queryParams.projectStatus" placeholder="请选择项目状态">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -27,11 +22,21 @@
         </el-form>
 
         <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+            <el-col :span="15">
+                <el-tabs v-model="endStatus" @tab-click="handleClick">
+                    <el-tab-pane label="全部" name="-1"></el-tab-pane>
+                    <el-tab-pane label="异常" name="1"></el-tab-pane>
+                    <el-tab-pane label="办理中" name="0"></el-tab-pane>
+                    <el-tab-pane label="完成" name="2"></el-tab-pane>
+
+                </el-tabs>
+
             </el-col>
+            
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
+        <el-button style="margin-top:-8px;margin-bottom:16px" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+            
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
@@ -55,7 +60,8 @@
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '0'">办理中</el-link>
-                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 1)" 
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
                     <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '1'">完成</el-link>
@@ -71,7 +77,8 @@
                     <el-link @click="examine(scope.row.userId, scope.row, 2)" :underline="false" type="primary"
                         v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">办理中</el-link>
 
-                    <el-link :underline="false" type="danger" @click="progressError(scope.row.projectCode, scope.row, 2)"
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 2)"
                         v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '2'">异常</el-link>
 
                     <el-link @click="progressNe(scope.row.projectCode, scope.row, 2)" :underline="false" type="success"
@@ -89,10 +96,13 @@
                     <el-link @click="examine(scope.row.userId, scope.row, 3)" :underline="false" type="primary"
                         v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == 0">办理中
                     </el-link>
-                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 3)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 3)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '2'">异常
+                    </el-link>
                     <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 3)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '1'">完成</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '1'">完成
+                    </el-link>
 
                 </template>
             </el-table-column>
@@ -104,11 +114,15 @@
                         未开始</el-link>
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == 0">办理中</el-link>
-                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == 0">办理中
+                    </el-link>
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常
+                    </el-link>
                     <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '1'">完成</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '1'">完成
+                    </el-link>
 
                 </template>
             </el-table-column>
@@ -120,11 +134,15 @@
                         未开始</el-link>
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '0'">办理中</el-link>
-                    <el-link :underline="false" type="danger"  @click="progressError(scope.row.projectCode, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '2'">异常</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '0'">办理中
+                    </el-link>
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 5)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '2'">异常
+                    </el-link>
                     <el-link :underline="false" type="success" @click="progressNe(scope.row.projectCode, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '1'">完成</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '1'">完成
+                    </el-link>
                 </template>
 
             </el-table-column>
@@ -169,6 +187,7 @@ import { list, del, checkdetail } from "@/api/project/list"
 export default {
     data() {
         return {
+            endStatus:'-1',
             types: 0,
             lookstatus: false,
             editstatus: false,
@@ -197,7 +216,7 @@ export default {
 
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
+                selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectStatus: null, //项目状态
@@ -258,77 +277,86 @@ export default {
         this.getList();
     },
     methods: {
+        handleClick() {
+         if(this.endStatus=='-1'){
+             this.queryParams.projectStatus=null;
+         }else{
+              this.queryParams.projectStatus=this.endStatus;
+         }
+              this.queryParams.pageNum=1;
+              this.getList();
+        },
         examine(applyName, scope, type) {
             var msg = '办理';
-            this.types=type;
+            this.types = type;
             getLeaderByUserId({
                 userId: applyName
             }).then(res => {
                 // let userName;
                 // let phonenumber;
-               if(!res){
-                 getUser(applyName).then(success=>{
-                   console.log(success);
-                  let  userName=success.data.nickName;
-                  let  phonenumber=success.data.phonenumber;
-                  const h = this.$createElement
-                  this.$confirm(
-                    '', {
-                    message: h('div', null, [
-                        h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
-                        h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-                        h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
-                    ]),
-                    confirmButtonText: '查看',
-                    cancelButtonText: '关闭',
-                    closeOnClickModal: false,
-                    closeOnPressEscape: false,
+                if (!res) {
+                    getUser(applyName).then(success => {
+                        console.log(success);
+                        let userName = success.data.nickName;
+                        let phonenumber = success.data.phonenumber;
+                        const h = this.$createElement
+                        this.$confirm(
+                            '', {
+                            message: h('div', null, [
+                                h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+                                h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+                                h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                            ]),
+                            confirmButtonText: '查看',
+                            cancelButtonText: '关闭',
+                            closeOnClickModal: false,
+                            closeOnPressEscape: false,
 
-                }).then(() => {
-                   this.findList();
-                }).catch(() => {
+                        }).then(() => {
+                            this.findList();
+                        }).catch(() => {
 
-                });
-                 });
-               }else{
-                let   userName=res[0].userName;
-                let   phonenumber=res[0].phonenumber;
+                        });
+                    });
+                } else {
+                    let userName = res[0].userName;
+                    let phonenumber = res[0].phonenumber;
                     const h = this.$createElement
-                this.$confirm(
-                    '', {
-                    message: h('div', null, [
-                        h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
-                        h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-                        h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
-                    ]),
+                    this.$confirm(
+                        '', {
+                        message: h('div', null, [
+                            h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+                            h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                        ]),
 
 
 
-                    confirmButtonText: '查看',
-                    cancelButtonText: '关闭',
-                    closeOnClickModal: false,
-                    closeOnPressEscape: false,
+                        confirmButtonText: '查看',
+                        cancelButtonText: '关闭',
+                        closeOnClickModal: false,
+                        closeOnPressEscape: false,
 
-                }).then(() => {
-                   this.findList();
-                }).catch(() => {
+                    }).then(() => {
+                        this.findList();
+                    }).catch(() => {
 
-                });
-               }
-               
-             }).catch(error => {
+                    });
+                }
+
+            }).catch(error => {
                 console.log(error);
             })
         },
         //修改
-        editList(){
-             switch (this.types) {
+        editList() {
+            switch (this.types) {
                 case 1:
-                    this.$cache.local.setJSON("iscxxiu",1);
+                    this.$cache.local.setJSON("iscxxiu", 1);
                     this.$tab.closeOpenPage({ path: '/project/editList' })
                     break;
                 case 2:
-                    this.$cache.local.setJSON("iscxxiu",1);
+                    this.$cache.local.setJSON("iscxxiu", 1);
                     this.$tab.closeOpenPage({ path: '/project/ticketlist' })
                     break;
                 case 3:
@@ -338,7 +366,7 @@ export default {
                     this.$tab.closeOpenPage({ path: '/project/acceptances' })
                     break;
                 case 5:
-                    this.$tab.closeOpenPage({ path: '/project/dutypaids' })    
+                    this.$tab.closeOpenPage({ path: '/project/dutypaids' })
                     break;
 
             }
@@ -350,7 +378,7 @@ export default {
                     this.$tab.closeOpenPage({ path: '/project/DetailS' })
                     break;
                 case 2:
-                    this.$cache.local.setJSON("iscxxiu",0);
+                    this.$cache.local.setJSON("iscxxiu", 0);
                     this.$tab.closeOpenPage({ path: '/project/ticketlist' })
                     break;
                 case 3:
@@ -360,7 +388,7 @@ export default {
                     this.$tab.closeOpenPage({ path: '/project/AcceptanceDetailS' })
                     break;
                 case 5:
-                    this.$tab.closeOpenPage({ path: '/project/DutypaidDetailS' })    
+                    this.$tab.closeOpenPage({ path: '/project/DutypaidDetailS' })
                     break;
 
             }
@@ -371,7 +399,7 @@ export default {
             this.editstatus = false;
             let msg = '进度详情';
             if (type == 0) {
-                
+
                 msg = '进度详情';
             } else if (type == 1) {
                 msg = '项目详情';
@@ -384,12 +412,12 @@ export default {
             } else if (type == 5) {
                 msg = '完税详情';
             }
-            if(type>0){
-               this.types = type;
-            }else{
-                this.types='';
+            if (type > 0) {
+                this.types = type;
+            } else {
+                this.types = '';
             }
-           
+
             this.checkdetail(code, this.types, msg);
         },
         //进度弹框
@@ -415,7 +443,7 @@ export default {
             this.checkdetail(code, this.types, msg);
         },
         //异常
-        progressError(code, row, type){
+        progressError(code, row, type) {
             this.lookstatus = false;
             this.editstatus = true;
             this.$cache.local.setJSON('projectCodeNew', code);
@@ -434,7 +462,7 @@ export default {
                 msg = '完税详情';
             }
             this.types = type;
-            this.checkdetail(code, this.types, msg); 
+            this.checkdetail(code, this.types, msg);
         },
         //进度详情列表
         checkdetail(arr, brr, crr) {
@@ -471,23 +499,6 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
-
-        //跳转票据列表页
-        // tickets(row) {
-        //     this.$confirm("点击查看进入详情", "票据说明", {
-        //         confirmButtonText: '查看票据',
-        //         cancelButtonText: '关闭',
-
-        //     }).then(() => {
-        //         this.$cache.local.setJSON('projectCodeNew', row.projectCode);
-        //         this.$cache.local.setJSON('publicTickets', row);
-        //         this.$tab.closeOpenPage({ path: '/project/ticketlist' })
-
-        //     }).catch(() => {
-
-        //     });
-
-        // },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -563,13 +574,16 @@ export default {
         resetQuery() {
 
             this.resetForm("queryForm");
+            this.endStatus='-1';
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
+                selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectStatus: null, //项目状态
+                start: null, //开始
+                end: null,   //结束
             }
             this.handleQuery();
         },
@@ -588,7 +602,7 @@ export default {
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
-            this.$cache.local.setJSON("iscxxiu",0);
+            this.$cache.local.setJSON("iscxxiu", 0);
             this.$router.push("editList");
 
         },
@@ -612,5 +626,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+   ::v-deep .el-message-box__content{
+     height: 200px !important;
+   }
+   ::v-deep .el-tabs__nav-wrap::after{
+        background-color:rgba(0,0,0,0) !important;
+   }
 </style>
