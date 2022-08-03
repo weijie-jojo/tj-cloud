@@ -34,13 +34,13 @@ public class BusinessPlaceServiceImpl implements IBusinessPlaceService
     /**
      * 查询平台渠道商
      *
-     * @param userId 平台渠道商主键
+     * @param userIdArr 平台渠道商主键
      * @return 平台渠道商
      */
     @Override
-    public List<BusinessPlace> selectBusinessPlaceByUserId(Integer userId)
+    public List<BusinessPlace> selectBusinessPlaceByUserId(List<Long> userIdArr)
     {
-        return businessPlaceMapper.selectBusinessPlaceByUserId(userId);
+        return businessPlaceMapper.selectBusinessPlaceByUserId(userIdArr);
     }
     /**
      * 查询平台渠道商列表

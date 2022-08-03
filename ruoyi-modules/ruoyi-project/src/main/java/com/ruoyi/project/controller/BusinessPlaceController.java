@@ -1,10 +1,15 @@
 package com.ruoyi.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.project.domain.BusinessPlace;
+import com.ruoyi.project.domain.vo.SysUserVo;
+import com.ruoyi.project.mapper.SysUserMapper;
 import com.ruoyi.project.service.IBusinessPlaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +43,8 @@ public class BusinessPlaceController extends BaseController
 {
     @Autowired
     private IBusinessPlaceService businessPlaceService;
-
+    @Resource
+    private SysUserMapper sysUserMapper;
     /**
      * 查询平台渠道商列表
      */
@@ -83,9 +89,35 @@ public class BusinessPlaceController extends BaseController
     @ApiOperation("获取平台渠道商详细信息(根据业务经理userId)")
 //    @RequiresPermissions("company:place:query")
     @GetMapping(value = "/getInfoByUserId")
-    public AjaxResult getInfoByUserId(Integer userId)
+    public AjaxResult getInfoByUserId()
     {
-        List<BusinessPlace> businessPlaces=businessPlaceService.selectBusinessPlaceByUserId(userId);
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //存储用户id的list集合
+        List<Long> userIdArr=new ArrayList<>();
+//        String userIdStr= Joiner.on(",").join(userIdArr);
+        //获取登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        System.out.println("roles==="+roles);
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
+            }
+        }
+        List<BusinessPlace> businessPlaces=businessPlaceService.selectBusinessPlaceByUserId(userIdArr);
         return AjaxResult.success(businessPlaces);
     }
 

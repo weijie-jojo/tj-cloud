@@ -22,10 +22,10 @@ public interface IBusinessPlaceService
     /**
      * 查询平台渠道商
      *
-     * @param userId 平台渠道商主键
+     * @param userIdArr 平台渠道商主键
      * @return 平台渠道商
      */
-    public List<BusinessPlace> selectBusinessPlaceByUserId(Integer userId);
+    public List<BusinessPlace> selectBusinessPlaceByUserId(List<Long> userIdArr);
 
     /**
      * 查询平台渠道商列表

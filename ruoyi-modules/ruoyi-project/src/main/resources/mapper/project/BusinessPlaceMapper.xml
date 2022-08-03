@@ -32,25 +32,25 @@
         select place_id, place_code, place_name, place_alias_name, place_type, place_linkman, place_tel, place_email, place_open_bank, place_bank_account, place_star_level, place_status, regist_time, user_id, is_delete, remark, create_time, create_by, update_by, update_time, user_name from business_place
     </sql>
 
-    <select id="selectBusinessPlaceList" parameterType="com.ruoyi.project.domain.BusinessPlace" resultMap="BusinessPlaceResult">
+    <select id="selectBusinessPlaceList"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
-        <where>
-            <if test="placeCode != null  and placeCode != ''"> and place_code = #{placeCode}</if>
-            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
-            <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
-            <if test="placeType != null "> and place_type = #{placeType}</if>
-            <if test="placeLinkman != null  and placeLinkman != ''"> and place_linkman = #{placeLinkman}</if>
-            <if test="placeTel != null  and placeTel != ''"> and place_tel = #{placeTel}</if>
-            <if test="placeEmail != null  and placeEmail != ''"> and place_email = #{placeEmail}</if>
-            <if test="placeOpenBank != null  and placeOpenBank != ''"> and place_open_bank = #{placeOpenBank}</if>
-            <if test="placeBankAccount != null  and placeBankAccount != ''"> and place_bank_account = #{placeBankAccount}</if>
-            <if test="placeStarLevel != null "> and place_star_level = #{placeStarLevel}</if>
-            <if test="placeStatus != null "> and place_status = #{placeStatus}</if>
-            <if test="registTime != null "> and regist_time = #{registTime}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
-            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-        </where>
+        <trim prefix="where" prefixOverrides="and|or">
+            t.is_delete=1 and B.dict_type="place_status"
+            <if test="businessPlace.placeCode != null  and businessPlace.placeCode != ''"> and place_code = #{businessPlace.placeCode}</if>
+            <if test="businessPlace.placeName != null  and businessPlace.placeName != ''"> and place_name like concat('%', #{businessPlace.placeName}, '%')</if>
+            <if test="businessPlace.placeAliasName != null  and businessPlace.placeAliasName != ''"> and place_alias_name like concat('%', #{businessPlace.placeAliasName}, '%')</if>
+            <if test="businessPlace.placeType != null "> and place_type = #{businessPlace.placeType}</if>
+            <if test="businessPlace.placeLinkman != null  and businessPlace.placeLinkman != ''"> and place_linkman = #{businessPlace.placeLinkman}</if>
+            <if test="businessPlace.placeTel != null  and businessPlace.placeTel != ''"> and place_tel = #{businessPlace.placeTel}</if>
+            <if test="businessPlace.placeEmail != null  and businessPlace.placeEmail != ''"> and place_email = #{businessPlace.placeEmail}</if>
+            <if test="businessPlace.placeOpenBank != null  and businessPlace.placeOpenBank != ''"> and place_open_bank = #{businessPlace.placeOpenBank}</if>
+            <if test="businessPlace.placeBankAccount != null  and businessPlace.placeBankAccount != ''"> and place_bank_account = #{businessPlace.placeBankAccount}</if>
+            <if test="businessPlace.placeStarLevel != null "> and place_star_level = #{businessPlace.placeStarLevel}</if>
+            <if test="businessPlace.placeStatus != null "> and place_status = #{businessPlace.placeStatus}</if>
+            <if test="businessPlace.registTime != null "> and regist_time = #{businessPlace.registTime}</if>
+            <if test="businessPlace.isDelete != null "> and is_delete = #{businessPlace.isDelete}</if>
+            <if test="businessPlace.userName != null  and businessPlace.userName != ''"> and user_name like concat('%', #{businessPlace.userName}, '%')</if>
+        </trim>
     </select>
 
     <select id="selectBusinessPlaceByPlaceId" parameterType="String" resultMap="BusinessPlaceResult">
@@ -58,9 +58,16 @@
         where place_id = #{placeId}
     </select>
 
-    <select id="selectBusinessPlaceByUserId" parameterType="Integer" resultMap="BusinessPlaceResult">
+    <select id="selectBusinessPlaceByUserId"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
-        where user_id = #{userId}
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
     </select>
 
     <insert id="insertBusinessPlace" parameterType="com.ruoyi.project.domain.BusinessPlace" useGeneratedKeys="true" keyProperty="placeId">

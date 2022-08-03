@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import java.util.List;
 import com.ruoyi.project.domain.BusinessPlace;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 平台渠道商Mapper接口
@@ -22,10 +23,10 @@ public interface BusinessPlaceMapper
     /**
      * 查询平台渠道商
      *
-     * @param userId 平台渠道商主键
+     * @param userIdArr businessPlace平台渠道商主键
      * @return 平台渠道商
      */
-    public List<BusinessPlace> selectBusinessPlaceByUserId(Integer userId);
+    public List<BusinessPlace> selectBusinessPlaceByUserId(@Param("userIdArr") List<Long> userIdArr);
 
     /**
      * 查询平台渠道商列表
@@ -33,7 +34,7 @@ public interface BusinessPlaceMapper
      * @param businessPlace 平台渠道商
      * @return 平台渠道商集合
      */
-    public List<BusinessPlace> selectBusinessPlaceList(BusinessPlace businessPlace);
+    public List<BusinessPlace> selectBusinessPlaceList(@Param("businessPlace") BusinessPlace businessPlace);
 
     /**
      * 新增平台渠道商
