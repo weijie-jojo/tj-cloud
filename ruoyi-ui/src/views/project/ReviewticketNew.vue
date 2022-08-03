@@ -292,60 +292,12 @@ export default {
             });
 
         },
-        //激活休眠
-        changeSwitch(scope) {
-            let isActive = scope.isActive;
-            console.log(isActive);
-
-
-            let obj = {
-                isActive: isActive,
-                selfId: scope.selfId
-            };
-            updateEmployed(obj).then(res => {
-                if (res != undefined) {
-                    if (res.code === 200) {
-                        if (obj.isActive == 1) {
-                            this.$modal.msgSuccess("激活成功");
-                        } else {
-                            this.$modal.msgSuccess("休眠成功");
-                        }
-
-                        this.$nextTick(function () {
-                            this.$tab.refreshPage().then(() => {
-
-                            })
-
-
-                        });
-                    } else {
-                        this.$modal.msgError(res.msg);
-                    }
-
-                }
-
-            }).catch(error => {
-                this.$modal.msgError(error);
-            });
-        },
+        
         detail(row) {
             this.$cache.local.setJSON("ticketDetails", row);
             this.$router.push('reviewTicketDetail');
         },
-        //审核中
-        shenloading() {
-            this.$alert("审核中,请耐心等待...", "审核说明", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: `action: ${ action }`
-                    // });
-                },
-            });
-        },
-
-        /** 搜索按钮操作 */
+      /** 搜索按钮操作 */
         handleQuery() {
 
             this.queryParams.pageNum = 1;

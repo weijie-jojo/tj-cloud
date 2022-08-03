@@ -41,12 +41,21 @@
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
             <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
-
+            <el-table-column label="完结状态" align="center" prop="projectStatus">
+                <template slot-scope="scope">
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectDutypaidStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectDutypaidStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectDutypaidStatus == '0'">办理中</el-link>
+                </template>
+            </el-table-column>   
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-add"
                         @click="details(scope.row)">完税办理</el-button>
                     <el-button size="mini" v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核完税
+                    </el-button>
+                     <el-button size="mini" v-if="scope.row.projectDutypaidStatus==1" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看合同</el-button>
+                    <el-button size="mini" v-if="scope.row.projectDutypaidStatus==2" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑合同
                     </el-button>
                 </template>
             </el-table-column>
@@ -152,6 +161,18 @@ export default {
         this.getList();
     },
     methods: {
+         find(row,code){
+           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('publicTickets', row);
+           this.$cache.local.setJSON("projectListNews", row);
+            this.$tab.closeOpenPage({ path: '/project/DutypaidDetailS' });
+        },
+        edits(row,code){
+           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('publicTickets', row);
+           this.$cache.local.setJSON("projectListNews", row);
+           this.$tab.closeOpenPage({ path: '/project/dutypaids' });
+        },
          handleClick(){
             if(this.endStatus=='-1'){
              this.queryParams.projectDutypaidStatus=null;

@@ -74,7 +74,7 @@
                         v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
                         未开始</el-link>
 
-                    <el-link @click="examine(scope.row.userId, scope.row, 2)" :underline="false" type="primary"
+                    <el-link @click="examine(scope.row.userId, scope.row, 2,scope.row.projectCode)" :underline="false" type="primary"
                         v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">办理中</el-link>
 
                     <el-link :underline="false" type="danger"
@@ -286,7 +286,10 @@ export default {
               this.queryParams.pageNum=1;
               this.getList();
         },
-        examine(applyName, scope, type) {
+        examine(applyName, scope, type,code) {
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', scope);
+            this.$cache.local.setJSON("projectListNews", scope);
             var msg = '办理';
             this.types = type;
             getLeaderByUserId({

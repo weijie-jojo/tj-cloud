@@ -41,8 +41,8 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
              <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectContractStatus == '1'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectContractStatus == '2'">完成</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectContractStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectContractStatus == '1'">完成</el-link>
                     <el-link :underline="false" type="primary" v-if="scope.row.projectContractStatus == '0'">办理中</el-link>
                 </template>
             </el-table-column>  
@@ -52,8 +52,8 @@
                         @click="details(scope.row)">合同办理</el-button>
                     <el-button size="mini" v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核合同
                     </el-button>    
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==2" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看合同</el-button>
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==1" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑合同
+                    <el-button size="mini" v-if="scope.row.projectContractStatus==1" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看合同</el-button>
+                    <el-button size="mini" v-if="scope.row.projectContractStatus==2" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑合同
                     </el-button>
                  </template>
             </el-table-column>
