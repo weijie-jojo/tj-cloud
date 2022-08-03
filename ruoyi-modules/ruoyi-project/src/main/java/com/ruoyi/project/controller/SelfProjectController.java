@@ -194,11 +194,12 @@ public class SelfProjectController extends BaseController
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(date);
         List<SelfProject> selfProjects=selfProjectService.selectLast();
+        System.out.println("selfProjects=="+selfProjects);
         String code="";
         if (selfProjects.size()>0){
             code=  StringUtils.getCode(selfCode,selfProjects.get(0).getProjectCode(),"yyyyMMdd");
         }else {//没有单据时
-            code="TJ-TG"+"-"+nowDate+"-"+"0001";
+            code=selfCode+"-"+nowDate+"-"+"0001";
         }
         return code;
     };

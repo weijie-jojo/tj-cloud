@@ -49,6 +49,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         System.out.println("根据第一个点的位置 获得第二个点的位置:"+index);
         //根据第二个点的位置，截取 字符串。得到结果 result
         String result = oldCode.substring(index + 1);
+        System.out.println("result=="+result);
         if(oldCode.contains(nowDate)){
             Long orser=Long.valueOf(result);
             orser++;
