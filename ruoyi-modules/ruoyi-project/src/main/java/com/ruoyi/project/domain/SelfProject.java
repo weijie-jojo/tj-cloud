@@ -188,6 +188,15 @@ public class SelfProject extends BaseEntity
     @Excel(name = "业务员", readConverterExp = "登录用户id")
     private Long userId;
 
+    /** 完结状态 0未完结 1已完结 2未通过（异常） */
+    @Excel(name = "完结状态 0未完结 1已完结 2未通过", readConverterExp = "异常")
+    private Integer endStatus;
+
+    /** 完结时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "完结时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date endTime;
+
     public void setProjectId(String projectId)
     {
         this.projectId = projectId;

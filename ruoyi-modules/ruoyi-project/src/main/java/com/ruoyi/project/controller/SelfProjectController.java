@@ -138,6 +138,7 @@ public class SelfProjectController extends BaseController
     public AjaxResult add(@RequestBody SelfProject selfProject)
     {
         selfProject.setUserId(SecurityUtils.getUserId());
+        selfProject.setEndStatus(0);
         try {
             int num=selfProjectService.insertSelfProject(selfProject);
             return toAjax(num);
