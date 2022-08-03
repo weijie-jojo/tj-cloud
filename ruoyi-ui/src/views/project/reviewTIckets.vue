@@ -24,18 +24,15 @@
              <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
                     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="异常" name="1"></el-tab-pane>
+                    <el-tab-pane label="异常" name="2"></el-tab-pane>
                     <el-tab-pane label="办理中" name="0"></el-tab-pane>
-                    <el-tab-pane label="完成" name="2"></el-tab-pane>
+                    <el-tab-pane label="完成" name="1"></el-tab-pane>
                 </el-tabs>
              </el-col>
             
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-           
-
-        <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
+         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
@@ -44,8 +41,8 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectTicketStatus == '1'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectTicketStatus == '2'">完成</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectTicketStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
                     <el-link :underline="false" type="primary" v-if="scope.row.projectTicketStatus == '0'">办理中</el-link>
                 </template>
             </el-table-column>
@@ -53,10 +50,10 @@
                 <template slot-scope="scope">
                     <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">票据详情
                     </el-button> -->
-                    <el-button size="mini" v-if="scope.row.projectTicketStatus==2" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看票据</el-button>
+                    <el-button size="mini" v-if="scope.row.projectTicketStatus==1" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看票据</el-button>
                     <el-button size="mini" v-if="scope.row.projectTicketStatus==0" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">票据详情
                     </el-button>
-                    <el-button size="mini" v-if="scope.row.projectTicketStatus==1" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑票据
+                    <el-button size="mini" v-if="scope.row.projectTicketStatus==2" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑票据
                     </el-button>
                 </template>
             </el-table-column>
@@ -247,7 +244,10 @@ export default {
                 projectOwner: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectTicketStatus: null, //项目状态
+                projectCheckStatus: 1, //项目状态
+                projectTicketStatus:null,
+                start: null, //开始
+                end: null,   //结束
             }
             this.handleQuery();
         },
