@@ -258,9 +258,6 @@ export default {
         this.getList();
     },
     methods: {
-        ASS(scope) {
-
-        },
         examine(applyName, scope, type) {
             var msg = '办理';
             this.types=type;
@@ -327,21 +324,21 @@ export default {
         editList(){
              switch (this.types) {
                 case 1:
-                    this.$cache.local.setJSON('projectisdetail', 1);
-                    this.$tab.closeOpenPage({ path: '/project/reviewDetail' })
+                    this.$cache.local.setJSON("iscxxiu",1);
+                    this.$tab.closeOpenPage({ path: '/project/editList' })
                     break;
                 case 2:
+                    this.$cache.local.setJSON("iscxxiu",1);
                     this.$tab.closeOpenPage({ path: '/project/ticketlist' })
                     break;
                 case 3:
-
+                    this.$tab.closeOpenPage({ path: '/project/contracts' })
                     break;
                 case 4:
+                    this.$tab.closeOpenPage({ path: '/project/acceptances' })
                     break;
-
                 case 5:
-
-                    this.$router.push("detailTax");
+                    this.$tab.closeOpenPage({ path: '/project/dutypaids' })    
                     break;
 
             }
@@ -353,6 +350,7 @@ export default {
                     this.$tab.closeOpenPage({ path: '/project/DetailS' })
                     break;
                 case 2:
+                    this.$cache.local.setJSON("iscxxiu",0);
                     this.$tab.closeOpenPage({ path: '/project/ticketlist' })
                     break;
                 case 3:
@@ -398,9 +396,7 @@ export default {
         progressNe(code, row, type) {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
-
             this.$cache.local.setJSON("projectListNews", row);
-
             this.lookstatus = true;
             this.editstatus = false;
             let msg = '';
@@ -424,10 +420,7 @@ export default {
             this.editstatus = true;
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
-
             this.$cache.local.setJSON("projectListNews", row);
-
-            
             let msg = '';
             if (type == 1) {
                 msg = '项目详情';
@@ -595,6 +588,7 @@ export default {
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
+            this.$cache.local.setJSON("iscxxiu",0);
             this.$router.push("editList");
 
         },

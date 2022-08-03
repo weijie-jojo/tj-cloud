@@ -122,7 +122,7 @@
                         <el-input v-model="formData.ticketCode"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
-                        <el-input disabled @input="ticketAsee" @change="ticketAsee" type="number" style="width:100%"
+                        <el-input disabled  type="number" style="width:100%"
                             v-model="formData.ticketAmount" :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -142,7 +142,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-                        <uploadSmall v-if="fileName.length > 0" @getfileName="getfileNameSS" :fileName="isNone"
+                        <uploadSmall v-if="fileName.length > 0" @getfileName="getfileNameSS" :fileName="formData.fileName"
                             :fileNameOld="fileName" :isDetail="isDetails"></uploadSmall>
                     </el-form-item>
                 </el-col>
@@ -384,6 +384,7 @@ export default {
         this.getRate();
         this.formData = this.$cache.local.getJSON("ticketDetails");
         this.formData.fileName = JSON.parse(this.formData.fileName);
+        this.fileName=[];
         let arr = this.formData.fileName;
         for (let i in arr) {
             this.fileName.push({
@@ -427,21 +428,10 @@ export default {
         },
         getfileNameSS(data) {
             this.formData.fileName = data;
+            console.log(this.formData.fileName);
         },
-        ticketAsee(e) {
-            if (e > this.balance) {
-                this.$modal.msgError('发票金额不能大于剩余金额');
-                this.formData.ticketAmount = this.ticketAmount;
-                this.ticketByCode();
-            } else {
-                this.ticketByCode();
-
-            }
-        },
-
         //计算已开和剩余金额
         ticketByCode() {
-
             list2({
                 projectCode: this.Father.projectCode
             }).then(res => {
@@ -454,8 +444,7 @@ export default {
                         }
                     }
                     //如果存在发票 累计发票 加上发票金额 
-                  
-                    this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
+                   this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
                 } else {
                     this.Father.projectPackageAmount = this.formData.ticketAmount;
                     this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
@@ -474,7 +463,6 @@ export default {
                     if (this.Father.fileName.indexOf("[") != -1) {
                         this.Father.fileName = JSON.parse(this.Father.fileName);
                     }
-                    // this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
                         this.fileNameradio = '2';
                         this.fileNames = [];
@@ -647,28 +635,38 @@ export default {
             console.log(val);
         },
         onSubmit() {
-            this.formData.fileName = JSON.stringify(this.formData.fileName);
+           
             this.$refs["elForm"].validate((valid) => {
+                
                 // TODO 提交表单
                 if (valid) {
+                    if(this.$cache.local.getJSON("iscxxiu")==1){
+                     this.formData.projectTicketStatus=0;
+                    }
+                     this.formData.fileName = JSON.stringify(this.formData.fileName);
                     //如果是附件的话
                     arrss.edit(this.Father);
+                    
                     edit(this.formData).then((res) => {
                         if (res != undefined) {
-                            if (res != undefined) {
                                 if (res.code === 200) {
-                                    this.$modal.msgSuccess("编辑成功!");
                                     this.$nextTick(function () {
                                         this.$tab.refreshPage("/project/ticketlist").then(() => {
-                                            this.$tab.openPage("票据列表", "/project/ticketlist");
+                                             let obj = {
+                                            title: '票据列表',
+                                            backUrl: '/project/ticketlist',
+                                            resmsg: '票据修改完成'
+                                            };
+                                        this.$cache.local.setJSON('successNew', obj);
+                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                                         });
-                                        //this.$router.push("employed");
+                                       
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
                                 }
                             }
-                        }
+                        
                     });
                 } else {
                     this.$message({
