@@ -197,7 +197,7 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
             <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
@@ -213,7 +213,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="银行账号类型" prop="accountType">
@@ -245,7 +245,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商" prop="placeName">
             <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
@@ -261,7 +261,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">
@@ -371,29 +371,15 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg " justify="space-around">
+         <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名">
-            <div v-for="(item, index) in previewList6" :key="index">
-              <el-image lazy :preview-src-list="previewList6" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList6" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+            <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名">
-            <div v-for="(item, index) in previewList7" :key="index">
-              <el-image lazy :preview-src-list="previewList7" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList7" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+           <uploadSmall v-if="fileNameN3.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -402,18 +388,146 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件">
-            <div v-for="(item, index) in previewList5" :key="index">
-              <el-image lazy :preview-src-list="previewList5" style="width: 150px; height: 150px" :src="item" alt="" />
-            </div>
-            <div v-for="(x, y) in pdfList5" :key="y">
-              <span @click="pdfdetail(x)">
-                {{ x }}
-              </span>
-            </div>
+                <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
+
+
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width:55%">业务信息</div>
+          <div style="width:40%;hegiht:10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="渠道商" prop="placeName">
+            <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
+              filterable>
+              <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="客户经理" prop="userName">
+            <el-input v-model="formData.userName" :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+       <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业类型" prop="industryType">
+            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
+              @change="selectIndustryType">
+              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
+                :value="item.industryId"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业税率">
+            <el-input v-model="industryTax" :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+           <el-form-item label="普票税率">
+               <el-select disabled style="width:88%" v-model="values" clearable placeholder="请选择">
+                  <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="普票服务费" :required="true">
+              <div style="">
+
+                <el-radio disabled v-model="basicRadio" label="1">按定额收取</el-radio>
+                <el-radio disabled v-model="basicRadio" label="2">按百分比收取</el-radio>
+                
+                <el-input  v-if="basicRadio == 1" :readonly="true" type="number"
+                  v-model="formData.ordinarySelfMoney" style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else :readonly="true" type="number" v-model="formData.ordinarySelfFee"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
+                </el-input>
+              </div>
+            </el-form-item>
+               <el-form-item label="分润方式" :required="true">
+              <div style="">
+
+                <el-radio disabled v-model="basicRadio" label="1">按定额收取</el-radio>
+                <el-radio disabled v-model="basicRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="basicRadio == 1" disabled type="number"
+                 style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else disabled type="number"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
+                </el-input>
+              </div>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="9">
+           <el-form-item label="专票税率">
+               <el-select disabled style="width:88%" v-model="values" clearable placeholder="请选择">
+                  <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="专票服务费" :required="true">
+              <div style="">
+                <el-radio disabled v-model="vipRadio" label="1">按定额收取</el-radio>
+                <el-radio disabled v-model="vipRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="vipRadio == 1" :readonly="true" type="number" v-model="formData.specialSelfMoney"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else :readonly="true" type="number" v-model="formData.specialSelfFee"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0">
+                  <template slot="append">%</template>
+                </el-input>
+
+              </div>
+            </el-form-item>
+              <el-form-item label="分润方式" :required="true">
+              <div style="">
+
+                <el-radio disabled v-model="vipRadio" label="1">按定额收取</el-radio>
+                <el-radio disabled v-model="vipRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="vipRadio == 1" disabled type="number"
+                 style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else disabled type="number"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
+                </el-input>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+
+
+
 
       <el-row type="flex" class="row-bg " justify="space-around">
          <el-col :span="8"></el-col>
@@ -426,32 +540,13 @@
 
 
     </el-form>
-    <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
-
-      <div>
-        <div class="tools flexs" style=" align-items: center;">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }} </div>
-          <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-
-        </div>
-        <pdf ref="pdf" :src="url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-          @link-clicked="page = $event">
-        </pdf>
-
-      </div>
-    </el-dialog>
+   
 
 
   </div>
 </template>
 <script>
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { addEmployed, updateEmployed } from "@/api/company/employed";
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -460,41 +555,48 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import { Decimal } from 'decimal.js'
+
 export default {
-  components: { Treeselect },
+  components: {  },
   dicts: ['political_status', 'educational_level'],
   components: {
-    pdf
+    uploadSmall
   },
   props: [],
   data() {
     return {
-      titles: '',
-      pdfList5: [],  //pdf 预览
-      pdfList6: [],  //pdf 预览
-      pdfList7: [],  //pdf 预览
-
-      previewList5: [], //预览
-      previewList6: [], //预览
-      previewList7: [], //预览
-
-      //pdf预览
-      url: '',
-      viewVisible: false,
-      pageNum: 1,
-      pageTotalNum: 1,
-      pageRotate: 0,
-      // 加载进度
-      loadedRatio: 0,
-      curPageNum: 0,
-      closeDialog: false,
-
-
-
+       industryTax:'',
+       values:'1',
+        optiond: [
+        {
+          value: '0',
+          label: '免税'
+        }, {
+          value: '1',
+          label: '1%'
+        }, {
+          value: '3',
+          label: '3%'
+        },
+      ],
+      optionz: [
+       {
+          value: '1',
+          label: '1%'
+        }, {
+          value: '3',
+          label: '3%'
+        },
+      ],
+      singleRadio:'1',
+      basicRadio:'1',
+      vipRadio:'1',
+      isDetail:'1',
+      isNone:[],
+      fileNameN1: [],
+      fileNameN2: [],
+      fileNameN3: [],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       fileName5: [],
       fileName6: [],
@@ -826,89 +928,58 @@ export default {
     // console.log("selfCode==", this.formData.selfCode)
 
     this.formData = this.$cache.local.getJSON('employedInfo');
+    this.industryTax=new Decimal(this.formData.industryTax).mul(new Decimal(100))+'%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
 
-    this.pdfList5 = [];  //pdf 预览
-    this.pdfList6 = [];  //pdf 预览
-    this.pdfList7 = [];  //pdf 预览
-
-    this.previewList5 = []; //预览
-    this.previewList6 = []; //预览
-    this.previewList7 = []; //预览
+    this.fileNameN1=[];
+    this.fileNameN2=[];
+    this.fileNameN3=[];
+    if(this.formData.ordinarySelfMoney>0){
+      this.basicRadio='1';
+    }else{
+      this.basicRadio='2';
+    }
+     if(this.formData.specialSelfMoney>0){
+      this.vipRadio='1';
+    }else{
+      this.vipRadio='2';
+    }
+   // this.formData.isSelfTax=parseInt(this.formData.isSelfTax)
+    if(this.formData.isSelfTax==1){
+      this.formData.isSelfTax='1';
+    }else{
+      this.formData.isSelfTax='0';
+    }
 
     this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
-    for (let k1 in this.fileName5) {
-
-      if (this.fileName5[k1].substring(this.fileName5[k1].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList5.push(this.fileName5[k1]);
-      } else {
-        this.fileName5[k1] = this.baseImgPath + this.fileName5[k1];
-        this.previewList5.push(this.fileName5[k1]);
-      }
+     for (let k1 in this.fileName5) {
+         this.fileNameN1.push({
+          url:this.baseImgPath+this.fileName5[k1],
+          name:this.fileName5[k1],
+        });
     }
     this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
     for (let k2 in this.fileName6) {
-
-      if (this.fileName6[k2].substring(this.fileName6[k2].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList6.push(this.fileName6[k2]);
-      } else {
-        this.fileName6[k2] = this.baseImgPath + this.fileName6[k2];
-        this.previewList6.push(this.fileName6[k2]);
-      }
+        this.fileNameN2.push({
+          url:this.baseImgPath+this.fileName6[k2],
+          name:this.fileName6[k2],
+        });
     }
     this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
-    for (let k3 in this.fileName7) {
-      if (this.fileName7[k3].substring(this.fileName7[k3].lastIndexOf('.') + 1) == 'pdf') {
-
-        this.pdfList7.push(this.fileName7[k3]);
-      } else {
-        this.fileName7[k3] = this.baseImgPath + this.fileName7[k3];
-        this.previewList7.push(this.fileName7[k3]);
-      }
+     for (let k3 in this.fileName7) {
+       this.fileNameN3.push({
+          url:this.baseImgPath+this.fileName7[k3],
+          name:this.fileName7[k3],
+        });
     }
   },
   methods: {
-
-    pdfdetail(i) {
-      this.titles = '正在预览' + i;
-      this.viewVisible = true;
-      this.url = pdf.createLoadingTask({ url:this.baseImgPath + i,CMapReaderFactory,cMapPacked: true });
+    getfileNameS(){
 
     },
-    // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
-
     getLoginInfo() {
       getInfo().then(res => {
         this.formData.userName = res.user.nickName;
@@ -965,7 +1036,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm(){
-      this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backurls').backUrl});
+      this.$tab.closeOpenPage({ path:'/company/manageList'});
     },
    
     toReturn2() {

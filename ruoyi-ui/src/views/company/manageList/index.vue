@@ -275,10 +275,6 @@ export default {
     },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
-        let obj={
-         backUrl:'/company/manageList',
-        };
-      this.$cache.local.setJSON('backurls', obj);
       this.$tab.openPage("个体户详情", "/company/customer/manageListDetail").then(() => {})
     },
     //审核中
