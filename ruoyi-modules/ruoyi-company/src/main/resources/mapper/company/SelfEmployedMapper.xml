@@ -73,6 +73,12 @@
         <result property="isSelfTax"    column="is_self_tax"    />
         <result property="registerMoney"    column="register_money"    />
         <result property="fileName8"    column="file_name8"    />
+        <result property="ordinaryTax"    column="ordinary_tax"    />
+        <result property="ordinarySpecialTax"    column="ordinary_special_tax"    />
+        <result property="ordinaryShare"    column="ordinary_share"    />
+        <result property="ordinaryShareMoney"    column="ordinary_share_money"    />
+        <result property="specialShare"    column="special_share"    />
+        <result property="specialShareMoney"    column="special_share_money"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -84,7 +90,8 @@
                account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
                file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
-               special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8
+               special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
+               ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -123,6 +130,12 @@
             <if test="selfEmployedVo.end != null and selfEmployedVo.end != ''"><!-- 结束时间检索 -->
                 AND date_format(t.create_time,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{selfEmployedVo.end},'%Y-%m-%d %H:%i:%s')
             </if>
+            <if test="selfEmployedVo.ordinaryTax != null "> and t.ordinary_tax = #{selfEmployedVo.ordinaryTax}</if>
+            <if test="selfEmployedVo.ordinarySpecialTax != null "> and t.ordinary_special_tax = #{selfEmployedVo.ordinarySpecialTax}</if>
+            <if test="selfEmployedVo.ordinaryShare != null "> and t.ordinary_share = #{selfEmployedVo.ordinaryShare}</if>
+            <if test="selfEmployedVo.ordinaryShareMoney != null "> and t.ordinary_share_money = #{selfEmployedVo.ordinaryShareMoney}</if>
+            <if test="selfEmployedVo.specialShare != null "> and t.special_share = #{selfEmployedVo.specialShare}</if>
+            <if test="selfEmployedVo.specialShareMoney != null "> and t.special_share_money = #{selfEmployedVo.specialShareMoney}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -209,6 +222,12 @@
             <if test="ordinarySelfMoney != null "> and ordinary_self_money = #{ordinarySelfMoney}</if>
             <if test="isSelfTax != null "> and is_self_tax = #{isSelfTax}</if>
             <if test="registerMoney != null "> and register_money = #{registerMoney}</if>
+            <if test="ordinaryTax != null "> and ordinary_tax = #{ordinaryTax}</if>
+            <if test="ordinarySpecialTax != null "> and ordinary_special_tax = #{ordinarySpecialTax}</if>
+            <if test="ordinaryShare != null "> and ordinary_share = #{ordinaryShare}</if>
+            <if test="ordinaryShareMoney != null "> and ordinary_share_money = #{ordinaryShareMoney}</if>
+            <if test="specialShare != null "> and special_share = #{specialShare}</if>
+            <if test="specialShareMoney != null "> and special_share_money = #{specialShareMoney}</if>
         </where>
     </select>
 
@@ -287,6 +306,12 @@
             <if test="isSelfTax != null">is_self_tax,</if>
             <if test="registerMoney != null">register_money,</if>
             <if test="fileName8 != null">file_name8,</if>
+            <if test="ordinaryTax != null">ordinary_tax,</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax,</if>
+            <if test="ordinaryShare != null">ordinary_share,</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money,</if>
+            <if test="specialShare != null">special_share,</if>
+            <if test="specialShareMoney != null">special_share_money,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -356,6 +381,12 @@
             <if test="isSelfTax != null">#{isSelfTax},</if>
             <if test="registerMoney != null">#{registerMoney},</if>
             <if test="fileName8 != null">#{fileName8},</if>
+            <if test="ordinaryTax != null">#{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">#{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">#{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">#{ordinaryShareMoney},</if>
+            <if test="specialShare != null">#{specialShare},</if>
+            <if test="specialShareMoney != null">#{specialShareMoney},</if>
         </trim>
     </insert>
 
@@ -429,6 +460,12 @@
             <if test="isSelfTax != null">is_self_tax = #{isSelfTax},</if>
             <if test="registerMoney != null">register_money = #{registerMoney},</if>
             <if test="fileName8 != null">file_name8 = #{fileName8},</if>
+            <if test="ordinaryTax != null">ordinary_tax = #{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax = #{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">ordinary_share = #{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money = #{ordinaryShareMoney},</if>
+            <if test="specialShare != null">special_share = #{specialShare},</if>
+            <if test="specialShareMoney != null">special_share_money = #{specialShareMoney},</if>
         </trim>
         where self_id = #{selfId}
     </update>

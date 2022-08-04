@@ -87,6 +87,10 @@ public class BusinessPlace extends BaseEntity
     @Excel(name = "业务经理名")
     private String userName;
 
+    /** 渠道商别名 */
+    @Excel(name = "渠道商别名")
+    private String placeAlias;
+
     public void setPlaceId(String placeId) 
     {
         this.placeId = placeId;

@@ -152,6 +152,10 @@ public class BusinessPlace implements Serializable{
     @TableField("user_name")
     private String userName;
 
+    /** 渠道商别名 */
+    @TableField("place_alias")
+    private String placeAlias;
+
 //    /**
 //     * 部门id
 //     */

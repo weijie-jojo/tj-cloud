@@ -299,6 +299,30 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "工商登记申请书pdf")
     private String fileName8;
 
+    /** 普票税率(增值税普通发票） */
+    @Excel(name = "普票税率(增值税普通发票）")
+    private BigDecimal ordinaryTax;
+
+    /** 普票税率(增值税专用发票） */
+    @Excel(name = "普票税率(增值税专用发票）")
+    private BigDecimal ordinarySpecialTax;
+
+    /** 分润方式(增值税普通发票）百分比 */
+    @Excel(name = "分润方式(增值税普通发票）百分比")
+    private Long ordinaryShare;
+
+    /** 分润方式(增值税普通发票）定额 */
+    @Excel(name = "分润方式(增值税普通发票）定额")
+    private Long ordinaryShareMoney;
+
+    /** 分润方式(增值税专用发票）百分比 */
+    @Excel(name = "分润方式(增值税专用发票）百分比")
+    private Long specialShare;
+
+    /** 分润方式(增值税专用发票）定额 */
+    @Excel(name = "分润方式(增值税专用发票）定额")
+    private Long specialShareMoney;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

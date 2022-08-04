@@ -26,10 +26,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="userName"    column="user_name"    />
+        <result property="placeAlias"    column="place_alias"    />
     </resultMap>
 
     <sql id="selectBusinessPlaceVo">
-        select place_id, place_code, place_name, place_alias_name, place_type, place_linkman, place_tel, place_email, place_open_bank, place_bank_account, place_star_level, place_status, regist_time, user_id, is_delete, remark, create_time, create_by, update_by, update_time, user_name from business_place
+        select place_id, place_code, place_name, place_alias_name, place_type, place_linkman, place_tel, place_email, place_open_bank, place_bank_account, place_star_level, place_status, regist_time, user_id, is_delete, remark, create_time, create_by, update_by, update_time, user_name ,place_alias from business_place
     </sql>
 
     <select id="selectBusinessPlaceList" parameterType="com.ruoyi.company.domain.BusinessPlace" resultMap="BusinessPlaceResult">
@@ -50,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="isDelete != null "> and is_delete = #{isDelete}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="placeAlias != null  and placeAlias != ''"> and place_alias = #{placeAlias}</if>
         </where>
     </select>
 
@@ -86,6 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="userName != null">user_name,</if>
+            <if test="placeAlias != null">place_alias,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="placeCode != null">#{placeCode},</if>
@@ -108,6 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="userName != null">#{userName},</if>
+            <if test="placeAlias != null">#{placeAlias},</if>
          </trim>
     </insert>
 
@@ -134,6 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="userName != null">user_name = #{userName},</if>
+            <if test="placeAlias != null">place_alias = #{placeAlias},</if>
         </trim>
         where place_id = #{placeId}
     </update>

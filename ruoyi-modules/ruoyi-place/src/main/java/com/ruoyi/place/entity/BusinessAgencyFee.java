@@ -136,4 +136,29 @@ public class BusinessAgencyFee implements Serializable {
     @TableField("special_proxy_money")
     private BigDecimal specialProxyMoney;
 
+    /** 普票税率(增值税普通发票） */
+    @TableField("ordinary_tax")
+    private BigDecimal ordinaryTax;
+
+    /** 普票税率(增值税专用发票） */
+    @TableField("ordinary_special_tax")
+    private BigDecimal ordinarySpecialTax;
+
+    /** 分润方式(增值税普通发票）百分比 */
+    @TableField("ordinary_share")
+    private Long ordinaryShare;
+
+    /** 分润方式(增值税普通发票）定额 */
+    @TableField("ordinary_share_money")
+    private Long ordinaryShareMoney;
+
+    /** 分润方式(增值税专用发票）百分比 */
+    @TableField("special_share")
+    private Long specialShare;
+
+    /** 分润方式(增值税专用发票）定额 */
+    @TableField("special_share_money")
+    private Long specialShareMoney;
+
+
 }
