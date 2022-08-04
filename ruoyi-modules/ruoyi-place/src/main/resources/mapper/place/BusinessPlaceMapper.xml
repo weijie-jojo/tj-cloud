@@ -9,8 +9,7 @@
         t.place_id,t.place_code,t.place_name,t.place_alias_name,t.place_type,t.place_linkman,
         t.place_tel,t.place_email,t.place_open_bank,t.place_bank_account,t.place_star_level,
         t.place_status,t.regist_time,t.user_id,t.is_delete,t.remark,t.create_time,t.create_by,
-        t.update_by,t.update_time,t.user_name,t.ordinary_tax,t.ordinary_special_tax,t.ordinary_share,
-        t.ordinary_share_money,t.special_share,t.special_share_money,A.nick_name,B.dict_label
+        t.update_by,t.update_time,t.user_name,t.place_alias,A.nick_name,B.dict_label
         from business_place t JOIN sys_user A ON t.user_id = A.user_id
           JOIN sys_dict_data B ON t.place_status = B.dict_value </sql>
     <select id="selectBusinessPlaceJoin"  resultType="com.ruoyi.place.vo.PlaceVo">
