@@ -58,7 +58,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
                         <el-input :required="true" :readonly="true" type="number" style="width:100%"
-                            v-model="issuedAmount" :step="0.01" :min="0">
+                            v-model="Father.projectPackageAmount" :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
 
@@ -91,7 +91,7 @@
                         <el-input v-model="owerTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="剩余金额">
-                        <el-input :readonly="true" type="number" style="width:100%" v-model="balance" :step="0.01"
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="Father.projectRemainAmount" :step="0.01"
                             :min="0">
                             <template slot="append">元</template>
                         </el-input>
@@ -444,10 +444,17 @@ export default {
                 // TODO 提交表单
                 if (valid) {
                     let parms;
+                    let arrs=0;
+                    if(this.Father.projectRemainAmount==0){
+                        arrs=1;
+                    }else{
+                        arrs=0;
+                    }
                     if (type == 1) {
                         parms = {
                             projectId: this.Father.projectId,
-                            projectTicketStatus: type,
+                            projectTicketStatus: arrs,
+                            
                         };
                     } else {
                         parms = {

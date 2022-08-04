@@ -8,7 +8,7 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange"
+                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
@@ -36,16 +36,16 @@
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
         <el-button style="margin-top:-8px;margin-bottom:16px" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-            
+        <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>    
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
+            <el-table-column label="乙方" align="center" prop="selfName"  width="200" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
+            <el-table-column label="项目时间" align="center" prop="createTime" width="110" :show-overflow-tooltip="true" />
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
-            <el-table-column label="完结状态" align="center" prop="projectStatus">
+            <el-table-column label="进度状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
                     <el-link :underline="false" @click="progressNew(scope.row.projectCode, 0)" type="danger"
                         v-if="scope.row.projectStatus == '1'">异常</el-link>
@@ -150,8 +150,6 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
-                    </el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -485,7 +483,6 @@ export default {
         returnTime(time2) {
             var time = new Date(time2);
             return time.toLocaleString();
-            // return time;
         },
         filterTime(time) {
             var date = new Date(time);
@@ -521,47 +518,10 @@ export default {
 
         },
 
-
-        //激活休眠
-        changeSwitch(scope) {
-            let isActive = scope.isActive;
-            console.log(isActive);
-
-
-            let obj = {
-                isActive: isActive,
-                selfId: scope.selfId
-            };
-            updateEmployed(obj).then(res => {
-                if (res != undefined) {
-                    if (res.code === 200) {
-                        if (obj.isActive == 1) {
-                            this.$modal.msgSuccess("激活成功");
-                        } else {
-                            this.$modal.msgSuccess("休眠成功");
-                        }
-
-                        this.$nextTick(function () {
-                            this.$tab.refreshPage().then(() => {
-
-                            })
-
-                        });
-                    } else {
-                        this.$modal.msgError(res.msg);
-                    }
-
-                }
-
-            }).catch(error => {
-                this.$modal.msgError(error);
-            });
-        },
         detail(scope) {
             console.log(scope);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            //this.$tab.closeOpenPage({ path:'/project/detail' })
             this.$router.push("detail");
         },
 
@@ -593,7 +553,7 @@ export default {
 
         // 多选框选中数据
         handleSelectionChange(selection) {
-            this.ids = selection.map((item) => item.selfId);
+            this.ids = selection.map((item) => item.projectId);
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
@@ -612,7 +572,7 @@ export default {
 
         /** 删除按钮操作 */
         handleDelete(row) {
-            const projectIds = row.projectId;
+            const projectIds = this.ids;
             this.$modal
                 .confirm('是否确认删除id为"' + projectIds + '"的数据项？')
                 .then(function () {

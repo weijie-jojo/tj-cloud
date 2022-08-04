@@ -17,8 +17,8 @@ export default {
     isDetail:'0',
     fileName:['20220726044928cc604a-7564-4ae2-bf6c-0367663fdf73加菲猫背景2.jpg'],
     fileNameOld:[{
-      url:'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
-      name:'20220726044928cc604a-7564-4ae2-bf6c-0367663fdf73加菲猫背景2.jpg'
+      url:'/eladmin/api/files/showTxt?imgPath=20220804105302a66ef1-6104-4828-a7a1-f1944f85276120201128024046.png',
+      name:'202208030630c641492f-0183-4057-a65e-2280a5eeb4eeR-C.jpg'
     }]
     }
 

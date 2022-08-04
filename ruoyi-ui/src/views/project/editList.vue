@@ -55,7 +55,7 @@
                         <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input v-model="formData.purchCompanyTaxid"></el-input>
+                        <el-input v-model.trim="inputValCompute"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -164,7 +164,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
-                       <uploadSmall @getfileName="getfileNameS" :fileName="formData.fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                       <uploadSmall  @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                    </el-form-item>
                 </el-col>
             </el-row>
@@ -216,9 +216,9 @@ import { Decimal } from 'decimal.js'
 //手机号验证
 var phoneVerify = (rule, value, callback) => {
     if (value) {
-        var reg = /^\d{15,20}$/;
+        var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
         if (!reg.test(value)) {
-            callback(new Error('甲方纳税人号长度在15位到20位之间'));
+            callback(new Error('甲方纳税人识别号,一律由15位、18或者20位码(字符型))组成'));
         }
         callback();
     }
@@ -229,6 +229,7 @@ export default {
     },
     data() {
         return {
+           isyuan:'',
            userinfo:{},
            isticket:false,
            isDetail:'0',
@@ -411,7 +412,16 @@ export default {
 
         };
     },
-    computed: {},
+     computed: {
+     inputValCompute: {
+      get() {
+        return this.formData.purchCompanyTaxid;
+      },
+      set(val) {
+        this.formData.purchCompanyTaxid = val.toUpperCase();
+      },
+    },
+   },
 
     watch: {
         'formData.industryType': 'selectIndustryType',
@@ -507,12 +517,16 @@ export default {
             }).then((response) => {
                this.formData.industryType='';
                this.formData = response.data[0];
+               
                this.projectTotalAmount=this.formData.projectTotalAmount;
              
                 this.isokradio = JSON.stringify(this.formData.placeStatus);
                 if (this.formData.fileName) {
                     if(this.formData.fileName.indexOf("[") != -1 ){
+                        this.isNone=JSON.parse(this.formData.fileName);
                         this.formData.fileName = JSON.parse(this.formData.fileName);
+                    }else{
+                        this.isyuan=this.formData.fileName;
                     }
                     
                     if (Array.isArray(this.formData.fileName)) {
@@ -543,7 +557,9 @@ export default {
         //监听开票内容选择
         filenamer(e) {
             if (e == 1) {
-                this.formData.fileName = [];
+               
+            }else{
+                this.formData.fileName=this.isyuan;
             }
         },
         //监听乙方

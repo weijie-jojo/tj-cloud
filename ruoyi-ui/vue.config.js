@@ -43,13 +43,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/pdf': {
-        target: 'http://36.133.2.179:8087/txt',
-        changOrigin: true,  
-        pathRewrite: {
-            '^/pdf': ''  
-        } 
-      },
+      // '/pdf': {
+      //   target: 'http://36.133.2.179:8087/txt',
+      //   changOrigin: true,  
+      //   pathRewrite: {
+      //       '^/pdf': ''  
+      //   } 
+      // },
       '/eladmin': {
         target: 'http://36.133.2.179:8000',
         changOrigin: true,  

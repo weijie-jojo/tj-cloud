@@ -8,7 +8,7 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange"
+                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
