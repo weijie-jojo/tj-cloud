@@ -50,11 +50,12 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商状态" prop="isokradio">
-                        <el-radio v-model="isokradio" disabled label="0">正常</el-radio>
-                        <el-radio v-model="isokradio" disabled label="2">冻结 </el-radio>
+                        <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
+                        <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
+                        <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input v-model="formData.purchCompanyTaxid"></el-input>
+                        <el-input  v-model.trim="inputValCompute"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -173,7 +174,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item label="项目行业类型" prop="projectTrade">
+                    <el-form-item style="padding-right:4%" label="项目行业类型" prop="projectTrade">
                         <el-input disabled v-model="formData.projectTrade"></el-input>
                     </el-form-item>
                 </el-col>
@@ -220,13 +221,14 @@ import {Decimal} from 'decimal.js'
 //手机号验证
 var phoneVerify = (rule, value, callback) => {
     if (value) {
-        var reg = /^\d{15,20}$/;
+        var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
         if (!reg.test(value)) {
-            callback(new Error('甲方纳税人号长度在15位到20位之间'));
+            callback(new Error('甲方纳税人识别号,一律由15位、18或者20位码(字符型))组成'));
         }
         callback();
     }
 };
+
 
 export default {
     components: {
@@ -444,9 +446,17 @@ export default {
 
         };
     },
-    computed: {},
-
-    watch: {
+    computed: {
+     inputValCompute: {
+      get() {
+        return this.formData.purchCompanyTaxid;
+      },
+      set(val) {
+        this.formData.purchCompanyTaxid = val.toUpperCase();
+      },
+    },
+   },
+   watch: {
         'formData.industryType': 'selectIndustryType',
 
     },
@@ -639,11 +649,9 @@ export default {
             var year = date.getFullYear() //年
             var month = this.repair(date.getMonth() + 1);//月
             var day = this.repair(date.getDate());//日
-
             var hour = this.repair(date.getHours());//时
             var minute = this.repair(date.getMinutes());//分
             var second = this.repair(date.getSeconds());//秒
-
             //当前时间 
             var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
             // this.formData.createTime = curTime;
