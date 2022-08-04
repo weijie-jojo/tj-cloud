@@ -686,6 +686,12 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
+            <el-form-item label="普票税率">
+               <el-select :disabled="yecomfirms" style="width:88%" v-model="valueS" clearable placeholder="请选择">
+                  <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="普票服务费" :required="yecomfirms">
               <div style="">
 
@@ -701,22 +707,58 @@
                 </el-input>
               </div>
             </el-form-item>
+             <el-form-item label="分润方式" :required="yecomfirms">
+              <div style="">
+
+                <el-radio :disabled="yecomfirm" v-model="basicRadio" label="1">按定额收取</el-radio>
+                <el-radio :disabled="yecomfirm" v-model="basicRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="basicRadio == 1" :disabled="yecomfirm" type="number"
+                 style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else :disabled="yecomfirm" type="number"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
+                </el-input>
+              </div>
+            </el-form-item>
           </el-col>
 
           <el-col :span="9">
+           <el-form-item label="专票税率" :required="yecomfirms">
+               <el-select :disabled="yecomfirms" style="width:88%" v-model="valueS" clearable placeholder="请选择">
+                  <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="专票服务费" :required="yecomfirms">
               <div style="">
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
                 <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
                 <el-input v-if="vipRadio == 1" :disabled="yecomfirm" type="number" v-model="formData.specialSelfMoney"
-                  style="margin-right:10px" :step="0.01" :min="0">
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0">
                   <template slot="append">元</template>
                 </el-input>
                 <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.specialSelfFee"
-                  style="margin-right:10px" :step="0.01" :min="0">
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0">
                   <template slot="append">%</template>
                 </el-input>
 
+              </div>
+            </el-form-item>
+                  <el-form-item label="分润方式" :required="yecomfirms">
+              <div style="">
+
+                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
+                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
+                <el-input v-if="vipRadio == 1" :disabled="yecomfirm" type="number"
+                 style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="9999">
+                  <template slot="append">元</template>
+                </el-input>
+                <el-input v-else :disabled="yecomfirm" type="number"
+                  style="margin-right:10px;width:88%" :step="0.01" :min="0" :max="100">
+                  <template slot="append">%</template>
+                </el-input>
               </div>
             </el-form-item>
           </el-col>
@@ -773,6 +815,28 @@ export default {
   },
   data() {
     return {
+      valueS:'1',
+      optiond: [
+        {
+          value: '0',
+          label: '免税'
+        }, {
+          value: '1',
+          label: '1%'
+        }, {
+          value: '3',
+          label: '3%'
+        },
+      ],
+      optionz: [
+       {
+          value: '1',
+          label: '1%'
+        }, {
+          value: '3',
+          label: '3%'
+        },
+      ],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
      //pdf预览
       isDetail:'0',

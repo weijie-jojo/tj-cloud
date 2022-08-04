@@ -15,12 +15,12 @@
     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
       <div>
         <div class="tools flexs">
-          <div class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
-          </div>
+          <el-button class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
+          </el-button>
           <el-button :theme="'default'" type="submit" @click.stop="prePage" class="mr10"> 上一页</el-button>
           <el-button :theme="'default'" type="submit" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
-          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+          <!-- <el-button :theme="'default'" type="submit" @click.stop="clock" class="mr10"> 顺时针</el-button>
+          <el-button :theme="'default'" type="submit" @click.stop="counterClock" class="mr10"> 逆时针</el-button> -->
 
         </div>
         <div class="tools flexs" style="font-size: 20px;margin-top: 40px;" v-if="errOk">pdf文件已损坏</div>

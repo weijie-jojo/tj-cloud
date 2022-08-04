@@ -209,7 +209,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import {  list2 } from "@/api/project/ticket";
-import crudRate from '@/api/company/rate'
+import crudRate from '@/api/project/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'

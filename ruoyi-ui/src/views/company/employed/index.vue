@@ -416,6 +416,7 @@ export default {
     //获取审核中的数据
 
     examine(applyName, scope, type) {
+      
       var msg = '审核';
       if (type < 3) {
         msg = '审核';
@@ -661,7 +662,8 @@ export default {
     //名称审核 已完成
     finishName(scope, selfCode) {
       this.checkName(selfCode);
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON('employedName', scope);
+     // this.$cache.local.setJSON('employedInfo', scope);
     },
     //名称详情
     nameDetail() {

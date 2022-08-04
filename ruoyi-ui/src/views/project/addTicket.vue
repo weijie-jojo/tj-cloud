@@ -159,7 +159,7 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import crudRate from '@/api/company/rate'
+import crudRate from '@/api/project/rate'
 import { list2, add } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist,edit,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
