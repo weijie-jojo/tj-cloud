@@ -10,6 +10,7 @@ import com.ruoyi.invoice.pojo.AccountTravelExpense;
 import com.ruoyi.invoice.qo.TimeQo;
 import com.ruoyi.invoice.service.AccountTravelExpenseService;
 import com.ruoyi.invoice.service.SysUserService;
+import com.ruoyi.invoice.vo.AccountExpenseVo;
 import com.ruoyi.invoice.vo.AccountTravelExpenseVo;
 import com.ruoyi.invoice.vo.SysUserVo;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -80,8 +82,14 @@ public class AccountTravelExpenseHandler {
             accountTravelExpense.setCreateUser(SecurityUtils.getUserId());
         }
         IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense(accountTravelExpense,timeQo,currentPage,limit);
+        List<AccountTravelExpenseVo> list=accountTravelExpenseIPage.getRecords();
+//        for (int i=0;i<list.size();i++){//把驳回的放在最前面
+//            if (list.get(i).getInvoiceType()==6){
+//                Collections.swap(list,i,0);
+//            }
+//        }
         DataDto<AccountTravelExpenseVo> dataDto = new DataDto<>();
-        dataDto.success(accountTravelExpenseIPage.getRecords(),accountTravelExpenseIPage.getTotal());
+        dataDto.success(list,accountTravelExpenseIPage.getTotal());
         return dataDto;
     }
     @GetMapping(value ="/getAllTravelExpense")

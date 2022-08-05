@@ -21,6 +21,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,12 +83,18 @@ public class AccountBorrowHandler {
     @ApiOperation("查询所有借支单信息（登录用户的）")
 //    @PreAuthorize("@el.check('getAllBorrow:list')")
     public DataDto getAllBorrow(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
-        if(sysBorrowVo.getBorrowCode()==null){//不是查看某条单据（查看登录用户的所有单据）
+        if(sysBorrowVo.getBorrowCode()==null){//不是查看某条单据（查看登录用户的所有单据）区分是根据code查看还是登陆用户的
             sysBorrowVo.setCreateUser(SecurityUtils.getUserId());
         }
         IPage<AccountBorrowVo> sysBorrowVoIPage = accountBorrowService.getAllBorrow(sysBorrowVo,timeQo,currentPage,limit);
+        List<AccountBorrowVo> list=sysBorrowVoIPage.getRecords();
+//        for (int i=0;i<list.size();i++){//把驳回的放在最前面
+//            if (list.get(i).getInvoiceType()==6){
+//                Collections.swap(list,i,0);
+//            }
+//        }
         DataDto<AccountBorrowVo> dataDto = new DataDto<>();
-        dataDto.success(sysBorrowVoIPage.getRecords(),sysBorrowVoIPage.getTotal());
+        dataDto.success(list,sysBorrowVoIPage.getTotal());
         return dataDto;
     }
     @GetMapping(value ="/getAllBorrows")

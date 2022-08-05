@@ -14,6 +14,7 @@ import com.ruoyi.invoice.pojo.SysUser;
 import com.ruoyi.invoice.qo.TimeQo;
 import com.ruoyi.invoice.service.AccountExpenseService;
 import com.ruoyi.invoice.service.SysUserService;
+import com.ruoyi.invoice.vo.AccountBorrowVo;
 import com.ruoyi.invoice.vo.AccountExpenseVo;
 import com.ruoyi.invoice.vo.SysBankcardVo;
 import com.ruoyi.invoice.vo.SysUserVo;
@@ -24,10 +25,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -124,8 +122,14 @@ public class AccountExpenseHandler {
             accountExpense.setCreateUser(SecurityUtils.getUserId());
         }
         IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseService.selectAllExpense(accountExpense,timeQo,currentPage,limit);
+        List<AccountExpenseVo> list=sysExpenseVoIPage.getRecords();
+//        for (int i=0;i<list.size();i++){//把驳回的放在最前面
+//            if (list.get(i).getInvoiceType()==6){
+//                Collections.swap(list,i,0);
+//            }
+//        }
         DataDto<AccountExpenseVo> dataDto = new DataDto<>();
-        dataDto.success(sysExpenseVoIPage.getRecords(),sysExpenseVoIPage.getTotal());
+        dataDto.success(list,sysExpenseVoIPage.getTotal());
         return dataDto;
     }
     @GetMapping(value ="/getAllExpenses")

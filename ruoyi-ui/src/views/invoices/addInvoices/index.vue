@@ -78,9 +78,73 @@
             />
             <el-table-column
               prop="dictLabel"
-              label="状态"
+              label="单据状态"
               align="center"
             />
+           <el-table-column label="进度状态" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                </el-link>
+                <el-link :underline="false" type="danger"
+                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="主管" align="center">
+              <template slot-scope="scope">
+                  <el-link :underline="false" type="primary"
+                    v-if="scope.row.invoiceType == 1">办理中
+                  </el-link>
+
+                  <el-link :underline="false" type="success" 
+                    v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+                  <el-link :underline="false" type="danger" 
+                    v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+
+                  <el-link :underline="false" type="success"
+                    v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="总经办" align="center">
+              <template slot-scope="scope">
+                <el-link  :underline="false" type="info"
+                  v-if="scope.row.invoiceType == 1">未开始
+                </el-link>
+                <el-link  :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 2">办理中
+                </el-link>
+        
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="财务" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="info"
+                  v-if="scope.row.invoiceType <= 2">未开始
+                </el-link>
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 3">办理中
+                </el-link>
+
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5">完成</el-link>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -210,9 +274,73 @@
             />
             <el-table-column
               prop="dictLabel"
-              label="状态"
+              label="单据状态"
               align="center"
             />
+              <el-table-column label="进度状态" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                </el-link>
+                <el-link :underline="false" type="danger"
+                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="主管" align="center">
+              <template slot-scope="scope">
+                  <el-link :underline="false" type="primary"
+                    v-if="scope.row.invoiceType == 1">办理中
+                  </el-link>
+
+                  <el-link :underline="false" type="success" 
+                    v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+                  <el-link :underline="false" type="danger" 
+                    v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+
+                  <el-link :underline="false" type="success"
+                    v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="总经办" align="center">
+              <template slot-scope="scope">
+                <el-link  :underline="false" type="info"
+                  v-if="scope.row.invoiceType == 1">未开始
+                </el-link>
+                <el-link  :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 2">办理中
+                </el-link>
+        
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="财务" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="info"
+                  v-if="scope.row.invoiceType <= 2">未开始
+                </el-link>
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 3">办理中
+                </el-link>
+
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5">完成</el-link>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -325,9 +453,89 @@
             />
             <el-table-column
               prop="dictLabel"
-              label="状态"
+              label="单据状态"
               align="center"
             />
+             <el-table-column label="进度状态" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                </el-link>
+                <el-link :underline="false" type="danger"
+                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="主管" align="center">
+              <template slot-scope="scope">
+                  <el-link :underline="false" type="primary"
+                    v-if="scope.row.invoiceType == 1">办理中
+                  </el-link>
+
+                  <el-link :underline="false" type="success" 
+                    v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+                  <el-link :underline="false" type="danger" 
+                    v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+
+                  <el-link :underline="false" type="success"
+                    v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="总经办" align="center">
+              <template slot-scope="scope">
+                <el-link  :underline="false" type="info"
+                  v-if="scope.row.invoiceType == 1">未开始
+                </el-link>
+                <el-link  :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 2">办理中
+                </el-link>
+        
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="财务" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="info"
+                  v-if="scope.row.invoiceType <= 2">未开始
+                </el-link>
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 3">办理中
+                </el-link>
+
+                <el-link :underline="false" type="danger" 
+                  v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
+                <el-link :underline="false" type="info" 
+                  v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
+
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 4 || scope.row.invoiceType == 5">完成</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="借支人" align="center">
+              <template slot-scope="scope">
+                <el-link :underline="false" type="info"
+                  v-if="scope.row.invoiceType <= 3">未开始
+                </el-link>
+                <el-link :underline="false" type="primary"
+                  v-if="scope.row.invoiceType == 4">办理中
+                </el-link>
+                <el-link :underline="false" type="success"
+                  v-if="scope.row.invoiceType == 5">完成</el-link>
+
+                <el-link :underline="false" type="info"
+                  v-if="scope.row.invoiceType == 6">未开始
+                </el-link>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" width="400" align="center">
               <template slot-scope="scope">
                 <el-button
