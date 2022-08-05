@@ -90,6 +90,9 @@ public class SelfEmployedController extends BaseController
         }
         startPage();
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        for (SelfEmployedVo selfEmployedVo1:list){
+            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+        }
         return getDataTable(list);
     }
     /**
@@ -126,6 +129,9 @@ public class SelfEmployedController extends BaseController
         }
         startPage();
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(userIdArr,selfEmployedVo);
+        for (SelfEmployedVo selfEmployedVo1:list){
+            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+        }
         return getDataTable(list);
     }
     /**
@@ -138,6 +144,9 @@ public class SelfEmployedController extends BaseController
     {
         startPage();
         List<SelfEmployed> list = selfEmployedService.selectSelfEmployedList(selfEmployed);
+        for (SelfEmployed selfEmployedVo1:list){
+            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+        }
         return getDataTable(list);
     }
 
@@ -163,7 +172,11 @@ public class SelfEmployedController extends BaseController
     @GetMapping(value = "/{selfId}")
     public AjaxResult getInfo(@PathVariable("selfId") String selfId)
     {
-        return AjaxResult.success(selfEmployedService.selectSelfEmployedBySelfId(selfId));
+        SelfEmployed selfEmployed=  selfEmployedService.selectSelfEmployedBySelfId(selfId);
+        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()/10000);
+        System.out.println("getContributionAmount=="+selfEmployed.getContributionAmount());
+        return AjaxResult.success(selfEmployed);
+
     }
 
     /**
@@ -176,6 +189,7 @@ public class SelfEmployedController extends BaseController
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
         selfEmployed.setEndStatus(0);
+        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
         return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
     }
 
