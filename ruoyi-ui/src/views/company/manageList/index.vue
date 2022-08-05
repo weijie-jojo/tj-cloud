@@ -17,22 +17,12 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
+      
       <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
+         >删除</el-button>
+      </el-col>
+      
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -48,32 +38,18 @@
           <span v-if="scope.row.isActive == 2">报警</span>
         </template>
       </el-table-column>
-      <el-table-column label="休眠/激活" align="center">
+      <!-- <el-table-column label="休眠/激活" align="center">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.isActive" active-color="#13ce66" active-text="激活" active-value="1"
             inactive-color="rgb(233,235,239)" inactive-text="休眠" inactive-value="0" @change="changeSwitch(scope.row)">
           </el-switch>
 
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">休眠</el-button>
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">激活</el-button> -->
-
-
-          <!-- <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-         
-            >修改</el-button -->
-          <!-- > -->
-          <!-- v-hasPermi="['company:employed:edit']" -->
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="edits(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,14 +140,11 @@
 <script>
 import {
   joinListEnd,
-  listEmployed,
-  getEmployed,
   delEmployed,
   addEmployed,
   updateEmployed,
 } from "@/api/company/employed";
-import { Row } from "element-ui";
-// import axios from 'axios'
+
 export default {
   name: "Employed",
   data() {
@@ -421,8 +394,8 @@ export default {
       });
     },
     /** 删除按钮操作 */
-    handleDelete(row) {
-      const selfIds = row.selfId;
+    handleDelete() {
+      const selfIds = this.ids;
       this.$modal
         .confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？')
         .then(function () {

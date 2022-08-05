@@ -40,23 +40,14 @@
    </el-tabs>
 
     </el-col>
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
+   
+      
      
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
+    
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-  
-       
+      
+   <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
    <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
     
      
@@ -827,9 +818,7 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加个体商户";
+      this.$router.push('/company/customer/addEmployedInfo');
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

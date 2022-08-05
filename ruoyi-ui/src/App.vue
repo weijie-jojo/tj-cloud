@@ -38,7 +38,7 @@ export default  {
      color: black !important;
 }
 
-::v-deep .el-input__inner {
+::v-deep  .el-input__inner {
     background-color: transparent !important;
    color: black  !important;
    border-color: rgba(135,206,250,0.7) !important;
@@ -49,7 +49,8 @@ export default  {
 }
 
 ::v-deep .el-textarea.is-disabled .el-textarea__inner {
-  background-color: transparent !important;
+  border-color: rgba(135,206,250,0.7) !important;
+  background-color: rgba(255, 255, 255, 1.5) !important;
   color: black  !important;
 }
 ::v-deep .el-radio__input.is-disabled + span.el-radio__label{ 
@@ -62,6 +63,16 @@ export default  {
 ::v-deep .el-dialog:not(.is-fullscreen) {
   margin-top: 1vh !important;
 }
+// ::v-deep .el-input.is-disabled .el-input__inner{
+//    background-color: rgba(255, 255, 255, 1.5) !important;
+//    color: black  !important;
+//    border-color: rgba(135,206,250,0.7) !important;
+// }
+// ::v-deep .el-input-group__append{
+//    background-color: rgba(255, 255, 255, 1.5) !important;
+//    color: black  !important;
+//    border-color: rgba(135,206,250,0.7) !important;
+// }
 
 
 </style>

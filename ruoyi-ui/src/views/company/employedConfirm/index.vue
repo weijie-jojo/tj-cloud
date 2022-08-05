@@ -1,69 +1,67 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-     <el-form-item label="法人姓名" prop="legalPersonName">
+
+      <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+       <el-form-item label="客户经理">
+        <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
        <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-   
+
     <el-row :gutter="10" class="mb8">
      <el-col :span="15">
-     <el-tabs v-model="bankStatus" @tab-click="handleClick">
-     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="办理中" name="0"></el-tab-pane>
-     <el-tab-pane label="完成" name="1"></el-tab-pane>
+       <el-tabs v-model="taxStatus" @tab-click="handleClick">
+       <el-tab-pane label="全部" name="-1"></el-tab-pane>
+       <el-tab-pane label="办理中" name="0"></el-tab-pane>
+       <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
-     </el-col>
-      
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+   </el-col>
+     <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-    
-    <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
+   <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-        <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
-       <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
-       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-        <el-table-column label="办理状态" align="center" prop="">
+      <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+      <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+       <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
-           <el-link :underline="false" type="primary"  v-if="scope.row.bankStatus == 0">办理中</el-link>
-           <el-link :underline="false" type="success"  v-if=" scope.row.bankStatus == 1">完成</el-link>
+           <el-link :underline="false" type="primary"   v-if=" scope.row.taxStatus == 0">办理中</el-link>
+           <el-link :underline="false"  type="success"  v-if=" scope.row.taxStatus == 1">完成</el-link>
          </template>
        </el-table-column>
-       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-          <el-button size="mini" v-if="scope.row.bankStatus == 0" type="text" icon="el-icon-s-goods"
-            @click="bank(scope.row)">银行办理</el-button>
-          <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>银行办理</el-button>
-      </template>
+          <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">注册确认</el-button>
+        
+          </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total >0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
-
-  
-  </div>
+</div>
 </template>
 
 <script>
 
-import { joinList,getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 export default {
   name: "Employed",
   data() {
     return {
-      bankStatus:'-1',
+      taxStatus:'-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -84,17 +82,17 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        nameStatus:1,
-        infoStatus:1,
+        nameStatus: 1,
+        infoStatus: 1,
         businessStatus:1,
+        bankStatus:1,
         // realnameStatus:1,
-        taxStatus:1,
-        bankStatus:null,
+        taxStatus: 1,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
-        userId: null,
+        username: null,
       },
        options: [
         {
@@ -115,31 +113,27 @@ export default {
     };
   },
   created() {
-    this.getList();
+   this.getList();
   },
-  methods: {
+  methods: { 
       handleClick(tab, event) {
-     if(this.bankStatus=='-1'){
-      this.queryParams.bankStatus=null;
+     if(this.taxStatus=='-1'){
+      this.queryParams.taxStatus=null;
      }else{
-      this.queryParams.bankStatus=this.bankStatus;
+      this.queryParams.taxStatus=this.taxStatus;
      }
       this.queryParams.pageNum=1;
       this.getList();
       },
       detail(row){
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("银行信息","/company/customer/detailBank");
-
+         this.$tab.openPage("税率信息","/company/customer/detailTax");
     },
-    
-    
-    
-    /** 查询个体商户列表 */
+   /** 查询个体商户列表 */
     getList() {
       this.loading = true;
       joinList(this.queryParams).then(response => {
-        
+
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -153,7 +147,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        placeName:null,
+        placeName: null,
         selfId: null,
         selfKey: null,
         placeCode: null,
@@ -186,14 +180,13 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      
       this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.bankStatus='-1';
-      this.queryParams.bankStatus=null;
+      this.taxStatus='-1';
+      this.queryParams.taxStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -203,15 +196,14 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    //工商管理
-    business(row) {
-      this.$cache.local.setJSON('employednewlist', row);
-      this.$router.push('addBusiness');
-    },
-    
-    bank(row){
-       this.$cache.local.setJSON('employednewlist', row);
-       this.$tab.closeOpenPage({ path: "/company/customer/addBank"});
+
+    //税务管理
+    atx(row) {
+      
+        this.$cache.local.setJSON('employednewlist', row);
+         this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
+       // this.$router.push("addTax");
+      
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -273,4 +265,3 @@ export default {
         background-color:rgba(0,0,0,0) !important;
    }
 </style>
-

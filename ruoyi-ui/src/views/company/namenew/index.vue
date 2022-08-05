@@ -514,4 +514,14 @@ export default {
   color: blue !important;
   margin-bottom: 10px !important;
 }
+::v-deep .el-input.is-disabled .el-input__inner{
+   background-color: rgba(255, 255, 255, 1.5) !important;
+   color: black  !important;
+   border-color: rgba(135,206,250,0.7) !important;
+}
+::v-deep .el-input-group__append{
+   background-color: rgba(255, 255, 255, 1.5) !important;
+   color: black  !important;
+   border-color: rgba(135,206,250,0.7) !important;
+}
 </style>

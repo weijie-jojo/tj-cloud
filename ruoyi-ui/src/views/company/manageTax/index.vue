@@ -12,13 +12,7 @@
        <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-         <!-- <el-form-item label="办理状态">
-        <el-select clearable v-model="queryParams.taxStatus" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item> -->
-      <el-form-item>
+       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
@@ -48,8 +42,7 @@
        </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" v-if="scope.row.taxStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-          <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
+          <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" v-if="scope.row.taxStatus==0" type="text" icon="el-icon-s-goods"
             @click="atx(scope.row)">税务办理</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>税务办理</el-button>
@@ -65,8 +58,7 @@
 <script>
 
 import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
-import { Row } from "element-ui";
-// import axios from 'axios'
+
 export default {
   name: "Employed",
   data() {
