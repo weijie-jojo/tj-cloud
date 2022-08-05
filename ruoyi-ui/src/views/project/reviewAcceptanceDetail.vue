@@ -192,92 +192,12 @@ export default {
       })
 
     },
-     // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
-    },
-    // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-    // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-    // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-    // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-    // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
-
-
-       beforeAvatarUpload(file){
-       const isLt2M = file.size / 1024 / 1024 < 5;
-       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-       const whiteList = ["jpg", "png",'pdf','jpeg'];
-       if (whiteList.indexOf(fileSuffix) === -1) {
-       this.$message.error('上传文件只能是 jpg,png,jpeg,pdf格式');
-         return false;
-      }
-       if (!isLt2M) {
-          this.$message.error('上传文件大小不能超过 10MB!');
-          return false;
-        }
-        return fileSuffix&isLt2M;
-       
-    },
+   
       //返回
        resetForm(){
          this.$tab.closeOpenPage({path:'/project/reviewContract'})
        },
-       handlesuccess1(file, fileList) {
-            this.formData.fileName.push(file.obj);
-        },
-        handleRemove1(file, fileList) {
-            const i = this.formData.fileName.findIndex((item) => item === fileList);
-            this.formData.fileName.splice(i, 1);
-        },
-        handlePreview1(file) {
-              if (file.hasOwnProperty('response')) {
-                if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.response.obj;
-                    this.viewVisible = true;
-                        this.url= pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj,CMapReaderFactory,cMapPacked: true });
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            } else {
-                if (file.url.substring(file.url.lastIndexOf('.') + 1) == 'pdf') {
-                    this.titles = '正在预览' + file.url;
-                    this.viewVisible = true;
-                    this.url = file.url;
-                } else {
-                    this.dialogImageUrl1 = file.url;
-                    this.dialogVisible1 = true;
-                }
-            }
-        },
-        handleExceed1(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
-                } 个文件`
-            );
-        },
-        beforeRemove1(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
+    
         handleChange(val) {
             console.log(val);
         },
@@ -368,7 +288,16 @@ export default {
     color: blue;
 }
 
-
+::v-deep .el-input.is-disabled .el-input__inner{
+   background-color: rgba(255, 255, 255, 1.5) !important;
+   color: black  !important;
+   border-color: rgba(135,206,250,0.7) !important;
+}
+::v-deep .el-input-group__append{
+   background-color: rgba(255, 255, 255, 1.5) !important;
+   color: black  !important;
+   border-color: rgba(135,206,250,0.7) !important;
+}
 
 // ::v-deep .el-tabs__nav-scroll {
 //   width: 50% !important;

@@ -9,8 +9,8 @@
       <el-form-item label="渠道商">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商">
-        <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="业务经理">
+        <el-input v-model="queryParams.username" placeholder="请输入业务经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <!-- <el-form-item label="审核状态">
         <el-select clearable v-model="queryParams.infoStatus" placeholder="请选择">
@@ -73,12 +73,7 @@
           <el-button size="mini" v-if="scope.row.infoStatus == 0" type="text" icon="el-icon-info"
             @click="bank(scope.row)">审核信息</el-button>
           <el-button size="mini" v-else icon="el-icon-info" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
-          <!-- <el-button size="mini" type="text" icon="el-icon-coin" @click="bank(scope.row)">审核信息</el-button> -->
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button> -->
-        </template>
+         </template>
       </el-table-column>
     </el-table>
 
@@ -150,16 +145,6 @@ export default {
     };
   },
   created() {
-    // axios.get("/getUsers", {
-
-    //     }).then((res) => {
-    //       console.log(res);
-    //       this.loading = false;
-    //       let data = res.data.data.list;
-    //       this.employedList = data;
-
-    //     });
-
     this.getList();
   },
   methods: {
@@ -250,11 +235,11 @@ export default {
       this.multiple = !selection.length
     },
 
-    bank(row) {
-      this.$cache.local.setJSON('employedInfo', row);
-      this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
-      // this.$router.push("/company/customer/infonew");
-    },
+    // bank(row) {
+    //   this.$cache.local.setJSON('employedInfo', row);
+    //   //this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
+    //   this.$router.push("/company/customer/infonew");
+    // },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

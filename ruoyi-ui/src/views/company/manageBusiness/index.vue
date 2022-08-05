@@ -12,19 +12,12 @@
        <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-       <!-- <el-form-item label="办理状态">
-        <el-select clearable v-model="queryParams.businessStatus" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item> -->
-      <el-form-item>
+     <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    
-    <el-row :gutter="10" class="mb8">
+     <el-row :gutter="10" class="mb8">
       <el-col :span="15">
      <el-tabs v-model="businessStatus" @tab-click="handleClick">
      <el-tab-pane label="全部" name="-1"></el-tab-pane>
@@ -32,22 +25,7 @@
      <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
      </el-col>
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
+      
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
@@ -64,23 +42,13 @@
        </el-table-column>
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" v-if="scope.row.businessStatus==1" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-          <el-button size="mini" type="text" v-else icon="el-icon-view" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>查看</el-button>
-           <el-button size="mini" type="text" icon="el-icon-table-lamp"
+          <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" icon="el-icon-table-lamp"
             @click="businessTable(scope.row)">工商表格</el-button>
           <el-button size="mini" v-if="scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
             @click="business(scope.row)">办理工商</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
-
-
-
-          <!-- <el-button size="mini" type="text" icon="el-icon-s-custom" @click="business(scope.row)">办理工商</el-button> -->
-          
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['company:employed:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['company:employed:remove']">删除</el-button> -->
-        </template>
+       </template>
       </el-table-column>
     </el-table>
 
@@ -92,8 +60,6 @@
 <script>
 
 import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
-import { Row } from "element-ui";
-// import axios from 'axios'
 export default {
   name: "Employed",
   data() {
