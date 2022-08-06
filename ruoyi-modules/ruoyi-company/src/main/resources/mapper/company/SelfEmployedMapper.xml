@@ -81,6 +81,7 @@
         <result property="specialShareMoney"    column="special_share_money"    />
         <result property="isOrdinaryTax"    column="is_ordinary_tax"    />
         <result property="isSpecialTax"    column="is_special_tax"    />
+        <result property="remarkRegister"    column="remark_register"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -94,7 +95,7 @@
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
-               is_ordinary_tax,is_special_tax
+               is_ordinary_tax,is_special_tax,remark_register
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -141,6 +142,7 @@
             <if test="selfEmployedVo.specialShareMoney != null "> and t.special_share_money = #{selfEmployedVo.specialShareMoney}</if>
             <if test="selfEmployedVo.isOrdinaryTax != null "> and t.is_ordinary_tax = #{selfEmployedVo.isOrdinaryTax}</if>
             <if test="selfEmployedVo.isSpecialTax != null "> and t.is_special_tax = #{selfEmployedVo.isSpecialTax}</if>
+            <if test="selfEmployedVo.remarkRegister != null  and selfEmployedVo.remarkRegister != ''"> and t.remark_register = #{selfEmployedVo.remarkRegister}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -235,6 +237,7 @@
             <if test="specialShareMoney != null "> and special_share_money = #{specialShareMoney}</if>
             <if test="isOrdinaryTax != null "> and is_ordinary_tax = #{isOrdinaryTax}</if>
             <if test="isSpecialTax != null "> and is_special_tax = #{isSpecialTax}</if>
+            <if test="remarkRegister != null  and remarkRegister != ''"> and remark_register = #{remarkRegister}</if>
         </where>
     </select>
 
@@ -321,6 +324,7 @@
             <if test="specialShareMoney != null">special_share_money,</if>
             <if test="isOrdinaryTax != null">is_ordinary_tax,</if>
             <if test="isSpecialTax != null">is_special_tax,</if>
+            <if test="remarkRegister != null">remark_register,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -398,6 +402,7 @@
             <if test="specialShareMoney != null">#{specialShareMoney},</if>
             <if test="isOrdinaryTax != null">#{isOrdinaryTax},</if>
             <if test="isSpecialTax != null">#{isSpecialTax},</if>
+            <if test="remarkRegister != null">#{remarkRegister},</if>
         </trim>
     </insert>
 
@@ -479,6 +484,7 @@
             <if test="specialShareMoney != null">special_share_money = #{specialShareMoney},</if>
             <if test="isOrdinaryTax != null">is_ordinary_tax = #{isOrdinaryTax},</if>
             <if test="isSpecialTax != null">is_special_tax = #{isSpecialTax},</if>
+            <if test="remarkRegister != null">remark_register = #{remarkRegister},</if>
         </trim>
         where self_id = #{selfId}
     </update>
