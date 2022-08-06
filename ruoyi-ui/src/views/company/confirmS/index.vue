@@ -800,20 +800,34 @@
          </el-collapse-item>
 
         </el-collapse>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio disabled v-model="isokradio" label="1"> 通过</el-radio>
 
-        
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;">
+              <el-radio disabled v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input placeholder="请输入不通过说明" type="textarea" v-model="this.formData.remarkRegister" :disabled="isokradio == 1"></el-input>
+            </div>
 
 
-
-
-
+          </el-form-item>
+        </el-col>
+        </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">返回</el-button>
-
-        </el-col>
+          </el-col>
         <el-col :span="8"></el-col>
       </el-row>
 
@@ -843,7 +857,7 @@ export default {
   props: [],
   data() {
     return {
-   
+      userinfo:{},
       specialShare: '1',
       ordinaryShare: '1',
       industryTax: '',
@@ -1274,6 +1288,14 @@ export default {
       this.formData.isSpecialTax = '0';
     }
 
+     if(this.formData.endStatus==1){
+      this.isokradio='1';
+    }else if(this.formData.endStatus==2){
+      this.isokradio='2';
+    }else if(this.formData.endStatus==0){
+      this.isokradio='0';
+    }
+
    this.fileName1 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
     for (let k1 in this.fileName1) {
       this.fileNameN1.push({
@@ -1329,7 +1351,7 @@ export default {
     this.nailist();
   },
   methods: {
-      changeValue(res) {
+     changeValue(res) {
       for (let i in this.mylist) {
         if (this.mylist[i].accountName == res) {
           this.formData.publicDepositBank3 = this.mylist[i].publicDepositBank3;
@@ -1344,6 +1366,7 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
@@ -1398,7 +1421,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/company/manageList' });
+      this.$tab.closeOpenPage({ path: 'company/customer/employedConfirm' });
     },
       nailist() {
       all()

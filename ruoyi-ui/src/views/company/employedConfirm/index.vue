@@ -20,8 +20,9 @@
 
     <el-row :gutter="10" class="mb8">
      <el-col :span="15">
-       <el-tabs v-model="taxStatus" @tab-click="handleClick">
+       <el-tabs v-model="endStatus" @tab-click="handleClick">
        <el-tab-pane label="全部" name="-1"></el-tab-pane>
+        <el-tab-pane label="异常" name="2"></el-tab-pane>
        <el-tab-pane label="办理中" name="0"></el-tab-pane>
        <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
@@ -36,13 +37,17 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
-           <el-link :underline="false" type="primary"   v-if=" scope.row.taxStatus == 0">办理中</el-link>
-           <el-link :underline="false"  type="success"  v-if=" scope.row.taxStatus == 1">完成</el-link>
+           <el-link :underline="false" type="primary"   v-if=" scope.row.endStatus == 2">异常</el-link>
+           <el-link :underline="false" type="primary"   v-if=" scope.row.endStatus == 0">办理中</el-link>
+           <el-link :underline="false"  type="success"  v-if=" scope.row.endStatus == 1">完成</el-link>
          </template>
        </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">注册确认</el-button>
+          <el-button size="mini" type="text"  icon="el-icon-view" @click="look(scope.row)">查看</el-button>
+          <el-button size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
+            @click="detail(scope.row)">确认注册</el-button>
+          <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>银行办理</el-button>
         
           </template>
       </el-table-column>
@@ -61,7 +66,7 @@ export default {
   name: "Employed",
   data() {
     return {
-      taxStatus:'-1',
+      endStatus:'-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -88,6 +93,7 @@ export default {
         bankStatus:1,
         // realnameStatus:1,
         taxStatus: 1,
+        endStatus:null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
@@ -117,17 +123,23 @@ export default {
   },
   methods: { 
       handleClick(tab, event) {
-     if(this.taxStatus=='-1'){
-      this.queryParams.taxStatus=null;
+     if(this.endStatus=='-1'){
+      this.queryParams.endStatus=null;
      }else{
-      this.queryParams.taxStatus=this.taxStatus;
+      this.queryParams.endStatus=this.taxStatus;
      }
       this.queryParams.pageNum=1;
       this.getList();
       },
+      look(row){
+        this.$cache.local.setJSON("employedInfo", row);
+        this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => {})
+      },
       detail(row){
-         this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("税率信息","/company/customer/detailTax");
+        // this.$cache.local.setJSON('employednewlist', row);
+        // this.$tab.openPage("税率信息","/company/customer/detailTax");
+       this.$cache.local.setJSON("employedInfo", row);
+       this.$tab.openPage("确认注册", "/company/customer/confirmDetail").then(() => {})
     },
    /** 查询个体商户列表 */
     getList() {
@@ -185,8 +197,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.taxStatus='-1';
-      this.queryParams.taxStatus=null;
+      this.endStatus='-1';
+      this.queryParams.endStatus=null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -197,14 +209,7 @@ export default {
       this.multiple = !selection.length
     },
 
-    //税务管理
-    atx(row) {
-      
-        this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
-       // this.$router.push("addTax");
-      
-    },
+    
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

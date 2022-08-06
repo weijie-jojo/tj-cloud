@@ -557,8 +557,8 @@
                 </div>
               </el-form-item>
               <el-form-item label="服务费含税" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='1'>否</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
               <el-form-item  label="分润方式" :required="yecomfirms">
                 <div style="">
@@ -609,6 +609,10 @@
                 </el-input>
 
               </div>
+            </el-form-item>
+             <el-form-item label="服务费含税" :required="yecomfirms">
+              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='0'>是</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='1'>否</el-radio>
             </el-form-item>
             <el-form-item label="分润方式" :required="yecomfirms">
               <div style="">
@@ -1151,10 +1155,15 @@ export default {
       this.ordinaryShare = '2';
     }
     
-    if (this.formData.isSelfTax == 1) {
-      this.formData.isSelfTax = '1';
+    if (this.formData.isOrdinaryTax == 1) {
+      this.formData.isOrdinaryTax = '1';
     } else {
-      this.formData.isSelfTax = '0';
+      this.formData.isOrdinaryTax = '0';
+    }
+    if (this.formData.isSpecialTax == 1) {
+      this.formData.isSpecialTax = '1';
+    } else {
+      this.formData.isSpecialTax = '0';
     }
   },
   methods: {
@@ -1179,9 +1188,11 @@ export default {
         this.formData.specialSelfMoney = 0;
         this.formData.ordinarySelfFee = 0;
         this.formData.ordinarySelfMoney = 0;
-        this.formData.isSelfTax = '0';
+       // this.formData.isSelfTax = '0';
         this.formData.registerMoney = '';
-
+        this.formData.isSpecialTax='0';
+        this.formData.isOrdinaryTax='0';
+        
         this.vipRadio = '1';
         this.basicRadio = '1';
         this.specialShare = '1',
@@ -1234,10 +1245,16 @@ export default {
 
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
-           if (this.unlist.isOrdinaryTax) {
-              this.formData.isSelfTax = '0';
+            if (this.unlist.isSpecialTax) {
+              this.formData.isSpecialTax = '0';
             } else {
-              this.formData.isSelfTax = '1';
+              this.formData.isSpecialTax = '1';
+            }
+
+              if (this.unlist.isOrdinaryTax) {
+              this.formData.isOrdinaryTax = '0';
+            } else {
+              this.formData.isOrdinaryTax = '1';
             }
 
           });
@@ -1494,7 +1511,9 @@ export default {
             specialSelfMoney: this.formData.specialSelfMoney,
             ordinarySelfFee: this.formData.ordinarySelfFee,
             ordinarySelfMoney: this.formData.ordinarySelfMoney,
-            isSelfTax: this.formData.isSelfTax,
+            //isSelfTax: this.formData.isSelfTax,
+            isSpecialTax:this.formData.isSpecialTax,
+            isOrdinaryTax:this.formData.isOrdinaryTax,
             registerMoney: this.formData.registerMoney,
 
 

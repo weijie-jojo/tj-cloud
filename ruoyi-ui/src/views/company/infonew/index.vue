@@ -518,8 +518,8 @@
                 </div>
               </el-form-item>
               <el-form-item label="服务费含税" :required="true">
-              <el-radio :disabled="true" v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="true" v-model="formData.isSelfTax" label='1'>否</el-radio>
+              <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
               <el-form-item  label="分润方式" :required="true">
                 <div style="">
@@ -570,6 +570,10 @@
                 </el-input>
 
               </div>
+            </el-form-item>
+              <el-form-item label="服务费含税" :required="true">
+              <el-radio :disabled="true" v-model="formData.isSpecialTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isSpecialTax" label='1'>否</el-radio>
             </el-form-item>
             <el-form-item label="分润方式" :required="true">
               <div style="">
@@ -1067,10 +1071,15 @@ export default {
       this.ordinaryShare = '2';
     }
     
-    if (this.formData.isSelfTax == 1) {
-      this.formData.isSelfTax = '1';
+    if (this.formData.isOrdinaryTax == 1) {
+      this.formData.isOrdinaryTax = '1';
     } else {
-      this.formData.isSelfTax = '0';
+      this.formData.isOrdinaryTax = '0';
+    }
+    if (this.formData.isSpecialTax == 1) {
+      this.formData.isSpecialTax = '1';
+    } else {
+      this.formData.isSpecialTax = '0';
     }
   },
   methods: {
@@ -1156,7 +1165,7 @@ export default {
             parms = {
               selfId: this.formData.selfId,
               infoStatus: type,
-              remark: this.remark,
+              remarkInfo: this.remark,
               endStatus: 2,
             };
           }

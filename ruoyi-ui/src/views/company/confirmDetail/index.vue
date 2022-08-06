@@ -808,10 +808,36 @@
 
 
 
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio v-model="isokradio" label="1"> 通过</el-radio>
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;justify-content: flex-start;">
+              <el-radio v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradio == 1"></el-input>
+            </div>
+
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">驳回</el-button>
+          <el-button v-else type="primary" @click="submitForm3(1)">通过</el-button>
 
         </el-col>
         <el-col :span="8"></el-col>
@@ -825,6 +851,7 @@
   </div>
 </template>
 <script>
+import { addEmployed, updateEmployed } from "@/api/company/employed";
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -843,7 +870,7 @@ export default {
   props: [],
   data() {
     return {
-   
+      userinfo:{},
       specialShare: '1',
       ordinaryShare: '1',
       industryTax: '',
@@ -1329,6 +1356,109 @@ export default {
     this.nailist();
   },
   methods: {
+      check(resmsg) {
+      let parms = {
+        "checkReasult": resmsg,
+        "checkUser": this.userinfo.userName,
+        'phonenumber': this.userinfo.phonenumber,
+        "selfCode": this.formData.selfCode,
+        "selfType": "8",
+      }
+      crudEmployed.check(parms).then(res => {
+        console.log('注册确认插入日志成功！');
+      }).catch(error => {
+
+      });
+    },
+     repair(i) {
+            if (i >= 0 && i <= 9) {
+                return "0" + i;
+            } else {
+                return i;
+            }
+        },
+     submitForm3(type) {
+
+      this.$refs['elForm'].validate(valid => {
+        // TODO 提交表单
+        if (valid) {
+          var date = new Date();//当前时间
+            var year = date.getFullYear() //年
+            var month = this.repair(date.getMonth() + 1);//月
+            var day = this.repair(date.getDate());//日
+            var hour = this.repair(date.getHours());//时
+            var minute = this.repair(date.getMinutes());//分
+            var second = this.repair(date.getSeconds());//秒
+            //当前时间 
+            var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+            // this.formData.createTime = curTime;
+           
+          let parms;
+          if (type == 1) {
+            parms = {
+              selfId: this.formData.selfId,
+              endStatus: 1,
+              endTime:curTime
+            };
+          } else {
+            parms = {
+              selfId: this.formData.selfId,
+              remarkRegister: this.remark,
+              endStatus: 2,
+            };
+          }
+
+
+
+          updateEmployed(parms).then(res => {
+
+
+            if (res != undefined) {
+              if (res.code === 200) {
+
+                this.$nextTick(function () {
+                  this.$tab.refreshPage({ path: "/company/customer/employedConfirm" }).then(() => {
+                    let resmsg = '';
+                    if (type == 1) {
+                      resmsg = '注册确认完成';
+                      this.check('注册确认完成');
+                    } else {
+                      this.check('注册确认完成未通过' + '(原因)' + this.remark);
+                      resmsg = '注册确认完成';
+                    }
+
+                    let obj = {
+                      title: '信息审核',
+                      backUrl: '/company/customer/employedConfirm',
+                      resmsg: resmsg
+
+                    }
+                    this.$cache.local.setJSON('successNew', obj);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                  });
+                });
+
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({ path: "/company/customer/employedConfirm" });
+              }
+
+            }
+
+
+
+
+          });
+
+        } else {
+          this.$message({
+            message: '请填写完整',
+            type: 'warning'
+          })
+        }
+      })
+
+    },
       changeValue(res) {
       for (let i in this.mylist) {
         if (this.mylist[i].accountName == res) {
@@ -1344,6 +1474,7 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
@@ -1398,7 +1529,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/company/manageList' });
+      this.$tab.closeOpenPage({ path: 'company/customer/employedConfirm' });
     },
       nailist() {
       all()

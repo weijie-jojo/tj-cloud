@@ -732,8 +732,8 @@
                 </div>
               </el-form-item>
               <el-form-item label="服务费含税" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='1'>否</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
               <el-form-item  label="分润方式" :required="yecomfirms">
                 <div style="">
@@ -784,6 +784,10 @@
                 </el-input>
 
               </div>
+            </el-form-item>
+              <el-form-item label="服务费含税" :required="yecomfirms">
+              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='0'>是</el-radio>
+              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='1'>否</el-radio>
             </el-form-item>
             <el-form-item label="分润方式" :required="yecomfirms">
               <div style="">
@@ -981,12 +985,13 @@ export default {
         userName: '',
         //名称
 
-
+        isSpecialTax:'0',
+        isOrdinaryTax:'',
         specialSelfFee: 0,//专票个体户代办费(率)
         specialSelfMoney: 0,//专票个体户代办费(元）
         ordinarySelfFee: 0,//普票个体户代办费(率)
         ordinarySelfMoney: 0,//普票个体户代办费(元）
-        isSelfTax: '0',  //个体户服务费是否含税
+        //isSelfTax: '0',  //个体户服务费是否含税
         registerMoney: '', //注册服务费
         selfCode: '',
 
@@ -1051,7 +1056,8 @@ export default {
         ordinarySelfMoney: 0,//普票个体户代办费(元）
         isSelfTax: '0',  //个体户服务费是否含税
         registerMoney: '', //注册服务费
-
+  
+        
         specialShareMoney: '',
         specialShare: '',
         ordinaryShare: '',
@@ -1466,10 +1472,16 @@ export default {
             // this.ordinaryTax=JSON.stringify(this.unlist.ordinaryTax);
 
 
-            if (this.unlist.isOrdinaryTax) {
-              this.formData.isSelfTax = '0';
+            if (this.unlist.isSpecialTax) {
+              this.formData.isSpecialTax = '0';
             } else {
-              this.formData.isSelfTax = '1';
+              this.formData.isSpecialTax = '1';
+            }
+
+              if (this.unlist.isOrdinaryTax) {
+              this.formData.isOrdinaryTax = '0';
+            } else {
+              this.formData.isOrdinaryTax = '1';
             }
 
           });
@@ -1488,7 +1500,10 @@ export default {
         this.formData.specialSelfMoney = 0;
         this.formData.ordinarySelfFee = 0;
         this.formData.ordinarySelfMoney = 0;
-        this.formData.isSelfTax = '0';
+        
+        this.formData.isSpecialTax='0';
+        this.formData.isOrdinaryTax='0';
+        //this.formData.isSelfTax = '0';
         this.formData.registerMoney = '';
 
         this.vipRadio = '1';
@@ -1762,7 +1777,9 @@ export default {
             specialSelfMoney: this.formData.specialSelfMoney,
             ordinarySelfFee: this.formData.ordinarySelfFee,
             ordinarySelfMoney: this.formData.ordinarySelfMoney,
-            isSelfTax: this.formData.isSelfTax,
+            isSpecialTax:this.formData.isSpecialTax,
+            isOrdinaryTax:this.formData.isOrdinaryTax,
+           // isSelfTax: this.formData.isSelfTax,
             registerMoney: this.formData.registerMoney,
 
 
