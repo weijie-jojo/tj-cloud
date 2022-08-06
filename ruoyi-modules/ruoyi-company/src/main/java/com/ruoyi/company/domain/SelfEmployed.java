@@ -323,6 +323,14 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "分润方式(增值税专用发票）定额")
     private Long specialShareMoney;
 
+    /** 普票价税分离（与服务费含税一样，是，否；默认选择否）*/
+    @Excel(name = "普票价税分离", readConverterExp = "与=服务费含税一样，是，否；默认选择否")
+    private Long isOrdinaryTax;
+
+    /** 专票价税分离（与服务费含税一样，是，否；默认选择否） */
+    @Excel(name = "专票价税分离", readConverterExp = "与=服务费含税一样，是，否；默认选择否")
+    private Long isSpecialTax;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

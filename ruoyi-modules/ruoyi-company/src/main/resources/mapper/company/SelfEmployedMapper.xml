@@ -79,6 +79,8 @@
         <result property="ordinaryShareMoney"    column="ordinary_share_money"    />
         <result property="specialShare"    column="special_share"    />
         <result property="specialShareMoney"    column="special_share_money"    />
+        <result property="isOrdinaryTax"    column="is_ordinary_tax"    />
+        <result property="isSpecialTax"    column="is_special_tax"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -91,7 +93,8 @@
                file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
-               ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money
+               ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
+               is_ordinary_tax,is_special_tax
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -136,6 +139,8 @@
             <if test="selfEmployedVo.ordinaryShareMoney != null "> and t.ordinary_share_money = #{selfEmployedVo.ordinaryShareMoney}</if>
             <if test="selfEmployedVo.specialShare != null "> and t.special_share = #{selfEmployedVo.specialShare}</if>
             <if test="selfEmployedVo.specialShareMoney != null "> and t.special_share_money = #{selfEmployedVo.specialShareMoney}</if>
+            <if test="selfEmployedVo.isOrdinaryTax != null "> and t.is_ordinary_tax = #{selfEmployedVo.isOrdinaryTax}</if>
+            <if test="selfEmployedVo.isSpecialTax != null "> and t.is_special_tax = #{selfEmployedVo.isSpecialTax}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -228,6 +233,8 @@
             <if test="ordinaryShareMoney != null "> and ordinary_share_money = #{ordinaryShareMoney}</if>
             <if test="specialShare != null "> and special_share = #{specialShare}</if>
             <if test="specialShareMoney != null "> and special_share_money = #{specialShareMoney}</if>
+            <if test="isOrdinaryTax != null "> and is_ordinary_tax = #{isOrdinaryTax}</if>
+            <if test="isSpecialTax != null "> and is_special_tax = #{isSpecialTax}</if>
         </where>
     </select>
 
@@ -312,6 +319,8 @@
             <if test="ordinaryShareMoney != null">ordinary_share_money,</if>
             <if test="specialShare != null">special_share,</if>
             <if test="specialShareMoney != null">special_share_money,</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax,</if>
+            <if test="isSpecialTax != null">is_special_tax,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -387,6 +396,8 @@
             <if test="ordinaryShareMoney != null">#{ordinaryShareMoney},</if>
             <if test="specialShare != null">#{specialShare},</if>
             <if test="specialShareMoney != null">#{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">#{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">#{isSpecialTax},</if>
         </trim>
     </insert>
 
@@ -466,6 +477,8 @@
             <if test="ordinaryShareMoney != null">ordinary_share_money = #{ordinaryShareMoney},</if>
             <if test="specialShare != null">special_share = #{specialShare},</if>
             <if test="specialShareMoney != null">special_share_money = #{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax = #{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">is_special_tax = #{isSpecialTax},</if>
         </trim>
         where self_id = #{selfId}
     </update>
