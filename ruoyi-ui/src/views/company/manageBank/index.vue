@@ -203,11 +203,7 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    //工商管理
-    business(row) {
-      this.$cache.local.setJSON('employednewlist', row);
-      this.$router.push('addBusiness');
-    },
+    
     
     bank(row){
        this.$cache.local.setJSON('employednewlist', row);

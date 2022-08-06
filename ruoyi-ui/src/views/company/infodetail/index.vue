@@ -497,8 +497,8 @@
                 </div>
               </el-form-item>
               <el-form-item label="服务费含税" :required="true">
-              <el-radio :disabled="true" v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="true" v-model="formData.isSelfTax" label='1'>否</el-radio>
+              <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
               <el-form-item  label="分润方式" :required="true">
                 <div style="">
@@ -550,6 +550,10 @@
 
               </div>
             </el-form-item>
+               <el-form-item label="服务费含税" :required="true">
+              <el-radio :disabled="true" v-model="formData.isSpecialTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isSpecialTax" label='1'>否</el-radio>
+            </el-form-item>
             <el-form-item label="分润方式" :required="true">
               <div style="">
 
@@ -571,7 +575,28 @@
 
         </el-collapse>
 
-     
+       <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio disabled v-model="isokradio" label="1"> 通过</el-radio>
+
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <div style="display: flex; align-items: center;">
+              <el-radio disabled v-model="isokradio" label="2">不通过 </el-radio>
+              <el-input placeholder="请输入不通过说明" type="textarea" v-model="this.formData.remarkInfo" :disabled="isokradio == 1"></el-input>
+            </div>
+
+
+          </el-form-item>
+        </el-col>
+        </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
@@ -922,7 +947,13 @@ export default {
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
   
-
+      if(this.formData.infoStatus==1){
+      this.isokradio='1';
+    }else if(this.formData.infoStatus==2){
+      this.isokradio='2';
+    }else if(this.formData.infoStatus==0){
+      this.isokradio='0';
+    }
     this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
     this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
     if (this.formData.ordinarySelfMoney > 0) {
@@ -946,10 +977,15 @@ export default {
       this.ordinaryShare = '2';
     }
     
-    if (this.formData.isSelfTax == 1) {
-      this.formData.isSelfTax = '1';
+    if (this.formData.isOrdinaryTax == 1) {
+      this.formData.isOrdinaryTax = '1';
     } else {
-      this.formData.isSelfTax = '0';
+      this.formData.isOrdinaryTax = '0';
+    }
+    if (this.formData.isSpecialTax == 1) {
+      this.formData.isSpecialTax = '1';
+    } else {
+      this.formData.isSpecialTax = '0';
     }
 
 

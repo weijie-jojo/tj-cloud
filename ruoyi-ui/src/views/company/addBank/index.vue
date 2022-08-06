@@ -170,6 +170,7 @@ export default {
 
       userinfo: {},
       formBank: {
+        endStatus:0,
         bankStatus: 1,
         selfId: "",
         accountName: "",

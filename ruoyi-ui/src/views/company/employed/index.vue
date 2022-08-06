@@ -9,17 +9,10 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-            <el-form-item label="提交时间">
-                  <el-date-picker
-                     v-model="projectTime"
-                     value-format="yyyy-MM-dd HH:mm:ss"
-                     type="datetimerange"
-                    :picker-options="pickerOptions"
-                    range-separator="至"
-                   start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                   :default-time="['00:00:00', '23:59:59']"
-                    align="right">
+      <el-form-item label="提交时间">
+        <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+          :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+          :default-time="['00:00:00', '23:59:59']" align="right">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -27,37 +20,38 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    
-    <el-row :gutter="10" class="mb8">
-   
-    <el-col :span="15">
-    <el-tabs v-model="endStatus" @tab-click="handleClick">
-     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="异常" name="2"></el-tab-pane>
-     <el-tab-pane label="办理中" name="0"></el-tab-pane>
-     <el-tab-pane label="完成" name="1"></el-tab-pane>
-     
-   </el-tabs>
 
-    </el-col>
-   
-      
-     
-    
+    <el-row :gutter="10" class="mb8">
+
+      <el-col :span="15">
+        <el-tabs v-model="endStatus" @tab-click="handleClick">
+          <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
+          <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
+          <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
+          <el-tab-pane label="完成" name="1"></el-tab-pane>
+
+        </el-tabs>
+
+      </el-col>
+
+
+
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-      
-   <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-   <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-    
-     
-   
+
+    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+    <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini"
+      :disabled="multiple" @click="handleDelete">删除</el-button>
+
+
+
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+      <el-table-column label="提交时间" align="center" prop="createTime" width="110" :show-overflow-tooltip="true" />
       <el-table-column width="400" label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="进度状态" align="center" prop="endStatus">
@@ -76,7 +70,7 @@
           <el-link @click="examine(scope.row.applyName, scope.row, 1)" :underline="false" type="primary"
             v-if="scope.row.nameStatus == '0'">审核中
           </el-link>
-          <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode)"
+          <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode,scope.row.applyName)"
             v-if="scope.row.nameStatus == '2'">异常</el-link>
           <el-link @click="finishName(scope.row, scope.row.selfCode)" :underline="false" type="success"
             v-if="scope.row.nameStatus == '1'">完成</el-link>
@@ -87,7 +81,7 @@
           <el-link @click="examine(scope.row.applyName, scope.row, 2)" :underline="false" type="primary"
             v-if="scope.row.infoStatus == '0'">审核中
           </el-link>
-          <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode)"
+          <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode,scope.row.applyName)"
             v-if="scope.row.infoStatus == '2'">异常</el-link>
           <el-link @click="finishInfo(scope.row, scope.row.selfCode)" :underline="false" type="success"
             v-if="scope.row.infoStatus == '1'">完成</el-link>
@@ -110,10 +104,10 @@
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 4)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 0">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 0">
             办理中</el-link>
           <el-link :underline="false" @click="finishBus(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1">
             完成</el-link>
         </template>
       </el-table-column>
@@ -124,23 +118,23 @@
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 5)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 0">
             办理中</el-link>
           <el-link :underline="false" @click="finishTax(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1">
             完成</el-link>
         </template>
       </el-table-column>
       <el-table-column label="银行办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
-            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2  || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
             未开始</el-link>
           <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 6)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 0">
             办理中</el-link>
           <el-link :underline="false" @click="finishBank(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1  && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1">
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1">
             完成</el-link>
         </template>
       </el-table-column>
@@ -149,10 +143,8 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
     <!-- 进度提示 -->
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="进度详情" :visible.sync="dialogVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="进度详情" :visible.sync="dialogVisible"
+      width="70%">
       <el-table :data="progressList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -161,10 +153,7 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="名称详情" :visible.sync="nameVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称详情" :visible.sync="nameVisible" width="70%">
       <el-table :data="nameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -177,10 +166,8 @@
       </span>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="名称异常说明" :visible.sync="errsnameVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称异常说明" :visible.sync="errsnameVisible"
+      width="70%">
       <el-table :data="errsnameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -189,14 +176,12 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="errsnameVisible = false">关闭</el-button>
-        <el-button type="primary" @click="errsnameDetail">修改</el-button>
+        <el-button type="primary" @click="errsnameDetail">{{errNameMsg}}</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="信息异常说明" :visible.sync="errsinfoVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息异常说明" :visible.sync="errsinfoVisible"
+      width="70%">
       <el-table :data="errsinfoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -205,14 +190,11 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="errsinfoVisible = false">关闭</el-button>
-        <el-button type="primary" @click="errsinfoDetail">修改</el-button>
+        <el-button type="primary" @click="errsinfoDetail">{{errInfoMsg}}</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="信息详情" :visible.sync="infoVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息详情" :visible.sync="infoVisible" width="70%">
       <el-table :data="infoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -225,10 +207,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="实名详情" :visible.sync="cerVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="实名详情" :visible.sync="cerVisible" width="70%">
       <el-table :data="cerList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -242,10 +221,7 @@
     </el-dialog>
 
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="工商详情" :visible.sync="busVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="工商详情" :visible.sync="busVisible" width="70%">
       <el-table :data="busList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -259,10 +235,7 @@
     </el-dialog>
 
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="税务详情" :visible.sync="taxVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="税务详情" :visible.sync="taxVisible" width="70%">
       <el-table :data="taxList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -275,10 +248,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog
-    :closeOnClickModal=false
-    :closeOnPressEscape=false
-    title="银行详情" :visible.sync="bankVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="银行详情" :visible.sync="bankVisible" width="70%">
       <el-table :data="bankList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -299,40 +269,46 @@
 <script>
 
 import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
-// import axios from 'axios'
+import { getInfo } from '@/api/login'
 export default {
   name: "Employed",
   data() {
     return {
-      projectTime:'',
+      errNameMsg:'查看',
+      errInfoMsg:'查看',
+      alabels: '全部',
+      alabels1: '异常',
+      alabels2: '办理中',
+      alabels3: '完成',
+      projectTime: '',
       pickerOptions: {
-                shortcuts: [{
-                    text: '最近一周',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近一个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近三个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }]
-       },
-      multipleSelection:[],
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      multipleSelection: [],
       exmList: [],//等待数据
       errsinfoList: [],//信息数据异常
       errsnameList: [],//名称数据异常
@@ -372,16 +348,17 @@ export default {
       // 是否显示弹出层
       open: false,
       // 查询参数
-      endStatus:'-1',
+      endStatus: '-1',
+      userinfo: {},
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         userId: null,
-        endStatus:'',
-        start:null,
-        end:null,
+        endStatus: '',
+        start: null,
+        end: null,
       },
       // 表单参数
       form: {},
@@ -391,23 +368,31 @@ export default {
     };
   },
   created() {
+    this.getLoginInfo();
+    this.getBang();
+    this.getErr();
     this.getList();
   },
 
   methods: {
-     handleClick(tab, event) {
-     if(this.endStatus=='-1'){
-      this.queryParams.endStatus=null;
-     }else{
-      this.queryParams.endStatus=this.endStatus;
-     }
-      this.queryParams.pageNum=1;
+    getLoginInfo() {
+      getInfo().then(res => {
+        this.userinfo = res.user;
+      })
+    },
+    handleClick(tab, event) {
+      if (this.endStatus == '-1') {
+        this.queryParams.endStatus = null;
+      } else {
+        this.queryParams.endStatus = this.endStatus;
+      }
+      this.queryParams.pageNum = 1;
       this.getList();
-      },
+    },
     //获取审核中的数据
 
     examine(applyName, scope, type) {
-      
+
       var msg = '审核';
       if (type < 3) {
         msg = '审核';
@@ -417,53 +402,97 @@ export default {
       getLeaderByUserId({
         userId: applyName
       }).then(res => {
+        let msgs;
+        if (this.userinfo.userId == res[0].userId) {
+          msgs = msg;
+        } else {
+          msgs = '查看';
+        }
         const h = this.$createElement
         this.$confirm(
           '', {
-  message:h('div',null, [
-    h('i',{ class:'el-icon-question',style:'color:#f90;font-size:30px;' }),
-    h('span',{ style:'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;'}, '温馨提示'),
-    h('p',{ style:'margin:40px 0 0 40px;height:80px' },'请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg)
-  ]),
+          message: h('div', null, [
+            h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+            h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg)
+          ]),
 
 
-      
-          confirmButtonText: '查看',
+
+          confirmButtonText: msgs,
           cancelButtonText: '关闭',
-          closeOnClickModal:false,
-          closeOnPressEscape:false,
+          closeOnClickModal: false,
+          closeOnPressEscape: false,
 
         }).then(() => {
-         switch (type) {
-            case 1:
-              this.$cache.local.setJSON('employedName', scope);
-              this.$router.push("namedetail");
-              break;
-            case 2:
-              this.$cache.local.setJSON('employedInfo', scope);
-              this.$router.push("infodetail");
-              break;
-            case 3:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailCer");
-              break;
+          if (msgs == '查看') {
 
-            case 4:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailBusiness");
-              break;
 
-            case 5:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailTax");
-              break;
+            switch (type) {
+              case 1:
+                this.$cache.local.setJSON('employedName', scope);
+                this.$router.push("namedetail");
+                break;
+              case 2:
+                this.$cache.local.setJSON('employedInfo', scope);
+                this.$router.push("infodetail");
+                break;
+              case 3:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$router.push("detailCer");
+                break;
 
-            case 6:
-              this.$cache.local.setJSON('employednewlist', scope);
-              this.$router.push("detailBank");
-              break;
+              case 4:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$router.push("detailBusiness");
+                break;
 
+              case 5:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$router.push("detailTax");
+                break;
+
+              case 6:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$router.push("detailBank");
+                break;
+
+            }
+          } else {
+            console.log(2222);
+            switch (type) {
+              case 1:
+                this.$cache.local.setJSON('employedName', scope);
+                this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
+                break;
+              case 2:
+                this.$cache.local.setJSON('employedInfo', row);
+                this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
+                break;
+              case 3:
+                break;
+
+              case 4:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
+                break;
+              case 5:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$tab.closeOpenPage({ path: "/company/customer/addTax" });
+                break;
+              case 6:
+                this.$cache.local.setJSON('employednewlist', scope);
+                this.$tab.closeOpenPage({ path: "/company/customer/addBank" });
+                break;
+
+            }
           }
+
+
+
+
+
+
         }).catch(() => {
 
         });
@@ -620,25 +649,59 @@ export default {
 
 
     //异常名称
-    errName(scope, selfCode) {
-      this.checkNames(selfCode);
-      this.$cache.local.setJSON('employedName', scope);
+    errName(scope, selfCode,applyName) {
+       getLeaderByUserId({
+        userId: applyName
+      }).then(res =>{
+         if(this.userinfo.userId==res[0].userId){
+              this.errNameMsg='修改';
+         }else{
+             this.errNameMsg='查看';
+         }
+        this.$cache.local.setJSON('employedName', scope);
+        this.checkNames(selfCode);
+        
+      });
+
+     
+    
       // this.$router.push("editEmployedName");   
     },
     //异常信息
-    errInfo(scope, selfCode) {
-      this.checkInfos(selfCode);
-      this.$cache.local.setJSON('employedInfo', scope);
+    errInfo(scope, selfCode,applyName) {
+        getLeaderByUserId({
+        userId: applyName
+      }).then(res =>{
+         if(this.userinfo.userId==res[0].userId){
+              this.errInfoMsg='修改';
+         }else{
+             this.errInfoMsg='查看';
+         }
+         this.$cache.local.setJSON('employedInfo', scope);
+         this.checkInfos(selfCode);
+        
+      });
+    
+    
       //  this.$router.push("editEmployedInfo");  
     },
 
     errsnameDetail() {
       this.errsnameVisible = false;
-      this.$router.push("editEmployedName");
+      if(this.errNameMsg=='修改'){
+        this.$router.push("editEmployedName");
+      }else{
+        this.$router.push("namedetail");
+      }
     },
     errsinfoDetail() {
       this.errsinfoVisible = false;
-      this.$router.push("editEmployedInfo");
+      if(this.errInfoMsg=='修改'){
+        this.$router.push("editEmployedInfo");
+      }else{
+        this.$router.push("infodetail");
+      }
+      
     },
     check(self_code, self_type) {
       let parms = {
@@ -654,13 +717,13 @@ export default {
     finishName(scope, selfCode) {
       this.checkName(selfCode);
       this.$cache.local.setJSON('employedName', scope);
-     // this.$cache.local.setJSON('employedInfo', scope);
+      // this.$cache.local.setJSON('employedInfo', scope);
     },
     //名称详情
     nameDetail() {
-        let obj={
-         backUrl:'/company/customer/employed',
-        };
+      let obj = {
+        backUrl: '/company/customer/employed',
+      };
       this.$cache.local.setJSON('backurls', obj);
       this.nameVisible = false;
       this.$router.push("namedetail");
@@ -675,9 +738,9 @@ export default {
     //信息详情
     infoDetail() {
       this.infoVisible = false;
-        let obj={
-         backUrl:'/company/customer/employed',
-        };
+      let obj = {
+        backUrl: '/company/customer/employed',
+      };
       this.$cache.local.setJSON('backurls', obj);
       this.$router.push("infodetail");
     },
@@ -733,23 +796,37 @@ export default {
       this.bankVisible = false;
       this.$router.push("detailBank");
     },
-
+    getBang() {
+      let params = {
+        endStatus: 0
+      }
+      joinList(params).then(res => {
+        this.alabels2 = "办理中(" + res.total + ")";
+      });
+    },
+    getErr() {
+      let params = {
+        endStatus: 2
+      }
+      joinList(params).then(res => {
+        this.alabels1 = "异常(" + res.total + ")";
+      });
+    },
 
     /** 查询个体商户列表 */
     getList() {
-       if(this.projectTime!= null){//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.start =this.projectTime[0];
-                this.queryParams.end =this.projectTime[1];
-                console.log("start",this.queryParams.start);
-                console.log("end",this.queryParams.end);
-            }else {//判断选择时间再将时间清除
-                    this.projectTime=null;
-            };
+      if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
+        this.queryParams.start = this.projectTime[0];
+        this.queryParams.end = this.projectTime[1];
+      } else {//判断选择时间再将时间清除
+        this.projectTime = null;
+      };
       this.loading = true;
       joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
+
         this.loading = false;
       });
     },
@@ -799,10 +876,10 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.endStatus='-1';
-      this.queryParams.endStatus='';
-      this.queryParams.start=null;
-      this.queryParams.end=null;
+      this.endStatus = '-1';
+      this.queryParams.endStatus = '';
+      this.queryParams.start = null;
+      this.queryParams.end = null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -850,70 +927,33 @@ export default {
         }
       });
     },
-   
+
     /** 删除按钮操作 */
     handleDelete() {
 
-      this.$confirm('是否确认删除seifId为'+this.ids+'个体户注册信息吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-       delEmployed(this.ids).then(res=>{
-        
-          
-            if (res.code == 200) {
-              this.$modal.msgSuccess("删除成功");
-            } else {
-              this.$modal.msgError("删除失败");
-            }
-            this.$tab.refreshPage();
-            // this.getList();
-            // this.$modal.msgSuccess("删除成功");
-          
-       })
-        
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+      this.$confirm('是否确认删除seifId为' + this.ids + '个体户注册信息吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delEmployed(this.ids).then(res => {
+
+
+          if (res.code == 200) {
+            this.$modal.msgSuccess("删除成功");
+          } else {
+            this.$modal.msgError("删除失败");
+          }
+          this.$tab.refreshPage();
+         })
+
+      }).catch(() => {
+       
+      });
 
 
 
-    //  this.$modal.confirm('是否确认删除seifId为'+this.ids+'个体户注册信息吗？','提示', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }).then(function () {
-    //       console.log(22222222);
-    //     let params = {
-    //     selfIds: this.ids.join(',')//转换成字符串
-    //    };
-    //    delEmployed(params).then(res=>{
-        
-    //       if (res != undefined) {
-    //         if (res.id == 0) {
-    //           this.$message({
-    //             message: res.message,
-    //             type: 'success',
-    //           });
-    //         } else {
-    //           this.$message({
-    //             message: res.message,
-    //             type: 'warning',
-    //           });
-    //         }
-    //         this.$tab.refreshPage();
-    //           // this.getList();
-    //          this.$modal.msgSuccess("删除成功");
-    //       }
-    //    })
-    //   }).catch(() => {
-    //        console.log(22222222);
-
-    //    });
+      
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -925,10 +965,11 @@ export default {
 };
 </script>
 <style scoped>
-   ::v-deep .el-message-box__content{
-     height: 200px !important;
-   }
-     ::v-deep .el-tabs__nav-wrap::after{
-        background-color:rgba(0,0,0,0) !important;
-   }
+::v-deep .el-message-box__content {
+  height: 200px !important;
+}
+
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 </style>
