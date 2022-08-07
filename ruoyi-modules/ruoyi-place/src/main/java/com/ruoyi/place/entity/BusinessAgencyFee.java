@@ -161,11 +161,11 @@ public class BusinessAgencyFee implements Serializable {
     private Long specialShareMoney;
 
     /** 价税分离(普票) 0 是 1否 */
-    @TableField("价税分离(普票) 0 是 1否")
+    @TableField("is_self_tax")
     private Long isSelfTax;
 
     /** 价税分离(专票) 0 是 1否 */
-    @TableField("价税分离(专票) 0 是 1否")
+    @TableField("is_special_self_tax")
     private Long isSpecialSelfTax;
 
 
