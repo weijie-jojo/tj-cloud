@@ -846,7 +846,7 @@
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button type="primary" @click="submitForm" class="btn">确认修改
+          <el-button type="primary" @click="submitForm" class="btn">修改
             </el-button>
         </el-col>
         <el-col :span="8"></el-col>
@@ -862,6 +862,8 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudInformation from '@/api/company/information'
+import crudInfo from '@/api/company/info'
+import crudEmployed from '@/api/company/employed'
 import crudPerson from '@/api/company/person'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
@@ -1399,6 +1401,13 @@ export default {
         name: this.fileName7[k7],
       });
     }
+   this.formData.fileName1=JSON.parse(this.formData.fileName1);
+   this.formData.fileName2=JSON.parse(this.formData.fileName2);
+   this.formData.fileName3=JSON.parse(this.formData.fileName3);
+   this.formData.fileName4=JSON.parse(this.formData.fileName4);
+   this.formData.fileName5=JSON.parse(this.formData.fileName5);
+   this.formData.fileName6=JSON.parse(this.formData.fileName6);
+   this.formData.fileName7=JSON.parse(this.formData.fileName7);
     this.nailist();
   },
   methods: {
@@ -1625,8 +1634,145 @@ export default {
     submitForm1() {
       this.activeName = 'second';
     },
-    submitForm(){
+      submitForm() {
+       if (this.formData.industryType == '-1') {
+        this.$modal.msgError("请选择行业类型");
+        return;
+      }
+       if (!this.formData.industryTax) {
+         this.$modal.msgError("税率不能为空");
+         return;
+      }
+       if (!this.formData.ordinaryTax) {
+          this.$modal.msgError("请选择普票税率");
+          return;
+        }
+        if (!this.formData.ordinarySpecialTax) {
+          this.$modal.msgError("请选择专票税率");
+          return;
+        }
+        if (this.formData.registerMoney <= 0) {
+          this.$modal.msgError("请输入注册服务费并且大于0");
+          return;
+        }
+        if (this.vipRadio == '1') {
+          this.formData.specialSelfFee = 0;
+          if (this.formData.specialSelfMoney <= 0) {
+            this.$modal.msgError("请输入专票服务费并且大于0");
+            return;
+          }
+        } else {
+          this.formData.specialSelfMoney = 0;
+          if (this.formData.specialSelfFee <= 0) {
+            this.$modal.msgError("请输入专票服务费并且大于0");
+            return;
+          }
+        }
+        if (this.basicRadio == '1') {
+          this.formData.ordinarySelfFee = 0;
+          if (this.formData.ordinarySelfMoney <= 0) {
+            this.$modal.msgError("请输入普票服务费并且大于0");
+            return;
+          }
+        } else {
+          this.formData.ordinarySelfMoney = 0;
+          if (this.formData.ordinarySelfFee <= 0) {
+            this.$modal.msgError("请输入普票服务费并且大于0");
+            return;
+          }
+        }
+      this.$refs['elForm'].validate(valid => {
+        
+        if (valid) {
+         let parms1 = {
+            id: this.formData.id,
+            selfCode: this.formData.selfCode,
+            oneselfApply: this.formData.oneselfApply,
+            applyName: this.formData.applyName,
+            applyPhone: this.formData.applyPhone,
+            applyDocumentType: this.formData.applyDocumentType,
+            applyIdNum: this.formData.applyIdNum,
 
+            contactName: this.formData.contactName,
+            contactPhone: this.formData.contactPhone,
+            contactDocumentType: this.formData.contactDocumentType,
+            contactIdNum: this.formData.contactIdNum,
+          };
+
+          //this.formData.endStatus=0;
+          
+         
+
+          
+          this.formData.fileName1=JSON.stringify(this.formData.fileName1);
+          this.formData.fileName2=JSON.stringify(this.formData.fileName2);
+          this.formData.fileName3=JSON.stringify(this.formData.fileName3);
+          this.formData.fileName4=JSON.stringify(this.formData.fileName4);
+          this.formData.fileName5=JSON.stringify(this.formData.fileName5);
+          this.formData.fileName6=JSON.stringify(this.formData.fileName6);
+          this.formData.fileName7=JSON.stringify(this.formData.fileName7);
+           let parms3 = {
+            legalPersonId: this.formData.legalPersonId,
+            selfCode: this.formData.selfCode,
+            legalPersonName: this.formData.contactName,
+            personnelType: this.formData.personnelType,
+            documentType: this.formData.contactDocumentType,
+            idCardNum: this.formData.contactIdNum,
+            gender: this.formData.gender,
+            dateBirth: this.formData.dateBirth,
+            nation: this.formData.nation,
+            eduation: this.formData.eduation,
+            occupationalStatus: this.formData.occupationalStatus,
+            residence: this.formData.residence,
+            contactPhone: this.formData.contactPhone,
+            mail: this.formData.mail,
+         };
+          crudInfo.updateInfo(parms1).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+                
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          });
+          crudEmployed.updateEmployed(this.formData).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+              
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          });
+          crudPerson.updatePerson(parms3).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+               
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          });
+          this.$tab.refreshPage("/company/manageList").then(() => {
+            this.$tab.openPage("个体户信息", "/company/manageList")
+          })
+        } else {
+          this.$message({
+            message: '请填写完整',
+            type: 'warning'
+          })
+        }
+      })
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: '/company/manageList' });
