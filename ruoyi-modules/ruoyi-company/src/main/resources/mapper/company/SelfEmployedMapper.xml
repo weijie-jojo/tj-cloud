@@ -84,6 +84,10 @@
         <result property="remarkRegister"    column="remark_register"    />
         <result property="isSpecialSelfTax"    column="is_special_self_tax"    />
         <result property="isSelfCount"    column="is_self_count"    />
+        <result property="ordinaryProxyIsmoney"    column="ordinary_proxy_ismoney"    />
+        <result property="specialProxyIsmoney"    column="special_proxy_ismoney"    />
+        <result property="ordinaryShareIsmoney"    column="ordinary_share_ismoney"    />
+        <result property="specialShareIsmoney"    column="special_share_ismoney"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -97,7 +101,8 @@
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
-               is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count
+               is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
+               ordinary_share_ismoney, special_share_ismoney
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -148,6 +153,10 @@
             <if test="selfEmployedVo.isSpecialSelfTax != null "> and t.is_special_self_tax = #{selfEmployedVo.isSpecialSelfTax}</if>
             <if test="selfEmployedVo.isSelfCount != null "> and t.is_self_count = #{selfEmployedVo.isSelfCount}</if>
             <if test="selfEmployedVo.applyName != null "> and B.apply_name = #{selfEmployedVo.applyName}</if>
+            <if test="selfEmployedVo.ordinaryProxyIsmoney != null "> and t.ordinary_proxy_ismoney = #{selfEmployedVo.ordinaryProxyIsmoney}</if>
+            <if test="selfEmployedVo.specialProxyIsmoney != null "> and t.special_proxy_ismoney = #{selfEmployedVo.specialProxyIsmoney}</if>
+            <if test="selfEmployedVo.ordinaryShareIsmoney != null "> and t.ordinary_share_ismoney = #{selfEmployedVo.ordinaryShareIsmoney}</if>
+            <if test="selfEmployedVo.specialShareIsmoney != null "> and t.special_share_ismoney = #{selfEmployedVo.specialShareIsmoney}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -245,6 +254,10 @@
             <if test="remarkRegister != null  and remarkRegister != ''"> and remark_register = #{remarkRegister}</if>
             <if test="isSpecialSelfTax != null "> and is_special_self_tax = #{isSpecialSelfTax}</if>
             <if test="isSelfCount != null "> and is_self_count = #{isSelfCount}</if>
+            <if test="ordinaryProxyIsmoney != null "> and ordinary_proxy_ismoney = #{ordinaryProxyIsmoney}</if>
+            <if test="specialProxyIsmoney != null "> and special_proxy_ismoney = #{specialProxyIsmoney}</if>
+            <if test="ordinaryShareIsmoney != null "> and ordinary_share_ismoney = #{ordinaryShareIsmoney}</if>
+            <if test="specialShareIsmoney != null "> and special_share_ismoney = #{specialShareIsmoney}</if>
         </where>
     </select>
 
@@ -334,6 +347,10 @@
             <if test="remarkRegister != null">remark_register,</if>
             <if test="isSpecialSelfTax != null">is_special_self_tax,</if>
             <if test="isSelfCount != null">is_self_count,</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney,</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney,</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney,</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -414,6 +431,10 @@
             <if test="remarkRegister != null">#{remarkRegister},</if>
             <if test="isSpecialSelfTax != null">#{isSpecialSelfTax},</if>
             <if test="isSelfCount != null">#{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">#{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">#{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">#{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">#{specialShareIsmoney},</if>
         </trim>
     </insert>
 
@@ -498,6 +519,10 @@
             <if test="remarkRegister != null">remark_register = #{remarkRegister},</if>
             <if test="isSpecialSelfTax != null">is_special_self_tax = #{isSpecialSelfTax},</if>
             <if test="isSelfCount != null">is_self_count = #{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney = #{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney = #{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney = #{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney = #{specialShareIsmoney},</if>
         </trim>
         where self_id = #{selfId}
     </update>

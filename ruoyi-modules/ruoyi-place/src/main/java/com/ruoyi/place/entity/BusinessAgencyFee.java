@@ -168,5 +168,20 @@ public class BusinessAgencyFee implements Serializable {
     @TableField("is_special_self_tax")
     private Long isSpecialSelfTax;
 
+    /** 普票平台服务费是否定额 */
+    @TableField("ordinary_proxy_ismoney")
+    private Long ordinaryProxyIsmoney;
+
+    /** 专票平台服务费是否定额 */
+    @TableField("special_proxy_ismoney")
+    private Long specialProxyIsmoney;
+
+    /** 普票分润方式是否定额 */
+    @TableField("ordinary_share_ismoney")
+    private Long ordinaryShareIsmoney;
+
+    /** 专票分润方式是否定额 */
+    @TableField("special_share_ismoney")
+    private Long specialShareIsmoney;
 
 }

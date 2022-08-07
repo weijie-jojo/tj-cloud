@@ -343,6 +343,22 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "是否单独结算")
     private Long isSelfCount;
 
+    /** 普票平台服务费是否定额 */
+    @Excel(name = "普票平台服务费是否定额")
+    private Long ordinaryProxyIsmoney;
+
+    /** 专票平台服务费是否定额 */
+    @Excel(name = "专票平台服务费是否定额")
+    private Long specialProxyIsmoney;
+
+    /** 普票分润方式是否定额 */
+    @Excel(name = "普票分润方式是否定额")
+    private Long ordinaryShareIsmoney;
+
+    /** 专票分润方式是否定额 */
+    @Excel(name = "专票分润方式是否定额")
+    private Long specialShareIsmoney;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

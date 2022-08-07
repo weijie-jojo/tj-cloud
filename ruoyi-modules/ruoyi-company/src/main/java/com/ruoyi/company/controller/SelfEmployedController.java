@@ -85,6 +85,11 @@ public class SelfEmployedController extends BaseController
                 System.out.println("总经理");
                 userIdArr=null;//显示所有
             }
+            else if (role.getRoleId()==11){//文员
+                System.out.println("文员");
+                userIdArr=null;
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
             else {
                 System.out.println("其他人");
                 userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
