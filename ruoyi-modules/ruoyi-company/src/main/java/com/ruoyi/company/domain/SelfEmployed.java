@@ -339,6 +339,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "个体户服务费是否含税(专票)")
     private Long isSpecialSelfTax;
 
+    /** 是否单独结算 */
+    @Excel(name = "是否单独结算")
+    private Long isSelfCount;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;
