@@ -1478,6 +1478,18 @@ export default {
               this.ordinaryShare = '1';
             }
 
+             if(this.formData.ordinarySelfMoney>0){
+              this.basicRadio='1';
+            }else{
+              this.basicRadio='2';
+            }
+
+            if(this.formData.specialSelfMoney>0){
+              this.vipRadio='1';
+            }else{
+              this.vipRadio='2';
+            }
+
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
 
