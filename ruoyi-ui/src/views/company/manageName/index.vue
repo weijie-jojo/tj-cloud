@@ -26,10 +26,10 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="15">
           <el-tabs v-model="nameStatus" @tab-click="handleClick">
-     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="异常" name="2"></el-tab-pane>
-     <el-tab-pane label="审核中" name="0"></el-tab-pane>
-     <el-tab-pane label="完成" name="1"></el-tab-pane>
+     <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
+     <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
+     <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
+     <el-tab-pane :label="alabels3" name="1"></el-tab-pane>
     
   </el-tabs>
       </el-col>
@@ -70,13 +70,17 @@
 
 <script>
 
-import { reviewjoinList, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/review";
+import { joinList2, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 // import axios from 'axios'
 export default {
   name: "Employed",
   data() {
     return {
+      alabels: '全部',
+      alabels1: '异常',
+      alabels2: '审核中',
+      alabels3: '完成',
       nameStatus:'-1',
       // 遮罩层
       loading: true,
@@ -129,9 +133,27 @@ export default {
     };
   },
   created() {
+    this.getBang();
+    this.getErr();
     this.getList();
   },
   methods: {
+    getBang() {
+      let params = {
+        nameStatus: 0
+      }
+      joinList2(params).then(res => {
+        this.alabels2 = "审核中(" + res.total + ")";
+      });
+    },
+    getErr() {
+      let params = {
+        nameStatus: 2
+      }
+      joinList2(params).then(res => {
+        this.alabels1 = "异常(" + res.total + ")";
+      });
+    },
      handleClick(tab, event) {
      if(this.nameStatus=='-1'){
       this.queryParams.nameStatus=null;
@@ -152,7 +174,7 @@ export default {
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      reviewjoinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;

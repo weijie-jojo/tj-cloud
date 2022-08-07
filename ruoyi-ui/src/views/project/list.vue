@@ -574,7 +574,7 @@ export default {
         handleDelete(row) {
             const projectIds = this.ids;
             this.$modal
-                .confirm('是否确认删除id为"' + projectIds + '"的数据项？')
+                .confirm('是否确认删除该项目')
                 .then(function () {
                     return del(projectIds);
                 })

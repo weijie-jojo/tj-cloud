@@ -89,6 +89,15 @@ export function joinList(query) {
 }
 
 // 查询个体商户列表
+export function joinList2(query) {
+  return request({
+    url: '/company/employed/joinList2',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询个体商户列表
 export function joinListEnd(query) {
   return request({
     url: '/company/employed/joinListEnd',
@@ -96,4 +105,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord}
+export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList}

@@ -20,9 +20,9 @@
      <el-row :gutter="10" class="mb8">
       <el-col :span="15">
      <el-tabs v-model="businessStatus" @tab-click="handleClick">
-     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-     <el-tab-pane label="办理中" name="0"></el-tab-pane>
-     <el-tab-pane label="完成" name="1"></el-tab-pane>
+     <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
+     <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
+     <el-tab-pane :label="alabels3" name="1"></el-tab-pane>
       </el-tabs>
      </el-col>
       
@@ -43,8 +43,8 @@
        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-          <el-button size="mini" type="text" icon="el-icon-table-lamp"
-            @click="businessTable(scope.row)">工商表格</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-table-lamp"
+            @click="businessTable(scope.row)">工商表格</el-button> -->
           <el-button size="mini" v-if="scope.row.businessStatus==0" type="text" icon="el-icon-s-goods"
             @click="business(scope.row)">办理工商</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
@@ -59,11 +59,15 @@
 
 <script>
 
-import { joinList,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList2,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
   name: "Employed",
   data() {
     return {
+      alabels: '全部',
+      alabels1: '异常',
+      alabels2: '办理中',
+      alabels3: '完成',
       businessStatus:'-1',
      // 遮罩层
       loading: true,
@@ -114,9 +118,22 @@ export default {
     };
   },
   created() {
+    this.getBang();
+  
     this.getList();
   },
   methods: {
+    getBang() {
+      let params = {
+        nameStatus:1,
+        infoStatus:1,
+        businessStatus: 0
+      }
+      joinList2(params).then(res => {
+        this.alabels2 = "办理中(" + res.total + ")";
+      });
+    },
+    
       handleClick(tab, event) {
      if(this.businessStatus=='-1'){
       this.queryParams.businessStatus=null;
@@ -134,7 +151,7 @@ export default {
     /** 查询可办理的工商列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
         
         this.employedList = response.rows;
         this.total = response.total;

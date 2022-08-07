@@ -388,6 +388,12 @@ export default {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
+           let typess;
+          if(this.formData.infoStatus==1){
+             typess=0;
+          }else{
+            typess='';
+          }
             let parms={
               selfId:this.formData.selfId,
               selfCode:this.formData.selfCode,
@@ -412,7 +418,8 @@ export default {
               // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
-              // nameStatus:1,
+              nameStatus:0,
+              endStatus:typess,
             };
             crudReview.updateReview(parms).then(res=>{
               console.log("addReview",res);

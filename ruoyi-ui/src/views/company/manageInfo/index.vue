@@ -26,13 +26,12 @@
 
     <el-row :gutter="10" class="mb8">
     <el-col :span="15">
-         <el-tabs v-model="infoStatus" @tab-click="handleClick">
-     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-      <el-tab-pane label="异常" name="2"></el-tab-pane>
-     <el-tab-pane label="审核中" name="0"></el-tab-pane>
-     <el-tab-pane label="完成" name="1"></el-tab-pane>
-   
-  </el-tabs>
+     <el-tabs v-model="infoStatus" @tab-click="handleClick">
+     <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
+     <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
+     <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
+     <el-tab-pane :label="alabels3" name="1"></el-tab-pane>
+     </el-tabs>
      </el-col>
       <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
@@ -86,13 +85,16 @@
 
 <script>
 
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
-import { Row } from "element-ui";
-// import axios from 'axios'
+import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+
 export default {
   name: "Employed",
   data() {
     return {
+      alabels: '全部',
+      alabels1: '异常',
+      alabels2: '审核中',
+      alabels3: '完成',
       infoStatus:'-1',
       // 遮罩层
       loading: true,
@@ -145,9 +147,27 @@ export default {
     };
   },
   created() {
+    this.getBang();
+    this.getErr();
     this.getList();
   },
   methods: {
+    getBang() {
+      let params = {
+        infoStatus: 0
+      }
+      joinList2(params).then(res => {
+        this.alabels2 = "审核中(" + res.total + ")";
+      });
+    },
+    getErr() {
+      let params = {
+        infoStatus: 2
+      }
+      joinList2(params).then(res => {
+        this.alabels1 = "异常(" + res.total + ")";
+      });
+    },
      handleClick(tab, event) {
      if(this.infoStatus=='-1'){
       this.queryParams.infoStatus=null;
@@ -170,7 +190,7 @@ export default {
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;

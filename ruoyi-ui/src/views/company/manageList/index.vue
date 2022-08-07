@@ -246,6 +246,10 @@ export default {
         this.$modal.msgError(error);
       });
     },
+    edits(row){
+        this.$cache.local.setJSON("employedInfo", row);
+        this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
+      },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
       this.$tab.openPage("个体户详情", "/company/customer/manageListDetail").then(() => {})
@@ -397,7 +401,7 @@ export default {
     handleDelete() {
       const selfIds = this.ids;
       this.$modal
-        .confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？')
+        .confirm('是否确认删除此个体户的注册信息')
         .then(function () {
           return delEmployed(selfIds);
         })

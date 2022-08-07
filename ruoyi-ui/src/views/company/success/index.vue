@@ -22,7 +22,7 @@
         <el-col :span="8">
         <div style="display:flex;justify-content: center;">
                <el-button style="width:140px"  @click="toEnd">结束</el-button> 
-               <el-button type="primary" @click="toContinue" style="margin-left:20px;width:140px">继续注册</el-button>
+               <!-- <el-button type="primary" @click="toContinue" style="margin-left:20px;width:140px">继续注册</el-button> -->
         </div>
          
         </el-col>
@@ -62,7 +62,6 @@ export default {
       this.$router.push("addEmployedName");
     },
     toEnd(){
-      // this.$router.push("employed");
       this.$tab.refreshPage("/company/customer/employed").then(()=>{
         this.$tab.openPage("注册进度", "/company/customer/employed")
       })

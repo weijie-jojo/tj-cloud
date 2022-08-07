@@ -185,7 +185,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
          <el-col :span="8"></el-col>
          <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
+             <el-button type="danger" @click="resetForm">关闭</el-button> 
             
          </el-col>
          <el-col :span="8"></el-col>
