@@ -58,9 +58,9 @@ public class SelfEmployedController extends BaseController
     @Resource
     private  SysUserMapper sysUserMapper;
     /**
-     * 连表selfNameReview查询
+     * 连表查询
      */
-    @ApiOperation("连表selfNameReview查询")
+    @ApiOperation("连表查询")
 //    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)

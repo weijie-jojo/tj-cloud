@@ -67,6 +67,15 @@ public interface SelfNameReviewMapper
     public int updateSelfNameReview(SelfNameReview selfNameReview);
 
     /**
+     * 修改个体户名字审核(根据selfCode)
+     *
+     * @param selfNameReview 个体户名字审核
+     * @return 结果
+     */
+    public int updateSelfNameReview2(SelfNameReview selfNameReview);
+
+
+    /**
      * 删除个体户名字审核
      * 
      * @param selfId 个体户名字审核主键

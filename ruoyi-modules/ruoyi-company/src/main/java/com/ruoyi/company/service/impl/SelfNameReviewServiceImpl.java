@@ -93,7 +93,17 @@ public class SelfNameReviewServiceImpl implements ISelfNameReviewService
     {
         return selfNameReviewMapper.updateSelfNameReview(selfNameReview);
     }
-
+    /**
+     * 修改个体户名字审核(根据selfCode)
+     *
+     * @param selfNameReview 个体户名字审核
+     * @return 结果
+     */
+    @Override
+    public int updateSelfNameReview2(SelfNameReview selfNameReview)
+    {
+        return selfNameReviewMapper.updateSelfNameReview2(selfNameReview);
+    }
     /**
      * 批量删除个体户名字审核
      * 

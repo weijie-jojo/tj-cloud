@@ -65,7 +65,13 @@ public interface ISelfNameReviewService
      * @return 结果
      */
     public int updateSelfNameReview(SelfNameReview selfNameReview);
-
+    /**
+     * 修改个体户名字审核(根据selfCode)
+     *
+     * @param selfNameReview 个体户名字审核
+     * @return 结果
+     */
+    public int updateSelfNameReview2(SelfNameReview selfNameReview);
     /**
      * 批量删除个体户名字审核
      * 

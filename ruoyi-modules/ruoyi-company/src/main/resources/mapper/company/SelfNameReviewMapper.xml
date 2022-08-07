@@ -242,6 +242,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where self_id = #{selfId}
     </update>
 
+    <update id="updateSelfNameReview2" parameterType="com.ruoyi.company.domain.SelfNameReview">
+        update self_name_review
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfCode != null">self_code = #{selfCode},</if>
+            <if test="titleType != null">title_type = #{titleType},</if>
+            <if test="administrativeDivision != null">administrative_division = #{administrativeDivision},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="organizationalForm != null">organizational_form = #{organizationalForm},</if>
+            <if test="administrativeRegion != null">administrative_region = #{administrativeRegion},</if>
+            <if test="random != null">random = #{random},</if>
+            <if test="registrationAuthority != null">registration_authority = #{registrationAuthority},</if>
+            <if test="fontSize1 != null">font_size1 = #{fontSize1},</if>
+            <if test="poposedName1 != null">poposed_name1 = #{poposedName1},</if>
+            <if test="fontSize2 != null">font_size2 = #{fontSize2},</if>
+            <if test="poposedName2 != null">poposed_name2 = #{poposedName2},</if>
+            <if test="fontSize3 != null">font_size3 = #{fontSize3},</if>
+            <if test="poposedName3 != null">poposed_name3 = #{poposedName3},</if>
+            <if test="fontSize4 != null">font_size4 = #{fontSize4},</if>
+            <if test="poposedName4 != null">poposed_name4 = #{poposedName4},</if>
+            <if test="fontSize5 != null">font_size5 = #{fontSize5},</if>
+            <if test="poposedName5 != null">poposed_name5 = #{poposedName5},</if>
+            <if test="fontSize6 != null">font_size6 = #{fontSize6},</if>
+            <if test="poposedName6 != null">poposed_name6 = #{poposedName6},</if>
+            <if test="fontSize7 != null">font_size7 = #{fontSize7},</if>
+            <if test="poposedName7 != null">poposed_name7 = #{poposedName7},</if>
+            <if test="fontSize8 != null">font_size8 = #{fontSize8},</if>
+            <if test="poposedName8 != null">poposed_name8 = #{poposedName8},</if>
+            <if test="fontSize9 != null">font_size9 = #{fontSize9},</if>
+            <if test="poposedName9 != null">poposed_name9 = #{poposedName9},</if>
+            <if test="fontSize10 != null">font_size10 = #{fontSize10},</if>
+            <if test="poposedName10 != null">poposed_name10 = #{poposedName10},</if>
+            <if test="createBy != null ">  create_by = #{createBy},</if>
+            <if test="updateBy != null ">  update_by = #{updateBy},</if>
+            <if test="createTime != null ">  create_time = #{createTime},</if>
+            <if test="updateTime != null ">  update_time = #{updateTime},</if>
+            <if test="nameStatus != null ">  name_status = #{nameStatus},</if>
+            <if test="nameRemark != null ">  name_remark = #{nameRemark},</if>
+        </trim>
+        where self_code = #{selfCode}
+    </update>
+
     <delete id="deleteSelfNameReviewBySelfId" parameterType="Long">
         delete from self_name_review where self_id = #{selfId}
     </delete>

@@ -158,7 +158,7 @@ public class SelfNameReviewController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfNameReview selfNameReview)
     {
-        return toAjax(selfNameReviewService.updateSelfNameReview(selfNameReview));
+        return toAjax(selfNameReviewService.updateSelfNameReview2(selfNameReview));
     }
 
     /**
