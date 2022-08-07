@@ -65,16 +65,16 @@ public class SelfEmployedController extends BaseController
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
-        //获取申请人的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(Long.parseLong(selfEmployedVo.getApplyName())).getDeptId();
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
         //根据部门id获取用户集合
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //根据申请人获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(Long.parseLong(selfEmployedVo.getApplyName()));
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//行政，业务部门主管,软开主管
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||role.getRoleId()==3){//部门主管及业务部的人
                 System.out.println("部门主管");
 //                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
 //                    userIdArr.add(userVo.getUserId());
@@ -87,26 +87,11 @@ public class SelfEmployedController extends BaseController
             }
             else {
                 System.out.println("其他人");
-                userIdArr.add(Long.parseLong(selfEmployedVo.getApplyName()));//申请人
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
             }
         }
         startPage();
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-        for (SelfEmployedVo selfEmployedVo1:list){
-            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
-        }
-        return getDataTable(list);
-    }
-    /**
-     * 连表查询（不过滤登录用户）
-     */
-    @ApiOperation("连表查询（不过滤登录用户）")
-//    @RequiresPermissions("company:employed:list")
-    @GetMapping("/joinList2")
-    public TableDataInfo selectEmployedJoin(SelfEmployedVo selfEmployedVo)
-    {
-        startPage();
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
         }
@@ -129,7 +114,7 @@ public class SelfEmployedController extends BaseController
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//行政,业务部门主管,软开主管
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||role.getRoleId()==3){//行政,业务部门主管,软开主管
                 System.out.println("部门主管");
 //                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
 //                    userIdArr.add(userVo.getUserId());
@@ -142,7 +127,7 @@ public class SelfEmployedController extends BaseController
             }
             else {
                 System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//登录用户名
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
             }
         }
         startPage();
