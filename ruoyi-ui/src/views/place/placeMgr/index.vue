@@ -141,17 +141,16 @@
 
           </el-row>
 
-        
-
-
-
-          
-
-          <el-form-item label="服务费含税" prop="isOrdinaryTax">
+         <el-form-item label="服务费含税" prop="isOrdinaryTax">
             <el-radio v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
-
+          
+          <el-form-item label="价税分离" prop="isSelfTax">
+            <el-radio v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
+          </el-form-item>
+  
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
               <el-form-item label="分润方式" :required="true">
@@ -262,6 +261,10 @@
           <el-form-item label="服务费含税" prop="isSpecialTax">
             <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
+          </el-form-item>
+          <el-form-item label="价税分离" prop="isSpecialSelfTax">
+            <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
 
           <el-row type="flex" justify="flex-end">
@@ -391,6 +394,10 @@
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
+            <el-form-item label="价税分离" prop="editIsSelfTax">
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='1'>否</el-radio>
+          </el-form-item>
 
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
@@ -514,6 +521,10 @@
           <el-form-item label="服务费含税" prop="editIsSpecialTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
+          </el-form-item>
+             <el-form-item label="价税分离" prop="editIsSpecialSelfTax">
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
 
           <el-row type="flex" justify="flex-end">
@@ -649,6 +660,10 @@
             <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
             <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
+              <el-form-item label="价税分离" prop="isSelfTax">
+            <el-radio v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
+          </el-form-item>
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
               <el-form-item label="分润方式" :required="true">
@@ -761,6 +776,11 @@
             <el-radio disabled v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
             <el-radio disabled v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
           </el-form-item>
+             <el-form-item label="价税分离" prop="isSpecialSelfTax">
+            <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
+            <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
+          </el-form-item>
+          
 
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
@@ -914,6 +934,8 @@ export default {
         status: '',
       },
       ruleForm: {
+        isSelfTax:'0',     //普票价税分离
+        isSpecialSelfTax:'0',  //专票价税分离
         ordinaryTax:'',//普票税率
         ordinarySpecialTax:'',//专票税率
 
@@ -938,16 +960,18 @@ export default {
         specialInvoice6: 0,   //专票 6 （%）
         specialInvoice13: 0,  //专票13 （%）
         specialSelfFee: 0,
-        isSpecialTax: '',//是否含税-专票
+        isSpecialTax: '0',//是否含税-专票
         ordinaryProxyMoney: 0,//普票平台服务费(元）
         ordinarySelfFee: 0,
         ordinaryProxyFee: 0, //普票平台服务费(%）
-        isOrdinaryTax: '',//是否含税-普票
+        isOrdinaryTax: '0',//是否含税-普票
         
 
 
 
         //编辑参数
+        editIsSelfTax:'0',     //普票价税分离
+        editIsSpecialSelfTax:'0',  //专票价税分离
         editPlaceId: '',
         editPlaceCode: '',
         editPlaceName: '',
@@ -1164,6 +1188,8 @@ export default {
     },
     // 表单重置
     reset() {
+      this.ruleForm.isSelfTax='0',     //普票价税分离
+      this.ruleForm.isSpecialSelfTax='0',  //专票价税分离
       this.specialShare='2';
       this.ordinaryShare='2';
       this.specialProxyFee = '2';
@@ -1183,11 +1209,11 @@ export default {
       this.ruleForm.specialInvoice6Money = '';
       this.ruleForm.specialInvoice13Money = '';
       this.ruleForm.specialSelfFee = null;
-      this.ruleForm.isSpecialTax = null;
+      this.ruleForm.isSpecialTax = '0';
       this.ruleForm.ordinarySelfFee = null;
       this.ruleForm.ordinaryProxyFee = '';
       this.ruleForm.ordinaryProxyMoeny = '';
-      this.ruleForm.isOrdinaryTax = null;
+      this.ruleForm.isOrdinaryTax = '0';
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -1264,7 +1290,8 @@ export default {
         }
         
 
-
+        this.ruleForm.editIsSelfTax=JSON.stringify(res.isSelfTax),
+        this.ruleForm.editIsSpecialSelfTax=JSON.stringify(res.isSpecialSelfTax),
 
         this.ruleForm.editAgencyFeeId = res.agencyFeeId;
         // this.ruleForm.editSpecialInvoice6 = res.specialInvoice6;
@@ -1363,6 +1390,8 @@ export default {
         } else if (res.ordinaryShareMoney > 0) {
           this.ordinaryShare = '1';
         }
+        this.ruleForm.isSelfTax=JSON.stringify(res.isSelfTax),
+        this.ruleForm.isSpecialSelfTax=JSON.stringify(res.isSpecialSelfTax),
 
         this.ruleForm.ordinarySpecialTax=res.ordinarySpecialTax;//专票税率
         this.ruleForm.ordinaryTax=res.ordinaryTax; //普票税率
@@ -1579,6 +1608,8 @@ export default {
               userName: this.ruleForm.userName,
             },
             businessAgencyFee: {
+              isSelfTax:this.ruleForm.isSelfTax,
+              isSpecialSelfTax:this.ruleForm.isSpecialSelfTax,
               placeCode: this.ruleForm.placeCode,
 
               // specialInvoice6Money: this.ruleForm.specialInvoice6Money,
@@ -1773,11 +1804,10 @@ export default {
             specialShareMoney:this.ruleForm.editSpecialShareMoney,
             ordinaryShare:this.ruleForm.editOrdinaryShare,
             ordinaryShareMoney:this.ruleForm.editOrdinaryShareMoney,
-
-        
-
-
+            
             isOrdinaryTax: this.ruleForm.editIsOrdinaryTax,
+            isSelfTax:this.ruleForm.editIsSelfTax,
+            isSpecialSelfTax:this.ruleForm.editIsSpecialSelfTax,
           }
           crudPlace.editPlace(params).then((res) => {
             if (res.id == 0) {
@@ -1818,7 +1848,12 @@ export default {
         placeCodes: placeCodeStr.join(',')//转换成字符串
       };
 
-      if (confirm('你确定删除吗？')) {
+     
+         this.$confirm('是否确认删除此渠道的信息', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         crudPlace.delPlace(params).then((res) => {
           if (res != undefined) {
             if (res.id == 0) {
@@ -1836,7 +1871,10 @@ export default {
 
           }
         })
-      }
+        }).catch(() => {
+       
+      });
+      
 
     },
 

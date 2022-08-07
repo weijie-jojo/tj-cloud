@@ -387,20 +387,6 @@ export default {
 
       });
     },
-    //获取编号
-    // getSelfCode() {
-    //   //获取员工编号
-    //   getInfo().then((res) => {
-    //     var userId = res.user.userId;
-    //     crudInformation.getInformation(userId).then((res) => {
-    //       var employeeNumber = res.data.employeeNumber;
-    //       crudReview.getCode({ employeeNumber: employeeNumber }).then((res) => {
-    //         this.formData.selfCode = res;
-    //         console.log("selfCode", res);
-    //       });
-    //     });
-    //   });
-    // },
     submitForm(type) {
 
       this.$refs["elForm"].validate((valid) => {
@@ -409,14 +395,14 @@ export default {
           let parms;
           if (type == 1) {
             parms = {
-              selfId: this.formData.selfId,
+              selfCode: this.formData.selfCode,
               nameStatus: type,
             };
           } else {
             parms = {
-              selfId: this.formData.selfId,
+              selfCode: this.formData.selfCode,
               nameStatus: type,
-              remarkName: this.remark
+              nameRemark: this.remark
             };
           }
           updateReview(parms).then((res) => {
@@ -435,9 +421,10 @@ export default {
                     } else {
 
                       resmsg = '名称审核完成';
-                      this.check('名称审核未通过'+'(原因)'+this.remark);
+                      this.check('名称审核不通过。'+'原因：'+this.remark);
                       let parms12={
-                        selfId: this.formData.selfId,
+                        remarkName:this.remark,
+                        selfCode: this.formData.selfCode,
                         endStatus:2
                       };
                       crudEmployed.updateEmployed(parms12).then(res=>{

@@ -22,7 +22,7 @@
      <el-col :span="15">
        <el-tabs v-model="taxStatus" @tab-click="handleClick">
        <el-tab-pane label="全部" name="-1"></el-tab-pane>
-       <el-tab-pane label="办理中" name="0"></el-tab-pane>
+       <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
        <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
    </el-col>
@@ -57,12 +57,13 @@
 
 <script>
 
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 export default {
   name: "Employed",
   data() {
     return {
+      alabels2:'办理中',
       taxStatus:'-1',
       // 遮罩层
       loading: true,
@@ -117,6 +118,18 @@ export default {
    this.getList();
   },
   methods: { 
+       getBang() {
+      let params = {
+        nameStatus:1,
+        infoStatus:1,
+        businessStatus:1,
+        taxStatus:0,
+       
+      }
+      joinList2(params).then(res => {
+        this.alabels2 = "办理中(" + res.total + ")";
+      });
+    },
       handleClick(tab, event) {
      if(this.taxStatus=='-1'){
       this.queryParams.taxStatus=null;
@@ -133,7 +146,7 @@ export default {
    /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;

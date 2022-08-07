@@ -22,8 +22,8 @@
      <el-col :span="15">
        <el-tabs v-model="endStatus" @tab-click="handleClick">
        <el-tab-pane label="全部" name="-1"></el-tab-pane>
-        <el-tab-pane label="异常" name="2"></el-tab-pane>
-       <el-tab-pane label="办理中" name="0"></el-tab-pane>
+        <el-tab-pane :label="alabels2" name="2"></el-tab-pane>
+       <el-tab-pane :label="alabels1" name="0"></el-tab-pane>
        <el-tab-pane label="完成" name="1"></el-tab-pane>
       </el-tabs>
    </el-col>
@@ -45,9 +45,11 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text"  icon="el-icon-view" @click="look(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.endStatus == 2"  icon="el-icon-edit" @click="edits(scope.row)">编辑</el-button>
+         <el-button size="mini" type="text" icon="el-icon-s-goods" v-else style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
           <el-button size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
             @click="detail(scope.row)">确认注册</el-button>
-          <el-button size="mini" v-else icon="el-icon-s-goods" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>银行办理</el-button>
+          <el-button size="mini" v-else icon="el-icon-s-goods"  style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
         
           </template>
       </el-table-column>
@@ -60,12 +62,14 @@
 
 <script>
 
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 export default {
   name: "Employed",
   data() {
     return {
+      alabels2:'异常',
+      alabels1:'办理中',
       endStatus:'-1',
       // 遮罩层
       loading: true,
@@ -119,21 +123,55 @@ export default {
     };
   },
   created() {
+   this.getBang();
+   this.getErr();
    this.getList();
   },
   methods: { 
+    getBang() {
+      let params = {
+          nameStatus: 1,
+        infoStatus: 1,
+        businessStatus:1,
+        bankStatus:1,
+        // realnameStatus:1,
+        taxStatus: 1,
+        endStatus:0,
+      }
+      joinList2(params).then(res => {
+        this.alabels2 = "审核中(" + res.total + ")";
+      });
+    },
+    getErr() {
+      let params = {
+         nameStatus: 1,
+        infoStatus: 1,
+        businessStatus:1,
+        bankStatus:1,
+        // realnameStatus:1,
+        taxStatus: 1,
+        endStatus:2,
+      }
+      joinList2(params).then(res => {
+        this.alabels1 = "异常(" + res.total + ")";
+      });
+    },
       handleClick(tab, event) {
      if(this.endStatus=='-1'){
       this.queryParams.endStatus=null;
      }else{
-      this.queryParams.endStatus=this.taxStatus;
+      this.queryParams.endStatus=this.endStatus;
      }
       this.queryParams.pageNum=1;
       this.getList();
       },
+      edits(row){
+        // this.$cache.local.setJSON("employedInfo", row);
+        // this.$tab.closeOpenPage({path:'/company/customer/editEmployedInfo'});
+      },
       look(row){
         this.$cache.local.setJSON("employedInfo", row);
-        this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => {})
+        this.$tab.openPage("注册详情", "/company/customer/manageListDdit").then(() => {})
       },
       detail(row){
         // this.$cache.local.setJSON('employednewlist', row);
@@ -144,7 +182,7 @@ export default {
    /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;

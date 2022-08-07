@@ -674,11 +674,24 @@
           </el-form-item>
         </el-col>
       </el-row>
+         
 
+         
+          <el-row   type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="单独结算" :required="true">
+              <el-radio disabled v-model="formData.isSelfCount" label="0">是</el-radio>
+              <el-radio disabled v-model="formData.isSelfCount" label="1">否</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+
+          </el-col>
+        </el-row>
       
 
 
-        <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-row v-if="formData.isSelfCount==0"   type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
           <el-form-item label="个体户注册服务费" :required="true" >
               <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true">
@@ -694,8 +707,8 @@
         </el-row>
 
 
-        <el-collapse  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+        <el-collapse v-if="formData.isSelfCount==0" v-model="activeNamese"  accordion style="padding-left:8%;padding-right: 6%;">
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税普通发票
             </template>
@@ -722,7 +735,11 @@
                   </el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="服务费含税" :required="true">
+               <el-form-item label="服务费含税" :required="true">
+              <el-radio :disabled="true" v-model="formData.isSelfTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isSelfTax" label='1'>否</el-radio>
+            </el-form-item>
+              <el-form-item label="价税分离" :required="true">
               <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
               <el-radio :disabled="true" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
@@ -748,8 +765,8 @@
 
         </el-collapse>
 
-          <el-collapse  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+          <el-collapse v-if="formData.isSelfCount==0"   accordion v-model="activeNameseg" style="padding-left:8%;padding-right: 6%;">
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税专用发票
             </template>
@@ -776,7 +793,11 @@
 
               </div>
             </el-form-item>
-               <el-form-item label="服务费含税" :required="true">
+                  <el-form-item label="服务费含税" :required="true">
+              <el-radio :disabled="true" v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
+              <el-radio :disabled="true" v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
+            </el-form-item>
+            <el-form-item label="价税分离" :required="true">
               <el-radio :disabled="true" v-model="formData.isSpecialTax" label='0'>是</el-radio>
               <el-radio :disabled="true" v-model="formData.isSpecialTax" label='1'>否</el-radio>
             </el-form-item>
@@ -826,7 +847,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
           </el-col>
         <el-col :span="8"></el-col>
       </el-row>
@@ -857,6 +878,8 @@ export default {
   props: [],
   data() {
     return {
+       activeNameseg:'1',
+      activeNamese:'1',
       userinfo:{},
       specialShare: '1',
       ordinaryShare: '1',
@@ -1256,6 +1279,9 @@ export default {
 
     this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
     this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
+    this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
+    this.formData.isSpecialSelfTax=JSON.stringify(this.formData.isSpecialSelfTax);
+    this.formData.isSelfCount=JSON.stringify(this.formData.isSelfCount);
     if (this.formData.ordinarySelfMoney > 0) {
       this.basicRadio = '1';
     } else {
@@ -1287,6 +1313,25 @@ export default {
     } else {
       this.formData.isSpecialTax = '0';
     }
+
+      if(this.formData.isSelfCount=='0'){
+          this.formData.isSelfCount='0';
+    }else{
+          this.formData.isSelfCount='1';
+    }
+     
+     if(this.formData.isSelfTax=='0'){
+          this.formData.isSelfTax='0';
+    }else{
+          this.formData.isSelfTax='1';
+    }
+      if(this.formData.isSpecialSelfTax=='0'){
+          this.formData.isSpecialSelfTax='0';
+    }else{
+          this.formData.isSpecialSelfTax='1';
+    }
+
+
 
      if(this.formData.endStatus==1){
       this.isokradio='1';
@@ -1421,7 +1466,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: 'company/customer/employedConfirm' });
+      this.$tab.closeOpenPage({ path: '/company/customer/employedConfirm' });
     },
       nailist() {
       all()

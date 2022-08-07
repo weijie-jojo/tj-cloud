@@ -268,8 +268,9 @@
 
 <script>
 
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
+import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
 import { getInfo } from '@/api/login'
+import { getUser } from  '@/api/system/user'
 export default {
   name: "Employed",
   data() {
@@ -372,6 +373,8 @@ export default {
     this.getBang();
     this.getErr();
     this.getList();
+    //this.getUser();
+    
   },
 
   methods: {
@@ -392,18 +395,20 @@ export default {
     //获取审核中的数据
 
     examine(applyName, scope, type) {
-
+       let obj={
+         backUrl:'/company/customer/employed',
+        };
+       this.$cache.local.setJSON('backurls',obj);
       var msg = '审核';
       if (type < 3) {
         msg = '审核';
       } else {
         msg = '办理';
       }
-      getLeaderByUserId({
-        userId: applyName
-      }).then(res => {
+      getUser(applyName).then(res => {
+        console.log(res);
         let msgs;
-        if (this.userinfo.userId == res[0].userId) {
+        if (this.userinfo.userId == res.data.userId) {
           msgs = msg;
         } else {
           msgs = '查看';
@@ -414,7 +419,7 @@ export default {
           message: h('div', null, [
             h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
             h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res[0].userName + '(' + res[0].phonenumber + ')' + msg)
+            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + msg)
           ]),
 
 
@@ -488,26 +493,13 @@ export default {
             }
           }
 
-
-
-
-
-
         }).catch(() => {
 
         });
 
-
-
-
       }).catch(error => {
         console.log(error);
       })
-
-
-
-
-
     },
     //进度弹框
     progressNew(code) {
@@ -650,10 +642,12 @@ export default {
 
     //异常名称
     errName(scope, selfCode,applyName) {
-       getLeaderByUserId({
-        userId: applyName
-      }).then(res =>{
-         if(this.userinfo.userId==res[0].userId){
+       let obj={
+         backUrl:'/company/customer/employed',
+        };
+         this.$cache.local.setJSON('backurls', obj);
+       getUser(applyName).then(res =>{
+         if(this.userinfo.userId==res.data.userId){
               this.errNameMsg='修改';
          }else{
              this.errNameMsg='查看';
@@ -662,17 +656,15 @@ export default {
         this.checkNames(selfCode);
         
       });
-
-     
-    
-      // this.$router.push("editEmployedName");   
     },
     //异常信息
     errInfo(scope, selfCode,applyName) {
-        getLeaderByUserId({
-        userId: applyName
-      }).then(res =>{
-         if(this.userinfo.userId==res[0].userId){
+        let obj={
+         backUrl:'/company/customer/employed',
+        };
+         this.$cache.local.setJSON('backurls', obj);
+        getUser(applyName).then(res =>{
+         if(this.userinfo.userId==res.data.userId){
               this.errInfoMsg='修改';
          }else{
              this.errInfoMsg='查看';
@@ -682,8 +674,6 @@ export default {
         
       });
     
-    
-      //  this.$router.push("editEmployedInfo");  
     },
 
     errsnameDetail() {
@@ -800,7 +790,7 @@ export default {
       let params = {
         endStatus: 0
       }
-      joinList(params).then(res => {
+      joinList2(params).then(res => {
         this.alabels2 = "办理中(" + res.total + ")";
       });
     },
@@ -808,7 +798,7 @@ export default {
       let params = {
         endStatus: 2
       }
-      joinList(params).then(res => {
+      joinList2(params).then(res => {
         this.alabels1 = "异常(" + res.total + ")";
       });
     },
@@ -822,7 +812,7 @@ export default {
         this.projectTime = null;
       };
       this.loading = true;
-      joinList(this.queryParams).then(response => {
+      joinList2(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
@@ -930,8 +920,7 @@ export default {
 
     /** 删除按钮操作 */
     handleDelete() {
-
-      this.$confirm('是否确认删除seifId为' + this.ids + '个体户注册信息吗?', '提示', {
+    this.$confirm('是否确认删除此个体户的注册信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
