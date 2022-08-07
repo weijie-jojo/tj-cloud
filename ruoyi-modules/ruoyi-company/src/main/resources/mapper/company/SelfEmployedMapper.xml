@@ -147,6 +147,7 @@
             <if test="selfEmployedVo.remarkRegister != null  and selfEmployedVo.remarkRegister != ''"> and t.remark_register = #{selfEmployedVo.remarkRegister}</if>
             <if test="selfEmployedVo.isSpecialSelfTax != null "> and t.is_special_self_tax = #{selfEmployedVo.isSpecialSelfTax}</if>
             <if test="selfEmployedVo.isSelfCount != null "> and t.is_self_count = #{selfEmployedVo.isSelfCount}</if>
+            <if test="selfEmployedVo.applyName != null "> and B.apply_name = #{selfEmployedVo.applyName}</if>
         </trim>
         ORDER BY
         t.create_time DESC
