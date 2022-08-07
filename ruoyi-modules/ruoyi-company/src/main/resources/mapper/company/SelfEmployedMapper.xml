@@ -118,7 +118,7 @@
             <if test="selfEmployedVo.legalPersonName != null  and selfEmployedVo.legalPersonName != ''"> and t.legal_person_name like concat('%', #{selfEmployedVo.legalPersonName}, '%')</if>
             <if test="selfEmployedVo.username != null  and selfEmployedVo.username != ''"> and t.username like concat('%', #{selfEmployedVo.username}, '%')</if>
             <if test="userIdArr != null  and userIdArr.size() >0 ">
-                AND t.user_id in
+                AND B.apply_name in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
@@ -147,7 +147,6 @@
             <if test="selfEmployedVo.remarkRegister != null  and selfEmployedVo.remarkRegister != ''"> and t.remark_register = #{selfEmployedVo.remarkRegister}</if>
             <if test="selfEmployedVo.isSpecialSelfTax != null "> and t.is_special_self_tax = #{selfEmployedVo.isSpecialSelfTax}</if>
             <if test="selfEmployedVo.isSelfCount != null "> and t.is_self_count = #{selfEmployedVo.isSelfCount}</if>
-            <if test="selfEmployedVo.applyName != null "> and B.apply_name = #{selfEmployedVo.applyName}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -159,7 +158,7 @@
             D.dict_type="educational_level" AND
             t.end_status=1
             <if test="userIdArr != null  and userIdArr.size() >0 ">
-                AND t.user_id in
+                AND B.apply_name in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
