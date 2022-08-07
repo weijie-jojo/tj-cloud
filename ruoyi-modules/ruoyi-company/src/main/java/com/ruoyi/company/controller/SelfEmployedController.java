@@ -74,7 +74,7 @@ public class SelfEmployedController extends BaseController
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||role.getRoleId()==3){//部门主管及业务部的人
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//部门主管
                 System.out.println("部门主管");
 //                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
 //                    userIdArr.add(userVo.getUserId());
@@ -98,6 +98,35 @@ public class SelfEmployedController extends BaseController
         return getDataTable(list);
     }
     /**
+     * 连表查询（根据申请人显示）
+     */
+    @ApiOperation("连表查询（根据申请人显示）")
+//    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinList2")
+    public TableDataInfo selectEmployedJoin(SelfEmployedVo selfEmployedVo)
+    {
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//部门主管
+                System.out.println("部门主管");
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+            }
+            else {
+                System.out.println("其他人");
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
+        }
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
+        for (SelfEmployedVo selfEmployedVo1:list){
+            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+        }
+        return getDataTable(list);
+    }
+    /**
      * 连表selfNameReview查询（完结）
      */
     @ApiOperation("连表selfNameReview查询（完结）")
@@ -114,7 +143,7 @@ public class SelfEmployedController extends BaseController
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||role.getRoleId()==3){//行政,业务部门主管,软开主管
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//行政,业务部门主管,软开主管
                 System.out.println("部门主管");
 //                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
 //                    userIdArr.add(userVo.getUserId());
