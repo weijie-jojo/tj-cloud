@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -86,7 +87,12 @@ public class SelfApplicationInfoController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfApplicationInfo selfApplicationInfo)
     {
-        return toAjax(selfApplicationInfoService.insertSelfApplicationInfo(selfApplicationInfo));
+        try {
+            return toAjax(selfApplicationInfoService.insertSelfApplicationInfo(selfApplicationInfo));
+        }catch (DuplicateKeyException ex){
+            return error("不允许插入重复单据，自动返回，请重新创建");
+        }
+
     }
 
     /**

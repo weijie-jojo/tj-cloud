@@ -335,6 +335,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "注册确认不通过原因")
     private String remarkRegister;
 
+    /** 个体户服务费是否含税(专票) */
+    @Excel(name = "个体户服务费是否含税(专票)")
+    private Long isSpecialSelfTax;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

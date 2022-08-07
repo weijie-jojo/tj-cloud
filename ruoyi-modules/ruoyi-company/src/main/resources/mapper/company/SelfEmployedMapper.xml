@@ -82,6 +82,7 @@
         <result property="isOrdinaryTax"    column="is_ordinary_tax"    />
         <result property="isSpecialTax"    column="is_special_tax"    />
         <result property="remarkRegister"    column="remark_register"    />
+        <result property="isSpecialSelfTax"    column="is_special_self_tax"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -95,7 +96,7 @@
                business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
-               is_ordinary_tax,is_special_tax,remark_register
+               is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -143,6 +144,7 @@
             <if test="selfEmployedVo.isOrdinaryTax != null "> and t.is_ordinary_tax = #{selfEmployedVo.isOrdinaryTax}</if>
             <if test="selfEmployedVo.isSpecialTax != null "> and t.is_special_tax = #{selfEmployedVo.isSpecialTax}</if>
             <if test="selfEmployedVo.remarkRegister != null  and selfEmployedVo.remarkRegister != ''"> and t.remark_register = #{selfEmployedVo.remarkRegister}</if>
+            <if test="selfEmployedVo.isSpecialSelfTax != null "> and t.is_special_self_tax = #{selfEmployedVo.isSpecialSelfTax}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -238,6 +240,7 @@
             <if test="isOrdinaryTax != null "> and is_ordinary_tax = #{isOrdinaryTax}</if>
             <if test="isSpecialTax != null "> and is_special_tax = #{isSpecialTax}</if>
             <if test="remarkRegister != null  and remarkRegister != ''"> and remark_register = #{remarkRegister}</if>
+            <if test="isSpecialSelfTax != null "> and is_special_self_tax = #{isSpecialSelfTax}</if>
         </where>
     </select>
 
@@ -325,6 +328,7 @@
             <if test="isOrdinaryTax != null">is_ordinary_tax,</if>
             <if test="isSpecialTax != null">is_special_tax,</if>
             <if test="remarkRegister != null">remark_register,</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -403,6 +407,7 @@
             <if test="isOrdinaryTax != null">#{isOrdinaryTax},</if>
             <if test="isSpecialTax != null">#{isSpecialTax},</if>
             <if test="remarkRegister != null">#{remarkRegister},</if>
+            <if test="isSpecialSelfTax != null">#{isSpecialSelfTax},</if>
         </trim>
     </insert>
 
@@ -485,6 +490,7 @@
             <if test="isOrdinaryTax != null">is_ordinary_tax = #{isOrdinaryTax},</if>
             <if test="isSpecialTax != null">is_special_tax = #{isSpecialTax},</if>
             <if test="remarkRegister != null">remark_register = #{remarkRegister},</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax = #{isSpecialSelfTax},</if>
         </trim>
         where self_id = #{selfId}
     </update>

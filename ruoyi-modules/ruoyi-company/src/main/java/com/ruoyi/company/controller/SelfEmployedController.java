@@ -18,6 +18,7 @@ import com.ruoyi.company.service.ISelfNameReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -73,11 +74,12 @@ public class SelfEmployedController extends BaseController
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政，业务部门主管,软开主管
                 System.out.println("部门主管");
-                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
-                    userIdArr.add(userVo.getUserId());
-                }
+//                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+//                    userIdArr.add(userVo.getUserId());
+//                }
+                userIdArr=null;//显示所有
             }
             else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
                 System.out.println("总经理");
@@ -112,11 +114,12 @@ public class SelfEmployedController extends BaseController
         //存储username的list集合
         List<Long> userIdArr=new ArrayList<>();
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//行政,业务部门主管,软开主管
                 System.out.println("部门主管");
-                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
-                    userIdArr.add(userVo.getUserId());
-                }
+//                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+//                    userIdArr.add(userVo.getUserId());
+//                }
+                userIdArr=null;//显示所有
             }
             else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
                 System.out.println("总经理");
@@ -190,7 +193,11 @@ public class SelfEmployedController extends BaseController
     {
         selfEmployed.setEndStatus(0);
         selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
-        return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
+        try {
+            return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
+        }catch (DuplicateKeyException ex){
+            return error("不允许插入重复单据，自动返回，请重新创建");
+        }
     }
 
     /**

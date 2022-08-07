@@ -140,18 +140,12 @@ public class SelfNameReviewController extends BaseController
     @RequiresPermissions("company:review:add")
     @Log(title = "个体户名字审核", businessType = BusinessType.INSERT)
     @PostMapping
-    public DataDto add(@RequestBody SelfNameReview selfNameReview)
+    public AjaxResult add(@RequestBody SelfNameReview selfNameReview)
     {
-        DataDto dataDto = new DataDto();
         try {
-            int num=selfNameReviewService.insertSelfNameReview(selfNameReview);
-            if (num>0){
-                return dataDto.success("填写成功");
-            }else {
-                return dataDto.err("插入失败");
-            }
+            return toAjax(selfNameReviewService.insertSelfNameReview(selfNameReview));
         }catch (DuplicateKeyException ex){
-            return dataDto.err("不允许插入重复单据，自动返回，请重新创建");
+            return error("不允许插入重复单据，自动返回，请重新创建");
         }
     }
 
