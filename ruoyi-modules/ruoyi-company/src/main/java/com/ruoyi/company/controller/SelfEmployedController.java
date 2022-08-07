@@ -98,6 +98,21 @@ public class SelfEmployedController extends BaseController
         return getDataTable(list);
     }
     /**
+     * 连表查询（不过滤登录用户）
+     */
+    @ApiOperation("连表查询（不过滤登录用户）")
+//    @RequiresPermissions("company:employed:list")
+    @GetMapping("/joinList2")
+    public TableDataInfo selectEmployedJoin(SelfEmployedVo selfEmployedVo)
+    {
+        startPage();
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
+        for (SelfEmployedVo selfEmployedVo1:list){
+            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+        }
+        return getDataTable(list);
+    }
+    /**
      * 连表selfNameReview查询（完结）
      */
     @ApiOperation("连表selfNameReview查询（完结）")
