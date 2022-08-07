@@ -650,7 +650,7 @@
           <el-col :span="8"></el-col>
           <el-col :span='8' class="flexs">
             <el-button type="danger" @click="backBus" class="btn">返回</el-button>
-            <el-button type="primary" @click="submitForm" class="btn" v-hasPermi="['company:employed:add']">确认修改
+            <el-button type="primary" @click="submitForm" class="btn">确认修改
             </el-button>
 
           </el-col>
@@ -1274,6 +1274,19 @@ export default {
             } else {
               this.ordinaryShare = '1';
             }
+
+            if(this.formData.ordinarySelfMoney>0){
+              this.basicRadio='1';
+            }else{
+              this.basicRadio='2';
+            }
+
+            if(this.formData.specialSelfMoney>0){
+              this.vipRadio='1';
+            }else{
+              this.vipRadio='2';
+            }
+
 
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);

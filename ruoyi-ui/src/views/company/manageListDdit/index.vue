@@ -668,11 +668,19 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
-            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
-              @change="selectIndustryType">
-              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
-                :value="item.industryId"></el-option>
-            </el-select>
+              <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+                <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+                  :value="item.value" style="display: none;" />
+                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                   >
+                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                         <span style="float: left">{{ node.label }}</span>
+                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                    </span>
+                  </el-tree>
+              </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -838,7 +846,8 @@
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">返回</el-button>
-
+          <el-button type="primary" @click="submitForm" class="btn">确认修改
+            </el-button>
         </el-col>
         <el-col :span="8"></el-col>
       </el-row>
@@ -869,6 +878,10 @@ export default {
   props: [],
   data() {
     return {
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
       activeNameseg:'1',
       activeNamese:'1',
       specialShare: '1',
@@ -1226,13 +1239,16 @@ export default {
         "label": "选项一",
         "value": 1
       }],
+      expandOnClickNode: true,
     }
   },
   computed: {},
   watch: {
+     'formData.industryType': 'selectIndustryType',
+
     'formData.contactName': {
       handler: function () {
-        this.formData.legalPersonName = this.formData.contactName
+        this.formData.legalPersonName = this.formData.contactName;
       },
       deep: true
     }
@@ -1386,6 +1402,32 @@ export default {
     this.nailist();
   },
   methods: {
+     handleNodeClick(node) {
+      this.formData.industryType = node.id;
+      this.$refs.selectTree.blur();
+    },
+     formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: items.label, value: items.id,taxRates:items.taxRates });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+      return options;
+    },
      placenew() {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
@@ -1403,6 +1445,19 @@ export default {
             this.formData.specialShare = this.unlist.specialShare;
             this.formData.ordinaryShare = this.unlist.ordinaryShare;
             this.formData.ordinaryShareMoney = this.unlist.ordinaryShareMoney;
+            
+            if(this.formData.ordinarySelfMoney>0){
+              this.basicRadio='1';
+            }else{
+              this.basicRadio='2';
+            }
+
+            if(this.formData.specialSelfMoney>0){
+              this.vipRadio='1';
+            }else{
+              this.vipRadio='2';
+            }
+
 
             if (this.formData.specialShare > 0) {
               this.specialShare = '2';
@@ -1504,9 +1559,14 @@ export default {
       }
     },
     selectIndustryType(value) {
-      var rate = this.industryTypes.find((item) => item.industryId == value);
-      this.formData.industryTax = rate.taxRate;
-      console.log("rate==", rate);
+      var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
+      if(rate.taxRate){
+            this.formData.industryTax = rate.taxRate;
+            this.industryTax=new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
+      }else{
+            this.formData.industryTax='';
+            this.industryTax='';
+      }
     },
     selectApplyName(value) {
       var applyName = this.applyNames.find((item) => item.userId == value);
@@ -1516,9 +1576,36 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
-        this.industryTypes = res.rows;
+        var employedInfo = this.$cache.local.getJSON('employedInfo');
+        this.formData.industryType = employedInfo.industryType;
+        let tree = []; // 用来保存树状的数据形式
+        this.parseTree(res.rows, tree, 0);
+        this.industryTypes = tree;
+        this.industryTypeList = res.rows;
       })
+    },
+     //把数据整成树状
+    parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+           let a=industry[i].taxRate;
+           let b=null;
+           if(a){
+              b=new Decimal(a).mul(new Decimal(100));
+              b="税率"+b+'%';
+            }else{
+              b=null;
+           }
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+            taxRates:b,
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
+      }
     },
     getContactName() {
       crudPerson.getAllPerson().then(res => {
@@ -1537,6 +1624,9 @@ export default {
     },
     submitForm1() {
       this.activeName = 'second';
+    },
+    submitForm(){
+
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: '/company/manageList' });

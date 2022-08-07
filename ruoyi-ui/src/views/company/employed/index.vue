@@ -268,7 +268,7 @@
 
 <script>
 
-import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
 import { getInfo } from '@/api/login'
 import { getUser } from  '@/api/system/user'
 export default {
@@ -790,7 +790,7 @@ export default {
       let params = {
         endStatus: 0
       }
-      joinList2(params).then(res => {
+      joinList(params).then(res => {
         this.alabels2 = "办理中(" + res.total + ")";
       });
     },
@@ -798,7 +798,7 @@ export default {
       let params = {
         endStatus: 2
       }
-      joinList2(params).then(res => {
+      joinList(params).then(res => {
         this.alabels1 = "异常(" + res.total + ")";
       });
     },
@@ -812,7 +812,7 @@ export default {
         this.projectTime = null;
       };
       this.loading = true;
-      joinList2(this.queryParams).then(response => {
+      joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
