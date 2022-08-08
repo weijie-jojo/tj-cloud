@@ -359,6 +359,11 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "专票分润方式是否定额")
     private Long specialShareIsmoney;
 
+    /** 是否开启分润 0是 1否 */
+    @Excel(name = "是否开启分润 0是 1否")
+    private Long isShare;
+
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;
