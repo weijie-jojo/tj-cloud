@@ -689,7 +689,7 @@
 
         <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
-            <el-form-item label="个体户注册服务费" :required="yecomfirms">
+            <el-form-item label="个体户注册服务费" prop="registerMoney">
               <el-input v-model="formData.registerMoney">
                 <template slot="append">元</template>
               </el-input>
@@ -706,54 +706,53 @@
         <el-collapse v-if="formData.isSelfCount == 0" v-model="activeNamese" accordion
           style="padding-left:8%;padding-right: 6%;">
           <el-collapse-item name="1">
-            <template slot="title" :required="yecomfirms">
+            <template slot="title" :required="true">
               增值税普通发票
             </template>
             <el-col :span="10">
-              <el-form-item label="普票税率" :required="yecomfirms">
+              <el-form-item label="普票税率" prop="ordinaryTax">
                 <el-select style="width:100%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
                   <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="普票服务费" :required="yecomfirms">
+              <el-form-item label="普票服务费" prop="ordinarySelfFee">
                 <div style="">
 
                   <el-radio v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
                   <el-radio v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.ordinaryProxyIsmoney == 0" type="number" v-model="formData.ordinarySelfFee"
-                    style="margin-right:10px" :step="0.01" :min="0" :max="9999">
+                    style="margin-right:10px" :step="0.01" :min="0">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else type="number" v-model="formData.ordinarySelfFee" style="margin-right:10px"
-                    :step="0.01" :min="0" :max="100">
+                  <el-input v-else type="number" @change="ordinarySelfFeeh" v-model="formData.ordinarySelfFee"
+                    style="margin-right:10px" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="服务费含税" :required="yecomfirms">
+              <el-form-item label="服务费含税" :required="true">
                 <el-radio v-model="formData.isSelfTax" label='0'>是</el-radio>
                 <el-radio v-model="formData.isSelfTax" label='1'>否</el-radio>
               </el-form-item>
-              <el-form-item label="价税分离" :required="yecomfirms">
+              <el-form-item label="价税分离" :required="true">
                 <el-radio v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
                 <el-radio v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
               </el-form-item>
-               <el-form-item label="是否分润">
-                  <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
-                  <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
+              <el-form-item label="是否分润" :required="true">
+                <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
+                <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
               </el-form-item>
-              <el-form-item v-if="formData.isOrdinaryShare==0" label="分润方式" :required="yecomfirms">
+              <el-form-item v-if="formData.isOrdinaryShare == 0" label="分润方式" prop="ordinaryShare">
                 <div style="">
 
                   <el-radio v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryShareIsmoney == 0"  type="number"
-                    v-model="formData.ordinaryShare" style="margin-right:10px;width:100%" :step="0.01" :min="0"
-                    :max="9999">
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0" type="number" v-model="formData.ordinaryShare"
+                    style="margin-right:10px;width:100%" :step="0.01" :min="0">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else  type="number" v-model="formData.ordinaryShare"
+                  <el-input v-else type="number" @change="ordinaryShareh" v-model="formData.ordinaryShare"
                     style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
@@ -768,17 +767,17 @@
         <el-collapse v-if="formData.isSelfCount == 0" v-model="activeNameseg" accordion
           style="padding-left:8%;padding-right: 6%;">
           <el-collapse-item name="1">
-            <template slot="title" :required="yecomfirms">
+            <template slot="title" :required="true">
               增值税专用发票
             </template>
             <el-col :span="10">
-              <el-form-item label="专票税率" :required="yecomfirms">
+              <el-form-item label="专票税率" prop="ordinarySpecialTax">
                 <el-select style="width:100%" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
                   <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="专票服务费" :required="yecomfirms">
+              <el-form-item label="专票服务费" prop="specialSelfFee">
                 <div style="">
                   <el-radio v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
                   <el-radio v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
@@ -786,38 +785,37 @@
                     style="margin-right:10px;width:100%" :step="0.01" :min="0">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else type="number" v-model="formData.specialSelfFee" style="margin-right:10px;width:100%"
-                    :step="0.01" :min="0">
+                  <el-input v-else type="number" @change="specialSelfFeeh" v-model="formData.specialSelfFee"
+                    style="margin-right:10px;width:100%" :step="0.01" :min="0">
                     <template slot="append">%</template>
                   </el-input>
 
                 </div>
               </el-form-item>
 
-              <el-form-item label="服务费含税" :required="yecomfirms">
+              <el-form-item label="服务费含税" :required="true">
                 <el-radio v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
                 <el-radio v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
               </el-form-item>
-              <el-form-item label="价税分离" :required="yecomfirms">
+              <el-form-item label="价税分离" :required="true">
                 <el-radio v-model="formData.isSpecialTax" label='0'>是</el-radio>
                 <el-radio v-model="formData.isSpecialTax" label='1'>否</el-radio>
               </el-form-item>
-              <el-form-item label="是否分润">
-                  <el-radio  v-model="formData.isSpecialShare"   label="0">是</el-radio>
-                  <el-radio  v-model="formData.isSpecialShare"     label="1">否</el-radio>
+              <el-form-item label="是否分润" :required="true">
+                <el-radio v-model="formData.isSpecialShare" label="0">是</el-radio>
+                <el-radio v-model="formData.isSpecialShare" label="1">否</el-radio>
               </el-form-item>
-              <el-form-item v-if="formData.isSpecialShare==0" label="分润方式" :required="yecomfirms">
+              <el-form-item v-if="formData.isSpecialShare == 0" label="分润方式" prop="specialShare">
                 <div style="">
 
                   <el-radio v-model="formData.specialShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.specialShareIsmoney == 0" :disabled="yecomfirm" type="number"
-                    v-model="formData.specialShare" style="margin-right:10px;width:100%" :step="0.01" :min="0"
-                    :max="9999">
+                    v-model="formData.specialShare" style="margin-right:10px;width:100%" :step="0.01" :min="0">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-model="formData.specialShare" v-else type="number" style="margin-right:10px;width:100%"
-                    :step="0.01" :min="0" :max="100">
+                  <el-input @change="specialShareh" v-model="formData.specialShare" v-else type="number"
+                    style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -832,7 +830,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span='8' class="flexs">
-            <el-button type="danger" @click="backBus" class="btn">返回</el-button>
+            <el-button type="danger" @click="backBus" class="btn">上一步</el-button>
             <el-button type="primary" @click="submitForm" class="btn" v-hasPermi="['company:employed:add']">提交
             </el-button>
 
@@ -865,11 +863,9 @@ export default {
     return {
       activeNameseg: '1',
       activeNamese: '1',
-      // specialShare: '1',
-      // ordinaryShare: '1',
       optiond: [
         {
-          value: '0.00',
+          value: '0',
           label: '免税'
         }, {
           value: '0.01',
@@ -974,13 +970,13 @@ export default {
       dialogVisible3: false,
       userinfo: {},
       formData: {
-         
-         ordinaryProxyIsmoney:'1', //普票平台服务费是否定额
-         specialProxyIsmoney:'1',//专票平台服务费是否定额
-         ordinaryShareIsmoney:'1',//普票分润方式是否定额
-         specialShareIsmoney:'1',//专票分润方式是否定额
-         isOrdinaryShare:'1',
-         isSpecialShare:'1',
+
+        ordinaryProxyIsmoney: '1', //普票平台服务费是否定额
+        specialProxyIsmoney: '1',//专票平台服务费是否定额
+        ordinaryShareIsmoney: '1',//普票分润方式是否定额
+        specialShareIsmoney: '1',//专票分润方式是否定额
+        isOrdinaryShare: '1',
+        isSpecialShare: '1',
 
 
 
@@ -1098,10 +1094,10 @@ export default {
         ordinarySpecialTax: '',
         ordinaryTax: '',
       },
-      yecomfirm: true,
+      //yecomfirm: true,
       yecomfirms: false,
-      // vipRadio: '1',
-     
+
+
 
       IsSpecialTax: '0',
       fileName5: [],
@@ -1331,19 +1327,42 @@ export default {
           message: '请输入登记机关',
           trigger: 'blur'
         }],
-        // ordinaryTax: [{
-        //   required: true,
-        //   message: '请选择普票税率',
-        //   trigger: 'change'
-        // }],
-
-        //  ordinaryTax: [{
-        //   required: true,
-        //   message: '请选择普票税率',
-        //   trigger: 'change'
-        // }],
-
-        random: [{
+        registerMoney:[{
+           required: true,
+           message: '请输入个体户注册服务费',
+           trigger: 'blur'
+        }],
+        ordinaryTax:[{
+           required: true,
+           message: '请选择普票税率',
+           trigger: 'change'
+        }],
+        ordinarySpecialTax:[{
+           required: true,
+           message: '请选择专票税率',
+           trigger: 'change'
+        }],
+        specialSelfFee:[{
+           required: true,
+           message: '请输入专票服务费',
+           trigger: 'blur'
+        }],
+        ordinarySelfFee:[{
+           required: true,
+           message: '请输入普票服务费',
+           trigger: 'blur'
+        }],
+        ordinaryShare:[{
+           required: true,
+           message: '请输普票分润',
+           trigger: 'blur'
+        }],
+        specialShare:[{
+           required: true,
+           message: '请输专票分润',
+           trigger: 'blur'
+        }],
+         random: [{
           required: false,
           message: '请输入随机字号',
           trigger: 'blur'
@@ -1352,7 +1371,8 @@ export default {
         fontSize2: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
         fontSize3: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
         fontSize4: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
-        fontSize5: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }]
+        fontSize5: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        
 
 
 
@@ -1388,7 +1408,7 @@ export default {
         "label": "选项一",
         "value": 1
       }],
-      flag:0,
+      flag: false,
     }
   },
   computed: {},
@@ -1423,6 +1443,35 @@ export default {
     //从上一个页面获取个体户编码
   },
   methods: {
+    ordinarySelfFeeh(e) {
+      if (this.formData.ordinaryProxyIsmoney == '1') {
+        if (e > 100) {
+          this.formData.ordinarySelfFee = '100.00';
+        }
+      }
+    },
+    specialSelfFeeh(e) {
+      if (this.formData.specialProxyIsmoney == '1') {
+        if (e > 100) {
+          this.formData.specialSelfFee = '100.00';
+        }
+      }
+    },
+    specialShareh(e) {
+      if (this.formData.specialShareIsmoney == '1') {
+        if (e > 100) {
+          this.formData.specialShare = '100.00';
+        }
+      }
+    },
+    ordinaryShareh(e) {
+      if (this.formData.ordinaryShareIsmoney == '1') {
+        if (e > 100) {
+          this.formData.ordinaryShare = '100.00';
+        }
+      }
+    },
+
 
     getfileName5(data) {
       this.formData.fileName5 = data;
@@ -1475,32 +1524,25 @@ export default {
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
-            //this.formData.specialSelfMoney = this.unlist.specialProxyMoney;
+           
 
 
             this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-            //this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
             this.formData.registerMoney = this.unlist.ordinarySelfFee;
-
-           // this.formData.specialShareMoney = this.unlist.specialShareMoney;
             this.formData.specialShare = this.unlist.specialShare;
             this.formData.ordinaryShare = this.unlist.ordinaryShare;
-           // this.formData.ordinaryShareMoney = this.unlist.ordinaryShareMoney;
-
            
-         
+            this.formData.ordinaryProxyIsmoney = JSON.stringify(this.unlist.ordinaryProxyIsmoney); //普票平台服务费是否定额
+            this.formData.specialProxyIsmoney = JSON.stringify(this.unlist.specialProxyIsmoney)  //专票平台服务费是否定额
+            this.formData.ordinaryShareIsmoney = JSON.stringify(this.unlist.ordinaryShareIsmoney);//普票分润方式是否定额
+            this.formData.specialShareIsmoney = JSON.stringify(this.unlist.specialShareIsmoney);//专票分润方式是否定额
+            this.formData.isOrdinaryShare = JSON.stringify(this.unlist.isOrdinaryShare);
+            this.formData.isSpecialShare = JSON.stringify(this.unlist.isSpecialShare);
 
-            this.formData.ordinaryProxyIsmoney=JSON.stringify(this.unlist.ordinaryProxyIsmoney); //普票平台服务费是否定额
-            this.formData.specialProxyIsmoney=JSON.stringify(this.unlist.specialProxyIsmoney)  //专票平台服务费是否定额
-            this.formData.ordinaryShareIsmoney=JSON.stringify(this.unlist.ordinaryShareIsmoney);//普票分润方式是否定额
-            this.formData.specialShareIsmoney=JSON.stringify(this.unlist.specialShareIsmoney);//专票分润方式是否定额
-            this.formData.isOrdinaryShare=JSON.stringify(this.unlist.isOrdinaryShare);
-            this.formData.isSpecialShare=JSON.stringify(this.unlist.isSpecialShare);
-  
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
 
-           
+
 
             //含税专票
             if (this.unlist.isSpecialTax) {
@@ -1535,46 +1577,15 @@ export default {
       }
     },
 
-    singleOK(e) {
+    singleOK() {
 
-      if (this.ormData.isSelfCount == 0) {
-        this.yecomfirm = false;
+      if (this.formData.isSelfCount == 0) {
+
         this.yecomfirms = true;
-        this.formData.specialSelfFee = 0;
-        this.formData.specialSelfMoney = 0;
-        this.formData.ordinarySelfFee = 0;
-        this.formData.ordinarySelfMoney = 0;
 
-        this.formData.isSpecialTax = '0';
-        this.formData.isOrdinaryTax = '0';
-
-        this.formData.isSelfTax = '0';//普票含税
-        this.formData.isSpecialSelfTax = '0';//专票含税
-
-        this.formData.registerMoney = '';
-
-       
-        
-        this.formData.ordinaryProxyIsmoney='1'; //普票平台服务费是否定额
-        this.formData.specialProxyIsmoney='1';  //专票平台服务费是否定额
-        this.formData.ordinaryShareIsmoney='1';//普票分润方式是否定额
-        this.formData.specialShareIsmoney='1';//专票分润方式是否定额
-       
-        this.formData.isOrdinaryShare='1';
-        this.formData.isSpecialShare='1';
-
-        // this.specialShare = '1',
-        // this.ordinaryShare = '1',
-        this.formData.ordinarySpecialTax = null;
-        this.formData.ordinaryTax = null;
-
-        this.formData.ordinaryShare = null;
-        this.formData.specialShare = null;
-        this.formData.specialShareMoney = null;
-        this.formData.ordinaryShareMoney = null;
 
       } else {
-        this.yecomfirm = true;
+
         this.yecomfirms = false;
         this.placenew();
 
@@ -1722,6 +1733,7 @@ export default {
     },
 
     submitForm() {
+
       if (this.formData.industryType == '-1') {
         this.$modal.msgError("请选择行业类型");
         return;
@@ -1733,199 +1745,7 @@ export default {
 
       this.$refs['elForm'].validate(valid => {
         if (valid) {
-
-          this.flag=0;
-
-          let parms1 = {
-            selfCode: this.formData.selfCode,
-
-            oneselfApply: this.formData.oneselfApply,
-            applyName: this.formData.applyName,
-            applyPhone: this.formData.applyPhone,
-            applyDocumentType: this.formData.applyDocumentType,
-            applyIdNum: this.formData.applyIdNum,
-
-            contactName: this.formData.contactName,
-            contactPhone: this.formData.contactPhone,
-            contactDocumentType: this.formData.contactDocumentType,
-            contactIdNum: this.formData.contactIdNum,
-            createBy: this.formData.userName,
-            updateBy: this.formData.userName,
-
-          };
-
-          let parms2 = {
-            selfCode: this.formData.selfCode,
-            userId: this.formData.userId,
-            organizationalForm: this.formData.organizationalForm,
-            numberEmployees: this.formData.numberEmployees,
-            contributionAmount: this.formData.contributionAmount,
-            city: this.formData.city,
-            county: this.formData.county,
-            electronicCommerce: this.formData.electronicCommerce,
-            selfAddress: this.formData.selfAddress,
-            freeTradeZone: this.formData.freeTradeZone,
-            freeTradeArea: this.formData.freeTradeArea,
-            propertyRight: this.formData.propertyRight,
-            natureBusiness: this.formData.natureBusiness,
-            industryType: this.formData.industryType,
-            industryTax: this.formData.industryTax,
-            accountType: this.formData.accountType,
-            legalPersonName: this.formData.contactName,
-
-            privateDepositBank: this.formData.privateDepositBank,
-            privateAccountNumber: this.formData.privateAccountNumber,
-            placeName: this.formData.placeName,
-            username: this.formData.userName,
-            fileName5: JSON.stringify(this.formData.fileName5),
-            fileName6: JSON.stringify(this.formData.fileName6),
-            fileName7: JSON.stringify(this.formData.fileName7),
-            publicDepositBank1: this.formData.publicDepositBank1,
-            publicAccountNumber1: this.formData.publicAccountNumber1,
-            createBy: this.formData.userName,
-            updateBy: this.formData.userName,
-
-
-            specialSelfFee: this.formData.specialSelfFee,
-            //specialSelfMoney: this.formData.specialSelfMoney,
-            ordinarySelfFee: this.formData.ordinarySelfFee,
-            //ordinarySelfMoney: this.formData.ordinarySelfMoney,
-            isSpecialTax: this.formData.isSpecialTax,
-            isOrdinaryTax: this.formData.isOrdinaryTax,
-
-            isSelfTax: this.formData.isSelfTax,//普票含税  
-            isSpecialSelfTax: this.formData.isSpecialSelfTax,//专票含税
-
-
-            isSelfCount: this.formData.isSelfCount,//是否结算
-            registerMoney: this.formData.registerMoney,
-
-
-            //specialShareMoney: this.formData.specialShareMoney,
-            specialShare: this.formData.specialShare,
-            ordinaryShare: this.formData.ordinaryShare,
-            // ordinaryShareMoney: this.formData.ordinaryShareMoney,
-            ordinarySpecialTax: this.formData.ordinarySpecialTax,
-            ordinaryTax: this.formData.ordinaryTax,
-
-              ordinaryProxyIsmoney:this.formData.ordinaryProxyIsmoney,//普票平台服务费是否定额
-              specialProxyIsmoney:this.formData.specialProxyIsmoney,//专票平台服务费是否定额
-              ordinaryShareIsmoney:this.formData.ordinaryShareIsmoney,//普票分润方式是否定额
-              specialShareIsmoney:this.formData.specialShareIsmoney,//专票分润方式是否定额
-              isOrdinaryShare:this.formData.isOrdinaryShare,//普票是否分润
-              isSpecialShare:this.formData.isSpecialShare,//普票平台服务费是否定额
-        
-
-
-            businessStatus: 0,
-            infoStatus: 0,
-            taxStatus: 0,
-            bankStatus: 0,
-            realnameStatus: 1,//实名认证
-          };
-          let parms3 = {
-            selfCode: this.formData.selfCode,
-
-            legalPersonName: this.formData.contactName,
-            personnelType: this.formData.personnelType,
-            documentType: this.formData.contactDocumentType,
-            idCardNum: this.formData.contactIdNum,
-            gender: this.formData.gender,
-            dateBirth: this.formData.dateBirth,
-            nation: this.formData.nation,
-            eduation: this.formData.eduation,
-            occupationalStatus: this.formData.occupationalStatus,
-            residence: this.formData.residence,
-            contactPhone: this.formData.contactPhone,
-            mail: this.formData.mail,
-            politicalStatus: this.formData.politicalStatus,
-            createBy: this.formData.userName,
-            updateBy: this.formData.userName,
-
-          };
-          
-            this.submitFormNameS(); //名称录入成功l
-              if(this.flag==1){
-                this.getSelfCode();
-                return;
-              }
-            crudInfo.addInfo(parms1).then(res => {
-            if (res != undefined) {
-              if (res.code === 200) {
-
-              } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'danger'
-                })
-                
-                
-              }
-            }
-          });
-          crudEmployed.addEmployed(parms2).then(res => {
-            if (res != undefined) {
-              if (res.code === 200) {
-
-              } else {
-               
-                this.$message({
-                  message: res.msg,
-                  type: 'danger'
-                })
-                 
-                 
-              }
-            }
-          });
-        
-          crudPerson.addPerson(parms3).then(res => {
-            if (res != undefined) {
-              if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'success'
-                })
-              } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'danger'
-                })
-              }
-              let parms = {
-                "checkReasult": res.msg,
-                "checkUser": this.userinfo.userName,
-                'phonenumber': this.userinfo.phonenumber,
-                "selfCode": this.formData.selfCode,
-                "selfType": "1",
-              }
-             crudEmployed.check(parms).then(res => {
-               if (res != undefined) {
-                if (res.code === 200) {
-                    
-                } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'danger'
-                })
-               
-                
-              }
-               }
-              })
-
-
-
-            }
-          });
-          
-              this.$router.push("success");
-          
-          
-           
-
-
-         
+          this.submitFormNameS(); //名称录入成功l
         } else {
           this.$message({
             message: '请填写完整',
@@ -1994,10 +1814,10 @@ export default {
       })
     },
     submitFormNameS() {
+
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
-
           let parms = {
 
             selfCode: this.formData.selfCode,
@@ -2020,22 +1840,28 @@ export default {
             updateBy: this.formData.userName,
             nameStatus: 0,
           };
+
           crudReview.addReview(parms).then(res => {
 
             if (res != undefined) {
-                if (res.code === 200) {
+              if (res.code === 200) {
+                window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
+                window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
+                this.isok();
+              }
 
-                } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'danger'
-                })
-                this.flag=1;
-             }
-              window.localStorage.setItem("organizationalForm", JSON.stringify(this.formData.organizationalForm));
-              window.localStorage.setItem("selfCode", JSON.stringify(this.formData.selfCode));
-               }
-            });
+
+            }
+          }).catch(error => {
+            this.getSelfCode();
+            let that = this;
+            setTimeout(function () {
+              that.$modal.msgSuccess('已重新获取个体户编码,请重新提交')
+            }, 3000);
+
+          });
+
+
 
         } else {
           this.$message({
@@ -2047,12 +1873,185 @@ export default {
     },
     resetForm() {
       this.$tab.closePage();
-      //this.$refs['elForm'].resetFields()
     },
+    isok() {
+      let parms1 = {
+        selfCode: this.formData.selfCode,
+
+        oneselfApply: this.formData.oneselfApply,
+        applyName: this.formData.applyName,
+        applyPhone: this.formData.applyPhone,
+        applyDocumentType: this.formData.applyDocumentType,
+        applyIdNum: this.formData.applyIdNum,
+
+        contactName: this.formData.contactName,
+        contactPhone: this.formData.contactPhone,
+        contactDocumentType: this.formData.contactDocumentType,
+        contactIdNum: this.formData.contactIdNum,
+        createBy: this.formData.userName,
+        updateBy: this.formData.userName,
+
+      };
+
+      let parms2 = {
+        selfCode: this.formData.selfCode,
+        userId: this.formData.userId,
+        organizationalForm: this.formData.organizationalForm,
+        numberEmployees: this.formData.numberEmployees,
+        contributionAmount: this.formData.contributionAmount,
+        city: this.formData.city,
+        county: this.formData.county,
+        electronicCommerce: this.formData.electronicCommerce,
+        selfAddress: this.formData.selfAddress,
+        freeTradeZone: this.formData.freeTradeZone,
+        freeTradeArea: this.formData.freeTradeArea,
+        propertyRight: this.formData.propertyRight,
+        natureBusiness: this.formData.natureBusiness,
+        industryType: this.formData.industryType,
+        industryTax: this.formData.industryTax,
+        accountType: this.formData.accountType,
+        legalPersonName: this.formData.contactName,
+
+        privateDepositBank: this.formData.privateDepositBank,
+        privateAccountNumber: this.formData.privateAccountNumber,
+        placeName: this.formData.placeName,
+        username: this.formData.userName,
+        fileName5: JSON.stringify(this.formData.fileName5),
+        fileName6: JSON.stringify(this.formData.fileName6),
+        fileName7: JSON.stringify(this.formData.fileName7),
+        publicDepositBank1: this.formData.publicDepositBank1,
+        publicAccountNumber1: this.formData.publicAccountNumber1,
+        createBy: this.formData.userName,
+        updateBy: this.formData.userName,
+
+
+        specialSelfFee: this.formData.specialSelfFee,
+
+        ordinarySelfFee: this.formData.ordinarySelfFee,
+
+        isSpecialTax: this.formData.isSpecialTax,
+        isOrdinaryTax: this.formData.isOrdinaryTax,
+
+        isSelfTax: this.formData.isSelfTax,//普票含税  
+        isSpecialSelfTax: this.formData.isSpecialSelfTax,//专票含税
+
+
+        isSelfCount: this.formData.isSelfCount,//是否结算
+        registerMoney: this.formData.registerMoney,
+
+        specialShare: this.formData.specialShare,
+        ordinaryShare: this.formData.ordinaryShare,
+
+        ordinarySpecialTax: this.formData.ordinarySpecialTax,
+        ordinaryTax: this.formData.ordinaryTax,
+
+        ordinaryProxyIsmoney: this.formData.ordinaryProxyIsmoney,//普票平台服务费是否定额
+        specialProxyIsmoney: this.formData.specialProxyIsmoney,//专票平台服务费是否定额
+        ordinaryShareIsmoney: this.formData.ordinaryShareIsmoney,//普票分润方式是否定额
+        specialShareIsmoney: this.formData.specialShareIsmoney,//专票分润方式是否定额
+        isOrdinaryShare: this.formData.isOrdinaryShare,//普票是否分润
+        isSpecialShare: this.formData.isSpecialShare,//普票平台服务费是否定额
 
 
 
+        businessStatus: 0,
+        infoStatus: 0,
+        taxStatus: 0,
+        bankStatus: 0,
+        realnameStatus: 1,//实名认证
+      };
+      let parms3 = {
+        selfCode: this.formData.selfCode,
 
+        legalPersonName: this.formData.contactName,
+        personnelType: this.formData.personnelType,
+        documentType: this.formData.contactDocumentType,
+        idCardNum: this.formData.contactIdNum,
+        gender: this.formData.gender,
+        dateBirth: this.formData.dateBirth,
+        nation: this.formData.nation,
+        eduation: this.formData.eduation,
+        occupationalStatus: this.formData.occupationalStatus,
+        residence: this.formData.residence,
+        contactPhone: this.formData.contactPhone,
+        mail: this.formData.mail,
+        politicalStatus: this.formData.politicalStatus,
+        createBy: this.formData.userName,
+        updateBy: this.formData.userName,
+
+      };
+
+      crudInfo.addInfo(parms1).then(res => {
+        if (res != undefined) {
+          if (res.code === 200) {
+
+          } else {
+            this.$message({
+              message: res.msg,
+              type: 'danger'
+            })
+
+
+          }
+        }
+      });
+      crudEmployed.addEmployed(parms2).then(res => {
+        if (res != undefined) {
+          if (res.code === 200) {
+
+          } else {
+
+            this.$message({
+              message: res.msg,
+              type: 'danger'
+            })
+
+
+          }
+        }
+      });
+
+      crudPerson.addPerson(parms3).then(res => {
+        if (res != undefined) {
+          if (res.code === 200) {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: res.msg,
+              type: 'danger'
+            })
+
+
+
+          }
+          let parms = {
+            "checkReasult": res.msg,
+            "checkUser": this.userinfo.userName,
+            'phonenumber': this.userinfo.phonenumber,
+            "selfCode": this.formData.selfCode,
+            "selfType": "1",
+          }
+          crudEmployed.check(parms).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+                this.$router.push("success");
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          })
+
+
+
+        }
+      });
+    }
   }
 }
 

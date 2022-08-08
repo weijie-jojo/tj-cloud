@@ -9,55 +9,58 @@
       <el-form-item label="渠道商" prop="placeName">
         <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-       <el-form-item label="客户经理">
+      <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-       <el-form-item>
+      <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-     <el-col :span="15">
-       <el-tabs v-model="endStatus" @tab-click="handleClick">
-       <el-tab-pane label="全部" name="-1"></el-tab-pane>
-        <el-tab-pane :label="alabels2" name="2"></el-tab-pane>
-       <el-tab-pane :label="alabels1" name="0"></el-tab-pane>
-       <el-tab-pane label="完成" name="1"></el-tab-pane>
-      </el-tabs>
-   </el-col>
-     <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <el-col :span="15">
+        <el-tabs v-model="endStatus" @tab-click="handleClick">
+          <el-tab-pane label="全部" name="-1"></el-tab-pane>
+          <el-tab-pane :label="alabels2" name="2"></el-tab-pane>
+          <el-tab-pane :label="alabels1" name="0"></el-tab-pane>
+          <el-tab-pane label="完成" name="1"></el-tab-pane>
+        </el-tabs>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-   <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true" />
       <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-       <el-table-column label="办理状态" align="center" prop="">
-         <template slot-scope="scope">
-           <el-link :underline="false" type="primary"   v-if=" scope.row.endStatus == 2">异常</el-link>
-           <el-link :underline="false" type="primary"   v-if=" scope.row.endStatus == 0">办理中</el-link>
-           <el-link :underline="false"  type="success"  v-if=" scope.row.endStatus == 1">完成</el-link>
-         </template>
-       </el-table-column>
+      <el-table-column label="办理状态" align="center" prop="">
+        <template slot-scope="scope">
+          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == 2">异常</el-link>
+          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == 0">办理中</el-link>
+          <el-link :underline="false" type="success" v-if="scope.row.endStatus == 1">完成</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text"  icon="el-icon-view" @click="look(scope.row)">查看</el-button>
-          <el-button size="mini" type="text" v-if="scope.row.endStatus == 2"  icon="el-icon-edit" @click="edits(scope.row)">编辑</el-button>
-         <el-button size="mini" type="text" icon="el-icon-s-goods" v-else style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
+          <el-button size="mini" type="text" icon="el-icon-view" @click="look(scope.row)">查看</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.endStatus == 2" icon="el-icon-edit"
+            @click="edits(scope.row)">编辑</el-button>
+          <el-button size="mini" type="text" icon="el-icon-s-goods" v-else
+            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
           <el-button size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
             @click="detail(scope.row)">确认注册</el-button>
-          <el-button size="mini" v-else icon="el-icon-s-goods"  style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
-        
-          </template>
+          <el-button size="mini" v-else icon="el-icon-s-goods"
+            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
+
+        </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
-</div>
+  </div>
 </template>
 
 <script>
@@ -68,9 +71,9 @@ export default {
   name: "Employed",
   data() {
     return {
-      alabels2:'异常',
-      alabels1:'办理中',
-      endStatus:'-1',
+      alabels2: '异常',
+      alabels1: '办理中',
+      endStatus: '-1',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -93,23 +96,23 @@ export default {
       queryParams: {
         nameStatus: 1,
         infoStatus: 1,
-        businessStatus:1,
-        bankStatus:1,
+        businessStatus: 1,
+        bankStatus: 1,
         // realnameStatus:1,
         taxStatus: 1,
-        endStatus:null,
+        endStatus: null,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
         legalPersonName: null,
         username: null,
       },
-       options: [
+      options: [
         {
           value: 0,
           label: '待办理'
         },
-       {
+        {
 
           value: 1,
           label: '已完成',
@@ -123,20 +126,20 @@ export default {
     };
   },
   created() {
-   this.getBang();
-   this.getErr();
-   this.getList();
+    this.getBang();
+    this.getErr();
+    this.getList();
   },
-  methods: { 
+  methods: {
     getBang() {
       let params = {
-          nameStatus: 1,
+        nameStatus: 1,
         infoStatus: 1,
-        businessStatus:1,
-        bankStatus:1,
+        businessStatus: 1,
+        bankStatus: 1,
         // realnameStatus:1,
         taxStatus: 1,
-        endStatus:0,
+        endStatus: 0,
       }
       joinList(params).then(res => {
         this.alabels2 = "审核中(" + res.total + ")";
@@ -144,42 +147,45 @@ export default {
     },
     getErr() {
       let params = {
-         nameStatus: 1,
+        nameStatus: 1,
         infoStatus: 1,
-        businessStatus:1,
-        bankStatus:1,
+        businessStatus: 1,
+        bankStatus: 1,
         // realnameStatus:1,
         taxStatus: 1,
-        endStatus:2,
+        endStatus: 2,
       }
       joinList(params).then(res => {
         this.alabels1 = "异常(" + res.total + ")";
       });
     },
-      handleClick(tab, event) {
-     if(this.endStatus=='-1'){
-      this.queryParams.endStatus=null;
-     }else{
-      this.queryParams.endStatus=this.endStatus;
-     }
-      this.queryParams.pageNum=1;
+    handleClick(tab, event) {
+      if (this.endStatus == '-1') {
+        this.queryParams.endStatus = null;
+      } else {
+        this.queryParams.endStatus = this.endStatus;
+      }
+      this.queryParams.pageNum = 1;
       this.getList();
-      },
-      edits(row){
-        // this.$cache.local.setJSON("employedInfo", row);
-        // this.$tab.closeOpenPage({path:'/company/customer/editEmployedInfo'});
-      },
-      look(row){
-        this.$cache.local.setJSON("employedInfo", row);
-        this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => {})
-      },
-      detail(row){
-        // this.$cache.local.setJSON('employednewlist', row);
-        // this.$tab.openPage("税率信息","/company/customer/detailTax");
-       this.$cache.local.setJSON("employedInfo", row);
-       this.$tab.openPage("确认注册", "/company/customer/confirmDetail").then(() => {})
     },
-   /** 查询个体商户列表 */
+    edits(row) {
+       let obj = {
+        name:'注册确认',
+        backUrl: '/company/customer/employedConfirm',
+      };
+      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON("employedInfo", row);
+      this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
+    },
+    look(row) {
+      this.$cache.local.setJSON("employedInfo", row);
+      this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
+    },
+    detail(row) {
+      this.$cache.local.setJSON("employedInfo", row);
+      this.$tab.openPage("确认注册", "/company/customer/confirmDetail").then(() => { })
+    },
+    /** 查询个体商户列表 */
     getList() {
       this.loading = true;
       joinList(this.queryParams).then(response => {
@@ -235,8 +241,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.endStatus='-1';
-      this.queryParams.endStatus=null;
+      this.endStatus = '-1';
+      this.queryParams.endStatus = null;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -247,7 +253,7 @@ export default {
       this.multiple = !selection.length
     },
 
-    
+
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
@@ -304,7 +310,7 @@ export default {
 };
 </script>
 <style scoped>
-   ::v-deep .el-tabs__nav-wrap::after{
-        background-color:rgba(0,0,0,0) !important;
-   }
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 </style>

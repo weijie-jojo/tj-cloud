@@ -39,10 +39,9 @@ export default {
        
     },
     submitForm(){
-       this.$tab.closeOpenPage({ path: this.obj.backUrl});
-      //   this.$tab.refreshPage({ path: this.obj.backUrl}).then(() => {
-           
-      //  })
+      this.$tab.refreshPage({ path: this.obj.backUrl}).then(() => {
+            this.$tab.closeOpenPage({ path: this.obj.backUrl});
+     })
     }
   }
 }

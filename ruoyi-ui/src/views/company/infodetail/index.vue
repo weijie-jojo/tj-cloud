@@ -197,23 +197,7 @@
         </el-col>
       </el-row>
 
-      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业类型" prop="industryType">
-            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
-              @change="selectIndustryType">
-              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
-                :value="item.industryId"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业税率">
-            <el-input v-model="formData.industryTax" :readonly="true">
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row> -->
+     
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="银行账号类型" prop="accountType">
@@ -245,23 +229,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="渠道商" prop="placeName">
-            <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
-              filterable>
-              <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row> -->
+     
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">
@@ -444,8 +412,8 @@
       <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="单独结算" :required="true">
-              <el-radio disabled v-model="formData.isSelfCount" label="0">是</el-radio>
-              <el-radio disabled v-model="formData.isSelfCount" label="1">否</el-radio>
+              <el-radio disabled  v-model="formData.isSelfCount" label="0">是</el-radio>
+              <el-radio disabled  v-model="formData.isSelfCount" label="1">否</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="9">
@@ -469,7 +437,7 @@
 
 
         <el-collapse v-if="formData.isSelfCount==0" v-model="activeNamese"  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税普通发票
             </template>
@@ -511,9 +479,9 @@
               <el-form-item v-if="formData.isOrdinaryShare== 0"  label="分润方式" :required="true">
                 <div style="">
 
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryProxyIsmoney == 0" :disabled="true" type="number"
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
                     :max="9999">
                     <template slot="append">元</template>
@@ -531,7 +499,7 @@
         </el-collapse>
 
           <el-collapse v-if="formData.isSelfCount==0" v-model="activeNameseg"  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税专用发票
             </template>
@@ -650,7 +618,7 @@ export default {
       industryTax: '',
       optiond: [
         {
-          value: '0.00',
+          value: '0',
           label: '免税'
         }, {
           value: '0.01',
@@ -978,27 +946,8 @@ export default {
     this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
     this.formData.isSpecialSelfTax=JSON.stringify(this.formData.isSpecialSelfTax);
     this.formData.isSelfCount=JSON.stringify(this.formData.isSelfCount);
-    // if (this.formData.ordinarySelfMoney > 0) {
-    //   this.basicRadio = '1';
-    // } else {
-    //   this.basicRadio = '2';
-    // }
-    // if (this.formData.specialSelfMoney > 0) {
-    //   this.vipRadio = '1';
-    // } else {
-    //   this.vipRadio = '2';
-    // }
-    //   if (this.formData.specialShareMoney > 0) {
-    //   this.specialShare = '1';
-    // } else {
-    //   this.specialShare = '2';
-    // }
-    // if (this.formData.ordinaryShareMoney > 0) {
-    //   this.ordinaryShare = '1';
-    // } else {
-    //   this.ordinaryShare = '2';
-    // }
-     this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
+    
+    this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
     this.formData.specialProxyIsmoney=JSON.stringify(this.formData.specialProxyIsmoney);
     this.formData.ordinaryShareIsmoney=JSON.stringify(this.formData.ordinaryShareIsmoney);
     this.formData.specialShareIsmoney=JSON.stringify(this.formData.specialShareIsmoney);

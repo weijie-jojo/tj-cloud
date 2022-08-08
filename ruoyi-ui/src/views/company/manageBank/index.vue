@@ -142,6 +142,10 @@ export default {
       this.getList();
       },
       detail(row){
+        let obj = {
+          backUrl: '/company/customer/manageBank',
+         };
+         this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("银行信息","/company/customer/detailBank");
 
