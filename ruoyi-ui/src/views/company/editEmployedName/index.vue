@@ -235,7 +235,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span="8" class="flexs">
-            <el-button type="danger" @click="toReturn" class="btn">取消</el-button> 
+            <el-button type="danger" @click="toReturn" class="btn">关闭</el-button> 
             <el-button 
               type="primary" 
               @click="submitForm" 
@@ -349,6 +349,8 @@ export default {
         this.formData.poposedName1=this.formData.administrativeDivision+this.formData.fontSize1+this.formData.industry+this.formData.organizationalForm;
         this.formData.poposedName2=this.formData.administrativeDivision+this.formData.fontSize2+this.formData.industry+this.formData.organizationalForm;
         this.formData.poposedName3=this.formData.administrativeDivision+this.formData.fontSize3+this.formData.industry+this.formData.organizationalForm;
+        this.formData.poposedName4=this.formData.administrativeDivision+this.formData.fontSize4+this.formData.industry+this.formData.organizationalForm;
+        this.formData.poposedName5=this.formData.administrativeDivision+this.formData.fontSize5+this.formData.industry+this.formData.organizationalForm;
     },
     isRandom(){
       if(!this.formData.random){

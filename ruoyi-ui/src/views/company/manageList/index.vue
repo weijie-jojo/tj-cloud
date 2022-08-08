@@ -31,13 +31,13 @@
       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center" prop="isActive">
+      <!-- <el-table-column label="状态" align="center" prop="isActive">
         <template slot-scope="scope">
           <span v-if="scope.row.isActive == 0">休眠</span>
           <span v-if="scope.row.isActive == 1">激活</span>
           <span v-if="scope.row.isActive == 2">报警</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column label="休眠/激活" align="center">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.isActive" active-color="#13ce66" active-text="激活" active-value="1"
@@ -247,25 +247,19 @@ export default {
       });
     },
     edits(row){
-        this.$cache.local.setJSON("employedInfo", row);
-        this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
+        let obj = {
+        name:'个体户信息',
+        backUrl: '/company/customer/manageList',
+      };
+      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON("employedInfo", row);
+      this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
       },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
       this.$tab.openPage("个体户详情", "/company/customer/manageListDetail").then(() => {})
     },
-    //审核中
-    shenloading() {
-      this.$alert("审核中,请耐心等待...", "审核说明", {
-        confirmButtonText: "确定",
-        callback: (action) => {
-          // this.$message({
-          //   type: 'info',
-          //   message: `action: ${ action }`
-          // });
-        },
-      });
-    },
+   
 
     /** 查询个体商户列表 */
     getList() {
@@ -345,28 +339,8 @@ export default {
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
-    //工商管理
-    business(row) {
-      this.$cache.local.setJSON("employednewlist", row);
-      this.$router.push("addBusiness");
-    },
-    //税务管理
-    atx(row) {
-      if (row.businessStatus == 0) {
-        this.$modal.msgError("请办理工商管理,才能继续办理税务管理");
-      } else {
-        this.$cache.local.setJSON("employednewlist", row);
-        this.$router.push("addTax");
-      }
-    },
-    bank(row) {
-      if (row.taxStatus == 0) {
-        this.$modal.msgError("请办理税务管理,才能继续办理银行管理");
-      } else {
-        this.$cache.local.setJSON("employednewlist", row);
-        this.$router.push("addBank");
-      }
-    },
+    
+    
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

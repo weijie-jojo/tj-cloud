@@ -70,7 +70,7 @@
           <el-link @click="examine(scope.row.applyName, scope.row, 1)" :underline="false" type="primary"
             v-if="scope.row.nameStatus == '0'">审核中
           </el-link>
-          <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode,scope.row.applyName)"
+          <el-link :underline="false" type="danger" @click="errName(scope.row, scope.row.selfCode,scope.row.userId)"
             v-if="scope.row.nameStatus == '2'">异常</el-link>
           <el-link @click="finishName(scope.row, scope.row.selfCode)" :underline="false" type="success"
             v-if="scope.row.nameStatus == '1'">完成</el-link>
@@ -81,7 +81,7 @@
           <el-link @click="examine(scope.row.applyName, scope.row, 2)" :underline="false" type="primary"
             v-if="scope.row.infoStatus == '0'">审核中
           </el-link>
-          <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode,scope.row.applyName)"
+          <el-link :underline="false" type="danger" @click="errInfo(scope.row, scope.row.selfCode,scope.row.userId)"
             v-if="scope.row.infoStatus == '2'">异常</el-link>
           <el-link @click="finishInfo(scope.row, scope.row.selfCode)" :underline="false" type="success"
             v-if="scope.row.infoStatus == '1'">完成</el-link>
@@ -738,6 +738,7 @@ export default {
     //办理实名 已完成
     finishCer(scope, selfCode) {
       this.checkCer(selfCode);
+      this.$cache.local.setJSON("employednewlist",scope);
       this.$cache.local.setJSON('employedInfo', scope);
 
     },
@@ -751,6 +752,7 @@ export default {
     //办理工商 已完成
     finishBus(scope, selfCode) {
       this.checkBus(selfCode);
+      this.$cache.local.setJSON("employednewlist",scope);
       this.$cache.local.setJSON('employedInfo', scope);
 
     },
@@ -758,12 +760,17 @@ export default {
     //工商详情
     busDetail() {
       this.busVisible = false;
+      let obj = {
+        backUrl: '/company/customer/employed',
+      };
+      this.$cache.local.setJSON('backurls', obj);
       this.$router.push("detailBusiness");
     },
 
     //办理税务 已完成
     finishTax(scope, selfCode) {
       this.checkTax(selfCode);
+      this.$cache.local.setJSON("employednewlist",scope);
       this.$cache.local.setJSON('employedInfo', scope);
 
     },
@@ -771,12 +778,18 @@ export default {
     //税务详情
     taxDetail() {
       this.taxVisible = false;
+      let obj = {
+        backUrl: '/company/customer/employed',
+      };
+      this.$cache.local.setJSON('backurls', obj);
       this.$router.push("detailTax");
     },
 
     //办理银行 已完成
     finishBank(scope, selfCode) {
+      
       this.checkBank(selfCode);
+      this.$cache.local.setJSON("employednewlist",scope);
       this.$cache.local.setJSON('employedInfo', scope);
 
     },
@@ -784,6 +797,10 @@ export default {
     //银行详情
     bankDetail() {
       this.bankVisible = false;
+      let obj = {
+        backUrl: '/company/customer/employed',
+      };
+      this.$cache.local.setJSON('backurls', obj);
       this.$router.push("detailBank");
     },
     getBang() {

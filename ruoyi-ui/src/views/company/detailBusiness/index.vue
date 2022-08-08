@@ -129,7 +129,7 @@ export default {
     },
     //返回
     resetForm() {
-     this.$tab.closeOpenPage({ path: "/company/customer/manageBusiness" });
+       this.$tab.closeOpenPage( { path: this.$cache.local.getJSON('backurls').backUrl });
     },
     //返回
   },

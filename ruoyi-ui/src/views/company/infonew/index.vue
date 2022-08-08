@@ -196,7 +196,7 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
             <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
@@ -212,7 +212,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="银行账号类型" prop="accountType">
@@ -258,7 +258,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商" prop="placeName">
             <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
@@ -274,7 +274,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
@@ -386,13 +386,13 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名">
-            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileName6" :fileName="isNone"
+            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileNs" :fileName="isNone"
               :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名">
-            <uploadSmall v-if="fileNameN3.length > 0" @getfileName="getfileName6" :fileName="isNone"
+            <uploadSmall v-if="fileNameN3.length > 0" @getfileName="getfileNs" :fileName="isNone"
               :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -400,27 +400,16 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件">
-            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileName6" :fileName="isNone"
+            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileNs" :fileName="isNone"
               :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">审核操作</div>
-          <div style="width:50%;hegiht:10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
-
-
         <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:55%">业务信息</div>
-          <div style="width:40%;hegiht:10px"></div>
+           <div class="bankno" style="width:35%">结算信息</div>
+          <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -429,11 +418,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商" prop="placeName">
-            <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
-              filterable>
-              <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
-              </el-option>
-            </el-select>
+            <el-input v-model="formData.placeName" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -489,8 +474,8 @@
         </el-row>
 
 
-        <el-collapse v-if="formData.isSelfCount==0"  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+        <el-collapse v-if="formData.isSelfCount==0" v-model="activeNamese"  accordion style="padding-left:8%;padding-right: 6%;">
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税普通发票
             </template>
@@ -532,9 +517,9 @@
               <el-form-item v-if="formData.isOrdinaryShare==0"  label="分润方式" :required="true">
                 <div style="">
 
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryProxyIsmoney == 0" :disabled="true" type="number"
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
                     :max="9999">
                     <template slot="append">元</template>
@@ -551,8 +536,8 @@
 
         </el-collapse>
 
-          <el-collapse v-if="formData.isSelfCount==0"  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+          <el-collapse v-if="formData.isSelfCount==0" v-model="activeNameseg"  accordion style="padding-left:8%;padding-right: 6%;">
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税专用发票
             </template>
@@ -613,6 +598,19 @@
 
         </el-collapse>
 
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width:35%">审核操作</div>
+          <div style="width:50%;hegiht:10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+
+
+      
+
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
@@ -641,9 +639,9 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="toReturn2">返回</el-button>
-          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm3(1)">通过</el-button>
+          <el-button type="danger" @click="closeForms">关闭</el-button>
+          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">提交</el-button>
+          <el-button v-else type="primary" @click="submitForm3(1)">提交</el-button>
 
         </el-col>
         <el-col :span="8"></el-col>
@@ -664,6 +662,7 @@ import crudEmployed from '@/api/company/employed'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
 export default {
   components: { uploadSmall },
   dicts: ['political_status', 'educational_level'],
@@ -671,12 +670,14 @@ export default {
   props: [],
   data() {
     return {
-        specialShare: '1',
+      activeNamese:'1',
+      activeNameseg:'1',
+      specialShare: '1',
       ordinaryShare: '1',
       industryTax: '',
       optiond: [
         {
-          value: '0.00',
+          value: '0',
           label: '免税'
         }, {
           value: '0.01',
@@ -1033,6 +1034,7 @@ export default {
 
 
     this.formData = this.$cache.local.getJSON('employedInfo');
+    this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
@@ -1079,26 +1081,7 @@ export default {
     this.formData.isOrdinaryShare=JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare=JSON.stringify(this.formData.isSpecialShare);
 
-    // if (this.formData.ordinarySelfMoney > 0) {
-    //   this.basicRadio = '1';
-    // } else {
-    //   this.basicRadio = '2';
-    // }
-    // if (this.formData.specialSelfMoney > 0) {
-    //   this.vipRadio = '1';
-    // } else {
-    //   this.vipRadio = '2';
-    // }
-    //   if (this.formData.specialShareMoney > 0) {
-    //   this.specialShare = '1';
-    // } else {
-    //   this.specialShare = '2';
-    // }
-    // if (this.formData.ordinaryShareMoney > 0) {
-    //   this.ordinaryShare = '1';
-    // } else {
-    //   this.ordinaryShare = '2';
-    // }
+    
     
     if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';
@@ -1130,11 +1113,14 @@ export default {
     }
   },
   methods: {
+    getfileNs(){
+
+    },
     getLoginInfo() {
       getInfo().then(res => {
         this.userinfo = res.user;
         this.formData.userName = res.user.nickName;
-        crudPlace.getPlaceByUserId({ userId: 26 }).then(res => {
+        crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
           this.places = res.data;
         })
@@ -1154,6 +1140,7 @@ export default {
     selectIndustryType(value) {
       var rate = this.industryTypes.find((item) => item.industryId == value);
       this.formData.industryTax = rate.taxRate;
+      this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
       console.log("rate==", rate);
     },
     selectApplyName(value) {
@@ -1232,7 +1219,7 @@ export default {
                       resmsg = '信息审核完成';
                       this.check('信息审核完成');
                     } else {
-                      this.check('信息审核未通过' + '(原因)' + this.remark);
+                      this.check('信息审核不通过。' + '原因:' + this.remark);
                       resmsg = '信息审核完成';
                     }
 
@@ -1268,7 +1255,7 @@ export default {
       })
 
     },
-    toReturn2() {
+    closeForms() {
       this.$tab.closeOpenPage({ path: "/company/customer/manageInfo" });
     },
 
