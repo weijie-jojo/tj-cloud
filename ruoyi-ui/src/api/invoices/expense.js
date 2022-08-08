@@ -124,5 +124,12 @@ export function editExpenseByExpenseId(params) {
     params
   })
 }
-export default { getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
+export function getPost(userId) {
+  return request({
+    url: 'invoices/expense/getPost?userId=' + userId,
+    method: 'get',
+
+  })
+}
+export default { getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
 
