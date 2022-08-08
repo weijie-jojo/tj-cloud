@@ -367,6 +367,7 @@ export default {
     onSubmit() {
       this.$refs["formBank"].validate((valid) => {
         if (valid) {
+          this.formBank.endStatus=0;
           this.formBank.fileName3 = JSON.stringify(this.formBank.fileName3);
           this.formBank.fileName4 = JSON.stringify(this.formBank.fileName4);
           updateEmployed(this.formBank)

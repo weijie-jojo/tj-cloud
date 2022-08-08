@@ -109,7 +109,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span="8" class="flexs">
-            <el-button type="danger" @click="toReturn" class="btn">取消</el-button>
+            <el-button type="danger" @click="toReturn" class="btn">关闭</el-button>
             <el-button type="primary" @click="nextbasic" class="btn">下一步</el-button>
           </el-col>
           <el-col :span="8"></el-col>
@@ -290,7 +290,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span="8" class="flexs">
-            <el-button type="danger" @click="backinfo" class="btn">返回</el-button>
+            <el-button type="danger" @click="backinfo" class="btn">上一步</el-button>
             <el-button type="primary" @click="nextbus" class="btn">下一步</el-button>
           </el-col>
           <el-col :span="8">
@@ -438,7 +438,7 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span="8" class="flexs">
-            <el-button type="danger" @click="backbs" class="btn">返回</el-button>
+            <el-button type="danger" @click="backbs" class="btn">上一步</el-button>
             <el-button type="primary" @click="nextYe" class="btn">下一步</el-button>
 
           </el-col>
@@ -515,7 +515,7 @@
           <el-row v-if="formData.isSelfCount==0" type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
           <el-form-item label="个体户注册服务费" :required="yecomfirms" >
-              <el-input v-model="formData.registerMoney" :disabled="yecomfirm">
+              <el-input v-model="formData.registerMoney">
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
@@ -535,7 +535,7 @@
             </template>
             <el-col :span="10">
               <el-form-item label="普票税率"  :required="yecomfirms">
-                <el-select :disabled="!yecomfirms" style="width:100%" v-model="formData.ordinaryTax" clearable
+                <el-select  style="width:100%" v-model="formData.ordinaryTax" clearable
                   placeholder="请选择">
                   <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -544,37 +544,41 @@
               <el-form-item  label="普票服务费" :required="yecomfirms">
                 <div style="">
 
-                  <el-radio :disabled="yecomfirm" v-model="basicRadio" label="1">按定额收取</el-radio>
-                  <el-radio :disabled="yecomfirm" v-model="basicRadio" label="2">按百分比收取</el-radio>
-                  <el-input v-if="basicRadio == 1" :disabled="yecomfirm" type="number"
-                    v-model="formData.ordinarySelfMoney" style="margin-right:10px" :step="0.01" :min="0" :max="9999">
+                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryProxyIsmoney == 0"  type="number"
+                    v-model="formData.ordinarySelfFee" style="margin-right:10px" :step="0.01" :min="0" :max="9999">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.ordinarySelfFee"
+                  <el-input v-else  type="number" v-model="formData.ordinarySelfFee"
                     style="margin-right:10px" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
                 </div>
               </el-form-item>
                 <el-form-item label="服务费含税" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isSelfTax" label='1'>否</el-radio>
+              <el-radio  v-model="formData.isSelfTax" label='0'>是</el-radio>
+              <el-radio  v-model="formData.isSelfTax" label='1'>否</el-radio>
             </el-form-item>
               <el-form-item label="价税分离" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
+              <el-radio  v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+              <el-radio  v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
-              <el-form-item  label="分润方式" :required="yecomfirms">
+            <el-form-item label="是否分润">
+                  <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
+                  <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
+              </el-form-item>
+              <el-form-item v-if="formData.isOrdinaryShare==0"  label="分润方式" :required="yecomfirms">
                 <div style="">
 
-                  <el-radio :disabled="yecomfirm" v-model="ordinaryShare" label="1">按定额收取</el-radio>
-                  <el-radio :disabled="yecomfirm" v-model="ordinaryShare" label="2">按百分比收取</el-radio>
-                  <el-input v-if="ordinaryShare == 1" :disabled="yecomfirm" type="number"
-                    v-model="formData.ordinaryShareMoney" style="margin-right:10px;width:100%" :step="0.01" :min="0"
+                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryProxyIsmoney == 0"  type="number"
+                    v-model="formData.ordinaryShare" style="margin-right:10px;width:100%" :step="0.01" :min="0"
                     :max="9999">
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.ordinaryShare"
+                  <el-input v-else  type="number" v-model="formData.ordinaryShare"
                     style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
@@ -593,7 +597,7 @@
             </template>
              <el-col :span="10">
             <el-form-item label="专票税率" :required="yecomfirms">
-              <el-select :disabled="!yecomfirms" style="width:100%" v-model="formData.ordinarySpecialTax" clearable
+              <el-select  style="width:100%" v-model="formData.ordinarySpecialTax" clearable
                 placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
@@ -601,13 +605,14 @@
             </el-form-item>
             <el-form-item label="专票服务费" :required="yecomfirms">
               <div style="">
-                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="1">按定额收取</el-radio>
-                <el-radio :disabled="yecomfirm" v-model="vipRadio" label="2">按百分比收取</el-radio>
-                <el-input v-if="vipRadio == 1" :disabled="yecomfirm" type="number" v-model="formData.specialSelfMoney"
+                <el-radio  v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
+                <el-radio  v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
+                <el-input v-if="formData.specialProxyIsmoney == 0"  type="number"
+                 v-model="formData.specialSelfFee"
                   style="margin-right:10px;width:100%" :step="0.01" :min="0">
                   <template slot="append">元</template>
                 </el-input>
-                <el-input v-else :disabled="yecomfirm" type="number" v-model="formData.specialSelfFee"
+                <el-input v-else  type="number" v-model="formData.specialSelfFee"
                   style="margin-right:10px;width:100%" :step="0.01" :min="0">
                   <template slot="append">%</template>
                 </el-input>
@@ -615,24 +620,28 @@
               </div>
             </el-form-item>
              <el-form-item label="服务费含税" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
+              <el-radio  v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
+              <el-radio  v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
             </el-form-item>
             <el-form-item label="价税分离" :required="yecomfirms">
-              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='0'>是</el-radio>
-              <el-radio :disabled="yecomfirm" v-model="formData.isSpecialTax" label='1'>否</el-radio>
+              <el-radio  v-model="formData.isSpecialTax" label='0'>是</el-radio>
+              <el-radio  v-model="formData.isSpecialTax" label='1'>否</el-radio>
             </el-form-item>
-            <el-form-item label="分润方式" :required="yecomfirms">
+               <el-form-item label="是否分润">
+                  <el-radio  v-model="formData.isSpecialShare"     label="0">是</el-radio>
+                  <el-radio  v-model="formData.isSpecialShare"     label="1">否</el-radio>
+            </el-form-item>
+            <el-form-item v-if="formData.isSpecialShare==0" label="分润方式" :required="yecomfirms">
               <div style="">
 
-                <el-radio :disabled="yecomfirm" v-model="specialShare" label="1">按定额收取</el-radio>
-                <el-radio :disabled="yecomfirm" v-model="specialShare" label="2">按百分比收取</el-radio>
-                <el-input v-if="specialShare == 1" :disabled="yecomfirm" type="number"
-                  v-model="formData.specialShareMoney" style="margin-right:10px;width:100%" :step="0.01" :min="0"
+                <el-radio  v-model="formData.specialShareIsmoney" label="0">按定额收取</el-radio>
+                <el-radio  v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
+                <el-input v-if="formData.specialShareIsmoney == 0"  type="number"
+                  v-model="formData.specialShare" style="margin-right:10px;width:100%" :step="0.01" :min="0"
                   :max="9999">
                   <template slot="append">元</template>
                 </el-input>
-                <el-input v-model="formData.specialShare" v-else :disabled="yecomfirm" type="number"
+                <el-input v-model="formData.specialShare" v-else  type="number"
                   style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100">
                   <template slot="append">%</template>
                 </el-input>
@@ -682,8 +691,8 @@ export default {
     return {
       activeNameseg:'1',
       activeNamese:'1',
-      specialShare: '1',
-      ordinaryShare: '1',
+      // specialShare: '1',
+      // ordinaryShare: '1',
       optiond: [
         {
           value: '0.00',
@@ -783,9 +792,9 @@ export default {
           label: '对公账号',
         },
       ],
-      vipRadio: '1',
-      basicRadio: '1',
-      singleRadio: '2',
+      // vipRadio: '1',
+     
+      // singleRadio: '2',
       IsSpecialTax: '0',
       places: [],
       dialogImageUrl1: '',
@@ -1146,27 +1155,22 @@ export default {
     this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
     this.formData.isSpecialSelfTax=JSON.stringify(this.formData.isSpecialSelfTax);
     this.formData.isSelfCount=JSON.stringify(this.formData.isSelfCount);
+    
+    // ordinaryProxyIsmoney:'1', //普票平台服务费是否定额
+    //      specialProxyIsmoney:'1',//专票平台服务费是否定额
+    //      ordinaryShareIsmoney:'1',//普票分润方式是否定额
+    //      specialShareIsmoney:'1',//专票分润方式是否定额
+    //      isOrdinaryShare:'1',
+    //      isSpecialShare:'1',
+    
+    this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
+    this.formData.specialProxyIsmoney=JSON.stringify(this.formData.specialProxyIsmoney);
+    this.formData.ordinaryShareIsmoney=JSON.stringify(this.formData.ordinaryShareIsmoney);
+    this.formData.specialShareIsmoney=JSON.stringify(this.formData.specialShareIsmoney);
+    this.formData.isOrdinaryShare=JSON.stringify(this.formData.isOrdinaryShare);
+    this.formData.isSpecialShare=JSON.stringify(this.formData.isSpecialShare);
 
-   if (this.formData.ordinarySelfMoney > 0) {
-      this.basicRadio = '1';
-    } else {
-      this.basicRadio = '2';
-    }
-    if (this.formData.specialSelfMoney > 0) {
-      this.vipRadio = '1';
-    } else {
-      this.vipRadio = '2';
-    }
-      if (this.formData.specialShareMoney > 0) {
-      this.specialShare = '1';
-    } else {
-      this.specialShare = '2';
-    }
-    if (this.formData.ordinaryShareMoney > 0) {
-      this.ordinaryShare = '1';
-    } else {
-      this.ordinaryShare = '2';
-    }
+   
     
     if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';
@@ -1195,6 +1199,8 @@ export default {
     }else{
           this.formData.isSpecialSelfTax='1';
     }
+
+    
   },
   methods: {
      getfileName5(data){
@@ -1214,28 +1220,7 @@ export default {
       if (this.formData.isSelfCount == 0) {
         this.yecomfirm = false;
         this.yecomfirms = true;
-        this.formData.specialSelfFee = 0;
-        this.formData.specialSelfMoney = 0;
-        this.formData.ordinarySelfFee = 0;
-        this.formData.ordinarySelfMoney = 0;
-        
-        this.formData.isSelfTax = '0';//普票含税
-        this.formData.isSpecialSelfTax = '0';//普票含税
-        this.formData.registerMoney = '';
-        this.formData.isSpecialTax='0';
-        this.formData.isOrdinaryTax='0';
-        
-        this.vipRadio = '1';
-        this.basicRadio = '1';
-        this.specialShare = '1',
-        this.ordinaryShare = '1',
-        this.formData.ordinarySpecialTax = null;
-        this.formData.ordinaryTax = null;
-
-        this.formData.ordinaryShare = null;
-        this.formData.specialShare = null;
-        this.formData.specialShareMoney = null;
-        this.formData.ordinaryShareMoney = null;
+      
 
       } else {
         this.yecomfirm = true;
@@ -1251,18 +1236,23 @@ export default {
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
-            this.formData.specialSelfMoney = this.unlist.specialProxyMoney;
+            //this.formData.specialSelfMoney = this.unlist.specialProxyMoney;
 
 
             this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-            this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
+           // this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
             this.formData.registerMoney = this.unlist.ordinarySelfFee;
 
-            this.formData.specialShareMoney = this.unlist.specialShareMoney;
+           // this.formData.specialShareMoney = this.unlist.specialShareMoney;
             this.formData.specialShare = this.unlist.specialShare;
             this.formData.ordinaryShare = this.unlist.ordinaryShare;
-            this.formData.ordinaryShareMoney = this.unlist.ordinaryShareMoney;
-
+           // this.formData.ordinaryShareMoney = this.unlist.ordinaryShareMoney;
+           this.formData.ordinaryProxyIsmoney=JSON.stringify(this.unlist.ordinaryProxyIsmoney);
+           this.formData.specialProxyIsmoney=JSON.stringify(this.unlist.specialProxyIsmoney);
+           this.formData.ordinaryShareIsmoney=JSON.stringify(this.unlist.ordinaryShareIsmoney);
+           this.formData.specialShareIsmoney=JSON.stringify(this.unlist.specialShareIsmoney);
+           this.formData.isOrdinaryShare=JSON.stringify(this.unlist.isOrdinaryShare);
+           this.formData.isSpecialShare=JSON.stringify(this.unlist.isSpecialShare);
             if (this.formData.specialShare > 0) {
               this.specialShare = '2';
             } else {
@@ -1482,44 +1472,7 @@ export default {
          this.$modal.msgError("税率不能为空");
          return;
       }
-       if (!this.formData.ordinaryTax) {
-          this.$modal.msgError("请选择普票税率");
-          return;
-        }
-        if (!this.formData.ordinarySpecialTax) {
-          this.$modal.msgError("请选择专票税率");
-          return;
-        }
-        if (this.formData.registerMoney <= 0) {
-          this.$modal.msgError("请输入注册服务费并且大于0");
-          return;
-        }
-        if (this.basicRadio == '1') {
-          this.formData.specialSelfFee = 0;
-          if (this.formData.specialSelfMoney <= 0) {
-            this.$modal.msgError("请输入专票服务费并且大于0");
-            return;
-          }
-        } else {
-          this.formData.specialSelfMoney = 0;
-          if (this.formData.specialSelfFee <= 0) {
-            this.$modal.msgError("请输入专票服务费并且大于0");
-            return;
-          }
-        }
-        if (this.vipRadio == '1') {
-          this.formData.ordinarySelfFee = 0;
-          if (this.formData.ordinarySelfMoney <= 0) {
-            this.$modal.msgError("请输入普票服务费并且大于0");
-            return;
-          }
-        } else {
-          this.formData.ordinarySelfMoney = 0;
-          if (this.formData.ordinarySelfFee <= 0) {
-            this.$modal.msgError("请输入普票服务费并且大于0");
-            return;
-          }
-        }
+    
       this.$refs['elForm'].validate(valid => {
         
         if (valid) {
@@ -1573,9 +1526,9 @@ export default {
 
            
             specialSelfFee: this.formData.specialSelfFee,
-            specialSelfMoney: this.formData.specialSelfMoney,
+           // specialSelfMoney: this.formData.specialSelfMoney,
             ordinarySelfFee: this.formData.ordinarySelfFee,
-            ordinarySelfMoney: this.formData.ordinarySelfMoney,
+          //  ordinarySelfMoney: this.formData.ordinarySelfMoney,
             isSelfTax: this.formData.isSelfTax,
             isSpecialSelfTax: this.formData.isSpecialSelfTax,//专票含税
             isSelfCount:this.formData.isSelfCount,//是否结算
@@ -1586,12 +1539,21 @@ export default {
 
 
 
-            specialShareMoney: this.formData.specialShareMoney,
+           // specialShareMoney: this.formData.specialShareMoney,
             specialShare: this.formData.specialShare,
             ordinaryShare: this.formData.ordinaryShare,
-            ordinaryShareMoney: this.formData.ordinaryShareMoney,
+           // ordinaryShareMoney: this.formData.ordinaryShareMoney,
             ordinarySpecialTax: this.formData.ordinarySpecialTax,
             ordinaryTax: this.formData.ordinaryTax,
+           
+            
+              ordinaryProxyIsmoney:this.formData.ordinaryProxyIsmoney,//普票平台服务费是否定额
+              specialProxyIsmoney:this.formData.specialProxyIsmoney,//专票平台服务费是否定额
+              ordinaryShareIsmoney:this.formData.ordinaryShareIsmoney,//普票分润方式是否定额
+              specialShareIsmoney:this.formData.specialShareIsmoney,//专票分润方式是否定额
+              isOrdinaryShare:this.formData.isOrdinaryShare,//普票是否分润
+              isSpecialShare:this.formData.isSpecialShare,//普票平台服务费是否定额
+            
             infoStatus:0,
             endStatus:typess,
 

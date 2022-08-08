@@ -62,7 +62,7 @@
 
 <script>
 
-import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 export default {
   name: "Employed",
@@ -138,7 +138,7 @@ export default {
         taxStatus: 1,
         endStatus:0,
       }
-      joinList2(params).then(res => {
+      joinList(params).then(res => {
         this.alabels2 = "审核中(" + res.total + ")";
       });
     },
@@ -152,7 +152,7 @@ export default {
         taxStatus: 1,
         endStatus:2,
       }
-      joinList2(params).then(res => {
+      joinList(params).then(res => {
         this.alabels1 = "异常(" + res.total + ")";
       });
     },
@@ -171,7 +171,7 @@ export default {
       },
       look(row){
         this.$cache.local.setJSON("employedInfo", row);
-        this.$tab.openPage("注册详情", "/company/customer/manageListDdit").then(() => {})
+        this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => {})
       },
       detail(row){
         // this.$cache.local.setJSON('employednewlist', row);
@@ -182,7 +182,7 @@ export default {
    /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList2(this.queryParams).then(response => {
+      joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
