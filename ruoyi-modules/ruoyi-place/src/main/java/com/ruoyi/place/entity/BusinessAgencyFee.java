@@ -184,8 +184,11 @@ public class BusinessAgencyFee implements Serializable {
     @TableField("special_share_ismoney")
     private Long specialShareIsmoney;
 
-    /** 是否开启分润 0是 1否 */
-    @TableField("is_share")
-    private Long isShare;
+    /** 是否开启分润 0是 1否(普票) */
+    @TableField("is_ordinary_share")
+    private Long isOrdinaryShare;
 
+    /** 是否开启分润 0是 1否(专票) */
+    @TableField("is_special_share")
+    private Long isSpecialShare;
 }

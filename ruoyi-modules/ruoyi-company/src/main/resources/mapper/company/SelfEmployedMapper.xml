@@ -88,7 +88,8 @@
         <result property="specialProxyIsmoney"    column="special_proxy_ismoney"    />
         <result property="ordinaryShareIsmoney"    column="ordinary_share_ismoney"    />
         <result property="specialShareIsmoney"    column="special_share_ismoney"    />
-        <result property="isShare"    column="is_share"    />
+        <result property="isOrdinaryShare"    column="is_ordinary_share"    />
+        <result property="isSpecialShare"    column="is_special_share"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -103,7 +104,7 @@
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
                is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
-               ordinary_share_ismoney, special_share_ismoney,is_share
+               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -158,7 +159,8 @@
             <if test="selfEmployedVo.specialProxyIsmoney != null "> and t.special_proxy_ismoney = #{selfEmployedVo.specialProxyIsmoney}</if>
             <if test="selfEmployedVo.ordinaryShareIsmoney != null "> and t.ordinary_share_ismoney = #{selfEmployedVo.ordinaryShareIsmoney}</if>
             <if test="selfEmployedVo.specialShareIsmoney != null "> and t.special_share_ismoney = #{selfEmployedVo.specialShareIsmoney}</if>
-            <if test="selfEmployedVo.isShare != null "> and t.is_share = #{selfEmployedVo.isShare}</if>
+            <if test="selfEmployedVo.isOrdinaryShare != null "> and t.is_ordinary_share = #{selfEmployedVo.isOrdinaryShare}</if>
+            <if test="selfEmployedVo.isSpecialShare != null "> and t.is_special_share = #{selfEmployedVo.isSpecialShare}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -260,7 +262,8 @@
             <if test="specialProxyIsmoney != null "> and special_proxy_ismoney = #{specialProxyIsmoney}</if>
             <if test="ordinaryShareIsmoney != null "> and ordinary_share_ismoney = #{ordinaryShareIsmoney}</if>
             <if test="specialShareIsmoney != null "> and special_share_ismoney = #{specialShareIsmoney}</if>
-            <if test="isShare != null "> and is_share = #{isShare}</if>
+            <if test="isOrdinaryShare != null "> and is_ordinary_share = #{isOrdinaryShare}</if>
+            <if test="isSpecialShare != null "> and is_special_share = #{isSpecialShare}</if>
         </where>
     </select>
 
@@ -354,7 +357,8 @@
             <if test="specialProxyIsmoney != null">special_proxy_ismoney,</if>
             <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney,</if>
             <if test="specialShareIsmoney != null">special_share_ismoney,</if>
-            <if test="isShare != null">is_share,</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share,</if>
+            <if test="isSpecialShare != null">is_special_share,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -439,7 +443,8 @@
             <if test="specialProxyIsmoney != null">#{specialProxyIsmoney},</if>
             <if test="ordinaryShareIsmoney != null">#{ordinaryShareIsmoney},</if>
             <if test="specialShareIsmoney != null">#{specialShareIsmoney},</if>
-            <if test="isShare != null">#{isShare},</if>
+            <if test="isOrdinaryShare != null">#{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">#{isSpecialShare},</if>
         </trim>
     </insert>
 
@@ -528,7 +533,8 @@
             <if test="specialProxyIsmoney != null">special_proxy_ismoney = #{specialProxyIsmoney},</if>
             <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney = #{ordinaryShareIsmoney},</if>
             <if test="specialShareIsmoney != null">special_share_ismoney = #{specialShareIsmoney},</if>
-            <if test="isShare != null">is_share = #{isShare},</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share = #{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">is_special_share = #{isSpecialShare},</if>
         </trim>
         where self_id = #{selfId}
     </update>
