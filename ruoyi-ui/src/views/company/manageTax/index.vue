@@ -140,6 +140,10 @@ export default {
       this.getList();
       },
       detail(row){
+        let obj = {
+          backUrl: '/company/customer/manageTax',
+         };
+         this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("税率信息","/company/customer/detailTax");
     },

@@ -144,6 +144,10 @@ export default {
       this.getList();
       },
     detail(row){
+        let obj = {
+          backUrl: '/company/customer/manageBusiness',
+         };
+         this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("工商信息","/company/customer/detailBusiness");
 

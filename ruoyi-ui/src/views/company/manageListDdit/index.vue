@@ -763,9 +763,9 @@
               <el-form-item v-if="formData.isOrdinaryShare==0"  label="分润方式" :required="true">
                 <div style="">
 
-                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                  <el-radio  v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryProxyIsmoney == 0"  type="number"
+                  <el-radio  v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio  v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0"  type="number"
                     v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
                     :max="9999">
                     <template slot="append">元</template>
@@ -901,7 +901,7 @@ export default {
      
       optiond: [
         {
-          value: '0.00',
+          value: '0',
           label: '免税'
         }, {
           value: '0.01',
@@ -1309,33 +1309,14 @@ export default {
     this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
     this.formData.isSpecialSelfTax=JSON.stringify(this.formData.isSpecialSelfTax);
     this.formData.isSelfCount=JSON.stringify(this.formData.isSelfCount);
-     this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
+    this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
     this.formData.specialProxyIsmoney=JSON.stringify(this.formData.specialProxyIsmoney);
     this.formData.ordinaryShareIsmoney=JSON.stringify(this.formData.ordinaryShareIsmoney);
     this.formData.specialShareIsmoney=JSON.stringify(this.formData.specialShareIsmoney);
     this.formData.isOrdinaryShare=JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare=JSON.stringify(this.formData.isSpecialShare);
 
-    // if (this.formData.ordinarySelfMoney > 0) {
-    //   this.basicRadio = '1';
-    // } else {
-    //   this.basicRadio = '2';
-    // }
-    // if (this.formData.specialSelfMoney > 0) {
-    //   this.vipRadio = '1';
-    // } else {
-    //   this.vipRadio = '2';
-    // }
-    //   if (this.formData.specialShareMoney > 0) {
-    //   this.specialShare = '1';
-    // } else {
-    //   this.specialShare = '2';
-    // }
-    // if (this.formData.ordinaryShareMoney > 0) {
-    //   this.ordinaryShare = '1';
-    // } else {
-    //   this.ordinaryShare = '2';
-    // }
+    
     
    if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';
@@ -1458,44 +1439,19 @@ export default {
         if (this.places[i].placeName == this.formData.placeName) {
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
+            this.formData.ordinaryProxyIsmoney=JSON.stringify(this.unlist.ordinaryProxyIsmoney);
+            this.formData.specialProxyIsmoney=JSON.stringify(this.unlist.specialProxyIsmoney);
+            this.formData.ordinaryShareIsmoney=JSON.stringify(this.unlist.ordinaryShareIsmoney);
+            this.formData.specialShareIsmoney=JSON.stringify(this.unlist.specialShareIsmoney);
+            this.formData.isOrdinaryShare=JSON.stringify(this.unlist.isOrdinaryShare);
+            this.formData.isSpecialShare=JSON.stringify(this.unlist.isSpecialShare);
+            
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
-            this.formData.specialSelfMoney = this.unlist.specialProxyMoney;
-
-
             this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-            this.formData.ordinarySelfMoney = this.unlist.ordinaryProxyMoney;
             this.formData.registerMoney = this.unlist.ordinarySelfFee;
-
-            this.formData.specialShareMoney = this.unlist.specialShareMoney;
             this.formData.specialShare = this.unlist.specialShare;
             this.formData.ordinaryShare = this.unlist.ordinaryShare;
-            this.formData.ordinaryShareMoney = this.unlist.ordinaryShareMoney;
-            
-            if(this.formData.ordinarySelfMoney>0){
-              this.basicRadio='1';
-            }else{
-              this.basicRadio='2';
-            }
-
-            if(this.formData.specialSelfMoney>0){
-              this.vipRadio='1';
-            }else{
-              this.vipRadio='2';
-            }
-
-
-            if (this.formData.specialShare > 0) {
-              this.specialShare = '2';
-            } else {
-              this.specialShare = '1';
-            }
-
-            if (this.formData.ordinaryShare > 0) {
-              this.ordinaryShare = '2';
-            } else {
-              this.ordinaryShare = '1';
-            }
-
+         
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
            
@@ -1659,44 +1615,7 @@ export default {
          this.$modal.msgError("税率不能为空");
          return;
       }
-       if (!this.formData.ordinaryTax) {
-          this.$modal.msgError("请选择普票税率");
-          return;
-        }
-        if (!this.formData.ordinarySpecialTax) {
-          this.$modal.msgError("请选择专票税率");
-          return;
-        }
-        if (this.formData.registerMoney <= 0) {
-          this.$modal.msgError("请输入注册服务费并且大于0");
-          return;
-        }
-        if (this.vipRadio == '1') {
-          this.formData.specialSelfFee = 0;
-          if (this.formData.specialSelfMoney <= 0) {
-            this.$modal.msgError("请输入专票服务费并且大于0");
-            return;
-          }
-        } else {
-          this.formData.specialSelfMoney = 0;
-          if (this.formData.specialSelfFee <= 0) {
-            this.$modal.msgError("请输入专票服务费并且大于0");
-            return;
-          }
-        }
-        if (this.basicRadio == '1') {
-          this.formData.ordinarySelfFee = 0;
-          if (this.formData.ordinarySelfMoney <= 0) {
-            this.$modal.msgError("请输入普票服务费并且大于0");
-            return;
-          }
-        } else {
-          this.formData.ordinarySelfMoney = 0;
-          if (this.formData.ordinarySelfFee <= 0) {
-            this.$modal.msgError("请输入普票服务费并且大于0");
-            return;
-          }
-        }
+       
       this.$refs['elForm'].validate(valid => {
         
         if (valid) {
@@ -1714,12 +1633,9 @@ export default {
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
           };
-
-          //this.formData.endStatus=0;
-          
-         
-
-          
+          if(this.$cache.local.getJSON('backurls').name=='注册确认'){
+            this.formData.endStatus=0;
+          }
           this.formData.fileName1=JSON.stringify(this.formData.fileName1);
           this.formData.fileName2=JSON.stringify(this.formData.fileName2);
           this.formData.fileName3=JSON.stringify(this.formData.fileName3);
@@ -1780,8 +1696,8 @@ export default {
               }
             }
           });
-          this.$tab.refreshPage("/company/manageList").then(() => {
-            this.$tab.openPage("个体户信息", "/company/manageList")
+          this.$tab.refreshPage(this.$cache.local.getJSON('backurls').backUrl).then(() => {
+            this.$tab.openPage(this.$cache.local.getJSON('backurls').name, this.$cache.local.getJSON('backurls').backUrl)
           })
         } else {
           this.$message({
@@ -1792,7 +1708,9 @@ export default {
       })
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/company/manageList' });
+       this.$tab.refreshPage(this.$cache.local.getJSON('backurls').backUrl).then(() => {
+            this.$tab.openPage(this.$cache.local.getJSON('backurls').name, this.$cache.local.getJSON('backurls').backUrl)
+          });
     },
       nailist() {
       all()
@@ -1802,12 +1720,10 @@ export default {
             this.mylist = [];
             this.accountName_options = [];
             this.mylist = res;
-            // this.publicDepositBank3_options = [];
-            // this.publicAccountNumber3_options = [];
+          
             for (let i in res) {
               this.accountName_options.push({ value: res[i].accountName });
-              // this.publicDepositBank3_options.push({value:res[i].publicDepositBank3});
-              // this.publicAccountNumber3_options.push({value:res[i].publicAccountNumber3});
+             
             }
           }
         })

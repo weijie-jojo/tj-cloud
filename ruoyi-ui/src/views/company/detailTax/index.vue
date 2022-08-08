@@ -101,7 +101,7 @@ export default {
 
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/company/customer/manageTax"});
+       this.$tab.closeOpenPage( { path: this.$cache.local.getJSON('backurls').backUrl });
      },
   
   },

@@ -749,9 +749,9 @@
               <el-form-item  v-if="formData.isOrdinaryShare== 0" :required="true">
                 <div style="">
 
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                  <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney"  label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryProxyIsmoney == 0" :disabled="true" type="number"
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney"  label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
                     :max="9999">
                     <template slot="append">元</template>
@@ -769,7 +769,7 @@
         </el-collapse>
 
           <el-collapse v-if="formData.isSelfCount==0" v-model="activeNameseg"  accordion style="padding-left:8%;padding-right: 6%;">
-          <el-collapse-item>
+          <el-collapse-item name="1">
             <template slot="title" :required="true">
               增值税专用发票
             </template>
@@ -899,7 +899,7 @@ export default {
      
       optiond: [
         {
-          value: '0.00',
+          value: '0',
           label: '免税'
         }, {
           value: '0.01',
