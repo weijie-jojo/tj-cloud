@@ -464,14 +464,14 @@ export default {
 
             }
           } else {
-            console.log(2222);
+            console.log(2222,type);
             switch (type) {
               case 1:
                 this.$cache.local.setJSON('employedName', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
                 break;
               case 2:
-                this.$cache.local.setJSON('employedInfo', row);
+                this.$cache.local.setJSON('employedInfo', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
                 break;
               case 3:
