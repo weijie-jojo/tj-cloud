@@ -405,7 +405,7 @@
               <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
                 <el-input
                   v-model="formData.privateDepositBank"
-                  :readonly="true"
+                   :disabled="formData.accountType==1"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -419,13 +419,13 @@
               </el-form-item>
               <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
                 <el-input
+                  :disabled="formData.accountType==1"
                   v-model="formData.privateAccountNumber"
-                  :readonly="true"
-                ></el-input>
+                 ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -450,7 +450,7 @@
             </el-col>
             
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                 <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -1541,7 +1541,7 @@ export default {
     },
     selectIndustryType(value) {
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-      if(rate.taxRate){
+      if(rate){
             this.formData.industryTax = rate.taxRate;
             this.industryTax=new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
       }else{
@@ -1708,7 +1708,7 @@ export default {
       })
     },
     resetForm() {
-       this.$tab.closeOpenPage(  { path:this.$cache.local.getJSON('backurls').backUrl }).then(() => {
+       this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backurls').backUrl }).then(() => {
           this.$tab.refreshPage( { path:this.$cache.local.getJSON('backurls').backUrl })
           });
     },

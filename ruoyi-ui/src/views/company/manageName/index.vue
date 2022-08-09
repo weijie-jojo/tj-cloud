@@ -250,7 +250,12 @@ export default {
     bank(row) {
 
       this.$cache.local.setJSON('employedName', row);
-      
+      let obj = {
+            title: '名称审核',
+            backUrl: '/company/customer/manageName',
+            resmsg: '名称审核完成'
+        }
+       this.$cache.local.setJSON('successNew', obj);
        this.$tab.closeOpenPage({ path: "/company/customer/namenew"});
       
       // this.$router.push("namenew");

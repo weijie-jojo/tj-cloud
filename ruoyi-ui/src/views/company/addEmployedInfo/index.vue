@@ -1872,7 +1872,7 @@ export default {
       })
     },
     resetForm() {
-      this.$tab.closePage();
+      this.$tab.closeOpenPage({path:'/company/customer/employed'});
     },
     isok() {
       let parms1 = {

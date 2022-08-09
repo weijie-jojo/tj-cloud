@@ -228,10 +228,14 @@ export default {
     atx(row) {
       
         this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
-       // this.$router.push("addTax");
-      
-    },
+          let obj = {
+            title: '税务办理',
+            backUrl: '/company/customer/manageTax',
+            resmsg: '税务办理完成'
+      }
+      this.$cache.local.setJSON('successNew', obj);
+      this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
+     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

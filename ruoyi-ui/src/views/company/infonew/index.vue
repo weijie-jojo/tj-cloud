@@ -1223,13 +1223,13 @@ export default {
                       resmsg = '信息审核完成';
                     }
 
-                    let obj = {
-                      title: '信息审核',
-                      backUrl: '/company/customer/manageInfo',
-                      resmsg: resmsg
+                    // let obj = {
+                    //   title: '信息审核',
+                    //   backUrl: '/company/customer/manageInfo',
+                    //   resmsg: resmsg
 
-                    }
-                    this.$cache.local.setJSON('successNew', obj);
+                    // }
+                    // this.$cache.local.setJSON('successNew', obj);
                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                   });
                 });
@@ -1256,7 +1256,9 @@ export default {
 
     },
     closeForms() {
-      this.$tab.closeOpenPage({ path: "/company/customer/manageInfo" });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+     })
     },
 
     //新增信息审核进度

@@ -36,7 +36,7 @@
             </el-form-item>
 
             <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
-              <el-input v-model="formBank.privateDepositBank" disabled></el-input>
+              <el-input v-model="formBank.privateDepositBank" :disabled="accountType==1"></el-input>
             </el-form-item>
           </el-col>
 
@@ -45,11 +45,11 @@
               <el-input v-model="formBank.legalPersonName" disabled></el-input>
             </el-form-item>
             <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
-              <el-input v-model="formBank.privateAccountNumber" disabled></el-input>
+              <el-input v-model="formBank.privateAccountNumber" :disabled="accountType==1"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="accountType == 2">
+        <el-row type="flex" class="row-bg" justify="space-around" v-if="accountType == 2">
           <el-col :span="9">
             <el-form-item class="comright" label="账号类型" prop="">
               <el-input value="对公基本户" disabled></el-input>
@@ -71,7 +71,7 @@
           </el-col>
 
         </el-row>
-        <el-row v-if="accountType == 2">
+        <el-row type="flex" class="row-bg" justify="space-around" v-if="accountType == 2">
           <el-col :span="9">
             <el-form-item class="comright" label="账号类型" prop="">
               <el-input value="对公一般户" disabled></el-input>
@@ -284,19 +284,20 @@ export default {
   },
   mounted() {
     this.getInfo();
-  },
-  created() {
-    let list = this.$cache.local.getJSON("employednewlist");
+     let list = this.$cache.local.getJSON("employednewlist");
+     console.log(1111,list);
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
     this.formBank.legalPersonName = list.legalPersonName;
-
-    this.formBank.privateDepositBank = list.privateDepositBank;
+    
+    this.formBank.privateDepositBank =list.privateDepositBank;
     this.formBank.privateAccountNumber = list.privateAccountNumber;
+  
     this.formBank.taxId = list.taxId;
     this.accountType = list.accountType;
     this.nailist();
   },
+ 
  
 
   methods: {
@@ -361,7 +362,9 @@ export default {
     },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/company/customer/manageBank" });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+     })
     },
     //提交表单
     onSubmit() {
@@ -376,14 +379,14 @@ export default {
                 if (res.code === 200) {
                   this.$nextTick(function () {
                     this.$tab.refreshPage({ path: "/company/customer/manageBank" }).then(() => {
-                      let resmsg = '办理银行完成';
+                      let resmsg = '银行办理完成';
                       this.check(resmsg);
-                      let obj = {
-                        title: '银行办理',
-                        backUrl: '/company/customer/manageBank',
-                        resmsg: resmsg
-                      };
-                      this.$cache.local.setJSON('successNew', obj);
+                      // let obj = {
+                      //   title: '银行办理',
+                      //   backUrl: '/company/customer/manageBank',
+                      //   resmsg: resmsg
+                      // };
+                      // this.$cache.local.setJSON('successNew', obj);
                       this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                     });
                   });

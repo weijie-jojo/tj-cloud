@@ -411,7 +411,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -436,7 +436,7 @@
             </el-col>
             
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                 <el-form-item class="comright" label="账号类型" prop="">
                 <el-input

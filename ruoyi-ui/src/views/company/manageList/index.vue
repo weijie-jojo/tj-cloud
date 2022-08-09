@@ -249,7 +249,7 @@ export default {
     edits(row){
         let obj = {
         name:'个体户信息',
-        backUrl: '/company/customer/manageList',
+        backUrl: '/company/manageList',
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);

@@ -234,6 +234,12 @@ export default {
     
     bank(row){
        this.$cache.local.setJSON('employednewlist', row);
+           let obj = {
+            title: '银行办理',
+            backUrl: '/company/customer/manageBank',
+            resmsg: '银行办理完成'
+      }
+      this.$cache.local.setJSON('successNew', obj);
        this.$tab.closeOpenPage({ path: "/company/customer/addBank"});
     },
     /** 新增按钮操作 */
