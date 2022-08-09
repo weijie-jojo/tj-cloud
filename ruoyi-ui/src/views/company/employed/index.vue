@@ -51,7 +51,11 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" prop="createTime" width="110" :show-overflow-tooltip="true" />
+      <el-table-column label="提交时间" align="center" prop="createTime">
+        <template slot-scope="scope">
+             {{scope.row.createTime | filterTime}}
+        </template>
+      </el-table-column>
       <el-table-column width="400" label="渠道商" align="center" prop="placeName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="进度状态" align="center" prop="endStatus">
@@ -267,7 +271,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
 import { getInfo } from '@/api/login'
 import { getUser } from  '@/api/system/user'
@@ -367,6 +371,12 @@ export default {
       rules: {
       }
     };
+  },
+   filters: {
+    filterTime(time) {
+     
+      return moment(time).format('YYYY-MM-DD')
+    },
   },
   created() {
     this.getLoginInfo();
@@ -679,7 +689,8 @@ export default {
     errsnameDetail() {
       this.errsnameVisible = false;
       if(this.errNameMsg=='修改'){
-        this.$router.push("editEmployedName");
+        this.$tab.closeOpenPage( {path:'/company/customer/editEmployedName'} );
+        
       }else{
         this.$router.push("namedetail");
       }
@@ -687,7 +698,7 @@ export default {
     errsinfoDetail() {
       this.errsinfoVisible = false;
       if(this.errInfoMsg=='修改'){
-        this.$router.push("editEmployedInfo");
+        this.$tab.closeOpenPage( {path:'/company/customer/editEmployedInfo'} );
       }else{
         this.$router.push("infodetail");
       }

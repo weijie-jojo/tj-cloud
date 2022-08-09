@@ -63,6 +63,9 @@ export default  {
 ::v-deep .el-dialog:not(.is-fullscreen) {
   margin-top: 1vh !important;
 }
+::v-deep .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner{
+  background-color: #409eff !important;
+}
 // ::v-deep .el-input.is-disabled .el-input__inner{
 //    background-color: rgba(255, 255, 255, 1.5) !important;
 //    color: black  !important;

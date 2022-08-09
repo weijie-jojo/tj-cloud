@@ -78,7 +78,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="组织形式" prop="organizationalForm">
+          <!-- <el-form-item label="组织形式" prop="organizationalForm">
             <el-select 
               style="width:100%"
               v-model="formData.organizationalForm" 
@@ -94,7 +94,7 @@
                 :disabled="item.disabled"
                ></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
       </el-row>
      
@@ -273,10 +273,14 @@ export default {
         fontSize1:'',
         fontSize2:'',
         fontSize3:'',
+        fontSize4:'',
+        fontSize5:'',
         //拟设名称
         poposedName1:'',
         poposedName2:'',
         poposedName3:'',
+        poposedName4: "",
+        poposedName5: "",
         userName:'',
       },
       rules: {
@@ -328,15 +332,19 @@ export default {
         deep: true
     }
   },
-  created() {},
+  
   mounted() {
-    // this.getSelfCode();
     this.getLoginInfo();
     var employedName=this.$cache.local.getJSON('employedName');
-    console.log("selfCode",employedName.selfCode);
     crudReview.getByCode({selfCode:employedName.selfCode}).then(res=>{
-      console.log("getByCode",res);
-      this.formData=res;
+    this.formData=res;
+     if(this.formData.random=='true'){
+      this.formData.random=true;
+      this.isRandom();
+     }else{
+       this.formData.random=false;
+     }
+   
     })
     
   },
@@ -373,32 +381,21 @@ export default {
         this.formData.organizationalForm="经营部";
       }
     },
-    //获取编号
-    getSelfCode(){
-      //获取员工编号
-      getInfo().then(res=>{  
-        var userId=res.user.userId;
-        crudInformation.getInformation(userId).then(res=>{     
-          var  employeeNumber=res.data.employeeNumber;
-          crudReview.getCode({employeeNumber:employeeNumber}).then(res=>{
-            this.formData.selfCode=res;
-            console.log("selfCode",res);
-          })
-        });
-      })
-    },
+  
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         // TODO 提交表单
         if (valid) {
-           let typess;
-          if(this.formData.infoStatus==1){
-             typess=0;
-          }else{
-            typess='';
-          }
+           
+          if(this.$cache.local.getJSON('employedName').infoStatus==0 || this.$cache.local.getJSON('employedName').infoStatus==1){
+            
+             let parmsEmployed={
+              selfId:this.$cache.local.getJSON('employedName').selfId,
+              endStatus:0,
+             }
+              crudEmployed.updateEmployed(parmsEmployed);
+            }
             let parms={
-             // selfId:this.formData.selfId,
               selfCode:this.formData.selfCode,
               titleType:this.formData.titleType,
               administrativeDivision:this.formData.administrativeDivision,
@@ -417,31 +414,17 @@ export default {
               poposedName3:this.formData.poposedName3,
               poposedName4:this.formData.poposedName4,
               poposedName5:this.formData.poposedName5,
-              // createTime:new Date().toLocaleString(),
-              // updateTime:new Date().toLocaleString(),
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
               nameStatus:0,
             
             };
-            let parmsEmployed={
-              selfId:this.formData.selfId,
-              endStatus:typess,
-            }
-            crudReview.updateReview(parms).then(res=>{
-              crudEmployed.updateEmployed(parmsEmployed).then(res=>{
-                  this.$message({
-                  message: '修改成功',
-                  type: 'success',
-                });
-               this.$tab.refreshPage("/company/customer/employed").then(()=>{
-                this.$tab.openPage("注册进度", "/company/customer/employed")
-               })
            
-              });
-              
-              
-            });
+            crudReview.updateReview(parms).then(res=>{
+              this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
+                       this.$tab.refreshPage( {path:"/company/customer/employed"} );
+               })
+             })
               
         }else{
           this.$message({
@@ -452,7 +435,9 @@ export default {
       })
     },
     toReturn() {
-       this.$tab.closeOpenPage({ path: "/company/customer/employed"});
+        this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
+        this.$tab.refreshPage( {path:"/company/customer/employed"} );
+         })
     },
   }
 }

@@ -41,7 +41,11 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true" />
+      <el-table-column label="提交时间" align="center" prop="createTime" >
+           <template slot-scope="scope">
+             {{scope.row.createTime | filterTime}}
+        </template>
+      </el-table-column>
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
         <el-table-column label="审核状态" align="center" prop="nameStatus" >
@@ -69,10 +73,8 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { joinList2, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
-
-// import axios from 'axios'
 export default {
   name: "Employed",
   data() {
@@ -132,12 +134,18 @@ export default {
       }
     };
   },
+  filters: {
+    filterTime(time) {
+     return moment(time).format('YYYY-MM-DD')
+    },
+  },
   created() {
     this.getBang();
     this.getErr();
     this.getList();
   },
   methods: {
+    
     getBang() {
       let params = {
         nameStatus: 0
