@@ -62,7 +62,7 @@ export default {
       this.$router.push("addEmployedName");
     },
     toEnd(){
-      this.$tab.closeOpenPage("/company/customer/employed").then(()=>{
+      this.$tab.closeOpenPage({ path:"/company/customer/employed" }).then(()=>{
         this.$tab.refreshPage({ path :"/company/customer/employed"})
       })
     },
