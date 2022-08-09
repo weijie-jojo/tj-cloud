@@ -143,7 +143,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
             <el-form-item label="出资额">
-              <el-input disabled type="number" v-model="formData.contributionAmount">
+              <el-input disabled type="number" v-model="contributionAmount">
                 <template slot="append">万元</template>
               </el-input>
 
@@ -774,6 +774,7 @@ export default {
           label: '女',
         },
       ],
+      contributionAmount:'',
       fileName5: [],
       fileName6: [],
       fileName7: [],
@@ -1186,7 +1187,8 @@ export default {
     this.getElectronicCommerce();
     this.getAccountType();
     this.getGender();
-
+    this.contributionAmount=JSON.stringify(this.formData.contributionAmount);
+    console.log(this.contributionAmount);
     this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
     this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
     this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
@@ -1525,7 +1527,7 @@ export default {
             selfCode: this.formData.selfCode,
             organizationalForm: this.formData.organizationalForm,
             numberEmployees: this.formData.numberEmployees,
-            contributionAmount: this.formData.contributionAmount,
+            // contributionAmount: this.formData.contributionAmount,
             city: this.formData.city,
             county: this.formData.county,
             electronicCommerce: this.formData.electronicCommerce,
@@ -1632,8 +1634,8 @@ export default {
               }
             }
           });
-          this.$tab.closeOpenPage("/company/customer/employed").then(() => {
-            this.$tab.refreshPage("注册进度", "/company/customer/employed")
+          this.$tab.closeOpenPage({ path:"/company/customer/employed"} ).then(() => {
+            this.$tab.refreshPage({ path:"/company/customer/employed"} )
           })
         } else {
           this.$message({
