@@ -756,7 +756,7 @@ export default {
                           if (res != undefined) {
                                 if (res.code === 200) {
                                     this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/list").then(() => {
+                                        this.$tab.refreshPage({path:"/project/list"}).then(() => {
                                         //this.check('项目修改完成');
                                           let obj = {
                                             title: '项目列表',
