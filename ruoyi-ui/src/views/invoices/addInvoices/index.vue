@@ -21,11 +21,11 @@
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
-                v-model="search.expenseType"
+                v-model="search.stepType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
               >
                 <el-option
                   v-for="item in invoiceTypes"
@@ -217,11 +217,11 @@
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
-                v-model="search.travelExpenseType"
+                v-model="search.stepType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
               >
                 <el-option
                   v-for="item in invoiceTypes"
@@ -394,11 +394,11 @@
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
-                v-model="search.borrowType"
+                v-model="search.stepType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
               >
                 <el-option
                   v-for="item in invoiceTypes"
@@ -587,7 +587,7 @@ import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/b
 import { editExpense,getExpenses,editExpenseType } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
 export default {
-  dicts: ['invoice_type'],
+  dicts: ['step_type'],
   // mixins: [initDict],
   components: {},
   props: [],
@@ -695,7 +695,8 @@ export default {
       pagesize: 10, // 每页显示个数     默认
       disable: false,
       search: {
-   
+        stepType:'',
+
         expenseType:'',
         limit: 10,
         startTime:'',
@@ -971,12 +972,9 @@ export default {
     },
     //获取字典表数据
     getDicts(){
-      this.invoiceTypes=this.dict.type.invoice_type;
-      // this.invoiceTypes= this.dict.type.invoice_type.find((item) => item.id == 7).dictDetails;
-        console.log("invoiceTypes",this.dict.type.invoice_type);  
+      this.invoiceTypes=this.dict.type.step_type;
+      console.log("stepType",this.dict.type.step_type);  
       // getDicts().then(res=>{
-        
-      //   // console.log("item==",res.find((item) => item.id == 7).dictDetails);
       //   this.invoiceTypes= this.dict.type.invoice_type.find((item) => item.id == 7).dictDetails;
       //   console.log("invoiceTypes",this.invoiceTypes);  
       // })
@@ -990,6 +988,7 @@ export default {
           startTime:this.search.startTime,
           endTime:this.search.endTime,
           invoiceType:this.search.expenseType,
+          stepType:this.search.stepType,
         }
         getExpenses(params).then(res => {
             console.log("getAllExpense",res);
@@ -1006,6 +1005,7 @@ export default {
           startTime:this.search.startTime2,
           endTime:this.search.endTime2,
           invoiceType:this.search.travelExpenseType,
+          stepType:this.search.stepType,
         }
         getTravelExpense(params).then(res => {
             console.log("getAllTravelExpense",res);

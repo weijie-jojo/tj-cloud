@@ -35,11 +35,12 @@
                   :value="item.userId">
                 </el-option>
               </el-select>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
                 v-model="search.expenseType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
+                
               >
                 <el-option
                   v-for="item in invoiceTypes"
@@ -140,11 +141,11 @@
                   :value="item.userId">
                 </el-option>
               </el-select>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
                 v-model="search.travelExpenseType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
               >
                 <el-option
                   v-for="item in invoiceTypes"
@@ -246,11 +247,11 @@
                   :value="item.userId">
                 </el-option>
               </el-select>
+              <span style="margin-left:20px">进度状态</span>
               <el-select
                 v-model="search.borrowType"
                 clearable
                 placeholder="请选择状态"
-                style="margin-left:20px"
               >
                 <el-option
                   v-for="item in invoiceTypes"

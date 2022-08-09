@@ -42,6 +42,12 @@
               label="人员" 
               align="center" 
             />
+            <el-table-column 
+              label="单据类型" 
+              align="center" 
+            >
+            报销单
+            </el-table-column>
             <el-table-column
               prop="createTime"
               label="单据时间"
@@ -129,6 +135,12 @@
               label="人员" 
               align="center" 
             />
+             <el-table-column 
+              label="单据类型" 
+              align="center" 
+            >
+            差旅报销单
+            </el-table-column>
             <el-table-column
               prop="createTime"
               label="单据时间"
@@ -216,6 +228,12 @@
               label="人员" 
               align="center" 
             />
+             <el-table-column 
+              label="单据类型" 
+              align="center" 
+            >
+            借支单
+            </el-table-column>
             <el-table-column
               prop="borrowDate"
               label="单据时间"

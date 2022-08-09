@@ -135,4 +135,8 @@ public class AccountBorrow implements Serializable {
     @Column(name = "dept_id")
     @ApiModelProperty(value = "报销人所属部门id")
     private Integer deptId;
+
+    @Column(name = "step_type")
+    @ApiModelProperty(value = "进度状态（1 办理中、2 完成、3 异常）")
+    private Integer stepType;
 }

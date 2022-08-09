@@ -53,6 +53,15 @@ public class AccountBorrowHandler {
     @Log("修改借支单")
     @ApiOperation("修改借支单")
     public DataDto editBorrowByBorrowId(AccountBorrow accountBorrow){
+        if (accountBorrow.getInvoiceType()<5){//办理中
+            accountBorrow.setStepType(1);
+        }
+        if (accountBorrow.getInvoiceType()==5){//完成
+            accountBorrow.setStepType(2);
+        }
+        if (accountBorrow.getInvoiceType()==6){//异常
+            accountBorrow.setStepType(3);
+        }
         int num= accountBorrowService.editBorrowByBorrowId(accountBorrow);
         DataDto dataDto = new DataDto();
         if (num>0){
@@ -65,7 +74,7 @@ public class AccountBorrowHandler {
     @Log("插入差旅报销单")
     @ApiOperation("插入借支单")
     public DataDto addTravelExpense(AccountBorrow accountBorrow){
-
+        accountBorrow.setStepType(1);
         DataDto dataDto = new DataDto();
         try {
             int num= accountBorrowService.addBorrow(accountBorrow);

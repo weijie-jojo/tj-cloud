@@ -149,6 +149,7 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
                         .innerJoin("sys_dept C on t.dept_id=C.dept_id")
                         .eq("t.is_deleted",0)
                         .eq("A.dict_type","invoice_type")
+                        .eq(accountExpense.getStepType()!=null,"t.step_type",accountExpense.getStepType())
                         .eq(accountExpense.getExpenseCode()!=null,"t.expense_code", accountExpense.getExpenseCode())
                         .eq(accountExpense.getDeptId()!=null,"t.dept_id", accountExpense.getDeptId())
                         .eq(accountExpense.getInvoiceType()!=null,"t.invoice_type", accountExpense.getInvoiceType())

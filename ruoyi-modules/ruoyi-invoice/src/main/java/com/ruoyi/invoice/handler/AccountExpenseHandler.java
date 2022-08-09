@@ -58,6 +58,15 @@ public class AccountExpenseHandler {
     @Log("修改借支单（审核）")
     @ApiOperation("修改借支单（审核）")
     public DataDto editExpenseByExpenseId(AccountExpense accountExpense){
+        if (accountExpense.getInvoiceType()<5){//办理中
+            accountExpense.setStepType(1);
+        }
+        if (accountExpense.getInvoiceType()==5){//完成
+            accountExpense.setStepType(2);
+        }
+        if (accountExpense.getInvoiceType()==6){//异常
+            accountExpense.setStepType(3);
+        }
         int num= accountExpenseService.editExpenseByExpenseId(accountExpense);
         DataDto dataDto = new DataDto();
         if (num>0){
@@ -115,6 +124,7 @@ public class AccountExpenseHandler {
     public DataDto addExpense(AccountExpense accountExpense)  {
 //        System.out.println("accountExpense"+ accountExpense.getExpenseImage().split(",").toString());
         accountExpense.setIsDeleted(0);
+        accountExpense.setStepType(1);
         DataDto dataDto = new DataDto();
         try {
             int num=accountExpenseService.addExpense(accountExpense);

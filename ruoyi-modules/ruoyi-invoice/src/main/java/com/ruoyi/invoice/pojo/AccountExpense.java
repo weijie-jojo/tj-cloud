@@ -43,4 +43,5 @@ public class AccountExpense {
     private String financeCheck;
     private String expenseImage;
     private String expenseImage2;
+    private Integer stepType;
 }
