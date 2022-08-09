@@ -1482,10 +1482,16 @@ export default {
                 type: 'warning',
               });
             }
+             this.addVisible = false;
+             this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+             this.$tab.refreshPage();
+
+          }).catch(err=>{
+              this.addVisible = false;
+              this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+              this.$tab.refreshPage();
           });
-          this.addVisible = false;
-          this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-          this.$tab.refreshPage();
+         
         }
         else {
           this.$message({
