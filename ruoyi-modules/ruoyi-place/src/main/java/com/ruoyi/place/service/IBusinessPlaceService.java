@@ -25,5 +25,6 @@ public interface IBusinessPlaceService  {
     Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee);
     Integer editPlace2(BusinessPlace businessPlace);
     List<BusinessPlace> selectMaxCode();
+    Integer delPlace2(String placeCode);
 
 }

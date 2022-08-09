@@ -34,4 +34,7 @@
         t.place_id DESC
     </select>
 
+    <insert id="recycle" >
+        INSERT into business_place_recycle SELECT *FROM business_place WHERE place_code=#{placeCode}
+    </insert>
 </mapper>
