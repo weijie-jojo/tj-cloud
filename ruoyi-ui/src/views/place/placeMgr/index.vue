@@ -30,6 +30,7 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="渠道商别名" align="center" prop="placeAlias" :show-overflow-tooltip="true" />
       <el-table-column label="联系人" align="center" prop="placeLinkman" :show-overflow-tooltip="true" />
       <el-table-column label="联系方式" prop="placeTel" :show-overflow-tooltip="true" />
       <el-table-column form-item label="业务经理" prop="userName" :show-overflow-tooltip="true" />
@@ -842,11 +843,11 @@ export default {
         specialInvoice6: 0,   //专票 6 （%）
         specialInvoice13: 0,  //专票13 （%）
         specialSelfFee: 0,
-        isSpecialTax: '0',//是否含税-专票
+        isSpecialTax: '1',//是否含税-专票
         ordinaryProxyMoney: 0,//普票平台服务费(元）
         ordinarySelfFee: 0,
         ordinaryProxyFee: 0, //普票平台服务费(%）
-        isOrdinaryTax: '0',//是否含税-普票
+        isOrdinaryTax: '1',//是否含税-普票
         
         ordinaryProxyIsmoney:'0',
         isOrdinaryShare:'1',
@@ -1183,11 +1184,11 @@ export default {
       this.ruleForm.specialInvoice6Money = '';
       this.ruleForm.specialInvoice13Money = '';
       this.ruleForm.specialSelfFee = null;
-      this.ruleForm.isSpecialTax = '0';
+      this.ruleForm.isSpecialTax = '1';
       this.ruleForm.ordinarySelfFee = null;
       this.ruleForm.ordinaryProxyFee = '';
       this.ruleForm.ordinaryProxyMoeny = '';
-      this.ruleForm.isOrdinaryTax = '0';
+      this.ruleForm.isOrdinaryTax = '1';
     },
     /** 搜索按钮操作 */
     handleQuery() {

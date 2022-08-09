@@ -278,6 +278,11 @@ export default {
   created() { },
   mounted() {
     this.formData = this.$cache.local.getJSON("employedName");
+    if(this.formData.random=='true'){
+      this.formData.random=true;
+    }else{
+      this.formData.random=false;
+    }
     if(this.formData.nameStatus==1){
       this.isokradio='1';
     }else if(this.formData.nameStatus==2){

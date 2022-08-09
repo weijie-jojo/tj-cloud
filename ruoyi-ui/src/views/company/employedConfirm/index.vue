@@ -32,7 +32,11 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" prop="createTime" width="180" />
+        <el-table-column label="提交时间" align="center" prop="createTime">
+        <template slot-scope="scope">
+             {{scope.row.createTime | filterTime}}
+        </template>
+      </el-table-column>
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="办理状态" align="center" prop="">
@@ -64,7 +68,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
 
 export default {
@@ -124,6 +128,11 @@ export default {
       rules: {
       }
     };
+  },
+   filters: {
+    filterTime(time) {
+     return moment(time).format('YYYY-MM-DD')
+    },
   },
   created() {
     this.getBang();

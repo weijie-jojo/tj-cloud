@@ -1504,12 +1504,8 @@ export default {
       this.$refs['elForm'].validate(valid => {
         
         if (valid) {
-          let typess='';
-          if(this.formData.nameStatus==1){
-             typess=0;
-          }else{
-            typess='';
-          }
+          
+       
           let parms1 = {
             id: this.formData.id,
             selfCode: this.formData.selfCode,
@@ -1575,10 +1571,15 @@ export default {
             isOrdinaryShare:this.formData.isOrdinaryShare,//普票是否分润
             isSpecialShare:this.formData.isSpecialShare,//普票平台服务费是否定额
             infoStatus:0,
-            endStatus:typess,
+            endStatus:'',
 
 
            };
+           if(this.formData.nameStatus==0 || this.formData.nameStatus==1){
+               parms2.endStatus=0;
+            }else{
+               parms2.endStatus='';
+            }
           let parms3 = {
             legalPersonId: this.formData.legalPersonId,
             selfCode: this.formData.selfCode,

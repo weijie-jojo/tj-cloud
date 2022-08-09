@@ -84,7 +84,7 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="字号">
-            <el-checkbox disabled v-model="formData.random" @change="isRandom">随机字号</el-checkbox>
+            <el-checkbox disabled v-model="formData.random">随机字号</el-checkbox>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -293,18 +293,14 @@ export default {
     };
   },
   computed: {},
-  watch: {
-    formData: {
-      handler: function () {
-        this.getPoposedName();
-      },
-      deep: true,
-    },
-  },
   created() { },
   mounted() {
     this.formData = this.$cache.local.getJSON("employedName");
-   // this.getSelfCode();
+    if(this.formData.random=='true'){
+      this.formData.random=true;
+    }else{
+      this.formData.random=false;
+    }
     this.getLoginInfo();
   },
   methods: {
@@ -314,33 +310,7 @@ export default {
         this.formData.userName = res.user.nickName;
       });
     },
-    getPoposedName() {
-      this.formData.poposedName1 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize1 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-      this.formData.poposedName2 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize2 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-      this.formData.poposedName3 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize3 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-        this.formData.poposedName4 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize4 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-        this.formData.poposedName5 =
-        this.formData.administrativeDivision +
-        this.formData.fontSize5 +
-        this.formData.industry +
-        this.formData.organizationalForm;
-    },
+    
     isRandom() {
       if (!this.formData.random) {
         this.isDisable = false;
