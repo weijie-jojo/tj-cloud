@@ -126,7 +126,9 @@ export default {
      this.formbusiness.fileName1=data;
     },
     resetForm(){
-      this.$tab.closeOpenPage({path:'/company/customer/manageBusiness'})
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+     })
     },
     //获取个人信息
     getInfo() {
@@ -162,14 +164,14 @@ export default {
                 if (res.code === 200) {
                   this.$nextTick(function () {
                     this.$tab.refreshPage({ path: "/company/customer/manageBusiness" }).then(() => {
-                      let resmsg = '办理工商完成';
+                      let resmsg = '工商办理完成';
                       this.check(resmsg);
-                      let obj = {
-                        title: '工商办理',
-                        backUrl: '/company/customer/manageBusiness',
-                        resmsg: resmsg
-                      };
-                      this.$cache.local.setJSON('successNew', obj);
+                      // let obj = {
+                      //   title: '工商办理',
+                      //   backUrl: '/company/customer/manageBusiness',
+                      //   resmsg: resmsg
+                      // };
+                      // this.$cache.local.setJSON('successNew', obj);
                       this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                     });
                   });

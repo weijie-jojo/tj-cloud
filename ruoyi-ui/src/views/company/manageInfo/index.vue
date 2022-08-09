@@ -266,6 +266,12 @@ export default {
 
     bank(row) {
       this.$cache.local.setJSON('employedInfo', row);
+        let obj = {
+            title: '信息审核',
+            backUrl: '/company/customer/manageInfo',
+            resmsg: '信息审核完成'
+       }
+      this.$cache.local.setJSON('successNew', obj);
       this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
     },
     /** 新增按钮操作 */

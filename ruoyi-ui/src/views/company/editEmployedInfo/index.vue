@@ -35,7 +35,7 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="申请人姓名" prop="applyName">
-              <el-select style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
+              <el-select disabled style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
                 @change="selectApplyName">
                 <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.userId"
                   :disabled="item.disabled"></el-option>
@@ -1399,7 +1399,8 @@ export default {
     selectIndustryType() {
 
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
-      if(rate.taxRate){
+      
+      if(rate){
             this.formData.industryTax = rate.taxRate;
             this.industryTax=new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
       }else{
@@ -1423,6 +1424,7 @@ export default {
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
+        this.selectIndustryType();
       })
     },
     //把数据整成树状

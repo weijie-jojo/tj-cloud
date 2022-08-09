@@ -25,10 +25,11 @@
 
       <el-col :span="15">
         <el-tabs v-model="endStatus" @tab-click="handleClick">
-          <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
-          <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
           <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
-          <el-tab-pane label="完成" name="1"></el-tab-pane>
+        
+          <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
+          <el-tab-pane :label="alabels3" name="1"></el-tab-pane>
+          <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
 
         </el-tabs>
 
@@ -272,7 +273,7 @@
 
 <script>
 import moment from 'moment'
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
+import { joinList,getCount,listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
 import { getInfo } from '@/api/login'
 import { getUser } from  '@/api/system/user'
 export default {
@@ -353,7 +354,7 @@ export default {
       // 是否显示弹出层
       open: false,
       // 查询参数
-      endStatus: '-1',
+      endStatus: '0',
       userinfo: {},
       queryParams: {
         pageNum: 1,
@@ -380,8 +381,8 @@ export default {
   },
   created() {
     this.getLoginInfo();
-    this.getBang();
-    this.getErr();
+    // this.getBang();
+    // this.getErr();
     this.getList();
     //this.getUser();
     
@@ -477,10 +478,22 @@ export default {
             console.log(2222,type);
             switch (type) {
               case 1:
+                 let obj = {
+                  title: '名称审核',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '名称审核完成'
+                }
+                this.$cache.local.setJSON('successNew', obj);
                 this.$cache.local.setJSON('employedName', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
                 break;
               case 2:
+                 let objs = {
+                  title: '信息审核',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '信息审核完成'
+                }
+                this.$cache.local.setJSON('successNew', objs);
                 this.$cache.local.setJSON('employedInfo', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
                 break;
@@ -488,14 +501,32 @@ export default {
                 break;
 
               case 4:
+                 let obj2 = {
+                  title: '工商办理',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '工商办理完成'
+                }
+                this.$cache.local.setJSON('successNew', obj2);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
                 break;
               case 5:
+                  let obj1 = {
+                  title: '税务办理',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '税务办理完成'
+                }
+                this.$cache.local.setJSON('successNew', obj1);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/addTax" });
                 break;
               case 6:
+                  let obj5 = {
+                  title: '银行办理',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '银行办理完成'
+                }
+                this.$cache.local.setJSON('successNew', obj5);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/addBank" });
                 break;
@@ -840,6 +871,12 @@ export default {
         this.projectTime = null;
       };
       this.loading = true;
+      getCount(this.queryParams).then(res=>{
+           this.alabels1 = "异常(" + res.error + ")";
+           this.alabels = "全部(" + res.total + ")";
+           this.alabels2 = "办理中(" + res.unfinished + ")";
+           this.alabels3 = "完成(" + res.finished + ")";
+      });
       joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
@@ -913,7 +950,8 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      this.$router.push('/company/customer/addEmployedInfo');
+      this.$tab.closeOpenPage({path:'/company/customer/addEmployedInfo'});
+     // this.$router.push('/company/customer/addEmployedInfo');
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

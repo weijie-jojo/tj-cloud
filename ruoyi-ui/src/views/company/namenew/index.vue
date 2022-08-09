@@ -413,13 +413,13 @@ export default {
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });
                     }
-                    let obj = {
-                      title: '名称审核',
-                      backUrl: '/company/customer/manageName',
-                      resmsg: resmsg
+                    // let obj = {
+                    //   title: '名称审核',
+                    //   backUrl: '/company/customer/manageName',
+                    //   resmsg: resmsg
 
-                    }
-                    this.$cache.local.setJSON('successNew', obj);
+                    // }
+                    // this.$cache.local.setJSON('successNew', obj);
                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                   });
                 });
@@ -440,7 +440,9 @@ export default {
       });
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/company/customer/manageName" });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+     })
     },
   },
 };

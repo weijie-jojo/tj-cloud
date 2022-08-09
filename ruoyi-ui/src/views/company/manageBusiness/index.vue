@@ -233,6 +233,12 @@ export default {
     //工商管理
     business(row) {
       this.$cache.local.setJSON('employednewlist', row);
+      let obj = {
+            title: '工商办理',
+            backUrl: '/company/customer/manageBusiness',
+            resmsg: '工商办理完成'
+      }
+      this.$cache.local.setJSON('successNew', obj);
       this.$tab.closeOpenPage({ path: "/company/customer/addBusiness"});
    },
    //工商表格

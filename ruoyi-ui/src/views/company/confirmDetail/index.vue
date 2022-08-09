@@ -411,7 +411,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -436,7 +436,7 @@
             </el-col>
             
           </el-row>
-         <el-row v-if="formData.accountType==2">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
                 <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -863,9 +863,9 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm3(1)">通过</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
+          <el-button v-if="isokradio == 2" type="primary" @click="submitForm3(2)">提交</el-button>
+          <el-button v-else type="primary" @click="submitForm3(1)">提交</el-button>
 
         </el-col>
         <el-col :span="8"></el-col>
@@ -879,7 +879,8 @@
   </div>
 </template>
 <script>
-import { addEmployed, updateEmployed } from "@/api/company/employed";
+
+import { addEmployed, updateEmployed,check } from "@/api/company/employed";
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -1419,7 +1420,7 @@ export default {
         "selfCode": this.formData.selfCode,
         "selfType": "8",
       }
-      crudEmployed.check(parms).then(res => {
+      check(parms).then(res => {
         console.log('注册确认插入日志成功！');
       }).catch(error => {
 
@@ -1484,7 +1485,7 @@ export default {
 
                     let obj = {
                       title: '信息审核',
-                      backUrl: '/company/customer/employedConfirm',
+                      backUrl: '/company/customer/employed',
                       resmsg: resmsg
 
                     }
