@@ -1149,6 +1149,7 @@ export default {
     cancelS(type) {
       if (type == 1) {
         this.addVisible = false;
+       
       } else if (type == 2) {
         this.editVisible = false;
       } else if (type == 3) {
@@ -1215,7 +1216,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-
+      this.getPlaceCode(); 
       this.addVisible = true;
       this.title = "新增渠道管理";
       //获取登录用户

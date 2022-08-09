@@ -689,7 +689,8 @@ export default {
     errsnameDetail() {
       this.errsnameVisible = false;
       if(this.errNameMsg=='修改'){
-        this.$router.push("editEmployedName");
+        this.$tab.closeOpenPage( {path:'/company/customer/editEmployedName'} );
+        
       }else{
         this.$router.push("namedetail");
       }
@@ -697,7 +698,7 @@ export default {
     errsinfoDetail() {
       this.errsinfoVisible = false;
       if(this.errInfoMsg=='修改'){
-        this.$router.push("editEmployedInfo");
+        this.$tab.closeOpenPage( {path:'/company/customer/editEmployedInfo'} );
       }else{
         this.$router.push("infodetail");
       }

@@ -217,10 +217,14 @@ export default {
         fontSize1: "",
         fontSize2: "",
         fontSize3: "",
+        fontSize4: "",
+        fontSize5: "",
         //拟设名称
         poposedName1: "",
         poposedName2: "",
         poposedName3: "",
+        poposedName4: "",
+        poposedName5: "",
         userName: "",
       },
       rules: {

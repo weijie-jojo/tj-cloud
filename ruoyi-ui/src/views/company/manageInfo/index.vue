@@ -267,7 +267,6 @@ export default {
     bank(row) {
       this.$cache.local.setJSON('employedInfo', row);
       this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
-      //this.$router.push("/company/customer/infonew");
     },
     /** 新增按钮操作 */
     handleAdd() {
