@@ -114,6 +114,20 @@
                 JOIN  self_legal_person C  on t.self_code=C.self_code
                 JOIN sys_dict_data D on C.eduation=D.dict_value
     </sql>
+
+    <insert id="recycle1" >
+        INSERT into self_employed_recycle SELECT *FROM self_employed WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle2" >
+        INSERT into self_name_review_recycle SELECT *FROM self_name_review WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle3" >
+        INSERT into self_application_info_recycle SELECT *FROM self_application_info WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle4" >
+        INSERT into self_legal_person_recycle SELECT *FROM self_legal_person WHERE self_code=#{selfCode}
+    </insert>
+
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
@@ -560,5 +574,9 @@
 
     <delete id="deleteSelfApplicationInfoBySelfCode" parameterType="String">
         delete from self_application_info where self_code =#{selfCode}
+    </delete>
+
+    <delete id="deleteSelfEmployedBySelfCode" parameterType="String">
+        delete from self_employed where self_code =#{selfCode}
     </delete>
 </mapper>

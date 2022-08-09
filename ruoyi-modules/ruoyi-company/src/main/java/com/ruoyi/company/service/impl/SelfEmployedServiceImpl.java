@@ -123,8 +123,22 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
      * @return 结果
      */
     @Override
+    public int deleteSelfEmployedBySelfCode(String selfCode)
+    {
+        selfEmployedMapper.recycle1(selfCode);
+        return selfEmployedMapper.deleteSelfEmployedBySelfCode(selfCode);
+    }
+
+    /**
+     * 根据selfCode删除个体户名字审核
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    @Override
     public int deleteSelfNameReviewBySelfCode(String selfCode)
     {
+        selfEmployedMapper.recycle2(selfCode);
         return selfEmployedMapper.deleteSelfNameReviewBySelfCode(selfCode);
     }
 
@@ -137,6 +151,7 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     @Override
     public int deleteSelfLegalPersonBySelfCode(String selfCode)
     {
+        selfEmployedMapper.recycle4(selfCode);
         return selfEmployedMapper.deleteSelfLegalPersonBySelfCode(selfCode);
     }
 
@@ -149,6 +164,7 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     @Override
     public int deleteSelfApplicationInfoBySelfCode(String selfCode)
     {
+        selfEmployedMapper.recycle3(selfCode);
         return selfEmployedMapper.deleteSelfApplicationInfoBySelfCode(selfCode);
     }
 
