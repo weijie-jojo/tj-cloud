@@ -1696,8 +1696,8 @@ export default {
               }
             }
           });
-          this.$tab.refreshPage(this.$cache.local.getJSON('backurls').backUrl).then(() => {
-            this.$tab.openPage(this.$cache.local.getJSON('backurls').name, this.$cache.local.getJSON('backurls').backUrl)
+          this.$tab.closeOpenPage( { path:this.$cache.local.getJSON('backurls').backUrl }).then(() => {
+            this.$tab.refreshPage( { path:this.$cache.local.getJSON('backurls').backUrl });
           })
         } else {
           this.$message({
@@ -1708,8 +1708,8 @@ export default {
       })
     },
     resetForm() {
-       this.$tab.refreshPage(this.$cache.local.getJSON('backurls').backUrl).then(() => {
-            this.$tab.openPage(this.$cache.local.getJSON('backurls').name, this.$cache.local.getJSON('backurls').backUrl)
+       this.$tab.closeOpenPage(  { path:this.$cache.local.getJSON('backurls').backUrl }).then(() => {
+          this.$tab.refreshPage( { path:this.$cache.local.getJSON('backurls').backUrl })
           });
     },
       nailist() {

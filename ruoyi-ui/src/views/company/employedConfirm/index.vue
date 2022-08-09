@@ -192,7 +192,7 @@ export default {
     },
     detail(row) {
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.openPage("确认注册", "/company/customer/confirmDetail").then(() => { })
+      this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
     },
     /** 查询个体商户列表 */
     getList() {

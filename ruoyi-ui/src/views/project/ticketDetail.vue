@@ -631,7 +631,7 @@ export default {
                                 if (res.code === 200) {
                                     this.$modal.msgSuccess("编辑成功!");
                                     this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/ticketlist").then(() => {
+                                        this.$tab.refreshPage({path:"/project/ticketlist"}).then(() => {
                                             this.$tab.openPage("票据列表", "/project/ticketlist");
                                         });
                                         //this.$router.push("employed");

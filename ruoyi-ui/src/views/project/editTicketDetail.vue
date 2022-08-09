@@ -651,7 +651,7 @@ export default {
                         if (res != undefined) {
                                 if (res.code === 200) {
                                     this.$nextTick(function () {
-                                        this.$tab.refreshPage("/project/ticketlist").then(() => {
+                                        this.$tab.refreshPage({path:"/project/ticketlist"}).then(() => {
                                              let obj = {
                                             title: '票据列表',
                                             backUrl: '/project/ticketlist',
