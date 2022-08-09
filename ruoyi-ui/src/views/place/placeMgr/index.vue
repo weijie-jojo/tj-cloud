@@ -816,8 +816,8 @@ export default {
         status: '',
       },
       ruleForm: {
-        isSelfTax:'0',     //普票价税分离
-        isSpecialSelfTax:'0',  //专票价税分离
+        isSelfTax:'1',     //普票价税分离
+        isSpecialSelfTax:'1',  //专票价税分离
         ordinaryTax:'',//普票税率
         ordinarySpecialTax:'',//专票税率
 
@@ -1158,8 +1158,8 @@ export default {
     // 表单重置
     reset() {
       
-      this.ruleForm.isSelfTax='0';   //普票价税分离
-      this.ruleForm.isSpecialSelfTax='0';  //专票价税分离
+      this.ruleForm.isSelfTax='1';   //普票价税分离
+      this.ruleForm.isSpecialSelfTax='1';  //专票价税分离
       this.ruleForm.ordinaryProxyIsmoney='0';
       this.ruleForm.isOrdinaryShare='1';
       this.ruleForm.ordinaryShareIsmoney='0'

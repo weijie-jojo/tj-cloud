@@ -330,6 +330,16 @@ export default {
         this.formData.fontSize3 +
         this.formData.industry +
         this.formData.organizationalForm;
+        this.formData.poposedName4 =
+        this.formData.administrativeDivision +
+        this.formData.fontSize4 +
+        this.formData.industry +
+        this.formData.organizationalForm;
+        this.formData.poposedName5 =
+        this.formData.administrativeDivision +
+        this.formData.fontSize5 +
+        this.formData.industry +
+        this.formData.organizationalForm;
     },
     isRandom() {
       if (!this.formData.random) {
@@ -339,6 +349,8 @@ export default {
         this.formData.fontSize1 = "";
         this.formData.fontSize2 = "";
         this.formData.fontSize3 = "";
+        this.formData.fontSize4 = "";
+        this.formData.fontSize5 = "";
       }
     },
     changeOrganizational(value) {
@@ -415,6 +427,7 @@ export default {
                 this.$nextTick(function () {
                   this.$tab.refreshPage({ path: "/company/customer/manageName" }).then(() => {
                     let resmsg = '';
+                    
                     if (type == 1) {
                       resmsg = '名称审核完成';
                       this.check('名称审核已完成');
@@ -422,12 +435,12 @@ export default {
 
                       resmsg = '名称审核完成';
                       this.check('名称审核不通过。'+'原因：'+this.remark);
-                      let parms12={
+                      let parmsEmployed={
                         remarkName:this.remark,
-                        selfCode: this.formData.selfCode,
+                        selfId: this.formData.selfId,
                         endStatus:2
                       };
-                      crudEmployed.updateEmployed(parms12).then(res=>{
+                      crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });
                     }
                     let obj = {

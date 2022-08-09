@@ -250,6 +250,7 @@
 </template>
 <script>
 import crudReview from '@/api/company/review'
+import crudEmployed from '@/api/company/employed'
 import crudInformation from '@/api/company/information'
 import {getInfo} from '@/api/login' 
 export default {
@@ -397,7 +398,7 @@ export default {
             typess='';
           }
             let parms={
-              selfId:this.formData.selfId,
+             // selfId:this.formData.selfId,
               selfCode:this.formData.selfCode,
               titleType:this.formData.titleType,
               administrativeDivision:this.formData.administrativeDivision,
@@ -421,32 +422,24 @@ export default {
               createBy:this.formData.userName,
               updateBy:this.formData.userName,
               nameStatus:0,
-              endStatus:typess,
+            
             };
+            let parmsEmployed={
+              selfId:this.formData.selfId,
+              endStatus:typess,
+            }
             crudReview.updateReview(parms).then(res=>{
-              console.log("addReview",res);
-              this.$message({
+              crudEmployed.updateEmployed(parmsEmployed).then(res=>{
+                  this.$message({
                   message: '修改成功',
                   type: 'success',
+                });
+               this.$tab.refreshPage("/company/customer/employed").then(()=>{
+                this.$tab.openPage("注册进度", "/company/customer/employed")
+               })
+           
               });
-              // this.$router.push("employed");
-              this.$tab.refreshPage("/company/customer/employed").then(()=>{
-              this.$tab.openPage("注册进度", "/company/customer/employed")
-            })
-              // if(res!=undefined){
-              //      if(res.id==0){
-              //       this.$message({
-              //           message: res.message,
-              //           type: 'success',
-              //       });
-              //     }else{
-              //       this.$message({
-              //           message: res.message,
-              //           type: 'warning',
-              //       });
-              //     }
-              //     this.$router.push("employed");
-              // }
+              
               
             });
               
