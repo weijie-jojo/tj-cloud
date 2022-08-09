@@ -1632,8 +1632,8 @@ export default {
               }
             }
           });
-          this.$tab.refreshPage("/company/customer/employed").then(() => {
-            this.$tab.openPage("注册进度", "/company/customer/employed")
+          this.$tab.closeOpenPage("/company/customer/employed").then(() => {
+            this.$tab.refreshPage("注册进度", "/company/customer/employed")
           })
         } else {
           this.$message({
