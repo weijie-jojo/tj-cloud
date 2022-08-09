@@ -100,10 +100,10 @@ public class BusinessPlaceController extends BaseController {
         System.out.println("businessAgencyFee=="+businessAgencyFee);
         System.out.println("businessPlace=="+businessPlace);
         //根据渠道名查询渠道信息
-        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessPlace.getPlaceName());
+        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessPlace.getPlaceAliasName());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
-            return dataDto.err("渠道名重复");
+            return dataDto.err("渠道别名重复");
         }else {
             try {
                 iBusinessPlaceService.addPlace(businessPlace);

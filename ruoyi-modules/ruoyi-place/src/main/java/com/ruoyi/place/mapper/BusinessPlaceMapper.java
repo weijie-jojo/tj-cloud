@@ -17,8 +17,8 @@ import java.util.List;
  * @since 2022-06-03
  */
 public interface BusinessPlaceMapper  extends  MPJBaseMapper<BusinessPlace>{
-    @Select("SELECT * FROM business_place where place_name=#{placeName}")
-    List<BusinessPlace> getByPlaceName(@Param("placeName") String placeName);
+    @Select("SELECT * FROM business_place where place_alias_name=#{placeAliasName}")
+    List<BusinessPlace> getByPlaceName(@Param("placeAliasName") String placeAliasName);
 
     List<BusinessPlace> selectBusinessPlaceJoin(@Param("userIdArr") List<Long> userIdArr,
                                                 @Param("statusArr") String[] statusArr,
