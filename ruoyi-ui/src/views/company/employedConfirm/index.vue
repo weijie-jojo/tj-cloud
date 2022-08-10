@@ -100,6 +100,7 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
+        type:7,
         nameStatus: 1,
         infoStatus: 1,
         businessStatus: 1,
