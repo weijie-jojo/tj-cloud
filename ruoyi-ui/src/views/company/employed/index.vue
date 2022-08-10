@@ -980,7 +980,14 @@ export default {
       this.$cache.local.setJSON('backurls', obj);
       this.$router.push("detailBank");
     },
-
+     getCount(){
+         getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+     },
 
     /** 查询个体商户列表 */
     getList() {
@@ -991,59 +998,15 @@ export default {
         this.projectTime = null;
       };
       this.loading = true;
-      getCount(this.queryParams).then(res => {
-        this.errLabel = "异常(" + res.error + ")";
-        this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "办理中(" + res.unfinished + ")";
-        this.finishLabel = "完成(" + res.finished + ")";
-      });
+      
       joinList(this.queryParams).then(response => {
-
         this.employedList = response.rows;
         this.total = response.total;
-
         this.loading = false;
+        this.getCount();
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        placeName: null,
-        selfId: null,
-        selfKey: null,
-        placeCode: null,
-        taxId: null,
-        selfAddress: null,
-        selfName: null,
-        legalPersonName: null,
-        idCardNum: null,
-        password: null,
-        status: 0,
-        remark: null,
-        userId: null,
-        expStatus: 0,
-        maximum: null,
-        registerTime: null,
-        industryType: null,
-        organizationalForm: null,
-        numberEmployees: null,
-        contributionAmount: null,
-        city: null,
-        county: null,
-        electronicCommerce: null,
-        freeTradeZone: null,
-        freeTradeArea: null,
-        propertyRight: null,
-        industry: null,
-        natureBusiness: null
-      };
-      this.resetForm("form");
-    },
+    
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;

@@ -150,20 +150,24 @@ export default {
          this.$cache.local.setJSON('employednewlist', row);
          this.$tab.openPage("税务信息","/company/customer/detailTax");
     },
-   /** 查询个体商户列表 */
-    getList() {
-      this.loading = true;
-       getCount(this.queryParams).then(res => {
+      getCount(){
+         getCount(this.queryParams).then(res => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
         this.loadingLabel = "办理中(" + res.unfinished + ")";
         this.finishLabel = "完成(" + res.finished + ")";
       });
+     },
+   /** 查询个体商户列表 */
+    getList() {
+      this.loading = true;
+      
       joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
+        this.getCount();
       });
     },
     
