@@ -156,7 +156,29 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setBankStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-
+        if (selfEmployedVo.getType()==7){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());
         datasMap.put("finished", list2.size());
