@@ -323,7 +323,9 @@ public class SelfEmployedController extends BaseController
             selfEmployedService.deleteSelfLegalPersonBySelfCode(selfCode);
             selfEmployedService.deleteSelfApplicationInfoBySelfCode(selfCode);
             selfEmployedService.deleteSelfEmployedBySelfCode(selfCode);
+            selfEmployedService.deleteSelfCheckBySelfCode(selfCode);
         };
+
         return toAjax(200);
     }
 }

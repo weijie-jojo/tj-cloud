@@ -127,6 +127,9 @@
     <insert id="recycle4" >
         INSERT into self_legal_person_recycle SELECT *FROM self_legal_person WHERE self_code=#{selfCode}
     </insert>
+    <insert id="recycle5" >
+        INSERT into self_check_recycle SELECT *FROM self_check WHERE self_code=#{selfCode}
+    </insert>
 
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
@@ -579,4 +582,9 @@
     <delete id="deleteSelfEmployedBySelfCode" parameterType="String">
         delete from self_employed where self_code =#{selfCode}
     </delete>
+
+    <delete id="deleteSelfCheckBySelfCode" parameterType="String">
+        delete from self_check where self_code =#{selfCode}
+    </delete>
+
 </mapper>

@@ -112,6 +112,15 @@ public interface SelfEmployedMapper
      */
     public int deleteSelfEmployedBySelfCode(String selfCode);
 
+    /**
+     * 根据selfCode删除日志表
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    public int deleteSelfCheckBySelfCode(String selfCode);
+
+
     /*
     * 回收
     * */
@@ -119,4 +128,5 @@ public interface SelfEmployedMapper
     Integer recycle2(@Param("selfCode") String selfCode);
     Integer recycle3(@Param("selfCode") String selfCode);
     Integer recycle4(@Param("selfCode") String selfCode);
+    Integer recycle5(@Param("selfCode") String selfCode);
 }

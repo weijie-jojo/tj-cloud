@@ -129,6 +129,7 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
         return selfEmployedMapper.deleteSelfEmployedBySelfCode(selfCode);
     }
 
+
     /**
      * 根据selfCode删除个体户名字审核
      *
@@ -167,5 +168,18 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
         selfEmployedMapper.recycle3(selfCode);
         return selfEmployedMapper.deleteSelfApplicationInfoBySelfCode(selfCode);
     }
+
+    /**
+     * 根据selfCode删除日志表
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    @Override
+    public int deleteSelfCheckBySelfCode(String selfCode) {
+        selfEmployedMapper.recycle5(selfCode);
+        return selfEmployedMapper.deleteSelfCheckBySelfCode(selfCode);
+    }
+
 
 }

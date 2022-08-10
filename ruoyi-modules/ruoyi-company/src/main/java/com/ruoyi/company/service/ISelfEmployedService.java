@@ -108,4 +108,12 @@ public interface ISelfEmployedService
      */
     public int deleteSelfEmployedBySelfCode(String selfCode);
 
+    /**
+     * 根据selfCode删除日志表
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    public int deleteSelfCheckBySelfCode(String selfCode);
+
 }
