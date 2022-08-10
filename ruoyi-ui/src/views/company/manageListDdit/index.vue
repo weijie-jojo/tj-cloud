@@ -28,7 +28,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="出资额">
+          <el-form-item class="comright" label="出资额" :required="true">
             <el-input disabled type="number" v-model="formData.contributionAmount" >
               <template slot="append">万元</template>
             </el-input>
@@ -115,7 +115,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账名称">
+          <el-form-item class="comright" label="私账名称" :required="true">
             <el-input v-model="formData.legalPersonName" disabled>
             </el-input>
           </el-form-item>
@@ -123,13 +123,13 @@
       </el-row>
        <el-row v-if="formData.accountType==2" type="flex" class="row-bg rowCss " justify="space-around">
           <el-col :span="9">
-            <el-form-item label="对公开户银行">
+            <el-form-item label="对公开户银行" :required="true">
               <el-input style="width:87%" disabled v-model="formData.publicDepositBank1" clearable>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="对公银行账号">
+            <el-form-item label="对公银行账号" :required="true">
               <el-input style="width:87%" disabled v-model="formData.publicAccountNumber1" clearable>
               </el-input>
             </el-form-item>
@@ -161,7 +161,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="姓名">
+          <el-form-item class="comright" label="姓名" :required="true">
             <el-input v-model="formData.contactName" disabled>
             </el-input>
           </el-form-item>
@@ -181,7 +181,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="证件号码">
+          <el-form-item class="comright" label="证件号码" :required="true">
             <el-input v-model="formData.contactIdNum" disabled>
             </el-input>
           </el-form-item>
@@ -260,13 +260,13 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="工商实名">
+          <el-form-item label="工商实名" prop="fileName6">
             <uploadSmall v-if="fileNameN6.length > 0" @getfileName="getfileNameS6" :fileName="fileName6"
               :fileNameOld="fileNameN6" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="税务实名">
+          <el-form-item label="税务实名" prop="fileName7">
             <uploadSmall v-if="fileNameN7.length > 0" @getfileName="getfileNameS7" :fileName="fileName7"
               :fileNameOld="fileNameN7" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
@@ -276,7 +276,7 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="身份证扫描件">
+          <el-form-item label="身份证扫描件" prop="fileName5">
             <uploadSmall v-if="fileNameN5.length > 0" @getfileName="getfileNameS5" :fileName="fileName5"
               :fileNameOld="fileNameN5" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
@@ -387,7 +387,7 @@
       <el-row class="paddingbg-s">
          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==1">
             <el-col :span="9">
-              <el-form-item class="comright" label="账号类型" prop="">
+              <el-form-item class="comright" label="账号类型" :required="true">
                 <el-input
                  value="私人账号"
                   disabled
@@ -406,7 +406,7 @@
               <el-form-item class="comright" label="账号名称" prop="legalPersonName">
                 <el-input
                  v-model="formData.legalPersonName"
-                  :readonly="true"
+                  disabled
                 ></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
@@ -419,7 +419,7 @@
           </el-row>
          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
-               <el-form-item class="comright" label="账号类型" prop="">
+               <el-form-item class="comright" label="账号类型" :required="true">
                 <el-input
                   value="对公基本户"
                   :readonly="true"
@@ -427,24 +427,24 @@
               </el-form-item>
           
 
-              <el-form-item class="comright" label="开户银行">
-                <el-input   v-model="formData.publicDepositBank1" :readonly="true"></el-input>
+              <el-form-item class="comright" label="开户银行" >
+                <el-input   v-model="formData.publicDepositBank1" ></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="9">
-                   <el-form-item class="comright" label="账号名称">
-                <el-input     v-model="formData.selfName" :readonly="true"></el-input>
+                   <el-form-item class="comright" label="账号名称" :required="true" >
+                <el-input     v-model="formData.selfName"  disabled></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号">
-                <el-input     v-model="formData.publicAccountNumber1" :readonly="true"></el-input>
+                <el-input     v-model="formData.publicAccountNumber1" ></el-input>
               </el-form-item>
             </el-col>
             
           </el-row>
          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
-                <el-form-item class="comright" label="账号类型" prop="">
+                <el-form-item class="comright" label="账号类型" :required="true">
                 <el-input
                  
                   value="对公一般户"
@@ -454,16 +454,16 @@
               
 
               <el-form-item class="comright" label="开户银行">
-                <el-input  v-model="formData.publicDepositBank2" :readonly="true"></el-input>
+                <el-input  v-model="formData.publicDepositBank2"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="9">
-               <el-form-item class="comright" label="账号名称">
-                <el-input  v-model="formData.selfName" :readonly="true"></el-input>
+               <el-form-item class="comright" label="账号名称" >
+                <el-input  v-model="formData.selfName" disabled></el-input>
               </el-form-item>
               <el-form-item class="comright" label="银行账号">
-                <el-input  v-model="formData.publicAccountNumber2" :readonly="true"></el-input>
+                <el-input  v-model="formData.publicAccountNumber2"></el-input>
               </el-form-item>
             </el-col>
             
@@ -484,17 +484,11 @@
 
       <el-row  type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="户名" prop="accountName">
-           
-            <el-input v-model="formData.accountName"></el-input>
-          
-          </el-form-item> -->
-          <el-form-item class="comright" label="户名" prop="accountName">
+          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
               <el-select
-             
                style="width:100%"
               @change="changeValue($event)"
-              v-model="formData.accountName"
+              v-model="formData.publicDepositBank3"
               filterable
               placeholder="请选择"
             >
@@ -507,9 +501,11 @@
               </el-option>
             </el-select>
           </el-form-item>
-
-          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input  disabled v-model="formData.publicDepositBank3" :readonly="true"></el-input>
+          
+          <el-form-item class="comright" label="户名"  :required="true">
+           
+            <el-input v-model="formData.accountName" disabled></el-input>
+          
           </el-form-item>
           <el-form-item  label="纳税委托协议" prop="fileName3">
               <uploadSmall v-if="fileNameN3.length>0" @getfileName="getfileNameS3" :fileName="fileName3" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
@@ -517,7 +513,7 @@
         </el-col>
         
         <el-col :span="9">
-          <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
+          <el-form-item class="comright" label="银行账号" :required="true">
             <el-input
              
               disabled
@@ -988,7 +984,7 @@ export default {
       politicalStatuList: [],
       applyNames: [],
       contactNames: [],
-      industryTypes: [],
+      
       accountTypes: [
         {
           value: 1,
@@ -1052,6 +1048,27 @@ export default {
       accountName_options : [],
       mylist :'',
       rules: {
+         fileName1: [
+          { required: true, message: "请上传营业执照", trigger: "change" },
+        ],
+         fileName2: [
+          { required: true, message: "请上传核定通知书", trigger: "change" },
+        ],
+         fileName3: [
+          { required: true, message: "请上传纳税委托协议", trigger: "change" },
+        ],
+         fileName4: [
+          { required: true, message: "请上传三方协议签约凭证", trigger: "change" },
+        ],
+         fileName5: [
+          { required: true, message: "请上传身份证扫描件", trigger: "change" },
+        ],
+         fileName6: [
+          { required: true, message: "请上传工商实名", trigger: "change" },
+        ],
+         fileName7: [
+          { required: true, message: "请上传税务实名", trigger: "change" },
+        ],
         privateDepositBank: [{
           required: true,
           message: '请输入法人私账开户银行',
@@ -1126,6 +1143,12 @@ export default {
           required: true,
           message: '请输入城市',
           trigger: 'blur'
+        }],
+        businessTerm:[{
+          required: true,
+          message: '请选择注册时间',
+          trigger: 'change'
+
         }],
         county: [{
           required: true,
@@ -1228,6 +1251,16 @@ export default {
           message: '请输入经营者居所',
           trigger: 'blur'
         }],
+        legalPersonName:[{
+          required: true,
+          message: '请输入法人账号名称',
+          trigger: 'blur'
+        }],
+        publicDepositBank3:[{
+          required: true,
+          message: '请选择开户银行',
+          trigger: 'change'
+        }],
         mail: [{
           required: true,
           message: '请输入电子邮箱地址',
@@ -1242,6 +1275,8 @@ export default {
         "label": "选项一",
         "value": 1
       }],
+      industryTypeList:[],
+      industryTypes: [],
       expandOnClickNode: true,
     }
   },
@@ -1249,12 +1284,12 @@ export default {
   watch: {
      'formData.industryType': 'selectIndustryType',
 
-    'formData.contactName': {
-      handler: function () {
-        this.formData.legalPersonName = this.formData.contactName;
-      },
-      deep: true
-    }
+    // 'formData.contactName': {
+    //   handler: function () {
+    //     this.formData.legalPersonName = this.formData.contactName;
+    //   },
+    //   deep: true
+    // }
   },
   created() {
 
@@ -1480,8 +1515,9 @@ export default {
     },
       changeValue(res) {
       for (let i in this.mylist) {
-        if (this.mylist[i].accountName == res) {
-          this.formData.publicDepositBank3 = this.mylist[i].publicDepositBank3;
+        
+        if (this.mylist[i].publicDepositBank3 == res) {
+          this.formData.accountName = this.mylist[i].accountName;
           this.formData.publicAccountNumber3 =
             this.mylist[i].publicAccountNumber3;
           return;
@@ -1531,7 +1567,7 @@ export default {
         this.formData.privateAccountNumber = "";
       }
     },
-    selectIndustryType(value) {
+    selectIndustryType() {
       var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
       if(rate){
             this.formData.industryTax = rate.taxRate;
@@ -1555,6 +1591,7 @@ export default {
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
+        this.selectIndustryType();
       })
     },
      //把数据整成树状
@@ -1747,7 +1784,7 @@ export default {
             this.mylist = res;
           
             for (let i in res) {
-              this.accountName_options.push({ value: res[i].accountName });
+              this.accountName_options.push({ value: res[i].publicDepositBank3 });
              
             }
           }

@@ -28,7 +28,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="出资额">
+          <el-form-item class="comright" label="出资额" :required="true">
             <el-input disabled type="number" v-model="formData.contributionAmount">
               <template slot="append">万元</template>
             </el-input>
@@ -115,7 +115,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账名称">
+          <el-form-item class="comright" label="私账名称" :required="true">
             <el-input v-model="formData.legalPersonName" :readonly="true">
             </el-input>
           </el-form-item>
@@ -123,13 +123,13 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="私账开户银行">
+          <el-form-item class="comright" label="私账开户银行" :required="true">
             <el-input :readonly="true" v-model="formData.privateDepositBank" clearable>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账银行账号">
+          <el-form-item class="comright" label="私账银行账号" :required="true">
             <el-input v-model="formData.privateAccountNumber" clearable :readonly="true">
             </el-input>
           </el-form-item>
@@ -147,7 +147,7 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="姓名">
+          <el-form-item class="comright" label="姓名" :required="true">
             <el-input v-model="formData.contactName" :readonly="true">
             </el-input>
           </el-form-item>
@@ -167,7 +167,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="证件号码">
+          <el-form-item class="comright" label="证件号码" :required="true">
             <el-input v-model="formData.contactIdNum" :readonly="true">
             </el-input>
           </el-form-item>
@@ -246,13 +246,13 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="工商实名">
+          <el-form-item label="工商实名" :required="true">
             <uploadSmall v-if="fileNameN6.length > 0" @getfileName="getfileNameS" :fileName="isNone"
               :fileNameOld="fileNameN6" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="税务实名">
+          <el-form-item label="税务实名" :required="true">
             <uploadSmall v-if="fileNameN7.length > 0" @getfileName="getfileNameS" :fileName="isNone"
               :fileNameOld="fileNameN7" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
@@ -262,7 +262,7 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="身份证扫描件">
+          <el-form-item label="身份证扫描件" :required="true">
             <uploadSmall v-if="fileNameN5.length > 0" @getfileName="getfileNameS" :fileName="isNone"
               :fileNameOld="fileNameN5" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
@@ -288,7 +288,7 @@
           <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
             <el-input v-model="formData.legalPersonName" :readonly="true"></el-input>
           </el-form-item> -->
-          <el-form-item label="营业执照" prop="fileName1">
+          <el-form-item label="营业执照" prop="fileName1" :required="true">
              <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -296,7 +296,7 @@
           <!-- <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input v-model="formData.taxId" :readonly="true"></el-input>
           </el-form-item> -->
-          <el-form-item class="comright" label="注册时间" prop="businessTerm">
+          <el-form-item class="comright" label="注册时间" :required="true">
             <el-date-picker disabled style="width:100%" v-model="formData.businessTerm" type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -326,7 +326,7 @@
               :readonly="true"
             ></el-input>
           </el-form-item> -->
-          <el-form-item label="核定通知书" prop="fileName2">
+          <el-form-item label="核定通知书" :required="true">
              <uploadSmall v-if="fileNameN2.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -373,14 +373,14 @@
       <el-row class="paddingbg-s">
          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==1">
             <el-col :span="9">
-              <el-form-item class="comright" label="账号类型" prop="">
+              <el-form-item class="comright" label="账号类型" :required="true">
                 <el-input
                  value="私人账号"
                   disabled
                 ></el-input>
               </el-form-item>
 
-              <el-form-item class="comright" label="开户银行" prop="privateDepositBank">
+              <el-form-item class="comright" label="开户银行" :required="true">
                 <el-input
                   v-model="formData.privateDepositBank"
                   :readonly="true"
@@ -389,13 +389,13 @@
             </el-col>
 
             <el-col :span="9">
-              <el-form-item class="comright" label="账号名称" prop="legalPersonName">
+              <el-form-item class="comright" label="账号名称" :required="true">
                 <el-input
                  v-model="formData.legalPersonName"
                   :readonly="true"
                 ></el-input>
               </el-form-item>
-              <el-form-item class="comright" label="银行账号" prop="privateAccountNumber">
+              <el-form-item class="comright" label="银行账号" :required="true">
                 <el-input
                   v-model="formData.privateAccountNumber"
                   :readonly="true"
@@ -405,7 +405,7 @@
           </el-row>
          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==2">
             <el-col :span="9">
-               <el-form-item class="comright" label="账号类型" prop="">
+               <el-form-item class="comright" label="账号类型" :required="true">
                 <el-input
                   value="对公基本户"
                   :readonly="true"
@@ -475,7 +475,10 @@
             <el-input v-model="formData.accountName"></el-input>
           
           </el-form-item> -->
-          <el-form-item class="comright" label="户名" prop="accountName">
+            <el-form-item class="comright" label="开户银行" :required="true">
+            <el-input  disabled v-model="formData.publicDepositBank3" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="户名" :required="true">
               <el-select
              disabled
                style="width:100%"
@@ -494,16 +497,14 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input  disabled v-model="formData.publicDepositBank3" :readonly="true"></el-input>
-          </el-form-item>
-          <el-form-item  label="纳税委托协议" prop="fileName3">
+        
+          <el-form-item  label="纳税委托协议" :required="true">
               <uploadSmall v-if="fileNameN3.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         
         <el-col :span="9">
-          <el-form-item class="comright" label="银行账号" prop="publicAccountNumber3">
+          <el-form-item class="comright" label="银行账号" :required="true">
             <el-input
              
               disabled
@@ -515,7 +516,7 @@
           </el-form-item>
      
         
-          <el-form-item label="三方协议签约凭证" prop="fileName4">
+          <el-form-item label="三方协议签约凭证" :required="true">
               <uploadSmall v-if="fileNameN4.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN4" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -664,8 +665,8 @@
           <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="单独结算" :required="true">
-              <el-radio v-model="formData.isSelfCount" label="0">是</el-radio>
-              <el-radio v-model="formData.isSelfCount" label="1">否</el-radio>
+              <el-radio disabled v-model="formData.isSelfCount" label="0">是</el-radio>
+              <el-radio disabled v-model="formData.isSelfCount" label="1">否</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="9">
