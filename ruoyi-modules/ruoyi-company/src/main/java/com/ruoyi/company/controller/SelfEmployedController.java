@@ -121,28 +121,40 @@ public class SelfEmployedController extends BaseController
             list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
         if (selfEmployedVo.getType()==4){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
             selfEmployedVo.setBusinessStatus(0L);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
             selfEmployedVo.setBusinessStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setBusinessStatus(2L);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
         if (selfEmployedVo.getType()==5){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
             selfEmployedVo.setTaxStatus(0L);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
             selfEmployedVo.setTaxStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setTaxStatus(2L);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
         if (selfEmployedVo.getType()==6){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
             selfEmployedVo.setBankStatus(0L);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setBankStatus(0L);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setBankStatus(0L);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
 
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
