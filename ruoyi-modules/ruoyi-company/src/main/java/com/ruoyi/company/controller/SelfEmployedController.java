@@ -93,12 +93,57 @@ public class SelfEmployedController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
             }
         }
-        selfEmployedVo.setEndStatus(0);
-        List<SelfEmployedVo> list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-        selfEmployedVo.setEndStatus(1);
-        List<SelfEmployedVo> list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-        selfEmployedVo.setEndStatus(2);
-        List<SelfEmployedVo> list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        List<SelfEmployedVo> list1 =new ArrayList<>();
+        List<SelfEmployedVo> list2 =new ArrayList<>();
+        List<SelfEmployedVo> list3 =new ArrayList<>();
+        if (selfEmployedVo.getType()==1){
+            selfEmployedVo.setEndStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setEndStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setEndStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==2){
+            selfEmployedVo.setNameStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==3){
+            selfEmployedVo.setInfoStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setInfoStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setInfoStatus(2L);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==4){
+            selfEmployedVo.setBusinessStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setBusinessStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setBusinessStatus(2L);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==5){
+            selfEmployedVo.setTaxStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setTaxStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setTaxStatus(2L);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==6){
+            selfEmployedVo.setBankStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setBankStatus(0L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setBankStatus(0L);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
 
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());

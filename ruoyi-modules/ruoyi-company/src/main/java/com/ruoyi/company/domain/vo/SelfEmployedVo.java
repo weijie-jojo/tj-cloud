@@ -7,6 +7,10 @@ import java.util.Date;
 
 @Data
 public class SelfEmployedVo extends SelfEmployed {
+
+    /** 根据type判断获取count */
+    private Integer type;
+
     /** 创建时间 */
     private String start;
 
