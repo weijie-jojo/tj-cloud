@@ -12,12 +12,6 @@
       <el-form-item label="业务经理">
         <el-input v-model="queryParams.username" placeholder="请输入业务经理" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <!-- <el-form-item label="审核状态">
-        <el-select clearable v-model="queryParams.infoStatus" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -25,40 +19,24 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-    <el-col :span="15">
-     <el-tabs v-model="infoStatus" @tab-click="handleClick">
-     <el-tab-pane :label="alabels" name="-1"></el-tab-pane>
-     <el-tab-pane :label="alabels1" name="2"></el-tab-pane>
-     <el-tab-pane :label="alabels2" name="0"></el-tab-pane>
-     <el-tab-pane :label="alabels3" name="1"></el-tab-pane>
-     </el-tabs>
-     </el-col>
-      <!-- <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['company:employed:add']">新增</el-button>
+      <el-col :span="15">
+        <el-tabs v-model="infoStatus" @tab-click="handleClick">
+          <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+          <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+          <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+          <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
+        </el-tabs>
       </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['company:employed:edit']">修改</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['company:employed:remove']">删除</el-button>
-      </el-col> -->
-      <!-- <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['company:employed:export']">导出</el-button>
-      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-     
+
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-       <el-table-column label="提交时间" align="center" prop="createTime" >
-           <template slot-scope="scope">
-             {{scope.row.createTime | filterTime}}
+      <el-table-column label="提交时间" align="center" prop="createTime">
+        <template slot-scope="scope">
+          {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
       <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
@@ -69,14 +47,15 @@
           <el-link :underline="false" type="danger" v-if="scope.row.infoStatus == '2'">异常</el-link>
           <el-link :underline="false" type="success" v-if="scope.row.infoStatus == '1'">完成</el-link>
         </template>
-      </el-table-column> 
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <el-button size="mini" v-if="scope.row.infoStatus == 0" type="text" icon="el-icon-info"
             @click="bank(scope.row)">审核信息</el-button>
-          <el-button size="mini" v-else icon="el-icon-info" style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
-         </template>
+          <el-button size="mini" v-else icon="el-icon-info"
+            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
+        </template>
       </el-table-column>
     </el-table>
 
@@ -89,17 +68,17 @@
 
 <script>
 import moment from 'moment'
-import { joinList2, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList, getCount} from "@/api/company/employed";
 
 export default {
-  name: "Employed",
+  name: "manageInfo",
   data() {
     return {
-      alabels: '全部',
-      alabels1: '异常',
-      alabels2: '审核中',
-      alabels3: '完成',
-      infoStatus:'-1',
+      allLabel: '全部',
+      errLabel: '异常',
+      loadingLabel: '审核中',
+      finishLabel: '完成',
+      infoStatus: '0',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -120,7 +99,8 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
-        infoStatus: null,
+        type:3,
+        infoStatus: 0,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
@@ -150,46 +130,29 @@ export default {
       }
     };
   },
-  created() {
-    this.getBang();
-    this.getErr();
+  mounted() {
     this.getList();
   },
-   filters: {
+  filters: {
     filterTime(time) {
-     return moment(time).format('YYYY-MM-DD')
+      return moment(time).format('YYYY-MM-DD')
     },
   },
   methods: {
-    getBang() {
-      let params = {
-        infoStatus: 0
+
+    handleClick(tab, event) {
+      if (this.infoStatus == '-1') {
+        this.queryParams.infoStatus = null;
+      } else {
+        this.queryParams.infoStatus = this.infoStatus;
       }
-      joinList2(params).then(res => {
-        this.alabels2 = "审核中(" + res.total + ")";
-      });
-    },
-    getErr() {
-      let params = {
-        infoStatus: 2
-      }
-      joinList2(params).then(res => {
-        this.alabels1 = "异常(" + res.total + ")";
-      });
-    },
-     handleClick(tab, event) {
-     if(this.infoStatus=='-1'){
-      this.queryParams.infoStatus=null;
-     }else{
-      this.queryParams.infoStatus=this.infoStatus;
-     }
-      this.queryParams.pageNum=1;
+      this.queryParams.pageNum = 1;
       this.getList();
-      },
+    },
     detail(row) {
-      let obj={
-         backUrl:'/company/customer/manageInfo',
-        };
+      let obj = {
+        backUrl: '/company/customer/manageInfo',
+      };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON('employedInfo', row);
       this.$tab.openPage("信息列表查看", "/company/customer/infodetail");
@@ -199,52 +162,20 @@ export default {
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-      joinList2(this.queryParams).then(response => {
+      getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "审核中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+      joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        placeName: null,
-        selfId: null,
-        selfKey: null,
-        placeCode: null,
-        taxId: null,
-        selfAddress: null,
-        selfName: null,
-        legalPersonName: null,
-        idCardNum: null,
-        password: null,
-        status: 0,
-        remark: null,
-        userId: null,
-        expStatus: 0,
-        maximum: null,
-        registerTime: null,
-        industryType: null,
-        organizationalForm: null,
-        numberEmployees: null,
-        contributionAmount: null,
-        city: null,
-        county: null,
-        electronicCommerce: null,
-        freeTradeZone: null,
-        freeTradeArea: null,
-        propertyRight: null,
-        industry: null,
-        natureBusiness: null
-      };
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -252,8 +183,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.infoStatus='-1';
-      this.queryParams.infoStatus=null;
+      this.infoStatus = '0';
+      this.queryParams.infoStatus = 0;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -266,71 +197,19 @@ export default {
 
     bank(row) {
       this.$cache.local.setJSON('employedInfo', row);
-        let obj = {
-            title: '信息审核',
-            backUrl: '/company/customer/manageInfo',
-            resmsg: '信息审核完成'
-       }
+      let obj = {
+        title: '信息审核',
+        backUrl: '/company/customer/manageInfo',
+        resmsg: '信息审核完成'
+      }
       this.$cache.local.setJSON('successNew', obj);
       this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加个体商户";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const selfId = row.selfId || this.ids
-      getEmployed(selfId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改个体商户";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.selfId != null) {
-            updateEmployed(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addEmployed(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const selfIds = row.selfId || this.ids;
-      this.$modal.confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？').then(function () {
-        return delEmployed(selfIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => { });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('company/employed/export', {
-        ...this.queryParams
-      }, `employed_${new Date().getTime()}.xlsx`)
-    }
   }
 };
 </script>
 <style scoped>
-   ::v-deep .el-tabs__nav-wrap::after{
-        background-color:rgba(0,0,0,0) !important;
-   }
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 </style>

@@ -21,10 +21,10 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="15">
         <el-tabs v-model="endStatus" @tab-click="handleClick">
-          <el-tab-pane label="全部" name="-1"></el-tab-pane>
-          <el-tab-pane :label="alabels2" name="2"></el-tab-pane>
-          <el-tab-pane :label="alabels1" name="0"></el-tab-pane>
-          <el-tab-pane label="完成" name="1"></el-tab-pane>
+          <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+          <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+          <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+          <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
         </el-tabs>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -69,15 +69,17 @@
 
 <script>
 import moment from 'moment'
-import { joinList, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed } from "@/api/company/employed";
+import { joinList,getCount} from "@/api/company/employed";
 
 export default {
   name: "Employed",
   data() {
     return {
-      alabels2: '异常',
-      alabels1: '办理中',
-      endStatus: '-1',
+      allLabel: '全部',
+      errLabel: '异常',
+      loadingLabel: '审核中',
+      finishLabel: '完成',
+      endStatus: '0',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -104,7 +106,7 @@ export default {
         bankStatus: 1,
         // realnameStatus:1,
         taxStatus: 1,
-        endStatus: null,
+        endStatus: 0,
         pageNum: 1,
         pageSize: 10,
         placeName: null,
@@ -134,40 +136,10 @@ export default {
      return moment(time).format('YYYY-MM-DD')
     },
   },
-  created() {
-    this.getBang();
-    this.getErr();
+  mounted() {
     this.getList();
   },
   methods: {
-    getBang() {
-      let params = {
-        nameStatus: 1,
-        infoStatus: 1,
-        businessStatus: 1,
-        bankStatus: 1,
-        // realnameStatus:1,
-        taxStatus: 1,
-        endStatus: 0,
-      }
-      joinList(params).then(res => {
-        this.alabels2 = "审核中(" + res.total + ")";
-      });
-    },
-    getErr() {
-      let params = {
-        nameStatus: 1,
-        infoStatus: 1,
-        businessStatus: 1,
-        bankStatus: 1,
-        // realnameStatus:1,
-        taxStatus: 1,
-        endStatus: 2,
-      }
-      joinList(params).then(res => {
-        this.alabels1 = "异常(" + res.total + ")";
-      });
-    },
     handleClick(tab, event) {
       if (this.endStatus == '-1') {
         this.queryParams.endStatus = null;
@@ -187,10 +159,10 @@ export default {
       this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
     },
     look(row) {
-       let obj={
+      let obj={
          backUrl:'/company/customer/employedConfirm',
         };
-       this.$cache.local.setJSON('backurls',obj);
+      this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
       this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
     },
@@ -198,13 +170,19 @@ export default {
       let obj={
          backUrl:'/company/customer/employedConfirm',
         };
-       this.$cache.local.setJSON('backurls',obj);
+      this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
       this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
     },
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
+       getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "审核中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
       joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
@@ -212,45 +190,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        placeName: null,
-        selfId: null,
-        selfKey: null,
-        placeCode: null,
-        taxId: null,
-        selfAddress: null,
-        selfName: null,
-        legalPersonName: null,
-        idCardNum: null,
-        password: null,
-        status: 0,
-        remark: null,
-        userId: null,
-        expStatus: 0,
-        maximum: null,
-        registerTime: null,
-        industryType: null,
-        organizationalForm: null,
-        numberEmployees: null,
-        contributionAmount: null,
-        city: null,
-        county: null,
-        electronicCommerce: null,
-        freeTradeZone: null,
-        freeTradeArea: null,
-        propertyRight: null,
-        industry: null,
-        natureBusiness: null
-      };
-      this.resetForm("form");
-    },
+    
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -258,8 +198,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.endStatus = '-1';
-      this.queryParams.endStatus = null;
+      this.endStatus = '0';
+      this.queryParams.endStatus = 0;
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -269,61 +209,7 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-
-
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加个体商户";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const selfId = row.selfId || this.ids
-      getEmployed(selfId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改个体商户";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.selfId != null) {
-            updateEmployed(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addEmployed(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const selfIds = row.selfId || this.ids;
-      this.$modal.confirm('是否确认删除个体商户编号为"' + selfIds + '"的数据项？').then(function () {
-        return delEmployed(selfIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => { });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('company/employed/export', {
-        ...this.queryParams
-      }, `employed_${new Date().getTime()}.xlsx`)
-    }
-  }
+   }
 };
 </script>
 <style scoped>

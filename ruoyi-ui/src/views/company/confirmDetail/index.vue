@@ -1577,7 +1577,9 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl });
+       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl }).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl });
+      })
     },
       nailist() {
       all()

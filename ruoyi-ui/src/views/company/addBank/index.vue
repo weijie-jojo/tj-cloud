@@ -1,7 +1,8 @@
 <template>
   <div class="paddingbg-s">
     <el-form ref="formBank" :model="formBank" :rules="rules" label-width="auto">
-      <el-row type="flex" class="row-bg " justify="space-around">
+   
+   <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
             <el-input v-model="formBank.selfName" disabled></el-input>
@@ -18,17 +19,20 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss combottom" justify="space-around">
-        <el-col :span="7">
-          <div class="bankno">银行信息</div>
-
+   
+   <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width:35%">银行信息</div>
+          <div style="width:50%;hegiht:10px"></div>
         </el-col>
-        <el-col :span="7">
+        <el-col :span="9">
           <div></div>
         </el-col>
       </el-row>
+      
+    
 
-      <el-row class="paddingbg-s">
+      <el-row>
         <el-row type="flex" class="row-bg" justify="space-around" v-if="accountType == 1">
           <el-col :span="9">
             <el-form-item class="comright" label="账号类型" :required="true">
@@ -97,30 +101,32 @@
 
 
       </el-row>
-      <el-row type="flex" class="row-bg combottom" justify="space-around">
-        <el-col :span="7">
-          <div class="bankno">纳税信息</div>
+     <el-row type="flex" class="row-bg" style="margin-bottom:20px" justify="space-around">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width:35%">纳税信息</div>
+          <div style="width:50%;hegiht:10px"></div>
         </el-col>
-        <el-col :span="7">
-
+        <el-col :span="9">
+          <div></div>
         </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="户名" prop="accountName">
-            <!-- <el-input v-model="formBank.accountName"></el-input> -->
-            <el-select style="width:100%" @change="changeValue($event)" v-model="formBank.accountName" filterable
+          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
+            <el-select style="width:100%" @change="changeValue($event)" v-model="formBank.publicDepositBank3" filterable
               placeholder="请选择">
               <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
             </el-select>
+           
+          </el-form-item>
+          <el-form-item class="comright" label="户名" prop="accountName">
+             <el-input disabled v-model="formBank.accountName"></el-input>
+
           </el-form-item>
 
-          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input disabled v-model="formBank.publicDepositBank3"></el-input>
-
-          </el-form-item>
+          
           <el-form-item label="纳税委托协议" prop="fileName3">
              <uploadSmall  @getfileName="getTax" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
@@ -131,8 +137,8 @@
             <el-input disabled v-model="formBank.publicAccountNumber3"></el-input>
 
           </el-form-item>
-          <el-form-item style="color: rgba(0, 0, 0, 0)">
-            <br />
+          <el-form-item >
+            <div style="height:34px"></div>
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
             <uploadSmall  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
@@ -310,11 +316,9 @@ export default {
     },
     changeValue(res) {
       for (let i in this.mylist) {
-        if (this.mylist[i].accountName == res) {
-          this.formBank.publicDepositBank3 = this.mylist[i].publicDepositBank3;
-          this.formBank.publicAccountNumber3 =
-            this.mylist[i].publicAccountNumber3;
-          return;
+        if (this.mylist[i].publicDepositBank3 == res) {
+          this.formBank.accountName = this.mylist[i].accountName;
+          this.formBank.publicAccountNumber3 = this.mylist[i].publicAccountNumber3;
         }
       }
     },
@@ -327,7 +331,7 @@ export default {
             this.accountName_options = [];
             this.mylist = res;
             for (let i in res) {
-              this.accountName_options.push({ value: res[i].accountName });
+              this.accountName_options.push({ value: res[i].publicDepositBank3 });
               }
           }
         })
