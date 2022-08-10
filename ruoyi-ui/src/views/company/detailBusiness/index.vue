@@ -108,6 +108,9 @@ export default {
         fileName1: [
           { required: true, message: "请上传文件", trigger: "change" },
         ],
+        businessTerm:[{
+          required: true, message: "请选择注册时间", trigger: "change"
+        }]
       },
     };
   },

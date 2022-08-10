@@ -382,18 +382,10 @@
           </el-form-item>
         </el-col>
       </el-row> -->
-         <el-row type="flex" class="row-bg rowCss"  justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">银行账号</div>
-          <div style="width:50%;hegiht:10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
+       
      
       <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==1">
             <el-col :span="9">
               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -482,7 +474,7 @@
       </el-row>
           <el-row type="flex" class="row-bg rowCss"  justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">纳税账号</div>
+          <div class="bankno" style="width:35%">纳税信息</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -684,7 +676,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="行业税率">
+          <el-form-item class="comright" label="行业税率" :required="true">
             <el-input v-model="industryTax" :readonly="true">
             </el-input>
           </el-form-item>
@@ -1615,6 +1607,39 @@ export default {
          this.$modal.msgError("税率不能为空");
          return;
       }
+         if(this.formData.specialShareIsmoney=='1'){
+            if(this.formData.specialShare>100){
+                this.$alert('专票分润费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+            });
+                return;
+           }
+         }
+      if(this.formData.ordinaryShareIsmoney=='1'){
+            if( this.formData.ordinaryShare>100){
+               this.$alert('普票分润费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+            });
+                return;
+           }
+       }
+   
+      if(this.formData.specialProxyIsmoney=='1'){
+            if(this.formData.specialProxyFee>100){
+                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+              });
+                return;
+           }
+       }
+      if(this.formData.ordinaryProxyIsmoney=='1'){
+            if( this.formData.ordinaryProxyFee>100){
+                this.$alert('普票服务费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+              });
+                return;
+           }
+         }
        
       this.$refs['elForm'].validate(valid => {
         
@@ -1728,7 +1753,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.modal.msgError(error);
+          
         });
     },
 

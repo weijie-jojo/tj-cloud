@@ -41,7 +41,7 @@
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="办理状态" align="center" prop="">
         <template slot-scope="scope">
-          <el-link :underline="false" type="primary" v-if="scope.row.endStatus == 2">异常</el-link>
+          <el-link :underline="false" type="danger" v-if="scope.row.endStatus == 2">异常</el-link>
           <el-link :underline="false" type="primary" v-if="scope.row.endStatus == 0">办理中</el-link>
           <el-link :underline="false" type="success" v-if="scope.row.endStatus == 1">完成</el-link>
         </template>
@@ -187,10 +187,18 @@ export default {
       this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
     },
     look(row) {
+       let obj={
+         backUrl:'/company/customer/employedConfirm',
+        };
+       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
       this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
     },
     detail(row) {
+      let obj={
+         backUrl:'/company/customer/employedConfirm',
+        };
+       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
       this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
     },

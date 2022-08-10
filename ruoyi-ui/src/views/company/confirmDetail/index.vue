@@ -368,18 +368,10 @@
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
-        <el-col :span="7">
-           <div class="bankno">银行账号</div>
-        
-        </el-col>
-        <el-col :span="7" >
-          <div></div>
-        </el-col>
-      </el-row>
+    
      
       <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==1">
             <el-col :span="9">
               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -468,7 +460,7 @@
       </el-row>
       <el-row type="flex" class="row-bg combottom" justify="space-around">
         <el-col :span="7" >
-          <div class="bankno">纳税账号</div>
+          <div class="bankno">纳税信息</div>
         </el-col>
         <el-col :span="7" >
          
@@ -1479,12 +1471,12 @@ export default {
                       resmsg = '注册确认完成';
                       this.check('注册确认完成');
                     } else {
-                      this.check('注册确认完成未通过' + '(原因)' + this.remark);
+                      this.check('注册确认完成未通过。' + '原因:' + this.remark);
                       resmsg = '注册确认完成';
                     }
 
                     let obj = {
-                      title: '信息审核',
+                      title: '注册确认',
                       backUrl: '/company/customer/employed',
                       resmsg: resmsg
 
@@ -1585,7 +1577,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/company/customer/employedConfirm' });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl });
     },
       nailist() {
       all()
@@ -1605,7 +1597,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.modal.msgError(error);
+        
         });
     },
 

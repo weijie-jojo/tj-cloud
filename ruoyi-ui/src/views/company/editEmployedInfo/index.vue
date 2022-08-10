@@ -1504,6 +1504,40 @@ export default {
          this.$modal.msgError("税率不能为空");
          return;
       }
+
+         if(this.formData.specialShareIsmoney=='1'){
+            if(this.formData.specialShare>100){
+                this.$alert('专票分润费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+            });
+                return;
+           }
+         }
+      if(this.formData.ordinaryShareIsmoney=='1'){
+            if( this.formData.ordinaryShare>100){
+               this.$alert('普票分润费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+            });
+                return;
+           }
+       }
+   
+      if(this.formData.specialProxyIsmoney=='1'){
+            if(this.formData.specialProxyFee>100){
+                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+              });
+                return;
+           }
+       }
+      if(this.formData.ordinaryProxyIsmoney=='1'){
+            if( this.formData.ordinaryProxyFee>100){
+                this.$alert('普票服务费按百分比不能大于100%', '提示', {
+               confirmButtonText: '确定',
+              });
+                return;
+           }
+         }
     
       this.$refs['elForm'].validate(valid => {
         

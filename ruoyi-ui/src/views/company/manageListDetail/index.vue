@@ -368,18 +368,10 @@
           </el-form-item>
         </el-col>
       </el-row> -->
-         <el-row type="flex" class="row-bg rowCss"  justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">银行账号</div>
-          <div style="width:50%;hegiht:10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
+       
      
       <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType==1">
             <el-col :span="9">
               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -468,7 +460,7 @@
       </el-row>
           <el-row type="flex" class="row-bg rowCss"  justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">纳税账号</div>
+          <div class="bankno" style="width:35%">纳税信息</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -662,7 +654,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="行业税率">
+          <el-form-item class="comright" label="行业税率" :required="true">
             <el-input v-model="industryTax" :readonly="true">
             </el-input>
           </el-form-item>
@@ -1449,7 +1441,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.modal.msgError(error);
+         
         });
     },
 

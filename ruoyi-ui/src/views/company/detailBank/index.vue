@@ -25,7 +25,7 @@
       </el-row>
        <el-row type="flex" class="row-bg rowCss combottom"  justify="space-around">
         <el-col :span="7">
-           <div class="bankno">银行账号</div>
+           <div class="bankno">银行信息</div>
         
         </el-col>
         <el-col :span="7" >
@@ -34,7 +34,7 @@
       </el-row>
      
       <el-row class="paddingbg-s">
-         <el-row type="flex" class="row-bg" justify="space-around">
+         <el-row type="flex" class="row-bg" justify="space-around" v-if="accountType==1">
             <el-col :span="9">
               <el-form-item class="comright" label="账号类型" prop="">
                 <el-input
@@ -123,7 +123,7 @@
       </el-row>
       <el-row type="flex" class="row-bg combottom" justify="space-around">
         <el-col :span="7" >
-          <div class="bankno">纳税账号</div>
+          <div class="bankno">纳税信息</div>
         </el-col>
         <el-col :span="7" >
          
@@ -370,7 +370,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.modal.msgError(error);
+        
         });
     },
     handleChange(val) {
