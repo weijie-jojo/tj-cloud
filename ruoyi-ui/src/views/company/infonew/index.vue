@@ -383,6 +383,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名">
@@ -406,7 +407,7 @@
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
-        <el-row type="flex" class="row-bg " justify="space-around">
+        <!-- <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">
            <div class="bankno" style="width:35%">结算信息</div>
           <div style="width:50%;hegiht:10px"></div>
@@ -596,7 +597,7 @@
           </el-col>
          </el-collapse-item>
 
-        </el-collapse>
+        </el-collapse> -->
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9" class="flexs">

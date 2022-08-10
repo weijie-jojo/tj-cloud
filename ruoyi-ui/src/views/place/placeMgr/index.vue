@@ -1409,7 +1409,7 @@ export default {
       this.$refs["form"].validate((valid) => {
            if(this.ruleForm.specialShareIsmoney=='1'){
             if(this.ruleForm.specialShare>100){
-                this.$alert('专票分润费百分比不能大于100', '提示', {
+                this.$alert('专票分润费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
             });
                 return;
@@ -1417,7 +1417,7 @@ export default {
          }
       if(this.ruleForm.ordinaryShareIsmoney=='1'){
             if( this.ruleForm.ordinaryShare>100){
-               this.$alert('普票分润费百分比不能大于100', '提示', {
+               this.$alert('普票分润费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
             });
                 return;
@@ -1426,7 +1426,7 @@ export default {
    
       if(this.ruleForm.specialProxyIsmoney=='1'){
             if(this.ruleForm.specialProxyFee>100){
-                 this.$alert('专票服务费百分比不能大于100', '提示', {
+                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
               });
                 return;
@@ -1434,7 +1434,7 @@ export default {
        }
       if(this.ruleForm.ordinaryProxyIsmoney=='1'){
             if( this.ruleForm.ordinaryProxyFee>100){
-                this.$alert('普票服务费百分比不能大于100', '提示', {
+                this.$alert('普票服务费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
               });
                 return;
@@ -1552,7 +1552,7 @@ export default {
       this.$refs['form'].validate((valid) => {
                if(this.ruleForm.editSpecialShareIsmoney=='1'){
             if(this.ruleForm.editSpecialShare>100){
-                this.$alert('专票分润费百分比不能大于100', '提示', {
+                this.$alert('专票分润费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
             });
                 return;
@@ -1560,7 +1560,7 @@ export default {
          }
       if(this.ruleForm.editOrdinaryShareIsmoney=='1'){
             if( this.ruleForm.editOrdinaryShare>100){
-               this.$alert('普票分润费百分比不能大于100', '提示', {
+               this.$alert('普票分润费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
             });
                 return;
@@ -1569,7 +1569,7 @@ export default {
    
       if(this.ruleForm.editSpecialProxyIsmoney=='1'){
             if(this.ruleForm.editSpecialProxyFee>100){
-                 this.$alert('专票服务费百分比不能大于100', '提示', {
+                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
               });
                 return;
@@ -1577,7 +1577,7 @@ export default {
        }
       if(this.ruleForm.editOrdinaryProxyIsmoney=='1'){
             if( this.ruleForm.editOrdinaryProxyFee>100){
-                this.$alert('普票服务费百分比不能大于100', '提示', {
+                this.$alert('普票服务费按百分比不能大于100%', '提示', {
                confirmButtonText: '确定',
               });
                 return;

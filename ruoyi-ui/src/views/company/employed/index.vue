@@ -41,9 +41,9 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+    <el-button v-hasPermi="['company:employed:add']"  type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
     <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini"
-      :disabled="multiple" @click="handleDelete">删除</el-button>
+      :disabled="multiple" v-hasPermi="['company:employed:del']" @click="handleDelete">删除</el-button>
 
 
 
@@ -143,6 +143,21 @@
             完成</el-link>
         </template>
       </el-table-column>
+         <el-table-column label="注册确认" align="center">
+        <template slot-scope="scope">
+          <el-link :underline="false" type="info"
+            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0">
+            未开始</el-link>
+          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 7)"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 && scope.row.endStatus==0">
+            办理中</el-link>
+          <el-link :underline="false" @click="finishConfirms(scope.row, scope.row.selfCode)" type="success"
+            v-if="scope.row.endStatus==1">
+            完成</el-link>
+           <el-link @click="errConfirms(scope.row, scope.row.selfCode,scope.row.userId)" :underline="false" type="danger"
+            v-if="scope.row.endStatus == 2">异常</el-link>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
@@ -158,7 +173,7 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称详情" :visible.sync="nameVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称审核详情" :visible.sync="nameVisible" width="70%">
       <el-table :data="nameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -199,7 +214,22 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息详情" :visible.sync="infoVisible" width="70%">
+    
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="注册确认异常说明" :visible.sync="errsConfirmVisible"
+      width="70%">
+      <el-table :data="errsConfirmList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="errsConfirmVisible = false">关闭</el-button>
+        <el-button type="primary" @click="errConfirmsDetail">{{errConfirmsMsg}}</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息审核详情" :visible.sync="infoVisible" width="70%">
       <el-table :data="infoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -226,7 +256,7 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="工商详情" :visible.sync="busVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="工商办理详情" :visible.sync="busVisible" width="70%">
       <el-table :data="busList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -240,7 +270,7 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="税务详情" :visible.sync="taxVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="税务办理详情" :visible.sync="taxVisible" width="70%">
       <el-table :data="taxList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -253,7 +283,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="银行详情" :visible.sync="bankVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="银行办理详情" :visible.sync="bankVisible" width="70%">
       <el-table :data="bankList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -263,6 +293,19 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="bankVisible = false">关闭</el-button>
         <el-button type="primary" @click="bankDetail">查看</el-button>
+      </span>
+    </el-dialog>
+
+       <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="注册确认详情" :visible.sync="confirmVisible" width="70%">
+      <el-table :data="confirmList">
+        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="用户" align="center" prop="checkUser" />
+        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="confirmVisible = false">关闭</el-button>
+        <el-button type="primary" @click="confirmDetail">查看</el-button>
       </span>
     </el-dialog>
 
@@ -280,6 +323,7 @@ export default {
   name: "Employed",
   data() {
     return {
+       errConfirmsMsg:'查看',
       errNameMsg:'查看',
       errInfoMsg:'查看',
       alabels: '全部',
@@ -315,6 +359,8 @@ export default {
         }]
       },
       multipleSelection: [],
+      confirmList:[],
+      errsConfirmList: [],//注册数据异常
       exmList: [],//等待数据
       errsinfoList: [],//信息数据异常
       errsnameList: [],//名称数据异常
@@ -325,6 +371,7 @@ export default {
       busList: [],//工商数据
       taxList: [],//税务数据
       bankList: [],//银行数据
+      confirmVisible: false, //注册确认
       exmVisible: false, //等待弹框
       bankVisible: false, //银行弹框
       taxVisible: false, //税务弹框
@@ -335,6 +382,7 @@ export default {
       dialogVisible: false, //进度弹框
       errsnameVisible: false, //名称弹框异常
       errsinfoVisible: false, //信息弹框异常
+     errsConfirmVisible: false, //注册异常
       // 遮罩层
       loading: true,
       // 选中数组
@@ -362,7 +410,7 @@ export default {
         placeName: null,
         legalPersonName: null,
         userId: null,
-        endStatus: '',
+        endStatus: 0,
         start: null,
         end: null,
       },
@@ -381,11 +429,7 @@ export default {
   },
   created() {
     this.getLoginInfo();
-    // this.getBang();
-    // this.getErr();
     this.getList();
-    //this.getUser();
-    
   },
 
   methods: {
@@ -467,15 +511,18 @@ export default {
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$router.push("detailTax");
                 break;
-
-              case 6:
+               case 6:
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$router.push("detailBank");
                 break;
+               case 7:
+                this.$cache.local.setJSON("employedInfo", scope);
+                this.$router.push("confirmS");
+                break;  
 
             }
           } else {
-            console.log(2222,type);
+            
             switch (type) {
               case 1:
                  let obj = {
@@ -488,12 +535,12 @@ export default {
                 this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
                 break;
               case 2:
-                 let objs = {
+                 let obj1 = {
                   title: '信息审核',
                   backUrl: '/company/customer/employed',
                   resmsg: '信息审核完成'
                 }
-                this.$cache.local.setJSON('successNew', objs);
+                this.$cache.local.setJSON('successNew', obj1);
                 this.$cache.local.setJSON('employedInfo', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
                 break;
@@ -511,24 +558,34 @@ export default {
                 this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
                 break;
               case 5:
-                  let obj1 = {
+                  let obj3 = {
                   title: '税务办理',
                   backUrl: '/company/customer/employed',
                   resmsg: '税务办理完成'
                 }
-                this.$cache.local.setJSON('successNew', obj1);
+                this.$cache.local.setJSON('successNew', obj3);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/addTax" });
                 break;
               case 6:
-                  let obj5 = {
+                  let obj4 = {
                   title: '银行办理',
                   backUrl: '/company/customer/employed',
                   resmsg: '银行办理完成'
                 }
-                this.$cache.local.setJSON('successNew', obj5);
+                this.$cache.local.setJSON('successNew', obj4);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.closeOpenPage({ path: "/company/customer/addBank" });
+                break;
+                 case 7:
+                  let obj5 = {
+                  title: '注册确认',
+                  backUrl: '/company/customer/employed',
+                  resmsg: '注册确认完成'
+                }
+                this.$cache.local.setJSON('successNew', obj5);
+                this.$cache.local.setJSON('employedInfo', scope);
+                this.$tab.closeOpenPage({ path: "/company/customer/confirmDetail" });
                 break;
 
             }
@@ -541,6 +598,24 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+    },
+     //注册确认完成
+    finishConfirms(scope, selfCode) {
+      this.checkConfirms(selfCode);
+      this.$cache.local.setJSON("employedInfo", scope);
+    },
+    //注册确认
+    checkConfirms(arr) {
+      this.confirmList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 8,
+      }
+      //注册进度
+      checkdetail(parms).then(res => {
+        this.confirmList = res.rows;
+        this.confirmVisible = true;
+      });
     },
     //进度弹框
     progressNew(code) {
@@ -558,6 +633,7 @@ export default {
 
       });
     },
+    
     //名称进度
     checkName(arr) {
       this.nameList = [];
@@ -679,7 +755,37 @@ export default {
     unfinish() {
 
     },
+    //异常注册确认
+    errConfirms(scope, selfCode,applyName) {
+       let obj={
+         backUrl:'/company/customer/employed',
+        };
+         this.$cache.local.setJSON('backurls', obj);
+       getUser(applyName).then(res =>{
+         if(this.userinfo.userId==res.data.userId){
+              this.errConfirmsMsg='修改';
+         }else{
+             this.errConfirmsMsg='查看';
+         }
+        this.$cache.local.setJSON('employedInfo', scope);
+        this.checkConfirmss(selfCode);
+        
+      });
+    },
 
+      //异常名称进度
+    checkConfirmss(arr) {
+      this.errsConfirmList = [];
+      let parms = {
+        selfCode: arr,
+        selfType: 8,
+      }
+      //异常名称进度
+      checkdetail(parms).then(res => {
+        this.errsConfirmList = res.rows;
+        this.errsConfirmVisible = true;
+      });
+    },
 
     //异常名称
     errName(scope, selfCode,applyName) {
@@ -716,7 +822,15 @@ export default {
       });
     
     },
-
+    errConfirmsDetail(){
+       this.errsConfirmVisible = false;
+      if(this.errConfirmsMsg=='修改'){
+        this.$tab.closeOpenPage( {path:'/company/customer/manageListDdit'} );
+        
+      }else{
+        this.$router.push("confirmS");
+      }
+    },
     errsnameDetail() {
       this.errsnameVisible = false;
       if(this.errNameMsg=='修改'){
@@ -735,6 +849,11 @@ export default {
       }
       
     },
+
+
+
+
+
     check(self_code, self_type) {
       let parms = {
         selfCode: self_code,
@@ -766,6 +885,7 @@ export default {
       this.$cache.local.setJSON('employedInfo', scope);
 
     },
+    
 
     //信息详情
     infoDetail() {
@@ -789,6 +909,16 @@ export default {
     cerDetail() {
       this.cerVisible = false;
       this.$router.push("detailCer");
+    },
+    //注册确认详情
+    confirmDetail(){
+        this.confirmVisible=false;
+        let obj={
+         backUrl:'/company/customer/employed',
+        };
+       this.$cache.local.setJSON('backurls',obj);
+      
+       this.$router.push("confirmS");
     },
 
     //办理工商 已完成
@@ -845,22 +975,7 @@ export default {
       this.$cache.local.setJSON('backurls', obj);
       this.$router.push("detailBank");
     },
-    getBang() {
-      let params = {
-        endStatus: 0
-      }
-      joinList(params).then(res => {
-        this.alabels2 = "办理中(" + res.total + ")";
-      });
-    },
-    getErr() {
-      let params = {
-        endStatus: 2
-      }
-      joinList(params).then(res => {
-        this.alabels1 = "异常(" + res.total + ")";
-      });
-    },
+    
 
     /** 查询个体商户列表 */
     getList() {
