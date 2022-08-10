@@ -147,6 +147,7 @@ public class SelfEmployedController extends BaseController
             }
         }
         startPage();
+        System.out.println("getEndStatus=="+selfEmployedVo.getEndStatus());
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
