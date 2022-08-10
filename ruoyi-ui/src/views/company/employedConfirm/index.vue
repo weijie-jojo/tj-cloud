@@ -174,20 +174,23 @@ export default {
       this.$cache.local.setJSON("employedInfo", row);
       this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
     },
+      getCount(){
+         getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+     },
     /** 查询个体商户列表 */
     getList() {
       this.loading = true;
-       getCount(this.queryParams).then(res => {
-        this.errLabel = "异常(" + res.error + ")";
-        this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "审核中(" + res.unfinished + ")";
-        this.finishLabel = "完成(" + res.finished + ")";
-      });
       joinList(this.queryParams).then(response => {
 
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
+        this.getCount();
       });
     },
     
