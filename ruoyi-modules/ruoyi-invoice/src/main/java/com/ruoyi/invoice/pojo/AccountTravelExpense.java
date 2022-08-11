@@ -197,6 +197,10 @@ public class AccountTravelExpense implements Serializable {
     @ApiModelProperty(value = "财务影像")
     private String expenseImage2;
 
+    @Column(name = "step_type")
+    @ApiModelProperty(value = "进度状态（1 办理中、2 完成、3 异常）")
+    private Integer stepType;
+
 //    public void copy(AccountTravelExpense source){
 //        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
 //    }

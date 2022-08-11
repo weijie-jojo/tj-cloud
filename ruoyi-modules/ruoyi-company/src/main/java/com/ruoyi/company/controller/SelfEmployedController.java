@@ -1,9 +1,7 @@
 package com.ruoyi.company.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -60,6 +58,138 @@ public class SelfEmployedController extends BaseController
     /**
      * 连表查询
      */
+    @ApiOperation("获取三个状态的数量")
+//    @RequiresPermissions("company:employed:list")
+    @GetMapping("/getCount")
+    public HashMap<String, Integer> selectEmployedJoinCount(SelfEmployedVo selfEmployedVo)
+    {
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//部门主管
+                System.out.println("部门主管");
+//                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+//                    userIdArr.add(userVo.getUserId());
+//                }
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==11){//文员
+                System.out.println("文员");
+                userIdArr=null;
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
+            }
+        }
+        List<SelfEmployedVo> list1 =new ArrayList<>();
+        List<SelfEmployedVo> list2 =new ArrayList<>();
+        List<SelfEmployedVo> list3 =new ArrayList<>();
+        if (selfEmployedVo.getType()==1){
+            selfEmployedVo.setEndStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setEndStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setEndStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==2){
+            selfEmployedVo.setNameStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==3){
+            selfEmployedVo.setInfoStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setInfoStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setInfoStatus(2L);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==4){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==5){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==6){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(0L);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        if (selfEmployedVo.getType()==7){
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(0);
+            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(1);
+            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            selfEmployedVo.setNameStatus(1);
+            selfEmployedVo.setInfoStatus(1L);
+            selfEmployedVo.setBusinessStatus(1L);
+            selfEmployedVo.setTaxStatus(1L);
+            selfEmployedVo.setBankStatus(1L);
+            selfEmployedVo.setEndStatus(2);
+            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        }
+        HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
+        datasMap.put("unfinished", list1.size());
+        datasMap.put("finished", list2.size());
+        datasMap.put("error", list3.size());
+        datasMap.put("total", list1.size()+list2.size()+list3.size());
+        return datasMap;
+    }
+
+    /**
+     * 连表查询
+     */
     @ApiOperation("连表查询")
 //    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinList")
@@ -96,6 +226,7 @@ public class SelfEmployedController extends BaseController
             }
         }
         startPage();
+        System.out.println("getEndStatus=="+selfEmployedVo.getEndStatus());
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
@@ -244,16 +375,16 @@ public class SelfEmployedController extends BaseController
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
         int num=selfEmployedService.updateSelfEmployed(selfEmployed);
-        SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
-        if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
-            //全部完结
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SelfEmployed selfEmployed1=new SelfEmployed();
-            selfEmployed1.setSelfId(selfEmployed.getSelfId());
-            selfEmployed1.setEndTime(df.format(new Date()));
-            selfEmployed1.setEndStatus(1);
-            selfEmployedService.updateSelfEmployed(selfEmployed1);
-        }
+//        SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
+//        if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
+//            //全部完结
+//            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            SelfEmployed selfEmployed1=new SelfEmployed();
+//            selfEmployed1.setSelfId(selfEmployed.getSelfId());
+//            selfEmployed1.setEndTime(df.format(new Date()));
+//            selfEmployed1.setEndStatus(1);
+//            selfEmployedService.updateSelfEmployed(selfEmployed1);
+//        }
         return toAjax(num);
     }
 
@@ -271,7 +402,10 @@ public class SelfEmployedController extends BaseController
             selfEmployedService.deleteSelfNameReviewBySelfCode(selfCode);
             selfEmployedService.deleteSelfLegalPersonBySelfCode(selfCode);
             selfEmployedService.deleteSelfApplicationInfoBySelfCode(selfCode);
+            selfEmployedService.deleteSelfEmployedBySelfCode(selfCode);
+            selfEmployedService.deleteSelfCheckBySelfCode(selfCode);
         };
-        return toAjax(selfEmployedService.deleteSelfEmployedBySelfIds(selfIds));
+
+        return toAjax(200);
     }
 }

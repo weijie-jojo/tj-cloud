@@ -37,7 +37,7 @@ module.exports = {
       // http://localhost:8080
       // http://36.133.2.179:8080
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://36.133.2.179:8080`,
+        target: `http://localhost:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -45,23 +45,23 @@ module.exports = {
       },
       // '/pdf': {
       //   target: 'http://36.133.2.179:8087/txt',
-      //   changOrigin: true,  
+      //   changOrigin: true,
       //   pathRewrite: {
-      //       '^/pdf': ''  
-      //   } 
+      //       '^/pdf': ''
+      //   }
       // },
       '/eladmin': {
         target: 'http://36.133.2.179:8000',
-        changOrigin: true,  
+        changOrigin: true,
         pathRewrite: {
-         '^/eladmin': ''  
-        } 
+         '^/eladmin': ''
+        }
       },
-      
 
 
 
-      
+
+
     },
     disableHostCheck: true
   },

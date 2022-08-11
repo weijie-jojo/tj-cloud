@@ -50,6 +50,15 @@ public class AccountTravelExpenseHandler {
     @Log("修改借支单(审核)")
     @ApiOperation("修改借支单(审核)")
     public DataDto editTravelExpenseById(AccountTravelExpense accountTravelExpense){
+        if (accountTravelExpense.getInvoiceType()<5){//办理中
+            accountTravelExpense.setStepType(1);
+        }
+        if (accountTravelExpense.getInvoiceType()==5){//完成
+            accountTravelExpense.setStepType(2);
+        }
+        if (accountTravelExpense.getInvoiceType()==6){//异常
+            accountTravelExpense.setStepType(3);
+        }
         int num= accountTravelExpenseService.editTravelExpenseById(accountTravelExpense);
         DataDto dataDto = new DataDto();
         if (num>0){
@@ -62,7 +71,7 @@ public class AccountTravelExpenseHandler {
     @Log("插入差旅报销单")
     @ApiOperation("插入差旅报销单")
     public DataDto addTravelExpense(AccountTravelExpense accountTravelExpense){
-
+        accountTravelExpense.setStepType(1);
         DataDto dataDto = new DataDto();
         try {
             int num= accountTravelExpenseService.addTravelExpense(accountTravelExpense);

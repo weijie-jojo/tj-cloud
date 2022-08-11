@@ -28,7 +28,10 @@
             </el-form-item>
 
             <el-form-item label="职务"    class="right2" prop="job">
-                <el-input  v-model="ruleForm.job"  style="width:200px" ></el-input>
+                <el-input  
+                    v-model="ruleForm.job"  
+                    style="width:200px"
+                    disabled ></el-input>
                 <!-- <el-select v-model="ruleForm.job" placeholder="请选择职务" clearable >
                     <el-option v-for="item in jobs" :key="item.id" :label="item.name" :value="item.id"> </el-option>
                 </el-select> -->
@@ -152,7 +155,7 @@
 </template>
 <script>
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
-    import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
+    import {getCardInfoBycompany,getBankNameBycardId,getPost} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
@@ -383,6 +386,11 @@
                 this.ruleForm.deptId=res.user.deptId;
                 // this.ruleForm.job=res.user.jobs[0].name;
                 this.roles=res.user.roles;
+                //根据收款人id查询岗位
+                getPost(res.user.userId).then(res=>{
+                    console.log("getPost==", res.postName);
+                    this.ruleForm.job=res.postName;
+                })
                 //根据收款人id查找收款银行卡信息
                 getCardInfoBycompany(res.user.userId).then(res => {
                     console.log('getCardInfoBycompany==',res);

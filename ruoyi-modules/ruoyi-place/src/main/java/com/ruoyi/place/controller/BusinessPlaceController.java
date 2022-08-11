@@ -99,11 +99,13 @@ public class BusinessPlaceController extends BaseController {
         BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
         System.out.println("businessAgencyFee=="+businessAgencyFee);
         System.out.println("businessPlace=="+businessPlace);
-        //根据渠道名查询渠道信息
-        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceName(businessPlace.getPlaceName());
+        //插入渠道全名
+        businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
+        //根据渠道全名查询渠道信息
+        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
-            return dataDto.err("渠道名重复");
+            return dataDto.err("渠道全名重复");
         }else {
             try {
                 iBusinessPlaceService.addPlace(businessPlace);
@@ -123,7 +125,7 @@ public class BusinessPlaceController extends BaseController {
         String[] placeCodeStr=placeCodes.split(",");
         Integer num=0;//删除的次数
         for (String placeCode:placeCodeStr) {
-            Integer count=iBusinessPlaceService.delPlace(placeCode);
+            Integer count=iBusinessPlaceService.delPlace2(placeCode);
             num+=count;
         }
         System.out.println("num=="+num);
@@ -137,6 +139,8 @@ public class BusinessPlaceController extends BaseController {
     @ApiOperation("修改渠道")
     @PutMapping("/editPlace")
     public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+        //渠道全名也要变更
+        businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
         DataDto dataDto=new DataDto();
         int num=iBusinessPlaceService.editPlace(businessPlace,businessAgencyFee);
         System.out.println("num===="+num);

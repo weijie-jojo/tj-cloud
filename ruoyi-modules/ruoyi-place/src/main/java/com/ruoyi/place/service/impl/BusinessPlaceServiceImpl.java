@@ -8,12 +8,11 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.mapper.BusinessAgencyFeeMapper;
-import com.ruoyi.place.mapper.BusinessAgencyFeeVoMapper;
+import com.ruoyi.place.mapper.BusinessAgencyFeeRecycleMapper;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
+import com.ruoyi.place.mapper.BusinessPlaceRecycleMapper;
 import com.ruoyi.place.service.IBusinessPlaceService;
-import com.ruoyi.place.util.JudgeNull;
 import com.ruoyi.place.vo.PlaceVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,14 +29,14 @@ import java.util.List;
 @Service
 public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
 
-    @Autowired
+    @Resource
     private BusinessPlaceMapper businessPlaceMapper;
-//    @Resource
-//    private BusinessPlaceVoMapper businessPlaceVoMapper;
+    @Resource
+    private BusinessPlaceRecycleMapper businessPlaceRecycleMapper;
     @Resource
     private BusinessAgencyFeeMapper businessAgencyFeeMapper;
     @Resource
-    private BusinessAgencyFeeVoMapper businessAgencyFeeVoMapper;
+    private BusinessAgencyFeeRecycleMapper businessAgencyFeeRecycleMapper;
     @Override
     public List<BusinessPlace> selectByPage(List<Long> userIdArr,PlaceVo placeVo) {
         System.out.println("statusArr=="+placeVo.getStatus());
@@ -72,7 +71,23 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
         Integer num2=businessPlaceMapper.update(null,updateWrapper);
         return  num1+num2;
     }
-
+    /*
+    * 真删
+    * */
+    @Override
+    public Integer delPlace2(String placeCode) {
+        //插入回收表
+        businessPlaceRecycleMapper.recycle(placeCode);
+        businessAgencyFeeRecycleMapper.recycle(placeCode);
+        //再删除
+        QueryWrapper<BusinessPlace> queryWrapper1=new QueryWrapper<>();
+        QueryWrapper<BusinessAgencyFee> queryWrapper2=new QueryWrapper<>();
+        queryWrapper1.eq("place_code",placeCode);
+        queryWrapper2.eq("place_code",placeCode);
+        Integer num1=businessAgencyFeeMapper.delete(queryWrapper2);
+        Integer num2=businessPlaceMapper.delete(queryWrapper1);
+        return  num1+num2;
+    }
     @Override
     public Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
         Integer num1=businessAgencyFeeMapper.updateById(businessAgencyFee);

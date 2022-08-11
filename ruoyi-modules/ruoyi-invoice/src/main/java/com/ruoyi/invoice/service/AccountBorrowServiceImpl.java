@@ -92,6 +92,7 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
                         .eq(accountBorrow.getDeptId()!=null,"t.dept_id", accountBorrow.getDeptId())
                         .eq(accountBorrow.getCreateUser()!=null,"t.create_user", accountBorrow.getCreateUser())
                         .eq(accountBorrow.getInvoiceType()!=null,"t.invoice_type", accountBorrow.getInvoiceType())
+                        .eq(accountBorrow.getStepType()!=null,"t.step_type",accountBorrow.getStepType())
                         .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
                         .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
                         .orderByDesc("t.borrow_id"));

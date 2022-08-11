@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.invoice.annotation.Log;
 import com.ruoyi.invoice.dto.DataDto;
+import com.ruoyi.invoice.mapper.EmployeeInformationMapper;
 import com.ruoyi.invoice.mapper.SysBankcardMapper;
 import com.ruoyi.invoice.mapper.SysDeptMapper;
 import com.ruoyi.invoice.pojo.AccountExpense;
+import com.ruoyi.invoice.pojo.EmployeeInformation;
 import com.ruoyi.invoice.pojo.SysDept;
 import com.ruoyi.invoice.pojo.SysUser;
 import com.ruoyi.invoice.qo.TimeQo;
@@ -42,10 +44,29 @@ public class AccountExpenseHandler {
 
     private final SysDeptMapper sysDeptMapper;
 
+    private final EmployeeInformationMapper employeeInformationMapper;
+
+    @GetMapping(value ="/getPost")
+    @Log("查询岗位信息")
+    @ApiOperation("查询岗位信息")
+    public EmployeeInformation getPost(Integer userId){
+        EmployeeInformation employeeInformation= employeeInformationMapper.getPost(userId);
+        return employeeInformation;
+    }
+
     @PutMapping(value ="/editExpenseByExpenseId")
     @Log("修改借支单（审核）")
     @ApiOperation("修改借支单（审核）")
     public DataDto editExpenseByExpenseId(AccountExpense accountExpense){
+        if (accountExpense.getInvoiceType()<5){//办理中
+            accountExpense.setStepType(1);
+        }
+        if (accountExpense.getInvoiceType()==5){//完成
+            accountExpense.setStepType(2);
+        }
+        if (accountExpense.getInvoiceType()==6){//异常
+            accountExpense.setStepType(3);
+        }
         int num= accountExpenseService.editExpenseByExpenseId(accountExpense);
         DataDto dataDto = new DataDto();
         if (num>0){
@@ -103,6 +124,7 @@ public class AccountExpenseHandler {
     public DataDto addExpense(AccountExpense accountExpense)  {
 //        System.out.println("accountExpense"+ accountExpense.getExpenseImage().split(",").toString());
         accountExpense.setIsDeleted(0);
+        accountExpense.setStepType(1);
         DataDto dataDto = new DataDto();
         try {
             int num=accountExpenseService.addExpense(accountExpense);

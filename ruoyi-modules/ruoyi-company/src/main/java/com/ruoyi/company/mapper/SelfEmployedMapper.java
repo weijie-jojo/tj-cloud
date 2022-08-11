@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 public interface SelfEmployedMapper 
 {
 
+
     /**
      * 连表selfNameReview查询
      *
@@ -102,4 +103,30 @@ public interface SelfEmployedMapper
      * @return 结果
      */
     public int deleteSelfApplicationInfoBySelfCode(String selfCode);
+
+    /**
+     * 根据selfCode删除个体户信息
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    public int deleteSelfEmployedBySelfCode(String selfCode);
+
+    /**
+     * 根据selfCode删除日志表
+     *
+     * @param selfCode 需要删除的数据主键
+     * @return 结果
+     */
+    public int deleteSelfCheckBySelfCode(String selfCode);
+
+
+    /*
+    * 回收
+    * */
+    Integer recycle1(@Param("selfCode") String selfCode);
+    Integer recycle2(@Param("selfCode") String selfCode);
+    Integer recycle3(@Param("selfCode") String selfCode);
+    Integer recycle4(@Param("selfCode") String selfCode);
+    Integer recycle5(@Param("selfCode") String selfCode);
 }

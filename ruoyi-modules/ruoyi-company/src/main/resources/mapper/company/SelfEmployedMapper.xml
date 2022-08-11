@@ -114,13 +114,30 @@
                 JOIN  self_legal_person C  on t.self_code=C.self_code
                 JOIN sys_dict_data D on C.eduation=D.dict_value
     </sql>
+
+    <insert id="recycle1" >
+        INSERT into self_employed_recycle SELECT *FROM self_employed WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle2" >
+        INSERT into self_name_review_recycle SELECT *FROM self_name_review WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle3" >
+        INSERT into self_application_info_recycle SELECT *FROM self_application_info WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle4" >
+        INSERT into self_legal_person_recycle SELECT *FROM self_legal_person WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle5" >
+        INSERT into self_check_recycle SELECT *FROM self_check WHERE self_code=#{selfCode}
+    </insert>
+
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             D.dict_type="educational_level"
-            <if test="selfEmployedVo.endStatus == 0  ">AND t.end_status =0 </if>
+            <if test="selfEmployedVo.endStatus !=null and selfEmployedVo.endStatus !=1">AND t.end_status =#{selfEmployedVo.endStatus} </if>
             <if test="selfEmployedVo.endStatus == 1  ">AND t.end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
-            <if test="selfEmployedVo.endStatus == 2  ">AND t.end_status =2 </if>
+            <if test="selfEmployedVo.endStatus ==null">AND(t.end_status =0 or t.end_status =2 or DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY))  </if>
             <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
             <if test="selfEmployedVo.legalPersonName != null  and selfEmployedVo.legalPersonName != ''"> and t.legal_person_name like concat('%', #{selfEmployedVo.legalPersonName}, '%')</if>
             <if test="selfEmployedVo.username != null  and selfEmployedVo.username != ''"> and t.username like concat('%', #{selfEmployedVo.username}, '%')</if>
@@ -561,4 +578,13 @@
     <delete id="deleteSelfApplicationInfoBySelfCode" parameterType="String">
         delete from self_application_info where self_code =#{selfCode}
     </delete>
+
+    <delete id="deleteSelfEmployedBySelfCode" parameterType="String">
+        delete from self_employed where self_code =#{selfCode}
+    </delete>
+
+    <delete id="deleteSelfCheckBySelfCode" parameterType="String">
+        delete from self_check where self_code =#{selfCode}
+    </delete>
+
 </mapper>
