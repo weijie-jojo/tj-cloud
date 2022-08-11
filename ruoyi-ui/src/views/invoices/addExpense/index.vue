@@ -238,32 +238,9 @@
             </el-form-item>
 
             <el-form-item label="报销凭证影像："   class="left">
-                <el-button
-                    type="primary"
-                    @click="imgDialog=true"
-                >点击上传</el-button>
+                 <uploadSmall  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
-            <!-- 上传报销凭证影像 -->
-            <el-dialog title="上传图片" :visible.sync="imgDialog" width="70%">
-                <el-upload
-                    action="/eladmin/api/files/doUpload"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="success"
-                    :before-upload="beforeAvatarUpload"
-                    :limit=limitNum>
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-                <el-button
-                    size="small"
-                    type="primary"
-                    @click="cancel"
-                class="btn2">返回</el-button>
-            </el-dialog>
+           
 
             <el-form-item label="报销人："  class="right2" >
                 <el-input
@@ -283,15 +260,21 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getInfo} from '@/api/login'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import { getDepts,getCardInfoBycompany,addExpense,getCode } from '@/api/invoices/expense'
     import { getExpenseItem } from '@/api/invoices/travelExpense'
     export default {
+    components: {
+     uploadSmall
+    },
     name: 'expense',
     data() {
       return {
+        isDetail:'0',
+        isNone:[],
         roles:[],
         //影像上传参数
        
@@ -441,6 +424,9 @@
         }
     },
     methods: {
+        getThree(data){
+           this.imgArr=data;
+        },
         //选择付款方式
         paywayChange(event){
             if(event==1){
@@ -661,39 +647,7 @@
                 .replace(/^整$/, '零元整');
         },
 
-    //上传图片
-    handleRemove(file) {
-        this.imgArr.map((item,index)=>{
-            if(item==file.name){
-                this.imgArr.splice(index, 1);
-            }
-        })
-        console.log("imgArr",this.imgArr);
-        this.$message("取消上传（只允许图片格式）");
-        
-    },
-    //点+可以放大查看图片
-    handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-    },
-    success(file) {
-        this.$message(file.message);
-        this.imgArr.push(file.obj);
-        console.log( "imgArr",this.imgArr);
-    },
-    beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('图片格式不对!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
+   
     //取消按钮
     cancel() {
         this.imgDialog = false;

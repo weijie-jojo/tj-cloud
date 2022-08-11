@@ -183,73 +183,28 @@
                         label="结果"/>
                 </el-table>
             </el-form-item>
-
-            <el-form-item 
-                v-show="isShowImg" 
-                class="demo-image__preview" 
-                v-for="(item,index) in imgArr" :key="index" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span  class="imgTitle">付款凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="baseImgPath+item.value"
-                ></el-image>
+              <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+            <el-form-item  label="付款凭证影像">
+               <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
             </el-form-item>
-
-            <el-form-item 
-                v-show="isShowImg2"
-                class="demo-image__preview" 
-                v-for="(item,index) in imgArr2" :key="index" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">还凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="baseImgPath+item.value"
-                ></el-image>
+             </el-col>
+            <el-col :span="9">
+            <el-form-item label="还凭证影像">
+                <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
+                            :isDetail="isDetail"></uploadSmall>
             </el-form-item>
+              </el-col>
+            </el-row> 
 
         </el-form>
-        <div style="margin-left:100px;margin-top:40px">
-           付款凭证影像： 
-            <el-button  
-                type="primary"
-                @click="getImage"
-            >点击查看</el-button>
-        </div>
-        <div 
-            style="margin-left:400px;margin-top: -32px;">
-            还款凭证影像： 
-            <el-button  
-                type="primary"
-                @click="getImage2"
-            >点击查看</el-button>
-        </div>
-        <!-- 图片 -->
-        <el-dialog title="图片" :visible.sync="imageVisible" width="60%">
-            <div class="demo-image" 
-                v-for="(item,index) in imgArr" :key="index" 
-                style="margin-top:20px;">
-                <el-image
-                    style="width: 300px; height: 200px"
-                    :src="baseImgPath+item.value"
-                    :preview-src-list="srcList"
-                ></el-image>
-            </div>
-        </el-dialog>
-        <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
-            <div class="demo-image" 
-                v-for="(item,index) in imgArr2" :key="index" 
-                style="margin-top:20px;">
-                <el-image
-                    style="width: 300px; height: 200px"
-                    :src="baseImgPath+item.value"
-                    :preview-src-list="srcList2"
-                ></el-image>
-            </div>
-        </el-dialog>
+       
+        
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
@@ -257,6 +212,9 @@
     export default {
     dicts: ['pay_way'],
     name: 'borrow',
+     components: {
+        uploadSmall
+    },
     data() {
       return {
         imgArr:[],
@@ -406,28 +364,33 @@
         
         var imgArr= this.borrowImage.split(",");
         if (imgArr[0]=="") {
-            console.log("404");
-            this.isShowImg=false;
+           
         }else{
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
-                    this.imgArr.push({id:index,value:item});
+                      this.imgArr.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             })
-            this.isShowImg=true;
+            
         }
       
        var imgArr2= this.borrowImage2.split(",");     
-        if (imgArr2[0]==""&&item!="") {
-            console.log("404");
-            this.isShowImg2=false;
+        if (imgArr2[0]=="") {
+           
+           
         }else{
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
-                    this.imgArr2.push({id:index,value:item});
+                     this.imgArr2.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             })
-            this.isShowImg2=true;
+           
         }
 
         // if (this.borrowImage2==""||this.borrowImage2==undefined) {
@@ -784,35 +747,8 @@
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
         }, 
-    //获取图片
-    getImage(){
-        if(this.imgArr.length<=0){
-            this.imageVisible=false;
-            this.$message({
-                message: "没有影像",
-                type: 'warning',
-            });
-        }else{
-            this.imageVisible=true;
-            this.imgArr.map(item=>{//增加可预览功能
-                this.srcList.push(this.baseImgPath+item.value);
-            })
-        }
-    },
-    getImage2(){
-        if(this.imgArr2.length<=0){
-            this.imageVisible2=false;
-            this.$message({
-                message: "没有影像",
-                type: 'warning',
-            });
-        }else{
-            this.imageVisible2=true;
-            this.imgArr2.map(item=>{//增加可预览功能
-                this.srcList2.push(this.baseImgPath+item.value);
-            })
-        }
-    },
+    
+   
        
     },
   }
@@ -826,23 +762,7 @@
         margin-bottom: 30px;
     }
 
-    // .descCss{
-    //    width: 490px;
-    // }
-    // .moneyCss {
-    //     width: 380px;
-    //     margin-left: 300px;
-    //     margin-top: -50px;
-    // }
-    // .yuan{
-    //     margin-left: 180px;
-    //     margin-top: -30px; 
-    // }
-    // .remarkCss {
-    //     width: 440px;
-    //     margin-left: 540px;
-    //     margin-top: -55px;
-    // }
+    
     
     .left{
         width: 400px;

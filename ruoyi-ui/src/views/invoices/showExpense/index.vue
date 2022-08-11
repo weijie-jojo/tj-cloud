@@ -18,7 +18,7 @@
                         <el-input :readonly="true" v-model="ruleForm.deptName"></el-input>
                     </el-form-item>
                 </el-col>
-                  <el-col :span="6">
+                <el-col :span="6">
                     <el-form-item label="报销日期" prop="expenseDate">
                         <el-date-picker disabled v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
                             style="width:100%">
@@ -43,98 +43,93 @@
                     <el-form-item>
                         <div>费用项目</div>
                     </el-form-item>
-                    <el-form-item >
-                        <el-input v-model="ruleForm.item1desc"  :readonly="true"></el-input>
+                    <el-form-item>
+                        <el-input v-model="ruleForm.item1desc" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-input v-model="ruleForm.item2desc" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="ruleForm.item3desc"  :readonly="true"></el-input>
+                        <el-input v-model="ruleForm.item3desc" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item >
-                        <el-input v-model="ruleForm.item4desc"  :readonly="true"></el-input>
+                    <el-form-item>
+                        <el-input v-model="ruleForm.item4desc" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item >
-                        <el-input v-model="ruleForm.item5desc"  :readonly="true"></el-input>
+                    <el-form-item>
+                        <el-input v-model="ruleForm.item5desc" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
                     <el-form-item>
                         <div>金额</div>
                     </el-form-item>
-                    <el-form-item >
-                        <el-input type="number" :readonly="true" v-model="ruleForm.item1money" 
-                        >
-                        <template slot="append">
-                           <div >元</div>
-                        </template>
+                    <el-form-item>
+                        <el-input type="number" :readonly="true" v-model="ruleForm.item1money">
+                            <template slot="append">
+                                <div>元</div>
+                            </template>
                         </el-input>
-                        
+
                     </el-form-item>
-                    <el-form-item >
-                        <el-input type="number" :readonly="true" v-model="ruleForm.item2money" 
-                        >
-                         <template slot="append">
-                           <div >元</div>
-                        </template>
+                    <el-form-item>
+                        <el-input type="number" :readonly="true" v-model="ruleForm.item2money">
+                            <template slot="append">
+                                <div>元</div>
+                            </template>
                         </el-input>
-                        
+
                     </el-form-item>
-                    <el-form-item >
-                        <el-input type="number" :readonly="true" v-model="ruleForm.item3money" 
-                        >
-                        <template slot="append">
-                           <div >元</div>
-                        </template>    
+                    <el-form-item>
+                        <el-input type="number" :readonly="true" v-model="ruleForm.item3money">
+                            <template slot="append">
+                                <div>元</div>
+                            </template>
                         </el-input>
-                        
+
                     </el-form-item>
-                    <el-form-item >
-                        <el-input type="number" :readonly="true"  v-model="ruleForm.item4money" 
-                           >
-                        <template slot="append">
-                           <div >元</div>
-                        </template>    
+                    <el-form-item>
+                        <el-input type="number" :readonly="true" v-model="ruleForm.item4money">
+                            <template slot="append">
+                                <div>元</div>
+                            </template>
                         </el-input>
-                       
+
                     </el-form-item>
-                    <el-form-item >
-                        <el-input type="number" :readonly="true" v-model="ruleForm.item5money" 
-                        >
-                         <template slot="append">
-                           <div >元</div>
-                        </template>    
+                    <el-form-item>
+                        <el-input type="number" :readonly="true" v-model="ruleForm.item5money">
+                            <template slot="append">
+                                <div>元</div>
+                            </template>
                         </el-input>
-                        
+
                     </el-form-item>
 
                 </el-col>
                 <el-col :span="9">
-                     <el-form-item>
+                    <el-form-item>
                         <div>备注</div>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item1remark">
                             <el-button slot="reference" style="width:100%">{{ ruleForm.item1remark }}</el-button>
                         </el-popover>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item2remark">
                             <el-button slot="reference" style="width:100%">{{ ruleForm.item2remark }}</el-button>
                         </el-popover>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item3remark">
                             <el-button slot="reference" style="width:100%">{{ ruleForm.item3remark }}</el-button>
                         </el-popover>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item4remark">
                             <el-button slot="reference" style="width:100%">{{ ruleForm.item4remark }}</el-button>
                         </el-popover>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item5remark">
                             <el-button slot="reference" style="width:100%">{{ ruleForm.item5remark }}</el-button>
                         </el-popover>
@@ -143,64 +138,68 @@
 
             </el-row>
 
-              <el-row type="flex" class="row-bg" justify="space-around">
-                 <el-col :span="9"></el-col>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9"></el-col>
                 <el-col :span="9">
-                 <el-form-item label="合计金额(小写)">
-                        {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money +ruleForm.item5money}}
-                </el-form-item>
+                    <el-form-item label="合计金额(小写)">
+                        {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
+                                + ruleForm.item5money
+                        }}
+                    </el-form-item>
                 </el-col>
-                
+
                 <el-col :span="9">
-                  <el-form-item label="合计金额(大写)">
-                {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money+ ruleForm.item5money)}}
-             </el-form-item>
+                    <el-form-item label="合计金额(大写)">
+                        {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money +
+                                ruleForm.item4money + ruleForm.item5money)
+                        }}
+                    </el-form-item>
                 </el-col>
-             </el-row>
+            </el-row>
             <el-form-item label="付款方式" prop="paywayId">
                 <el-radio-group disabled v-model="ruleForm.paywayId" style="width:100%">
-                    <el-row  type="flex" class="row-bg" justify="space-around">
-                        <el-col :span="9" class="flexs" style="justify-content: flex-start;">
-                           <el-radio :label="1">转账</el-radio>
+                    <el-row type="flex" class="row-bg" justify="space-around">
+                        <el-col :span="9" class="flexs" style="justify-content: flex-start;align-items: center;">
+                            <el-radio :label="1">转账</el-radio>
                         </el-col>
-                        <el-col :span="9" class="flexs">
-                           <el-radio :label="2">现金</el-radio>
+                        <el-col :span="9" style="display:flex;align-items: center;">
+                            <el-radio :label="2">现金</el-radio>
                         </el-col>
                         <el-col :span="9" class="flexs">
                             <el-radio :label="3">其他</el-radio>
-                    <el-input disabled v-model="ruleForm.paywayRemark"></el-input>
+                            <el-input v-model="ruleForm.paywayRemark" :readonly="true"></el-input>
                         </el-col>
                     </el-row>
-                   
-                    
+
+
                 </el-radio-group>
             </el-form-item>
-            
+
             <el-row type="flex" class="row-bg" justify="space-around">
-                 <el-col :span="9">
-                      <el-form-item label="收款人">
-                <el-input v-model="ruleForm.userGetid" style="width:100%" :readonly="true"></el-input>
-            </el-form-item>
-                 </el-col>
-                  <el-col :span="9">
-                <el-form-item label="收款账号">
-                <el-input v-model="ruleForm.bankcardGetid" style="width:100%" :readonly="true"></el-input>
-               </el-form-item>
-                 </el-col>
-                  <el-col :span="9">
-                  <el-form-item label="收款开户行">
-                   <el-input v-model="ruleForm.bankGetname" style="width:100%" :readonly="true"></el-input>
-                 </el-form-item>
-                 </el-col>
+                <el-col :span="9">
+                    <el-form-item label="收款人">
+                        <el-input v-model="ruleForm.userGetid" style="width:100%" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="收款账号">
+                        <el-input v-model="ruleForm.bankcardGetid" style="width:100%" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="收款开户行">
+                        <el-input v-model="ruleForm.bankGetname" style="width:100%" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
 
             </el-row>
-           
-          
-               <el-row type="flex" class="row-bg" justify="space-around">
+
+
+            <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="9">
-                   <el-form-item label="付款单位" prop="companyPayId" >
-                <el-input v-model="ruleForm.companyPayId"  :readonly="true"></el-input>
-                <!-- <el-select 
+                    <el-form-item label="付款单位" prop="companyPayId">
+                        <el-input v-model="ruleForm.companyPayId" :readonly="true"></el-input>
+                        <!-- <el-select 
                     disabled
                     v-model="ruleForm.companyPayId" 
                     placeholder="请选择付款单位" 
@@ -212,114 +211,107 @@
                         :value="item.groupCode"
                     > </el-option>
                 </el-select> -->
-            </el-form-item>
+                    </el-form-item>
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="借款账号">
-                <el-input v-model="ruleForm.bankPaycode"  :readonly="true"></el-input>
-            </el-form-item>
+                        <el-input v-model="ruleForm.bankPaycode" :readonly="true"></el-input>
+                    </el-form-item>
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="借款开户行">
-                <el-input v-model="ruleForm.bankPayname"  :readonly="true"></el-input>
-            </el-form-item>
+                        <el-input v-model="ruleForm.bankPayname" :readonly="true"></el-input>
+                    </el-form-item>
                 </el-col>
-               </el-row>
+            </el-row>
 
-            
-           
-           
 
-            <el-form-item label="总经理" class="left">
-                <el-input v-model="ruleForm.gmCheck" placeholder="" class="inputCss" disabled></el-input>
-            </el-form-item>
-            <el-form-item label="财务" class="middle">
-                <el-input v-model="ruleForm.financeCheck" placeholder="" class="inputCss" disabled></el-input>
-            </el-form-item>
-            <el-form-item label="部门主管" class="right">
-                <el-input v-model="ruleForm.dmCheck" placeholder="" class="inputCss" disabled></el-input>
-            </el-form-item>
-            <el-form-item label="借款人" class="right2">
-                <el-input v-model="ruleForm.expenseName" placeholder="" class="inputCss" disabled></el-input>
-            </el-form-item>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="6">
+                    <el-form-item label="总经理">
+                        <el-input v-model="ruleForm.gmCheck" placeholder="" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="财务">
+                        <el-input v-model="ruleForm.financeCheck" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="部门主管">
+                        <el-input v-model="ruleForm.dmCheck" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="借款人">
+                        <el-input v-model="ruleForm.expenseName" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
 
-            <el-form-item style="margin-left:80px;margin-top: 300px;height: 300px;">
-                <div style="font-size:20px;
+            <el-row type="flex" class="row-bg" style="margin-bottom: 20px;" justify="space-around">
+                <el-col :span="23">
+                    <div style="font-size:20px;
                     margin-top:10px;
                     margin-bottom:20px;
                     color:blue">{{ "审批进度" }}</div>
-                <el-table border :data="checks" style="width: 75%">
-                    <el-table-column prop="checkDate" label="时间" width="180" />
-                    <el-table-column prop="checkUser" label="人员" width="180" />
-                    <el-table-column prop="checkReasult" label="结果" />
-                </el-table>
-            </el-form-item>
+                    <el-table border :data="checks">
+                        <el-table-column prop="checkDate" label="时间" width="180" />
+                        <el-table-column prop="checkUser" label="人员" width="180" />
+                        <el-table-column prop="checkReasult" label="结果" />
+                    </el-table>
+                </el-col>
 
-            <el-form-item v-show="isShowImg" class="demo-image__preview" v-for="(item, index) in imgArr" :key="index"
-                style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">报销凭证影像</span>
-                <el-image style="width:1100px;height: 700px;" :src="baseImgPath + item.value"></el-image>
-            </el-form-item>
+            </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="报销凭证影像">
+                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="付款凭证影像">
+                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                    <el-button type="danger" @click="beforePage">返回</el-button>
 
-            <el-form-item v-show="isShowImg2" class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index"
-                style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">付款凭证影像</span>
-                <el-image style="width:1100px;height: 700px;" :src="baseImgPath + item.value"></el-image>
-            </el-form-item>
-            <!-- 
-            <el-form-item
-                v-show="isShowImg2" 
-                class="demo-image__preview" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span  class="imgTitle">报销凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="imgpath2"
-                ></el-image>
-            </el-form-item> -->
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
+
+
+
+
+
 
         </el-form>
-
-        <div style="margin-left:140px;margin-top:40px">
-            <div>
-                报销凭证影像：
-                <el-button type="primary" @click="getImage">点击查看</el-button>
-            </div>
-            <div style="margin-left:320px;margin-top: -32px;">
-                付款凭证影像：
-                <el-button type="primary" @click="getImage2">点击查看</el-button>
-            </div>
-        </div>
-
-        <!-- 图片 -->
-        <el-dialog title="图片" :visible.sync="imageVisible" width="30%">
-            <div class="demo-image" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px;">
-                <el-image style="width: 300px; height: 200px" :src="baseImgPath + item.value"
-                    :preview-src-list="srcList">
-                </el-image>
-            </div>
-        </el-dialog>
-        <el-dialog title="图片" :visible.sync="imageVisible2" width="30%">
-            <div class="demo-image" v-for="(item, index) in imgArr2" :key="index" style="margin-top:20px;">
-                <el-image style="width: 300px; height: 200px" :src="baseImgPath + item.value"
-                    :preview-src-list="srcList2"></el-image>
-            </div>
-        </el-dialog>
     </div>
 </template>
 <script>
-
+import uploadSmall from '@/components/douploads/uploadSmall'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
 import { getDepts, getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
 import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
+    components: {
+        uploadSmall
+    },
     name: 'expense',
     data() {
         return {
+            isDetail: '1',
+            isNone: [],
+
             expenses: [],
-            isShowImg: false,
-            isShowImg2: false,
+
             srcList: [],
             srcList2: [],
             imgArr: [],
@@ -335,8 +327,7 @@ export default {
 
             checks: [],
             rejectReasult: '',
-            imgDialog: false,
-            imgDialog2: false,
+
             isAgree: 1,//是否同意 1 同意 2驳回
             isDisabled: false,
             payCompanys: [],//所有单位
@@ -501,34 +492,44 @@ export default {
         this.expenseImage = this.expenses[0].expenseImage;
         this.expenseImage2 = this.expenses[0].expenseImage2;
 
+        this.imgArr = [];
+        this.imgArr2 = [];
         var imgArr = this.expenseImage.split(",");
         if (imgArr[0] == "") {
-            console.log("404");
-            this.isShowImg = false;
+
+
         } else {
             imgArr.map((item, index) => {
                 if (item != null && item != "") {
-                    this.imgArr.push({ id: index, value: item });
+                    this.imgArr.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             })
-            this.isShowImg = true;
         }
 
         var imgArr2 = this.expenseImage2.split(",");
         if (imgArr2[0] == "") {
-            console.log("404");
-            this.isShowImg2 = false;
+
+
         } else {
             imgArr2.map((item, index) => {
                 if (item != null && item != "") {
-                    this.imgArr2.push({ id: index, value: item });
+                    this.imgArr2.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             })
-            this.isShowImg2 = true;
+
         }
+
     },
     methods: {
-
+        beforePage() {
+            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+        },
         //获取所有审批结果
         selectAllCheck() {
             var expenses = JSON.parse(window.localStorage.getItem('expenses')).list

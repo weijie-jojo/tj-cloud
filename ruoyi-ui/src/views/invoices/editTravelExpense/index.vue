@@ -396,57 +396,16 @@
                     </el-form-item>
                </el-col> 
             </el-row>  
-              <!-- 上传报销凭证影像 -->
-            <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
-                <el-upload
-                    action="/eladmin/api/files/doUpload"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="success"
-                    :before-upload="beforeAvatarUpload"
-                    :limit=limitNum>
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-                <el-button 
-                    size="small" 
-                    type="primary" 
-                    @click="cancel" 
-                    class="btn2"
-                >返回</el-button>
-            </el-dialog>  
-             <!-- 图片 -->
-            <el-dialog title="图片" :visible.sync="imageVisible" width="60%">
-            <div class="demo-image"
-                v-for="(item,index) in imgArr" :key="index">
-                 <el-image
-                    style="width: 500px; height: 500px"
-                    :src="baseImgPath+item.value"
-                     :preview-src-list="srcList"
-                ></el-image>
-            </div>
-            </el-dialog> 
+            
 
-            <el-row style="margin-top:20px">
-                <el-col :span="8">
-                   <el-form-item  label="报销凭证影像："  >
-                        <el-button  
-                            type="primary"
-                            @click="getImage"
-                        >点击查看</el-button>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="12">
+                   <el-form-item label="报销凭证影像">
+                      <uploadSmall v-if="imgArrOld.length > 0" @getfileName="getExpense" :fileName="imgArr2"
+                    :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="8">
-                   <el-form-item  label="修改影像：" >
-                         <el-button  
-                            type="primary"
-                        @click="toEditImg"
-                        >点击上传</el-button>
-                    </el-form-item>
-                </el-col>
+                <el-col :span="12"></el-col>
             </el-row>   
              <el-form-item id="btn">
                 <el-button @click="toReturn" style="width:100px;">取消</el-button>
@@ -456,6 +415,7 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -463,8 +423,13 @@
     import { getCode,getExpenseItem,editTravelExpenseById,editTravelExpense2} from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
+    components: {
+        uploadSmall
+    },
     data() {
       return {
+        isDetail: '0',
+        imgArrOld:[],
         imgArr:[],
         imgArr2:[],
         srcList:[],
@@ -662,17 +627,26 @@
         this.ruleForm.dmCheck=this.travelExpenses[0].dmCheck;
 
         this.expenseImage=this.travelExpenses[0].expenseImage;
-        
+        this.imgArrOld = [];
+        this.imgArr2=[];
         var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
             if(item!=null&&item!=""){
-                 this.imgArr.push({id:index,value:item});
+                this.imgArrOld.push({
+                    name: item,
+                    url: this.baseImgPath + item
+                })
+                this.imgArr2.push(item);
+              //   this.imgArr.push({id:index,value:item});
             }
         })
         console.log( "imgArr=====",this.imgArr);
 
     },
     methods: {
+         getExpense(data) {
+            this.imgArr2 = data;
+        },
         isAgrees(){
             console.log("点了是否同意");
             if(this.isAgree==2){
@@ -976,11 +950,7 @@
                 // }
             // });
         }, 
-        //重置
-        // resetForm(formName) {
-        //     this.$refs[formName].resetFields();
-        //     console.log(1111);
-        // }, 
+       
          //返回
         toReturn(){
             this.$router.push({
@@ -1026,62 +996,8 @@
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
         }, 
-        //上传图片
-        handleRemove(file) {
-            this.imgArr2.map((item,index)=>{
-            if(item==file.name){
-                    this.imgArr2.splice(index, 1);
-                }
-            })
-            this.$message("取消上传");
-        },
-        //点+可以放大查看图片
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        success(file) {
-            this.$message(file.message);
-            this.imgArr2.push(file.obj);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-            this.$message.error('图片格式不对!');
-            }
-            if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        },
-        //取消按钮
-        cancel() {
-            console.log("12121"); 
-            this.imgDialog = false;
-        },   
-        //获取图片
-        getImage(){
-            if (this.imgArr.length<=0) {
-                this.imageVisible=false;
-                this.$message({
-                    message: "没有影像",
-                    type: 'warning',
-                });
-            }else{
-                this.imageVisible=true;
-                this.imgArr.map(item=>{//增加可预览功能
-                    this.srcList.push(this.baseImgPath+item.value);
-                })
-            }
-        }, 
-
-        toEditImg(){
-            this.imgDialog=true;
-            this.imgArr=[];
-            console.log("toEditImg",this.imgArr);
-        },            
+        
+                   
     },
   }
 </script>

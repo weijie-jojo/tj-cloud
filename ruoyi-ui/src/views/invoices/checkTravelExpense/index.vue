@@ -417,30 +417,25 @@
                         ></el-input>
                     </el-form-item>
                </el-col> 
-            </el-row>    
-            <el-row style="margin-top:20px">
-                <el-col :span="8">
-                    <el-form-item 
-                        label="报销凭证影像："  
-                        class="left">
-                        <el-button  
-                            type="primary"
-                        @click="getImage"
-                        >点击查看</el-button>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item 
-                        label="付款凭证影像："  
-                        class="middle">
-                         <el-button  
-                            type="primary"
-                        @click="imgDialog=true"
-                        v-hasPermi="['invoices:travelExpense:upload']"
-                        >点击上传</el-button>
-                    </el-form-item>
-                </el-col>
             </el-row>   
+             <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="报销凭证影像：" >
+                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
+
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item v-hasPermi="['invoices:travelExpense:upload']" label="付款凭证影像：" >
+                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                            :isDetail="isDetails"></uploadSmall>
+
+                    </el-form-item>
+                </el-col>
+
+            </el-row> 
+          
             <el-row style="margin-top:20px">
                 <el-col :span="5">
                     <el-form-item label="总经理"    >
@@ -515,38 +510,8 @@
                     style="margin-top:-20px;width:820px"
                 ></el-input>
             </el-form-item>
-             <!-- 上传付款凭证影像 -->
-            <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
-                <el-upload
-                    action="/eladmin/api/files/doUpload"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="success"
-                    :limit=limitNum>
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-                <el-button 
-                    size="small" 
-                    type="primary" 
-                    @click="cancel" 
-                class="btn2">返回</el-button>
-            </el-dialog>
-            <!-- 图片 -->
-            <el-dialog title="图片" :visible.sync="imageVisible" width="20%">
-                <div class="demo-image" 
-                    v-for="(item,index) in imgArr" :key="index"
-                    style="margin-top:20px;" >
-                    <el-image
-                        style="width: 300px; height: 200px"
-                        :src="baseImgPath+item.value"
-                        :preview-src-list="srcList"
-                    ></el-image>
-                </div>
-            </el-dialog>
+          
+            
             <el-form-item id="btn">
                 <el-button @click="toReturn" style="width:80px">返回</el-button>
                 <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;margin-left:80px">审核</el-button>
@@ -555,6 +520,7 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -562,8 +528,14 @@
     import { getCode,addTravelExpense,getExpenseItem,editTravelExpenseById} from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
+      components: {
+        uploadSmall
+    },
     data() {
       return {
+        isDetail: '1',
+        isDetails: '0',
+        isNone: [],
         srcList:[],
         imgArr:[],
         baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
@@ -763,13 +735,19 @@
        var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
             if(item!=null&&item!=""){
-                 this.imgArr.push({id:index,value:item});
+                 this.imgArr.push({
+                    url: this.baseImgPath + item,
+                    name: item,
+                })
             }
         })
 
 
     },
     methods: {
+         getExpense(data) {
+            this.imgArr2 = data;
+        },
         isAgrees(){
             console.log("点了是否同意");
             if(this.ruleForm.isAgree==2){
@@ -1059,42 +1037,9 @@
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
         }, 
-        getImage(){
-            if (this.imgArr.length<=0) {
-                this.imageVisible=false;
-                this.$message({
-                    message: "没有影像",
-                    type: 'warning',
-                });
-            }else{
-                this.imageVisible=true;
-                this.imgArr.map(item=>{//增加可预览功能
-                    this.srcList.push(this.baseImgPath+item.value);
-                })
-            }
-        },  
-        //上传图片
-        handleRemove(file) {
-           this.imgArr2.map((item,index)=>{
-                if(item==file.name){
-                   this.imgArr2.splice(index, 1);
-                }
-            })
-            this.$message("取消上传");
-        },
-        //点+可以放大查看图片
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        success(file) {
-            this.$message(file.message);
-            this.imgArr.push(file.obj);
-        },
-        //取消按钮
-        cancel() {
-            this.imgDialog = false;
-        },       
+        
+       
+             
     },
   }
 </script>

@@ -487,91 +487,33 @@
                 </el-table>
             </el-form-item>
 
-            <el-form-item 
-                v-show="isShowImg"
-                class="demo-image__preview" 
-                v-for="(item,index) in imgArr" :key="index" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">报销凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="baseImgPath+item.value"
-                ></el-image>
-            </el-form-item>
+            
 
-            <el-form-item 
-                v-show="isShowImg2" 
-                class="demo-image__preview" 
-                v-for="(item,index) in imgArr2" :key="index" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span  class="imgTitle">报销凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="baseImgPath+item.value"
-                ></el-image>
-            </el-form-item>
+              <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="报销凭证影像">
+                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="付款凭证影像">
+                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+            </el-row> 
+           
 
-            <!-- <el-form-item 
-                v-show="isShowImg2" 
-                class="demo-image__preview" 
-                style="margin-top:200px;margin-left: -60px;">
-                <span class="imgTitle">付款凭证影像</span>
-                <el-image
-                   style="width:1100px;height: 700px;"
-                    :src="imgpath2"
-                ></el-image>
-            </el-form-item> -->
+            
             
         </el-form>
-        <div style="margin-left:140px;margin-top:40px">
-            <div >
-                报销凭证影像：
-                <el-button  
-                    type="primary"
-                    @click="getImage"
-                >点击查看</el-button>
-            </div>
-            <div 
-               style="margin-left:320px;margin-top: -32px;">
-                付款凭证影像：
-                <el-button  
-                    type="primary"
-                @click="getImage2"
-                >点击查看</el-button>
-            </div>
-        </div>
-        <!-- 图片 -->
-        <el-dialog title="图片" :visible.sync="imageVisible" width="20%">
-            <div class="demo-image"
-                v-for="(item,index) in imgArr" :key="index"
-                style="margin-top:20px;">
-                <el-image
-                    style="width: 300px; height: 200px"
-                    :src="baseImgPath+item.value"
-                    :preview-src-list="srcList"
-                ></el-image>
-            </div>
-        </el-dialog>
-        <el-dialog title="图片" :visible.sync="imageVisible2" width="60%">
-            <div class="demo-image" 
-                v-for="(item,index) in imgArr2" :key="index" 
-                style="margin-top:20px;">
-                <el-image
-                    style="width: 300px; height: 200px"
-                    :src="baseImgPath+item.value"
-                    :preview-src-list="srcList2"
-                ></el-image>
-            </div>
-            <!-- <div class="demo-image">
-                <el-image
-                    style="width: 500px; height: 500px"
-                    :src="imgpath2"
-                ></el-image>
-            </div> -->
-        </el-dialog>
+       
+       
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -579,8 +521,13 @@
     import { getCode,addTravelExpense,getExpenseItem,editTravelExpenseById} from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
+     components: {
+        uploadSmall
+    },
     data() {
       return {
+        isDetail: '1',
+        isNone: [],
         isShowImg:false,
         isShowImg2:false,
         srcList:[],
@@ -780,28 +727,32 @@
         var imgArr= this.expenseImage.split(",");
 
         if (imgArr[0]=="") {
-            console.log("404");
-            this.isShowImg=false;
+            
         }else{
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
-                    this.imgArr.push({id:index,value:item});
+                    this.imgArr.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             });
-            this.isShowImg=true;
+            
         }
 
         var imgArr2= this.expenseImage2.split(",");  
         if (imgArr2[0]=="") {
-            console.log("404");
-            this.isShowImg2=false;
+           
         }else{
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
-                    this.imgArr2.push({id:index,value:item});
+                     this.imgArr2.push({
+                        url: this.baseImgPath + item,
+                        name: item,
+                    })
                 }
             })
-            this.isShowImg2=true;
+            
         }
       
     },

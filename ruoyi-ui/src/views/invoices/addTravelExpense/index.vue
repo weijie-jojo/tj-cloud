@@ -419,7 +419,7 @@
                     </el-form-item>
                </el-col>
             </el-row>
-            <!-- 上传报销凭证影像 -->
+            <!-- 上传报销凭证影像
             <el-dialog title="上传图片" :visible.sync="imgDialog" width="70%">
                 <el-upload
                     action="/eladmin/api/files/doUpload"
@@ -440,14 +440,11 @@
                     @click="cancel"
                     class="btn2"
                 >返回</el-button>
-            </el-dialog>
+            </el-dialog> -->
             <el-row>
                 <el-col :span="8">
                     <el-form-item  label="报销凭证影像："  >
-                        <el-button
-                            type="primary"
-                            @click="imgDialog=true"
-                        >点击上传</el-button>
+                        <uploadSmall  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -470,15 +467,21 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany ,getPost} from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     import { getCode,addTravelExpense } from '@/api/invoices/travelExpense'
     export default {
+    components: {
+     uploadSmall
+    },
     name: 'travelExpense',
     data() {
       return {
+        isDetail:'0',
+        isNone:[],
         roles:[],
         //影像上传参数
         imgArr:[],
@@ -575,6 +578,7 @@
       }
     },
     mounted: function() {
+        
         //获取登录用户信息
         getInfo().then(res => {
             console.log("getInfo==", res);
@@ -617,6 +621,9 @@
         },
     },
     methods: {
+        getThree(data){
+           this.imgArr=data;
+        },
          //获取所有出款单位信息
         getAllCompany() {
             getAllCompany().then(res => {
@@ -812,36 +819,7 @@
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
         },
-         //上传图片
-        handleRemove(file) {
-            this.imgArr.map((item,index)=>{
-                if(item==file.name){
-                    this.imgArr.splice(index, 1);
-                }
-            })
-            this.$message("取消上传");
-        },
-        //点+可以放大查看图片
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        success(file) {
-            this.$message(file.message);
-            this.imgArr.push(file.obj);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-            this.$message.error('图片格式不对!');
-            }
-            if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        },
+        
         //取消按钮
         cancel() {
             console.log("12121");
