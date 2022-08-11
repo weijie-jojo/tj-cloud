@@ -53,7 +53,7 @@
           <el-button size="mini" v-if="scope.row.businessStatus == 0" type="text" icon="el-icon-s-goods"
             @click="business(scope.row)">办理工商</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods"
-            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
+            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
         </template>
       </el-table-column>
     </el-table>

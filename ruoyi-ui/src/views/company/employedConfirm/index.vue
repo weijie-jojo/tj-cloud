@@ -51,12 +51,12 @@
           <el-button size="mini" type="text" icon="el-icon-view" @click="look(scope.row)">查看</el-button>
           <el-button size="mini" type="text" v-if="scope.row.endStatus == 2" icon="el-icon-edit"
             @click="edits(scope.row)">编辑</el-button>
-          <el-button size="mini" type="text" icon="el-icon-s-goods" v-else
-            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
-          <el-button size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
+          <el-button v-hasPermi="['company:employedConfirm:edit']"  size="mini" type="text" icon="el-icon-s-goods" v-else
+            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
+          <el-button v-hasPermi="['company:employedConfirm:confirm']" size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
             @click="detail(scope.row)">确认注册</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods"
-            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
+            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
 
         </template>
       </el-table-column>

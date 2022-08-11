@@ -54,7 +54,7 @@
           <el-button size="mini" v-if="scope.row.infoStatus == 0" type="text" icon="el-icon-info"
             @click="bank(scope.row)">审核信息</el-button>
           <el-button size="mini" v-else icon="el-icon-info"
-            style="border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
+            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>审核信息</el-button>
         </template>
       </el-table-column>
     </el-table>
