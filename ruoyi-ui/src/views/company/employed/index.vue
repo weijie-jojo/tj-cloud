@@ -367,9 +367,17 @@ export default {
       errsConfirmList: [],//注册数据异常
       exmList: [],//等待数据
       errsinfoList: [],//信息数据异常
+      errsinfoList1: [],//信息数据异常
+      errsinfoList2: [],//信息数据异常
       errsnameList: [],//名称数据异常
+      errsnameList1: [],//名称数据异常
+      errsnameList2: [],//名称数据异常
       infoList: [],//信息数据
+      infoList1: [],//信息数据
+      infoList2: [],//信息数据
       nameList: [],//名称数据
+      nameList1: [],//名称数据
+      nameList2: [],//名称数据
       progressList: [],  //进度数据
       cerList: [],//实名数据
       busList: [],//工商数据
@@ -642,29 +650,51 @@ export default {
     //名称进度
     checkName(arr) {
       this.nameList = [];
+      this.nameList1 = [];
+      this.nameList2 = [];
       let parms = {
         selfCode: arr,
         selfType: 2,
-      }
+      };
+      let parmss={
+        selfCode: arr,
+        selfType: 9,
+      };
       //名称进度
       checkdetail(parms).then(res => {
-        this.nameList = res.rows;
-        this.nameVisible = true;
+         this.nameList2 = res.rows;
+         checkdetail(parmss).then(res=>{
+            this.nameList1=res.rows;
+            this.nameList=this.nameList1.concat(this.nameList2);
+            this.nameVisible = true;
+            
+        });
+        
       });
     },
 
     //信息进度
     checkInfo(arr) {
       this.infoList = [];
+      this.infoList1 = [];
+      this.infoList2 = [];
       let parms = {
         selfCode: arr,
         selfType: 3,
-      }
+      };
+      let parmss={
+        selfCode: arr,
+        selfType: 10,
+      };
       //信息进度
       checkdetail(parms).then(res => {
-        this.infoList = res.rows;
-        this.infoVisible = true;
-      });
+        this.infoList2 = res.rows;
+         checkdetail(parmss).then(res=>{
+            this.infoList1=res.rows;
+            this.infoList=this.infoList1.concat(this.infoList2);
+            this.infoVisible = true;
+        });
+       });
     },
 
 
@@ -672,28 +702,51 @@ export default {
     //异常名称进度
     checkNames(arr) {
       this.errsnameList = [];
+      this.errsnameList1 = [];
+      this.errsnameList2 = [];
       let parms = {
         selfCode: arr,
         selfType: 2,
-      }
+      };
+      let parmss={
+        selfCode: arr,
+        selfType: 9,
+      };
       //异常名称进度
       checkdetail(parms).then(res => {
-        this.errsnameList = res.rows;
-        this.errsnameVisible = true;
+        this.errsnameList2 = res.rows;
+       checkdetail(parmss).then(res=>{
+             this.errsnameList1=res.rows;
+             this.errsnameList=this.errsnameList1.concat(this.errsnameList2);
+             this.errsnameVisible = true;
+        });
+       
+        
       });
     },
 
     //异常信息进度
     checkInfos(arr) {
       this.errsinfoList = [];
+      this.errsinfoList1 = [];
+      this.errsinfoList2 = [];
       let parms = {
         selfCode: arr,
         selfType: 3,
-      }
+      };
+       let parmss = {
+        selfCode: arr,
+        selfType: 10,
+      };
       //异常信息进度
       checkdetail(parms).then(res => {
-        this.errsinfoList = res.rows;
-        this.errsinfoVisible = true;
+        this.errsinfoList2 = res.rows;
+         checkdetail(parmss).then(res=>{
+             this.errsinfoList1=res.rows;
+             this.errsinfoList=this.errsinfoList1.concat(this.errsinfoList2);
+             this.errsinfoVisible = true;
+        });
+        
       });
     },
 
