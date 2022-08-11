@@ -1,5 +1,21 @@
 <template>
   <div class="app-container">
+    <div>
+      <h1>静态表格</h1>
+      <div class="reimtitle">
+        差旅费报销单
+      </div>
+      <el-form>
+           <el-row>
+            <el-col :span="12">
+             
+            </el-col>
+            <el-col :span="12"></el-col>
+           
+           </el-row>
+
+      </el-form>
+    </div>
      <uploadSmall @getfileName="getnames" :fileName="fileName" :fileNameOld="fileNameOld" :isDetail="isDetail"></uploadSmall>
   </div>
 </template>
@@ -34,5 +50,10 @@ export default {
 }
 </script>
 <style>
-
+  .reimtitle{
+     font-size: 25px;
+     letter-spacing: 20px;
+     color: #333;
+     font-weight: bold;
+  }
 </style>

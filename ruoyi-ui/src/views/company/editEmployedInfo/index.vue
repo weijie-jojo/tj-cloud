@@ -693,6 +693,7 @@ export default {
   props: [],
   data() {
     return {
+      userinfo:{},
       activeNameseg:'1',
       activeNamese:'1',
       optiond: [
@@ -1237,6 +1238,27 @@ export default {
     
   },
   methods: {
+    check(msg){
+      let parms = {
+            "checkReasult": msg,
+            "checkUser": this.userinfo.userName,
+            'phonenumber': this.userinfo.phonenumber,
+            "selfCode": this.formData.selfCode,
+            "selfType": "10",
+          }
+          crudEmployed.check(parms).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+               
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          })
+    },
     ordinarySelfFeeh(e) {
       if (this.formData.ordinaryProxyIsmoney == '1') {
         if (e > 100) {
@@ -1277,7 +1299,7 @@ export default {
      getfileName7(data){
        this.formData.fileName7=data;
       },
-    singleOK(e) {
+     singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
         this.yecomfirm = false;
@@ -1378,6 +1400,7 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
 
@@ -1649,7 +1672,7 @@ export default {
           crudEmployed.updateEmployed(parms2).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
-              
+                 this.check('信息异常修改完成');
               } else {
                 this.$message({
                   message: res.msg,

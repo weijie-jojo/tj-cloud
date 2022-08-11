@@ -146,39 +146,22 @@
             <el-form-item label="借款人"  class="right2" >
                 <el-input  v-model="ruleForm.borrowName" placeholder="" class="inputCss" disabled></el-input> 
             </el-form-item>
-            <el-form-item 
-                label="付款凭证影像："  
-                class="left">
-                <el-button  
-                    type="primary"
-                   @click="imgDialog=true"
-                   v-hasPermi="['invoices:borrow:upload']"
-                >点击上传</el-button>
-            </el-form-item>
-             <!-- 上传付款凭证影像 -->
-            <el-dialog title="上传图片" :visible.sync="imgDialog" width="30%">
-                <el-upload
-                    action="/eladmin/api/files/doUpload"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="success"
-                    :limit=limitNum>
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-                <el-button 
-                    size="small" 
-                    type="primary" 
-                    @click="cancel" 
-                class="btn2">返回</el-button>
-            </el-dialog>
+           <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                   <el-form-item  v-hasPermi="['invoices:borrow:upload']" label="付款凭证影像：" >
+                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                            :isDetail="isDetails"></uploadSmall>
 
-            <!-- <el-form-item style="width:120px;margin-left:380px;margin-top:-90px">
-                <el-button type="primary" @click="submitForm('ruleForm')" >保存</el-button>
-            </el-form-item> -->
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    
+                </el-col>
+
+            </el-row>
+           
+           
+           
             <el-form-item style="margin-top:100px">
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
@@ -226,16 +209,23 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
     name: 'borrow',
+      components: {
+        uploadSmall
+    },
     dicts: ['pay_way'],
     data() {
       return {
         //上传
+        isDetail: '1',
+        isDetails: '0',
+        isNone: [],
         imgArr:[],
         imgDialog:false,
         dialogImageUrl: '',
@@ -371,6 +361,9 @@
         this.ruleForm.dmCheck=this.borrows[0].dmCheck;
     },
     methods: {
+        getExpense(data){
+             this.imgArr=data;
+        },
         isAgrees(){
             console.log("点了是否同意");
             if(this.ruleForm.isAgree==2){
@@ -741,28 +734,8 @@
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
         }, 
-        //上传图片
-        handleRemove(file) {
-            this.imgArr.map((item,index)=>{
-                if(item==file.name){
-                    this.imgArr.splice(index, 1);
-                }
-            })
-            this.$message("取消上传");
-        },
-        //点+可以放大查看图片
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        success(file) {
-            this.$message(file.message);
-            this.imgArr.push(file.obj);
-        },
-        //取消按钮
-        cancel() {
-            this.imgDialog = false;
-        },
+       
+        
     },
   }
 </script>

@@ -1,189 +1,193 @@
 <template>
-    <div class="app-container">      
-        <el-form 
-            ref="ruleForm" 
-            :model="ruleForm" 
-            :rules="rules" 
-            label-width="200px" >
-            <el-form-item id="title" >
-                <span style="font-size:30px">报销单</span>                  
+    <div class="app-container">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
+            <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
+                <el-col :span="6">
+                    <el-form-item label="报销单号">
+                        <el-input disabled v-model="ruleForm.expenseCode"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="报销部门">
+                        <el-input disabled v-model="ruleForm.deptName"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="报销日期" prop="expenseDate">
+                        <el-date-picker v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
+                            style="width:100%">
+                        </el-date-picker>
+                    </el-form-item>
+
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="附件">
+                        <el-input-number v-model="ruleForm.accessory" :precision="0" :step="1" :min="0"
+                            style="width:160px"></el-input-number>
+                        <span style="margin-left:20px">张</span>
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
+
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="费用项目" >
+                    </el-form-item>
+                    <el-form-item prop="item1desc" >
+
+                        <el-select style="width:100%" v-model="ruleForm.item1desc" clearable placeholder="请选择">
+                            <el-option v-for="item in items" :key="item.id" :label="item.itemName"
+                                :value="item.itemName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item >
+
+                        <el-select style="width:100%" v-model="ruleForm.item2desc" clearable placeholder="请选择">
+                            <el-option v-for="item in items" :key="item.id" :label="item.itemName"
+                                :value="item.itemName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item >
+
+                        <el-select style="width:100%" v-model="ruleForm.item3desc" clearable placeholder="请选择">
+                            <el-option v-for="item in items" :key="item.id" :label="item.itemName"
+                                :value="item.itemName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item >
+
+                        <el-select style="width:100%" v-model="ruleForm.item4desc" clearable placeholder="请选择">
+                            <el-option v-for="item in items" :key="item.id" :label="item.itemName"
+                                :value="item.itemName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+
+                        <el-select style="width:100%" v-model="ruleForm.item5desc" clearable placeholder="请选择">
+                            <el-option v-for="item in items" :key="item.id" :label="item.itemName"
+                                :value="item.itemName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="金额">
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input type="number" v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"
+                            style="width:100%">
+                            <template slot="append">元</template>
+                        </el-input>
+                       
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item2money" :precision="2" :step="0.1" :min="0"
+                            style="width:100%">
+                             <template slot="append">元</template>
+                        </el-input>
+                    
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item3money" :precision="2" :step="0.1" :min="0"
+                            style="width:100%">
+                             <template slot="append">元</template>
+                        </el-input>
+                       
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model="ruleForm.item4money" :precision="2" :step="0.1" :min="0"
+                            style="width:100%">
+                             <template slot="append">元</template>
+                        </el-input>
+                        
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model="ruleForm.item5money" :precision="2" :step="0.1" :min="0"
+                            style="width:100%">
+                             <template slot="append">元</template>
+                        </el-input>
+                       
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="备注" >
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item1remark" placeholder="请输入备注" style="width:100%"></el-input>
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item2remark" placeholder="请输入备注" style="width:100%"></el-input>
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item3remark" placeholder="请输入备注" style="width:100%"></el-input>
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item4remark" placeholder="请输入备注" style="width:100%"></el-input>
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input v-model="ruleForm.item5remark" placeholder="请输入备注" style="width:100%"></el-input>
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
+
+
+
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="8">
+                        <el-form-item label="合计金额(小写)"  prop="money">
+                {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money +
+                        ruleForm.item5money
+                }}
             </el-form-item>
-             <el-form-item label="报销单号："  class="left">
-                <div >{{ruleForm.expenseCode}}</div>            
-            </el-form-item> 
-            <el-form-item label="报销部门："  class="middle">
-                <el-input 
-                    disabled
-                    v-model="ruleForm.deptName"
-                    style="width:200px"
-                ></el-input>
-            </el-form-item>
-        
-            <el-form-item label="报销日期："   prop="expenseDate" class="right" >  
-                <el-date-picker
-                    v-model="ruleForm.expenseDate"
-                    type="date"
-                    placeholder="选择日期"
-                    style="width:200px">
-                </el-date-picker>
+                </el-col>
+                <el-col :span="8"></el-col>
+                <el-col :span="8">
+                     <el-form-item label="合计金额(大写)" >
+                {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
+                        + ruleForm.item5money)
+                }}
             </el-form-item>
 
-            <el-form-item label="附件："   class="right2" >
-                <el-input-number 
-                    v-model="ruleForm.accessory" 
-                    :precision="0" :step="1" :min="0"  
-                    style="width:160px"></el-input-number>
-                <span style="margin-left:20px">张</span>  
-            </el-form-item>
-            <el-form-item label="费用项目" style="margin-left:65px;margin-top:20px">
-            </el-form-item>    
-            <el-form-item  prop="item1desc" class="descCss">
-                <!-- <el-input  v-model="ruleForm.item1desc"  style="width:200px" disabled></el-input> -->
-                <el-select  
-                    v-model="ruleForm.item1desc" 
-                    clearable 
-                    placeholder="请选择">
-                    <el-option
-                        v-for="item in items"
-                        :key="item.id"
-                        :label="item.itemName"
-                        :value="item.itemName">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item   class="descCss">
-                <!-- <el-input  v-model="ruleForm.item2desc"  style="width:200px" disabled></el-input> -->
-                <el-select  
-                    v-model="ruleForm.item2desc" 
-                    clearable 
-                    placeholder="请选择">
-                    <el-option
-                        v-for="item in items"
-                        :key="item.id"
-                        :label="item.itemName"
-                        :value="item.itemName">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item  class="descCss">
-                <!-- <el-input  v-model="ruleForm.item3desc"  style="width:200px" disabled></el-input> -->
-                <el-select  
-                    v-model="ruleForm.item3desc" 
-                    clearable 
-                    placeholder="请选择">
-                    <el-option
-                        v-for="item in items"
-                        :key="item.id"
-                        :label="item.itemName"
-                        :value="item.itemName">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item  class="descCss">
-                <!-- <el-input  v-model="ruleForm.item4desc"  style="width:200px" disabled></el-input> -->
-                <el-select  
-                    v-model="ruleForm.item4desc" 
-                    clearable 
-                    placeholder="请选择">
-                    <el-option
-                        v-for="item in items"
-                        :key="item.id"
-                        :label="item.itemName"
-                        :value="item.itemName">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item class="descCss">
-                <!-- <el-input  v-model="ruleForm.item5desc"  style="width:200px" disabled></el-input> -->
-                <el-select  
-                    v-model="ruleForm.item5desc" 
-                    clearable 
-                    placeholder="请选择">
-                    <el-option
-                        v-for="item in items"
-                        :key="item.id"
-                        :label="item.itemName"
-                        :value="item.itemName">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+                </el-col>
 
-            <el-form-item label="金额" style="margin-left:520px;margin-top:-310px">
-            </el-form-item>  
-            <el-form-item  class="moneyCss">
-                <el-input-number  v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="moneyCss">
-                <el-input-number  v-model="ruleForm.item2money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-            <el-form-item class="moneyCss" >
-                <el-input-number  v-model="ruleForm.item3money" :precision="2" :step="0.1"  :min="0"  style="width:160px"></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="moneyCss">
-                <el-input-number  v-model="ruleForm.item4money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-            <el-form-item  class="moneyCss" >
-                <el-input-number  v-model="ruleForm.item5money" :precision="2" :step="0.1" :min="0"  style="width:160px"></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
+            </el-row>
 
-            <el-form-item label="备注" style="margin-left:1020px;margin-top:-310px">
-            </el-form-item>  
-            <el-form-item  class="remarkCss">
-                <el-input  v-model="ruleForm.item1remark" placeholder="请输入备注" style="width:240px"  ></el-input>
-            </el-form-item> 
-            <el-form-item  class="remarkCss">
-                <el-input  v-model="ruleForm.item2remark" placeholder="请输入备注" style="width:240px"  ></el-input>
-            </el-form-item>    
-            <el-form-item  class="remarkCss">
-                <el-input  v-model="ruleForm.item3remark" placeholder="请输入备注" style="width:240px" ></el-input>
-            </el-form-item>
-            <el-form-item  class="remarkCss">
-                <el-input  v-model="ruleForm.item4remark" placeholder="请输入备注" style="width:240px"  ></el-input>
-            </el-form-item>
-            <el-form-item  class="remarkCss" style="margin-bottom:20px">
-                <el-input  v-model="ruleForm.item5remark" placeholder="请输入备注" style="width:240px" ></el-input>
-            </el-form-item>
-           
-            <el-form-item  label="合计金额(小写)：" class="left" prop="money">        
-                {{ruleForm.item1money+ruleForm.item2money+ruleForm.item3money+ruleForm.item4money+ruleForm.item5money}}    
-            </el-form-item>
-            <el-form-item  label="合计金额(大写)：" class="right2">                 
-                {{digitUppercase(ruleForm.item1money+ruleForm.item2money+ruleForm.item3money+ruleForm.item4money+ruleForm.item5money)}}      
-            </el-form-item>
+
+
+
+
+
             
-            <el-form-item label="付款方式："  prop="paywayId" >
-                <el-radio-group 
-                   @change="selectPayWay"
-                    v-model="ruleForm.paywayId">
-                    <el-radio 
-                        :label="1" 
-                    >转账</el-radio>
-                    <el-radio :label="2" 
-                        style="margin-left:330px"
-                    >现金</el-radio>
-                    <el-radio 
-                        :label="3" 
-                        style="margin-left:335px"
-                    >其他</el-radio>
-                    <el-input 
-                        :disabled=isDisabled2
-                        v-model="ruleForm.paywayRemark"
-                        style="width:210px"
-                    ></el-input>
+           
+            <el-form-item label="付款方式" prop="paywayId">
+                <el-radio-group @change="selectPayWay" v-model="ruleForm.paywayId" style="width:100%">
+                <el-row type="flex" class="row-bg" justify="space-around">
+                  <el-col :span="8" class="flexs" style="justify-content: flex-start;align-items: center;">
+                      <el-radio :label="1">转账</el-radio>
+                  </el-col>
+                  <el-col :span="8" style="display:flex;align-items: center;">
+                     <el-radio :label="2" >现金</el-radio>
+                  </el-col>
+                  <el-col :span="8" class="flexs">
+                    <el-radio :label="3" >其他</el-radio>
+                    <el-input :disabled=isDisabled2 v-model="ruleForm.paywayRemark"></el-input>
+                  </el-col>
+                </el-row>
+                   
+                    
+                   
                 </el-radio-group>
             </el-form-item>
-
-           <el-form-item label="收款人：" >
-                <el-input 
-                    v-model="ruleForm.expenseName"
-                    style="width:210px"
-                    disabled
-                ></el-input>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="8">
+                    <el-form-item label="收款人">
+                <el-input v-model="ruleForm.expenseName" disabled></el-input>
                 <!-- <el-select 
                     v-model="ruleForm.userGetid" 
                     @change="getCardInfoBycompany"
@@ -198,235 +202,199 @@
                     > </el-option>
                 </el-select> -->
             </el-form-item>
-            <el-form-item label="收款账号："    style="margin-top: -50px;margin-left:440px">
-                <el-input 
-                    v-model="ruleForm.bankcardGetid" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item label="收款账号" >
+                <el-input v-model="ruleForm.bankcardGetid" disabled></el-input>
             </el-form-item>
-            <el-form-item label="收款开户行："  style="margin-top: -50px;margin-left:920px">
-                <el-input 
-                    v-model="ruleForm.bankGetname" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
-            </el-form-item>
+                </el-col>
+                <el-col :span='8'>
+                 <el-form-item label="收款开户行">
+                    <el-input v-model="ruleForm.bankGetname" disabled></el-input>
+                 </el-form-item>
+                </el-col>
+            </el-row>
 
-             <el-form-item label="付款单位："  prop="companyPayId"  class="left">
-                 <el-select 
-                    v-model="ruleForm.companyPayId" 
-                    placeholder="请选择付款单位" 
-                    @change="getCarInfoByCompanyId"
-                    style=" width: 210PX;">
-                    <el-option 
-                        v-for="item in payCompanys" 
-                        :key="item.groupCode" 
-                        :label="item.groupName" 
-                        :value="item.groupCode"
-                    > </el-option>
+            
+             <el-row type="flex" class="row-bg" justify="space-around">
+                  <el-col :span='8'>
+                       <el-form-item label="付款单位" prop="companyPayId">
+                <el-select v-model="ruleForm.companyPayId" placeholder="请选择付款单位" @change="getCarInfoByCompanyId"
+                    style=" width: 100%;">
+                    <el-option v-for="item in payCompanys" :key="item.groupCode" :label="item.groupName"
+                        :value="item.groupCode"> </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="借款账号："  style="margin-top: -50px;margin-left:440px">
-              <el-input 
-                    v-model="ruleForm.bankPaycode" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
+                  </el-col>
+                    <el-col :span='8'>
+                         <el-form-item label="借款账号" >
+                <el-input v-model="ruleForm.bankPaycode"  disabled></el-input>
             </el-form-item>
-            <el-form-item label="借款开户行："  style="margin-top: -50px;margin-left:920px">
-                <el-input 
-                    v-model="ruleForm.bankPayname" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
+                  </el-col>
+                   <el-col :span='8'>
+                        <el-form-item label="借款开户行">
+                <el-input v-model="ruleForm.bankPayname"  disabled></el-input>
             </el-form-item>
-
-            <el-form-item 
-                label="报销凭证影像："  
-                class="left">
-                <el-button  
-                    type="primary"
-                   @click="getImage"
-                >点击查看</el-button>
-            </el-form-item>
-            <el-form-item 
-                label="修改报销凭证影像："  
-                style=" margin-top: -50px;margin-left:460px">
-                <el-button  
-                    type="primary"
-                   @click="toEditImg"
-                >点击上传</el-button>
-            </el-form-item>
-             <!-- 上传报销凭证影像 -->
-            <el-dialog title="上传图片" :visible.sync="imgDialog" width="70%">
-                <el-upload
-                    action="/eladmin/api/files/doUpload"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="success"
-                    :before-upload="beforeAvatarUpload"
-                    :limit=limitNum>
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-                <el-button 
-                    size="small" 
-                    type="primary" 
-                    @click="cancel" 
-                class="btn2">返回</el-button>
-            </el-dialog>
-            <!-- 图片 -->
-            <el-dialog title="图片" :visible.sync="imageVisible" width="60%">
-            <div class="demo-image"
-                v-for="(item,index) in imgArr" :key="index">
-                 <el-image
-                    style="width: 500px; height: 500px"
-                    :src="baseImgPath+item.value"
-                ></el-image>
-            </div>
-            </el-dialog>
-
-            <el-form-item id="btn">
-                 <el-button @click="toReturn" style="width:100px">取消</el-button>
-                <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 120px;width:100px">确认修改</el-button>
-               
-            </el-form-item>
-
-        </el-form>
+                  </el-col>
+             </el-row>
+          
+           
+            
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="12">
+                   <el-form-item label="报销凭证影像">
+                      <uploadSmall v-if="imgArrOld.length > 0" @getfileName="getExpense" :fileName="imgArr2"
+                    :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12"></el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span='8' class="flexs">
+          <el-button type="danger" @click="toReturn">关闭</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+      </el-form>
     </div>
 </template>
 <script>
-    import {getAllGetUser} from '@/api/invoices/borrow'
-    import {getAllCheck} from '@/api/invoices/checkInvoices'
-    import {getAllCompany} from '@/api/invoices/borrow'
-    import { getDepts,getAllGetCompany,getCardInfoBycompany,editExpense2,getCode,editExpenseByExpenseId } from '@/api/invoices/expense'
-    import { getExpenseItem } from '@/api/invoices/travelExpense'
-    export default {
+import uploadSmall from '@/components/douploads/uploadSmall'
+import { getAllGetUser } from '@/api/invoices/borrow'
+import { getAllCheck } from '@/api/invoices/checkInvoices'
+import { getAllCompany } from '@/api/invoices/borrow'
+import { getDepts, getAllGetCompany, getCardInfoBycompany, editExpense2, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
+import { getExpenseItem } from '@/api/invoices/travelExpense'
+export default {
     name: 'expense',
-    data() {
-      return {
-        //影像上传参数
-        imgArr:[],
-        imgArr2:[],
-        baseImgPath:"/eladmin/api/files/showTxt?imgPath=",
-        limitNum:10,
-        imgDialog:false,
-        dialogImageUrl: '',
-        dialogVisible: false,
-        //影像查看参数
-        imgpath:'',
-        expenseImage:'',
-        imageVisible:false,
-
-        checks:'',
-        rejectReasult:'',
-        imgDialog2:false,
-        isAgree:1,//是否同意 1 同意 2驳回
-       
-        payCompanys:[],//所有单位
-        items:[],
-        filePath:'',
-        height: document.documentElement.clientHeight - 180 + 'px;',
-        form: {},
-        formLabelWidth: "80px",
-        ruleForm: {
-            expenseCode:'',//报销单号
-            dept:'',//部门
-            deptId:'',//部门id
-            expenseDate:'',//报销日期create_time
-            accessory:'',//附件数量accessory_num
-
-            userGetid:'',//收款单位/人id
-            bankcardGetid:'',//收款单位/人银行卡号
-            bankGetname:'',//收款单位/人银行卡所属银行
-
-            companyPayId:'',//付款单位id
-            bankPaycode:'',//付款单位银行卡号
-            bankPayname:'',//付款单位银行卡所属银行
-
-            paywayId:'',
-            accessory:'',
-            item1desc:'',
-            item1money:'',
-            item1remark:'',
-            item2desc:'',
-            item2money:'',
-            item2remark:'',
-            item3desc:'',
-            item3money:'',
-            item3remark:'',
-            item4desc:'',
-            item4money:'',
-            item4remark:'',
-            item5desc:'',
-            item5money:'',
-            item5remark:'',
-
-            expenseName:'',//报销人createUser
-            paywayId:'',//付款方式
-            paywayRemark:'',//付款方式其他的时候选填
-
-            deptId:'',//部门id
-            gm:'',//总经理
-            dm:'',//部门主管
-            finance:'',//财务
-
-            gmCheck:'',
-            financeCheck:'',
-            dmCheck:'',
-            role:'',
-        },
-        rules: {
-            deptId: [
-                { required: true, message: '请选择部门', trigger: 'change' }
-            ],
-            paywayId: [
-                { required: true, message: '请选择付款方式', trigger: 'change' }
-            ],
-            expenseDate:[
-                { required: true, message: '请选择日期', trigger: 'change' }
-            ],
-            payway: [
-                { required: true, message: '请选择付款方式', trigger: 'change' }
-            ],
-            companyGetId: [
-                { required: true, message: '请选择收款单位', trigger: 'change' }
-            ],
-            cardGetId: [
-                { required: true, message: '请选择收款单位银行帐号', trigger: 'change' }
-            ],
-            item1desc: [
-                { required: true, message: '项目一必须选择', trigger: 'change' }
-            ],
-            companyPayId: [
-                { required: true, message: '请选择出款单位名', trigger: 'change' }
-            ],
-            bankcardCodePay: [
-                { required: true, message: '请输入出款银行卡号', trigger: 'blur' }
-            ],
-            bankNamePay: [
-                { required: true, message: '请输入出款银行名', trigger: 'blur' }
-            ],
-           
-        },
-        //后端查询的数据
-        searchGetUsers:[],
-        searchDepts:[],
-        searchGetCompanys:[],//所有收款单位信息
-        searchCardInfos:[],//所选公司对应的银行卡信息
-        checkType:'',
-     
-        expenseId:'',
-        filePath2:'',
-        isDisabled:false,//收款人
-        isDisabled2:true,//其他付款方式输入框
-      }
+    components: {
+        uploadSmall
     },
-    mounted: function() {
+    data() {
+        return {
+            isDetail: '0',
+            imgArrOld: [],
+            //isNone:[],
+            //影像上传参数
+            imgArr: [],
+            imgArr2: [],
+            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+            limitNum: 10,
+            imgDialog: false,
+            dialogImageUrl: '',
+            dialogVisible: false,
+            //影像查看参数
+            imgpath: '',
+            expenseImage: '',
+            imageVisible: false,
+
+            checks: '',
+            rejectReasult: '',
+            imgDialog2: false,
+            isAgree: 1,//是否同意 1 同意 2驳回
+
+            payCompanys: [],//所有单位
+            items: [],
+            filePath: '',
+            height: document.documentElement.clientHeight - 180 + 'px;',
+            form: {},
+            formLabelWidth: "80px",
+            ruleForm: {
+                expenseCode: '',//报销单号
+                dept: '',//部门
+                deptId: '',//部门id
+                expenseDate: '',//报销日期create_time
+                accessory: '',//附件数量accessory_num
+
+                userGetid: '',//收款单位/人id
+                bankcardGetid: '',//收款单位/人银行卡号
+                bankGetname: '',//收款单位/人银行卡所属银行
+
+                companyPayId: '',//付款单位id
+                bankPaycode: '',//付款单位银行卡号
+                bankPayname: '',//付款单位银行卡所属银行
+
+                paywayId: '',
+                accessory: '',
+                item1desc: '',
+                item1money: '',
+                item1remark: '',
+                item2desc: '',
+                item2money: '',
+                item2remark: '',
+                item3desc: '',
+                item3money: '',
+                item3remark: '',
+                item4desc: '',
+                item4money: '',
+                item4remark: '',
+                item5desc: '',
+                item5money: '',
+                item5remark: '',
+
+                expenseName: '',//报销人createUser
+                paywayId: '',//付款方式
+                paywayRemark: '',//付款方式其他的时候选填
+
+                deptId: '',//部门id
+                gm: '',//总经理
+                dm: '',//部门主管
+                finance: '',//财务
+
+                gmCheck: '',
+                financeCheck: '',
+                dmCheck: '',
+                role: '',
+            },
+            rules: {
+                deptId: [
+                    { required: true, message: '请选择部门', trigger: 'change' }
+                ],
+                paywayId: [
+                    { required: true, message: '请选择付款方式', trigger: 'change' }
+                ],
+                expenseDate: [
+                    { required: true, message: '请选择日期', trigger: 'change' }
+                ],
+                payway: [
+                    { required: true, message: '请选择付款方式', trigger: 'change' }
+                ],
+                companyGetId: [
+                    { required: true, message: '请选择收款单位', trigger: 'change' }
+                ],
+                cardGetId: [
+                    { required: true, message: '请选择收款单位银行帐号', trigger: 'change' }
+                ],
+                item1desc: [
+                    { required: true, message: '项目一必须选择', trigger: 'change' }
+                ],
+                companyPayId: [
+                    { required: true, message: '请选择出款单位名', trigger: 'change' }
+                ],
+                bankcardCodePay: [
+                    { required: true, message: '请输入出款银行卡号', trigger: 'blur' }
+                ],
+                bankNamePay: [
+                    { required: true, message: '请输入出款银行名', trigger: 'blur' }
+                ],
+
+            },
+            //后端查询的数据
+            searchGetUsers: [],
+            searchDepts: [],
+            searchGetCompanys: [],//所有收款单位信息
+            searchCardInfos: [],//所选公司对应的银行卡信息
+            checkType: '',
+
+            expenseId: '',
+            filePath2: '',
+            isDisabled: false,//收款人
+            isDisabled2: true,//其他付款方式输入框
+        }
+    },
+    mounted: function () {
         this.getAllGetUser();
         this.selectAllCheck();
         this.getAllCompany();
@@ -439,160 +407,167 @@
             that.height = document.documentElement.clientHeight - 180 + 'px;'
         };
         this.expenses = JSON.parse(window.localStorage.getItem('expenses')).list
-        console.log("expenses==",this.expenses[0]);
-        this.ruleForm.expenseCode=this.expenses[0].expenseCode;
-        this.ruleForm.expenseDate=this.expenses[0].createTime;
-        this.ruleForm.deptId=this.expenses[0].deptId;
-        this.ruleForm.deptName=this.expenses[0].dept;
+        console.log("expenses==", this.expenses[0]);
+        this.ruleForm.expenseCode = this.expenses[0].expenseCode;
+        this.ruleForm.expenseDate = this.expenses[0].createTime;
+        this.ruleForm.deptId = this.expenses[0].deptId;
+        this.ruleForm.deptName = this.expenses[0].dept;
 
-        this.ruleForm.paywayId=this.expenses[0].paywayId;
+        this.ruleForm.paywayId = this.expenses[0].paywayId;
 
-        this.ruleForm.role=JSON.parse(window.localStorage.getItem('expenseRoles'))[0].id;
-        console.log("role==",this.ruleForm.role);
+        this.ruleForm.role = JSON.parse(window.localStorage.getItem('expenseRoles'))[0].id;
+        console.log("role==", this.ruleForm.role);
 
-        this.ruleForm.expenseName=this.expenses[0].nickName;
-        this.ruleForm.accessory=this.expenses[0].accessoryNum;
-        this.ruleForm.paywayRemark=this.expenses[0].paywayRemark;
-        this.ruleForm.item1desc=this.expenses[0].item1Desc;
-        this.ruleForm.item1money=this.expenses[0].item1Money;
-        this.ruleForm.item1remark=this.expenses[0].item1Remark;
-        this.ruleForm.item2desc=this.expenses[0].item2Desc;
-        this.ruleForm.item2money=this.expenses[0].item2Money;
-        this.ruleForm.item2remark=this.expenses[0].item2Remark;
-        this.ruleForm.item3desc=this.expenses[0].item3Desc;
-        this.ruleForm.item3money=this.expenses[0].item3Money;
-        this.ruleForm.item3remark=this.expenses[0].item3Remark;
-        this.ruleForm.item4desc=this.expenses[0].item4Desc;
-        this.ruleForm.item4money=this.expenses[0].item4Money;
-        this.ruleForm.item4remark=this.expenses[0].item4Remark;
-        this.ruleForm.item5desc=this.expenses[0].item5Desc;
-        this.ruleForm.item5money=this.expenses[0].item5Money;
-        this.ruleForm.item5remark=this.expenses[0].item5Remark;
+        this.ruleForm.expenseName = this.expenses[0].nickName;
+        this.ruleForm.accessory = this.expenses[0].accessoryNum;
+        this.ruleForm.paywayRemark = this.expenses[0].paywayRemark;
+        this.ruleForm.item1desc = this.expenses[0].item1Desc;
+        this.ruleForm.item1money = this.expenses[0].item1Money;
+        this.ruleForm.item1remark = this.expenses[0].item1Remark;
+        this.ruleForm.item2desc = this.expenses[0].item2Desc;
+        this.ruleForm.item2money = this.expenses[0].item2Money;
+        this.ruleForm.item2remark = this.expenses[0].item2Remark;
+        this.ruleForm.item3desc = this.expenses[0].item3Desc;
+        this.ruleForm.item3money = this.expenses[0].item3Money;
+        this.ruleForm.item3remark = this.expenses[0].item3Remark;
+        this.ruleForm.item4desc = this.expenses[0].item4Desc;
+        this.ruleForm.item4money = this.expenses[0].item4Money;
+        this.ruleForm.item4remark = this.expenses[0].item4Remark;
+        this.ruleForm.item5desc = this.expenses[0].item5Desc;
+        this.ruleForm.item5money = this.expenses[0].item5Money;
+        this.ruleForm.item5remark = this.expenses[0].item5Remark;
 
-        this.ruleForm.companyPayId=this.expenses[0].companyPayId;
-        this.ruleForm.bankPaycode=this.expenses[0].bankPaycode;
-        this.ruleForm.bankPayname=this.expenses[0].bankPayname;
-        this.ruleForm.userGetid=this.expenses[0].userGetid;
-        this.ruleForm.bankcardGetid=this.expenses[0].bankcardGetid;
-        this.ruleForm.bankGetname=this.expenses[0].bankGetname;
+        this.ruleForm.companyPayId = this.expenses[0].companyPayId;
+        this.ruleForm.bankPaycode = this.expenses[0].bankPaycode;
+        this.ruleForm.bankPayname = this.expenses[0].bankPayname;
+        this.ruleForm.userGetid = this.expenses[0].userGetid;
+        this.ruleForm.bankcardGetid = this.expenses[0].bankcardGetid;
+        this.ruleForm.bankGetname = this.expenses[0].bankGetname;
 
-        this.ruleForm.gm=JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
-        this.ruleForm.finance=JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
-        this.ruleForm.dm=JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
+        this.ruleForm.gm = JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
+        this.ruleForm.finance = JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
+        this.ruleForm.dm = JSON.parse(window.localStorage.getItem('expenseCheckPerson'));
 
-        this.expenseId=this.expenses[0].expenseId;
+        this.expenseId = this.expenses[0].expenseId;
 
-        this.ruleForm.gmCheck=this.expenses[0].gmCheck;
-        this.ruleForm.financeCheck=this.expenses[0].financeCheck;
-        this.ruleForm.dmCheck=this.expenses[0].dmCheck;
+        this.ruleForm.gmCheck = this.expenses[0].gmCheck;
+        this.ruleForm.financeCheck = this.expenses[0].financeCheck;
+        this.ruleForm.dmCheck = this.expenses[0].dmCheck;
 
-        this.expenseImage=this.expenses[0].expenseImage;
-        
-        var imgArr= this.expenseImage.split(",");  
-        imgArr.map((item,index)=>{
-            if(item!=null&&item!=""){
-                 this.imgArr.push({id:index,value:item});
+        this.expenseImage = this.expenses[0].expenseImage;
+        this.imgArrOld = [];
+        var imgArr = this.expenseImage.split(",");
+        this.imgArr2=[];
+        imgArr.map((item, index) => {
+            if (item != null && item != "") {
+                this.imgArrOld.push({
+                    name: item,
+                    url: this.baseImgPath + item
+                })
+                this.imgArr2.push(item);
             }
         })
     },
     methods: {
-       
-       isAgrees(){
+        getExpense(data) {
+            this.imgArr2 = data;
+        },
+        isAgrees() {
             console.log("点了是否同意");
-            if(this.isAgree==2){
-                this.isDisabled=false;
+            if (this.isAgree == 2) {
+                this.isDisabled = false;
             }
-            if(this.isAgree==1){
-                this.isDisabled=true;
+            if (this.isAgree == 1) {
+                this.isDisabled = true;
             }
         },
         //获取所有审批结果
-        selectAllCheck(){
+        selectAllCheck() {
             var expenses = JSON.parse(window.localStorage.getItem('expenses')).list
-            var expenseCode=expenses[0].expenseCode;
-            console.log('expenseCode==',expenseCode);
-            getAllCheck({invoiceCode:expenseCode}).then(res => {
-                console.log('selectAllCheck==',res);
+            var expenseCode = expenses[0].expenseCode;
+            console.log('expenseCode==', expenseCode);
+            getAllCheck({ invoiceCode: expenseCode }).then(res => {
+                console.log('selectAllCheck==', res);
                 this.checks = res
             })
         },
-        selectPayWay(){
-            console.log("paywayId",this.ruleForm.paywayId);
-            if(this.ruleForm.paywayId==3){
-                this.isDisabled=false;
-                this.isDisabled2=false;//其他输入选择框可输入
+        selectPayWay() {
+            console.log("paywayId", this.ruleForm.paywayId);
+            if (this.ruleForm.paywayId == 3) {
+                this.isDisabled = false;
+                this.isDisabled2 = false;//其他输入选择框可输入
             }
-            if(this.ruleForm.paywayId==2){
-                this.isDisabled=true;//收款人置空
-                this.isDisabled2=true;
+            if (this.ruleForm.paywayId == 2) {
+                this.isDisabled = true;//收款人置空
+                this.isDisabled2 = true;
             }
-            if(this.ruleForm.paywayId==1){
-                this.isDisabled=false;
-                this.isDisabled2=true;
+            if (this.ruleForm.paywayId == 1) {
+                this.isDisabled = false;
+                this.isDisabled2 = true;
             }
         },
         //获取报销人信息 
         getAllGetUser() {
             getAllGetUser().then(res => {
-                console.log('getAllGetUser==',res.list);
-                this.searchGetUsers = res.list;  
+                console.log('getAllGetUser==', res.list);
+                this.searchGetUsers = res.list;
             })
         },
         //获取所有出款单位信息 
         getAllCompany() {
-            getAllCompany().then(res => {  
+            getAllCompany().then(res => {
                 this.payCompanys = res.list;
-                console.log('payCompanys==',this.payCompanys);
+                console.log('payCompanys==', this.payCompanys);
             })
-        }, 
+        },
         //根据出款单位id查找出款银行卡信息 
         getCarInfoByCompanyId() {
-          var cardInfo=this.payCompanys.find((item) =>
-            item.groupCode == this.ruleForm.companyPayId);
-            this.ruleForm.bankPaycode= cardInfo.groupBankAccount;
-            this.ruleForm.bankPayname= cardInfo.groupOpenBank;
-            console.log('cardInfo==',cardInfo);
-        }, 
-        getExpenseCode(){
+            var cardInfo = this.payCompanys.find((item) =>
+                item.groupCode == this.ruleForm.companyPayId);
+            this.ruleForm.bankPaycode = cardInfo.groupBankAccount;
+            this.ruleForm.bankPayname = cardInfo.groupOpenBank;
+            console.log('cardInfo==', cardInfo);
+        },
+        getExpenseCode() {
             getCode().then(res => {
-                console.log("getExpenseCode",res.message);
-                this.ruleForm.expenseCode=res.message;
+                console.log("getExpenseCode", res.message);
+                this.ruleForm.expenseCode = res.message;
             })
         },
         //获取费用项目
-        getExpenseItem(){
-            getExpenseItem().then(res=>{
-                this.items=res;
-                console.log("items",this.items);
-            })    
+        getExpenseItem() {
+            getExpenseItem().then(res => {
+                this.items = res;
+                console.log("items", this.items);
+            })
         },
-        handleResize () {
+        handleResize() {
             this.fullWidth = document.documentElement.clientWidth
-        }, 
-       
+        },
+
         //初始化下拉部门信息 
         getAllDept() {
             getDepts().then(res => {
-                console.log('getDepts==',res.list);
+                console.log('getDepts==', res.list);
                 this.searchDepts = res.list
             }).catch(() => { })
-        }, 
+        },
         //初始化下拉公司信息 
         getAllGetCompany() {
             getAllGetCompany().then(res => {
-                console.log('getAllGetCompany==',res.list);
+                console.log('getAllGetCompany==', res.list);
                 this.searchGetCompanys = res.list
             })
-        }, 
+        },
         //根据收款单位id查找收款银行卡信息 
         getCardInfoBycompany() {
             getCardInfoBycompany(this.ruleForm.userGetid).then(res => {
-                console.log('getCardInfoBycompany==',res);
-                this.ruleForm.bankcardGetid=res.payCheck;
-                this.ruleForm.bankGetname=res.accountCardBank;
-                this.ruleForm.userGetid=res.nickName;
+                console.log('getCardInfoBycompany==', res);
+                this.ruleForm.bankcardGetid = res.payCheck;
+                this.ruleForm.bankGetname = res.accountCardBank;
+                this.ruleForm.userGetid = res.nickName;
             })
-        }, 
+        },
         //根据收款单位银行卡id查找对应的银行名
         // getBankNameBycardId() {
         //     getBankNameBycardId(this.ruleForm.cardGetId).then(res => {
@@ -603,60 +578,60 @@
         // }, 
         //提交表单
         submitForm(formName) {
-             let params={
-                        invoiceType:1,//发起状态
-                        expenseId:this.expenseId,
-                        deptId:this.ruleForm.deptId,
-                        expenseCode:this.ruleForm.expenseCode,
-                        dept:this.ruleForm.dept,
-                        createTime:this.ruleForm.expenseDate,
-                        accessoryNum:this.ruleForm.accessory,    
+            let params = {
+                invoiceType: 1,//发起状态
+                expenseId: this.expenseId,
+                deptId: this.ruleForm.deptId,
+                expenseCode: this.ruleForm.expenseCode,
+                dept: this.ruleForm.dept,
+                createTime: this.ruleForm.expenseDate,
+                accessoryNum: this.ruleForm.accessory,
 
-                        item1Remark:this.ruleForm.item1remark,
-                        item1Money:this.ruleForm.item1money,
-                        item1Desc:this.ruleForm.item1desc,
-                        item2Remark:this.ruleForm.item2remark,
-                        item2Money:this.ruleForm.item2money,
-                        item2Desc:this.ruleForm.item2desc,
-                        item3Remark:this.ruleForm.item3remark,
-                        item3Money:this.ruleForm.item3money,
-                        item3Desc:this.ruleForm.item3desc,
-                        item4Remark:this.ruleForm.item4remark,
-                        item4Money:this.ruleForm.item4money,
-                        item4Desc:this.ruleForm.item4desc,
-                        item5Remark:this.ruleForm.item5remark,
-                        item5Money:this.ruleForm.item5money,
-                        item5Desc:this.ruleForm.item5desc,
-                        
-                        totalMoney:this.ruleForm.item1money+this.ruleForm.item2money+this.ruleForm.item3money+this.ruleForm.item4money+this.ruleForm.item5money,
-                        paywayId:this.ruleForm.paywayId,
-                        paywayRemark:this.ruleForm.paywayRemark,
+                item1Remark: this.ruleForm.item1remark,
+                item1Money: this.ruleForm.item1money,
+                item1Desc: this.ruleForm.item1desc,
+                item2Remark: this.ruleForm.item2remark,
+                item2Money: this.ruleForm.item2money,
+                item2Desc: this.ruleForm.item2desc,
+                item3Remark: this.ruleForm.item3remark,
+                item3Money: this.ruleForm.item3money,
+                item3Desc: this.ruleForm.item3desc,
+                item4Remark: this.ruleForm.item4remark,
+                item4Money: this.ruleForm.item4money,
+                item4Desc: this.ruleForm.item4desc,
+                item5Remark: this.ruleForm.item5remark,
+                item5Money: this.ruleForm.item5money,
+                item5Desc: this.ruleForm.item5desc,
 
-                        userGetid:this.ruleForm.userGetid,
-                        bankcardGetid:this.ruleForm.bankcardGetid,
-                        bankGetname:this.ruleForm.bankGetname,
-                        companyPayId:this.ruleForm.companyPayId,
-                        bankPaycode:this.ruleForm.bankPaycode,
-                        bankPayname:this.ruleForm.bankPayname,
-                        filePath:this.filePath,
-                        expenseImage:this.imgArr2.join(),
-                    };
-                    console.log('submit!');
-                    editExpense2(params).then(res => {
-                        console.log('addExpense==',res.message);
-                        this.$message({
-                            message: "修改成功",
-                            type: 'success',
-                        });
-                    });   
-                    this.$refs[formName].resetFields();
-                     this.$router.push({
-                        path: "/invoices/addInvoices"
-                    });   
+                totalMoney: this.ruleForm.item1money + this.ruleForm.item2money + this.ruleForm.item3money + this.ruleForm.item4money + this.ruleForm.item5money,
+                paywayId: this.ruleForm.paywayId,
+                paywayRemark: this.ruleForm.paywayRemark,
+
+                userGetid: this.ruleForm.userGetid,
+                bankcardGetid: this.ruleForm.bankcardGetid,
+                bankGetname: this.ruleForm.bankGetname,
+                companyPayId: this.ruleForm.companyPayId,
+                bankPaycode: this.ruleForm.bankPaycode,
+                bankPayname: this.ruleForm.bankPayname,
+                filePath: this.filePath,
+                expenseImage: this.imgArr2.join(),
+            };
+            console.log('submit!');
+            editExpense2(params).then(res => {
+                console.log('addExpense==', res.message);
+                this.$message({
+                    message: "修改成功",
+                    type: 'success',
+                });
+            });
+            this.$refs[formName].resetFields();
+            this.$router.push({
+                path: "/invoices/addInvoices"
+            });
             // this.$refs[formName].validate((valid) => {
-               
+
             //     if (valid) {
-                                               
+
             //     }
             //     else {
             //         console.log('error submit!!');
@@ -667,20 +642,20 @@
             //         return false;
             //     }
             // });
-        }, 
+        },
         //返回
         toReturn() {
-           this.$router.push({
-                path: "/invoices/addInvoices"
-            });   
-        }, 
+            this.$tab.closeOpenPage({
+                path:'/invoices/addInvoices'
+            })
+        },
         //返回当前时间
-        returnTime(time2){
-            var time=new Date(time2);
+        returnTime(time2) {
+            var time = new Date(time2);
             return time.toLocaleDateString();
         },
         //转换大小写
-        digitUppercase(n=0) {
+        digitUppercase(n = 0) {
             var fraction = ['角', '分'];
             var digit = [
                 '零', '壹', '贰', '叁', '肆',
@@ -709,122 +684,109 @@
             return head + s.replace(/(零.)*零元/, '元')
                 .replace(/(零.)+/g, '零')
                 .replace(/^整$/, '零元整');
-        },       
-         //上传图片
-        handleRemove(file) {
-            this.imgArr2.map((item,index)=>{
-            if(item==file.name){
-                    this.imgArr2.splice(index, 1);
-                }
-            })
-            this.$message("取消上传");
-        },
-        //点+可以放大查看图片
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        success(file) {
-            this.$message(file.message);
-            this.imgArr2.push(file.obj);
         },
         //取消按钮
         cancel() {
             this.imgDialog = false;
         },
         //获取图片
-        getImage(){
-            if (this.imgArr.length<=0) {
-                this.imageVisible=false;
+        getImage() {
+            if (this.imgArr.length <= 0) {
+                this.imageVisible = false;
                 this.$message({
                     message: "没有影像",
                     type: 'warning',
                 });
-            }else{
-                this.imageVisible=true;
-                this.imgArr.map(item=>{//增加可预览功能
-                    this.srcList.push(this.baseImgPath+item.value);
+            } else {
+                this.imageVisible = true;
+                this.imgArr.map(item => {//增加可预览功能
+                    this.srcList.push(this.baseImgPath + item.value);
                 })
             }
-        },  
-        toEditImg(){
-            this.imgDialog=true;
-            this.imgArr=[];
-            console.log("toEditImg",this.imgArr);
         },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-            this.$message.error('图片格式不对!');
-            }
-            if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-      },
+        toEditImg() {
+            this.imgDialog = true;
+            this.imgArr = [];
+            console.log("toEditImg", this.imgArr);
+        },
+      
     },
-  }
+}
 </script>
 
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-    #title{
-        margin-left: 450px; 
-        margin-top: 10px;
-        margin-bottom: 30px;
-    }
+#title {
+    margin-left: 450px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
 
-    .descCss{
-       width: 490px;
-        margin-left: -70px;
-    }
-    .moneyCss {
-        width: 380px;
-        margin-left: 420px;
-    }
-    .remarkCss {
-        margin-left: 880px;
-    }
-    .yuan{
-        margin-left: 180px;
-        margin-top: -30px; 
-    }
-    
-    
-    .left{
-        width: 400px;
-    }
-    .middle{
-        margin-left: 310px;
-        margin-top: -50px;
-    }
-    .right{
-        margin-left: 630px;
-        margin-top: -50px;
-    }
-    .right2{
-        margin-left: 920px;
-        margin-top: -50px;
-    }
-    #btn{
-      margin-left:320px;
-      margin-top:40px;
-    }
-    ::v-deep .el-input-number .el-input__inner {
-        text-align: left;
-    }
-    ::v-deep .vue-treeselect__control,::v-deep .vue-treeselect__placeholder,::v-deep .vue-treeselect__single-value {
-        height: 30px;
-        line-height: 30px;
-    }
-      .inputCss{
-        width: 200px;
-    }
-    // 改变input框字体颜色
-     ::v-deep .is-disabled .el-input__inner{
-        background-color: transparent !important;
-        color: black;    
-    }
+.descCss {
+    width: 490px;
+    margin-left: -70px;
+}
+
+.moneyCss {
+    width: 380px;
+    margin-left: 420px;
+}
+
+.remarkCss {
+    margin-left: 880px;
+}
+
+.yuan {
+    margin-left: 180px;
+    margin-top: -30px;
+}
+
+
+.left {
+    width: 400px;
+}
+
+.middle {
+    margin-left: 310px;
+    margin-top: -50px;
+}
+
+.right {
+    margin-left: 630px;
+    margin-top: -50px;
+}
+
+.right2 {
+    margin-left: 920px;
+    margin-top: -50px;
+}
+
+#btn {
+    margin-left: 320px;
+    margin-top: 40px;
+}
+
+::v-deep .el-input-number .el-input__inner {
+    text-align: left;
+}
+
+::v-deep .vue-treeselect__control,
+::v-deep .vue-treeselect__placeholder,
+::v-deep .vue-treeselect__single-value {
+    height: 30px;
+    line-height: 30px;
+}
+
+.inputCss {
+    width: 200px;
+}
+.flexs{
+    display: flex;
+    align-items: center;
+}
+// 改变input框字体颜色
+::v-deep .is-disabled .el-input__inner {
+    background-color: transparent !important;
+    color: black;
+}
 </style>

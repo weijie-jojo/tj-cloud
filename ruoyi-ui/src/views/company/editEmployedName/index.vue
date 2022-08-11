@@ -258,6 +258,7 @@ export default {
   props: [],
   data() {
     return {
+      userinfo:{},
       isDisable:true,
       formData: {
         selfId:'',
@@ -349,8 +350,30 @@ export default {
     
   },
   methods: {
+     check(msg){
+      let parms = {
+            "checkReasult": msg,
+            "checkUser": this.userinfo.userName,
+            'phonenumber': this.userinfo.phonenumber,
+            "selfCode": this.formData.selfCode,
+            "selfType": "9",
+          }
+          crudEmployed.check(parms).then(res => {
+            if (res != undefined) {
+              if (res.code === 200) {
+               
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'danger'
+                })
+              }
+            }
+          })
+    },
     getLoginInfo(){
       getInfo().then(res=>{  
+        this.userinfo=res.user;
         this.formData.userName=res.user.nickName;
       })
     },
@@ -421,7 +444,8 @@ export default {
             };
            
             crudReview.updateReview(parms).then(res=>{
-              this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
+             this.check('名称异常修改完成');
+            this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
                        this.$tab.refreshPage( {path:"/company/customer/employed"} );
                })
              })

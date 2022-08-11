@@ -8,9 +8,13 @@
     </el-upload>
 
     <!-- 图片预览 -->
-    <el-dialog :visible.sync="dialogVisible" append-to-body>
-      <img width="100%" :src="dialogImageUrl" alt="" />
-    </el-dialog>
+    <!-- <el-dialog :visible.sync="dialogVisible" append-to-body>
+       <el-image width="100%" ref="preview" :src="dialogImageUrl" :preview-src-list="dialogImageUrls"></el-image>
+    </el-dialog> -->
+    <el-image-viewer
+           v-if="showViewer"
+           :on-close="closeViewer"
+           :url-list="dialogImageUrls" />
     <!--PDF 预览-->
     <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
       <div>
@@ -36,18 +40,22 @@
 </template>
 
 <script>
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import pdf from 'vue-pdf-signature'
 import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 export default {
   name: 'uploadSmall',
   components: {
-    pdf
+    pdf,
+    ElImageViewer
   },
   data() {
     return {
+      showViewer:false,
       errOk: false,
       dialogVisible: false,
       dialogImageUrl: "",
+      dialogImageUrls:[],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       fileNameOlds: this.$options.propsData.fileNameOld,
       fileNames: this.$options.propsData.fileName,
@@ -98,6 +106,9 @@ export default {
     this.getLunS();
   },
   methods: {
+    closeViewer() {
+     this.showViewer = false
+    },
     getLunS() {
       let arr = this.fileNameOlds;
       console.log(this.fileNameOlds);
@@ -182,6 +193,7 @@ export default {
 
     },
     handlePreview(file) {
+      this.dialogImageUrls=[];
       this.errOk = false;
       if (file.hasOwnProperty('response')) {
         if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
@@ -189,8 +201,10 @@ export default {
           this.viewVisible = true;
           this.url = pdf.createLoadingTask({ url: this.baseImgPath + file.response.obj, CMapReaderFactory, cMapPacked: true });
         } else {
-          this.dialogImageUrl = this.baseImgPath + file.name;
-          this.dialogVisible = true;
+          this.dialogImageUrls.push(this.baseImgPath + file.name);
+          this.showViewer = true
+          //this.dialogImageUrl = this.baseImgPath + file.name;
+          //this.dialogVisible = true;
         }
       } else {
         if (file.name.substring(file.name.lastIndexOf('.') + 1) == 'pdf') {
@@ -198,8 +212,10 @@ export default {
           this.viewVisible = true;
           this.url = pdf.createLoadingTask({ url: this.baseImgPath + file.name, CMapReaderFactory, cMapPacked: true });;
         } else {
-          this.dialogImageUrl = this.baseImgPath + file.name;
-          this.dialogVisible = true;
+          this.dialogImageUrls.push(this.baseImgPath + file.name);
+          this.showViewer = true
+          //this.dialogImageUrl = this.baseImgPath + file.name;
+          //this.dialogVisible = true;
         }
       }
     },
