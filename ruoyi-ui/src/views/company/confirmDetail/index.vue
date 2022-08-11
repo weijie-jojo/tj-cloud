@@ -1471,7 +1471,7 @@ export default {
                       resmsg = '注册确认完成';
                       this.check('注册确认完成');
                     } else {
-                      this.check('注册确认完成未通过。' + '原因:' + this.remark);
+                      this.check('注册确认未通过。' + '原因:' + this.remark);
                       resmsg = '注册确认完成';
                     }
 

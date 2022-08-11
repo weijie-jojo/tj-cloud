@@ -134,7 +134,9 @@
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-else type="number" style="width:100%" v-model="ruleForm.ordinaryProxyFee"
-                    @change="handleordinaryProxyFee" :step="0.01" :max="100">
+                    @input="handleordinaryProxyFee"
+                    @change="handleordinaryProxyFee" 
+                    :step="0.01" :max="100">
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -349,7 +351,9 @@
                     <template slot="append">元</template>
                   </el-input>
                   <el-input :readonly="confirmEditStatus" v-else type="number" style="width:100%"
-                    v-model="ruleForm.editOrdinaryProxyFee" @change="handleordinaryProxyFeeS" :step="0.01" :min="0" :max="100">
+                    v-model="ruleForm.editOrdinaryProxyFee" 
+                    @input="handleordinaryProxyFeeS" 
+                    @change="handleordinaryProxyFeeS" :step="0.01" :min="0" :max="100">
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -1204,10 +1208,6 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.multipleSelection = selection;
-      console.log(this.multipleSelection);
-      // this.ids = selection.map((item) => item.selfId);
-      // this.single = selection.length !== 1;
-      // this.multiple = !selection.length;
     },
 
     handleChange(value) {
@@ -1234,36 +1234,23 @@ export default {
       this.titles = "编辑渠道管理";
       var placeCode = item.placeCode;
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
-
         this.ruleForm.editOrdinaryProxyIsmoney=JSON.stringify(res.ordinaryProxyIsmoney);
         this.ruleForm.editIsOrdinaryShare=JSON.stringify(res.isOrdinaryShare);
         this.ruleForm.editOrdinaryShareIsmoney=JSON.stringify(res.ordinaryShareIsmoney);
         this.ruleForm.editSpecialProxyIsmoney=JSON.stringify(res.specialProxyIsmoney);
         this.ruleForm.editIsSpecialShare=JSON.stringify(res.isSpecialShare);
         this.ruleForm.editSpecialShareIsmoney=JSON.stringify(res.specialShareIsmoney);
-        
-
         this.ruleForm.editIsSelfTax=JSON.stringify(res.isSelfTax),
         this.ruleForm.editIsSpecialSelfTax=JSON.stringify(res.isSpecialSelfTax),
-
         this.ruleForm.editAgencyFeeId = res.agencyFeeId;
-       
-       
-       //this.ruleForm.editOrdinaryProxyMoney = res.ordinaryProxyMoney; //定额服务费 
-
         this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
         this.ruleForm.editIsSpecialTax = res.isSpecialTax;
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
         this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
-        //this.ruleForm.editSpecialProxyMoney=res.specialProxyMoney;
         this.ruleForm.editSpecialProxyFee=res.specialProxyFee;
-
-         this.ruleForm.editSpecialShare=res.specialShare;
-        // this.ruleForm.editSpecialShareMoney=res.specialShareMoney;
-         this.ruleForm.editOrdinaryShare=res.ordinaryShare;
-         //this.ruleForm.editOrdinaryShareMoney=res.ordinaryShareMoney;  
-
+        this.ruleForm.editSpecialShare=res.specialShare;
+        this.ruleForm.editOrdinaryShare=res.ordinaryShare;
         this.ruleForm.editOrdinarySpecialTax=JSON.stringify(res.ordinarySpecialTax);
         this.ruleForm.editOrdinaryTax=JSON.stringify(res.ordinaryTax);
         if (this.ruleForm.editIsOrdinaryTax == true) {

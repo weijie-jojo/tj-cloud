@@ -155,7 +155,7 @@
             v-if="scope.row.endStatus == 1">
             完成</el-link>
           <el-link @click="errConfirms(scope.row, scope.row.selfCode, scope.row.userId)" :underline="false" type="danger"
-            v-if="scope.row.endStatus == 2">异常</el-link>
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 &&scope.row.endStatus == 2">异常</el-link>
         </template>
       </el-table-column>
     </el-table>
