@@ -222,9 +222,9 @@
             
         <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="12">
-                <el-form-item label="报销凭证影像">
-                    <uploadSmall v-if="imgArrOld.length >= 0" @getfileName="getExpense" :fileName="imgArr2"
-                    :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
+                <el-form-item  label="报销凭证影像：" >
+                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadSmall>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -266,6 +266,8 @@ export default {
     data() {
         return {
             isDetail: '1',
+            isDetails: '0',
+            isNone: [],
             imgArrOld: [],
             //isNone:[],
             //影像上传参数

@@ -241,21 +241,23 @@
                 <showPdfAndImg v-if="imgArr.length >= 0" :fileName="isNone" :fileNameOld="imgArr"
                     :isDetail="isDetail"></showPdfAndImg>
             </el-form-item> -->
-            <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销凭证影像：" >
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                    <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                            :isDetail="isDetails"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9"></el-col>
-            </el-row>
+            <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
+                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadSmall>
+            </el-form-item>
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
 
           <el-row type="flex" class="row-bg" style="margin-bottom: 20px;" justify="space-around">
                 <el-col :span="23">
@@ -301,6 +303,7 @@
     </div>
 </template>
 <script>
+import pdf from 'vue-pdf-signature'
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
@@ -309,7 +312,8 @@ import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
     name: 'expense',
     components: {
-        uploadSmall
+        uploadSmall,
+        pdf
     },
     data() {
         return {
@@ -497,13 +501,15 @@ export default {
         var imgArr = this.expenseImage.split(",");
         imgArr.map((item, index) => {
             if (item != null && item != "") {
+                var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
                 this.imgArr.push({
-                    url: this.baseImgPath + item,
-                    name: item,
+                    url:  item,
+                    suffix: suffix,
                 })
                 // this.imgArr.push({id:index,value:item});
             }
         })
+        console.log("imgArr==",this.imgArr);
     },
     methods: {
         getExpense(data) {
@@ -932,5 +938,10 @@ export default {
 ::v-deep .is-disabled .el-input__inner {
     background-color: transparent !important;
     color: black;
+}
+
+.imgTitle{
+    margin-left:600px;
+    font-size: 18px;
 }
 </style>

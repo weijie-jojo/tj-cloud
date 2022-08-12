@@ -268,42 +268,54 @@
                 </el-col>
 
             </el-row>
-           
-            <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                        <showPdfAndImg v-if="imgArr.length >= 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></showPdfAndImg>
-                </el-col>
-                <!-- <el-col :span="9">
-                    <el-form-item label="付款凭证影像">
-                        <showPdfAndImg v-if="imgArr2.length >=0" :fileName="isNone" :fileNameOld="imgArr2"
-                            :isDetail="isDetail"></showPdfAndImg>
-                    </el-form-item>
-                </el-col> -->
-            </el-row>
+
+             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" style="margin-top:20px">           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">付款凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">付款凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage">返回</el-button>
+                    <el-button type="danger" @click="beforePage" style="width:130px">返回</el-button>
 
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
-             
                 
-           
         </el-form>
     </div>
 </template>
 <script>
-import showPdfAndImg from '@/components/douploads/showPdfAndImg'
+import pdf from 'vue-pdf-signature'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
-import { getDepts, getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
+import { getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
 import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
     components: {
-        showPdfAndImg
+        pdf
     },
     name: 'expense',
     data() {
@@ -502,16 +514,15 @@ export default {
         } else {
             imgArr.map((item, index) => {
                 if (item != null && item != "") {
-                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
-                    console.log("type==",suffix);
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);               
                     this.imgArr.push({
                         url:  item,
-                        type: suffix,
+                        suffix: suffix,
                     })
                 }
             })
         }
-
+        console.log("imgArr==",this.imgArr);
         var imgArr2 = this.expenseImage2.split(",");
         if (imgArr2[0] == "") {
 
@@ -519,14 +530,16 @@ export default {
         } else {
             imgArr2.map((item, index) => {
                 if (item != null && item != "") {
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
                     this.imgArr2.push({
                         url:  item,
-                        name: item,
+                        suffix: suffix,
                     })
                 }
             })
 
         }
+         console.log("imgArr==",this.imgArr);
 
     },
     methods: {
@@ -888,8 +901,8 @@ export default {
     color: black;
 }
 
-.imgTitle {
-    font-size: 20px;
-    margin-bottom: 40px;
+.imgTitle{
+    margin-left:600px;
+    font-size: 18px;
 }
 </style>
