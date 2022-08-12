@@ -1033,28 +1033,28 @@ export default {
     handlespecialShareIsmoneyS(e) {
       if (this.ruleForm.editSpecialShareIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editSpecialShare = '100.00';
+          this.ruleForm.editSpecialShare = '100';
         }
       }
     },
     handlespecialProxyIsmoneyS(e) {
       if (this.ruleForm.editSpecialProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editSpecialProxyFee = '100.00';
+          this.ruleForm.editSpecialProxyFee = '100';
         }
       }
     },
     handleordinaryShareIsmoneyS(e) {
       if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editOrdinaryShare = '100.00';
+          this.ruleForm.editOrdinaryShare = '100';
         }
       }
     },
     handleordinaryProxyFeeS(e) {
       if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editOrdinaryProxyFee = '100.00';
+          this.ruleForm.editOrdinaryProxyFee = '100';
         }
       }
     },
@@ -1062,21 +1062,21 @@ export default {
     handlespecialShareIsmoney(e) {
       if (this.ruleForm.specialShareIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.specialShare = '100.00';
+          this.ruleForm.specialShare = '100';
         }
       }
     },
     handlespecialProxyIsmoney(e) {
       if (this.ruleForm.specialProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.specialProxyFee = '100.00';
+          this.ruleForm.specialProxyFee = '100';
         }
       }
     },
     handleordinaryShareIsmoney(e) {
       if (this.ruleForm.ordinaryShareIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.ordinaryShare = '100.00';
+          this.ruleForm.ordinaryShare = '100';
         }
       }
     },
@@ -1084,7 +1084,7 @@ export default {
 
       if (this.ruleForm.ordinaryProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.ordinaryProxyFee = '100.00';
+          this.ruleForm.ordinaryProxyFee = '100';
         }
       }
     },
@@ -1092,7 +1092,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.ordinaryProxyIsmoney == '1') {
           if (this.ruleForm.ordinaryProxyFee > 100) {
-            this.ruleForm.ordinaryProxyFee = '100.00';
+            this.ruleForm.ordinaryProxyFee = '100';
           }
         }
       }
@@ -1101,7 +1101,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.ordinaryShareIsmoney == '1') {
           if (this.ruleForm.ordinaryShare > 100) {
-            this.ruleForm.ordinaryShare = '100.00';
+            this.ruleForm.ordinaryShare = '100';
           }
         }
       }
@@ -1110,7 +1110,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.specialProxyIsmoney == '1') {
           if (this.ruleForm.specialProxyFee > 100) {
-            this.ruleForm.specialProxyFee = '100.00';
+            this.ruleForm.specialProxyFee = '100';
           }
         }
       }
@@ -1119,7 +1119,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.specialShareIsmoney == '1') {
           if (this.ruleForm.specialShare > 100) {
-            this.ruleForm.specialShare = '100.00';
+            this.ruleForm.specialShare = '100';
           }
         }
       }
@@ -1128,7 +1128,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
           if (this.ruleForm.editOrdinaryProxyFee > 100) {
-            this.ruleForm.editOrdinaryProxyFee = '100.00';
+            this.ruleForm.editOrdinaryProxyFee = '100';
           }
         }
       }
@@ -1137,7 +1137,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
           if (this.ruleForm.editOrdinaryShare > 100) {
-            this.ruleForm.editOrdinaryShare = '100.00';
+            this.ruleForm.editOrdinaryShare = '100';
           }
         }
       }
@@ -1146,7 +1146,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.editSpecialProxyIsmoney == '1') {
           if (this.ruleForm.editSpecialProxyFee > 100) {
-            this.ruleForm.editSpecialProxyFee = '100.00';
+            this.ruleForm.editSpecialProxyFee = '100';
           }
         }
       }
@@ -1155,7 +1155,7 @@ export default {
       if (e == '1') {
         if (this.ruleForm.editSpecialShareIsmoney == '1') {
           if (this.ruleForm.editSpecialShare > 100) {
-            this.ruleForm.editSpecialShare = '100.00';
+            this.ruleForm.editSpecialShare = '100';
           }
         }
       }

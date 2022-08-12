@@ -1410,7 +1410,7 @@ export default {
       if (e == '1') {
         if (this.formData.ordinaryProxyIsmoney == '1') {
           if (this.formData.ordinarySelfFee > 100) {
-            this.formData.ordinarySelfFee = '100.00';
+            this.formData.ordinarySelfFee = '100';
           }
         }
       }
@@ -1419,7 +1419,7 @@ export default {
       if (e == '1') {
         if (this.formData.ordinaryShareIsmoney == '1') {
           if (this.formData.ordinaryShare > 100) {
-            this.formData.ordinaryShare = '100.00';
+            this.formData.ordinaryShare = '100';
           }
         }
       }
@@ -1428,7 +1428,7 @@ export default {
       if (e == '1') {
         if (this.formData.specialProxyIsmoney == '1') {
           if (this.formData.specialSelfFee > 100) {
-            this.formData.specialSelfFee = '100.00';
+            this.formData.specialSelfFee = '100';
           }
         }
       }
@@ -1437,7 +1437,7 @@ export default {
       if (e == '1') {
         if (this.formData.specialShareIsmoney == '1') {
           if (this.formData.specialShare > 100) {
-            this.formData.specialShare = '100.00';
+            this.formData.specialShare = '100';
           }
         }
       }
@@ -1448,28 +1448,28 @@ export default {
     ordinarySelfFeeh(e) {
       if (this.formData.ordinaryProxyIsmoney == '1') {
         if (e > 100) {
-          this.formData.ordinarySelfFee = '100.00';
+          this.formData.ordinarySelfFee = '100';
         }
       }
     },
     specialSelfFeeh(e) {
       if (this.formData.specialProxyIsmoney == '1') {
         if (e > 100) {
-          this.formData.specialSelfFee = '100.00';
+          this.formData.specialSelfFee = '100';
         }
       }
     },
     specialShareh(e) {
       if (this.formData.specialShareIsmoney == '1') {
         if (e > 100) {
-          this.formData.specialShare = '100.00';
+          this.formData.specialShare = '100';
         }
       }
     },
     ordinaryShareh(e) {
       if (this.formData.ordinaryShareIsmoney == '1') {
         if (e > 100) {
-          this.formData.ordinaryShare = '100.00';
+          this.formData.ordinaryShare = '100';
         }
       }
     },
