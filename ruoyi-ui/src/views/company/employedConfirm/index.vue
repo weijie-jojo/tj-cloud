@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
+    <el-form :model="queryParams" ref="queryForm"  :inline="true" v-show="showSearch" label-width="auto">
 
       <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商全名" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="客户经理">
         <el-input v-model="queryParams.username" placeholder="请输入客户经理" clearable @keyup.enter.native="handleQuery" />
@@ -32,13 +32,14 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true" />
-        <el-table-column label="提交时间" align="center" prop="createTime">
+        <el-table-column label="提交时间" width="120" align="center" prop="createTime">
         <template slot-scope="scope">
              {{scope.row.createTime | filterTime}}
         </template>
       </el-table-column>
-      <el-table-column label="渠道商" align="center" prop="placeName" :show-overflow-tooltip="true" />
-      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="渠道商全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
+     <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="办理状态" align="center" prop="">
         <template slot-scope="scope">
           <el-link :underline="false" type="danger" v-if="scope.row.endStatus == 2">异常</el-link>
@@ -110,7 +111,7 @@ export default {
         endStatus: 0,
         pageNum: 1,
         pageSize: 10,
-        placeName: null,
+        placeAliasName: null,
         legalPersonName: null,
         username: null,
       },

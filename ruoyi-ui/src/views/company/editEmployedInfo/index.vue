@@ -267,7 +267,7 @@
         </el-row>
 
 
-        <el-row type="flex" class="row-bg " justify="space-around">
+        <!-- <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
             <el-form-item label="渠道商" prop="placeName">
               <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商"
@@ -283,7 +283,7 @@
               </el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="8"></el-col>
           <el-col :span="8" class="flexs">
@@ -457,9 +457,9 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="渠道商" prop="placeName">
-              <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商" clearable filterable>
-                <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
+            <el-form-item label="渠道商全名" prop="placeName">
+              <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名" clearable filterable>
+                <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -1050,7 +1050,7 @@ export default {
         }],
         placeName: [{
           required: true,
-          message: '请选择渠道商',
+          message: '请选择渠道商全名',
           trigger: 'change'
         }],
         userName: [{
@@ -1317,6 +1317,7 @@ export default {
     placenew() {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
+          this.formData.placeAliasName=this.places[i].placeAliasName;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
@@ -1602,6 +1603,7 @@ export default {
             privateDepositBank: this.formData.privateDepositBank,
             privateAccountNumber: this.formData.privateAccountNumber,
             placeName: this.formData.placeName,
+            placeAliasName:this.formData.placeAliasName,
             username: this.formData.userName,
             fileName5: JSON.stringify(this.formData.fileName5),
             fileName6: JSON.stringify(this.formData.fileName6),

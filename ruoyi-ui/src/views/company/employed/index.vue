@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
 
       <el-form-item label="法人姓名" prop="legalPersonName">
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商全名" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="提交时间">
         <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange" :picker-options="pickerOptions"
@@ -51,13 +51,14 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" prop="createTime">
+      <el-table-column label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column label="提交时间" align="center" width="120" prop="createTime">
         <template slot-scope="scope">
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
-      <el-table-column width="320" label="渠道商" align="center" prop="placeName" />
+      <el-table-column width="250" label="渠道商名称" align="center" prop="placeName" />
+      <el-table-column width="250" label="渠道商全名" align="center" prop="placeAliasName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="进度状态" align="center" prop="endStatus">
         <template slot-scope="scope">
@@ -420,7 +421,7 @@ export default {
         pageNum: 1,
         type:1,
         pageSize: 10,
-        placeName: null,
+        placeAliasName: null,
         legalPersonName: null,
         userId: null,
         endStatus: 0,
