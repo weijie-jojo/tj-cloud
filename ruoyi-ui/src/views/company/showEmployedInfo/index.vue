@@ -329,7 +329,7 @@
                     <el-option 
                       v-for="(item, index) in places" 
                       :key="index" 
-                      :label="item.placeName"
+                      :label="item.placeAliasName"
                       :value="item.placeName" 
                     ></el-option>
                   </el-select>

@@ -634,7 +634,7 @@
             <el-form-item label="渠道商" prop="placeName">
               <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商"
                 clearable filterable>
-                <el-option v-for="(item, index) in places" :key="index" :label="item.placeName" :value="item.placeName">
+                <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
                 </el-option>
               </el-select>
             </el-form-item>

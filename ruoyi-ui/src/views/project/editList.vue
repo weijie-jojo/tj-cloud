@@ -33,7 +33,7 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商">
                         <el-select @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
-                            <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeName"
+                            <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeAliasName"
                                 :value="item.placeCode">
                             </el-option>
                         </el-select>

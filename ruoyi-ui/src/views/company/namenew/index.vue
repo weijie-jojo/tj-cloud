@@ -19,8 +19,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="渠道商">
-            <el-input v-model="formData.placeName" :readonly="true" clearable>
+          <el-form-item class="comright" label="渠道商" :required="true">
+            <el-input v-model="formData.placeAliasName" :readonly="true" clearable>
             </el-input>
           </el-form-item>
         </el-col>

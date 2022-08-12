@@ -16,7 +16,7 @@
            :on-close="closeViewer"
            :url-list="dialogImageUrls" />
     <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog'>
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog==false'>
       <div>
         <div class="tools flexs">
           <el-button class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
@@ -42,7 +42,7 @@
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
+import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
 export default {
   name: 'uploadSmall',
   components: {
