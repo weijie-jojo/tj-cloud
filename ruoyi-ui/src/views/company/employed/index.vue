@@ -51,14 +51,14 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
       <el-table-column label="提交时间" align="center" width="120" prop="createTime">
         <template slot-scope="scope">
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
-      <el-table-column width="320" label="渠道商名称" align="center" prop="placeName" />
-      <el-table-column width="320" label="渠道商全名" align="center" prop="placeAliasName" />
+      <el-table-column width="250" label="渠道商名称" align="center" prop="placeName" />
+      <el-table-column width="250" label="渠道商全名" align="center" prop="placeAliasName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="进度状态" align="center" prop="endStatus">
         <template slot-scope="scope">
