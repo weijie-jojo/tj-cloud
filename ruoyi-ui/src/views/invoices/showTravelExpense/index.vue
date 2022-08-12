@@ -1,9 +1,6 @@
 <template>
     <div class="app-container">  
-        <el-button 
-            v-print="'#printMe'" 
-            type="primary"
-            style="margin-left:1400px;margin-bottom: -50px;">打印</el-button>
+       
 
         <el-form 
             ref="ruleForm" 
@@ -12,9 +9,12 @@
             id="printMe"
             label-width="110px" >
             <el-form-item id="title" >
-                <span style="font-size:30px">差旅费报销单</span>                  
+                <span style="font-size:30px">差旅费报销单详情</span>                  
             </el-form-item>
-            
+             <el-button 
+            v-print="'#printMe'" 
+            type="primary"
+            style="margin-left:1400px;margin-bottom: 40px;">打印</el-button>
             <el-row >
                 <el-col :span="4">
                     <el-form-item label="差旅报销单单号" >
@@ -461,17 +461,27 @@
                 </el-col>
             </el-row>
 
-            <el-form-item style="margin-left:80px;margin-top:300px">
-                <div 
-                    style=" font-size:20px;
-                    margin-top:10px;
-                    margin-bottom:20px;
-                    color:blue"
-                    >{{"审批进度"}}</div>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="报销凭证影像">
+                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="付款凭证影像">
+                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9"></el-col>
+            </el-row> 
+            <el-form-item style="margin-top:100px">
+                <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
                     border
                     :data="checks"
-                    style="width: 75%"
+                    style="width: 65%"
                     >
                     <el-table-column
                         prop="checkDate"
@@ -487,25 +497,13 @@
                 </el-table>
             </el-form-item>
 
-            
-
-              <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销凭证影像">
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
+             <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="5"></el-col>
+                <el-col :span='8' class="flexs">
+                    <el-button type="danger" @click="beforePage" style="width:100px">返回</el-button>
                 </el-col>
-                <el-col :span="9">
-                    <el-form-item label="付款凭证影像">
-                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-            </el-row> 
-           
-
-            
+                <el-col :span="8"></el-col>
+            </el-row>
             
         </el-form>
        
@@ -757,6 +755,9 @@
       
     },
     methods: {
+          beforePage() {
+            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+        },
         //获取所有审批结果
         selectAllCheck(){
             var travelExpenses = JSON.parse(window.localStorage.getItem('travelExpenses')).list

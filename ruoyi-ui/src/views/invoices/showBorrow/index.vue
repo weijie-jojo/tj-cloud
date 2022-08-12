@@ -14,7 +14,7 @@
             style="margin-left:-80px">
 
             <el-form-item id="title" >
-                <span style="font-size:30px">借支单</span>                  
+                <span style="font-size:30px">借支单详情</span>                  
             </el-form-item>
 
             <el-form-item label="借支单编号" >
@@ -163,7 +163,23 @@
                 <el-input  v-model="ruleForm.borrowName" placeholder="" class="inputCss" disabled></el-input> 
             </el-form-item>
            
-            <el-form-item style="margin-top:100px;margin-top:300px">
+            <el-row type="flex" justify="space-around" >
+                <el-col :span="9">
+                    <el-form-item  label="付款凭证影像" style="margin-top:20px">
+                    <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                                    :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="还凭证影像" style="margin-top:20px">
+                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
+                                    :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9"></el-col>
+            </el-row> 
+
+            <el-form-item >
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
                     border
@@ -183,20 +199,7 @@
                         label="结果"/>
                 </el-table>
             </el-form-item>
-              <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-            <el-form-item  label="付款凭证影像">
-               <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-            </el-form-item>
-             </el-col>
-            <el-col :span="9">
-            <el-form-item label="还凭证影像">
-                <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
-                            :isDetail="isDetail"></uploadSmall>
-            </el-form-item>
-              </el-col>
-            </el-row> 
+        
 
         </el-form>
        
@@ -777,11 +780,11 @@
     }
     .right{
         margin-left: 630px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     .right2{
         margin-left: 920px;
-        margin-top: -50px;
+        margin-top: -60px;
     }
     #btn{
       margin-left:240px;

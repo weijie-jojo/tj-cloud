@@ -1,6 +1,9 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" id="printMe">
+            <el-form-item  id="title">
+                <span style="font-size:30px">报销单详情</span>  
+            </el-form-item>
             <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
                     <el-button v-print="'#printMe'" type="primary">打印</el-button>
@@ -139,7 +142,7 @@
             </el-row>
 
             <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9"></el-col>
+              
                 <el-col :span="9">
                     <el-form-item label="合计金额(小写)">
                         {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
@@ -155,6 +158,8 @@
                         }}
                     </el-form-item>
                 </el-col>
+
+                  <el-col :span="9"></el-col>
             </el-row>
             <el-form-item label="付款方式" prop="paywayId">
                 <el-radio-group disabled v-model="ruleForm.paywayId" style="width:100%">
@@ -214,12 +219,12 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
-                    <el-form-item label="借款账号">
+                    <el-form-item label="付款账号">
                         <el-input v-model="ruleForm.bankPaycode" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
-                    <el-form-item label="借款开户行">
+                    <el-form-item label="付款开户行">
                         <el-input v-model="ruleForm.bankPayname" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
@@ -263,19 +268,18 @@
                 </el-col>
 
             </el-row>
+           
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="9">
-                    <el-form-item label="报销凭证影像">
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
+                        <showPdfAndImg v-if="imgArr.length >= 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></showPdfAndImg>
                 </el-col>
-                <el-col :span="9">
+                <!-- <el-col :span="9">
                     <el-form-item label="付款凭证影像">
-                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
-                            :isDetail="isDetail"></uploadSmall>
+                        <showPdfAndImg v-if="imgArr2.length >=0" :fileName="isNone" :fileNameOld="imgArr2"
+                            :isDetail="isDetail"></showPdfAndImg>
                     </el-form-item>
-                </el-col>
+                </el-col> -->
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
@@ -285,24 +289,21 @@
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
-
-
-
-
-
-
+             
+                
+           
         </el-form>
     </div>
 </template>
 <script>
-import uploadSmall from '@/components/douploads/uploadSmall'
+import showPdfAndImg from '@/components/douploads/showPdfAndImg'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
 import { getDepts, getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
 import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
     components: {
-        uploadSmall
+        showPdfAndImg
     },
     name: 'expense',
     data() {
@@ -501,9 +502,11 @@ export default {
         } else {
             imgArr.map((item, index) => {
                 if (item != null && item != "") {
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
+                    console.log("type==",suffix);
                     this.imgArr.push({
-                        url: this.baseImgPath + item,
-                        name: item,
+                        url:  item,
+                        type: suffix,
                     })
                 }
             })
@@ -517,7 +520,7 @@ export default {
             imgArr2.map((item, index) => {
                 if (item != null && item != "") {
                     this.imgArr2.push({
-                        url: this.baseImgPath + item,
+                        url:  item,
                         name: item,
                     })
                 }
@@ -812,7 +815,7 @@ export default {
 }
 
 #title {
-    margin-left: 450px;
+    margin-left: 560px;
     margin-top: 10px;
     margin-bottom: 30px;
 }

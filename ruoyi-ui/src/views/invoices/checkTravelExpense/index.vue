@@ -6,7 +6,7 @@
             :rules="rules" 
             label-width="110px" >
             <el-form-item id="title" >
-                <span style="font-size:30px">差旅费报销单</span>                  
+                <span style="font-size:30px">差旅费报销单审核</span>                  
             </el-form-item>
             <el-row >
                 <el-col :span="4">
@@ -433,7 +433,7 @@
 
                     </el-form-item>
                 </el-col>
-
+                <el-col :span="9"></el-col>
             </el-row> 
           
             <el-row style="margin-top:20px">

@@ -1,6 +1,9 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
+            <el-form-item  id="title">
+                <span style="font-size:30px">报销单修改</span>  
+            </el-form-item>
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
                 <el-col :span="6">
                     <el-form-item label="报销单号">
@@ -32,10 +35,10 @@
 
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="9">
-                    <el-form-item label="费用项目" >
+                    <el-form-item>
+                        <div>费用项目</div>
                     </el-form-item>
                     <el-form-item prop="item1desc" >
-
                         <el-select style="width:100%" v-model="ruleForm.item1desc" clearable placeholder="请选择">
                             <el-option v-for="item in items" :key="item.id" :label="item.itemName"
                                 :value="item.itemName">
@@ -76,46 +79,43 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
-                    <el-form-item label="金额">
+                    <el-form-item >
+                        <div>金额</div>
                     </el-form-item>
                     <el-form-item >
-                        <el-input type="number" v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"
+                        <el-input-number  v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"
                             style="width:100%">
                             <template slot="append">元</template>
-                        </el-input>
-                       
+                        </el-input-number>
                     </el-form-item>
                     <el-form-item >
-                        <el-input v-model="ruleForm.item2money" :precision="2" :step="0.1" :min="0"
+                         <el-input-number  v-model="ruleForm.item2money" :precision="2" :step="0.1" :min="0"
                             style="width:100%">
-                             <template slot="append">元</template>
-                        </el-input>
-                    
+                            <template slot="append">元</template>
+                        </el-input-number>
                     </el-form-item>
                     <el-form-item >
-                        <el-input v-model="ruleForm.item3money" :precision="2" :step="0.1" :min="0"
+                        <el-input-number  v-model="ruleForm.item3money" :precision="2" :step="0.1" :min="0"
                             style="width:100%">
-                             <template slot="append">元</template>
-                        </el-input>
-                       
+                            <template slot="append">元</template>
+                        </el-input-number>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="ruleForm.item4money" :precision="2" :step="0.1" :min="0"
+                        <el-input-number  v-model="ruleForm.item4money" :precision="2" :step="0.1" :min="0"
                             style="width:100%">
-                             <template slot="append">元</template>
-                        </el-input>
-                        
+                            <template slot="append">元</template>
+                        </el-input-number>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="ruleForm.item5money" :precision="2" :step="0.1" :min="0"
+                        <el-input-number  v-model="ruleForm.item5money" :precision="2" :step="0.1" :min="0"
                             style="width:100%">
-                             <template slot="append">元</template>
-                        </el-input>
-                       
+                            <template slot="append">元</template>
+                        </el-input-number>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
-                    <el-form-item label="备注" >
+                    <el-form-item  >
+                        <div>备注</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input v-model="ruleForm.item1remark" placeholder="请输入备注" style="width:100%"></el-input>
@@ -133,37 +133,22 @@
                         <el-input v-model="ruleForm.item5remark" placeholder="请输入备注" style="width:100%"></el-input>
                     </el-form-item>
                 </el-col>
-
             </el-row>
-
-
 
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="8">
-                        <el-form-item label="合计金额(小写)"  prop="money">
-                {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money +
-                        ruleForm.item5money
-                }}
-            </el-form-item>
+                    <el-form-item label="合计金额(小写)"  prop="money">
+                        {{ totalMoney}}
+                    </el-form-item>
+                    </el-col>
+                    <el-col :span="8"></el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合计金额(大写)" >
+                        {{digitUppercase(totalMoney)}}
+                    </el-form-item>
                 </el-col>
-                <el-col :span="8"></el-col>
-                <el-col :span="8">
-                     <el-form-item label="合计金额(大写)" >
-                {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
-                        + ruleForm.item5money)
-                }}
-            </el-form-item>
-
-                </el-col>
-
             </el-row>
 
-
-
-
-
-
-            
            
             <el-form-item label="付款方式" prop="paywayId">
                 <el-radio-group @change="selectPayWay" v-model="ruleForm.paywayId" style="width:100%">
@@ -179,9 +164,6 @@
                     <el-input :disabled=isDisabled2 v-model="ruleForm.paywayRemark"></el-input>
                   </el-col>
                 </el-row>
-                   
-                    
-                   
                 </el-radio-group>
             </el-form-item>
             <el-row type="flex" class="row-bg" justify="space-around">
@@ -227,12 +209,12 @@
             </el-form-item>
                   </el-col>
                     <el-col :span='8'>
-                         <el-form-item label="借款账号" >
+                         <el-form-item label="付款账号" >
                 <el-input v-model="ruleForm.bankPaycode"  disabled></el-input>
             </el-form-item>
                   </el-col>
                    <el-col :span='8'>
-                        <el-form-item label="借款开户行">
+                        <el-form-item label="付款开户行">
                 <el-input v-model="ruleForm.bankPayname"  disabled></el-input>
             </el-form-item>
                   </el-col>
@@ -245,17 +227,27 @@
                     :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
                 </el-form-item>
             </el-col>
+            <el-col :span="12">
+                <el-form-item label="报销人："  >
+                    <el-input
+                        v-model="ruleForm.expenseName"
+                        class="inputCss"
+                        placeholder=""
+                        disabled
+                    ></el-input>
+                </el-form-item>
+            </el-col>
             <el-col :span="12"></el-col>
         </el-row>
 
         <el-row type="flex" class="row-bg " justify="space-around">
-            <el-col :span="8"></el-col>
-            <el-col :span='8' class="flexs">
-            <el-button type="danger" @click="toReturn">关闭</el-button>
+            <el-col :span="5"></el-col>
+            <!-- <el-col :span='8' class="flexs"> -->
+            <el-button type="danger" @click="toReturn">返回</el-button>
             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-            </el-col>
+            <!-- </el-col> -->
             <el-col :span="8"></el-col>
-      </el-row>
+        </el-row>
       </el-form>
     </div>
 </template>
@@ -273,7 +265,7 @@ export default {
     },
     data() {
         return {
-            isDetail: '0',
+            isDetail: '1',
             imgArrOld: [],
             //isNone:[],
             //影像上传参数
@@ -301,6 +293,8 @@ export default {
             form: {},
             formLabelWidth: "80px",
             ruleForm: {
+                 totalMoney:'',
+                 
                 expenseCode: '',//报销单号
                 dept: '',//部门
                 deptId: '',//部门id
@@ -410,7 +404,7 @@ export default {
         this.ruleForm.expenseCode = this.expenses[0].expenseCode;
         this.ruleForm.expenseDate = this.expenses[0].createTime;
         this.ruleForm.deptId = this.expenses[0].deptId;
-        this.ruleForm.deptName = this.expenses[0].dept;
+        this.ruleForm.deptName = this.expenses[0].deptName;
 
         this.ruleForm.paywayId = this.expenses[0].paywayId;
 
@@ -466,6 +460,11 @@ export default {
                 this.imgArr2.push(item);
             }
         })
+    },
+    computed: {          
+        totalMoney:function(){ 
+            return this.ruleForm.item1money+this.ruleForm.item2money+this.ruleForm.item3money+this.ruleForm.item4money+this.ruleForm.item5money;
+        }
     },
     methods: {
         getExpense(data) {
@@ -583,7 +582,7 @@ export default {
                 deptId: this.ruleForm.deptId,
                 expenseCode: this.ruleForm.expenseCode,
                 dept: this.ruleForm.dept,
-                createTime: this.ruleForm.expenseDate,
+                createTime:this.returnTime(this.ruleForm.expenseDate) ,
                 accessoryNum: this.ruleForm.accessory,
 
                 item1Remark: this.ruleForm.item1remark,
@@ -602,7 +601,7 @@ export default {
                 item5Money: this.ruleForm.item5money,
                 item5Desc: this.ruleForm.item5desc,
 
-                totalMoney: this.ruleForm.item1money + this.ruleForm.item2money + this.ruleForm.item3money + this.ruleForm.item4money + this.ruleForm.item5money,
+                totalMoney: this.totalMoney,
                 paywayId: this.ruleForm.paywayId,
                 paywayRemark: this.ruleForm.paywayRemark,
 
@@ -716,7 +715,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 #title {
-    margin-left: 450px;
+    margin-left: 600px;
     margin-top: 10px;
     margin-bottom: 30px;
 }

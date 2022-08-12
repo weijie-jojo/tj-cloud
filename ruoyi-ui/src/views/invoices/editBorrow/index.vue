@@ -2,7 +2,7 @@
     <div class="app-container">      
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="200px" >
             <el-form-item id="title" >
-                <span style="font-size:30px">借支单</span>                  
+                <span style="font-size:30px">借支单编辑</span>                  
             </el-form-item>
 
             <el-form-item label="借支单编号" >
@@ -142,7 +142,23 @@
                     disabled
                 ></el-input>
             </el-form-item>
-            
+
+             <el-row type="flex" justify="space-around" >
+                <el-col :span="9">
+                    <el-form-item  label="付款凭证影像" style="margin-top:20px">
+                    <uploadSmall v-if="borrowImage.length >=0" :fileName="isNone" :fileNameOld="borrowImage"
+                                    :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="还凭证影像" style="margin-top:20px">
+                        <uploadSmall v-if="borrowImage2.length > 0" :fileName="isNone" :fileNameOld="borrowImage2"
+                                    :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9"></el-col>
+            </el-row> 
+
              <!-- <el-form-item style="width:120px;margin-left:380px;margin-top:-90px">
                 <el-button type="primary" @click="submitForm('ruleForm')" >保存</el-button>
             </el-form-item> -->
@@ -154,15 +170,21 @@
     </div>
 </template>
 <script>
+    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId,editBorrow2} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
+    components: {
+        uploadSmall
+    },
     dicts: ['pay_way'],
     name: 'borrow',
     data() {
       return {
+         isDetail: '1',
+        isDetails: '0',
         //影像上传参数
         borrowImage2:'',
         imgDialog:false,

@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="110px" >
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" >
             <el-form-item id="title" >
-                <span style="font-size:30px">差旅费报销单</span>
+                <span style="font-size:30px">差旅费报销单新增</span>
             </el-form-item>
 
             <el-row >
@@ -834,7 +834,7 @@
 <style rel="stylesheet/scss" lang="scss" scoped>
     #title{
         margin-bottom: 40px;
-        margin-left: 510px;
+        margin-left: 560px;
         margin-top: 20px;
     }
     .yuan{

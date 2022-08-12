@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="200px" >
             <el-form-item id="title" >
-                <span style="font-size:30px">借支单</span>
+                <span style="font-size:30px">借支单审核</span>
             </el-form-item>
 
             <el-form-item label="借支单编号" >
