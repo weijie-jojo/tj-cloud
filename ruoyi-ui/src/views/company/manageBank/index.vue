@@ -5,8 +5,8 @@
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商全名" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
        <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -35,7 +35,8 @@
              {{scope.row.createTime | filterTime}}
         </template>
       </el-table-column>
-       <el-table-column label="渠道商" align="center"  prop="placeName" :show-overflow-tooltip="true" />
+       <el-table-column label="渠道商名称" align="center"  prop="placeName" :show-overflow-tooltip="true" />
+        <el-table-column label="渠道商全名" align="center"  prop="placeAliasName" :show-overflow-tooltip="true" />
        <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
         <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">
@@ -102,7 +103,7 @@ export default {
         bankStatus:0,
         pageNum: 1,
         pageSize: 10,
-        placeName: null,
+        placeAliasName: null,
         legalPersonName: null,
         userId: null,
       },

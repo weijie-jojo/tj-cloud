@@ -607,8 +607,8 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="渠道商" prop="placeName">
-            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商" clearable
+          <el-form-item class="comright" label="渠道商全名" prop="placeName">
+            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名" clearable
               filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
               </el-option>
@@ -1002,6 +1002,7 @@ export default {
         privateDepositBank: '',
         privateAccountNumber: '',
         placeName: '',
+        placeAliasName:'',
         userName: '',
 
         //经营者
@@ -1173,7 +1174,7 @@ export default {
         }],
         placeName: [{
           required: true,
-          message: '请选择渠道商',
+          message: '请选择渠道商全名',
           trigger: 'change'
         }],
         userName: [{
@@ -1502,6 +1503,7 @@ export default {
     placenew() {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
+          this.formData.placeAliasName=this.places[i].placeAliasName;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.ordinaryProxyIsmoney = JSON.stringify(this.unlist.ordinaryProxyIsmoney);
