@@ -32,7 +32,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商">
-                        <el-input v-model="formData.placeName" :readonly="true"></el-input>
+                        <el-input v-model="formData.placeAliasName" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="甲方">

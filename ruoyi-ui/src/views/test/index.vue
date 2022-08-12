@@ -8,10 +8,12 @@
       <el-form>
            <el-row>
             <el-col :span="12">
-             
+             <div>部门:<el-input ></el-input></div>
             </el-col>
-            <el-col :span="12"></el-col>
-           
+            <el-col :span="12">
+               <div><el-input></el-input>年</div>
+            </el-col>
+             
            </el-row>
 
       </el-form>

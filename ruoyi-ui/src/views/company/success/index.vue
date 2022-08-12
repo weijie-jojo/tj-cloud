@@ -14,7 +14,7 @@
       </el-steps>
       <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
         <el-col :span="8">
-            <div style="font-size: 30px;text-align: center;">提交成功，请等待审核办理结果</div>
+            <div style="font-size: 30px;text-align: center;">提交成功，请等待审核办理</div>
         </el-col>
       </el-row>
 
