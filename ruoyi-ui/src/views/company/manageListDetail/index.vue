@@ -628,8 +628,8 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="渠道商" prop="placeName">
-            <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商" clearable
+          <el-form-item class="comright" label="渠道商全名" prop="placeName">
+            <el-select style="width:100%" disabled v-model="formData.placeName" placeholder="请选择渠道商全名" clearable
               filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
               </el-option>
@@ -1143,7 +1143,7 @@ export default {
         }],
         placeName: [{
           required: true,
-          message: '请选择渠道商',
+          message: '请选择渠道商全名',
           trigger: 'change'
         }],
         userName: [{

@@ -1,19 +1,75 @@
 <template>
   <div class="app-container">
     <div>
-      <h1>静态表格</h1>
+    
       <div class="reimtitle">
-        差旅费报销单
+        费用报销单
       </div>
       <el-form>
            <el-row>
             <el-col :span="12">
-             <div>部门:<el-input ></el-input></div>
+             <div class="combold" style="margin-bottom:5px">部门:</div>
             </el-col>
             <el-col :span="12">
-               <div><el-input></el-input>年</div>
+               <div style="display:flex; justify-content: flex-end;margin-bottom:5px" >
+                <span  class="combold">报销日期:</span>
+                <span  class="combold">2022年</span>
+                <span  class="combold">8月</span>
+                <span  class="combold">12日</span>
+               </div>
             </el-col>
              
+           </el-row>
+           <el-row>
+            <el-col :span="10">
+                 <div class="comborder" style="border-top:3px solid #333;border-left:3px solid #333">报销项目</div>
+                 <div class="comborder" style="border-left:3px solid #333">报销项目</div>
+                 <div class="comborder" style="border-left:3px solid #333">报销项目</div>
+                 <div class="comborder" style="border-left:3px solid #333">报销项目</div>
+                 <div class="comborder" style="border-left:3px solid #333">报销项目</div>
+                 <div class="comborder" style="border-left:3px solid #333">报销项目</div>
+            </el-col>
+             <el-col :span="2">
+                 <div class="comborder">张数</div>
+                 <div class="comborder">张数</div>
+                 <div class="comborder">张数</div>
+                 <div class="comborder">张数</div>
+                 <div class="comborder">张数</div>
+                 <div class="comborder">张数</div>
+            </el-col>
+             <el-col :span="6">
+                 <div class="comborder">金额</div>
+                 <div class="comborder">金额</div>
+                 <div class="comborder">金额</div>
+                 <div class="comborder">金额</div>
+                 <div class="comborder">金额</div>
+                 <div class="comborder">金额</div>
+            </el-col>
+             <el-col :span="6">
+                 <div class="comborder">备注</div>
+                 <div class="comborder">备注</div>
+                 <div class="comborder">备注</div>
+                 <div class="comborder">备注</div>
+                 <div class="comborder">备注</div>
+                 <div class="comborder">备注</div>  
+            </el-col>
+            
+           </el-row> 
+           <el-row>
+              <el-col :span="12">
+                <div  class="comborder">合计</div>
+              </el-col>
+              <el-col  :span="6">
+                 <div  class="comborder"></div>
+              </el-col>
+              <el-col  :span="6">
+                   <div class="comborder"></div>
+              </el-col>
+           </el-row>
+           <el-row>
+            <el-col :span="24">
+              <div class="comborder" style="text-align: left;padding-left: 4px;">总计(大写)人民币:<span>拾万仟佰拾元角分</span></div>
+            </el-col>
            </el-row>
 
       </el-form>
@@ -52,10 +108,27 @@ export default {
 }
 </script>
 <style>
+  .combold{
+    font-weight: bold;
+    color: #333;
+  }
   .reimtitle{
+     text-align: center;
      font-size: 25px;
      letter-spacing: 20px;
      color: #333;
      font-weight: bold;
+  }
+  .comborder1{
+    height:60px;
+    line-height: 60px;
+    text-align: center;
+    border: 1px solid #333;
+  }
+   .comborder{
+    height:60px;
+    line-height: 60px;
+    text-align: center;
+    border: 1px solid #333;
   }
 </style>

@@ -19,7 +19,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright"  label="渠道商" :required="true">
+          <el-form-item class="comright"  label="渠道商全名" :required="true">
             <el-input v-model="formData.placeAliasName" :readonly="true" clearable>
             </el-input>
           </el-form-item>
@@ -133,7 +133,7 @@
 
        <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" prop="fontSize3">
+          <el-form-item class="comright" prop="fontSize4">
             <el-input v-model="formData.fontSize4" :readonly="true" clearable>
             </el-input>
           </el-form-item>
@@ -147,7 +147,7 @@
 
        <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" prop="fontSize3">
+          <el-form-item class="comright" prop="fontSize5">
             <el-input v-model="formData.fontSize5" :readonly="true" clearable>
             </el-input>
           </el-form-item>
