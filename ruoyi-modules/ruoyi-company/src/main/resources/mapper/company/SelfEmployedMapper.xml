@@ -90,6 +90,7 @@
         <result property="specialShareIsmoney"    column="special_share_ismoney"    />
         <result property="isOrdinaryShare"    column="is_ordinary_share"    />
         <result property="isSpecialShare"    column="is_special_share"    />
+        <result property="placeAliasName"    column="place_alias_name"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -104,7 +105,7 @@
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
                is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
-               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share
+               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -178,6 +179,7 @@
             <if test="selfEmployedVo.specialShareIsmoney != null "> and t.special_share_ismoney = #{selfEmployedVo.specialShareIsmoney}</if>
             <if test="selfEmployedVo.isOrdinaryShare != null "> and t.is_ordinary_share = #{selfEmployedVo.isOrdinaryShare}</if>
             <if test="selfEmployedVo.isSpecialShare != null "> and t.is_special_share = #{selfEmployedVo.isSpecialShare}</if>
+            <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -281,6 +283,7 @@
             <if test="specialShareIsmoney != null "> and special_share_ismoney = #{specialShareIsmoney}</if>
             <if test="isOrdinaryShare != null "> and is_ordinary_share = #{isOrdinaryShare}</if>
             <if test="isSpecialShare != null "> and is_special_share = #{isSpecialShare}</if>
+            <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
         </where>
     </select>
 
@@ -376,6 +379,7 @@
             <if test="specialShareIsmoney != null">special_share_ismoney,</if>
             <if test="isOrdinaryShare != null">is_ordinary_share,</if>
             <if test="isSpecialShare != null">is_special_share,</if>
+            <if test="placeAliasName != null">place_alias_name,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -462,6 +466,7 @@
             <if test="specialShareIsmoney != null">#{specialShareIsmoney},</if>
             <if test="isOrdinaryShare != null">#{isOrdinaryShare},</if>
             <if test="isSpecialShare != null">#{isSpecialShare},</if>
+            <if test="placeAliasName != null">#{placeAliasName},</if>
         </trim>
     </insert>
 
@@ -552,6 +557,7 @@
             <if test="specialShareIsmoney != null">special_share_ismoney = #{specialShareIsmoney},</if>
             <if test="isOrdinaryShare != null">is_ordinary_share = #{isOrdinaryShare},</if>
             <if test="isSpecialShare != null">is_special_share = #{isSpecialShare},</if>
+            <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
         </trim>
         where self_id = #{selfId}
     </update>
