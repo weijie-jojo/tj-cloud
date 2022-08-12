@@ -54,7 +54,7 @@
                  <div class="comborder">备注</div>  
             </el-col>
             
-           </el-row>
+           </el-row> 
            <el-row>
               <el-col :span="12">
                 <div  class="comborder">合计</div>
