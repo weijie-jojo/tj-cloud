@@ -41,7 +41,7 @@
                 <el-input v-model="ruleForm.item5desc" style="width:200px" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="金额" style="margin-left:500px;margin-top:-410px">
+            <el-form-item label="金额" style="margin-left:500px;margin-top:-450px">
             </el-form-item>
             <el-form-item class="moneyCss">
                 <el-input-number disabled v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"
@@ -69,7 +69,7 @@
                 <div class="yuan">元</div>
             </el-form-item>
 
-            <el-form-item label="备注" style="margin-left:1000px;margin-top:-390px">
+            <el-form-item label="备注" style="margin-left:1000px;margin-top:-420px">
             </el-form-item>
             <el-form-item class="remarkCss">
                 <el-popover placement="top-start" width="780px" trigger="hover" :content="ruleForm.item1remark">
@@ -135,27 +135,6 @@
             <el-form-item label="借款开户行" style="margin-top: -50px;margin-left:920px">
                 <el-input v-model="ruleForm.bankPayname" style="width:200px" disabled></el-input>
             </el-form-item>
-            <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销凭证影像：" >
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                    <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                            :isDetail="isDetails"></uploadSmall>
-
-                    </el-form-item>
-                </el-col>
-
-            </el-row>
-
-
-
-
 
             <el-form-item label="总经理" class="left">
                 <el-input v-model="ruleForm.gmCheck" placeholder="" class="inputCss" disabled></el-input>
@@ -169,6 +148,21 @@
             <el-form-item label="借款人" class="right2">
                 <el-input v-model="ruleForm.expenseName" placeholder="" class="inputCss" disabled></el-input>
             </el-form-item>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="报销凭证影像：" >
+                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
+                            :isDetail="isDetail"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
+                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                            :isDetail="isDetails"></uploadSmall>
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
 
             <el-form-item style="margin-top:100px">
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{ "审批进度" }}</div>
@@ -580,21 +574,21 @@ export default {
         //         this.isDisabled=false;
         //     }
         // },
-        //获取所有出款单位信息 
+        //获取所有出款单位信息
         getAllCompany() {
             getAllCompany().then(res => {
                 this.payCompanys = res.list;
                 console.log('payCompanys==', this.payCompanys);
             })
         },
-        //根据出款单位id查找出款银行卡信息 
+        //根据出款单位id查找出款银行卡信息
         // getCarInfoByCompanyId() {
         //     var cardInfo=this.payCompanys.find((item) =>
         //     item.companyId == this.ruleForm.companyPayId);
         //     this.ruleForm.bankcardCodePay= cardInfo.account;
         //     this.ruleForm.bankNamePay= cardInfo.accountOpeningBank;
         //     console.log('cardInfo==',cardInfo);
-        // }, 
+        // },
         getExpenseCode() {
             getCode().then(res => {
                 console.log("getExpenseCode", res.message);
@@ -612,21 +606,21 @@ export default {
             this.fullWidth = document.documentElement.clientWidth
         },
 
-        //初始化下拉部门信息 
+        //初始化下拉部门信息
         getAllDept() {
             getDepts().then(res => {
                 console.log('getDepts==', res.list);
                 this.searchDepts = res.list
             }).catch(() => { })
         },
-        //初始化下拉公司信息 
+        //初始化下拉公司信息
         getAllGetCompany() {
             getAllGetCompany().then(res => {
                 console.log('getAllGetCompany==', res.list);
                 this.searchGetCompanys = res.list
             })
         },
-        //根据收款单位id查找收款银行卡信息 
+        //根据收款单位id查找收款银行卡信息
         // getCardInfoBycompany() {
         //     this.ruleForm.cardGetId="";
         //     this.ruleForm.bankNameGet="";
@@ -634,7 +628,7 @@ export default {
         //         console.log('getCardInfoBycompany==',res.list);
         //         this.searchCardInfos = res.list
         //     })
-        // }, 
+        // },
         //根据收款单位银行卡id查找对应的银行名
         // getBankNameBycardId() {
         //     getBankNameBycardId(this.ruleForm.cardGetId).then(res => {
@@ -642,7 +636,7 @@ export default {
         //         this.ruleForm.bankNameGet = res.message
         //     }).catch(() => { })
 
-        // }, 
+        // },
         //提交表单
         // submitForm(formName) {
         //     console.log("companyPayId",this.ruleForm.companyPayId);
@@ -652,7 +646,7 @@ export default {
         //                 expenseCode:this.ruleForm.expenseCode,
         //                 deptId:this.ruleForm.deptId,
         //                 createTime:this.returnTime(this.ruleForm.expenseDate),
-        //                 accessoryNum:this.ruleForm.accessory,                 
+        //                 accessoryNum:this.ruleForm.accessory,
         //                 item1Remark:this.ruleForm.item1remark,
         //                 item1Money:this.ruleForm.item1money,
         //                 item1Desc:this.ruleForm.item1desc,
@@ -688,7 +682,7 @@ export default {
         //                     message: res.message,
         //                     type: 'success',
         //                 });
-        //             })                                    
+        //             })
         //         }
         //         else {
         //             console.log('error submit!!');
@@ -699,12 +693,12 @@ export default {
         //             return false;
         //         }
         //     });
-        // }, 
+        // },
         // //重置
         // resetForm(formName) {
         //     this.$refs[formName].resetFields();
         //     console.log("重置");
-        // }, 
+        // },
         //返回当前时间
         returnTime(time2) {
             var time = new Date(time2);
@@ -765,17 +759,18 @@ export default {
 .descCss {
     width: 490px;
     margin-left: -70px;
+    margin-top: -10px;
 }
 
 .moneyCss {
     width: 380px;
     margin-left: 400px;
-    // margin-top: -50px;
+    margin-top: -10px;
 }
 
 .remarkCss {
     margin-left: 860px;
-    // margin-top: -55px;
+    margin-top: -10px;
 }
 
 .yuan {

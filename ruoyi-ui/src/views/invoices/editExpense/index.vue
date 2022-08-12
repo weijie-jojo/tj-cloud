@@ -237,25 +237,24 @@
             </el-form-item>
                   </el-col>
              </el-row>
-          
-           
             
-            <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="12">
-                   <el-form-item label="报销凭证影像">
-                      <uploadSmall v-if="imgArrOld.length > 0" @getfileName="getExpense" :fileName="imgArr2"
+        <el-row type="flex" class="row-bg" justify="space-around">
+            <el-col :span="12">
+                <el-form-item label="报销凭证影像">
+                    <uploadSmall v-if="imgArrOld.length >= 0" @getfileName="getExpense" :fileName="imgArr2"
                     :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12"></el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="toReturn">关闭</el-button>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-        </el-col>
-        <el-col :span="8"></el-col>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12"></el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="8"></el-col>
+            <el-col :span='8' class="flexs">
+            <el-button type="danger" @click="toReturn">关闭</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            </el-col>
+            <el-col :span="8"></el-col>
       </el-row>
       </el-form>
     </div>
