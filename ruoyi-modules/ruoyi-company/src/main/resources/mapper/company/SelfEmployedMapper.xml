@@ -198,6 +198,7 @@
             </if>
             <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
             <if test="selfEmployedVo.isActive != null  and selfEmployedVo.isActive != ''"> and t.is_active like concat('%', #{selfEmployedVo.isActive}, '%')</if>
+            <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
         </trim>
         ORDER BY
         t.create_time DESC
