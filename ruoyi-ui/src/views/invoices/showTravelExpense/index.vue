@@ -461,7 +461,7 @@
                 </el-col>
             </el-row>
 
-            <el-row type="flex" class="row-bg" justify="space-around">
+            <!-- <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="9">
                     <el-form-item label="报销凭证影像">
                         <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
@@ -475,7 +475,34 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="9"></el-col>
-            </el-row> 
+            </el-row>  -->
+           <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">付款凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">付款凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
+            
             <el-form-item style="margin-top:100px">
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
@@ -511,7 +538,7 @@
     </div>
 </template>
 <script>
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import pdf from 'vue-pdf-signature'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -520,7 +547,7 @@
     export default {
     name: 'travelExpense',
      components: {
-        uploadSmall
+        pdf
     },
     data() {
       return {
@@ -729,9 +756,10 @@
         }else{
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
                     this.imgArr.push({
-                        url: this.baseImgPath + item,
-                        name: item,
+                        url:  item,
+                        suffix: suffix,
                     })
                 }
             });
@@ -744,9 +772,10 @@
         }else{
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length); 
                      this.imgArr2.push({
-                        url: this.baseImgPath + item,
-                        name: item,
+                        url:  item,
+                        suffix: suffix,
                     })
                 }
             })
@@ -1203,7 +1232,9 @@
     }
     
     .imgTitle{
+        margin-top:30px;
+        margin-left:600px;
+        margin-bottom:30px;
         font-size:20px;
-        margin-bottom: 30px;
     }
 </style>

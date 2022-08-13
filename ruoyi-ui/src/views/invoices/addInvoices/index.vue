@@ -1324,7 +1324,8 @@ export default {
             this.borrowImage = fileUrl;
             console.log("fileUrl=="+this.borrowImage);
             editBorrow2({borrowImage2:this.borrowImage,
-            borrowId:this.borrowId}).then(res=>{
+            borrowId:this.borrowId,invoiceType:5}).then(res=>{
+                this.getAllBorrow();  
                 this.$message({
                   type:'success',
                   message:"上传成功"

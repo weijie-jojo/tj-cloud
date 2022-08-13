@@ -163,7 +163,7 @@
                 <el-input  v-model="ruleForm.borrowName" placeholder="" class="inputCss" disabled></el-input> 
             </el-form-item>
            
-            <el-row type="flex" justify="space-around" >
+            <!-- <el-row type="flex" justify="space-around" >
                 <el-col :span="9">
                     <el-form-item  label="付款凭证影像" style="margin-top:20px">
                     <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
@@ -177,7 +177,33 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="9"></el-col>
-            </el-row> 
+            </el-row>  -->
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">付款凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">付款凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
 
             <el-form-item >
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
@@ -200,7 +226,14 @@
                 </el-table>
             </el-form-item>
         
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                    <el-button type="danger" @click="beforePage" style="width:130px">返回</el-button>
 
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
         </el-form>
        
         
@@ -371,9 +404,10 @@
         }else{
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
+                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
                       this.imgArr.push({
-                        url: this.baseImgPath + item,
-                        name: item,
+                        url: item,
+                        suffix: suffix,
                     })
                 }
             })
@@ -387,9 +421,10 @@
         }else{
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
+                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
                      this.imgArr2.push({
-                        url: this.baseImgPath + item,
-                        name: item,
+                        url:  item,
+                        suffix: suffix,
                     })
                 }
             })
@@ -408,6 +443,9 @@
 
     },
     methods: {
+        beforePage() {
+            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+        },
        //审核
         checkInvoices(){
             console.log("role==",this.ruleForm.role);
@@ -806,8 +844,10 @@
         color: black;    
     }
     
-    .imgTitle{
+      .imgTitle{
+        margin-top:30px;
+        margin-left:600px;
+        margin-bottom:30px;
         font-size:20px;
-        margin-bottom: 30px;
     }
 </style>

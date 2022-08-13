@@ -418,24 +418,24 @@
                     </el-form-item>
                </el-col> 
             </el-row>   
-             <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销凭证影像：" >
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
+            <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
+                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadSmall>
+            </el-form-item>
+             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
+                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                        @link-clicked="page = $event">
+                    </pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="baseImgPath + item.url" ></el-image>
+                </el-form-item>
+            </div>
 
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                    <el-form-item v-hasPermi="['invoices:travelExpense:upload']" label="付款凭证影像：" >
-                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                            :isDetail="isDetails"></uploadSmall>
-
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9"></el-col>
-            </el-row> 
-          
             <el-row style="margin-top:20px">
                 <el-col :span="5">
                     <el-form-item label="总经理"    >
@@ -732,16 +732,24 @@
 
         this.expenseImage=this.travelExpenses[0].expenseImage;
 
-       var imgArr= this.expenseImage.split(",");  
-        imgArr.map((item,index)=>{
-            if(item!=null&&item!=""){
-                 this.imgArr.push({
-                    url: this.baseImgPath + item,
-                    name: item,
-                })
-            }
-        })
+       this.imgArr = [];
 
+        var imgArr = this.expenseImage.split(",");
+        if (imgArr[0] == "") {
+
+
+        } else {
+            imgArr.map((item, index) => {
+                if (item != null && item != "") {
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);               
+                    this.imgArr.push({
+                        url:  item,
+                        suffix: suffix,
+                    })
+                }
+            })
+        }
+        console.log("imgArr==",this.imgArr);
 
     },
     methods: {
@@ -798,10 +806,10 @@
                                     expenseImage2:this.imgArr2.join(),
                                 };
                                 addCheckInvoices(params1).then(res => {
-                                    this.$message({
-                                        message: "审核成功",
-                                        type: 'success',
-                                    });
+                                    // this.$message({
+                                    //     message: "审核成功",
+                                    //     type: 'success',
+                                    // });
                                 });
                                 editTravelExpenseById(params2).then(res => {
                                     this.$message({
@@ -844,10 +852,10 @@
                                     expenseImage2:this.imgArr2.join(),
                                 };
                                 addCheckInvoices(params1).then(res => {
-                                    this.$message({
-                                        message: "审核成功",
-                                        type: 'success',
-                                    });
+                                    // this.$message({
+                                    //     message: "审核成功",
+                                    //     type: 'success',
+                                    // });
                                 });
                                 editTravelExpenseById(params2).then(res => {
                                     this.$message({
@@ -890,10 +898,10 @@
                                     expenseImage2:this.imgArr2.join(),
                                 };
                                 addCheckInvoices(params1).then(res => {
-                                    this.$message({
-                                        message: "审核成功",
-                                        type: 'success',
-                                    });
+                                    // this.$message({
+                                    //     message: "审核成功",
+                                    //     type: 'success',
+                                    // });
                                 });
                                 editTravelExpenseById(params2).then(res => {
                                     this.$message({
@@ -1114,5 +1122,12 @@
      ::v-deep .is-disabled .el-input__inner{
         background-color: transparent !important;
         color: black;    
+    }
+    
+  .imgTitle{
+        margin-top:30px;
+        margin-left:600px;
+        margin-bottom:30px;
+        font-size:20px;
     }
 </style>

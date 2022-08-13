@@ -404,10 +404,10 @@
                                 borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
-                                this.$message({
-                                    message: "审核成功",
-                                    type: 'success',
-                                });
+                                // this.$message({
+                                //     message: "审核成功",
+                                //     type: 'success',
+                                // });
                             });
                             editBorrowByBorrowId(params2).then(res => {
                                 this.$message({
@@ -451,10 +451,10 @@
                                 borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
-                                this.$message({
-                                    message: "审核成功",
-                                    type: 'success',
-                                });
+                                // this.$message({
+                                //     message: "审核成功",
+                                //     type: 'success',
+                                // });
                             });
                             editBorrowByBorrowId(params2).then(res => {
                                 this.$message({
@@ -498,10 +498,10 @@
                                 borrowImage:this.imgArr.join(),
                             };
                             addCheckInvoices(params1).then(res => {
-                                this.$message({
-                                    message: "审核成功",
-                                    type: 'success',
-                                });
+                                // this.$message({
+                                //     message: "审核成功",
+                                //     type: 'success',
+                                // });
                             });
                             editBorrowByBorrowId(params2).then(res => {
                                 this.$message({

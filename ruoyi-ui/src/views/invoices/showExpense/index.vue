@@ -269,7 +269,7 @@
 
             </el-row>
 
-             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
+             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
                     <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
@@ -282,7 +282,7 @@
                     <el-image :src="baseImgPath + item.url" ></el-image>
                 </el-form-item>
             </div>
-            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" style="margin-top:20px">           
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">付款凭证影像</div>
                     <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
@@ -901,8 +901,10 @@ export default {
     color: black;
 }
 
-.imgTitle{
-    margin-left:600px;
-    font-size: 18px;
-}
+  .imgTitle{
+        margin-top:30px;
+        margin-left:600px;
+        margin-bottom:30px;
+        font-size:20px;
+    }
 </style>
