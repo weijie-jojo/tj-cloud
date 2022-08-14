@@ -367,6 +367,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "是否开启分润 0是 1否(专票)")
     private Long isSpecialShare;
 
+    /** 滑块0是 1否 */
+    @Excel(name = "滑块0是 1否")
+    private Long isSlider;
+
     /** 渠道商全名（名称+别名） */
     @Excel(name = "渠道商全名", readConverterExp = "名=称+别名")
     private String placeAliasName;
