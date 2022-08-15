@@ -272,8 +272,7 @@
              <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
+                    <pdf ref="pdf" :src="baseImgPath + item.url"
                         @link-clicked="page = $event">
                     </pdf>
                 </el-form-item>
@@ -285,9 +284,7 @@
             <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">付款凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
+                    <pdf ref="pdf" :src="baseImgPath + item.url">
                     </pdf>
                 </el-form-item>
                 <el-form-item  v-else>

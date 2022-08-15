@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" >
            <el-form-item  id="title">
-                <span style="font-size:30px">报销单新增</span>  
+                <span style="font-size:30px">报销单新增（管理员）</span>  
             </el-form-item>
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
                 <el-col :span="6">

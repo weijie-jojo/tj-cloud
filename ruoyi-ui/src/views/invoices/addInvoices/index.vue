@@ -743,7 +743,6 @@ export default {
       allBorrow:[],
       invoiceTypes:[],
       borrows:[],
-      loginRoles:[],
       checkPerson:[],
 
       borrows:[],
@@ -1237,19 +1236,46 @@ export default {
 
     //新增单据
     addExpense(){
-      this.$router.push({
-        path: "/invoices/addExpense"
-      });
+      this.loginRoles.map(item=>{
+        console.log("role==", item);
+        if(item.roleId ==1){//管理员
+          this.$router.push({
+            path: "/invoices/addExpenseAdmin"
+          });
+        }else{
+          this.$router.push({
+            path: "/invoices/addExpense"
+          });
+        }
+      })
     },
     addTravelExpense() {    
-      this.$router.push({
-        path: "/invoices/addTravelExpense"
-      });
+      this.loginRoles.map(item=>{
+        console.log("role==", item);
+        if(item.roleId ==1){//管理员
+          this.$router.push({
+            path: "/invoices/addTravelExpenseAdmin"
+          });
+        }else{
+          this.$router.push({
+            path: "/invoices/addTravelExpense"
+          });
+        }
+      })
     },
     addBorrow() {
-      this.$router.push({
-        path: "/invoices/addBorrow"
-      });
+      this.loginRoles.map(item=>{
+        console.log("role==", item);
+        if(item.roleId ==1){//管理员
+          this.$router.push({
+            path: "/invoices/addBorrowAdmin"
+          });
+        }else{
+          this.$router.push({
+            path: "/invoices/addBorrow"
+          });
+        }
+      })
     },
 
      //查看详情
