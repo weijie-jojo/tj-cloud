@@ -92,7 +92,9 @@ public class SelfCheckController extends BaseController
         Date date = new Date();
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 //        String nowDate = formatter.format(date);
+        System.out.println("date=="+date);
         selfCheck.setCheckDate(date);
+
         return toAjax(selfCheckService.insertSelfCheck(selfCheck));
     }
 
