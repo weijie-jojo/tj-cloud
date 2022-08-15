@@ -1,15 +1,22 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      <el-form-item label="渠道商全名" prop="placeAliasName">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="个体户名称">
+        <el-input v-model="queryParams.selfName" placeholder="请输入个体户名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="状态" prop="placeName">
+        <el-form-item label="法人名称">
+        <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人名称" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+     
+      <el-form-item label="渠道商" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <!-- <el-form-item label="状态" prop="placeName">
         <el-select clearable v-model="queryParams.isActive" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -29,6 +36,7 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column label="法人名称" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
       <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="渠道商全名" align="center" prop="placeName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
@@ -94,6 +102,7 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
+        selfName:null,
         endStatus: 1,
         pageNum: 1,
         pageSize: 10,
@@ -208,7 +217,17 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
+     
+     this.queryParams={
+        selfName:null,
+        endStatus: 1,
+        pageNum: 1,
+        pageSize: 10,
+        placeAliasName: null,
+        legalPersonName: null,
+        userId: null,
+        isActive: null,
+      };
       this.handleQuery();
     },
     // 多选框选中数据

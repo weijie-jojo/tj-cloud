@@ -10,7 +10,9 @@
         <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="提交时间">
-        <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange" :picker-options="pickerOptions"
+        <el-date-picker 
+        @change="prjecs"
+         v-model="projectTime" value-format="yyyy-MM-dd" type="daterange" :picker-options="pickerOptions"
           range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']"
           align="right">
         </el-date-picker>
@@ -451,6 +453,12 @@ export default {
   },
 
   methods: {
+    prjecs(e){
+       if(!this.projectTime){
+          this.queryParams.start=null;
+          this.queryParams.end=null;
+        }
+    },
     getLoginInfo() {
       getInfo().then(res => {
         this.userinfo = res.user;
@@ -1049,6 +1057,7 @@ export default {
 
     /** 查询个体商户列表 */
     getList() {
+      
       if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
         this.queryParams.start = this.projectTime[0];
         this.queryParams.end = this.projectTime[1];
@@ -1073,10 +1082,19 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.endStatus = '0';
-      this.queryParams.endStatus = '0';
-      this.queryParams.start = null;
-      this.queryParams.end = null;
-      this.resetForm("queryForm");
+      this.projectTime='';
+      this.queryParams={
+        pageNum: 1,
+        type:1,
+        pageSize: 10,
+        placeAliasName: null,
+        legalPersonName: null,
+        userId: null,
+        endStatus: 0,
+        start: null,
+        end: null,
+      };
+      
       this.handleQuery();
     },
     // 多选框选中数据

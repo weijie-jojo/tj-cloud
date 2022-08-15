@@ -5,8 +5,8 @@
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商全名" prop="placeAliasName">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
        <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -182,8 +182,20 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.bankStatus='0';
-      this.queryParams.bankStatus=0;
-      this.resetForm("queryForm");
+      this.queryParams={
+        type: 6,
+        nameStatus:1,
+        infoStatus:1,
+        businessStatus:1,
+        // realnameStatus:1,
+        taxStatus:1,
+        bankStatus:0,
+        pageNum: 1,
+        pageSize: 10,
+        placeAliasName: null,
+        legalPersonName: null,
+        userId: null,
+      };
       this.handleQuery();
     },
     // 多选框选中数据
