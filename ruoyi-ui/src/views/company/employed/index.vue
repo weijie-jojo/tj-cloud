@@ -172,6 +172,10 @@
         <el-table-column label="用户" align="center" prop="checkUser" />
         <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">关闭</el-button>
+        
+      </span>
     </el-dialog>
 
     <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称审核详情" :visible.sync="nameVisible"
@@ -441,7 +445,7 @@ export default {
       return moment(time).format('YYYY-MM-DD')
     },
   },
-  created() {
+  mounted() {
     this.getLoginInfo();
     this.getList();
   },
