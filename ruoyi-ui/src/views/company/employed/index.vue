@@ -59,7 +59,7 @@
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
-      <el-table-column width="250" label="渠道商名称" align="center" prop="placeName" />
+      <!-- <el-table-column width="250" label="渠道商名称" align="center" prop="placeName" /> -->
       <el-table-column width="250" label="渠道商全名" align="center" prop="placeAliasName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="进度状态" align="center" prop="endStatus">
@@ -157,7 +157,7 @@
           <el-link :underline="false" @click="finishConfirms(scope.row, scope.row.selfCode)" type="success"
             v-if="scope.row.endStatus == 1">
             完成</el-link>
-          <el-link @click="errConfirms(scope.row, scope.row.selfCode, scope.row.userId)" :underline="false" type="danger"
+          <el-link @click="errConfirms(scope.row, scope.row.selfCode, scope.row.applyName)" :underline="false" type="danger"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 &&scope.row.endStatus == 2">异常</el-link>
         </template>
       </el-table-column>
@@ -341,7 +341,7 @@ export default {
       errLabel: '异常',
       loadingLabel: '办理中',
       finishLabel: '完成',
-      projectTime: '',
+      projectTime: null,
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -1059,10 +1059,12 @@ export default {
     getList() {
       
       if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-        this.queryParams.start = this.projectTime[0];
-        this.queryParams.end = this.projectTime[1];
+        this.queryParams.start = this.projectTime[0]+' '+'00:00:00';
+        this.queryParams.end = this.projectTime[1]+' '+'23:59:59';
       } else {//判断选择时间再将时间清除
         this.projectTime = null;
+        this.queryParams.start=null;
+        this.queryParams.end=null;
       };
       this.loading = true;
       
@@ -1082,7 +1084,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.endStatus = '0';
-      this.projectTime='';
+      this.projectTime=null;
       this.queryParams={
         pageNum: 1,
         type:1,

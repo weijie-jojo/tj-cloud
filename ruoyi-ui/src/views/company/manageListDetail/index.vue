@@ -714,6 +714,13 @@
               增值税普通发票
             </template>
             <el-col :span="10">
+              <el-form-item label="状态"> 
+             <el-radio disabled v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+             <el-radio disabled v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+             </el-form-item>
+             <div v-if="formData.isSliderOrdinary">
+              
+             
               <el-form-item label="普票税率"  :required="true">
                 <el-select :disabled="true" style="width:87%" v-model="formData.ordinaryTax" clearable
                   placeholder="请选择">
@@ -764,6 +771,7 @@
                   </el-input>
                 </div>
               </el-form-item>
+               </div>
             </el-col>
 
           </el-collapse-item>
@@ -1297,6 +1305,12 @@ export default {
       this.formData.isSlider = '0';
     } else {
       this.formData.isSlider = '1';
+    }  
+
+     if (this.formData.isSliderOrdinary == '0') {
+      this.formData.isSliderOrdinary = '0';
+    } else {
+      this.formData.isSliderOrdinary = '1';
     }  
    if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';

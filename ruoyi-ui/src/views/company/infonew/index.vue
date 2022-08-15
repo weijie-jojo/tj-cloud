@@ -224,13 +224,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账名称">
+          <el-form-item class="comright" label="私账名称"  v-if="formData.accountType==1">
             <el-input v-model="formData.legalPersonName" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==1">
         <el-col :span="9">
           <el-form-item class="comright" label="私账开户银行">
             <el-input :readonly="true" v-model="formData.privateDepositBank" clearable>
@@ -238,13 +238,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账银行账号">
+          <el-form-item class="comright" label="私账银行账号" v-if="formData.accountType==1">
             <el-input v-model="formData.privateAccountNumber" clearable :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
         <el-col :span="9">
           <el-form-item class="comright" label="对公开户银行">
             <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>

@@ -703,6 +703,10 @@
             增值税普通发票
           </template>
           <el-col :span="10">
+             <el-radio   v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+              <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+           <div v-if="formData.isSliderOrdinary==0">
+            
             <el-form-item label="普票税率" :required="true">
               <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
                 <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
@@ -753,6 +757,7 @@
                 </el-input>
               </div>
             </el-form-item>
+             </div>
           </el-col>
 
         </el-collapse-item>
@@ -1365,6 +1370,12 @@ export default {
       this.formData.isSlider = '1';
     }
 
+      if (this.formData.isSliderOrdinary == '0') {
+      this.formData.isSliderOrdinary = '0';
+    } else {
+      this.formData.isSliderOrdinary = '1';
+    }
+
     this.fileName1 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
     for (let k1 in this.fileName1) {
       this.fileNameN1.push({
@@ -1549,6 +1560,11 @@ export default {
             } else {
               this.formData.isSlider = '1';
             }
+             if (this.unlist.isSliderOrdinary == '0') {
+              this.formData.isSliderOrdinary = '0';
+            } else {
+              this.formData.isSliderOrdinary = '1';
+            }
             //含税专票
             if (this.unlist.isSpecialTax) {
               this.formData.isSpecialSelfTax = '0';
@@ -1730,6 +1746,8 @@ export default {
           }
         }
       }
+
+      if(this.formData.isSliderOrdinary==0){
       if (this.formData.ordinaryShareIsmoney == '1') {
         if (this.formData.ordinaryShare > 100) {
           this.$alert('普票分润费按百分比不能大于100%', '提示', {
@@ -1747,6 +1765,7 @@ export default {
           });
           return;
         }
+      }
       }
 
       this.$refs['elForm'].validate(valid => {
@@ -1793,6 +1812,7 @@ export default {
             contactPhone: this.formData.contactPhone,
             mail: this.formData.mail,
             isSlider: this.formData.isSlider,
+            isSliderOrdinary:this.formData.isSliderOrdinary,
           };
           crudInfo.updateInfo(parms1).then(res => {
             if (res != undefined) {

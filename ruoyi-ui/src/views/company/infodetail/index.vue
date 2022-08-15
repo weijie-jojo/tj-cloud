@@ -209,13 +209,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账名称">
+          <el-form-item class="comright" label="私账名称" v-if="formData.accountType==1">
             <el-input v-model="formData.legalPersonName" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==1">
         <el-col :span="9">
           <el-form-item class="comright" label="私账开户银行">
             <el-input :readonly="true" v-model="formData.privateDepositBank" clearable>
@@ -223,8 +223,23 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="私账银行账号">
+          <el-form-item class="comright" label="私账银行账号" >
             <el-input v-model="formData.privateAccountNumber" clearable :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+       <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
+        <el-col :span="9">
+          <el-form-item class="comright" label="对公开户银行">
+            <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="对公银行账号" >
+            <el-input v-model="formData.publicAccountNumber1" clearable :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -442,6 +457,14 @@
               增值税普通发票
             </template>
             <el-col :span="10">
+             <el-form-item label="状态"> 
+             <el-radio disabled v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+             <el-radio disabled v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+             </el-form-item>
+             <div v-if="formData.isSliderOrdinary==0">
+
+
+            
               <el-form-item label="普票税率"  :required="true">
                 <el-select :disabled="true" style="width:87%" v-model="formData.ordinaryTax" clearable
                   placeholder="请选择">
@@ -492,6 +515,7 @@
                   </el-input>
                 </div>
               </el-form-item>
+               </div>
             </el-col>
 
           </el-collapse-item>
@@ -966,6 +990,12 @@ export default {
       this.formData.isSlider = '0';
     } else {
       this.formData.isSlider = '1';
+    }
+
+     if (this.formData.isSliderOrdinary == '0') {
+      this.formData.isSliderOrdinary = '0';
+    } else {
+      this.formData.isSliderOrdinary = '1';
     }
     if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';
