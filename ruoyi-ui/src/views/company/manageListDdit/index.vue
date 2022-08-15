@@ -608,9 +608,10 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商全名" prop="placeName">
-            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名" clearable
-              filterable>
-              <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
+            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
+              clearable filterable>
+              <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
+                :value="item.placeName">
               </el-option>
             </el-select>
           </el-form-item>
@@ -748,7 +749,12 @@
             增值税专用发票
           </template>
           <el-col :span="10">
-            <el-form-item label="专票税率" :required="true">
+            <el-form-item label="状态">
+              <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
+              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
+            </el-form-item>
+            <div v-if="formData.isSlider==0">
+                 <el-form-item label="专票税率" :required="true">
               <el-select style="width:87%;" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
@@ -758,14 +764,13 @@
               <div style="">
                 <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
                 <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
-                <el-input v-if="formData.specialProxyIsmoney == 0" type="number" 
-                v-model="formData.specialSelfFee"
+                <el-input v-if="formData.specialProxyIsmoney == 0" type="number" v-model="formData.specialSelfFee"
                   style="margin-right:10px;width:87%;" :step="0.01" :min="0">
                   <template slot="append">元</template>
                 </el-input>
-                <el-input v-else 
-                @change="specialSelfFeeh" @input="specialSelfFeeh" type="number"
-                  v-model="formData.specialSelfFee" style="margin-right:10px;width:87%;" :step="0.01" :min="0" :max='100'>
+                <el-input v-else @change="specialSelfFeeh" @input="specialSelfFeeh" type="number"
+                  v-model="formData.specialSelfFee" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
+                  :max='100'>
                   <template slot="append">%</template>
                 </el-input>
 
@@ -798,19 +803,11 @@
                 </el-input>
               </div>
             </el-form-item>
-          </el-col>
+            </div>
+           </el-col>
         </el-collapse-item>
-
       </el-collapse>
-
-
-
-
-
-
-
-
-      <el-row type="flex" class="row-bg " justify="space-around">
+    <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">返回</el-button>
@@ -1002,7 +999,7 @@ export default {
         privateDepositBank: '',
         privateAccountNumber: '',
         placeName: '',
-        placeAliasName:'',
+        placeAliasName: '',
         userName: '',
 
         //经营者
@@ -1345,6 +1342,12 @@ export default {
       this.formData.isSpecialSelfTax = '1';
     }
 
+    if (this.formData.isSlider == '0') {
+      this.formData.isSlider = '0';
+    } else {
+      this.formData.isSlider = '1';
+    }
+
     this.fileName1 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
     for (let k1 in this.fileName1) {
       this.fileNameN1.push({
@@ -1503,7 +1506,7 @@ export default {
     placenew() {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
-          this.formData.placeAliasName=this.places[i].placeAliasName;
+          this.formData.placeAliasName = this.places[i].placeAliasName;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.ordinaryProxyIsmoney = JSON.stringify(this.unlist.ordinaryProxyIsmoney);
@@ -1522,6 +1525,13 @@ export default {
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
 
+
+
+            if (this.unlist.isSlider == '0') {
+              this.formData.isSlider = '0';
+            } else {
+              this.formData.isSlider = '1';
+            }
             //含税专票
             if (this.unlist.isSpecialTax) {
               this.formData.isSpecialSelfTax = '0';
@@ -1684,12 +1694,23 @@ export default {
         this.$modal.msgError("税率不能为空");
         return;
       }
-      if (this.formData.specialShareIsmoney == '1') {
-        if (this.formData.specialShare > 100) {
-          this.$alert('专票分润费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
-          });
-          return;
+      if (this.formData.isSlider == '0') {
+
+        if (this.formData.specialShareIsmoney == '1') {
+          if (this.formData.specialShare > 100) {
+            this.$alert('专票分润费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+        }
+        if (this.formData.specialProxyIsmoney == '1') {
+          if (this.formData.specialSelfFee > 100) {
+            this.$alert('专票服务费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
         }
       }
       if (this.formData.ordinaryShareIsmoney == '1') {
@@ -1701,14 +1722,7 @@ export default {
         }
       }
 
-      if (this.formData.specialProxyIsmoney == '1') {
-        if (this.formData.specialSelfFee > 100) {
-          this.$alert('专票服务费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
-          });
-          return;
-        }
-      }
+
       if (this.formData.ordinaryProxyIsmoney == '1') {
         if (this.formData.ordinarySelfFee > 100) {
           this.$alert('普票服务费按百分比不能大于100%', '提示', {
@@ -1761,6 +1775,7 @@ export default {
             residence: this.formData.residence,
             contactPhone: this.formData.contactPhone,
             mail: this.formData.mail,
+            isSlider: this.formData.isSlider,
           };
           crudInfo.updateInfo(parms1).then(res => {
             if (res != undefined) {

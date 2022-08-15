@@ -504,7 +504,12 @@
               增值税专用发票
             </template>
              <el-col :span="10">
-            <el-form-item label="专票税率" :required="true">
+               <el-form-item label="状态"> 
+             <el-radio disabled v-model="formData.isSlider" label="0">开启</el-radio>
+             <el-radio disabled v-model="formData.isSlider" label="1">关闭</el-radio>
+             </el-form-item>
+             <div  v-if="formData.isSlider==0">
+                  <el-form-item label="专票税率" :required="true">
               <el-select :disabled="true" style="width:87%;" v-model="formData.ordinarySpecialTax" clearable
                 placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
@@ -555,6 +560,9 @@
                 </el-input>
               </div>
             </el-form-item>
+             
+             </div>
+           
           </el-col>
          </el-collapse-item>
 
@@ -954,7 +962,11 @@ export default {
     this.formData.isOrdinaryShare=JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare=JSON.stringify(this.formData.isSpecialShare);
 
-    
+    if (this.formData.isSlider == '0') {
+      this.formData.isSlider = '0';
+    } else {
+      this.formData.isSlider = '1';
+    }
     if (this.formData.isOrdinaryTax == 1) {
       this.formData.isOrdinaryTax = '1';
     } else {
