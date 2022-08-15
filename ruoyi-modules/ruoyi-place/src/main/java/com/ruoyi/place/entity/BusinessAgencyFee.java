@@ -193,6 +193,6 @@ public class BusinessAgencyFee implements Serializable {
     private Long isSpecialShare;
 
     /** 滑块0是 1否 */
-    @TableField("滑块0是 1否")
+    @TableField("is_slider")
     private Long isSlider;
 }
