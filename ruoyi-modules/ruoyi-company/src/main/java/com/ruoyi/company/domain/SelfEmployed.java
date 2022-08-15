@@ -371,6 +371,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "滑块0是 1否")
     private Long isSlider;
 
+    /** 滑块0是 1否(普票) */
+    @Excel(name = "滑块0是 1否(普票)")
+    private Long isSliderOrdinary;
+
     /** 渠道商全名（名称+别名） */
     @Excel(name = "渠道商全名", readConverterExp = "名=称+别名")
     private String placeAliasName;

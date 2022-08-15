@@ -92,6 +92,7 @@
         <result property="isSpecialShare"    column="is_special_share"    />
         <result property="placeAliasName"    column="place_alias_name"    />
         <result property="isSlider"    column="is_slider"    />
+        <result property="isSliderOrdinary"    column="is_slider_ordinary"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -106,7 +107,7 @@
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
                is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
-               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name,is_slider
+               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name,is_slider,is_slider_ordinary
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -182,6 +183,7 @@
             <if test="selfEmployedVo.isSpecialShare != null "> and t.is_special_share = #{selfEmployedVo.isSpecialShare}</if>
             <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>
             <if test="selfEmployedVo.isSlider != null "> and t.is_slider = #{selfEmployedVo.isSlider}</if>
+            <if test="selfEmployedVo.isSliderOrdinary != null "> and t.is_slider_ordinary = #{selfEmployedVo.isSliderOrdinary}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -290,6 +292,7 @@
             <if test="isSpecialShare != null "> and is_special_share = #{isSpecialShare}</if>
             <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
             <if test="isSlider != null "> and is_slider = #{isSlider}</if>
+            <if test="isSliderOrdinary != null "> and is_slider_ordinary = #{isSliderOrdinary}</if>
         </where>
     </select>
 
@@ -387,6 +390,7 @@
             <if test="isSpecialShare != null">is_special_share,</if>
             <if test="placeAliasName != null">place_alias_name,</if>
             <if test="isSlider != null">is_slider,</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -475,6 +479,7 @@
             <if test="isSpecialShare != null">#{isSpecialShare},</if>
             <if test="placeAliasName != null">#{placeAliasName},</if>
             <if test="isSlider != null">#{isSlider},</if>
+            <if test="isSliderOrdinary != null">#{isSliderOrdinary},</if>
         </trim>
     </insert>
 
@@ -567,6 +572,7 @@
             <if test="isSpecialShare != null">is_special_share = #{isSpecialShare},</if>
             <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
             <if test="isSlider != null">is_slider = #{isSlider},</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary = #{isSliderOrdinary},</if>
         </trim>
         where self_id = #{selfId}
     </update>
