@@ -122,7 +122,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="银行账号类型" prop="accountType">
             <el-select style="width:100%" disabled v-model="formData.accountType" placeholder="请选择银行账号类型"
@@ -138,8 +138,8 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+      </el-row> -->
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="私账开户银行" :required="true">
             <el-input :readonly="true" v-model="formData.privateDepositBank" clearable>
@@ -152,7 +152,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">

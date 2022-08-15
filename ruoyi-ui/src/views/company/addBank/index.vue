@@ -128,7 +128,7 @@
 
           
           <el-form-item label="纳税委托协议" prop="fileName3">
-             <uploadSmall  @getfileName="getTax" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
+             <uploadSmall  @getfileName="getTaxS" :fileName="[]" :fileNameOld="[]" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
 
@@ -141,7 +141,7 @@
             <div style="height:34px"></div>
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <uploadSmall  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall  @getfileName="getThreeS" :fileName="[]" :fileNameOld="[]"  :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -290,6 +290,8 @@ export default {
   },
   mounted() {
     this.getInfo();
+    this.formBank.fileName3=[];
+    this.formBank.fileName4=[];
      let list = this.$cache.local.getJSON("employednewlist");
      console.log(1111,list);
     this.formBank.selfId = list.selfId;
@@ -307,12 +309,13 @@ export default {
  
 
   methods: {
-    getTax(data){
+    getTaxS(data){
      this.formBank.fileName3=data;
-     console.log(data);
+     console.log(111,data);
     },
-    getThree(data){
+    getThreeS(data){
       this.formBank.fileName4=data;
+      console.log(data);
     },
     changeValue(res) {
       for (let i in this.mylist) {

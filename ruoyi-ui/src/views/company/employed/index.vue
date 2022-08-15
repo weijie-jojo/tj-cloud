@@ -895,6 +895,11 @@ export default {
     },
     errConfirmsDetail() {
       this.errsConfirmVisible = false;
+      let obj = {
+        name:'注册确认',
+        backUrl: '/company/customer/employed',
+      };
+      this.$cache.local.setJSON('backurls', obj);
       if (this.errConfirmsMsg == '修改') {
         this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
 
