@@ -407,7 +407,7 @@ export default {
                       this.check('名称审核不通过。'+'原因：'+this.remark);
                       let parmsEmployed={
                         remarkName:this.remark,
-                        selfId: this.formData.selfId,
+                        selfCode: this.formData.selfCode,
                         endStatus:2
                       };
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
