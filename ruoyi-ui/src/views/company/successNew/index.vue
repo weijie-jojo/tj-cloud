@@ -19,7 +19,7 @@
           <div style="text-align:center;font-size: 30px;color:rgb(41,36,33,0.8) ;">{{ shenmsg }}
           <div
               style="margin-bottom:40px"></div>
-            <el-button style="width:100px" type="success"  @click="submitForm">结束</el-button>
+            <el-button style="width:100px" type="success"  @click="submitForm">完成</el-button>
           </div>
         </el-col>
         <el-col :span="8"></el-col>

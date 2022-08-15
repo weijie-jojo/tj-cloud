@@ -21,7 +21,7 @@
        <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
         <el-col :span="8">
         <div style="display:flex;justify-content: center;">
-               <el-button style="width:140px" type="success"  @click="toEnd">结束</el-button> 
+               <el-button style="width:140px" type="success"  @click="toEnd">完成</el-button> 
                <!-- <el-button type="primary" @click="toContinue" style="margin-left:20px;width:140px">继续注册</el-button> -->
         </div>
          
