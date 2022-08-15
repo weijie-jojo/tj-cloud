@@ -158,7 +158,7 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
+      this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
     },
     look(row) {
       let obj={

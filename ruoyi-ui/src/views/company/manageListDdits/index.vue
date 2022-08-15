@@ -1773,6 +1773,7 @@ export default {
       this.$refs['elForm'].validate(valid => {
 
         if (valid) {
+          
           let parms1 = {
             id: this.formData.id,
             selfCode: this.formData.selfCode,
@@ -1787,7 +1788,12 @@ export default {
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
           };
-        
+         
+          
+            
+          
+         
+          
           this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
           this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
           this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
@@ -1826,9 +1832,19 @@ export default {
               }
             }
           });
+          this.formData.endStatus = 0;
           crudEmployed.updateEmployed(this.formData).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
+                let parmsSS = {
+               "checkReasult": '注册修改',
+               "checkUser": this.userinfo.userName,
+               'phonenumber': this.userinfo.phonenumber,
+               "selfCode": this.formData.selfCode,
+               "selfType": "11",
+              }
+            crudEmployed.check(parmsSS).then(res => {
+             })
 
               } else {
                 this.$message({
