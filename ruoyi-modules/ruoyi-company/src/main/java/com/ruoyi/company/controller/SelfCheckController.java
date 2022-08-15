@@ -48,11 +48,12 @@ public class SelfCheckController extends BaseController
     @ApiOperation("查询审批进度列表")
 //    @RequiresPermissions("company:check:list")
     @GetMapping("/list")
-    public TableDataInfo list(SelfCheck selfCheck)
+    public List<SelfCheckVo> list(SelfCheck selfCheck)
     {
-        startPage();
+//        startPage();
         List<SelfCheckVo> list = selfCheckService.selectSelfCheckList(selfCheck);
-        return getDataTable(list);
+//        return getDataTable(list);
+        return list;
     }
 
 //    /**
