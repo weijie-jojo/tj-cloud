@@ -198,6 +198,8 @@
                     #{item}
                 </foreach>
             </if>
+            <if test="selfEmployedVo.selfName != null  and selfEmployedVo.selfName != ''"> and t.self_name like concat('%', #{selfEmployedVo.selfName}, '%')</if>
+            <if test="selfEmployedVo.legalPersonName != null  and selfEmployedVo.legalPersonName != ''"> and t.legal_person_name like concat('%', #{selfEmployedVo.legalPersonName}, '%')</if>
             <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
             <if test="selfEmployedVo.isActive != null  and selfEmployedVo.isActive != ''"> and t.is_active like concat('%', #{selfEmployedVo.isActive}, '%')</if>
             <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>

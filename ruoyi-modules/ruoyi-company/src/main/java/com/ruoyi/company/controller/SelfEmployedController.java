@@ -374,6 +374,7 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
+        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
         int num=selfEmployedService.updateSelfEmployed(selfEmployed);
 //        SelfEmployed selfEmployed2= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
 //        if (selfEmployed2.getBusinessStatus()==1&&selfEmployed2.getTaxStatus()==1&&selfEmployed2.getBankStatus()==1){
