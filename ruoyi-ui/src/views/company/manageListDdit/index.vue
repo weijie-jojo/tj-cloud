@@ -1630,6 +1630,7 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
+        this.formData.userName = res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
@@ -1787,6 +1788,18 @@ export default {
           };
           if (this.$cache.local.getJSON('backurls').name == '注册确认') {
             this.formData.endStatus = 0;
+            
+          let parmsSS = {
+            "checkReasult": '注册修改',
+            "checkUser": this.userinfo.userName,
+            'phonenumber': this.userinfo.phonenumber,
+            "selfCode": this.formData.selfCode,
+            "selfType": "11",
+          }
+          crudEmployed.check(parmsSS).then(res => {
+            
+          })
+         
           }
           this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
           this.formData.fileName2 = JSON.stringify(this.formData.fileName2);

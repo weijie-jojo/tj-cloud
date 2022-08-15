@@ -1509,7 +1509,7 @@ export default {
 
                     }
                     this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                   });
                 });
 
