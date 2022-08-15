@@ -184,8 +184,11 @@
         <!-- 卡3 -->
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>增值税专用发票</span>
+            <span style='margin-right:10px'>增值税专用发票</span>
+             <el-radio v-model="ruleForm.isSlider" label="0">开启</el-radio>
+             <el-radio v-model="ruleForm.isSlider" label="1">关闭</el-radio>
           </div>
+          <div v-if='ruleForm.isSlider==0'>
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
               <el-form-item label="专票税率" :required="true">
@@ -250,6 +253,7 @@
               </el-form-item>
             </el-col>
           </el-row>
+          </div>
 
         </el-card>
       </el-form>
@@ -388,9 +392,13 @@
         <!-- 卡3 -->
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>增值税专用发票</span>
+            <span style='margin-right:10px'>增值税专用发票</span>
+             <el-radio v-model="ruleForm.editIsSlider" label="0">开启</el-radio>
+             <el-radio v-model="ruleForm.editIsSlider" label="1">关闭</el-radio>
           </div>
-          <el-row type="flex" justify="flex-end">
+          <div v-if="ruleForm.editIsSlider==0">
+
+                 <el-row type="flex" justify="flex-end">
             <el-col :span="24">
               <el-form-item label="专票税率" prop="editOrdinarySpecialTax">
                 <el-select style="width:100%" :disabled="confirmEditStatus" v-model="ruleForm.editOrdinarySpecialTax"
@@ -467,6 +475,8 @@
               </el-form-item>
             </el-col>
           </el-row>
+          </div>
+      
 
 
 
@@ -602,8 +612,11 @@
         <!-- 卡3 -->
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>增值税专用发票</span>
+            <span style='margin-right:10px'>增值税专用发票</span>
+             <el-radio disabled v-model="ruleForm.isSlider" label="0">开启</el-radio>
+             <el-radio disabled v-model="ruleForm.isSlider" label="1">关闭</el-radio>
           </div>
+          <div v-if="ruleForm.isSlider==0">
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
               <el-form-item label="专票税率" :required="true">
@@ -671,6 +684,10 @@
               </el-form-item>
             </el-col>
           </el-row>
+
+
+          </div>
+         
         </el-card>
       </el-form>
     </el-dialog>
@@ -781,6 +798,7 @@ export default {
         status: '',
       },
       ruleForm: {
+        isSlider:'0',//专票滑块
         isSelfTax: '1',     //普票价税分离
         isSpecialSelfTax: '1',  //专票价税分离
         ordinaryTax: '',//普票税率
@@ -829,7 +847,7 @@ export default {
         editSpecialProxyIsmoney: '0',
         editIsSpecialShare: '1',
         editSpecialShareIsmoney: '0',
-
+        editIsSlider:'0',//专票滑块
 
 
         editIsSelfTax: '0',     //普票价税分离
@@ -1196,7 +1214,7 @@ export default {
     },
     // 表单重置
     reset() {
-
+      this.ruleForm.isSlider='0';
       this.ruleForm.isSelfTax = '1';   //普票价税分离
       this.ruleForm.isSpecialSelfTax = '1';  //专票价税分离
       this.ruleForm.ordinaryProxyIsmoney = '0';
@@ -1267,6 +1285,7 @@ export default {
       this.titles = "编辑渠道管理";
       var placeCode = item.placeCode;
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
+        this.ruleForm.editIsSlider=JSON.stringify(res.isSlider); 
         this.ruleForm.editOrdinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
         this.ruleForm.editIsOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
         this.ruleForm.editOrdinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
@@ -1274,8 +1293,8 @@ export default {
         this.ruleForm.editIsSpecialShare = JSON.stringify(res.isSpecialShare);
         this.ruleForm.editSpecialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
         this.ruleForm.editIsSelfTax = JSON.stringify(res.isSelfTax),
-          this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-          this.ruleForm.editAgencyFeeId = res.agencyFeeId;
+        this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
+        this.ruleForm.editAgencyFeeId = res.agencyFeeId;
         this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
         this.ruleForm.editIsSpecialTax = res.isSpecialTax;
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
@@ -1323,7 +1342,7 @@ export default {
 
       agencyfee.selectFeeByCode({ placeCode: this.ruleForm.placeCode }).then(res => {
         console.log("selectFeeByCode==", res);
-
+        this.ruleForm.isSlider=JSON.stringify(res.isSlider); 
         this.ruleForm.ordinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
         this.ruleForm.isOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
         this.ruleForm.ordinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
@@ -1427,14 +1446,7 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate((valid) => {
-        if (this.ruleForm.specialShareIsmoney == '1') {
-          if (this.ruleForm.specialShare > 100) {
-            this.$alert('专票分润费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
-            });
-            return;
-          }
-        }
+      
         if (this.ruleForm.ordinaryShareIsmoney == '1') {
           if (this.ruleForm.ordinaryShare > 100) {
             this.$alert('普票分润费按百分比不能大于100%', '提示', {
@@ -1444,14 +1456,7 @@ export default {
           }
         }
 
-        if (this.ruleForm.specialProxyIsmoney == '1') {
-          if (this.ruleForm.specialProxyFee > 100) {
-            this.$alert('专票服务费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
-            });
-            return;
-          }
-        }
+       
         if (this.ruleForm.ordinaryProxyIsmoney == '1') {
           if (this.ruleForm.ordinaryProxyFee > 100) {
             this.$alert('普票服务费按百分比不能大于100%', '提示', {
@@ -1467,6 +1472,30 @@ export default {
 
 
         if (valid) {
+        
+        
+         if(this.ruleForm.IsSlider=='0'){
+              if (this.ruleForm.specialShareIsmoney == '1') {
+          if (this.ruleForm.specialShare > 100) {
+            this.$alert('专票分润费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+           }
+          if (this.ruleForm.specialProxyIsmoney == '1') {
+          if (this.ruleForm.specialProxyFee > 100) {
+            this.$alert('专票服务费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+             }
+           }
+
+           }
+
+
+
           if (this.ruleForm.isOrdinaryTax == "0") {
             this.ruleForm.isOrdinaryTax = true;
           } else if (this.ruleForm.isOrdinaryTax == '1') {
@@ -1491,6 +1520,7 @@ export default {
               userName: this.ruleForm.userName,
             },
             businessAgencyFee: {
+              isSlider:this.ruleForm.isSlider,
               isSelfTax: this.ruleForm.isSelfTax,
               isSpecialSelfTax: this.ruleForm.isSpecialSelfTax,
               placeCode: this.ruleForm.placeCode,
@@ -1570,7 +1600,25 @@ export default {
     //修改提交
     confirmEdit() {
       this.$refs['form'].validate((valid) => {
-        if (this.ruleForm.editSpecialShareIsmoney == '1') {
+       
+
+
+
+
+
+
+        if (valid) {
+        
+        if(this.ruleForm.editIsSlider=='0'){
+             if (this.ruleForm.editSpecialProxyIsmoney == '1') {
+          if (this.ruleForm.editSpecialProxyFee > 100) {
+            this.$alert('专票服务费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+        }
+           if (this.ruleForm.editSpecialShareIsmoney == '1') {
           if (this.ruleForm.editSpecialShare > 100) {
             this.$alert('专票分润费按百分比不能大于100%', '提示', {
               confirmButtonText: '确定',
@@ -1578,6 +1626,8 @@ export default {
             return;
           }
         }
+        }
+      
         if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
           if (this.ruleForm.editOrdinaryShare > 100) {
             this.$alert('普票分润费按百分比不能大于100%', '提示', {
@@ -1587,14 +1637,7 @@ export default {
           }
         }
 
-        if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-          if (this.ruleForm.editSpecialProxyFee > 100) {
-            this.$alert('专票服务费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
-            });
-            return;
-          }
-        }
+       
         if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
           if (this.ruleForm.editOrdinaryProxyFee > 100) {
             this.$alert('普票服务费按百分比不能大于100%', '提示', {
@@ -1607,9 +1650,6 @@ export default {
 
 
 
-
-
-        if (valid) {
           if (this.ruleForm.editIsOrdinaryTax == "0") {
             this.ruleForm.editIsOrdinaryTax = true;
           } else if (this.ruleForm.editIsOrdinaryTax == '1') {
@@ -1663,6 +1703,7 @@ export default {
             isOrdinaryTax: this.ruleForm.editIsOrdinaryTax,
             isSelfTax: this.ruleForm.editIsSelfTax,
             isSpecialSelfTax: this.ruleForm.editIsSpecialSelfTax,
+            isSlider:this.ruleForm.editIsSlider,
           }
           crudPlace.editPlace(params).then((res) => {
             if (res.id == 0) {

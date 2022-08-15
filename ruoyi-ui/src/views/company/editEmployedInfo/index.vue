@@ -596,7 +596,12 @@
               增值税专用发票
             </template>
              <el-col :span="10">
-            <el-form-item label="专票税率" prop="ordinarySpecialTax">
+             <el-form-item label="状态">
+              <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
+              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
+            </el-form-item>
+            <div v-if="formData.isSlider==0">
+              <el-form-item label="专票税率" prop="ordinarySpecialTax">
               <el-select  style="width:100%" v-model="formData.ordinarySpecialTax" clearable
                 placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
@@ -651,6 +656,9 @@
                 </el-input>
               </div>
             </el-form-item>
+            
+            </div>
+            
           </el-col>
          </el-collapse-item>
 
@@ -1234,6 +1242,12 @@ export default {
     }else{
           this.formData.isSpecialSelfTax='1';
     }
+    
+    if (this.formData.isSlider == '0') {
+      this.formData.isSlider = '0';
+    } else {
+      this.formData.isSlider = '1';
+    }
 
     
   },
@@ -1334,6 +1348,13 @@ export default {
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
            
+           
+
+            if (this.unlist.isSlider == '0') {
+              this.formData.isSlider = '0';
+            } else {
+              this.formData.isSlider = '1';
+            }
               //含税专票
             if (this.unlist.isSpecialTax) {
               this.formData.isSpecialSelfTax = '0';
@@ -1529,14 +1550,25 @@ export default {
          return;
       }
 
-         if(this.formData.specialShareIsmoney=='1'){
-            if(this.formData.specialShare>100){
-                this.$alert('专票分润费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+        if (this.formData.isSlider == '0') {
+
+        if (this.formData.specialShareIsmoney == '1') {
+          if (this.formData.specialShare > 100) {
+            this.$alert('专票分润费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
             });
-                return;
-           }
-         }
+            return;
+          }
+        }
+        if (this.formData.specialProxyIsmoney == '1') {
+          if (this.formData.specialSelfFee > 100) {
+            this.$alert('专票服务费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+        }
+      }
       if(this.formData.ordinaryShareIsmoney=='1'){
             if( this.formData.ordinaryShare>100){
                this.$alert('普票分润费按百分比不能大于100%', '提示', {
@@ -1546,14 +1578,7 @@ export default {
            }
        }
    
-      if(this.formData.specialProxyIsmoney=='1'){
-            if(this.formData.specialProxyFee>100){
-                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
-              });
-                return;
-           }
-       }
+    
       if(this.formData.ordinaryProxyIsmoney=='1'){
             if( this.formData.ordinaryProxyFee>100){
                 this.$alert('普票服务费按百分比不能大于100%', '提示', {
@@ -1626,7 +1651,7 @@ export default {
             ordinaryShare: this.formData.ordinaryShare,
             ordinarySpecialTax: this.formData.ordinarySpecialTax,
             ordinaryTax: this.formData.ordinaryTax,
-           
+            isSlider: this.formData.isSlider,
             ordinaryProxyIsmoney:this.formData.ordinaryProxyIsmoney,//普票平台服务费是否定额
             specialProxyIsmoney:this.formData.specialProxyIsmoney,//专票平台服务费是否定额
             ordinaryShareIsmoney:this.formData.ordinaryShareIsmoney,//普票分润方式是否定额

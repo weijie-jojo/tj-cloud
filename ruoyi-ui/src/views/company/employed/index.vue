@@ -149,7 +149,7 @@
           <el-link :underline="false" type="info"
             v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2 || scope.row.businessStatus == 0 || scope.row.taxStatus == 0 || scope.row.bankStatus == 0">
             未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 7)"
+          <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 7)"
             v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 && scope.row.endStatus == 0">
             办理中</el-link>
           <el-link :underline="false" @click="finishConfirms(scope.row, scope.row.selfCode)" type="success"
