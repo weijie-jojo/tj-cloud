@@ -121,7 +121,7 @@
 
      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-         <el-form-item label="字号">
+         <el-form-item label="字号" prop="random">
           <el-checkbox 
             v-model="formData.random"
             @change="isRandom">随机字号</el-checkbox>
@@ -259,7 +259,7 @@ export default {
   data() {
     return {
       userinfo:{},
-      isDisable:true,
+      isDisable:false,
       formData: {
         selfId:'',
         selfCode:'',
@@ -307,9 +307,15 @@ export default {
           message: '请输入登记机关',
           trigger: 'blur'
         }],
+        random:[{
+          required: true,
+          message: '请选择字号',
+          trigger: 'change'
+      }]
        
       
       },
+      
       organizationalFormOptions: [{
         "label": "服务部",
         "value": 1
@@ -386,7 +392,17 @@ export default {
     },
     isRandom(){
       if(!this.formData.random){
-        this.isDisable=false
+        this.isDisable=false;
+        this.formData.poposedName1=this.$cache.local.getJSON('employedName').poposedName1;
+        this.formData.poposedName2=this.$cache.local.getJSON('employedName').poposedName3;
+        this.formData.poposedName3=this.$cache.local.getJSON('employedName').poposedName3;
+        this.formData.poposedName4=this.$cache.local.getJSON('employedName').poposedName4;
+        this.formData.poposedName5=this.$cache.local.getJSON('employedName').poposedName5;
+        this.formData.fontSize1=this.$cache.local.getJSON('employedName').fontSize1;
+        this.formData.fontSize2=this.$cache.local.getJSON('employedName').fontSize2;
+        this.formData.fontSize3=this.$cache.local.getJSON('employedName').fontSize3;
+        this.formData.fontSize4=this.$cache.local.getJSON('employedName').fontSize4;
+        this.formData.fontSize5=this.$cache.local.getJSON('employedName').fontSize5;
       }else{
         this.isDisable=true
         this.formData.fontSize1="";

@@ -154,13 +154,13 @@
             <el-radio v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润" :required="true">
+          <el-form-item label="是否分润" prop='isOrdinaryShare'>
             <el-radio v-model="ruleForm.isOrdinaryShare" label="0">是</el-radio>
             <el-radio v-model="ruleForm.isOrdinaryShare" label="1">否</el-radio>
           </el-form-item>
           <el-row v-if="ruleForm.isOrdinaryShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="ordinaryShare">
+              <el-form-item label="分润方式" prop="ordinaryShareIsmoney">
                 <div style="">
                   <el-radio @change="hanOrshare" v-model="ruleForm.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="hanOrshare" v-model="ruleForm.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
@@ -234,13 +234,13 @@
             <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润">
+          <el-form-item label="是否分润" prop="isSpecialShare">
             <el-radio v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
             <el-radio v-model="ruleForm.isSpecialShare" label="1">否</el-radio>
           </el-form-item>
           <el-row v-if="ruleForm.isSpecialShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="specialShare">
+              <el-form-item label="分润方式" prop="specialShareIsmoney">
                 <div style="">
                   <el-radio @change="handMoney" v-model="ruleForm.specialShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="handMoney" v-model="ruleForm.specialShareIsmoney" label="1">按百分比收取</el-radio>
@@ -366,13 +366,13 @@
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润" :required="true">
+          <el-form-item label="是否分润" prop="editIsOrdinaryShare">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryShare" label="0">是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryShare" label="1">否</el-radio>
           </el-form-item>
           <el-row v-if="ruleForm.editIsOrdinaryShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="editOrdinaryShare">
+              <el-form-item label="分润方式" prop="editOrdinaryShareIsmoney">
                 <div style="">
                   <el-radio @change="hanOrshareS" :disabled="confirmEditStatus" v-model="ruleForm.editOrdinaryShareIsmoney" label="0">按定额收取
                   </el-radio>
@@ -456,14 +456,14 @@
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润" :required="true">
+          <el-form-item label="是否分润" prop="editIsSpecialShare">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialShare" label="0">是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialShare" label="1">否</el-radio>
           </el-form-item>
 
           <el-row v-if="ruleForm.editIsSpecialShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="editSpecialShare">
+              <el-form-item label="分润方式" prop="editSpecialShareIsmoney">
                 <div style="">
                   <el-radio @change="handMoneyS" :disabled="confirmEditStatus" v-model="ruleForm.editSpecialShareIsmoney" label="0">按定额收取
                   </el-radio>
@@ -594,13 +594,13 @@
             <el-radio v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润" :required="true">
+          <el-form-item label="是否分润" prop='isOrdinaryShare'>
             <el-radio v-model="ruleForm.isOrdinaryShare" label="0">是</el-radio>
             <el-radio v-model="ruleForm.isOrdinaryShare" label="1">否</el-radio>
           </el-form-item>
           <el-row v-if="ruleForm.isOrdinaryShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="ordinaryShare">
+              <el-form-item label="分润方式" prop="ordinaryShareIsmoney">
                 <div style="">
                   <el-radio disabled v-model="ruleForm.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio disabled v-model="ruleForm.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
@@ -673,14 +673,14 @@
             <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
             <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
-          <el-form-item label="是否分润">
+          <el-form-item label="是否分润" prop="isSpecialShare">
             <el-radio v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
             <el-radio v-model="ruleForm.isSpecialShare" label="1">否</el-radio>
           </el-form-item>
 
           <el-row v-if="ruleForm.isSpecialShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="分润方式" prop="specialShare">
+              <el-form-item label="分润方式" prop="specialShareIsmoney">
                 <div style="">
                   <el-radio disabled v-model="ruleForm.specialShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio disabled v-model="ruleForm.specialShareIsmoney" label="1">按百分比收取</el-radio>
@@ -944,6 +944,43 @@ export default {
         },
       ],
       rules: {
+        isSpecialShare:[{
+           required: true, message: '请选择专票是否分润', trigger: 'change'
+        }],
+         editIsSpecialShare:[{
+            required: true, message: '请选择专票是否分润', trigger: 'change'
+        }],
+        editIsOrdinaryShare:[{
+              required: true, message: '请选择普票是否分润', trigger: 'change'
+        }],
+        isOrdinaryShare:[{
+             required: true, message: '请选择普票是否分润', trigger: 'change'
+        }],
+         editSpecialShareIsmoney:[{
+         required: true, message: '请选择专票分润方式', trigger: 'change'
+        }],
+        specialShareIsmoney:[{
+         required: true, message: '请选择专票分润方式', trigger: 'change'
+        }],
+        ordinaryShareIsmoney:[{
+          required: true, message: '请选择普票分润方式', trigger: 'change'
+        }],
+        editOrdinaryShareIsmoney:[{
+          required: true, message: '请选择普票分润方式', trigger: 'change'
+        }],
+        isSelfTax:[
+            { required: true, message: '请选择普票价税分离', trigger: 'change' }
+        ],
+
+        editIsSelfTax:[
+           { required: true, message: '请选择普票价税分离', trigger: 'change' }
+        ], 
+        isSpecialSelfTax:[
+          { required: true, message: '请选择专票价税分离', trigger: 'change' }
+        ],
+        editIsSpecialSelfTax:[
+             { required: true, message: '请选择专票价税分离', trigger: 'change' }
+        ],
         placeCode: [
           { required: true, message: '请输入编号', trigger: 'blur' }
         ],
