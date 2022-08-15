@@ -117,8 +117,8 @@
                <el-form-item label="付费凭证">
                 
                 <!-- transform: rotate(90deg); -->
-                    <div v-for="(item,index) in fileNameOld" :key="index" style="width:100vw;height:50vh">
-                   <el-image style="" :src="item.url" fill="scale-down" ></el-image>
+                    <div v-for="(item,index) in fileNameOld" :key="index" style="padding-bottom: 10vh;display:flex;width:100vw;height: 50vh;align-items: center;">
+                   <el-image :src="item.url" fill="scale-down" ></el-image>
                   </div>
 
                 
@@ -202,7 +202,7 @@ export default {
     border: 1px solid #333;
   }
    .comborder{
-   
+    
     height:60px;
     line-height: 60px;
     text-align: center;

@@ -2146,7 +2146,7 @@ export default {
           crudEmployed.check(parms).then(res => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$router.push("success");
+                this.$tab.closeOpenPage({path:'/company/customer/success'});
               } else {
                 this.$message({
                   message: res.msg,

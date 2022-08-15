@@ -23,10 +23,10 @@
         <el-row :gutter="10" class="mb8">
              <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="异常" name="2"></el-tab-pane>
-                    <el-tab-pane label="办理中" name="0"></el-tab-pane>
-                    <el-tab-pane label="完成" name="1"></el-tab-pane>
+                   <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+                   <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+                   <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+                   <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
                 </el-tabs>
              </el-col>
             
@@ -37,7 +37,9 @@
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
+            <el-table-column label="项目时间" align="center"  :show-overflow-tooltip="true">
+              <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
+            </el-table-column>
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
@@ -68,12 +70,16 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { list, del } from "@/api/project/list";
 export default {
     data() {
         return {
-            endStatus:'-1',
+            allLabel: '全部',
+            errLabel: '异常',
+            loadingLabel: '办理中',
+            finishLabel: '完成',
+            endStatus:'0',
             // 遮罩层
             loading: true,
             // 选中数组
@@ -101,7 +107,7 @@ export default {
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectCheckStatus: 1, //项目状态
-                projectTicketStatus:null,
+                projectTicketStatus:0,
                 start: null, //开始
                 end: null,   //结束
             },
@@ -154,6 +160,12 @@ export default {
             // 表单校验
             rules: {},
         };
+    },
+     filters: {
+        filterTime(time) {
+
+            return moment(time).format('YYYY-MM-DD')
+        },
     },
     mounted() {
         this.getList();
@@ -237,7 +249,7 @@ export default {
         /** 重置按钮操作 */
         resetQuery() {
             this.resetForm("queryForm");
-            this.endStatus='-1';
+            this.endStatus='0';
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
@@ -245,7 +257,7 @@ export default {
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectCheckStatus: 1, //项目状态
-                projectTicketStatus:null,
+                projectTicketStatus:0,
                 start: null, //开始
                 end: null,   //结束
             }

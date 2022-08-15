@@ -22,12 +22,11 @@
         <el-row :gutter="10" class="mb8">
               <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="异常" name="1"></el-tab-pane>
-                    <el-tab-pane label="办理中" name="0"></el-tab-pane>
-                    <el-tab-pane label="完成" name="2"></el-tab-pane>
-
-                </el-tabs>
+                   <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+                   <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+                   <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+                   <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
+                 </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -72,7 +71,11 @@ import { list, del } from "@/api/project/list";
 export default {
     data() {
         return {
-            endStatus:'-1',
+            allLabel: '全部',
+            errLabel: '异常',
+            loadingLabel: '办理中',
+            finishLabel: '完成',
+            endStatus:'0',
             // 遮罩层
             loading: true,
             // 选中数组

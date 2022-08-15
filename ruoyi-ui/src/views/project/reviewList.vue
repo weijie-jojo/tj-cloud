@@ -23,12 +23,11 @@
         <el-row :gutter="10" class="mb8">
             <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="异常" name="2"></el-tab-pane>
-                    <el-tab-pane label="办理中" name="0"></el-tab-pane>
-                    <el-tab-pane label="完成" name="1"></el-tab-pane>
-
-                </el-tabs>
+                <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+                <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+                <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+                <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
+              </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -39,7 +38,11 @@
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
+            <el-table-column label="项目时间" align="center" width="120" prop="createTime">
+                <template slot-scope="scope">
+                    {{ scope.row.createTime | filterTime }}
+                </template>
+            </el-table-column>
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
@@ -50,10 +53,13 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus==1" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看项目</el-button>
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus==0" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核项目
+                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 1" type="text" icon="el-icon-s-custom"
+                        @click="find(scope.row, scope.row.projectCode)">查看项目</el-button>
+                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 0" type="text" icon="el-icon-s-custom"
+                        @click="detail(scope.row)">审核项目
                     </el-button>
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus==2" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑项目
+                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 2" type="text" icon="el-icon-s-custom"
+                        @click="edits(scope.row, scope.row.projectCode)">编辑项目
                     </el-button>
                 </template>
             </el-table-column>
@@ -68,12 +74,16 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { list, del } from "@/api/project/list";
 export default {
     data() {
         return {
-            endStatus:'-1',
+            allLabel: '全部',
+            errLabel: '异常',
+            loadingLabel: '办理中',
+            finishLabel: '完成',
+            endStatus: '0',
             // 遮罩层
             loading: true,
             // 选中数组
@@ -100,7 +110,7 @@ export default {
                 projectOwner: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectCheckStatus: null, //项目状态
+                projectCheckStatus: 0, //项目状态
                 start: null, //开始
                 end: null,   //结束
             },
@@ -132,30 +142,36 @@ export default {
                     }
                 }]
             },
-             // 表单参数
+            // 表单参数
             form: {},
             // 表单校验
             rules: {},
         };
     },
+    filters: {
+        filterTime(time) {
+
+            return moment(time).format('YYYY-MM-DD')
+        },
+    },
     mounted() {
         this.getList();
     },
     methods: {
-        find(row,code){
-           this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
-           this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/project/DetailS' });
+        find(row, code) {
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', row);
+            this.$cache.local.setJSON("projectListNews", row);
+            this.$tab.closeOpenPage({ path: '/project/DetailS' });
         },
-        handleClick(){
-            if(this.endStatus=='-1'){
-             this.queryParams.projectCheckStatus=null;
-         }else{
-              this.queryParams.projectCheckStatus=this.endStatus;
-         }
-              this.queryParams.pageNum=1;
-              this.getList();
+        handleClick() {
+            if (this.endStatus == '-1') {
+                this.queryParams.projectCheckStatus = null;
+            } else {
+                this.queryParams.projectCheckStatus = this.endStatus;
+            }
+            this.queryParams.pageNum = 1;
+            this.getList();
         },
         //返回当前时间
         returnTime(time2) {
@@ -200,7 +216,7 @@ export default {
             if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
                 this.queryParams.start = this.projectTime[0];
                 this.queryParams.end = this.projectTime[1];
-                
+
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
             };
@@ -215,7 +231,7 @@ export default {
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/project/reviewDetail' });
         },
-       /** 搜索按钮操作 */
+        /** 搜索按钮操作 */
         handleQuery() {
             this.queryParams.pageNum = 1;
             this.getList();
@@ -224,15 +240,15 @@ export default {
         resetQuery() {
 
             this.resetForm("queryForm");
-            this.endStatus='-1';
+            this.endStatus = '0';
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectStatus:null,
-                projectCheckStatus: null,
+                projectStatus: null,
+                projectCheckStatus: 0,
                 start: null, //开始
                 end: null,   //结束
             }
@@ -256,11 +272,11 @@ export default {
             this.$router.push("editList");
 
         },
-        edits(row,code){
-          this.$cache.local.setJSON('projectCodeNew', code);
-          this.$cache.local.setJSON("projectListNews", row);
-          this.$cache.local.setJSON("iscxxiu", 1);
-          this.$tab.closeOpenPage({ path: '/project/editList' })
+        edits(row, code) {
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON("projectListNews", row);
+            this.$cache.local.setJSON("iscxxiu", 1);
+            this.$tab.closeOpenPage({ path: '/project/editList' })
         },
 
         /** 删除按钮操作 */
@@ -283,10 +299,11 @@ export default {
 </script>
 
 <style scoped>
-  ::v-deep .el-message-box__content{
-     height: 200px !important;
-   }
-   ::v-deep .el-tabs__nav-wrap::after{
-        background-color:rgba(0,0,0,0) !important;
-   }
+::v-deep .el-message-box__content {
+    height: 200px !important;
+}
+
+::v-deep .el-tabs__nav-wrap::after {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
 </style>

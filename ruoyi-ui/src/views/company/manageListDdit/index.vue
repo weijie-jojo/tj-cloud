@@ -10,6 +10,23 @@
           <div></div>
         </el-col>
       </el-row>
+            <el-row  type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户名称" prop="selfName">
+            <el-input  v-model="formData.selfName" :readonly="true"></el-input>
+          </el-form-item>
+
+          <!-- <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
+            <el-input  v-model="formData.legalPersonName" :readonly="true"></el-input>
+          </el-form-item> -->
+        </el-col>
+       
+        <el-col :span="9">
+          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
+            <el-input  v-model="formData.taxId" :readonly="true"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
