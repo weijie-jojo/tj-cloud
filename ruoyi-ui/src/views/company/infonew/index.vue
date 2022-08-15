@@ -1198,7 +1198,7 @@ export default {
             };
           } else {
             parms = {
-              selfCode: this.formData.selfCode,
+              selfId: this.formData.selfId,
               infoStatus: type,
               remarkInfo: this.remark,
               endStatus: 2,
