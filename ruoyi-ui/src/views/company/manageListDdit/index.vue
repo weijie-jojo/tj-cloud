@@ -1036,6 +1036,7 @@ export default {
         idCard: '',
 
       },
+      userinfo:{},
       accountName_options: [],
       mylist: '',
       rules: {
@@ -1630,7 +1631,7 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
-        this.formData.userName = res.user;
+        this.userinfo = res.user;
         this.formData.userName = res.user.nickName;
         crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
