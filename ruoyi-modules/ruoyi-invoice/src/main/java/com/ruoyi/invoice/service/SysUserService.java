@@ -11,4 +11,5 @@ public interface SysUserService {
     SysUser selectByCompany(Integer userId);
     List<SysUserVo> getRoleByUserId(Long userId);
     SysUserVo getDeptByUserId(Long userId);
+    SysUserVo getUserByUserName(String userName);
 }

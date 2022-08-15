@@ -209,6 +209,7 @@
     </div>
 </template>
 <script>
+    import {getUser} from '@/api/system/user'
     import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
@@ -329,7 +330,9 @@
         this.ruleForm.borrowCode=this.borrows[0].borrowCode;
         this.ruleForm.borrowDate=this.borrows[0].borrowDate;
         this.ruleForm.deptName=this.borrows[0].name;
-        this.ruleForm.borrowName=this.borrows[0].borrowName;
+        getUser(this.borrows[0].borrowName).then(res=>{
+            this.ruleForm.borrowName=res.data.nickName;
+        });  
         this.ruleForm.userId=this.borrows[0].userId;
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;

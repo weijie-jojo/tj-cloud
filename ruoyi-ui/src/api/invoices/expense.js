@@ -25,6 +25,13 @@ export function getCardInfoBycompany(userId) {
 
   })
 }
+export function getUserByUserName(userName) {
+  return request({
+    url: 'invoices/expense/getUserByUserName?userName=' + userName,
+    method: 'get',
+
+  })
+}
 export function getBankNameBycardId(bankcardId) {
   return request({
     url: 'invoices/expense/getBankNameBycardId?bankcardId='+bankcardId,
@@ -131,5 +138,5 @@ export function getPost(userId) {
 
   })
 }
-export default { getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
+export default {getUserByUserName, getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
 

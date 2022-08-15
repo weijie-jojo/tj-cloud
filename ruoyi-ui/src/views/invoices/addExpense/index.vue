@@ -658,7 +658,7 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
     #title{
-        margin-left: 600px;
+        margin-left: 560px;
         margin-top: 10px;
         margin-bottom: 30px;
     }

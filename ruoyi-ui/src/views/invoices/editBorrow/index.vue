@@ -146,13 +146,13 @@
              <el-row type="flex" justify="space-around" >
                 <el-col :span="9">
                     <el-form-item  label="付款凭证影像" style="margin-top:20px">
-                    <uploadSmall v-if="borrowImage.length >=0" :fileName="isNone" :fileNameOld="borrowImage"
+                    <uploadSmall v-if="borrowImage.length >=0" :fileName="isNone" :fileNameOld="isNone"
                                     :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="还凭证影像" style="margin-top:20px">
-                        <uploadSmall v-if="borrowImage2.length > 0" :fileName="isNone" :fileNameOld="borrowImage2"
+                        <uploadSmall v-if="borrowImage2.length > 0" :fileName="isNone" :fileNameOld="isNone"
                                     :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
@@ -170,6 +170,7 @@
     </div>
 </template>
 <script>
+    import {getUser} from '@/api/system/user'
     import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
@@ -183,6 +184,7 @@
     name: 'borrow',
     data() {
       return {
+       isNone: [],
          isDetail: '1',
         isDetails: '0',
         //影像上传参数
@@ -286,7 +288,9 @@
         this.ruleForm.borrowCode=this.borrows[0].borrowCode;
         this.ruleForm.borrowDate=this.borrows[0].borrowDate;
         this.ruleForm.deptName=this.borrows[0].name;
-        this.ruleForm.borrowName=this.borrows[0].borrowName;
+        getUser(this.borrows[0].borrowName).then(res=>{
+            this.ruleForm.borrowName=res.data.nickName;
+        });  
         this.ruleForm.userId=this.borrows[0].userId;
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;

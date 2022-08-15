@@ -12,7 +12,12 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="报销部门">
-                        <el-input disabled v-model="ruleForm.dept"></el-input>
+                        <!-- <el-input disabled v-model="ruleForm.dept"></el-input> -->
+                         <el-select style="width:100%" v-model="ruleForm.dept" clearable placeholder="请选择部门">
+                            <el-option v-for="item in searchDepts" :key="item.deptId" :label="item.deptName"
+                                :value="item.deptName">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -167,21 +172,21 @@
              <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="8">
                     <el-form-item label="收款人">
-                <el-input v-model="ruleForm.expenseName" disabled></el-input>
-                <!-- <el-select 
-                    v-model="ruleForm.userGetid" 
-                    @change="getCardInfoBycompany"
-                    placeholder="请选择收款单位"   
-                    style=" width: 210PX;"
-                    :disabled="isDisabled">
-                    <el-option 
-                        v-for="item in searchGetUsers" 
-                        :key="item.userId" 
-                        :label="item.nickName" 
-                        :value="item.userId"
-                    > </el-option>
-                </el-select> -->
-            </el-form-item>
+                <!-- <el-input v-model="ruleForm.expenseName" disabled></el-input> -->
+                        <el-select 
+                            v-model="ruleForm.userGetid" 
+                            @change="getCardInfoBycompany"
+                            placeholder="请选择收款单位"   
+                            style=" width: 210PX;"
+                            :disabled="isDisabled">
+                            <el-option 
+                                v-for="item in searchGetUsers" 
+                                :key="item.userId" 
+                                :label="item.nickName" 
+                                :value="item.userId"
+                            > </el-option>
+                        </el-select>
+                    </el-form-item>
                 </el-col>
                 <el-col :span="8">
                    <el-form-item label="收款账号" >
@@ -227,7 +232,7 @@
                 <el-col :span="12">
                     <el-form-item label="报销人："  >
                         <el-input
-                            v-model="ruleForm.expenseName"
+                            v-model="ruleForm.userGetid"
                             class="inputCss"
                             placeholder=""
                             disabled
@@ -292,7 +297,6 @@
         height: document.documentElement.clientHeight - 180 + 'px;',
         form: {},
         formLabelWidth: "80px",
-       
         ruleForm: {
             
             expenseCode:'',//报销单号
@@ -390,25 +394,17 @@
         //获取登录用户信息
         getInfo().then(res => {
             console.log("getInfo==", res);
-            this.ruleForm.expenseName=res.user.nickName;
-            this.ruleForm.expenseId=res.user.userId;
-            this.ruleForm.dept=res.user.dept.deptName;
+            // this.ruleForm.expenseId=res.user.userId;
+            // this.ruleForm.dept=res.user.dept.deptName;
             this.ruleForm.deptId=res.user.deptId;
             this.roles=res.user.roles;
             this.ruleForm.userGetid=res.user.id;
-            //根据收款人id查找收款银行卡信息
-            getCardInfoBycompany(res.user.userId).then(res => {
-                console.log('getCardInfoBycompany==',res);
-                this.ruleForm.bankcardGetid=res.payCheck;
-                this.ruleForm.bankGetname=res.accountCardBank;
-                this.ruleForm.userGetid=res.nickName;
-            })
         })
         this.ruleForm.expenseDate=this.returnTime(new Date());
         this.getExpenseCode();
         this.getExpenseItem();
-        // this.getAllDept();
-        // this.getAllGetUser();
+        this.getAllDept();
+        this.getAllGetUser();
         this.getAllCompany();
         const that = this
         window.onresize = function temp() {
@@ -421,6 +417,17 @@
         }
     },
     methods: {
+        //根据收款人id查找收款银行卡信息
+        getCardInfoBycompany(userId){
+             getCardInfoBycompany(userId).then(res => {
+                console.log('getCardInfoBycompany==',res);
+                this.ruleForm.bankcardGetid=res.payCheck;
+                this.ruleForm.bankGetname=res.accountCardBank;
+                this.ruleForm.userGetid=res.nickName;
+                this.ruleForm.expenseName=res.nickName;
+                this.ruleForm.expenseId=res.userId;
+            })
+        },
         getExpense(data) {
             this.imgArr = data;
         },
@@ -466,12 +473,12 @@
             console.log('cardInfo==',cardInfo);
         },
         //获取报销人信息
-        // getAllGetUser() {
-        //     getAllGetUser().then(res => {
-        //         console.log('getAllGetUser==',res.list);
-        //         this.searchGetUsers = res.list;
-        //     })
-        // },
+        getAllGetUser() {
+            getAllGetUser().then(res => {
+                console.log('getAllGetUser==',res.list);
+                this.searchGetUsers = res.list;
+            })
+        },
         //根据收款人id查找收款银行卡信息
         // getCardInfoBycompany() {
         //     getCardInfoBycompany(this.ruleForm.userGetid).then(res => {
@@ -504,26 +511,18 @@
             getDepts().then(res => {
                 console.log('getDepts==',res.list);
                 this.searchDepts = res.list
-            }).catch(() => { })
+            })
         },
 
         //提交表单
         submitForm(formName) { 
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    var invoiceType=1;
-                    this.roles.map(item=>{//总经理
-                        if(item.id==5||item.id==6){
-                            invoiceType=3;
-                            // this.ruleForm.dmCheck=this.ruleForm.expenseName;
-                            this.ruleForm.gmCheck=this.ruleForm.expenseName;
-                        }
-                    })
                     let params={
                         // dmCheck:this.ruleForm.dmCheck,
-                        gmCheck:this.ruleForm.gmCheck,
-
-                        invoiceType:invoiceType,//发起状态
+                        gmCheck:this.ruleForm.expenseName,
+                        dmCheck:this.ruleForm.expenseName,
+                        invoiceType:3,//打款状态
                         deptId:this.ruleForm.deptId,
                         expenseCode:this.ruleForm.expenseCode,
                         dept:this.ruleForm.dept,
@@ -562,7 +561,7 @@
                     };
                     let params2={
                         invoiceCode:this.ruleForm.expenseCode,
-                        checkReasult:"发起",
+                        checkReasult:"管理员补入",
                         checkUser:this.ruleForm.expenseName,
                         checkDate:this.returnTime(new Date()),
                         invoiceType:1,//单据类型（报销单）
@@ -658,7 +657,7 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
     #title{
-        margin-left: 600px;
+        margin-left: 560px;
         margin-top: 10px;
         margin-bottom: 30px;
     }

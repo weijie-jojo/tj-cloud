@@ -231,7 +231,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="借款人">
+                    <el-form-item label="报销人">
                         <el-input v-model="ruleForm.expenseName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
@@ -695,6 +695,11 @@ export default {
             getAllCompany().then(res => {
                 this.payCompanys = res.list;
                 console.log('payCompanys==', this.payCompanys);
+                 res.list.map(item => {
+                    if (item.groupCode == this.ruleForm.companyPayId) {
+                        this.ruleForm.companyPayId = item.groupName;
+                    }
+                })
             })
         },
         //根据出款单位id查找出款银行卡信息

@@ -34,6 +34,11 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.getDeptByUserId(userId);
     }
 
+    @Override
+    public SysUserVo getUserByUserName(String userName) {
+        return sysUserMapper.getUserByUserName(userName);
+    }
+
 
     @Override
     public List<SysUser> selectAll() {

@@ -7,4 +7,5 @@ public class SysDept {
     private int deptId;
     private String name;
     private int enabled;
+    private String deptName;
 }

@@ -108,7 +108,13 @@ public class AccountExpenseHandler {
         SysUser sysUser = sysUserService.selectByCompany(userId);
         return sysUser;
     }
-
+    @GetMapping(value ="/getUserByUserName")
+    @Log("根据用户id查询对应的银行卡信息")
+    @ApiOperation("根据用户id查询对应的银行卡信息")
+    public SysUserVo getUserByUserName(String userName){
+        SysUserVo sysUser = sysUserService.getUserByUserName(userName);
+        return sysUser;
+    }
     @GetMapping(value ="/getBankNameBycardId")
     @Log("根据银行卡id查询对应的银行名")
     @ApiOperation("根据银行卡id查询对应的银行名")
