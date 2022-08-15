@@ -639,7 +639,7 @@ export default {
       }
       //注册进度
       checkdetail(parms).then(res => {
-        this.confirmList = res.rows;
+        this.confirmList = res;
         this.confirmVisible = true;
       });
     },
@@ -655,7 +655,7 @@ export default {
       }
       checkdetail(parms).then(res => {
         this.dialogVisible = true;
-        this.progressList = res.rows;
+        this.progressList = res;
 
       });
     },
@@ -675,9 +675,9 @@ export default {
       };
       //名称进度
       checkdetail(parms).then(res => {
-         this.nameList2 = res.rows;
+         this.nameList2 = res;
          checkdetail(parmss).then(res=>{
-            this.nameList1=res.rows;
+            this.nameList1=res;
             this.nameList=this.nameList1.concat(this.nameList2);
             this.nameVisible = true;
             
@@ -701,9 +701,9 @@ export default {
       };
       //信息进度
       checkdetail(parms).then(res => {
-        this.infoList2 = res.rows;
+        this.infoList2 = res;
          checkdetail(parmss).then(res=>{
-            this.infoList1=res.rows;
+            this.infoList1=res;
             this.infoList=this.infoList1.concat(this.infoList2);
             this.infoVisible = true;
         });
@@ -727,9 +727,9 @@ export default {
       };
       //异常名称进度
       checkdetail(parms).then(res => {
-        this.errsnameList2 = res.rows;
+        this.errsnameList2 = res;
        checkdetail(parmss).then(res=>{
-             this.errsnameList1=res.rows;
+             this.errsnameList1=res;
              this.errsnameList=this.errsnameList1.concat(this.errsnameList2);
              this.errsnameVisible = true;
         });
@@ -753,9 +753,9 @@ export default {
       };
       //异常信息进度
       checkdetail(parms).then(res => {
-        this.errsinfoList2 = res.rows;
+        this.errsinfoList2 = res;
          checkdetail(parmss).then(res=>{
-             this.errsinfoList1=res.rows;
+             this.errsinfoList1=res;
              this.errsinfoList=this.errsinfoList1.concat(this.errsinfoList2);
              this.errsinfoVisible = true;
         });
@@ -776,7 +776,7 @@ export default {
       }
       //实名进度
       checkdetail(parms).then(res => {
-        this.cerList = res.rows;
+        this.cerList = res;
         this.cerVisible = true;
       });
     },
@@ -790,7 +790,7 @@ export default {
       }
       //工商进度
       checkdetail(parms).then(res => {
-        this.busList = res.rows;
+        this.busList = res;
         this.busVisible = true;
       });
     },
@@ -804,7 +804,7 @@ export default {
       }
       //税务进度
       checkdetail(parms).then(res => {
-        this.taxList = res.rows;
+        this.taxList = res;
         this.taxVisible = true;
       });
     },
@@ -818,7 +818,7 @@ export default {
       }
       //银行进度
       checkdetail(parms).then(res => {
-        this.bankList = res.rows;
+        this.bankList = res;
         this.bankVisible = true;
       });
     },
@@ -853,7 +853,7 @@ export default {
       }
       //异常名称进度
       checkdetail(parms).then(res => {
-        this.errsConfirmList = res.rows;
+        this.errsConfirmList = res;
         this.errsConfirmVisible = true;
       });
     },
@@ -901,7 +901,7 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       if (this.errConfirmsMsg == '修改') {
-        this.$tab.closeOpenPage({ path: '/company/customer/manageListDdit' });
+        this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
 
       } else {
         this.$router.push("confirmS");
