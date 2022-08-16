@@ -80,7 +80,7 @@
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where  AND t.project_code=#{projectCode}
+        where  t.project_code=#{projectCode}
     </select>
     <select id="selectSelfProjectList"  resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
