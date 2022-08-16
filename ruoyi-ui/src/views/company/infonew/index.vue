@@ -244,7 +244,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
+      <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
         <el-col :span="9">
           <el-form-item class="comright" label="对公开户银行">
             <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>
@@ -257,7 +257,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
       <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商" prop="placeName">

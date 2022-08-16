@@ -7,14 +7,13 @@
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="渠道商全名" prop="placeAliasName">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="提交时间">
-        <el-date-picker 
-        @change="prjecs"
-         v-model="projectTime" value-format="yyyy-MM-dd" type="daterange" :picker-options="pickerOptions"
-          range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']"
-          align="right">
+        <el-date-picker @change="prjecs" v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+          :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+          :default-time="['00:00:00', '23:59:59']" align="right">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -157,8 +156,10 @@
           <el-link :underline="false" @click="finishConfirms(scope.row, scope.row.selfCode)" type="success"
             v-if="scope.row.endStatus == 1">
             完成</el-link>
-          <el-link @click="errConfirms(scope.row, scope.row.selfCode, scope.row.applyName)" :underline="false" type="danger"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 &&scope.row.endStatus == 2">异常</el-link>
+          <el-link @click="errConfirms(scope.row, scope.row.selfCode, scope.row.applyName)" :underline="false"
+            type="danger"
+            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.businessStatus == 1 && scope.row.taxStatus == 1 && scope.row.bankStatus == 1 && scope.row.endStatus == 2">
+            异常</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -166,7 +167,7 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
     <!-- 进度提示 -->
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="进度详情" :visible.sync="dialogVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户进度" :visible.sync="dialogVisible"
       width="70%">
       <el-table :data="progressList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -176,11 +177,11 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">关闭</el-button>
-        
+
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称审核详情" :visible.sync="nameVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户名称进度" :visible.sync="nameVisible"
       width="70%">
       <el-table :data="nameList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -194,50 +195,8 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称异常说明" :visible.sync="errsnameVisible"
-      width="70%">
-      <el-table :data="errsnameList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="errsnameVisible = false">关闭</el-button>
-        <el-button type="primary" @click="errsnameDetail">{{ errNameMsg }}</el-button>
-      </span>
-    </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息异常说明" :visible.sync="errsinfoVisible"
-      width="70%">
-      <el-table :data="errsinfoList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="errsinfoVisible = false">关闭</el-button>
-        <el-button type="primary" @click="errsinfoDetail">{{ errInfoMsg }}</el-button>
-      </span>
-    </el-dialog>
-
-
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="注册确认异常说明" :visible.sync="errsConfirmVisible"
-      width="70%">
-      <el-table :data="errsConfirmList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="errsConfirmVisible = false">关闭</el-button>
-        <el-button type="primary" @click="errConfirmsDetail">{{ errConfirmsMsg }}</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息审核详情" :visible.sync="infoVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户信息进度" :visible.sync="infoVisible"
       width="70%">
       <el-table :data="infoList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -251,7 +210,8 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="实名详情" :visible.sync="cerVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户实名进度" :visible.sync="cerVisible"
+      width="70%">
       <el-table :data="cerList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -265,7 +225,8 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="工商办理详情" :visible.sync="busVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户工商进度" :visible.sync="busVisible"
+      width="70%">
       <el-table :data="busList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -279,7 +240,8 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="税务办理详情" :visible.sync="taxVisible" width="70%">
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户税务进度" :visible.sync="taxVisible"
+      width="70%">
       <el-table :data="taxList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
         <el-table-column label="时间" align="center" prop="checkDate" width="180" />
@@ -292,7 +254,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="银行办理详情" :visible.sync="bankVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户银行进度" :visible.sync="bankVisible"
       width="70%">
       <el-table :data="bankList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -306,7 +268,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="注册确认详情" :visible.sync="confirmVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户注册确认进度" :visible.sync="confirmVisible"
       width="70%">
       <el-table :data="confirmList">
         <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -327,7 +289,7 @@
 
 <script>
 import moment from 'moment'
-import { joinList, getCount, listEmployed, getEmployed, delEmployed, addEmployed, updateEmployed, checkdetail, getLeaderByUserId } from "@/api/company/employed";
+import { joinList, getCount, delEmployed, checkdetail } from "@/api/company/employed";
 import { getInfo } from '@/api/login'
 import { getUser } from '@/api/system/user'
 export default {
@@ -369,6 +331,9 @@ export default {
           }
         }]
       },
+      errArrName: [], //名称异常数组
+      errArrInfo: [], //信息异常数组
+      errArrConfirm: [], //信息确认异常数组
       multipleSelection: [],
       confirmList: [],
       errsConfirmList: [],//注册数据异常
@@ -425,7 +390,7 @@ export default {
       userinfo: {},
       queryParams: {
         pageNum: 1,
-        type:1,
+        type: 1,
         pageSize: 10,
         placeAliasName: null,
         legalPersonName: null,
@@ -434,6 +399,7 @@ export default {
         start: null,
         end: null,
       },
+
       // 表单参数
       form: {},
       // 表单校验
@@ -453,11 +419,11 @@ export default {
   },
 
   methods: {
-    prjecs(e){
-       if(!this.projectTime){
-          this.queryParams.start=null;
-          this.queryParams.end=null;
-        }
+    prjecs(e) {
+      if (!this.projectTime) {
+        this.queryParams.start = null;
+        this.queryParams.end = null;
+      }
     },
     getLoginInfo() {
       getInfo().then(res => {
@@ -669,20 +635,20 @@ export default {
         selfCode: arr,
         selfType: 2,
       };
-      let parmss={
+      let parmss = {
         selfCode: arr,
         selfType: 9,
       };
       //名称进度
       checkdetail(parms).then(res => {
-         this.nameList2 = res;
-         checkdetail(parmss).then(res=>{
-            this.nameList1=res;
-            this.nameList=this.nameList1.concat(this.nameList2);
-            this.nameVisible = true;
-            
+        this.nameList2 = res;
+        checkdetail(parmss).then(res => {
+          this.nameList1 = res;
+          this.nameList = this.nameList1.concat(this.nameList2);
+          this.nameVisible = true;
+
         });
-        
+
       });
     },
 
@@ -695,78 +661,20 @@ export default {
         selfCode: arr,
         selfType: 3,
       };
-      let parmss={
+      let parmss = {
         selfCode: arr,
         selfType: 10,
       };
       //信息进度
       checkdetail(parms).then(res => {
         this.infoList2 = res;
-         checkdetail(parmss).then(res=>{
-            this.infoList1=res;
-            this.infoList=this.infoList1.concat(this.infoList2);
-            this.infoVisible = true;
+        checkdetail(parmss).then(res => {
+          this.infoList1 = res;
+          this.infoList = this.infoList1.concat(this.infoList2);
+          this.infoVisible = true;
         });
-       });
-    },
-
-
-
-    //异常名称进度
-    checkNames(arr) {
-      this.errsnameList = [];
-      this.errsnameList1 = [];
-      this.errsnameList2 = [];
-      let parms = {
-        selfCode: arr,
-        selfType: 2,
-      };
-      let parmss={
-        selfCode: arr,
-        selfType: 9,
-      };
-      //异常名称进度
-      checkdetail(parms).then(res => {
-        this.errsnameList2 = res;
-       checkdetail(parmss).then(res=>{
-             this.errsnameList1=res;
-             this.errsnameList=this.errsnameList1.concat(this.errsnameList2);
-             this.errsnameVisible = true;
-        });
-       
-        
       });
     },
-
-    //异常信息进度
-    checkInfos(arr) {
-      this.errsinfoList = [];
-      this.errsinfoList1 = [];
-      this.errsinfoList2 = [];
-      let parms = {
-        selfCode: arr,
-        selfType: 3,
-      };
-       let parmss = {
-        selfCode: arr,
-        selfType: 10,
-      };
-      //异常信息进度
-      checkdetail(parms).then(res => {
-        this.errsinfoList2 = res;
-         checkdetail(parmss).then(res=>{
-             this.errsinfoList1=res;
-             this.errsinfoList=this.errsinfoList1.concat(this.errsinfoList2);
-             this.errsinfoVisible = true;
-        });
-        
-      });
-    },
-
-
-
-
-
     //实名进度
     checkCer(arr) {
       this.cerList = [];
@@ -823,11 +731,10 @@ export default {
       });
     },
 
-    unfinish() {
 
-    },
     //异常注册确认
     errConfirms(scope, selfCode, applyName) {
+      this.$cache.local.setJSON('employedInfo', scope);
       let obj = {
         backUrl: '/company/customer/employed',
       };
@@ -838,9 +745,43 @@ export default {
         } else {
           this.errConfirmsMsg = '查看';
         }
-        this.$cache.local.setJSON('employedInfo', scope);
-        this.checkConfirmss(selfCode);
 
+
+        let parms = {
+          selfCode: selfCode,
+          selfType: 8,
+        }
+        checkdetail(parms).then(err => {
+          this.errArrConfirm = err[err.length - 1].checkReasult;
+          const h = this.$createElement;
+          this.$confirm(
+            '', {
+            message: h('div', null, [
+              h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+              h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrConfirm),
+              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+            ]),
+
+
+
+            confirmButtonText: this.errConfirmsMsg,
+            cancelButtonText: '关闭',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+
+          }).then(() => {
+            if (this.errConfirmsMsg == '修改') {
+              this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
+            } else {
+              this.$tab.closeOpenPage({ path: '/company/customer/confirmS' });
+            }
+
+          }).catch(() => {
+
+          });
+
+        })
       });
     },
 
@@ -860,6 +801,7 @@ export default {
 
     //异常名称
     errName(scope, selfCode, applyName) {
+      this.$cache.local.setJSON('employedName', scope);
       let obj = {
         backUrl: '/company/customer/employed',
       };
@@ -870,61 +812,109 @@ export default {
         } else {
           this.errNameMsg = '查看';
         }
-        this.$cache.local.setJSON('employedName', scope);
-        this.checkNames(selfCode);
+        let parms = {
+          selfCode: selfCode,
+          selfType: 2,
+        };
+        checkdetail(parms).then(err => {
+          this.errArrName = err[err.length - 1].checkReasult;
+          const h = this.$createElement;
+          this.$confirm(
+            '', {
+            message: h('div', null, [
+              h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+              h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrName),
+              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+            ]),
+
+
+
+            confirmButtonText: this.errNameMsg,
+            cancelButtonText: '关闭',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+
+          }).then(() => {
+            if (this.errNameMsg == '修改') {
+              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedName' });
+            } else {
+              this.$tab.closeOpenPage({ path: '/company/customer/namedetail' });
+            }
+          }).catch(() => {
+
+          });
+
+        })
+
+
+
+
+
 
       });
     },
     //异常信息
     errInfo(scope, selfCode, applyName) {
+      this.$cache.local.setJSON('employedInfo', scope);
       let obj = {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
       getUser(applyName).then(res => {
+
         if (this.userinfo.userId == res.data.userId) {
           this.errInfoMsg = '修改';
         } else {
           this.errInfoMsg = '查看';
         }
-        this.$cache.local.setJSON('employedInfo', scope);
-        this.checkInfos(selfCode);
+        let parms = {
+          selfCode: selfCode,
+          selfType: 3,
+        };
+        checkdetail(parms).then(err => {
+          this.errArrInfo = err[err.length - 1].checkReasult;
+          const h = this.$createElement;
+          this.$confirm(
+            '', {
+            message: h('div', null, [
+              h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+              h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrInfo),
+              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+            ]),
+
+
+
+            confirmButtonText: this.errInfoMsg,
+            cancelButtonText: '关闭',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+
+          }).then(() => {
+            if (this.errInfoMsg == '修改') {
+              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
+            } else {
+              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
+            }
+          }).catch(() => {
+
+          });
+
+        })
+
+
+
+
+
 
       });
 
-    },
-    errConfirmsDetail() {
-      this.errsConfirmVisible = false;
-      let obj = {
-        name:'注册确认',
-        backUrl: '/company/customer/employed',
-      };
-      this.$cache.local.setJSON('backurls', obj);
-      if (this.errConfirmsMsg == '修改') {
-        this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
-
-      } else {
-        this.$router.push("confirmS");
-      }
-    },
-    errsnameDetail() {
-      this.errsnameVisible = false;
-      if (this.errNameMsg == '修改') {
-        this.$tab.closeOpenPage({ path: '/company/customer/editEmployedName' });
-
-      } else {
-        this.$router.push("namedetail");
-      }
-    },
-    errsinfoDetail() {
-      this.errsinfoVisible = false;
-      if (this.errInfoMsg == '修改') {
-        this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
-      } else {
-        this.$router.push("infodetail");
-      }
 
     },
+
+
+
 
 
 
@@ -944,7 +934,7 @@ export default {
     finishName(scope, selfCode) {
       this.checkName(selfCode);
       this.$cache.local.setJSON('employedName', scope);
-     
+
     },
     //名称详情
     nameDetail() {
@@ -953,7 +943,10 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.nameVisible = false;
-      this.$router.push("namedetail");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户名称查看", "/company/customer/namedetail")
+      })
+
     },
     //信息审核 已完成
     finishInfo(scope, selfCode) {
@@ -970,7 +963,9 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$router.push("infodetail");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户信息查看", "/company/customer/infodetail")
+      })
     },
 
     //办理实名 已完成
@@ -984,7 +979,9 @@ export default {
     //实名详情
     cerDetail() {
       this.cerVisible = false;
-      this.$router.push("detailCer");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户实名查看", "/company/customer/detailCer")
+      })
     },
     //注册确认详情
     confirmDetail() {
@@ -993,8 +990,10 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+      })
 
-      this.$router.push("confirmS");
     },
 
     //办理工商 已完成
@@ -1012,7 +1011,10 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$router.push("detailBusiness");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户工商查看", "/company/customer/detailBusiness")
+      })
+
     },
 
     //办理税务 已完成
@@ -1030,7 +1032,9 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$router.push("detailTax");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户税务查看", "/company/customer/detailTax")
+      })
     },
 
     //办理银行 已完成
@@ -1049,30 +1053,33 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$router.push("detailBank");
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("个体户银行查看", "/company/customer/detailBank")
+      })
+
     },
-     getCount(){
-         getCount(this.queryParams).then(res => {
+    getCount() {
+      getCount(this.queryParams).then(res => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
         this.loadingLabel = "办理中(" + res.unfinished + ")";
         this.finishLabel = "完成(" + res.finished + ")";
       });
-     },
+    },
 
     /** 查询个体商户列表 */
     getList() {
-      
+
       if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-        this.queryParams.start = this.projectTime[0]+' '+'00:00:00';
-        this.queryParams.end = this.projectTime[1]+' '+'23:59:59';
+        this.queryParams.start = this.projectTime[0] + ' ' + '00:00:00';
+        this.queryParams.end = this.projectTime[1] + ' ' + '23:59:59';
       } else {//判断选择时间再将时间清除
         this.projectTime = null;
-        this.queryParams.start=null;
-        this.queryParams.end=null;
+        this.queryParams.start = null;
+        this.queryParams.end = null;
       };
       this.loading = true;
-      
+
       joinList(this.queryParams).then(response => {
         this.employedList = response.rows;
         this.total = response.total;
@@ -1080,7 +1087,7 @@ export default {
         this.getCount();
       });
     },
-    
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -1089,10 +1096,10 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.endStatus = '0';
-      this.projectTime=null;
-      this.queryParams={
+      this.projectTime = null;
+      this.queryParams = {
         pageNum: 1,
-        type:1,
+        type: 1,
         pageSize: 10,
         placeAliasName: null,
         legalPersonName: null,
@@ -1101,7 +1108,7 @@ export default {
         start: null,
         end: null,
       };
-      
+
       this.handleQuery();
     },
     // 多选框选中数据

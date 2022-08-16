@@ -6,16 +6,19 @@
           <el-form-item class="comright" label="个体户名称" prop="selfName">
             <el-input v-model="formtax.selfName" disabled></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input v-model="formtax.legalPersonName" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="核定通知书" prop="fileName2">
-              <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input v-model="formtax.taxId" disabled></el-input>
+          </el-form-item>
+           
+        
+        </el-col>
+        <el-col :span="9">
+         <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
+            <el-input v-model="formtax.legalPersonName" disabled></el-input>
+          </el-form-item>
+       
+            <el-form-item label="核定通知书" prop="fileName2">
+              <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>

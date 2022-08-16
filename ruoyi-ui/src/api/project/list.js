@@ -8,6 +8,7 @@ export function list(query) {
   })
 }
 
+
 export function detail(query) {
   return request({
     url: 'project/project/selectProjectJoinTicketByCode',
@@ -38,8 +39,8 @@ export function getcode(query){
 }
 export function del(projectIds) {
   return request({
-    url: 'project/project/del/'+projectIds,
-    method: 'put',
+    url: 'project/project/'+projectIds,
+    method: 'delete',
  })
 }
 
@@ -48,6 +49,14 @@ export function edit(data) {
     url: 'project/project',
     method: 'put',
     data:data
+  })
+}
+
+export function getProjectCount(query){
+  return request({
+    url: 'project/project/getCount',
+    method: 'get',
+    params: query
   })
 }
 
@@ -78,4 +87,4 @@ export function checkdetail(query) {
 }
 
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail}
+export default {getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail}

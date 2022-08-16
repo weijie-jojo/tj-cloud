@@ -230,7 +230,7 @@
         </el-col>
       </el-row>
 
-       <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
+       <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around" v-if="formData.accountType==2">
         <el-col :span="9">
           <el-form-item class="comright" label="对公开户银行">
             <el-input :readonly="true" v-model="formData.publicDepositBank1" clearable>
@@ -243,7 +243,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
      
 
       <el-row type="flex" class="row-bg " justify="space-around">
@@ -381,13 +381,32 @@
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:55%">业务信息</div>
+          <div class="bankno" style="width:55%">结算信息</div>
           <div style="width:40%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
           <div></div>
         </el-col>
       </el-row>
+       <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业类型" prop="industryType">
+            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
+              @change="selectIndustryType">
+              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
+                :value="item.industryId"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业税率">
+            <el-input v-model="industryTax" :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商全名" prop="placeName">
@@ -406,23 +425,7 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业类型" prop="industryType">
-            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
-              @change="selectIndustryType">
-              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
-                :value="item.industryId"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业税率">
-            <el-input v-model="industryTax" :readonly="true">
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+     
 
       <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">

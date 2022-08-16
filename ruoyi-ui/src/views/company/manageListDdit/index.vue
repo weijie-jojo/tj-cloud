@@ -13,17 +13,13 @@
             <el-row  type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input  v-model="formData.selfName" :readonly="true"></el-input>
+            <el-input  v-model="formData.selfName"></el-input>
           </el-form-item>
-
-          <!-- <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input  v-model="formData.legalPersonName" :readonly="true"></el-input>
-          </el-form-item> -->
         </el-col>
        
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formData.taxId" :readonly="true"></el-input>
+            <el-input  v-model="formData.taxId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -312,23 +308,13 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input v-model="formData.selfName" :readonly="true"></el-input>
-          </el-form-item>
-
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input v-model="formData.legalPersonName" :readonly="true"></el-input>
-          </el-form-item> -->
-          <el-form-item label="营业执照" prop="fileName1">
+         <el-form-item label="营业执照" prop="fileName1">
             <uploadSmall v-if="fileNameN1.length > 0" @getfileName="getfileNameS1" :fileName="fileName1"
               :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input v-model="formData.taxId" :readonly="true"></el-input>
-          </el-form-item> -->
-          <el-form-item class="comright" label="注册时间" prop="businessTerm">
+           <el-form-item class="comright" label="注册时间" prop="businessTerm">
             <el-date-picker disabled style="width:100%" v-model="formData.businessTerm" type="date" placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
@@ -345,31 +331,14 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input
-              v-model="formData.selfName"
-              :readonly="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input
-              v-model="formData.legalPersonName"
-              :readonly="true"
-            ></el-input>
-          </el-form-item> -->
+         
           <el-form-item label="核定通知书" prop="fileName2">
             <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileNameS2" :fileName="fileName2"
               :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input
-              v-model="formData.taxId"
-              :readonly="true"
-            ></el-input>
-          </el-form-item> -->
-        </el-col>
+       </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
@@ -381,27 +350,6 @@
           <div></div>
         </el-col>
       </el-row>
-
-
-      <!-- <el-row  type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input  v-model="formData.selfName" :readonly="true"></el-input>
-          </el-form-item>
-
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input  v-model="formData.legalPersonName" :readonly="true"></el-input>
-          </el-form-item>
-        </el-col>
-       
-        <el-col :span="9">
-          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formData.taxId" :readonly="true"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row> -->
-
-
       <el-row class="paddingbg-s">
         <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 1">
           <el-col :span="9">
@@ -445,7 +393,18 @@
           </el-col>
 
         </el-row>
-        <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
+          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
+          <el-col :span="9">
+            <el-form-item class="comright" label="对公一般户状态" :required="true">
+              <el-radio   v-model="formData.isPublicUser" label="0">开启</el-radio>
+              <el-radio   v-model="formData.isPublicUser" label="1">关闭</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+          </el-col>
+        </el-row>
+        <div v-if="formData.isPublicUser==0">
+             <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
           <el-col :span="9">
             <el-form-item class="comright" label="账号类型" :required="true">
               <el-input value="对公一般户" disabled></el-input>
@@ -467,6 +426,9 @@
           </el-col>
 
         </el-row>
+
+        </div>
+      
 
 
 
@@ -622,26 +584,8 @@
           <div></div>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="渠道商全名" prop="placeName">
-            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
-              clearable filterable>
-              <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
-                :value="item.placeName">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
 
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
             <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
@@ -666,6 +610,28 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="渠道商全名" prop="placeName">
+            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
+              clearable filterable>
+              <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
+                :value="item.placeName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="客户经理" prop="userName">
+            <el-input v-model="formData.userName" :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+    
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
@@ -832,7 +798,7 @@
     <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
           <el-button type="primary" @click="submitForm" class="btn">修改
           </el-button>
         </el-col>
@@ -1334,7 +1300,11 @@ export default {
     this.formData.specialShareIsmoney = JSON.stringify(this.formData.specialShareIsmoney);
     this.formData.isOrdinaryShare = JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
-
+       if (this.formData.isPublicUser == '0') {
+      this.formData.isPublicUser = '0';
+    } else {
+      this.formData.isPublicUser = '1';
+    }
 
 
     if (this.formData.isOrdinaryTax == 1) {

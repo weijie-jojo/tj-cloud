@@ -629,23 +629,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex" class="row-bg" justify="space-around">
-          <el-col :span="9">
-            <el-form-item label="渠道商全名" prop="placeName">
-              <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名"
-                clearable filterable>
-                <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label="客户经理">
-              <el-input v-model="formData.userName" disabled>
-              </el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
@@ -671,6 +655,24 @@
 
               </el-input>
 
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="渠道商全名" prop="placeName">
+              <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名"
+                clearable filterable>
+                <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="客户经理">
+              <el-input v-model="formData.userName" disabled>
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
