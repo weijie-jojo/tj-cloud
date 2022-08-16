@@ -80,12 +80,11 @@
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where t.is_deleted=1  AND t.project_code=#{projectCode}
+        where  AND t.project_code=#{projectCode}
     </select>
     <select id="selectSelfProjectList"  resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
         <where>
-            is_deleted=1
             <if test="selfProject.endStatus == 0  ">AND end_status =0 </if>
             <if test="selfProject.endStatus == 1  ">AND end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
             <if test="selfProject.endStatus == 2  ">AND end_status =2 </if>
@@ -143,7 +142,7 @@
 
     <select id="selectSelfProjectByProjectId" parameterType="String" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
-        where is_deleted=1 AND project_id = #{projectId}
+        where  project_id = #{projectId}
     </select>
     <select id="selectLast" resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
