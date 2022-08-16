@@ -75,9 +75,12 @@ export default {
 
     },
     submitForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl });
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage(this.$cache.local.getJSON('successNew').name, this.$cache.local.getJSON('successNew').backUrl)
       })
+      // this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl }).then(() => {
+      //   this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl });
+      // })
     }
   }
 }

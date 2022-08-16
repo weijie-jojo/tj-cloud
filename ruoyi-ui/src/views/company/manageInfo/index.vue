@@ -6,8 +6,8 @@
         <el-input v-model="queryParams.legalPersonName" placeholder="请输入法人姓名" clearable
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="渠道商">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商全名">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="业务经理">
         <el-input v-model="queryParams.username" placeholder="请输入业务经理" clearable @keyup.enter.native="handleQuery" />
@@ -39,7 +39,7 @@
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
-      <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      
       <el-table-column label="渠道商全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="审核状态" align="center" prop="nameStatus">

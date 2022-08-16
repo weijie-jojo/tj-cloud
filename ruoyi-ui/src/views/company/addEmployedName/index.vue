@@ -6,7 +6,7 @@
         <el-step title="申请信息"></el-step>
         <el-step title="基本情况"></el-step>
         <el-step title="经营者信息"></el-step>
-        <el-step title="业务信息"></el-step>
+        <el-step title="结算信息"></el-step>
         <el-step title="提交审核"></el-step>
       </el-steps>
       <el-row type="flex" class="row-bg" justify="space-around">

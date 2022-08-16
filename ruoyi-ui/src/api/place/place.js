@@ -24,6 +24,13 @@ export function edit(data) {
   })
 }
 
+export function getPlaceCount(query){
+  return request({
+    url: 'place/place/getCount',
+    method: 'get',
+    params: query
+  })
+}
 export function editPlace(params) {
   return request({
     url: 'place/place/editPlace',
@@ -63,4 +70,4 @@ export function getByPage(params) {
     params:params
   })
 }
-export default { add, edit, del ,delPlace,editPlace,editPlace2,getCode,getByPage}
+export default { add, edit, del ,delPlace,editPlace,editPlace2,getCode,getByPage,getPlaceCount}

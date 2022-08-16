@@ -9,23 +9,26 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
-            <el-input
-              v-model="formtax.legalPersonName"
-              :readonly="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="核定通知书" prop="fileName2">
-             <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="纳税人识别号" prop="taxId">
+            <el-form-item class="comright" label="纳税人识别号" prop="taxId">
             <el-input
               v-model="formtax.taxId"
               :readonly="true"
             ></el-input>
           </el-form-item>
+     
+         
+        </el-col>
+        <el-col :span="9">
+             <el-form-item class="comright" label="法人姓名" prop="legalPersonName">
+            <el-input
+              v-model="formtax.legalPersonName"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+           <el-form-item label="核定通知书" prop="fileName2">
+             <uploadSmall v-if="fileNameN1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
+          </el-form-item>
+        
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">

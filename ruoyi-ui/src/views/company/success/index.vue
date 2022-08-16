@@ -9,7 +9,7 @@
         <el-step title="申请信息"></el-step>
         <el-step title="基本情况"></el-step>
         <el-step title="经营者信息"></el-step>
-        <el-step title="业务信息"></el-step>
+        <el-step title="结算信息"></el-step>
         <el-step title="提交审核"></el-step>
       </el-steps>
       <el-row type="flex" class="row-bg rowCss combottom" justify="space-around" >
@@ -62,8 +62,8 @@ export default {
       this.$router.push("addEmployedName");
     },
     toEnd(){
-      this.$tab.closeOpenPage({ path:"/company/customer/employed" }).then(()=>{
-        this.$tab.refreshPage({ path :"/company/customer/employed"})
+       this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("注册进度", "/company/customer/employed")
       })
     },
   }
