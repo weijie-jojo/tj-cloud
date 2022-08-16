@@ -93,6 +93,7 @@
         <result property="placeAliasName"    column="place_alias_name"    />
         <result property="isSlider"    column="is_slider"    />
         <result property="isSliderOrdinary"    column="is_slider_ordinary"    />
+        <result property="isPublicUser"    column="is_public_user"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -107,7 +108,8 @@
                special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
                ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
                is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
-               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name,is_slider,is_slider_ordinary
+               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name,is_slider,is_slider_ordinary,
+               is_public_user
                 from self_employed
     </sql>
     <sql id="selectSelfEmployedJoin">
@@ -205,6 +207,7 @@
             <if test="selfEmployedVo.placeName != null  and selfEmployedVo.placeName != ''"> and t.place_name like concat('%', #{selfEmployedVo.placeName}, '%')</if>
             <if test="selfEmployedVo.isActive != null  and selfEmployedVo.isActive != ''"> and t.is_active like concat('%', #{selfEmployedVo.isActive}, '%')</if>
             <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>
+            <if test="selfEmployedVo.isPublicUser != null "> and t.is_public_user = #{selfEmployedVo.isPublicUser}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -293,6 +296,7 @@
             <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
             <if test="isSlider != null "> and is_slider = #{isSlider}</if>
             <if test="isSliderOrdinary != null "> and is_slider_ordinary = #{isSliderOrdinary}</if>
+            <if test="isPublicUser != null "> and is_public_user = #{isPublicUser}</if>
         </where>
     </select>
 
@@ -391,6 +395,7 @@
             <if test="placeAliasName != null">place_alias_name,</if>
             <if test="isSlider != null">is_slider,</if>
             <if test="isSliderOrdinary != null">is_slider_ordinary,</if>
+            <if test="isPublicUser != null">is_public_user,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -480,6 +485,7 @@
             <if test="placeAliasName != null">#{placeAliasName},</if>
             <if test="isSlider != null">#{isSlider},</if>
             <if test="isSliderOrdinary != null">#{isSliderOrdinary},</if>
+            <if test="isPublicUser != null">#{isPublicUser},</if>
         </trim>
     </insert>
 
@@ -573,6 +579,7 @@
             <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
             <if test="isSlider != null">is_slider = #{isSlider},</if>
             <if test="isSliderOrdinary != null">is_slider_ordinary = #{isSliderOrdinary},</if>
+            <if test="isPublicUser != null">is_public_user = #{isPublicUser},</if>
         </trim>
         where self_id = #{selfId}
     </update>

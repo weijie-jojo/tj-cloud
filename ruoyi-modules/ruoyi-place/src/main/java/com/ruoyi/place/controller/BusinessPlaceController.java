@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.base.Joiner;
 import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.core.web.page.TableSupport;
 import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
 import com.ruoyi.place.entity.BusinessAgencyFee;
@@ -55,6 +57,40 @@ public class BusinessPlaceController extends BaseController {
     private final BusinessPlaceMapper businessPlaceMapper;
     private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
     private final SysUserMapper sysUserMapper;
+
+    @GetMapping(value ="/getCount")
+    @Log(title = "获取登录用户的渠道数量")
+    @ApiOperation("获取登录用户的渠道数量")
+    public Integer getCount(PlaceVo placeVo){
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //存储用户id的list集合
+        List<Long> userIdArr=new ArrayList<>();
+//        String userIdStr= Joiner.on(",").join(userIdArr);
+        //获取登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        System.out.println("roles==="+roles);
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
+            }
+        }
+        List<BusinessPlace> placeVos = iBusinessPlaceService.selectByPage(userIdArr,placeVo);
+        return placeVos.size();
+    };
 
     @GetMapping(value ="/getByPage")
     @Log(title = "分页条件查询")

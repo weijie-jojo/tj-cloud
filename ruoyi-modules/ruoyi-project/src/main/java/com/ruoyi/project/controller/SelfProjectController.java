@@ -51,6 +51,42 @@ public class SelfProjectController extends BaseController
     @Resource
     private SysUserMapper sysUserMapper;
     /**
+     * 查询项目信息列表
+     */
+//    @RequiresPermissions("project:project:list")
+    @ApiOperation("查询登录用户项目信息数量")
+    @GetMapping("/getCount")
+    public Integer getCount(SelfProject selfProject)
+    {
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户名
+            }
+        }
+        List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        return list.size();
+    }
+
+    /**
      * 查询项目信息
      *
      * @param projectCode 项目编号
@@ -169,7 +205,12 @@ public class SelfProjectController extends BaseController
     @DeleteMapping("/{projectIds}")
     public AjaxResult remove(@PathVariable String[] projectIds)
     {
-        return toAjax(selfProjectService.deleteSelfProjectByProjectIds(projectIds));
+        for (String projectId:projectIds){
+            String selfCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
+            selfProjectService.deleteProjectByCode(selfCode);
+            selfProjectService.deleteCheckByCode(selfCode);
+        };
+        return toAjax(200);
     }
 
     /**

@@ -379,6 +379,10 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "渠道商全名", readConverterExp = "名=称+别名")
     private String placeAliasName;
 
+    /** 对公一般户（0是 1否） */
+    @Excel(name = "对公一般户", readConverterExp = "0=是,1=否")
+    private Long isPublicUser;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

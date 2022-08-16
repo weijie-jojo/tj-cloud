@@ -323,4 +323,17 @@
         </foreach>
     </update>
 
+    <insert id="recycle1" >
+        INSERT into self_project_recycle SELECT *FROM self_project WHERE project_code=#{projectCode}
+    </insert>
+    <insert id="recycle2" >
+        INSERT into project_check_recycle SELECT *FROM project_check WHERE project_code=#{projectCode}
+    </insert>
+
+    <delete id="deleteProjectByCode" parameterType="String">
+        delete from self_project where project_code =#{projectCode}
+    </delete>
+    <delete id="deleteCheckByCode" parameterType="String">
+        delete from project_check where project_code =#{projectCode}
+    </delete>
 </mapper>

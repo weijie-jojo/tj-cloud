@@ -93,4 +93,16 @@ public interface SelfProjectMapper
      * @return 结果
      */
     public int deleteSelfProjectByProjectIds2(String[] projectIds);
+
+    /*
+     * 回收
+     * */
+    int recycle1(@Param("projectCode") String projectCode);
+    int recycle2(@Param("projectCode") String projectCode);
+
+    /*
+    * 删除
+    * */
+    int deleteProjectByCode(@Param("projectCode") String projectCode);
+    int deleteCheckByCode(@Param("projectCode") String projectCode);
 }

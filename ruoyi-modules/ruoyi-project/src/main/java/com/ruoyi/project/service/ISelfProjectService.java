@@ -89,5 +89,17 @@ public interface ISelfProjectService
      * @return 结果
      */
     public int deleteSelfProjectByProjectId2(String projectId);
+
+
+
+    /**
+     * 回收
+     *
+     */
+    public int deleteProjectByCode(String selfCode);
+
+
+    public int deleteCheckByCode(String selfCode);
+
 }
 
