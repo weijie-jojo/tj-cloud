@@ -1,5 +1,6 @@
 package com.ruoyi.gateway.config;
 
+import com.ruoyi.gateway.handler.CodeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,9 @@ public class RouterFunctionConfiguration
 {
     @Autowired
     private ValidateCodeHandler validateCodeHandler;
+
+    @Autowired
+    private CodeHandler codeHandler;
 
     @SuppressWarnings("rawtypes")
     @Bean

@@ -39,6 +39,20 @@ public class BusinessAgencyFeeController {
     @ApiOperation("根据渠道商编号查询代理费详情")
     public BusinessAgencyFee selectFeeByCode(String placeCode){
         BusinessAgencyFee businessAgencyFee = iBusinessAgencyFeeService.selectFeeByCode(placeCode);
+
+        if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointRight(2));
+        }
+        if (businessAgencyFee.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointRight(2));
+        }
+        if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointRight(2));
+        }
+        if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointRight(2));
+        }
+
         return businessAgencyFee;
     };
 //    @PostMapping

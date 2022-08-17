@@ -1,5 +1,6 @@
 package com.ruoyi.gateway.config;
 
+import java.awt.*;
 import java.util.Random;
 import com.google.code.kaptcha.text.impl.DefaultTextCreator;
 
@@ -12,11 +13,26 @@ public class KaptchaTextCreator extends DefaultTextCreator
 {
     private static final String[] CNUMBERS = "0,1,2,3,4,5,6,7,8,9,10".split(",");
 
+    // 字符数量
+    private static final int SIZE = 4;
+    // 验证码字符集
+    private static final char[] chars = ("123456789"
+            + "ABCDEFGHJKMNPQRSTUVWXYZ").toCharArray();
+
     @Override
     public String getText()
     {
         Integer result = 0;
         Random random = new Random();
+
+//        StringBuffer sb = new StringBuffer();
+//        for (int i = 0; i <SIZE; i++) {
+//            // 取随机字符索引
+//            int n = random.nextInt(chars.length);
+//            // 记录字符
+//            sb.append(chars[n]);
+//        }
+//        return sb.toString();
         int x = random.nextInt(10);
         int y = random.nextInt(10);
         StringBuilder suChinese = new StringBuilder();

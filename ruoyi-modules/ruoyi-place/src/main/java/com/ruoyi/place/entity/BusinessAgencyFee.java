@@ -146,7 +146,7 @@ public class BusinessAgencyFee implements Serializable {
 
     /** 分润方式(增值税普通发票）百分比 */
     @TableField("ordinary_share")
-    private Long ordinaryShare;
+    private BigDecimal ordinaryShare;
 
     /** 分润方式(增值税普通发票）定额 */
     @TableField("ordinary_share_money")
@@ -154,7 +154,7 @@ public class BusinessAgencyFee implements Serializable {
 
     /** 分润方式(增值税专用发票）百分比 */
     @TableField("special_share")
-    private Long specialShare;
+    private BigDecimal specialShare;
 
     /** 分润方式(增值税专用发票）定额 */
     @TableField("special_share_money")

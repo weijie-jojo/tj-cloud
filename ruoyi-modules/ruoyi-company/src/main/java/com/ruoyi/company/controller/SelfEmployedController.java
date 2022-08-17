@@ -1,6 +1,5 @@
 package com.ruoyi.company.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -96,7 +95,7 @@ public class SelfEmployedController extends BaseController
         List<SelfEmployedVo> list1 =new ArrayList<>();
         List<SelfEmployedVo> list2 =new ArrayList<>();
         List<SelfEmployedVo> list3 =new ArrayList<>();
-        if (selfEmployedVo.getType()==1){
+        if (selfEmployedVo.getType()==1){//注册进度
             selfEmployedVo.setEndStatus(0);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
             selfEmployedVo.setEndStatus(1);
@@ -104,7 +103,7 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setEndStatus(2);
             list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-        if (selfEmployedVo.getType()==2){
+        if (selfEmployedVo.getType()==2){//名称审核
             selfEmployedVo.setNameStatus(0);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
             selfEmployedVo.setNameStatus(1);
@@ -112,7 +111,7 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setNameStatus(2);
             list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-        if (selfEmployedVo.getType()==3){
+        if (selfEmployedVo.getType()==3){//信息审核
             selfEmployedVo.setInfoStatus(0L);
             list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
             selfEmployedVo.setInfoStatus(1L);
@@ -120,7 +119,7 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setInfoStatus(2L);
             list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-        if (selfEmployedVo.getType()==4){
+        if (selfEmployedVo.getType()==4){//工商办理
             selfEmployedVo.setNameStatus(1);
             selfEmployedVo.setInfoStatus(1L);
             selfEmployedVo.setBusinessStatus(0L);
@@ -130,7 +129,7 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setBusinessStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-        if (selfEmployedVo.getType()==5){
+        if (selfEmployedVo.getType()==5){//税务办理
             selfEmployedVo.setNameStatus(1);
             selfEmployedVo.setInfoStatus(1L);
             selfEmployedVo.setBusinessStatus(1L);
@@ -142,7 +141,7 @@ public class SelfEmployedController extends BaseController
             selfEmployedVo.setTaxStatus(1L);
             list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         }
-        if (selfEmployedVo.getType()==6){
+        if (selfEmployedVo.getType()==6){//银行办理
             selfEmployedVo.setNameStatus(1);
             selfEmployedVo.setInfoStatus(1L);
             selfEmployedVo.setBusinessStatus(1L);
@@ -195,6 +194,8 @@ public class SelfEmployedController extends BaseController
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
+//        selfEmployedVo.setOrdinaryShare();
+        System.out.println("getOrdinaryShare=="+selfEmployedVo.getOrdinaryShare());
         //获取登录用户的部门id
         Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
         //根据部门id获取用户集合
@@ -230,42 +231,27 @@ public class SelfEmployedController extends BaseController
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+
+            if (selfEmployedVo1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfEmployedVo1.setOrdinaryShare(selfEmployedVo1.getOrdinaryShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfEmployedVo1.setSpecialShare(selfEmployedVo1.getSpecialShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfEmployedVo1.setOrdinarySelfFee(selfEmployedVo1.getOrdinarySelfFee().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
+            }
         }
         return getDataTable(list);
     }
-    /**
-     * 连表查询（根据申请人显示）
-     */
-    @ApiOperation("连表查询（根据申请人显示）")
-//    @RequiresPermissions("company:employed:list")
-    @GetMapping("/joinList2")
-    public TableDataInfo selectEmployedJoin(SelfEmployedVo selfEmployedVo)
-    {
-        //根据登录用户获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//部门主管
-                System.out.println("部门主管");
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-            }
-            else {
-                System.out.println("其他人");
-                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
-            }
-        }
-        startPage();
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(null,selfEmployedVo);
-        for (SelfEmployedVo selfEmployedVo1:list){
-            selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
-        }
-        return getDataTable(list);
-    }
+
     /**
      * 连表selfNameReview查询（完结）
      */
-    @ApiOperation("连表selfNameReview查询（完结）")
+    @ApiOperation("连表查询（完结）")
 //    @RequiresPermissions("company:employed:list")
     @GetMapping("/joinListEnd")
     public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
@@ -290,6 +276,11 @@ public class SelfEmployedController extends BaseController
                 System.out.println("总经理");
                 userIdArr=null;//显示所有
             }
+            else if (role.getRoleId()==11){//文员
+                System.out.println("文员");
+                userIdArr=null;
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
             else {
                 System.out.println("其他人");
                 userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
@@ -299,6 +290,19 @@ public class SelfEmployedController extends BaseController
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(userIdArr,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+
+            if (selfEmployedVo1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfEmployedVo1.setOrdinaryShare(selfEmployedVo1.getOrdinaryShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfEmployedVo1.setSpecialShare(selfEmployedVo1.getSpecialShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfEmployedVo1.setOrdinarySelfFee(selfEmployedVo1.getOrdinarySelfFee().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
+            }
         }
         return getDataTable(list);
     }
@@ -314,6 +318,19 @@ public class SelfEmployedController extends BaseController
         List<SelfEmployed> list = selfEmployedService.selectSelfEmployedList(selfEmployed);
         for (SelfEmployed selfEmployedVo1:list){
             selfEmployedVo1.setContributionAmount(selfEmployedVo1.getContributionAmount()/10000);
+
+            if (selfEmployedVo1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfEmployedVo1.setOrdinaryShare(selfEmployedVo1.getOrdinaryShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfEmployedVo1.setSpecialShare(selfEmployedVo1.getSpecialShare().movePointRight(2));
+            }
+            if (selfEmployedVo1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfEmployedVo1.setOrdinarySelfFee(selfEmployedVo1.getOrdinarySelfFee().movePointRight(2));
+            }
+            if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
+            }
         }
         return getDataTable(list);
     }
@@ -342,7 +359,20 @@ public class SelfEmployedController extends BaseController
     {
         SelfEmployed selfEmployed=  selfEmployedService.selectSelfEmployedBySelfId(selfId);
         selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()/10000);
-        System.out.println("getContributionAmount=="+selfEmployed.getContributionAmount());
+
+        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointRight(2));
+        }
+        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointRight(2));
+        }
+        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointRight(2));
+        }
+        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointRight(2));
+        }
+
         return AjaxResult.success(selfEmployed);
 
     }
@@ -357,6 +387,21 @@ public class SelfEmployedController extends BaseController
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
         selfEmployed.setEndStatus(0);
+        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()/10000);
+
+        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
+        }
+        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
+        }
+        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
+        }
+        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
+        }
+
         selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
         try {
             return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
@@ -374,6 +419,19 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
+        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
+        }
+        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
+        }
+        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
+        }
+        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
+        }
+
         Long contributionAmount= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId()).getContributionAmount();
         selfEmployed.setContributionAmount(contributionAmount);
         int num=selfEmployedService.updateSelfEmployed(selfEmployed);

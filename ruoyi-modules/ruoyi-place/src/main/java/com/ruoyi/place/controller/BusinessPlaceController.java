@@ -133,8 +133,20 @@ public class BusinessPlaceController extends BaseController {
     public DataDto addPlace(@Validated @RequestBody Map map){
         BusinessAgencyFee businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFee.class);
         BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
-        System.out.println("businessAgencyFee=="+businessAgencyFee);
-        System.out.println("businessPlace=="+businessPlace);
+
+        if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
+        }
+        if (businessAgencyFee.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointLeft(2));
+        }
+        if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+        }
+        if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+        }
+
         //插入渠道全名
         businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
         //根据渠道全名查询渠道信息
@@ -175,8 +187,22 @@ public class BusinessPlaceController extends BaseController {
     @ApiOperation("修改渠道")
     @PutMapping("/editPlace")
     public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+
+        if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
+        }
+        if (businessAgencyFee.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointLeft(2));
+        }
+        if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+        }
+        if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+        }
         //渠道全名也要变更
         businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
+
         DataDto dataDto=new DataDto();
         int num=iBusinessPlaceService.editPlace(businessPlace,businessAgencyFee);
         System.out.println("num===="+num);

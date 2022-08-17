@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.apache.poi.hpsf.Decimal;
 
 /**
  * 个体商户对象 self_employed
@@ -293,7 +294,7 @@ public class SelfEmployed extends BaseEntity
 
     /** 注册服务费 1500 */
     @Excel(name = "注册服务费 1500")
-    private Long registerMoney;
+    private BigDecimal registerMoney;
 
     /** 工商登记申请书pdf */
     @Excel(name = "工商登记申请书pdf")
@@ -309,7 +310,7 @@ public class SelfEmployed extends BaseEntity
 
     /** 分润方式(增值税普通发票）百分比 */
     @Excel(name = "分润方式(增值税普通发票）百分比")
-    private Long ordinaryShare;
+    private BigDecimal ordinaryShare;
 
     /** 分润方式(增值税普通发票）定额 */
     @Excel(name = "分润方式(增值税普通发票）定额")
@@ -317,7 +318,7 @@ public class SelfEmployed extends BaseEntity
 
     /** 分润方式(增值税专用发票）百分比 */
     @Excel(name = "分润方式(增值税专用发票）百分比")
-    private Long specialShare;
+    private BigDecimal specialShare;
 
     /** 分润方式(增值税专用发票）定额 */
     @Excel(name = "分润方式(增值税专用发票）定额")
