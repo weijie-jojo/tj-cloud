@@ -421,16 +421,27 @@ public class SelfEmployedController extends BaseController
         System.out.println("selfEmployed==="+selfEmployed);
         SelfEmployed selfEmployed1= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
         if (selfEmployed1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
-            selfEmployed.setOrdinaryShare(selfEmployed1.getOrdinaryShare().movePointLeft(2));
+
+            if(selfEmployed.getOrdinaryShare()!=null){
+                selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
+            }
         }
         if (selfEmployed1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
-            selfEmployed.setSpecialShare(selfEmployed1.getSpecialShare().movePointLeft(2));
+            if(selfEmployed.getSpecialShare()!=null){
+                selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
+            }
         }
         if (selfEmployed1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-            selfEmployed.setOrdinarySelfFee(selfEmployed1.getOrdinarySelfFee().movePointLeft(2));
+            if(selfEmployed.getOrdinarySelfFee()!=null){
+                selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
+            }
+
         }
         if (selfEmployed1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            selfEmployed.setSpecialSelfFee(selfEmployed1.getSpecialSelfFee().movePointLeft(2));
+            if(selfEmployed.getSpecialSelfFee()!=null){
+                selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
+            }
+
         }
 
         Long contributionAmount= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId()).getContributionAmount();
