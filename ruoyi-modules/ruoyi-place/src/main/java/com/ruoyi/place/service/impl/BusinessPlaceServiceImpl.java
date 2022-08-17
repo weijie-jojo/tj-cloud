@@ -90,6 +90,7 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
     }
     @Override
     public Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+        System.out.println("businessAgencyFee"+businessAgencyFee);
         Integer num1=businessAgencyFeeMapper.updateById(businessAgencyFee);
         Integer num2=businessPlaceMapper.updateById(businessPlace);
         return  num1+num2;

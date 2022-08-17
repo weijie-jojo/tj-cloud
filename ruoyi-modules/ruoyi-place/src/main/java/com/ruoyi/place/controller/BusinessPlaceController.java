@@ -188,6 +188,8 @@ public class BusinessPlaceController extends BaseController {
     @PutMapping("/editPlace")
     public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
 
+//        BusinessAgencyFee businessAgencyFee1= iBusinessAgencyFeeService.selectFeeByCode(businessAgencyFee.getPlaceCode());
+
         if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
             businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
         }

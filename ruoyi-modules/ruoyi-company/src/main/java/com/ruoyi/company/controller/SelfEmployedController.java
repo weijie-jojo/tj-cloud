@@ -387,8 +387,7 @@ public class SelfEmployedController extends BaseController
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
         selfEmployed.setEndStatus(0);
-        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()/10000);
-
+        System.out.println("selfEmployed===111111"+selfEmployed);
         if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
             selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
         }
@@ -419,17 +418,19 @@ public class SelfEmployedController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfEmployed selfEmployed)
     {
-        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
-            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
+        System.out.println("selfEmployed==="+selfEmployed);
+        SelfEmployed selfEmployed1= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId());
+        if (selfEmployed1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfEmployed.setOrdinaryShare(selfEmployed1.getOrdinaryShare().movePointLeft(2));
         }
-        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
-            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
+        if (selfEmployed1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfEmployed.setSpecialShare(selfEmployed1.getSpecialShare().movePointLeft(2));
         }
-        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
+        if (selfEmployed1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfEmployed.setOrdinarySelfFee(selfEmployed1.getOrdinarySelfFee().movePointLeft(2));
         }
-        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
+        if (selfEmployed1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfEmployed.setSpecialSelfFee(selfEmployed1.getSpecialSelfFee().movePointLeft(2));
         }
 
         Long contributionAmount= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId()).getContributionAmount();
