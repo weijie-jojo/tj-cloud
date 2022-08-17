@@ -639,7 +639,10 @@
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="个体户注册服务费" :required="true">
-            <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true">
+            <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true"
+            type="number" :step="0.01" :min="0"
+            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
@@ -682,11 +685,14 @@
                   <el-radio :disabled="true" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.ordinaryProxyIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.ordinarySelfFee" style="width:87%;margin-right:10px" :step="0.01" :min="0"
-                    :max="9999">
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-else :disabled="true" type="number" v-model="formData.ordinarySelfFee"
-                    style="width:87%;margin-right:10px" :step="0.01" :min="0" :max="100">
+                    style="width:87%;margin-right:10px" :step="0.01" :min="0" :max="100"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -710,11 +716,14 @@
                   <el-radio :disabled="true" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.ordinaryShareIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
-                    :max="9999">
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-else :disabled="true" type="number" v-model="formData.ordinaryShare"
-                    style="margin-right:10px;width:87%;" :step="0.01" :min="0" :max="100">
+                    style="margin-right:10px;width:87%;" :step="0.01" :min="0" :max="100"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -752,11 +761,15 @@
                   <el-radio :disabled="true" v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
                   <el-radio :disabled="true" v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.specialProxyIsmoney == 0" :disabled="true" type="number"
-                    v-model="formData.specialSelfFee" style="margin-right:10px;width:87%;" :step="0.01" :min="0">
+                    v-model="formData.specialSelfFee" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-else :disabled="true" type="number" v-model="formData.specialSelfFee"
-                    style="margin-right:10px;width:87%;" :step="0.01" :min="0">
+                    style="margin-right:10px;width:87%;" :step="0.01" :min="0"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">%</template>
                   </el-input>
 
@@ -781,11 +794,14 @@
                   <el-radio :disabled="true" v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
                   <el-input v-if="formData.specialShareIsmoney == 0" :disabled="true" type="number"
                     v-model="formData.specialShare" style="margin-right:10px;width:87%;" :step="0.01" :min="0"
-                    :max="9999">
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-model="formData.specialShare" v-else :disabled="true" type="number"
-                    style="margin-right:10px;width:87%;" :step="0.01" :min="0" :max="100">
+                    style="margin-right:10px;width:87%;" :step="0.01" :min="0" :max="100"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">%</template>
                   </el-input>
                 </div>

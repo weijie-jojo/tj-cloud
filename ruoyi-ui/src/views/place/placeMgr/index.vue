@@ -91,8 +91,10 @@
 
             <el-col :span="24">
               <el-form-item label="个体户注册服务费" prop="ordinarySelfFee">
-                <el-input type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1" :min="0"
-                  :max="9999" style="width:100%">
+                <el-input type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.01" :min="0"
+                  style="width:100%"
+                   oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                  >
                   <template slot="append">元</template>
                 </el-input>
               </el-form-item>
@@ -131,11 +133,15 @@
                   <el-radio @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
 
                   <el-input v-if="ruleForm.ordinaryProxyIsmoney == 0" style="width:100%" type="number"
-                    v-model="ruleForm.ordinaryProxyFee" :step="0.01" :min="0">
+                    v-model="ruleForm.ordinaryProxyFee" :step="0.01" :min="0"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input v-else type="number" style="width:100%" v-model="ruleForm.ordinaryProxyFee"
-                    @input="handleordinaryProxyFee" @change="handleordinaryProxyFee" :step="0.01" :max="100">
+                    @input="handleordinaryProxyFee" @change="handleordinaryProxyFee" :step="0.01" :max="100"
+                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    >
                     <template slot="append">%</template>
                   </el-input>
                 </div>
@@ -601,12 +607,12 @@
             <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
           <el-form-item label="价税分离" prop="isSelfTax">
-            <el-radio v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
+            <el-radio disabled v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
+            <el-radio disabled v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
           </el-form-item>
           <el-form-item label="是否分润" prop='isOrdinaryShare'>
-            <el-radio v-model="ruleForm.isOrdinaryShare" label="0">是</el-radio>
-            <el-radio v-model="ruleForm.isOrdinaryShare" label="1">否</el-radio>
+            <el-radio disabled v-model="ruleForm.isOrdinaryShare" label="0">是</el-radio>
+            <el-radio disabled v-model="ruleForm.isOrdinaryShare" label="1">否</el-radio>
           </el-form-item>
           <el-row v-if="ruleForm.isOrdinaryShare == 0" type="flex" justify="flex-end">
             <el-col :span="24">
@@ -684,12 +690,12 @@
             <el-radio disabled v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
           </el-form-item>
           <el-form-item label="价税分离" prop="isSpecialSelfTax">
-            <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
-            <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
           <el-form-item label="是否分润" prop="isSpecialShare">
-            <el-radio v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
-            <el-radio v-model="ruleForm.isSpecialShare" label="1">否</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
+            <el-radio disabled v-model="ruleForm.isSpecialShare" label="1">否</el-radio>
           </el-form-item>
 
           <el-row v-if="ruleForm.isSpecialShare == 0" type="flex" justify="flex-end">
@@ -1109,7 +1115,7 @@ export default {
   },
   mounted() {
     this.getList();
-    this.getAllUser();
+    
     this.getPlaceCode();
     //获取登录用户
     getInfo().then(res => {
@@ -1340,135 +1346,155 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.getPlaceCode();
-      this.addVisible = true;
-      this.title = "新增渠道管理";
+      // this.reset();
+      // this.getPlaceCode();
+      // this.addVisible = true;
+      // this.title = "新增渠道管理";
       //获取登录用户
-      getInfo().then(res => {
-        this.ruleForm.userName = res.user.userName;
-        this.ruleForm.editUserName = res.user.userName;
-        this.ruleForm.userId = res.user.userId;
-        console.log("getInfo", this.ruleForm.userName);
+      // getInfo().then(res => {
+      //   this.ruleForm.userName = res.user.userName;
+      //   this.ruleForm.editUserName = res.user.userName;
+      //   this.ruleForm.userId = res.user.userId;
+      //   console.log("getInfo", this.ruleForm.userName);
+      // })
+      this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("渠道客户新增", "/place/add")
       })
+
     },
     /** 修改按钮操作 */
     handleUpdate(item) {
-      this.editVisible = true;
-      this.confirmEditStatus = true;// 开启编辑保护
-      this.titles = "编辑渠道管理";
+      // this.editVisible = true;
+      // this.confirmEditStatus = true;// 开启编辑保护
+      // this.titles = "编辑渠道管理";
+
       var placeCode = item.placeCode;
+      this.$cache.local.setJSON("placeItem",item);
+      this.$modal.loading("正在加载数据，请稍后...");
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
-        this.ruleForm.editIsSliderOrdinary=JSON.stringify(res.isSliderOrdinary); 
-        this.ruleForm.editIsSlider=JSON.stringify(res.isSlider); 
-        this.ruleForm.editOrdinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
-        this.ruleForm.editIsOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
-        this.ruleForm.editOrdinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
-        this.ruleForm.editSpecialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
-        this.ruleForm.editIsSpecialShare = JSON.stringify(res.isSpecialShare);
-        this.ruleForm.editSpecialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
-        this.ruleForm.editIsSelfTax = JSON.stringify(res.isSelfTax),
-        this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-        this.ruleForm.editAgencyFeeId = res.agencyFeeId;
-        this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
-        this.ruleForm.editIsSpecialTax = res.isSpecialTax;
-        this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
-        this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
-        this.ruleForm.editSpecialProxyFee = res.specialProxyFee;
-        this.ruleForm.editSpecialShare = res.specialShare;
-        this.ruleForm.editOrdinaryShare = res.ordinaryShare;
-        this.ruleForm.editOrdinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
-        this.ruleForm.editOrdinaryTax = JSON.stringify(res.ordinaryTax);
-        if (this.ruleForm.editIsOrdinaryTax == true) {
-          this.ruleForm.editIsOrdinaryTax = "0"
-        } else if (this.ruleForm.editIsOrdinaryTax == false) {
-          this.ruleForm.editIsOrdinaryTax = "1"
-        }
-        if (this.ruleForm.editIsSpecialTax == true) {
-          this.ruleForm.editIsSpecialTax = "0"
-        } else if (this.ruleForm.editIsSpecialTax == false) {
-          this.ruleForm.editIsSpecialTax = "1"
-        }
+           this.$modal.closeLoading();
+           this.$cache.local.setJSON("placeItems",res);
+        // this.ruleForm.editIsSliderOrdinary=JSON.stringify(res.isSliderOrdinary); 
+        // this.ruleForm.editIsSlider=JSON.stringify(res.isSlider); 
+        // this.ruleForm.editOrdinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
+        // this.ruleForm.editIsOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
+        // this.ruleForm.editOrdinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
+        // this.ruleForm.editSpecialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
+        // this.ruleForm.editIsSpecialShare = JSON.stringify(res.isSpecialShare);
+        // this.ruleForm.editSpecialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
+        // this.ruleForm.editIsSelfTax = JSON.stringify(res.isSelfTax),
+        // this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
+        // this.ruleForm.editAgencyFeeId = res.agencyFeeId;
+        // this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
+        // this.ruleForm.editIsSpecialTax = res.isSpecialTax;
+        // this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
+        // this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
+        // this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
+        // this.ruleForm.editSpecialProxyFee = res.specialProxyFee;
+        // this.ruleForm.editSpecialShare = res.specialShare;
+        // this.ruleForm.editOrdinaryShare = res.ordinaryShare;
+        // this.ruleForm.editOrdinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
+        // this.ruleForm.editOrdinaryTax = JSON.stringify(res.ordinaryTax);
+        // if (this.ruleForm.editIsOrdinaryTax == true) {
+        //   this.ruleForm.editIsOrdinaryTax = "0"
+        // } else if (this.ruleForm.editIsOrdinaryTax == false) {
+        //   this.ruleForm.editIsOrdinaryTax = "1"
+        // }
+        // if (this.ruleForm.editIsSpecialTax == true) {
+        //   this.ruleForm.editIsSpecialTax = "0"
+        // } else if (this.ruleForm.editIsSpecialTax == false) {
+        //   this.ruleForm.editIsSpecialTax = "1"
+        // }
+
+        this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("渠道客户编辑", "/place/edit")
+      })
 
       })
 
-      this.ruleForm.editPlaceId = item.placeId;
-      this.ruleForm.editPlaceCode = item.placeCode;
-      this.ruleForm.editPlaceName = item.placeName;
-      this.ruleForm.editPlaceAlias = item.placeAlias;//渠道商别名
-      this.ruleForm.editPlaceLinkman = item.placeLinkman;
-      this.ruleForm.editPlaceTel = item.placeTel;
-      this.ruleForm.editUserId = item.userId;
-      this.ruleForm.editUserName = item.userName;
+      // this.ruleForm.editPlaceId = item.placeId;
+      // this.ruleForm.editPlaceCode = item.placeCode;
+      // this.ruleForm.editPlaceName = item.placeName;
+      // this.ruleForm.editPlaceAlias = item.placeAlias;//渠道商别名
+      // this.ruleForm.editPlaceLinkman = item.placeLinkman;
+      // this.ruleForm.editPlaceTel = item.placeTel;
+      // this.ruleForm.editUserId = item.userId;
+      // this.ruleForm.editUserName = item.userName;
+
     },
     //详情
     detail(item) {
-      this.titleh = '渠道管理详情';
-      this.checkVisible = true;
-      this.ruleForm.placeCode = item.placeCode;
-      this.ruleForm.placeName = item.placeName;
-      this.ruleForm.placeLinkman = item.placeLinkman;
-      this.ruleForm.placeTel = item.placeTel;
-      this.ruleForm.nickName = item.nickName;
-      this.ruleForm.placeStatus = item.placeStatus;
-      this.ruleForm.userName = item.userName;
-      this.ruleForm.placeAlias = item.placeAlias;
+      // this.titleh = '渠道管理详情';
+      // this.checkVisible = true;
+      this.$cache.local.setJSON("placeDetailItem",item);
+      // this.ruleForm.placeCode = item.placeCode;
+      // this.ruleForm.placeName = item.placeName;
+      // this.ruleForm.placeLinkman = item.placeLinkman;
+      // this.ruleForm.placeTel = item.placeTel;
+      // this.ruleForm.nickName = item.nickName;
+      // this.ruleForm.placeStatus = item.placeStatus;
+      // this.ruleForm.userName = item.userName;
+      // this.ruleForm.placeAlias = item.placeAlias;
+      this.$modal.loading("正在加载数据，请稍后...");
+      agencyfee.selectFeeByCode({ placeCode: item.placeCode }).then(res => {
+        this.$modal.closeLoading();
+        this.$cache.local.setJSON("placeDetailItems",res);
+        this.$tab.closeAllPage().then(() => {
+        this.$tab.openPage("渠道客户详情", "/place/detail")
 
-      agencyfee.selectFeeByCode({ placeCode: this.ruleForm.placeCode }).then(res => {
-        console.log("selectFeeByCode==", res);
-        this.ruleForm.isSlider=JSON.stringify(res.isSlider); 
-        this.ruleForm.isSliderOrdinary=JSON.stringify(res.isSliderOrdinary); 
-        this.ruleForm.ordinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
-        this.ruleForm.isOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
-        this.ruleForm.ordinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
-        this.ruleForm.specialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
-        this.ruleForm.isSpecialShare = JSON.stringify(res.isSpecialShare);
-        this.ruleForm.specialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
-
-        this.ruleForm.isSelfTax = JSON.stringify(res.isSelfTax);
-        this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-
-          this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
-        this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
-
-
-        //this.ruleForm.specialProxyMoney = res.specialProxyMoney;
-        this.ruleForm.specialProxyFee = res.specialProxyFee;
-
-
-
-
-        this.ruleForm.specialSelfFee = res.specialSelfFee;
-        this.ruleForm.isSpecialTax = res.isSpecialTax;
-        this.ruleForm.ordinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.ordinaryProxyFee = res.ordinaryProxyFee;
-        //this.ruleForm.ordinaryProxyMoney = res.ordinaryProxyMoney;
-
-        this.ruleForm.ordinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
-        this.ruleForm.ordinaryTax = JSON.stringify(res.ordinaryTax);
-
-        this.ruleForm.specialShare = res.specialShare;
-        // this.ruleForm.specialShareMoney=res.specialShareMoney;
-        this.ruleForm.ordinaryShare = res.ordinaryShare;
-        //this.ruleForm.ordinaryShareMoney=res.ordinaryShareMoney;
-
-
-
-
-        this.ruleForm.isOrdinaryTax = res.isOrdinaryTax;
-        if (this.ruleForm.isOrdinaryTax == true) {
-          this.ruleForm.isOrdinaryTax = "0"
-        } else if (this.ruleForm.isOrdinaryTax == false) {
-          this.ruleForm.isOrdinaryTax = "1"
-        }
-        if (this.ruleForm.isSpecialTax == true) {
-          this.ruleForm.isSpecialTax = "0"
-        } else if (this.ruleForm.isSpecialTax == false) {
-          this.ruleForm.isSpecialTax = "1"
-        }
       })
-      this.ruleForm.value = item.value;
+        // this.ruleForm.isSlider=JSON.stringify(res.isSlider); 
+        // this.ruleForm.isSliderOrdinary=JSON.stringify(res.isSliderOrdinary); 
+        // this.ruleForm.ordinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
+        // this.ruleForm.isOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
+        // this.ruleForm.ordinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
+        // this.ruleForm.specialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
+        // this.ruleForm.isSpecialShare = JSON.stringify(res.isSpecialShare);
+        // this.ruleForm.specialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
+
+        // this.ruleForm.isSelfTax = JSON.stringify(res.isSelfTax);
+        // this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
+
+        //   this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
+        // this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
+
+
+        // //this.ruleForm.specialProxyMoney = res.specialProxyMoney;
+        // this.ruleForm.specialProxyFee = res.specialProxyFee;
+
+
+
+
+        // this.ruleForm.specialSelfFee = res.specialSelfFee;
+        // this.ruleForm.isSpecialTax = res.isSpecialTax;
+        // this.ruleForm.ordinarySelfFee = res.ordinarySelfFee;
+        // this.ruleForm.ordinaryProxyFee = res.ordinaryProxyFee;
+        // //this.ruleForm.ordinaryProxyMoney = res.ordinaryProxyMoney;
+
+        // this.ruleForm.ordinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
+        // this.ruleForm.ordinaryTax = JSON.stringify(res.ordinaryTax);
+
+        // this.ruleForm.specialShare = res.specialShare;
+        // // this.ruleForm.specialShareMoney=res.specialShareMoney;
+        // this.ruleForm.ordinaryShare = res.ordinaryShare;
+        // //this.ruleForm.ordinaryShareMoney=res.ordinaryShareMoney;
+
+
+
+
+        // this.ruleForm.isOrdinaryTax = res.isOrdinaryTax;
+        // if (this.ruleForm.isOrdinaryTax == true) {
+        //   this.ruleForm.isOrdinaryTax = "0"
+        // } else if (this.ruleForm.isOrdinaryTax == false) {
+        //   this.ruleForm.isOrdinaryTax = "1"
+        // }
+        // if (this.ruleForm.isSpecialTax == true) {
+        //   this.ruleForm.isSpecialTax = "0"
+        // } else if (this.ruleForm.isSpecialTax == false) {
+        //   this.ruleForm.isSpecialTax = "1"
+        // }
+      })
+     // this.ruleForm.value = item.value;
     },
     //修改状态
     isDormancy(item, type) {
@@ -1506,34 +1532,12 @@ export default {
         // this.editVisible=false;
       })
     },
-    //获取所有用户
-    getAllUser() {
-      getAllUser().then(res => {
-        this.userLeaders = res;
-
-      })
-    },
-
-
-    selectUser(value) {
-      this.ruleForm.userName = this.userLeaders.find((item) => item.userId == value).nickName;
-      this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
-    },
+   
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate((valid) => {
-      
-    
-
-
-
-
-
-
-        if (valid) {
-        
-        
-         if(this.ruleForm.isSlider=='0'){
+       if (valid) {
+          if(this.ruleForm.isSlider=='0'){
               if (this.ruleForm.specialShareIsmoney == '1') {
           if (this.ruleForm.specialShare > 100) {
             this.$alert('专票分润费按百分比不能大于100%', '提示', {
