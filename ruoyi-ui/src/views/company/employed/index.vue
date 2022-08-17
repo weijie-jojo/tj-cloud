@@ -483,33 +483,48 @@ export default {
             switch (type) {
               case 1:
                 this.$cache.local.setJSON('employedName', scope);
-                this.$router.push("namedetail");
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户名称查看", "/company/customer/namedetail")
+                 })
+               
                 break;
               case 2:
                 this.$cache.local.setJSON('employedInfo', scope);
-                this.$router.push("infodetail");
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户信息查看", "/company/customer/infodetail")
+                 })
                 break;
               case 3:
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$router.push("detailCer");
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户实名查看", "/company/customer/detailCer")
+                 })
                 break;
 
               case 4:
-                this.$cache.local.setJSON('employednewlist', scope);
-                this.$router.push("detailBusiness");
+                 this.$cache.local.setJSON('employednewlist', scope);
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户工商查看", "/company/customer/detailBusiness")
+                 })
                 break;
 
               case 5:
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$router.push("detailTax");
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户税务查看", "/company/customer/detailTax")
+                 })
                 break;
               case 6:
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$router.push("detailBank");
+                this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户银行查看", "/company/customer/detailBank")
+                 })
                 break;
               case 7:
                 this.$cache.local.setJSON("employedInfo", scope);
-                this.$router.push("confirmS");
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户注册确认", "/company/customer/confirmS")
+                 })
                 break;
 
             }
@@ -524,7 +539,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj);
                 this.$cache.local.setJSON('employedName', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户名称审核", "/company/customer/namenew")
+                 })
+               // this.$tab.closeOpenPage({ path: "/company/customer/namenew" });
                 break;
               case 2:
                 let obj1 = {
@@ -534,7 +552,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj1);
                 this.$cache.local.setJSON('employedInfo', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户信息审核", "/company/customer/infonew")
+                 })
+                //this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
                 break;
               case 3:
                 break;
@@ -547,7 +568,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj2);
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户工商办理", "/company/customer/addBusiness")
+                 })
+               // this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
                 break;
               case 5:
                 let obj3 = {
@@ -557,7 +581,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj3);
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/addTax" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户税务办理", "/company/customer/addTax")
+                 })
+               // this.$tab.closeOpenPage({ path: "/company/customer/addTax" });
                 break;
               case 6:
                 let obj4 = {
@@ -567,7 +594,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj4);
                 this.$cache.local.setJSON('employednewlist', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/addBank" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户银行办理", "/company/customer/addBank")
+                 })
+                //this.$tab.closeOpenPage({ path: "/company/customer/addBank" });
                 break;
               case 7:
                 let obj5 = {
@@ -577,7 +607,10 @@ export default {
                 }
                 this.$cache.local.setJSON('successNew', obj5);
                 this.$cache.local.setJSON('employedInfo', scope);
-                this.$tab.closeOpenPage({ path: "/company/customer/confirmDetail" });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
+                 })
+                //this.$tab.closeOpenPage({ path: "/company/customer/confirmDetail" });
                 break;
 
             }
@@ -759,8 +792,8 @@ export default {
             message: h('div', null, [
               h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
               h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrConfirm),
-              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+              h('P', { style: 'margin:20px 0 0 40px;' }, this.errArrConfirm),
+              h('p', { style: 'margin:5px 0 0 40px;' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
             ]),
 
 
@@ -772,9 +805,15 @@ export default {
 
           }).then(() => {
             if (this.errConfirmsMsg == '修改') {
-              this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
+                 this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
+                 })
+                 // this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
             } else {
-              this.$tab.closeOpenPage({ path: '/company/customer/confirmS' });
+                // this.$tab.closeOpenPage({ path: '/company/customer/confirmS' });
+                 this.$tab.closeAllPage().then(() => {
+                   this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+                 })
             }
 
           }).catch(() => {
@@ -824,8 +863,8 @@ export default {
             message: h('div', null, [
               h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
               h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrName),
-              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+              h('P', { style: 'margin:20px 0 0 40px;' }, this.errArrName),
+              h('p', { style: 'margin:5px 0 0 40px;' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
             ]),
 
 
@@ -837,9 +876,15 @@ export default {
 
           }).then(() => {
             if (this.errNameMsg == '修改') {
-              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedName' });
+               this.$tab.closeAllPage().then(() => {
+                 this.$tab.openPage("个体户名称修改", "/company/customer/editEmployedName")
+                 })
+             // this.$tab.closeOpenPage({ path: '/company/customer/editEmployedName' });
             } else {
-              this.$tab.closeOpenPage({ path: '/company/customer/namedetail' });
+                this.$tab.closeAllPage().then(() => {
+                this.$tab.openPage("个体户名称查看", "/company/customer/namedetail")
+                })
+              //this.$tab.closeOpenPage({ path: '/company/customer/namedetail' });
             }
           }).catch(() => {
 
@@ -880,8 +925,8 @@ export default {
             message: h('div', null, [
               h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
               h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-              h('P', { style: 'margin:40px 0 0 40px;' }, this.errArrInfo),
-              h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
+              h('P', { style: 'margin:20px 0 0 40px;' }, this.errArrInfo),
+              h('p', { style: 'margin:5px 0 0 40px;' }, '请等待' + res.data.userName + '(' + res.data.phonenumber + ')' + '修改')
             ]),
 
 
@@ -893,9 +938,15 @@ export default {
 
           }).then(() => {
             if (this.errInfoMsg == '修改') {
-              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
+               this.$tab.closeAllPage().then(() => {
+                this.$tab.openPage("个体户信息修改", "/company/customer/editEmployedInfo")
+                })
+             // this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
             } else {
-              this.$tab.closeOpenPage({ path: '/company/customer/editEmployedInfo' });
+              this.$tab.closeAllPage().then(() => {
+                this.$tab.openPage("个体户信息查看", "/company/customer/infodetail")
+                })
+              
             }
           }).catch(() => {
 
@@ -1121,7 +1172,10 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      this.$tab.closeOpenPage({ path: '/company/customer/addEmployedInfo' });
+        this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户注册", "/company/customer/addEmployedInfo")
+        })
+     // this.$tab.closeOpenPage({ path: '/company/customer/addEmployedInfo' });
     },
     /** 删除按钮操作 */
     handleDelete() {

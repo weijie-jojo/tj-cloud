@@ -55,9 +55,9 @@
           <el-button v-hasPermi="['company:employedConfirm:edit']"  size="mini" type="text" icon="el-icon-s-goods" v-else
             style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
           <el-button v-hasPermi="['company:employedConfirm:confirm']" size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
-            @click="detail(scope.row)">确认注册</el-button>
+            @click="detail(scope.row)">注册确认办理</el-button>
           <el-button size="mini" v-else icon="el-icon-s-goods"
-            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>确认注册</el-button>
+            style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>注册确认办理</el-button>
 
         </template>
       </el-table-column>
@@ -158,7 +158,10 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
+      this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
+        })
+      //this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
     },
     look(row) {
       let obj={
@@ -166,7 +169,10 @@ export default {
         };
       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
+        this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+        })
+     // this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
     },
     detail(row) {
       let obj={
@@ -174,7 +180,10 @@ export default {
         };
       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
+       this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
+        })
+      //this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
     },
       getCount(){
          getCount(this.queryParams).then(res => {

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      <el-form-item label="渠道商" prop="placeName">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="渠道商全名" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select clearable v-model="queryParams.status" placeholder="请选择">
@@ -29,7 +29,7 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <!-- <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" /> -->
       <el-table-column label="渠道商全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
       <el-table-column label="联系人" align="center" prop="placeLinkman" :show-overflow-tooltip="true" />
       <el-table-column label="联系方式" prop="placeTel" :show-overflow-tooltip="true" />
@@ -115,7 +115,7 @@
                   <el-option v-for="item in option" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select> -->
-                <el-input :readonly="true" value="0">
+                <el-input :readonly="true" value="免税">
                   <template slot="append">%</template>
                 </el-input>
               </el-form-item>
@@ -1080,10 +1080,10 @@ export default {
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
         ordinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
         editOrdinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
 
         isOrdinaryTax: [

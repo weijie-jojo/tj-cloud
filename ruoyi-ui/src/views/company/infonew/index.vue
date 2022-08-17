@@ -3,7 +3,7 @@
     <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="auto">
       <el-row type="flex" class="row-bg rowCss" style="margin-top:20px" justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">申请信息</div>
+          <div class="bankno" style="width:40%">申请信息</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -12,11 +12,13 @@
       </el-row>
       <el-row type="flex" class="row-bg rowCss " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="本人申请" prop="oneselfApply">
-            <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
+          <el-form-item class="comright" label="是否本人申请" prop="oneselfApply">
+            <!-- <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
               <el-option v-for="(item, index) in oneselfApplys" :key="index" :label="item.label" :value="item.label"
                 :disabled="item.disabled"></el-option>
-            </el-select>
+            </el-select> -->
+               <el-radio disabled v-model="formData.oneselfApply" label="是">是</el-radio>
+               <el-radio disabled v-model="formData.oneselfApply" label="否">否</el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
@@ -57,8 +59,8 @@
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:30%">联络员</div>
+        <el-col :span="8" class="flexs">
+          <div class="bankno" style="width:40%">联络员</div>
           <div style="width:50%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
@@ -95,8 +97,8 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">基本情况</div>
-          <div style="width:50%;hegiht:10px"></div>
+          <div class="bankno" style="width:50%">基本情况</div>
+          <div style="width:40%;hegiht:10px"></div>
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -599,15 +601,7 @@
 
         </el-collapse> -->
 
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width:35%">审核操作</div>
-          <div style="width:50%;hegiht:10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
+    
 
 
       

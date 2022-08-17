@@ -149,7 +149,10 @@ export default {
          };
          this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.openPage("税务信息","/company/customer/detailTax");
+         this.$tab.closeAllPage().then(() => {
+           this.$tab.openPage("个体户税务查看", "/company/customer/detailTax")
+         })
+       //  this.$tab.openPage("税务信息","/company/customer/detailTax");
     },
       getCount(){
          getCount(this.queryParams).then(res => {
@@ -212,7 +215,10 @@ export default {
             resmsg: '税务办理完成'
       }
       this.$cache.local.setJSON('successNew', obj);
-      this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
+        this.$tab.closeAllPage().then(() => {
+           this.$tab.openPage("个体户税务办理", "/company/customer/addTax")
+         })
+      //this.$tab.closeOpenPage({ path: "/company/customer/addTax"});
      },
      }
 };

@@ -163,7 +163,10 @@ export default {
   },
   methods: {
     getCount(){
-        getCount().then(res=>{
+      let  parms={
+        type:1,
+      }
+        getCount(parms).then(res=>{
           this.employedTotal=res.total;
         })
     },
