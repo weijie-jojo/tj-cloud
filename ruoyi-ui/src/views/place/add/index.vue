@@ -13,8 +13,10 @@
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
           <el-form-item label="个体户注册服务费" prop="ordinarySelfFee">
-            <el-input type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.1" :min="0"
-              :max="9999" style="width:100%">
+            <el-input type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.01" :min="0"
+              style="width:100%"
+              oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]' 
+              >
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
@@ -58,7 +60,7 @@
                   <el-option v-for="item in option" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select> -->
-                  <el-input :readonly="true" value="0">
+                  <el-input :readonly="true" value="免税">
                     <template slot="append">%</template>
                   </el-input>
                 </el-form-item>
@@ -74,11 +76,15 @@
                     <el-radio @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input v-if="ruleForm.ordinaryProxyIsmoney == 0" style="width:100%" type="number"
-                      v-model="ruleForm.ordinaryProxyFee" :step="0.01" :min="0">
+                      v-model="ruleForm.ordinaryProxyFee" :step="0.01" :min="0"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">元</template>
                     </el-input>
                     <el-input v-else type="number" style="width:100%" v-model="ruleForm.ordinaryProxyFee"
-                      @input="handleordinaryProxyFee" @change="handleordinaryProxyFee" :step="0.01" :max="100">
+                      @input="handleordinaryProxyFee" @change="handleordinaryProxyFee" :step="0.01" :max="100"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">%</template>
                     </el-input>
                   </div>
@@ -102,18 +108,22 @@
             </el-form-item>
             <el-row v-if="ruleForm.isOrdinaryShare == 0" type="flex" justify="flex-end">
               <el-col :span="24">
-                <el-form-item label="分润方式" prop="ordinaryShareIsmoney">
+                <el-form-item label="分润方式" prop="ordinaryShare">
                   <div style="">
                     <el-radio @change="hanOrshare" v-model="ruleForm.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
                     <el-radio @change="hanOrshare" v-model="ruleForm.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input v-if="ruleForm.ordinaryShareIsmoney == 0" style="width:100%" type="number" :step="0.01"
-                      :min="0" v-model="ruleForm.ordinaryShare">
+                      :min="0" v-model="ruleForm.ordinaryShare"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">元</template>
                     </el-input>
                     <el-input v-model="ruleForm.ordinaryShare" v-else type="number" style="width:100%"
                       @input="handleordinaryShareIsmoney" @change="handleordinaryShareIsmoney" :step="0.01" :min="0"
-                      :max="100">
+                      :max="100"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">%</template>
                     </el-input>
                   </div>
@@ -147,12 +157,16 @@
                     <el-radio @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input v-if="ruleForm.specialProxyIsmoney == 0" style="width:100%" type="number"
-                      v-model="ruleForm.specialProxyFee" :step="0.01" :min="0">
+                      v-model="ruleForm.specialProxyFee" :step="0.01" :min="0"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">元</template>
                     </el-input>
                     <el-input v-else type="number" style="width:100%" v-model="ruleForm.specialProxyFee"
                       @input="handlespecialProxyIsmoney" @change="handlespecialProxyIsmoney" :step="0.01" :min="0"
-                      :max="100">
+                      :max="100"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">%</template>
                     </el-input>
                   </div>
@@ -174,18 +188,22 @@
             </el-form-item>
             <el-row v-if="ruleForm.isSpecialShare == 0" type="flex" justify="flex-end">
               <el-col :span="24">
-                <el-form-item label="分润方式" prop="specialShareIsmoney">
+                <el-form-item label="分润方式" prop="specialShare">
                   <div style="">
                     <el-radio @change="handMoney" v-model="ruleForm.specialShareIsmoney" label="0">按定额收取</el-radio>
                     <el-radio @change="handMoney" v-model="ruleForm.specialShareIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input v-if="ruleForm.specialShareIsmoney == 0" style="width:100%" type="number" :step="0.01"
-                      :min="0" v-model="ruleForm.specialShare">
+                      :min="0" v-model="ruleForm.specialShare"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">元</template>
                     </el-input>
                     <el-input v-model="ruleForm.specialShare" v-else type="number" style="width:100%"
                       @input="handlespecialShareIsmoney" @change="handlespecialShareIsmoney" :step="0.01" :min="0"
-                      :max="100">
+                      :max="100"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
                       <template slot="append">%</template>
                     </el-input>
                   </div>
@@ -566,10 +584,10 @@ export default {
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
         ordinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
         editOrdinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
 
         isOrdinaryTax: [
@@ -583,13 +601,12 @@ export default {
       ],
       // 表单参数
       form: {},
-      // 表单校验
-      // rules: {},
+      
     };
   },
 
   mounted() {
-    //this.getList();
+    
     this.getAllUser();
     this.getPlaceCode();
     //获取登录用户
@@ -599,9 +616,13 @@ export default {
       this.ruleForm.userId = res.user.userId;
       console.log("getInfo", this.ruleForm.userName);
     })
+     this.reset();
   },
 
   methods: {
+    handleChange(value) {
+      console.log(value);
+    },
     closeS(){
        this.$tab.closeAllPage().then(() => {
         this.$tab.closeOpenPage({path:'/place/placeMgr'})
@@ -744,37 +765,13 @@ export default {
       })
     },
 
-    /** 查询列表 */
-    getList() {
-      this.loading = true;
-      crudPlace.getByPage(this.queryParams).then((response) => {
-        this.employedList = response.rows;
-
-        this.total = response.total;
-        this.loading = false;
-      });
-    },
-    // 取消按钮
-    cancel() {
-      this.addVisible = false;
-      this.reset();
-    },
-    //取消按钮新
-    cancelS(type) {
-      if (type == 1) {
-        this.addVisible = false;
-
-      } else if (type == 2) {
-        this.editVisible = false;
-      } else if (type == 3) {
-        this.checkVisible = false;
-      }
-
-    },
+  
+    
+    
     // 表单重置
     reset() {
       this.ruleForm.isSliderOrdinary = '0',
-        this.ruleForm.isSlider = '0';
+      this.ruleForm.isSlider = '0';
       this.ruleForm.isSelfTax = '1';   //普票价税分离
       this.ruleForm.isSpecialSelfTax = '1';  //专票价税分离
       this.ruleForm.ordinaryProxyIsmoney = '0';
@@ -806,192 +803,12 @@ export default {
       this.ruleForm.ordinaryProxyMoeny = '';
       this.ruleForm.isOrdinaryTax = '1';
     },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.multipleSelection = selection;
-    },
-
-    handleChange(value) {
-      console.log(value);
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.getPlaceCode();
-      this.addVisible = true;
-      this.title = "新增渠道管理";
-      //获取登录用户
-      getInfo().then(res => {
-        this.ruleForm.userName = res.user.userName;
-        this.ruleForm.editUserName = res.user.userName;
-        this.ruleForm.userId = res.user.userId;
-        console.log("getInfo", this.ruleForm.userName);
-      })
-    },
-    /** 修改按钮操作 */
-    handleUpdate(item) {
-      this.editVisible = true;
-      this.confirmEditStatus = true;// 开启编辑保护
-      this.titles = "编辑渠道管理";
-      var placeCode = item.placeCode;
-      agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
-        this.ruleForm.editIsSliderOrdinary = JSON.stringify(res.isSliderOrdinary);
-        this.ruleForm.editIsSlider = JSON.stringify(res.isSlider);
-        this.ruleForm.editOrdinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
-        this.ruleForm.editIsOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
-        this.ruleForm.editOrdinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
-        this.ruleForm.editSpecialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
-        this.ruleForm.editIsSpecialShare = JSON.stringify(res.isSpecialShare);
-        this.ruleForm.editSpecialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
-        this.ruleForm.editIsSelfTax = JSON.stringify(res.isSelfTax),
-          this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-          this.ruleForm.editAgencyFeeId = res.agencyFeeId;
-        this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
-        this.ruleForm.editIsSpecialTax = res.isSpecialTax;
-        this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
-        this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
-        this.ruleForm.editSpecialProxyFee = res.specialProxyFee;
-        this.ruleForm.editSpecialShare = res.specialShare;
-        this.ruleForm.editOrdinaryShare = res.ordinaryShare;
-        this.ruleForm.editOrdinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
-        this.ruleForm.editOrdinaryTax = JSON.stringify(res.ordinaryTax);
-        if (this.ruleForm.editIsOrdinaryTax == true) {
-          this.ruleForm.editIsOrdinaryTax = "0"
-        } else if (this.ruleForm.editIsOrdinaryTax == false) {
-          this.ruleForm.editIsOrdinaryTax = "1"
-        }
-        if (this.ruleForm.editIsSpecialTax == true) {
-          this.ruleForm.editIsSpecialTax = "0"
-        } else if (this.ruleForm.editIsSpecialTax == false) {
-          this.ruleForm.editIsSpecialTax = "1"
-        }
-
-      })
-
-      this.ruleForm.editPlaceId = item.placeId;
-      this.ruleForm.editPlaceCode = item.placeCode;
-      this.ruleForm.editPlaceName = item.placeName;
-      this.ruleForm.editPlaceAlias = item.placeAlias;//渠道商别名
-      this.ruleForm.editPlaceLinkman = item.placeLinkman;
-      this.ruleForm.editPlaceTel = item.placeTel;
-      this.ruleForm.editUserId = item.userId;
-      this.ruleForm.editUserName = item.userName;
-    },
-    //详情
-    detail(item) {
-      this.titleh = '渠道管理详情';
-      this.checkVisible = true;
-      this.ruleForm.placeCode = item.placeCode;
-      this.ruleForm.placeName = item.placeName;
-      this.ruleForm.placeLinkman = item.placeLinkman;
-      this.ruleForm.placeTel = item.placeTel;
-      this.ruleForm.nickName = item.nickName;
-      this.ruleForm.placeStatus = item.placeStatus;
-      this.ruleForm.userName = item.userName;
-      this.ruleForm.placeAlias = item.placeAlias;
-
-      agencyfee.selectFeeByCode({ placeCode: this.ruleForm.placeCode }).then(res => {
-        console.log("selectFeeByCode==", res);
-        this.ruleForm.isSlider = JSON.stringify(res.isSlider);
-        this.ruleForm.isSliderOrdinary = JSON.stringify(res.isSliderOrdinary);
-        this.ruleForm.ordinaryProxyIsmoney = JSON.stringify(res.ordinaryProxyIsmoney);
-        this.ruleForm.isOrdinaryShare = JSON.stringify(res.isOrdinaryShare);
-        this.ruleForm.ordinaryShareIsmoney = JSON.stringify(res.ordinaryShareIsmoney);
-        this.ruleForm.specialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
-        this.ruleForm.isSpecialShare = JSON.stringify(res.isSpecialShare);
-        this.ruleForm.specialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
-
-        this.ruleForm.isSelfTax = JSON.stringify(res.isSelfTax);
-        this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-
-          this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
-        this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
-
-
-        //this.ruleForm.specialProxyMoney = res.specialProxyMoney;
-        this.ruleForm.specialProxyFee = res.specialProxyFee;
-
-
-
-
-        this.ruleForm.specialSelfFee = res.specialSelfFee;
-        this.ruleForm.isSpecialTax = res.isSpecialTax;
-        this.ruleForm.ordinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.ordinaryProxyFee = res.ordinaryProxyFee;
-        //this.ruleForm.ordinaryProxyMoney = res.ordinaryProxyMoney;
-
-        this.ruleForm.ordinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
-        this.ruleForm.ordinaryTax = JSON.stringify(res.ordinaryTax);
-
-        this.ruleForm.specialShare = res.specialShare;
-        // this.ruleForm.specialShareMoney=res.specialShareMoney;
-        this.ruleForm.ordinaryShare = res.ordinaryShare;
-        //this.ruleForm.ordinaryShareMoney=res.ordinaryShareMoney;
-
-
-
-
-        this.ruleForm.isOrdinaryTax = res.isOrdinaryTax;
-        if (this.ruleForm.isOrdinaryTax == true) {
-          this.ruleForm.isOrdinaryTax = "0"
-        } else if (this.ruleForm.isOrdinaryTax == false) {
-          this.ruleForm.isOrdinaryTax = "1"
-        }
-        if (this.ruleForm.isSpecialTax == true) {
-          this.ruleForm.isSpecialTax = "0"
-        } else if (this.ruleForm.isSpecialTax == false) {
-          this.ruleForm.isSpecialTax = "1"
-        }
-      })
-      this.ruleForm.value = item.value;
-    },
-    //修改状态
-    isDormancy(item, type) {
-      var placeStatus;
-      if (item.placeStatus == 0) {
-        placeStatus = 2;
-      }
-      if (item.placeStatus == 1) {
-        this.$message({
-          message: '欠费状态不能点哦',
-          type: 'warning',
-        });
-        return;
-      }
-      if (item.placeStatus == 2) {
-        placeStatus = 0;
-      }
-      let params = {
-        placeId: item.placeId,
-        placeStatus: placeStatus,
-      }
-      crudPlace.editPlace2(params).then((res) => {
-        if (res.id == 0) {
-          this.$message({
-            message: res.message,
-            type: 'success',
-          });
-        } else {
-          this.$message({
-            message: res.message,
-            type: 'warning',
-          });
-        }
-        this.$tab.refreshPage();
-        // this.editVisible=false;
-      })
-    },
+   
+   
+    
+   
+   
+    
     //获取所有用户
     getAllUser() {
       getAllUser().then(res => {
@@ -1124,21 +941,21 @@ export default {
                 message: res.message,
                 type: 'success',
               });
+               this.closeS();
             } else {
               this.$message({
                 message: res.message,
                 type: 'warning',
               });
             }
-            this.closeS();
-           // this.addVisible = false;
+           
+           
             //this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
             //this.$tab.refreshPage();
 
           }).catch(err => {
-            //this.addVisible = false;
-            this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-           // this.$tab.refreshPage();
+             this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
+            // this.$tab.refreshPage();
           });
 
         }
@@ -1151,16 +968,7 @@ export default {
         }
       });
     },
-    //编辑状态
-    confirmEdits() {
-      this.confirmEditStatus = false;
-    },
-  
-
-
-  
-
-  },
+   },
 };
 </script>
 <style lang="scss" scoped>
