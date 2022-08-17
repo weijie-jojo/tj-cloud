@@ -153,7 +153,10 @@ export default {
         };
          this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employedName', row);
-         this.$tab.openPage("名称信息","/company/customer/nameDetail");
+          this.$tab.closeAllPage().then(() => {
+             this.$tab.openPage("个体户名称查看", "/company/customer/nameDetail")
+           })
+        // this.$tab.openPage("名称信息","/company/customer/nameDetail");
     },
       getCount(){
          getCount(this.queryParams).then(res => {
@@ -210,7 +213,10 @@ export default {
             resmsg: '名称审核完成'
         }
        this.$cache.local.setJSON('successNew', obj);
-       this.$tab.closeOpenPage({ path: "/company/customer/namenew"});
+       this.$tab.closeAllPage().then(() => {
+           this.$tab.openPage("个体户名称审核", "/company/customer/namenew")
+         })
+       //this.$tab.closeOpenPage({ path: "/company/customer/namenew"});
     },
    }
 };

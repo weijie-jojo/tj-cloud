@@ -621,19 +621,23 @@
          <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
-            <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-              <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
-                :value="item.value" style="display: none;" />
-              <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
-                highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
-                <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
-                  <span style="float: left">{{ node.label }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates
-                  }}</span>
-                </span>
-              </el-tree>
-            </el-select>
+              <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+            <el-select 
+             
+             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
+                  :value="item.value" style="display: none;" />
+                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                   >
+                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                         <span style="float: left">{{ node.label }}</span>
+                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                    </span>
+                  </el-tree>
+              </el-select>
+            </el-tooltip>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -699,17 +703,20 @@
         <el-collapse-item name="1">
           <template slot="title" :required="true">
             增值税普通发票
+              <el-radio   style="margin-left:10px"   v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+              <el-radio   v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-             <el-radio   v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
            <div v-if="formData.isSliderOrdinary==0">
-            
             <el-form-item label="普票税率" :required="true">
-              <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
+              <!-- <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
                 <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
-              </el-select>
+              </el-select> -->
+              <el-input :readonly="true" value="免税">
+                
+                </el-input>
+              
             </el-form-item>
             <el-form-item label="普票服务费" :required="true">
               <div style="">
@@ -767,18 +774,20 @@
         <el-collapse-item name="1">
           <template slot="title" :required="true">
             增值税专用发票
+              <el-radio  style="margin-left:10px"  v-model="formData.isSlider" label="0">开启</el-radio>
+              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-            <el-form-item label="状态">
-              <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
-            </el-form-item>
+           
             <div v-if="formData.isSlider==0">
                  <el-form-item label="专票税率" :required="true">
-              <el-select style="width:87%;" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
+              <!-- <el-select style="width:87%;" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
-              </el-select>
+              </el-select> -->
+               <el-input :readonly="true" value="3">
+                  <template slot="append">%</template>
+               </el-input>
             </el-form-item>
             <el-form-item label="专票服务费" :required="true">
               <div style="">
@@ -865,6 +874,7 @@ export default {
   props: [],
   data() {
     return {
+      selectTipType:'',
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -1511,20 +1521,23 @@ export default {
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
+        this.$nextTick(function(){
+        this.selectTipType=this.$refs.selectTree.selected.label; 
+      });
     },
-    formatData(data) {
+     formatData(data) {
       let options = [];
       data.forEach((item, key) => {
-        options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
         if (item.children) {
           item.children.forEach((items, keys) => {
-            options.push({ label: items.label, value: items.id, taxRates: items.taxRates });
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
             if (items.children) {
               items.children.forEach((itemss, keyss) => {
-                options.push({ label: itemss.label, value: itemss.id, taxRates: itemss.taxRates });
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
                 if (itemss.children) {
                   itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label: itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
                   });
                 }
               });
@@ -1678,6 +1691,10 @@ export default {
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
+         this.industryTypeList = res.rows;
+          this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+         });
         this.selectIndustryType();
       })
     },

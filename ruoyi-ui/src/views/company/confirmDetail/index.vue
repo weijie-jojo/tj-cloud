@@ -428,12 +428,10 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="户名" prop="accountName">
-
-            <el-input v-model="formData.accountName"></el-input>
-
+           <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
+            <el-input disabled v-model="formData.publicDepositBank3" :readonly="true"></el-input>
           </el-form-item>
-          <el-form-item>
+           <el-form-item label="户名" >
             <el-select disabled style="width:86%" @change="changeValue($event)" v-model="formData.accountName"
               filterable placeholder="请选择">
               <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
@@ -441,9 +439,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-input disabled v-model="formData.publicDepositBank3" :readonly="true"></el-input>
-          </el-form-item>
+          
           <el-form-item label="纳税委托协议" prop="fileName3">
             <uploadSmall v-if="fileNameN3.length > 0" @getfileName="getfileNameS" :fileName="isNone"
               :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
@@ -581,11 +577,23 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
-            <el-select style="width:100%" disabled v-model="formData.industryType" placeholder="请选择行业类型" clearable
-              @change="selectIndustryType">
-              <el-option v-for="(item, index) in industryTypes" :key="index" :label="item.industryName"
-                :value="item.industryId"></el-option>
-            </el-select>
+            <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+            <el-select 
+             disabled
+             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
+                  :value="item.value" style="display: none;" />
+                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                   >
+                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                         <span style="float: left">{{ node.label }}</span>
+                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                    </span>
+                  </el-tree>
+              </el-select>
+            </el-tooltip>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -649,21 +657,23 @@
         <el-collapse-item name="1">
           <template slot="title" :required="true">
             增值税普通发票
+              <el-radio disabled style="margin-left:10px" v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+              <el-radio disabled v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-            <el-form-item label="状态">
-              <el-radio disabled v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
-              <el-radio disabled v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
-            </el-form-item>
+           
             <div v-if="formData.isSliderOrdinary == 0">
 
 
               <el-form-item label="普票税率" :required="true">
-                <el-select :disabled="true" style="width:87%" v-model="formData.ordinaryTax" clearable
+                <!-- <el-select :disabled="true" style="width:87%" v-model="formData.ordinaryTax" clearable
                   placeholder="请选择">
                   <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
+                  <el-input :readonly="true" value="免税">
+                
+                </el-input>
               </el-form-item>
               <el-form-item label="普票服务费" :required="true">
                 <div style="">
@@ -721,19 +731,21 @@
         <el-collapse-item name="1">
           <template slot="title" :required="true">
             增值税专用发票
+              <el-radio disabled style="margin-left:10px" v-model="formData.isSlider" label="0">开启</el-radio>
+              <el-radio disabled v-model="formData.isSlider" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-            <el-form-item label="状态">
-              <el-radio disabled v-model="formData.isSlider" label="0">开启</el-radio>
-              <el-radio disabled v-model="formData.isSlider" label="1">关闭</el-radio>
-            </el-form-item>
+            
             <div v-if="formData.isSlider == 0">
               <el-form-item label="专票税率" :required="true">
-                <el-select :disabled="true" style="width:87%;" v-model="formData.ordinarySpecialTax" clearable
+                <!-- <el-select :disabled="true" style="width:87%;" v-model="formData.ordinarySpecialTax" clearable
                   placeholder="请选择">
                   <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
+                <el-input :readonly="true" value="3">
+                  <template slot="append">%</template>
+               </el-input>
               </el-form-item>
               <el-form-item label="专票服务费" :required="true">
                 <div style="">
@@ -856,6 +868,11 @@ export default {
   props: [],
   data() {
     return {
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      expandOnClickNode: true,
       activeNameseg: '1',
       activeNamese: '1',
       userinfo: {},
@@ -972,7 +989,7 @@ export default {
         },
       ],
       places: [],
-
+      selectTipType:'',
       formData: {
         selfCode: '',
 
@@ -1386,6 +1403,39 @@ export default {
     this.nailist();
   },
   methods: {
+      handleNodeClick(node) {
+      this.formData.industryType = node.id;
+      this.$refs.selectTree.blur();
+      
+      this.$nextTick(function(){
+        this.selectTipType=this.$refs.selectTree.selected.label; 
+      });
+
+      
+     
+    },
+    formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+      return options;
+    },
     check(resmsg) {
       let parms = {
         "checkReasult": resmsg,
@@ -1534,11 +1584,45 @@ export default {
       this.formData.applyIdNum = applyName.idNo;
       console.log("applyName==", applyName);
     },
-    getRate() {
+     getRate() {
       crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
-        this.industryTypes = res.rows;
+        var employedInfo = this.$cache.local.getJSON('employedInfo');
+        this.formData.industryType = employedInfo.industryType;
+        
+        let tree = []; // 用来保存树状的数据形式
+        this.parseTree(res.rows, tree, 0);
+        this.industryTypes = tree;
+        this.industryTypeList = res.rows;
+        //this.industryTypess=this.formatData(this.industryTypes);
+        //this.$refs.selectTree.blur();
+        this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+         });
+        this.selectIndustryType();
       })
+    },
+    //把数据整成树状
+    parseTree(industry, tree, pid) {
+      for (var i = 0; i < industry.length; i++) {
+        if (industry[i].parentId == pid) {
+           let a=industry[i].taxRate;
+           let b=null;
+           if(a){
+              b=new Decimal(a).mul(new Decimal(100));
+              b="税率"+b+'%';
+            }else{
+              b=null;
+           }
+          var obj = {
+            id: industry[i].industryId,
+            label: industry[i].industryName,
+            children: [],
+            taxRates:b,
+          };
+          tree.push(obj);
+          this.parseTree(industry, obj.children, obj.id);
+        }
+      }
     },
     getContactName() {
       crudPerson.getAllPerson().then(res => {

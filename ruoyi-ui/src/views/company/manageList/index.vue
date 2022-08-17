@@ -58,7 +58,7 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="edits(scope.row)">编辑</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="edits(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -178,11 +178,17 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
+      this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户信息修改", "/company/customer/manageListDdit")
+         })
+      //this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
       },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
-      this.$tab.openPage("个体户详情", "/company/customer/manageListDetail").then(() => {})
+       this.$tab.closeAllPage().then(() => {
+            this.$tab.openPage("个体户信息详情", "/company/customer/manageListDetail")
+         })
+     // this.$tab.openPage("个体户信息详情", "/company/customer/manageListDetail").then(() => {})
     },
    
 

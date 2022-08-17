@@ -13,7 +13,7 @@
       </el-steps>
       <div v-show="actives == 1">
         <el-row type="flex" class="row-bg  combottom" justify="space-around">
-          <el-col :span="8">
+          <el-col :span="9">
             <div class="bankno">申请信息</div>
 
           </el-col>
@@ -23,11 +23,13 @@
         </el-row>
         <el-row type="flex" class="row-bg rowCss" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="本人申请">
-              <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
+            <el-form-item label="是否本人申请">
+               <el-radio disabled v-model="formData.oneselfApply" label="是">是</el-radio>
+               <el-radio disabled v-model="formData.oneselfApply" label="否">否</el-radio>
+              <!-- <el-select style="width:100%" v-model="formData.oneselfApply" placeholder="请选择是否本人申请" disabled>
                 <el-option v-for="(item, index) in oneselfApplys" :key="index" :label="item.label" :value="item.label">
                 </el-option>
-              </el-select>
+              </el-select> -->
             </el-form-item>
           </el-col>
           <el-col :span="9"></el-col>
@@ -69,7 +71,7 @@
         </el-row>
 
         <el-row type="flex" class="row-bg  combottom" justify="space-around">
-          <el-col :span="7">
+          <el-col :span="8">
             <div class="bankno">联络员</div>
 
           </el-col>
@@ -117,7 +119,7 @@
       </div>
       <div v-show="actives == 2">
         <el-row type="flex" class="row-bg  combottom" justify="space-around">
-          <el-col :span="8">
+          <el-col :span="9">
             <div class="bankno">基本情况</div>
 
           </el-col>
@@ -445,8 +447,8 @@
         </el-row>
       </div>
       <div v-show="actives == 4">
-        <el-row type="flex" class="row-bg  combottom" justify="space-around">
-          <el-col :span="8">
+        <el-row type="flex" class="row-bg  combottom" style="margin-bottom:10px" justify="space-around">
+          <el-col :span="9">
             <div class="bankno">结算信息</div>
 
           </el-col>
@@ -458,8 +460,10 @@
           <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="行业类型" prop="industryType">
-              <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-                <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
+          <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+            <el-select 
+             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
                   :value="item.value" style="display: none;" />
                 <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
                   highlight-current :props="defaultProps" @node-click="handleNodeClick"
@@ -471,6 +475,8 @@
                     </span>
                   </el-tree>
               </el-select>
+            </el-tooltip>
+           
             </el-form-item>
           </el-col>
           <el-col :span="9">
@@ -531,19 +537,21 @@
           <el-collapse-item name="1">
             <template slot="title">
               增值税普通发票
+              <el-radio style="margin-left:10px"  v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+              <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
             </template>
             <el-col :span="10">
-            <el-form-item label="状态">
-              <el-radio  v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
-            </el-form-item>
+           
             <div v-if="formData.isSliderOrdinary==0">
                <el-form-item label="普票税率" prop="ordinaryTax">
-                <el-select  style="width:100%" v-model="formData.ordinaryTax" clearable
+                <!-- <el-select  style="width:100%" v-model="formData.ordinaryTax" clearable
                   placeholder="请选择">
                   <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
+                   <el-input :readonly="true" value="免税">
+                
+                </el-input>
               </el-form-item>
               <el-form-item  label="普票服务费" prop="ordinarySelfFee">
                 <div style="">
@@ -604,19 +612,21 @@
           <el-collapse-item name="1">
             <template slot="title" >
               增值税专用发票
+               <el-radio  style="margin-left:10px"  v-model="formData.isSlider" label="0">开启</el-radio>
+               <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
             </template>
              <el-col :span="10">
-             <el-form-item label="状态">
-              <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
-            </el-form-item>
+            
             <div v-if="formData.isSlider==0">
               <el-form-item label="专票税率" prop="ordinarySpecialTax">
-              <el-select  style="width:100%" v-model="formData.ordinarySpecialTax" clearable
+              <!-- <el-select  style="width:100%" v-model="formData.ordinarySpecialTax" clearable
                 placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
-              </el-select>
+              </el-select> -->
+                 <el-input :readonly="true" value="3">
+                  <template slot="append">%</template>
+               </el-input>
             </el-form-item>
             <el-form-item label="专票服务费" prop="specialSelfFee">
               <div style="">
@@ -713,6 +723,7 @@ export default {
   props: [],
   data() {
     return {
+      selectTipType:'请选中行业类型',
       userinfo:{},
       activeNameseg:'1',
       activeNamese:'1',
@@ -804,6 +815,7 @@ export default {
       applyNames: [],
       contactNames: [],
       industryTypes: [],
+      industryTypess: [],
       industryTypeList: [],
       accountTypes1: [],
       accountTypes: [
@@ -1159,6 +1171,20 @@ export default {
     //从上一个页面获取信息
     var employedInfo = this.$cache.local.getJSON('employedInfo');
     this.formData = employedInfo;
+    //this.$refs.selectTree.blur();
+    // this.$nextTick(function(){
+       
+    //     this.selectTipType=this.$refs.selectTree.selected.label; 
+    //     console.log(this.$refs.selectTree.selected.label);
+    //   })
+    // this.$nextTick(res=>{
+    //   console.log(this.$refs.selectTree.selected.label);
+    //    this.selectTipType=this.$refs.selectTree.selected.label; 
+    // }); 
+   // this.handleNodeClick();
+     
+    
+   
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
     this.formData.fileName6 = JSON.parse(this.formData.fileName6);
     this.formData.fileName7 = JSON.parse(this.formData.fileName7);
@@ -1269,6 +1295,10 @@ export default {
     
   },
   methods: {
+      
+   handleChangeSelectId(item) {
+    console.log(">>> item", item)        //选中对象
+    },
       handPoxy(e) {
       if (e == '1') {
         if (this.formData.ordinaryProxyIsmoney == '1') {
@@ -1448,6 +1478,13 @@ export default {
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
+      
+      this.$nextTick(function(){
+        this.selectTipType=this.$refs.selectTree.selected.label; 
+      });
+
+      
+     
     },
     // 四级菜单
 
@@ -1457,13 +1494,13 @@ export default {
         options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
         if (item.children) {
           item.children.forEach((items, keys) => {
-            options.push({ label: items.label, value: items.id,taxRates:items.taxRates });
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
             if (items.children) {
               items.children.forEach((itemss, keyss) => {
-                options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
                 if (itemss.children) {
                   itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
                   });
                 }
               });
@@ -1477,7 +1514,31 @@ export default {
       this.actives = 3;
     },
     nextYe() {
-      this.actives = 4;
+       let fieldsToValidate = ['gender','dateBirth','nation','eduation','politicalStatus','residence','contactPhone','mail','fileName5','fileName6','fileName7'];
+      Promise.all(
+        fieldsToValidate.map((field) => {
+          return new Promise((resolve, reject) => {
+            this.$refs['elForm'].validateField(field, (errorMessage) => {
+              resolve(errorMessage);
+            });
+          });
+        })
+      ).then((errorMessages) => {
+        console.info(errorMessages);
+        let valid = errorMessages.every((errorMessage) => {
+          return errorMessage == '';
+        });
+
+        console.log(valid); // true/false
+         if(valid){
+            this.actives = 4;
+         }else{
+           this.$message({
+            message: '请正确填写',
+            type: 'warning'
+          })
+        }
+      });
     },
     getLoginInfo() {
       getInfo().then(res => {
@@ -1524,10 +1585,16 @@ export default {
       crudRate.getAllRate().then(res => {
         var employedInfo = this.$cache.local.getJSON('employedInfo');
         this.formData.industryType = employedInfo.industryType;
+        
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
+        //this.industryTypess=this.formatData(this.industryTypes);
+        //this.$refs.selectTree.blur();
+        this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+         });
         this.selectIndustryType();
       })
     },
@@ -1585,14 +1652,68 @@ export default {
 
     },
     nextbasic() {
-      this.actives = 2;
+       let fieldsToValidate = ['applyName','contactName','contactPhone','contactIdNum'];
+      Promise.all(
+        fieldsToValidate.map((field) => {
+          return new Promise((resolve, reject) => {
+            this.$refs['elForm'].validateField(field, (errorMessage) => {
+              resolve(errorMessage);
+            });
+          });
+        })
+      ).then((errorMessages) => {
+        console.info(errorMessages);
+        let valid = errorMessages.every((errorMessage) => {
+          return errorMessage == '';
+        });
+
+        console.log(valid); // true/false
+         if(valid){
+            this.actives = 2;
+         }else{
+           this.$message({
+            message: '请正确填写',
+            type: 'warning'
+          })
+        }
+      });
     },
     toReturn() {
       this.$tab.closeOpenPage({ path: "/company/customer/employed" });
     },
 
     nextbus() {
-      this.actives = 3;
+       let fieldsToValidate;
+      if(this.formData.accountType==1){
+            fieldsToValidate = ['natureBusiness','privateDepositBank','privateAccountNumber'];
+      }else{
+            fieldsToValidate = ['natureBusiness'];
+      }
+     
+      Promise.all(
+        fieldsToValidate.map((field) => {
+          return new Promise((resolve, reject) => {
+            this.$refs['elForm'].validateField(field, (errorMessage) => {
+              resolve(errorMessage);
+            });
+          });
+        })
+      ).then((errorMessages) => {
+        console.info(errorMessages);
+        let valid = errorMessages.every((errorMessage) => {
+          return errorMessage == '';
+        });
+
+        console.log(valid); // true/false
+         if(valid){
+            this.actives = 3;
+         }else{
+           this.$message({
+            message: '请正确填写',
+            type: 'warning'
+          })
+        }
+      });
     },
     backinfo() {
       this.actives = 1;

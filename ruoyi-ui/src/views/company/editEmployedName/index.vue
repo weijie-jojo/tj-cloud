@@ -75,6 +75,7 @@
               placeholder="请输入行业" 
               clearable 
               ></el-input>
+              <!-- <span style="color:green">*个体工商户名称例如“福州市鼓楼区中山社区天天服装店”中，行业为“服装”</span> -->
           </el-form-item>
         </el-col>
         <el-col :span="9">
