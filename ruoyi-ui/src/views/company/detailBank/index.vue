@@ -75,8 +75,8 @@
         <el-row type="flex" class="row-bg" justify="space-around" v-if="accountType == 2">
           <el-col :span="9">
             <el-form-item class="comright" label="对公一般户状态" :required="true">
-              <el-radio v-model="formBank.isPublicUser" label="0">开启</el-radio>
-              <el-radio v-model="formBank.isPublicUser" label="1">关闭</el-radio>
+              <el-radio disabled v-model="formBank.isPublicUser" label="0">开启</el-radio>
+              <el-radio disabled v-model="formBank.isPublicUser" label="1">关闭</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="9">

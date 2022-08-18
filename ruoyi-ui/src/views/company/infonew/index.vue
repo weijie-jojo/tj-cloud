@@ -191,7 +191,10 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.2%" label="经营范围" prop="natureBusiness">
-            <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
+            <el-input 
+             maxlength="250"
+             show-word-limit
+            :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
               v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
@@ -366,7 +369,11 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.2%" label="经营者居所" prop="residence">
-            <el-input :readonly="true" v-model="formData.residence" clearable>
+            <el-input 
+              maxlength="250"
+              show-word-limit
+              type="textarea" :rows="2"
+            :readonly="true" v-model="formData.residence" clearable>
             </el-input>
           </el-form-item>
         </el-col>

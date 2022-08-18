@@ -167,13 +167,13 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
     <!-- 进度提示 -->
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户进度" :visible.sync="dialogVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="进度跟踪" :visible.sync="dialogVisible"
       width="70%">
       <el-table :data="progressList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">关闭</el-button>
@@ -181,13 +181,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户名称进度" :visible.sync="nameVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="名称进度跟踪" :visible.sync="nameVisible"
       width="70%">
       <el-table :data="nameList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="nameVisible = false">关闭</el-button>
@@ -196,13 +196,13 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户信息进度" :visible.sync="infoVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="信息进度跟踪" :visible.sync="infoVisible"
       width="70%">
       <el-table :data="infoList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="infoVisible = false">关闭</el-button>
@@ -210,13 +210,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户实名进度" :visible.sync="cerVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="实名进度跟踪" :visible.sync="cerVisible"
       width="70%">
       <el-table :data="cerList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cerVisible = false">关闭</el-button>
@@ -225,13 +225,13 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户工商进度" :visible.sync="busVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="工商进度跟踪" :visible.sync="busVisible"
       width="70%">
       <el-table :data="busList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="busVisible = false">关闭</el-button>
@@ -240,13 +240,13 @@
     </el-dialog>
 
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户税务进度" :visible.sync="taxVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="税务进度跟踪" :visible.sync="taxVisible"
       width="70%">
       <el-table :data="taxList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="taxVisible = false">关闭</el-button>
@@ -254,13 +254,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户银行进度" :visible.sync="bankVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="银行进度跟踪" :visible.sync="bankVisible"
       width="70%">
       <el-table :data="bankList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="bankVisible = false">关闭</el-button>
@@ -268,13 +268,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="个体户注册确认进度" :visible.sync="confirmVisible"
+    <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="注册确认进度跟踪" :visible.sync="confirmVisible"
       width="70%">
       <el-table :data="confirmList">
-        <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
-        <el-table-column label="时间" align="center" prop="checkDate" width="180" />
-        <el-table-column label="用户" align="center" prop="checkUser" />
-        <el-table-column label="说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+        <el-table-column label="操作步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
+        <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+        <el-table-column label="操作用户" align="center" prop="checkUser" />
+        <el-table-column label="结果说明" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="confirmVisible = false">关闭</el-button>
@@ -1130,12 +1130,15 @@ export default {
         this.queryParams.end = null;
       };
       this.loading = true;
-
+    
       joinList(this.queryParams).then(response => {
         this.employedList = response.rows;
         this.total = response.total;
         this.loading = false;
         this.getCount();
+      }).catch(error=>{
+          console.log(error);
+          this.loading=false;
       });
     },
 

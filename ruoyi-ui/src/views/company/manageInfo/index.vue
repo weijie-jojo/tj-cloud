@@ -180,6 +180,9 @@ export default {
         this.total = response.total;
         this.loading = false;
         this.getCount();
+      }).catch(error=>{
+          console.log(error);
+          this.loading=false;
       });
     },
 
