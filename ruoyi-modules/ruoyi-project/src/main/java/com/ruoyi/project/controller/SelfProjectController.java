@@ -3,6 +3,7 @@ package com.ruoyi.project.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.project.domain.BusinessPlace;
 import com.ruoyi.project.domain.SelfProject;
+import com.ruoyi.project.domain.SelfTicket;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
 import com.ruoyi.project.service.ISelfProjectService;
+import com.ruoyi.project.service.ISelfTicketService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,9 +50,101 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class SelfProjectController extends BaseController
 {
     @Autowired
+    private ISelfTicketService selfTicketService;
+    @Autowired
     private ISelfProjectService selfProjectService;
     @Resource
     private SysUserMapper sysUserMapper;
+    /**
+     * 获取三个状态的数量
+     */
+    @ApiOperation("获取三个状态的数量")
+    @GetMapping("/getCount3")
+    public HashMap<String, Integer> selectProjectJoinCount(SelfProject selfProject)
+    {
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户名
+            }
+        }
+        List<SelfProject> list1 =new ArrayList<>();
+        List<SelfProject> list2 =new ArrayList<>();
+        List<SelfProject> list3 =new ArrayList<>();
+        if (selfProject.getType()==1){//项目进度列表
+            selfProject.setProjectStatus(0L);
+            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectStatus(2L);
+            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectStatus(1L);
+            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        }
+        if (selfProject.getType()==2){//项目审核
+            selfProject.setProjectCheckStatus(0);
+            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(2);
+            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        }
+        if (selfProject.getType()==3){//合同审核
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectContractStatus(0);
+            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectContractStatus(1);
+            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectContractStatus(2);
+            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        }
+        if (selfProject.getType()==4){//验收审核
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectAcceptanceStatus(0);
+            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectAcceptanceStatus(1);
+            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectAcceptanceStatus(2);
+            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        }
+        if (selfProject.getType()==5){//完税审核
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectDutypaidStatus(0);
+            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectDutypaidStatus(1);
+            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectDutypaidStatus(2);
+            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        }
+        HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
+        datasMap.put("unfinished", list1.size());
+        datasMap.put("finished", list2.size());
+        datasMap.put("error", list3.size());
+        datasMap.put("total", list1.size()+list2.size()+list3.size());
+        return datasMap;
+    }
     /**
      * 查询项目信息列表
      */
@@ -98,6 +193,9 @@ public class SelfProjectController extends BaseController
     public AjaxResult selectProjectJoinTicketByCode(String projectCode)
     {
         List<ProjectJoinTicketVo> selfProjects=selfProjectService.selectProjectJoinTicketByCode(projectCode);
+        for (ProjectJoinTicketVo selfProject:selfProjects){
+            selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
+        }
         return AjaxResult.success(selfProjects);
     }
 
@@ -136,6 +234,10 @@ public class SelfProjectController extends BaseController
         }
         startPage();
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+        for (SelfProject selfProject1:list){
+            selfProject1.setTicketTax(selfProject1.getTicketTax().movePointRight(2));
+        }
+
         return getDataTable(list);
     }
 
@@ -161,7 +263,9 @@ public class SelfProjectController extends BaseController
     @GetMapping(value = "/{projectId}")
     public AjaxResult getInfo(@PathVariable("projectId") String projectId)
     {
-        return AjaxResult.success(selfProjectService.selectSelfProjectByProjectId(projectId));
+        SelfProject selfProject=  selfProjectService.selectSelfProjectByProjectId(projectId);
+        selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
+        return AjaxResult.success(selfProject);
     }
 
     /**
@@ -175,6 +279,7 @@ public class SelfProjectController extends BaseController
     {
         selfProject.setUserId(SecurityUtils.getUserId());
         selfProject.setEndStatus(0);
+        selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
         try {
             int num=selfProjectService.insertSelfProject(selfProject);
             return toAjax(num);
@@ -193,6 +298,9 @@ public class SelfProjectController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfProject selfProject)
     {
+        if (selfProject.getTicketTax()!=null){
+            selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
+        }
         return toAjax(selfProjectService.updateSelfProject(selfProject));
     }
 
@@ -206,9 +314,13 @@ public class SelfProjectController extends BaseController
     public AjaxResult remove(@PathVariable String[] projectIds)
     {
         for (String projectId:projectIds){
-            String selfCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
-            selfProjectService.deleteProjectByCode(selfCode);
-            selfProjectService.deleteCheckByCode(selfCode);
+            String projectCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
+            selfProjectService.deleteProjectByCode(projectCode);
+            selfProjectService.deleteCheckByCode(projectCode);
+            List<SelfTicket> selfTickets= selfTicketService.selectSelfTicketByProjectCode(projectCode);
+            if (selfTickets.size()>0){
+                return error("存在发票不能删除！");
+            }
         };
         return toAjax(200);
     }

@@ -50,6 +50,9 @@ public class SelfTicketController extends BaseController
     {
         startPage();
         List<SelfTicket> list = selfTicketService.selectSelfTicketList(selfTicket);
+        for (SelfTicket selfTicket1:list){
+            selfTicket1.setTicketTax(selfTicket1.getTicketTax().movePointRight(2));
+        }
         return getDataTable(list);
     }
 
@@ -62,6 +65,9 @@ public class SelfTicketController extends BaseController
     public List<SelfTicket>  list2(SelfTicket selfTicket)
     {
         List<SelfTicket> list = selfTicketService.selectSelfTicketList(selfTicket);
+        for (SelfTicket selfTicket1:list){
+            selfTicket1.setTicketTax(selfTicket1.getTicketTax().movePointRight(2));
+        }
         return list;
     }
 
@@ -87,7 +93,9 @@ public class SelfTicketController extends BaseController
     @GetMapping(value = "/{ticketId}")
     public AjaxResult getInfo(@PathVariable("ticketId") String ticketId)
     {
-        return AjaxResult.success(selfTicketService.selectSelfTicketByTicketId(ticketId));
+        SelfTicket selfTicket= selfTicketService.selectSelfTicketByTicketId(ticketId);
+        selfTicket.setTicketTax(selfTicket.getTicketTax().movePointRight(2));
+        return AjaxResult.success(selfTicket);
     }
 
     /**
@@ -99,6 +107,7 @@ public class SelfTicketController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SelfTicket selfTicket)
     {
+        selfTicket.setTicketTax(selfTicket.getTicketTax().movePointLeft(2));
         return toAjax(selfTicketService.insertSelfTicket(selfTicket));
     }
 
@@ -111,6 +120,9 @@ public class SelfTicketController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfTicket selfTicket)
     {
+        if (selfTicket.getTicketTax()!=null){
+            selfTicket.setTicketTax(selfTicket.getTicketTax().movePointLeft(2));
+        }
         return toAjax(selfTicketService.updateSelfTicket(selfTicket));
     }
 

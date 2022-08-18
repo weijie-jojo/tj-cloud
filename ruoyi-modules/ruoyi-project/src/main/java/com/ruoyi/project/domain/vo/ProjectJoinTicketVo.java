@@ -87,4 +87,8 @@ public class ProjectJoinTicketVo extends SelfProject {
     /** 渠道商状态(0:正常 1:锁定 ) */
     @Excel(name = "渠道商状态(0:正常 1:锁定 )")
     private Long placeStatus;
+
+    /** 渠道商全名 */
+    @Excel(name = "渠道商全名")
+    private String placeAliasName;
 }

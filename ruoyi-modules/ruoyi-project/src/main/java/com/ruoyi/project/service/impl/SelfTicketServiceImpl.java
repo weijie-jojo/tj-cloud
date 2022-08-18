@@ -34,6 +34,18 @@ public class SelfTicketServiceImpl implements ISelfTicketService
     }
 
     /**
+     * 查询发票
+     *
+     * @param projectCode 项目编号
+     * @return 发票
+     */
+    @Override
+    public List<SelfTicket> selectSelfTicketByProjectCode(String projectCode)
+    {
+        return selfTicketMapper.selectSelfTicketByProjectCode(projectCode);
+    }
+
+    /**
      * 查询发票列表
      *
      * @param selfTicket 发票

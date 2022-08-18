@@ -23,6 +23,9 @@ public class SelfProject extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    /** 根据type判断获取count */
+    private Integer type;
+
     /** 创建时间 */
     private String start;
 
@@ -114,23 +117,23 @@ public class SelfProject extends BaseEntity
 
     /** 审核状态 0否 1是 */
     @Excel(name = "审核状态 0否 1是")
-    private String projectCheckStatus;
+    private Integer projectCheckStatus;
 
     /** 开票状态 0否 1是 */
     @Excel(name = "开票状态 0否 1是")
-    private String projectTicketStatus;
+    private Integer projectTicketStatus;
 
     /** 合同状态 0否 1是 */
     @Excel(name = "合同状态 0否 1是")
-    private String projectContractStatus;
+    private Integer projectContractStatus;
 
     /** 验收状态 0否 1是 */
     @Excel(name = "验收状态 0否 1是")
-    private String projectAcceptanceStatus;
+    private Integer projectAcceptanceStatus;
 
     /** 完税状态 0否 1是 */
     @Excel(name = "完税状态 0否 1是")
-    private String projectDutypaidStatus;
+    private Integer projectDutypaidStatus;
 
     /** 渠道商编码 */
     @Excel(name = "渠道商编码")
@@ -368,51 +371,7 @@ public class SelfProject extends BaseEntity
     {
         return projectTimeEnd;
     }
-    public void setProjectCheckStatus(String projectCheckStatus)
-    {
-        this.projectCheckStatus = projectCheckStatus;
-    }
 
-    public String getProjectCheckStatus()
-    {
-        return projectCheckStatus;
-    }
-    public void setProjectTicketStatus(String projectTicketStatus)
-    {
-        this.projectTicketStatus = projectTicketStatus;
-    }
-
-    public String getProjectTicketStatus()
-    {
-        return projectTicketStatus;
-    }
-    public void setProjectContractStatus(String projectContractStatus)
-    {
-        this.projectContractStatus = projectContractStatus;
-    }
-
-    public String getProjectContractStatus()
-    {
-        return projectContractStatus;
-    }
-    public void setProjectAcceptanceStatus(String projectAcceptanceStatus)
-    {
-        this.projectAcceptanceStatus = projectAcceptanceStatus;
-    }
-
-    public String getProjectAcceptanceStatus()
-    {
-        return projectAcceptanceStatus;
-    }
-    public void setProjectDutypaidStatus(String projectDutypaidStatus)
-    {
-        this.projectDutypaidStatus = projectDutypaidStatus;
-    }
-
-    public String getProjectDutypaidStatus()
-    {
-        return projectDutypaidStatus;
-    }
     public void setPlaceCode(String placeCode)
     {
         this.placeCode = placeCode;

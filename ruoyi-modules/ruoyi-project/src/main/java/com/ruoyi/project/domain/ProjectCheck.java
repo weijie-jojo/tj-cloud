@@ -21,8 +21,8 @@ public class ProjectCheck extends BaseEntity
     private Long id;
 
     /** 时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd HH:ss:mm")
     private Date checkDate;
 
     /** 审核人员 */

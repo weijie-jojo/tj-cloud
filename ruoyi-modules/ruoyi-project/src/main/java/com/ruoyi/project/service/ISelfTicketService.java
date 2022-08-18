@@ -19,7 +19,13 @@ public interface ISelfTicketService
      * @return 发票
      */
     public SelfTicket selectSelfTicketByTicketId(String ticketId);
-
+    /**
+     * 查询发票
+     *
+     * @param projectCode 项目编号
+     * @return 发票
+     */
+    public List<SelfTicket> selectSelfTicketByProjectCode(String projectCode);
     /**
      * 查询发票列表
      *

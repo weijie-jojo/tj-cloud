@@ -34,6 +34,7 @@
             <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
             <if test="phonenumber != null  and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
         </where>
+        order by check_date
     </select>
 
     <select id="selectProjectCheckById" parameterType="Long" resultMap="ProjectCheckResult">

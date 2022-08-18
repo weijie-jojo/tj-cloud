@@ -544,7 +544,7 @@ export default {
             console.log(scope);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$router.push("detail");
+            this.$router.push("/project/detail");
         },
 
 
@@ -582,7 +582,7 @@ export default {
         /** 新增按钮操作 */
         handleAdd() {
             this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("项目新增", "/project/projectList/addlist")
+            this.$tab.openPage("项目新增", "/project/addlist")
              })
             
         },
@@ -590,7 +590,7 @@ export default {
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
             this.$cache.local.setJSON("iscxxiu", 0);
-            this.$router.push("editList");
+            this.$router.push("/project/editList");
 
         },
 

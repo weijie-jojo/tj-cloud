@@ -55,7 +55,7 @@ public class SelfEmployedController extends BaseController
     @Resource
     private  SysUserMapper sysUserMapper;
     /**
-     * 连表查询
+     * 获取三个状态的数量
      */
     @ApiOperation("获取三个状态的数量")
 //    @RequiresPermissions("company:employed:list")

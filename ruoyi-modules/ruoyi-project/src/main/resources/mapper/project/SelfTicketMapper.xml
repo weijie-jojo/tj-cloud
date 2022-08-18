@@ -48,6 +48,11 @@
         where  ticket_id = #{ticketId}
     </select>
 
+    <select id="selectSelfTicketByProjectCode" parameterType="String" resultMap="SelfTicketResult">
+        <include refid="selectSelfTicketVo"/>
+        where  project_code = #{projectCode}
+    </select>
+
     <insert id="insertSelfTicket" parameterType="com.ruoyi.project.domain.SelfTicket" useGeneratedKeys="true" keyProperty="ticketId">
         insert into self_ticket
         <trim prefix="(" suffix=")" suffixOverrides=",">
