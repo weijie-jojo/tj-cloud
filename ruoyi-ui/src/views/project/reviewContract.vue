@@ -8,7 +8,9 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+                <el-date-picker
+                 @change="prjecs"
+                 v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
@@ -36,7 +38,9 @@
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" prop="createTime" width="180" />
+            <el-table-column label="项目时间" align="center" prop="createTime">
+             <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
+            </el-table-column>
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
              <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
@@ -67,6 +71,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { list, del } from "@/api/project/list";
 export default {
     data() {
@@ -106,7 +111,7 @@ export default {
                 start: null, //开始
                 end: null,   //结束
             },
-            projectTime: [],
+            projectTime: null,
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -156,10 +161,21 @@ export default {
             rules: {},
         };
     },
+    filters: {
+     filterTime(time) {
+         return moment(time).format('YYYY-MM-DD')
+     },
+    },
     mounted() {
         this.getList();
     },
     methods: {
+        prjecs(e) {
+        if (!this.projectTime) {
+        this.queryParams.start = null;
+        this.queryParams.end = null;
+       }
+       },
         find(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
@@ -206,10 +222,9 @@ export default {
         getList() {
             this.loading = true;
             if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.start = this.projectTime[0];
-                this.queryParams.end = this.projectTime[1];
-                console.log("start", this.queryParams.start);
-                console.log("end", this.queryParams.end);
+                this.queryParams.start = this.projectTime[0]+ ' ' + '00:00:00';
+                this.queryParams.end = this.projectTime[1]+ ' ' + '23:59:59';
+               
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
             };
@@ -243,7 +258,8 @@ export default {
         resetQuery() {
 
             this.resetForm("queryForm");
-            this.endStatus='-1';
+            this.endStatus='0';
+            this.projectTime = null;
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
@@ -251,7 +267,7 @@ export default {
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectCheckStatus:1, //项目状态
-                projectContractStatus:null,
+                projectContractStatus:0,
                 start: null, //开始
                 end: null,   //结束
             }

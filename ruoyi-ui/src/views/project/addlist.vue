@@ -21,7 +21,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
                         <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01"
-                            :min="0">
+                            :min="0"
+                            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -545,7 +547,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/project/list' });
+            this.$tab.closeOpenPage({ path: '/project/projectList/list' });
         },
 
 

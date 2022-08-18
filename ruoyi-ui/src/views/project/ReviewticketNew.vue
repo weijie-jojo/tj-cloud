@@ -161,7 +161,7 @@ export default {
                 },
             ],
             publicList: '',
-            projectTime: [],
+           
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',

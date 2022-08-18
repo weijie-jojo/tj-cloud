@@ -8,7 +8,9 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+                <el-date-picker 
+                   @change="prjecs"
+                    v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
@@ -31,7 +33,7 @@
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
-        <!-- <el-button type="primary" style="margin-top:-8px;margin-bottom:16px" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button> -->
+      
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
@@ -114,7 +116,7 @@ export default {
                 start: null, //开始
                 end: null,   //结束
             },
-            projectTime: [],
+            projectTime: null,
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -158,6 +160,12 @@ export default {
         this.getList();
     },
     methods: {
+       prjecs(e) {
+        if (!this.projectTime) {
+        this.queryParams.start = null;
+        this.queryParams.end = null;
+       }
+       },
         find(row, code) {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
@@ -214,8 +222,8 @@ export default {
         getList() {
             this.loading = true;
             if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.start = this.projectTime[0];
-                this.queryParams.end = this.projectTime[1];
+                this.queryParams.start = this.projectTime[0]+ ' ' + '00:00:00';
+                this.queryParams.end = this.projectTime[1]+ ' ' + '23:59:59';
 
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
@@ -241,6 +249,7 @@ export default {
 
             this.resetForm("queryForm");
             this.endStatus = '0';
+            this.projectTime = null;
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
@@ -262,10 +271,7 @@ export default {
             this.multiple = !selection.length;
         },
 
-        /** 新增按钮操作 */
-        handleAdd() {
-            this.$router.push('addlist');
-        },
+        
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
