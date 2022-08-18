@@ -406,7 +406,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/project/list' });
+            this.$tab.closeOpenPage({ path: '/project/projectList/list' });
         },
 
         

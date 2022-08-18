@@ -108,11 +108,11 @@ export default {
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectCheckStatus: 1, //项目状态
-                projectDutypaidStatus: null,
+                projectDutypaidStatus: 0,
                 start: null, //开始
                 end: null,   //结束
             },
-            projectTime: [],
+            projectTime: null,
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -220,8 +220,7 @@ export default {
             if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
                 this.queryParams.start = this.projectTime[0];
                 this.queryParams.end = this.projectTime[1];
-                console.log("start", this.queryParams.start);
-                console.log("end", this.queryParams.end);
+               
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
             };
@@ -256,6 +255,7 @@ export default {
 
             this.resetForm("queryForm");
             this.endStatus='0';
+            this.projectTime = null;
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,

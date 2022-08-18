@@ -109,7 +109,7 @@ export default {
     getfileNameS(){},
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/project/list' })
+      this.$tab.closeOpenPage({ path: '/project/projectList/list' })
     },
    
     handleChange(val) {

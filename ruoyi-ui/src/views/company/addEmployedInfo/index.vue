@@ -989,7 +989,7 @@ export default {
       },
       isDisable: true,
       IsSpecialTax: '0',
-      actives:4,
+      actives:0,
       options: [{
         id: 'a',
         label: 'a',
