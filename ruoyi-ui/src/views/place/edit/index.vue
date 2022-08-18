@@ -610,10 +610,10 @@ export default {
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
         ordinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
         editOrdinarySelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
+          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
 
         isOrdinaryTax: [

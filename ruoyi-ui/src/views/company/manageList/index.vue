@@ -213,6 +213,9 @@ export default {
         }
         this.total = response.total;
         this.loading = false;
+      }).catch(error=>{
+          console.log(error);
+          this.loading=false;
       });
     },
     

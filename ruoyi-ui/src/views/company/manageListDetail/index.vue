@@ -117,7 +117,10 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.3%" label="经营范围" prop="natureBusiness">
-            <el-input disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+            <el-input 
+             maxlength="250"
+            show-word-limit
+            disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
         </el-col>
@@ -242,7 +245,11 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.3%" label="经营者居所" prop="residence">
-            <el-input :readonly="true" v-model="formData.residence" clearable>
+            <el-input 
+              maxlength="250"
+              show-word-limit
+              type="textarea" :rows="2"
+            :readonly="true" v-model="formData.residence" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -899,6 +906,20 @@
   </div>
 </template>
 <script>
+var validateIdNumber=(rule, value, callback)=>{
+  var reg = /^[1-9]\d{5}((\d{2}(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[13456789]|1[012])(0[1-9]|[12][0-9]|30))|(02(0[1-9]|1[0-9]|2[0-8]))))|(((0[48]|[2468][048]|[13579][26])|(00))0229))\d{2}[0-9Xx]$/;
+
+  var reg1 = /^[1-9]\d{5}((((19|[2-9][0-9])\d{2})(0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|(((19|[2-9][0-9])\d{2})(0[13456789]|1[012])(0[1-9]|[12][0-9]|30))|(((19|[2-9][0-9])\d{2})02(0[1-9]|1[0-9]|2[0-8]))|(((1[6-9]|[2-9][0-9])(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))0229))\d{3}[0-9Xx]$/;
+  if (value == '' || value == undefined || value == null) {
+    callback();
+  } else {
+    if (!reg.test(value) && !reg1.test(value)) {
+      callback(new Error('输入18位或15位正确的身份证号码！'));
+    } else {
+      callback();
+    }
+  }
+}
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
@@ -1129,9 +1150,15 @@ export default {
           required: true,
           message: '请输入证件号码',
           trigger: 'blur'
-        }, {
-          pattern: /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
-          message: '身份证号格式错误',
+        }, 
+        // {
+        //    pattern: /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/,
+        //     message: '请输入正确的证件号'
+
+        // },
+        {
+          validator:validateIdNumber,
+          required: true, 
           trigger: 'blur'
         }],
 

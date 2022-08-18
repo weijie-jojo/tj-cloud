@@ -176,6 +176,9 @@ export default {
         this.loading = false;
         this.getCount();
       
+      }).catch(error=>{
+          console.log(error);
+          this.loading=false;
       });
     },
     /** 搜索按钮操作 */
