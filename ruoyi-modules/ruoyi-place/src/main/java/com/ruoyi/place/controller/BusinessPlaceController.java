@@ -148,7 +148,7 @@ public class BusinessPlaceController extends BaseController {
         }
 
         //插入渠道全名
-        businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
+        businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+'-'+businessPlace.getPlaceAlias());
         //根据渠道全名查询渠道信息
         List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
         DataDto dataDto = new DataDto();
