@@ -21,7 +21,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
                         <el-input type="number" :readonly="true" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">
                               元
                             </template>
@@ -54,7 +56,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="8"></el-col>
             <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
+             <el-button type="danger" @click="resetForm">关闭</el-button> 
              <el-button type="primary" @click="onSubmit">提交</el-button>
             </el-col>
            <el-col :span="8"></el-col>

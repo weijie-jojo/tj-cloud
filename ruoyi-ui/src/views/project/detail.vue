@@ -21,7 +21,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额">
                         <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -153,13 +155,22 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
 
-                        <el-input :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
+                        <el-input 
+                         maxlength="50"
+                        show-word-limit
+                        :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
+                    
+                </el-col>
+            </el-row>
+             <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
                         <uploadSmall @getfileName="getfileNameS" :fileName="formData.fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
+                <el-col :span="9"></el-col>
             </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
@@ -173,7 +184,9 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
+                        <el-input
+                        
+                        :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
                             v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
@@ -183,7 +196,10 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注" prop="ticketRemark">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
+                        <el-input
+                        maxlength="50"
+                         show-word-limit
+                        :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
                             v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
@@ -193,7 +209,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>

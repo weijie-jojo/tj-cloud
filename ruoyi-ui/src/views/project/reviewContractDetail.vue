@@ -6,22 +6,26 @@
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
-                        <el-input v-model="formData.projectCode" disabled></el-input>
+                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
                     <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input v-model="formData.projectName"></el-input>
+                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="formData.createTime" disabled></el-input>
+                        <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0">
+                        <el-input
+                        :readonly="true"
+                        type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                            :step="0.01" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">
                               元
                             </template>
@@ -32,7 +36,7 @@
            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                   <el-form-item class="comright" label="甲方" :required="true">
-                        <el-input v-model="formData.purchCompany" disabled></el-input>
+                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目合同" prop="fileName1">
                         <uploadSmall v-if="formData.fileName1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
@@ -75,9 +79,9 @@
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
                 
-                     <el-button type="danger" @click="resetForm">返回</el-button>
-                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+                     <el-button type="danger" @click="resetForm">关闭</el-button>
+                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">提交</el-button>
+                     <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>

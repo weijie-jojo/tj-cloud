@@ -21,9 +21,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
                         <el-input type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01"
-                            :min="0"
-                            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                            >
+                            :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -34,9 +32,9 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="渠道商全名">
-                        <el-select @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
-                            <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeAliasName"
-                                :value="item.placeCode">
+                        <el-select filterable @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
+                            <el-option v-for="item in placeCodeOptions" :key="item.placeCode"
+                                :label="item.placeAliasName" :value="item.placeCode">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -57,7 +55,7 @@
                         <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input  v-model.trim="inputValCompute"></el-input>
+                        <el-input v-model.trim="inputValCompute"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -65,23 +63,25 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型" prop="industryType">
-                        <!-- <treeselect v-model="formData.industryType" :options="industryTypes" :show-count="true" /> -->
-                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
+                       <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+                       <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
                             style="width: 100%;">
                             <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
-                                :value="item.value" style="display: none;" />
-                           
+                                :value="item.value"  style="display: none;" />
+
                             <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
                                 highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                             >
-                             <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
-                                 <span style="float: left">{{ node.label }}</span>
-                                 <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
-                             </span>
-                             
-                             </el-tree>
+                                :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
+                                <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                                    <span style="float: left">{{ node.label }}</span>
+                                    <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{
+                                            data.taxRates
+                                    }}</span>
+                                </span>
+
+                            </el-tree>
                         </el-select>
+                        </el-tooltip>
 
 
                     </el-form-item>
@@ -119,7 +119,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-select @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
+                        <el-select filterable @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
                             <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
                                 :value="item.selfCode">
                             </el-option>
@@ -164,13 +164,23 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容" prop="fileName" v-if="fileNameradio == 1">
 
-                        <el-input type="textarea" :rows="2" v-model="formData.fileName">
+                        <el-input type="textarea" :rows="2" v-model="formData.fileName"
+                        maxlength="50"
+                        show-word-limit
+                        >
                         </el-input>
                     </el-form-item>
+
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
                     <el-form-item class="comright" label="开票内容附件" prop="fileName" v-if="fileNameradio == 2">
-                       <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
+                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="isNone"
+                            :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
+                <el-col :span="9"></el-col>
             </el-row>
 
 
@@ -185,7 +195,11 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
+                        <el-input 
+                         
+                        disabled type="textarea"
+                        
+                        :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -194,7 +208,10 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="发票备注" prop="projectDesc">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
+                        <el-input 
+                         maxlength="50"
+                         show-word-limit
+                        type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -203,21 +220,21 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
                     <el-button type="primary" @click="onSubmit">提交</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
         </el-form>
-       
+
     </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list, getcode, getinfoByUserId, add, ownlist,check } from "@/api/project/list";
+import { list, getcode, getinfoByUserId, add, ownlist, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
-import {Decimal} from 'decimal.js'
+import { Decimal } from 'decimal.js'
 
 
 //手机号验证
@@ -238,15 +255,16 @@ export default {
     },
     data() {
         return {
+            selectTipType:'',
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-            isDetail:'0',
-            isNone:[],
+            isDetail: '0',
+            isNone: [],
             defaultProps: {
                 children: 'children',
                 label: 'label',
-                taxRates:'taxRates'
+                taxRates: 'taxRates'
             },
-            userinfo:{},
+            userinfo: {},
             expandOnClickNode: true,
             projectStatus: 1,//乙方状态
             username: '',
@@ -274,8 +292,8 @@ export default {
                 purchCompanyTaxid: '',//甲方纳税人识别号
                 ticketTax: '',//发票税率
                 ticketType: '',  //发票类型  0 普通 1 专用
-                projectRemainAmount:'', //项目可以用金额
-               
+                projectRemainAmount: '', //项目可以用金额
+
                 fileName: '',//开票内容
                 placeCode: "",
                 projectAcceptanceStatus: 0,
@@ -449,16 +467,16 @@ export default {
         };
     },
     computed: {
-     inputValCompute: {
-      get() {
-        return this.formData.purchCompanyTaxid;
-      },
-      set(val) {
-        this.formData.purchCompanyTaxid = val.toUpperCase();
-      },
+        inputValCompute: {
+            get() {
+                return this.formData.purchCompanyTaxid;
+            },
+            set(val) {
+                this.formData.purchCompanyTaxid = val.toUpperCase();
+            },
+        },
     },
-   },
-   watch: {
+    watch: {
         'formData.industryType': 'selectIndustryType',
 
     },
@@ -470,43 +488,40 @@ export default {
 
 
     methods: {
-        getfileNameS(data){
-         this.fileNamefile=data;
+        getfileNameS(data) {
+            this.formData.fileName = data;
         },
-       handleNodeClick(node) {
-            console.log(node);
+        handleNodeClick(node) {
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
+            this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+           });
         },
 
         // 四级菜单
-        formatData(data) {
-            // console.log(data);
-            let options = [];
-            if (data.length > 0) {
-                data.forEach((item, key) => {
-                    options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
-                    if (item.children) {
-                        item.children.forEach((items, keys) => {
-                            options.push({ label: items.label, value: items.id,taxRates:items.taxRates });
-                            if (items.children) {
-                                items.children.forEach((itemss, keyss) => {
-                                    options.push({ label: itemss.label, value: itemss.id,taxRates:itemss.taxRates });
-                                    if (itemss.children) {
-                                        itemss.children.forEach((itemsss, keysss) => {
-                                            options.push({ label: itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+       formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                  });
+                }
+              });
             }
-            console.log(options);
-            return options;
-
-        },
+          });
+        }
+      });
+      return options;
+    },
 
 
         //监听开票内容选择
@@ -551,11 +566,11 @@ export default {
         },
 
 
-        
+
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userinfo=res.user;
+                this.userinfo = res.user;
                 this.userId = res.user.userId;
                 this.username = res.user.userName;
                 this.formData.projectLeader = res.user.nickName;
@@ -579,21 +594,21 @@ export default {
         parseTree(industry, tree, pid) {
             for (var i = 0; i < industry.length; i++) {
                 if (industry[i].parentId == pid) {
-                    let a=industry[i].taxRate;
-                    let b=null;
-                    if(a){
-                     b=new Decimal(a).mul(new Decimal(100));
-                     b="税率"+b+'%';
-                    }else{
-                      b=null;
+                    let a = industry[i].taxRate;
+                    let b = null;
+                    if (a) {
+                        b = new Decimal(a).mul(new Decimal(100));
+                        b = "税率" + b + '%';
+                    } else {
+                        b = null;
                     }
                     var obj = {
                         id: industry[i].industryId,
                         label: industry[i].industryName,
-                        
-                        taxRates:b,
+
+                        taxRates: b,
                         children: [],
-                        
+
                     };
                     tree.push(obj);
                     this.parseTree(industry, obj.children, obj.id);
@@ -605,19 +620,22 @@ export default {
             this.formData.selfName = '';
             this.natureBusiness = '';
             this.owerTax = '';
-            this.formData.projectCode='';
-            this.formData.projectOwner='';
+            this.formData.projectCode = '';
+            this.formData.projectOwner = '';
 
             var rate = this.industryTypeList.find((item) => item.industryId == this.formData.industryType);
             this.industryId = rate.industryId;  //行业类型id
-            if(rate.taxRate){
-                this.owerTaxfee =new Decimal(rate.taxRate).mul(new Decimal(100))+'%';
-            }else{
+            if (rate.taxRate) {
+                this.owerTaxfee = new Decimal(rate.taxRate).mul(new Decimal(100)) + '%';
+            } else {
                 this.owerTaxfee = '';
             }
-           
+
             let industryType = rate.industryId;
-            this.formData.projectTrade = rate.industryName
+            this.$nextTick(function(){
+             this.formData.projectTrade=this.$refs.selectTree.selected.label;
+            });
+           // this.formData.projectTrade = rate.industryName
             ownlist({ username: this.username, industryType: industryType }).then(res => {
                 this.ownoptions = res;
             }).catch(err => {
@@ -671,64 +689,64 @@ export default {
             console.log(val);
         },
         check(resmsg) {
-             let parms = {
-              "checkReasult": resmsg,
-              "checkUser": this.userinfo.userName,
-              'phonenumber': this.userinfo.phonenumber,
-              "projectCode": this.formData.projectCode,
-              "projectType": "6",
+            let parms = {
+                "checkReasult": resmsg,
+                "checkUser": this.userinfo.userName,
+                'phonenumber': this.userinfo.phonenumber,
+                "projectCode": this.formData.projectCode,
+                "projectType": "6",
             };
             check(parms).then(res => {
                 console.log('添加合同成功！');
             }).catch(error => {
 
             });
-          
-       
-       },
+
+
+        },
         onSubmit() {
-            if(this.formData.projectTotalAmount<1){
-                 this.$alert('项目金额必须大于1', '提示', {
-                confirmButtonText: '确定',
-              });
-              return;
+            if (this.formData.projectTotalAmount < 1) {
+                this.$alert('项目金额必须大于1', '提示', {
+                    confirmButtonText: '确定',
+                });
+                return;
             }
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
                     if (this.fileNameradio == 2) {
-                        this.formData.fileName = this.fileNamefile;
+                       // this.formData.fileName = this.fileNamefile;
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
                     this.formData.projectOwnerTaxid = this.owerTax;
-                    this.formData.projectRemainAmount=this.formData.projectTotalAmount;//新增可以用金额为总金额
-                    this.formData.projectPackageAmount=0;  //已用金额为0
+                    this.formData.projectRemainAmount = this.formData.projectTotalAmount;//新增可以用金额为总金额
+                    this.formData.projectPackageAmount = 0;  //已用金额为0
 
 
                     add(this.formData).then((res) => {
-                       
-                            if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$nextTick(function () {
-                                        this.$tab.refreshPage({path:"/project/list"}).then(() => {
+
+                        if (res != undefined) {
+                            if (res.code === 200) {
+                                this.$nextTick(function () {
+                                    this.$tab.refreshPage({ path: "/project/projectList/list" }).then(() => {
                                         let resmsg = '项目填写完成';
                                         this.check('项目填写完成');
                                         let obj = {
                                             title: '项目列表',
-                                            backUrl: '/project/list',
+                                            backUrl: '/project/projectList/list',
                                             resmsg: resmsg
-                                         };
+                                        };
                                         this.$cache.local.setJSON('successNew', obj);
                                         this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                        });
-                                        
                                     });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
+
+                                });
+                            } else {
+                                this.$modal.msgError(res.msg);
                             }
-                        
+                        }
+
                     });
                 } else {
                     this.$message({
@@ -738,7 +756,7 @@ export default {
                 }
             });
         },
-       
+
     },
 };
 </script>
@@ -790,5 +808,4 @@ export default {
 
     color: blue;
 }
-
 </style>

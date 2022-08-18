@@ -186,7 +186,7 @@
 import moment from 'moment'
 import { getLeaderByUserId } from "@/api/company/employed"
 import { getUser } from "@/api/system/user"
-import { list, del, checkdetail } from "@/api/project/list"
+import { list, del, checkdetail,getCount} from "@/api/project/list"
 
 export default {
     data() {
@@ -221,7 +221,7 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-
+                type:1,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
@@ -521,6 +521,14 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
+     getCount() {
+      getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+    },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -536,7 +544,10 @@ export default {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
-            });
+                this.getCount();
+            }).catch(error=>{
+                this.loading = false;
+            })
 
         },
 
@@ -560,6 +571,7 @@ export default {
             this.endStatus='0';
             this.projectTime=null;
             this.queryParams = {
+                type:1,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
@@ -602,11 +614,18 @@ export default {
                 .then(function () {
                     return del(projectIds);
                 })
-                .then(() => {
-                    this.getList();
-                    this.$modal.msgSuccess("删除成功");
+                .then((res) => {
+                    if(res.code==200){
+                         this.getList();
+                         this.$modal.msgSuccess("删除成功");
+                    }else{
+                         this.$modal.msgError("项目还有发票无法删除");
+                    }
+                   
                 })
-                .catch(() => { });
+                .catch(() => { 
+                     this.$modal.msgError("项目还有发票无法删除");
+                });
         },
 
     },

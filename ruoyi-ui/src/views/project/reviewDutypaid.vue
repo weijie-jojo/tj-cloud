@@ -51,12 +51,12 @@
             </el-table-column>   
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-add"
+                    <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-circle-plus-outline"
                         @click="details(scope.row)">完税办理</el-button>
-                    <el-button size="mini" v-else type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核完税
+                    <el-button size="mini" v-if="scope.row.fileName3 && scope.row.projectDutypaidStatus==0" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核完税
                     </el-button>
-                     <el-button size="mini" v-if="scope.row.projectDutypaidStatus==1" type="text" icon="el-icon-s-custom" @click="find(scope.row,scope.row.projectCode)">查看合同</el-button>
-                    <el-button size="mini" v-if="scope.row.projectDutypaidStatus==2" type="text" icon="el-icon-s-custom" @click="edits(scope.row,scope.row.projectCode)">编辑合同
+                     <el-button size="mini" v-if="scope.row.projectDutypaidStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看完税</el-button>
+                    <el-button size="mini" v-if="scope.row.projectDutypaidStatus==2" type="text" icon="el-icon-edit" @click="edits(scope.row,scope.row.projectCode)">编辑完税
                     </el-button>
                 </template>
             </el-table-column>
@@ -72,7 +72,7 @@
 
 <script>
 import moment from 'moment'
-import { list, del } from "@/api/project/list";
+import { list, del,getCount } from "@/api/project/list";
 export default {
     data() {
         return {
@@ -101,7 +101,7 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-
+                type:5,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
@@ -214,6 +214,15 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
+               getCount() {
+      getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+    },
+    
        /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -229,7 +238,10 @@ export default {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
-            });
+                this.getCount();
+            }).catch(err=>{
+                this.loading=false;
+            })
 
         },
         detail(scope) {

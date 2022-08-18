@@ -55,12 +55,12 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 1" type="text" icon="el-icon-s-custom"
+                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 1" type="text" icon="el-icon-view"
                         @click="find(scope.row, scope.row.projectCode)">查看项目</el-button>
                     <el-button size="mini" v-if="scope.row.projectCheckStatus == 0" type="text" icon="el-icon-s-custom"
                         @click="detail(scope.row)">审核项目
                     </el-button>
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 2" type="text" icon="el-icon-s-custom"
+                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 2" type="text" icon="el-icon-edit"
                         @click="edits(scope.row, scope.row.projectCode)">编辑项目
                     </el-button>
                 </template>
@@ -77,7 +77,7 @@
 
 <script>
 import moment from 'moment'
-import { list, del } from "@/api/project/list";
+import { list, del ,getCount} from "@/api/project/list";
 export default {
     data() {
         return {
@@ -106,7 +106,7 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-
+                type:2,
                 pageNum: 1,
                 pageSize: 10,
                 projectOwner: null,  //乙方
@@ -218,6 +218,14 @@ export default {
             });
 
         },
+          getCount() {
+      getCount(this.queryParams).then(res => {
+        this.errLabel = "异常(" + res.error + ")";
+        this.allLabel = "全部(" + res.total + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.finishLabel = "完成(" + res.finished + ")";
+      });
+    },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
@@ -232,7 +240,10 @@ export default {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
-            });
+                this.getCount();
+            }).catch(err=>{
+                this.loading=false;
+            })
         },
         detail(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
@@ -251,6 +262,7 @@ export default {
             this.endStatus = '0';
             this.projectTime = null;
             this.queryParams = {
+                type:2,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
