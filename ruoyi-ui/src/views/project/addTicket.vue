@@ -21,7 +21,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
                         <el-input disabled type="number" style="width:100%" v-model="Father.projectTotalAmount"
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -106,7 +108,10 @@
                     </el-form-item>
 
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
-                        <el-input type="textarea" disabled :rows="2" v-model="Father.fileName">
+                        <el-input 
+                         maxlength="50"
+                        show-word-limit
+                        type="textarea" disabled :rows="2" v-model="Father.fileName">
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
@@ -117,7 +122,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
                         <el-input @input="ticketAsee" @change="ticketAsee" type="number" style="width:100%" v-model="formData.ticketAmount"
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="0"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -128,7 +135,10 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4.2%" label="发票备注">
-                        <el-input type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
+                        <el-input
+                        maxlength="50"
+                         show-word-limit
+                        type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
                         </el-input>
                     </el-form-item>
                 </el-col>

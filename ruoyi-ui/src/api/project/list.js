@@ -86,5 +86,13 @@ export function checkdetail(query) {
   })
 }
 
+export function getCount(query){
+  return request({
+    url: '/project/project/getCount3',
+    method: 'get',
+    params: query
+  })
+}
 
-export default {getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail}
+
+export default {getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

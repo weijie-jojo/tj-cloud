@@ -58,9 +58,6 @@ export default {
     
   },
   methods: {
-    toContinue(){
-      this.$router.push("addEmployedName");
-    },
     toEnd(){
        this.$tab.closeAllPage().then(() => {
         this.$tab.openPage("注册进度", "/company/customer/employed")

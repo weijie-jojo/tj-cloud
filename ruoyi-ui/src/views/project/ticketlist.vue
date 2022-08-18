@@ -17,7 +17,9 @@
 
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目金额">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -42,7 +44,10 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
-                        <el-input :readonly="true" type="textarea" :rows="2" v-model="publicList.fileName">
+                        <el-input
+                         maxlength="50"
+                        show-word-limit
+                        :readonly="true" type="textarea" :rows="2" v-model="publicList.fileName">
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
@@ -57,7 +62,10 @@
                         <el-input v-else value="3%" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票备注">
-                        <el-input :readonly="true" v-model="publicList.projectDesc"></el-input>
+                        <el-input
+                        maxlength="50"
+                         show-word-limit
+                        :readonly="true" v-model="publicList.projectDesc"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>

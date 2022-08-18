@@ -20,7 +20,9 @@
             <el-input v-model="formData.createTime" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
-            <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01" :min="0">
+            <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01" :min="0"
+             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
               <template slot="append">
                 元
               </template>
@@ -68,7 +70,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-         <el-button type="danger" @click="resetForm">返回</el-button>
+         <el-button type="danger" @click="resetForm">关闭</el-button>
          </el-col>
         <el-col :span="8"></el-col>
       </el-row>
@@ -109,7 +111,7 @@ export default {
     getfileNameS(){},
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/project/projectList/list' })
+      this.$tab.closeOpenPage({ path: '/project/reviewDutypaid' })
     },
    
     handleChange(val) {

@@ -21,7 +21,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额">
                         <el-input type="number" disabled style="width:100%" v-model="formData.projectTotalAmount"
-                            :step="0.01" :min="0">
+                            :step="0.01" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -87,6 +89,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型">
+                        <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
                         <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
                             style="width: 100%;" disabled>
                             <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
@@ -103,6 +106,7 @@
                             </el-tree>
 
                         </el-select>
+                        </el-tooltip>
                         
                     </el-form-item>
 
@@ -146,13 +150,23 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
 
-                        <el-input :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
+                        <el-input
+                         maxlength="50"
+                        show-word-limit
+                        :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+                  
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                 <el-col :span="9">
+                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
                         <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
-                </el-col>
+                 </el-col>
+                 <el-col :span="9"></el-col>
+
             </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
@@ -166,7 +180,9 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4.2%" label="乙方经营范围">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
+                        <el-input
+                         
+                        :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
                             v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
@@ -176,7 +192,10 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4.2%" label="发票备注" prop="ticketRemark">
-                        <el-input :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
+                        <el-input 
+                         maxlength="50"
+                         show-word-limit
+                        :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
                             v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
@@ -208,7 +227,7 @@
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
                 
-                     <el-button type="danger" @click="resetForm">返回</el-button>
+                     <el-button type="danger" @click="resetForm">关闭</el-button>
                      
                 </el-col>
                 <el-col :span="8"></el-col>
@@ -230,6 +249,7 @@ export default {
     },
     data() {
         return {
+            selectTipType:'',
             isDetail:'1',
             isNone:[],
             remark:'',
@@ -332,37 +352,36 @@ export default {
         this.userinfo = res.user;
       })
     },
-     // 四级菜单
-        formatData(data) {
-            let options = [];
-            if (data.length > 0) {
-
-                data.forEach((item, key) => {
-                    options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
-                    if (item.children) {
-                        item.children.forEach((items, keys) => {
-                            options.push({ label: items.label, value: items.id, taxRates: items.taxRates });
-                            if (items.children) {
-                                items.children.forEach((itemss, keyss) => {
-                                    options.push({ label: itemss.label, value: itemss.id, taxRates: itemss.taxRates });
-                                    if (itemss.children) {
-                                        itemss.children.forEach((itemsss, keysss) => {
-                                            options.push({ label: itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+      formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                  });
+                }
+              });
             }
-            return options;
-        },
+          });
+        }
+      });
+      return options;
+    },
        
         handleNodeClick(node) {
 
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
+             this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+           });
         },
         getlist() {
             detail({
@@ -406,7 +425,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/project/projectList/list' });
+            this.$tab.closeOpenPage({ path: '/project/reviewList' });
         },
 
         
@@ -429,6 +448,9 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
+                this.$nextTick(function(){
+                this.selectTipType=this.$refs.selectTree.selected.label; 
+               });
             })
         },
         //把数据整成树状
