@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  name:'SuccessNew',
   components: {},
   props: [],
   data() {
@@ -75,10 +76,9 @@ export default {
 
     },
     submitForm() {
-      this.$tab.closeAllPage().then(() => {
-        this.$tab.closeOpenPage({path:this.$cache.local.getJSON('successNew').backUrl})
+      this.$tab.closeOpenPage({path:this.$cache.local.getJSON('successNew').backUrl}).then(() => {
+         this.$tab.refreshPage({path:this.$cache.local.getJSON('successNew').backUrl})
       })
-     
     }
   }
 }

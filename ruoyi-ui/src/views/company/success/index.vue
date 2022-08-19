@@ -22,27 +22,16 @@
         <el-col :span="8">
         <div style="display:flex;justify-content: center;">
                <el-button style="width:140px" type="success"  @click="toEnd">完成</el-button> 
-               <!-- <el-button type="primary" @click="toContinue" style="margin-left:20px;width:140px">继续注册</el-button> -->
         </div>
-         
-        </el-col>
+       </el-col>
       </el-row>
       <el-row class="rowCss"  >
-        <!-- <el-col :span="8">
-            <div style="font-size: 20px;">工作人员会在1-3个工作日进行审核办理</div>
-        </el-col> -->
       </el-row>
-      <!-- <div class="rowCss" style="margin-left:-280px">
-          <el-button  @click="toEnd">结束</el-button> 
-          <el-button type="primary" @click="toContinue" style="margin-left:110px">继续注册</el-button>
-      </div> -->
-  </div>
- 
+</div>
 </template>
 <script>
-import crudReview from '@/api/company/review'
-
 export default {
+  name:'Success',
   components: {},
   props: [],
   data() {
@@ -55,12 +44,12 @@ export default {
   },
   created() {},
   mounted() {
-    
+      
   },
   methods: {
     toEnd(){
-       this.$tab.closeAllPage().then(() => {
-        this.$tab.openPage("注册进度", "/company/customer/employed")
+     this.$tab.closeOpenPage({path:"/company/customer/employed"}).then(() => {
+      this.$tab.refreshPage({ path: "/company/customer/employed", name: "Employed" });     
       })
     },
   }

@@ -48,6 +48,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 export default {
+  name:'DetailTax',
    components: {
     uploadSmall
   },

@@ -173,6 +173,7 @@
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { all } from "@/api/company/payTaxInfo";
 export default {
+  name:'DetailBank',
   components: {
     uploadSmall
   },

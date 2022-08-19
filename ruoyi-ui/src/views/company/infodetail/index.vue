@@ -678,6 +678,7 @@ import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
+  name: "Infodetail",
   components: {
     uploadSmall
   },

@@ -107,7 +107,7 @@ export default {
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectContractStatus:null,
+                projectContractStatus:0,
                 projectCheckStatus: 1,
                 start: null, //开始
                 end: null,   //结束
