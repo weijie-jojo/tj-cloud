@@ -175,20 +175,16 @@ export default {
         let obj = {
         name:'个体户信息',
         backUrl: '/company/manageList',
+        name: "ManageList",
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户信息修改", "/company/customer/manageListDdit")
-         })
-      //this.$tab.closeOpenPage({path:'/company/customer/manageListDdit'});
-      },
+      this.$tab.openPage("个体户信息修改", "/company/customer/manageListDdit")
+     },
     detail(scope) {
       this.$cache.local.setJSON("employedInfo", scope);
-       this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户信息详情", "/company/customer/manageListDetail")
-         })
-     // this.$tab.openPage("个体户信息详情", "/company/customer/manageListDetail").then(() => {})
+       this.$tab.openPage("个体户信息详情", "/company/customer/manageListDetail")
+    
     },
    
 
