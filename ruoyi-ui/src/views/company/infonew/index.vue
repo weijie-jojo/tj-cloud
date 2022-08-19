@@ -1216,7 +1216,7 @@ export default {
               if (res.code === 200) {
 
                 this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/company/customer/manageInfo" }).then(() => {
+                 
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '信息审核完成';
@@ -1225,21 +1225,13 @@ export default {
                       this.check('信息审核不通过。' + '原因:' + this.remark);
                       resmsg = '信息审核完成';
                     }
-
-                    // let obj = {
-                    //   title: '信息审核',
-                    //   backUrl: '/company/customer/manageInfo',
-                    //   resmsg: resmsg
-
-                    // }
-                    // this.$cache.local.setJSON('successNew', obj);
                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                  });
+                 
                 });
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/company/customer/manageInfo" });
+                
               }
 
             }
@@ -1260,7 +1252,7 @@ export default {
     },
     closeForms() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').name});
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName});
      })
     },
 

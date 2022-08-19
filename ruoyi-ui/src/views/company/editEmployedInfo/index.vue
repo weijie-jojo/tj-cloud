@@ -1977,8 +1977,9 @@ export default {
               }
             }
           });
+          this.$modal.msgSuccess('信息异常修改完成');
           this.$tab.closeOpenPage({ path:"/company/customer/employed"} ).then(() => {
-            this.$tab.refreshPage({ path:"/company/customer/employed"} )
+            this.$tab.refreshPage({ path:"/company/customer/employed",name:'Employed'} )
           })
         } else {
           this.$message({

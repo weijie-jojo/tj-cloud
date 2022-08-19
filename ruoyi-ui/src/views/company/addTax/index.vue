@@ -99,7 +99,7 @@ export default {
     //返回
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName});
      })
     },
     //获取个人信息
@@ -133,17 +133,10 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                    this.$tab.refreshPage({ path: "/company/customer/manageTax" }).then(() => {
-                      let resmsg = '税务办理完成';
-                      this.check(resmsg);
-                      // let obj = {
-                      //   title: '税务办理',
-                      //   backUrl: '/company/customer/manageTax',
-                      //   resmsg: resmsg
-                      // };
-                      // this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                    });
+                    let resmsg = '税务办理完成';
+                    this.check(resmsg);
+                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                   
                   });
                 } else {
                   this.$modal.msgError(res.msg);

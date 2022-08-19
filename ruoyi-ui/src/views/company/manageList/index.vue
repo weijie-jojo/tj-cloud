@@ -175,7 +175,7 @@ export default {
         let obj = {
         name:'个体户信息',
         backUrl: '/company/manageList',
-        name: "ManageList",
+        backName: "ManageList",
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);

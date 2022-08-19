@@ -383,7 +383,7 @@ export default {
     //返回
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').name});
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName});
      })
     },
     //提交表单
@@ -398,17 +398,10 @@ export default {
               if (res != undefined) {
                 if (res.code === 200) {
                   this.$nextTick(function () {
-                    this.$tab.refreshPage({ path: "/company/customer/manageBank" }).then(() => {
-                      let resmsg = '银行办理完成';
-                      this.check(resmsg);
-                      // let obj = {
-                      //   title: '银行办理',
-                      //   backUrl: '/company/customer/manageBank',
-                      //   resmsg: resmsg
-                      // };
-                      // this.$cache.local.setJSON('successNew', obj);
-                      this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                    });
+                  let resmsg = '银行办理完成';
+                  this.check(resmsg);
+                  this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                   
                   });
 
                 } else {

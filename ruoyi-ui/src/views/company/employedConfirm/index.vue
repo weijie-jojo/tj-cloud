@@ -155,7 +155,7 @@ export default {
        let obj = {
         name:'注册确认',
         backUrl: '/company/customer/employedConfirm',
-        name: "EmployedConfirm",
+        backName: "EmployedConfirm",
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
@@ -172,12 +172,15 @@ export default {
      
     },
     detail(row) {
-      let obj={
-         backUrl:'/company/customer/employedConfirm',
-        };
-      this.$cache.local.setJSON('backurls',obj);
-      this.$cache.local.setJSON("employedInfo", row);
-       this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
+       let obj = {
+         title: '注册确认',
+         backUrl: '/company/customer/employedConfirm',
+         resmsg: '注册确认完成',
+         backName:'EmployedConfirm'
+      }
+     this.$cache.local.setJSON('successNew', obj);
+     this.$cache.local.setJSON("employedInfo", row);
+     this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
       
     },
       getCount(){
