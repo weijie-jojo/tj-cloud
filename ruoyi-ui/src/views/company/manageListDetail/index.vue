@@ -930,6 +930,7 @@ import { Decimal } from 'decimal.js'
 import { all } from "@/api/company/payTaxInfo";
 
 export default {
+  name:'ManageListDetail',
   components: {},
   dicts: ['political_status', 'educational_level'],
   components: {

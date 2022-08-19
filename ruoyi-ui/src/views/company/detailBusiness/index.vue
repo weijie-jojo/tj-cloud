@@ -40,8 +40,8 @@
 
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { addEmployed, updateEmployed } from "@/api/company/employed";
 export default {
+  name:'DetailBusiness',
   components: {
     uploadSmall
   },

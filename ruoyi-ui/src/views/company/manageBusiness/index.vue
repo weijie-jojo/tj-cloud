@@ -68,7 +68,7 @@
 import moment from 'moment'
 import { joinList, getCount } from "@/api/company/employed";
 export default {
-  name: "Employed",
+  name: "ManageBusiness",
   data() {
     return {
       allLabel: '全部',

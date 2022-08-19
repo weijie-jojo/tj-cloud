@@ -666,6 +666,7 @@ import crudPlace from '@/api/company/place'
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
+  name: "Infonew",
   components: { uploadSmall },
   dicts: ['political_status', 'educational_level'],
 

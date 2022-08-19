@@ -198,6 +198,7 @@
 <script>
 
 export default {
+  name:'NameDetail',
   components: {},
   props: [],
   data() {
