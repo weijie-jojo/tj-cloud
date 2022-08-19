@@ -149,10 +149,9 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON('employednewlist', row);
-      this.$tab.closeAllPage().then(() => {
-           this.$tab.openPage("个体户工商查看", "/company/customer/detailBusiness")
-         })
-      //this.$tab.openPage("工商信息", "/company/customer/detailBusiness");
+      this.$tab.openPage("个体户工商查看", "/company/customer/detailBusiness")
+         
+    
 
     },
       getCount(){
@@ -217,13 +216,12 @@ export default {
       let obj = {
         title: '工商办理',
         backUrl: '/company/customer/manageBusiness',
-        resmsg: '工商办理完成'
+        resmsg: '工商办理完成',
+        name: "ManageBusiness",
       }
       this.$cache.local.setJSON('successNew', obj);
-       this.$tab.closeAllPage().then(() => {
-           this.$tab.openPage("个体户工商办理", "/company/customer/addBusiness")
-         })
-     // this.$tab.closeOpenPage({ path: "/company/customer/addBusiness" });
+       this.$tab.openPage("个体户工商办理", "/company/customer/addBusiness")
+     
     },
     //工商表格
     businessTable(row) {

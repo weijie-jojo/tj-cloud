@@ -149,10 +149,8 @@ export default {
          };
          this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employednewlist', row);
-         this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户银行查看", "/company/customer/detailBank")
-         })
-        // this.$tab.openPage("银行信息","/company/customer/detailBank");
+         this.$tab.openPage("个体户银行查看", "/company/customer/detailBank")
+       
 
     },
     getCount(){
@@ -216,13 +214,12 @@ export default {
            let obj = {
             title: '银行办理',
             backUrl: '/company/customer/manageBank',
-            resmsg: '银行办理完成'
+            resmsg: '银行办理完成',
+            name: "ManageBank",
       }
       this.$cache.local.setJSON('successNew', obj);
-      this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户银行办理", "/company/customer/addBank")
-         })
-       //this.$tab.closeOpenPage({ path: "/company/customer/addBank"});
+       this.$tab.openPage("个体户银行办理", "/company/customer/addBank")
+         
     },
    }
 };

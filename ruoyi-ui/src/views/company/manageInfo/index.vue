@@ -156,10 +156,8 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON('employedInfo', row);
-       this.$tab.closeAllPage().then(() => {
-           this.$tab.openPage("个体户信息查看", "/company/customer/infodetail")
-         })
-      //this.$tab.openPage("信息列表查看", "/company/customer/infodetail");
+      this.$tab.openPage("个体户信息查看", "/company/customer/infodetail")
+      
     },
 
      getCount(){
@@ -217,13 +215,12 @@ export default {
       let obj = {
         title: '信息审核',
         backUrl: '/company/customer/manageInfo',
-        resmsg: '信息审核完成'
+        resmsg: '信息审核完成',
+        name: "ManageInfo",
       }
       this.$cache.local.setJSON('successNew', obj);
-      this.$tab.closeAllPage().then(() => {
-           this.$tab.openPage("个体户信息审核", "/company/customer/infonew")
-         })
-      //this.$tab.closeOpenPage({ path: "/company/customer/infonew" });
+      this.$tab.openPage("个体户信息审核", "/company/customer/infonew")
+     
     },
   }
 };

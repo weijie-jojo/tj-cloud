@@ -155,13 +155,12 @@ export default {
        let obj = {
         name:'注册确认',
         backUrl: '/company/customer/employedConfirm',
+        name: "EmployedConfirm",
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
-        })
-      //this.$tab.closeOpenPage({ path: '/company/customer/manageListDdits' });
+       this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
+        
     },
     look(row) {
       let obj={
@@ -169,10 +168,8 @@ export default {
         };
       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
-        this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
-        })
-     // this.$tab.openPage("注册详情", "/company/customer/confirmS").then(() => { })
+      this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+     
     },
     detail(row) {
       let obj={
@@ -180,10 +177,8 @@ export default {
         };
       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
-       this.$tab.closeAllPage().then(() => {
-            this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
-        })
-      //this.$tab.closeOpenPage({path: "/company/customer/confirmDetail"}).then(() => { })
+       this.$tab.openPage("个体户注册确认办理", "/company/customer/confirmDetail")
+      
     },
       getCount(){
          getCount(this.queryParams).then(res => {
