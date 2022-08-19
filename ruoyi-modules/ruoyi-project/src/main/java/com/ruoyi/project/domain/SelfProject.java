@@ -117,23 +117,23 @@ public class SelfProject extends BaseEntity
 
     /** 审核状态 0否 1是 */
     @Excel(name = "审核状态 0否 1是")
-    private Integer projectCheckStatus;
+    private Long projectCheckStatus;
 
     /** 开票状态 0否 1是 */
     @Excel(name = "开票状态 0否 1是")
-    private Integer projectTicketStatus;
+    private Long projectTicketStatus;
 
     /** 合同状态 0否 1是 */
     @Excel(name = "合同状态 0否 1是")
-    private Integer projectContractStatus;
+    private Long projectContractStatus;
 
     /** 验收状态 0否 1是 */
     @Excel(name = "验收状态 0否 1是")
-    private Integer projectAcceptanceStatus;
+    private Long projectAcceptanceStatus;
 
     /** 完税状态 0否 1是 */
     @Excel(name = "完税状态 0否 1是")
-    private Integer projectDutypaidStatus;
+    private Long projectDutypaidStatus;
 
     /** 渠道商编码 */
     @Excel(name = "渠道商编码")

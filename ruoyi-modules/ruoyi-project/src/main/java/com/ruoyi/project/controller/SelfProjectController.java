@@ -98,44 +98,44 @@ public class SelfProjectController extends BaseController
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==2){//项目审核
-            selfProject.setProjectCheckStatus(0);
+            selfProject.setProjectCheckStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
+            selfProject.setProjectCheckStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(2);
+            selfProject.setProjectCheckStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==3){//合同审核
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectContractStatus(0);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectContractStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectContractStatus(1);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectContractStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectContractStatus(2);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectContractStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==4){//验收审核
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectAcceptanceStatus(0);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectAcceptanceStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectAcceptanceStatus(1);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectAcceptanceStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectAcceptanceStatus(2);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectAcceptanceStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==5){//完税审核
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectDutypaidStatus(0);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectDutypaidStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectDutypaidStatus(1);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectDutypaidStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1);
-            selfProject.setProjectDutypaidStatus(2);
+            selfProject.setProjectCheckStatus(1L);
+            selfProject.setProjectDutypaidStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
@@ -313,16 +313,25 @@ public class SelfProjectController extends BaseController
     @DeleteMapping("/{projectIds}")
     public AjaxResult remove(@PathVariable String[] projectIds)
     {
+        Integer count = 0;//删除的次数
         for (String projectId:projectIds){
             String projectCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
-            selfProjectService.deleteProjectByCode(projectCode);
-            selfProjectService.deleteCheckByCode(projectCode);
             List<SelfTicket> selfTickets= selfTicketService.selectSelfTicketByProjectCode(projectCode);
             if (selfTickets.size()>0){
-                return error("存在发票不能删除！");
+                System.out.println("存在发票不能删除！");
+            }else {
+                selfProjectService.deleteProjectByCode(projectCode);
+                selfProjectService.deleteCheckByCode(projectCode);
+                count+=1;
             }
         };
-        return toAjax(200);
+        System.out.println("count=="+count);
+        if (count>0){
+            return toAjax(200);
+        }else {
+            return error("存在发票不能删除！");
+        }
+
     }
 
     /**

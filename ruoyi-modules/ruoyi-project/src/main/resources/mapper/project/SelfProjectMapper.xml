@@ -85,9 +85,9 @@
     <select id="selectSelfProjectList"  resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
         <where>
-            <if test="selfProject.endStatus == 0  ">AND end_status =0 </if>
-            <if test="selfProject.endStatus == 1  ">AND end_status =1 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
-            <if test="selfProject.endStatus == 2  ">AND end_status =2 </if>
+            <if test="selfProject.projectStatus == 0  ">AND project_status =0 </if>
+            <if test="selfProject.projectStatus == 2  ">AND project_status =2 AND DATE_FORMAT(end_time,'%Y-%m-%d')>=DATE_SUB(CURDATE(),INTERVAL 7 DAY)</if>
+            <if test="selfProject.projectStatus == 1  ">AND project_status =1 </if>
             <if test="selfProject.projectCode != null  and selfProject.projectCode != ''"> and project_code = #{selfProject.projectCode}</if>
             <if test="selfProject.projectName != null  and selfProject.projectName != ''"> and project_name like concat('%', #{selfProject.projectName}, '%')</if>
             <if test="selfProject.projectTrade != null  and selfProject.projectTrade != ''"> and project_trade = #{selfProject.projectTrade}</if>
@@ -100,7 +100,6 @@
             <if test="selfProject.projectNetProfit != null "> and project_net_profit = #{selfProject.projectNetProfit}</if>
             <if test="selfProject.projectPackageAmount != null "> and project_package_amount = #{selfProject.projectPackageAmount}</if>
             <if test="selfProject.projectDesc != null  and selfProject.projectDesc != ''"> and project_desc = #{selfProject.projectDesc}</if>
-            <if test="selfProject.projectStatus != null "> and project_status = #{selfProject.projectStatus}</if>
             <if test="selfProject.isDeleted != null  and selfProject.isDeleted != ''"> and is_deleted = #{selfProject.isDeleted}</if>
             <if test="selfProject.checkContent != null  and selfProject.checkContent != ''"> and check_content = #{selfProject.checkContent}</if>
             <if test="selfProject.fileName != null  and selfProject.fileName != ''"> and file_name like concat('%', #{fselfProject.ileName}, '%')</if>
@@ -110,11 +109,11 @@
             <if test="selfProject.end != null and selfProject.end != ''"><!-- 结束时间检索 -->
                 AND date_format(project_time_start,'%Y-%m-%d %H:%i:%s') &lt;= date_format(#{selfProject.end},'%Y-%m-%d %H:%i:%s')
             </if>
-            <if test="selfProject.projectCheckStatus != null  and selfProject.projectCheckStatus != ''"> and project_check_status = #{selfProject.projectCheckStatus}</if>
-            <if test="selfProject.projectTicketStatus != null  and selfProject.projectTicketStatus != ''"> and project_ticket_status = #{selfProject.projectTicketStatus}</if>
-            <if test="selfProject.projectContractStatus != null  and selfProject.projectContractStatus != ''"> and project_contract_status = #{selfProject.projectContractStatus}</if>
-            <if test="selfProject.projectAcceptanceStatus != null  and selfProject.projectAcceptanceStatus != ''"> and project_acceptance_status = #{selfProject.projectAcceptanceStatus}</if>
-            <if test="selfProject.projectDutypaidStatus != null  and selfProject.projectDutypaidStatus != ''"> and project_dutypaid_status = #{selfProject.projectDutypaidStatus}</if>
+            <if test="selfProject.projectCheckStatus != null  "> and project_check_status = #{selfProject.projectCheckStatus}</if>
+            <if test="selfProject.projectTicketStatus != null  "> and project_ticket_status = #{selfProject.projectTicketStatus}</if>
+            <if test="selfProject.projectContractStatus != null  "> and project_contract_status = #{selfProject.projectContractStatus}</if>
+            <if test="selfProject.projectAcceptanceStatus != null  "> and project_acceptance_status = #{selfProject.projectAcceptanceStatus}</if>
+            <if test="selfProject.projectDutypaidStatus != null  "> and project_dutypaid_status = #{selfProject.projectDutypaidStatus}</if>
             <if test="selfProject.placeCode != null  and selfProject.placeCode != ''"> and place_code = #{selfProject.placeCode}</if>
             <if test="selfProject.purchCompanyTaxid != null  and selfProject.purchCompanyTaxid != ''"> and purch_company_taxid = #{selfProject.purchCompanyTaxid}</if>
             <if test="selfProject.selfName != null  and selfProject.selfName != ''"> and self_name like concat('%', #{selfProject.selfName}, '%')</if>
