@@ -212,7 +212,7 @@ export default {
             title: '名称审核',
             backUrl: '/company/customer/manageName',
             resmsg: '名称审核完成',
-            name:'ManageName',
+            backName:'ManageName',
         }
         this.$cache.local.setJSON('successNew', obj);
         this.$tab.openPage("个体户名称审核", "/company/customer/namenew")

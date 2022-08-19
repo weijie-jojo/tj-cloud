@@ -1929,7 +1929,7 @@ export default {
             }
           });
           this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name:this.$cache.local.getJSON('backurls').name });
+            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name:this.$cache.local.getJSON('backurls').backName });
           })
         } else {
           this.$message({
@@ -1941,7 +1941,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name: this.$cache.local.getJSON('backurls').name })
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name: this.$cache.local.getJSON('backurls').backName })
       });
     },
     nailist() {

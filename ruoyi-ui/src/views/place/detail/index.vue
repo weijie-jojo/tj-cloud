@@ -678,9 +678,10 @@ export default {
       console.log(value);
     },
     closeS(){
-       this.$tab.closeAllPage().then(() => {
-        this.$tab.closeOpenPage({path:'/place/placeMgr'})
-      })
+        this.$tab.closeOpenPage({path:'/place/placeMgr'}).then(() => {
+           this.$tab.refreshPage({path:'/place/placeMgr',name:'PlaceMgr'});
+
+        })
     },
     handlespecialShareIsmoneyS(e) {
       if (this.ruleForm.editSpecialShareIsmoney == '1') {

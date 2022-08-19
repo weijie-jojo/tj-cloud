@@ -469,9 +469,10 @@ export default {
             };
            
             crudReview.updateReview(parms).then(res=>{
-             this.check('名称异常修改完成');
+            this.check('名称异常修改完成');
+            this.$modal.msgSuccess('名称异常修改完成');
             this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
-                       this.$tab.refreshPage( {path:"/company/customer/employed"} );
+                this.$tab.refreshPage( {path:"/company/customer/employed",name:'Employed'} );
                })
              })
               
@@ -485,7 +486,7 @@ export default {
     },
     toReturn() {
         this.$tab.closeOpenPage( {path:"/company/customer/employed"} ).then(() => {
-        this.$tab.refreshPage( {path:"/company/customer/employed"} );
+        this.$tab.refreshPage( {path:"/company/customer/employed",name:'Employed'} );
          })
     },
   }

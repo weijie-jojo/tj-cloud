@@ -1521,30 +1521,20 @@ export default {
               if (res.code === 200) {
 
                 this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/company/customer/employedConfirm" }).then(() => {
-                    let resmsg = '';
-                    if (type == 1) {
+                 if (type == 1) {
                       resmsg = '注册确认完成';
                       this.check('注册确认完成');
                     } else {
                       this.check('注册确认未通过。' + '原因:' + this.remark);
                       resmsg = '注册确认完成';
                     }
-
-                    let obj = {
-                      title: '注册确认',
-                      backUrl: '/company/customer/employed',
-                      resmsg: resmsg
-
-                    }
-                    this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                  });
+                   this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                
                 });
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/company/customer/employedConfirm" });
+               
               }
 
             }
@@ -1668,7 +1658,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl });
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName });
       })
     },
     nailist() {

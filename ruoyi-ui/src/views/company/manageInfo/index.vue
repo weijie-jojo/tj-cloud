@@ -216,7 +216,7 @@ export default {
         title: '信息审核',
         backUrl: '/company/customer/manageInfo',
         resmsg: '信息审核完成',
-        name: "ManageInfo",
+        backName: "ManageInfo",
       }
       this.$cache.local.setJSON('successNew', obj);
       this.$tab.openPage("个体户信息审核", "/company/customer/infonew")

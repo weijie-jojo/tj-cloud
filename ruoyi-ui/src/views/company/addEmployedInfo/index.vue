@@ -1670,11 +1670,18 @@ export default {
       return options;
     },
     submitFormName() {
-      let fieldsToValidate = ['industry'];
-      Promise.all(
+      let fieldsToValidate;
+      if(!this.isDisable){
+         fieldsToValidate=['industry','fontsize1','fontsize2','fontsize3','fontsize4','fontsize5']
+      }else{
+         fieldsToValidate=['industry'];
+      }
+         Promise.all(
         fieldsToValidate.map((field) => {
+          console.log(field);
           return new Promise((resolve, reject) => {
             this.$refs['elForm'].validateField(field, (errorMessage) => {
+              console.log(errorMessage);
               resolve(errorMessage);
             });
           });
@@ -1695,6 +1702,9 @@ export default {
           })
         }
       });
+      
+      
+     
     },
     placenew() {
       for (let i in this.places) {

@@ -217,7 +217,7 @@ export default {
         title: '工商办理',
         backUrl: '/company/customer/manageBusiness',
         resmsg: '工商办理完成',
-        name: "ManageBusiness",
+        backName: "ManageBusiness",
       }
       this.$cache.local.setJSON('successNew', obj);
        this.$tab.openPage("个体户工商办理", "/company/customer/addBusiness")

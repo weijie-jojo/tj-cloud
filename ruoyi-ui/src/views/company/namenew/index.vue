@@ -384,10 +384,8 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                 this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/company/customer/manageName" }).then(() => {
-                    let resmsg = '';
-                    
-                    if (type == 1) {
+                      let resmsg;
+                     if (type == 1) {
                       resmsg = '名称审核完成';
                       this.check('名称审核已完成');
                     } else {
@@ -402,20 +400,11 @@ export default {
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });
                     }
-                    // let obj = {
-                    //   title: '名称审核',
-                    //   backUrl: '/company/customer/manageName',
-                    //   resmsg: resmsg
-
-                    // }
-                    // this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                  });
+                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                 });
-
-              } else {
+               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/company/customer/manageName" });
+               
               }
             }
 
@@ -430,7 +419,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backUrl});
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName});
      })
     },
   },

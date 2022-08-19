@@ -216,7 +216,7 @@ export default {
             title: '税务办理',
             backUrl: '/company/customer/manageTax',
             resmsg: '税务办理完成',
-            name: "ManageTax",
+            backName: "ManageTax",
       }
       this.$cache.local.setJSON('successNew', obj);
       this.$tab.openPage("个体户税务办理", "/company/customer/addTax")

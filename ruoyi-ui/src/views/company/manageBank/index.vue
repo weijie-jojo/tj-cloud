@@ -215,7 +215,7 @@ export default {
             title: '银行办理',
             backUrl: '/company/customer/manageBank',
             resmsg: '银行办理完成',
-            name: "ManageBank",
+            backName: "ManageBank",
       }
       this.$cache.local.setJSON('successNew', obj);
        this.$tab.openPage("个体户银行办理", "/company/customer/addBank")
