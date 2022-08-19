@@ -153,9 +153,8 @@ export default {
         };
          this.$cache.local.setJSON('backurls', obj);
          this.$cache.local.setJSON('employedName', row);
-          this.$tab.closeAllPage().then(() => {
-             this.$tab.openPage("个体户名称查看", "/company/customer/nameDetail")
-           })
+         this.$tab.openPage("个体户名称查看", "/company/customer/nameDetail")
+           
         // this.$tab.openPage("名称信息","/company/customer/nameDetail");
     },
       getCount(){
@@ -208,19 +207,16 @@ export default {
     },
 
     bank(row) {
-
       this.$cache.local.setJSON('employedName', row);
       let obj = {
             title: '名称审核',
             backUrl: '/company/customer/manageName',
-            resmsg: '名称审核完成'
+            resmsg: '名称审核完成',
+            name:'ManageName',
         }
-       this.$cache.local.setJSON('successNew', obj);
-       this.$tab.closeAllPage().then(() => {
-           this.$tab.openPage("个体户名称审核", "/company/customer/namenew")
-         })
-       //this.$tab.closeOpenPage({ path: "/company/customer/namenew"});
-    },
+        this.$cache.local.setJSON('successNew', obj);
+        this.$tab.openPage("个体户名称审核", "/company/customer/namenew")
+        },
    }
 };
 </script>
