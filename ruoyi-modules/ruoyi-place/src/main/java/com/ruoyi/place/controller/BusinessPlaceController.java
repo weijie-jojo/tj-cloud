@@ -150,9 +150,10 @@ public class BusinessPlaceController extends BaseController {
         //插入渠道全名
         businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+'-'+businessPlace.getPlaceAlias());
         //根据渠道全名查询渠道信息
-        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
+        List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceAliasName(businessPlace.getPlaceAliasName());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
+            System.out.println(111111111);
             return dataDto.err("渠道全名重复");
         }else {
             try {
