@@ -40,6 +40,7 @@ import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
 import { addEmployed, updateEmployed, check } from "@/api/company/employed";
 export default {
+  name:'AddTax',
    components: {
     uploadSmall
   },

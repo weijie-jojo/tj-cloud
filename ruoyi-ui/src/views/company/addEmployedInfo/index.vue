@@ -718,7 +718,8 @@
           <el-col :span="9">
             <el-form-item label="个体户注册服务费" prop="registerMoney">
               <el-input v-model="formData.registerMoney"
-              type="number" :step="0.01" :min="0"
+               :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
               oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
@@ -758,16 +759,18 @@
 
                   <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryProxyIsmoney == 0" type="number" v-model="formData.ordinarySelfFee"
-                    style="margin-right:10px" :step="0.01" :min="0"
+                  <el-input v-if="formData.ordinaryProxyIsmoney == 0"  v-model="formData.ordinarySelfFee"
+                    style="margin-right:10px"  :min="0"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else type="number"
-                  @input="ordinarySelfFeeh"
-                  @change="ordinarySelfFeeh" v-model="formData.ordinarySelfFee"
-                    style="margin-right:10px" :step="0.01" :min="0" :max="100"
+                  <el-input v-else 
+                    @input="ordinarySelfFeeh"
+                    @change="ordinarySelfFeeh" v-model="formData.ordinarySelfFee"
+                    style="margin-right:10px"  :min="0" :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -791,16 +794,18 @@
 
                   <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.ordinaryShareIsmoney == 0" type="number" v-model="formData.ordinaryShare"
-                    style="margin-right:10px;width:100%" :step="0.01" :min="0"
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0"  v-model="formData.ordinaryShare"
+                    style="margin-right:10px;width:100%"  :min="0"
+                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else type="number" 
+                  <el-input v-else 
                    @input="ordinaryShareh"
                    @change="ordinaryShareh" v-model="formData.ordinaryShare"
-                    style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100"
+                    style="margin-right:10px;width:100%"  :min="0" :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -842,16 +847,18 @@
                 <div style="">
                   <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.specialProxyIsmoney == 0" type="number" v-model="formData.specialSelfFee"
-                    style="margin-right:10px;width:100%" :step="0.01" :min="0"
+                  <el-input v-if="formData.specialProxyIsmoney == 0"  v-model="formData.specialSelfFee"
+                    style="margin-right:10px;width:100%"  :min="0"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else type="number"
+                  <el-input v-else 
                   @input="specialSelfFeeh"
                   @change="specialSelfFeeh" v-model="formData.specialSelfFee"
-                    style="margin-right:10px;width:100%" :step="0.01" :min="0" :max='100'
+                    style="margin-right:10px;width:100%"  :min="0" :max='100'
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -877,16 +884,18 @@
 
                   <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="0">按定额收取</el-radio>
                   <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
-                  <el-input v-if="formData.specialShareIsmoney == 0" :disabled="yecomfirm" type="number"
-                    v-model="formData.specialShare" style="margin-right:10px;width:100%" :step="0.01" :min="0"
+                  <el-input v-if="formData.specialShareIsmoney == 0" :disabled="yecomfirm" 
+                    v-model="formData.specialShare" style="margin-right:10px;width:100%"  :min="0"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
                   <el-input 
-                  @input="specialShareh"
-                  @change="specialShareh" v-model="formData.specialShare" v-else type="number"
-                    style="margin-right:10px;width:100%" :step="0.01" :min="0" :max="100"
+                     @input="specialShareh"
+                     @change="specialShareh" v-model="formData.specialShare" v-else 
+                     style="margin-right:10px;width:100%"  :min="0" :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -948,6 +957,7 @@ import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 
 export default {
+  name:'AddEmployedInfo',
   dicts: ['political_status', 'educational_level'],
   props: [],
   components: {
@@ -2170,9 +2180,10 @@ export default {
 
             }
           }).catch(error => {
-            this.getSelfCode();
+            
             let that = this;
             setTimeout(function () {
+              that.getSelfCode();
               that.$modal.msgSuccess('已重新获取个体户编码,请重新提交')
             }, 3000);
 

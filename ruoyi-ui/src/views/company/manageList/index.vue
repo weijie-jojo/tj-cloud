@@ -79,7 +79,7 @@ import {
 } from "@/api/company/employed";
 
 export default {
-  name: "manageList",
+  name: "ManageList",
   data() {
     return {
       // 遮罩层

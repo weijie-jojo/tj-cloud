@@ -14,8 +14,9 @@
             <el-input v-model="ruleForm.editPlaceLinkman" :readonly="confirmEditStatus" />
           </el-form-item>
             <el-form-item label="个体户注册服务费" prop="editOrdinarySelfFee">
-                <el-input type="number" :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
-                  @change="handleChange" :step="0.1" :min="0"  style="width:100%"
+                <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
+                  @change="handleChange"  :min="0"  style="width:100%"
+                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                    oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                   >
                   <template slot="append">元</template>
@@ -78,16 +79,18 @@
                   </el-radio>
 
                   <el-input v-if="ruleForm.editOrdinaryProxyIsmoney == 0" style="width:100%"
-                    :readonly="confirmEditStatus" type="number" v-model="ruleForm.editOrdinaryProxyFee" :step="0.01"
+                    :readonly="confirmEditStatus"  v-model="ruleForm.editOrdinaryProxyFee" 
                     :min="0"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input :readonly="confirmEditStatus" v-else type="number" style="width:100%"
+                  <el-input :readonly="confirmEditStatus" v-else  style="width:100%"
                     v-model="ruleForm.editOrdinaryProxyFee" 
                     @input="handleordinaryProxyFeeS"
-                    @change="handleordinaryProxyFeeS" :step="0.01" :min="0" :max="100"
+                    @change="handleordinaryProxyFeeS" :min="0" :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -118,17 +121,19 @@
                   <el-radio @change="hanOrshareS" :disabled="confirmEditStatus" v-model="ruleForm.editOrdinaryShareIsmoney" label="1">按百分比收取
                   </el-radio>
 
-                  <el-input v-if="ruleForm.editOrdinaryShareIsmoney == 0" style="width:100%" type="number"
-                    :readonly="confirmEditStatus" :step="0.01" :min="0" v-model="ruleForm.editOrdinaryShare"
+                  <el-input v-if="ruleForm.editOrdinaryShareIsmoney == 0" style="width:100%" 
+                    :readonly="confirmEditStatus"  :min="0" v-model="ruleForm.editOrdinaryShare"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else :readonly="confirmEditStatus" v-model="ruleForm.editOrdinaryShare" type="number"
+                  <el-input v-else :readonly="confirmEditStatus" v-model="ruleForm.editOrdinaryShare" 
                     style="width:100%"
                     @input="handleordinaryShareIsmoneyS"
-                    @change="handleordinaryShareIsmoneyS" :step="0.01" :min="0" :max="100"
-                     oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                    @change="handleordinaryShareIsmoneyS"  :min="0" :max="100"
+                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
                   </el-input>
@@ -168,17 +173,19 @@
                   </el-radio>
 
                   <el-input v-if="ruleForm.editSpecialProxyIsmoney == 0" style="width:100%"
-                    :readonly="confirmEditStatus" type="number" v-model="ruleForm.editSpecialProxyFee" :step="0.01"
+                    :readonly="confirmEditStatus"  v-model="ruleForm.editSpecialProxyFee" 
                     :min="0"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input :readonly="confirmEditStatus" v-else type="number" style="width:100%"
+                  <el-input :readonly="confirmEditStatus" v-else  style="width:100%"
                     v-model="ruleForm.editSpecialProxyFee"
                     @input="handlespecialProxyIsmoneyS"
-                    @change="handlespecialProxyIsmoneyS" :step="0.01" :min="0"
+                    @change="handlespecialProxyIsmoneyS"  :min="0"
                     :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>
@@ -211,16 +218,18 @@
                   <el-radio @change="handMoneyS" :disabled="confirmEditStatus" v-model="ruleForm.editSpecialShareIsmoney" label="1">按百分比收取
                   </el-radio>
 
-                  <el-input v-if="ruleForm.editSpecialShareIsmoney == 0" style="width:100%" type="number" :step="0.01"
+                  <el-input v-if="ruleForm.editSpecialShareIsmoney == 0" style="width:100%" 
                     :min="0" v-model="ruleForm.editSpecialShare" :readonly="confirmEditStatus"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">元</template>
                   </el-input>
-                  <el-input v-else v-model="ruleForm.editSpecialShare" type="number" style="width:100%"
+                  <el-input v-else v-model="ruleForm.editSpecialShare"  style="width:100%"
                     :readonly="confirmEditStatus"
                     @input="handlespecialShareIsmoneyS"
-                    @change="handlespecialShareIsmoneyS" :step="0.01" :min="0" :max="100"
+                    @change="handlespecialShareIsmoneyS"  :min="0" :max="100"
+                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                     >
                     <template slot="append">%</template>

@@ -28,6 +28,7 @@ import CMapReaderFactory from 'vue-pdf/src/CMapReaderFactory.js'
 import { getWord  } from "@/api/company/employed";
 
 export default {
+  name:'BusinessTable',
     components: {
     pdf
   },

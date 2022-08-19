@@ -262,6 +262,7 @@ import crudEmployed from '@/api/company/employed'
 import crudInformation from '@/api/company/information'
 import {getInfo} from '@/api/login' 
 export default {
+  name:'EditEmployedName',
   components: {},
   props: [],
   data() {

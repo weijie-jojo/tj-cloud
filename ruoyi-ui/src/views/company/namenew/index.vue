@@ -198,12 +198,11 @@
   </div>
 </template>
 <script>
-import crudReview from "@/api/company/review";
-import crudInformation from "@/api/company/information";
 import { getInfo } from "@/api/login";
 import { updateReview } from "@/api/company/review";
 import crudEmployed from '@/api/company/employed'
 export default {
+  name:'Namenew',
   components: {},
   props: [],
   data() {

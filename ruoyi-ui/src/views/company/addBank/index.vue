@@ -178,6 +178,7 @@ import { all } from "@/api/company/payTaxInfo";
 import { updateEmployed, check } from "@/api/company/employed";
 
 export default {
+  name: "AddBank",
   components: {
     uploadSmall
   },
@@ -307,15 +308,12 @@ export default {
     this.getInfo();
     this.formBank.fileName3=[];
     this.formBank.fileName4=[];
-     let list = this.$cache.local.getJSON("employednewlist");
-     console.log(1111,list);
+    let list = this.$cache.local.getJSON("employednewlist");
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
     this.formBank.legalPersonName = list.legalPersonName;
-    
     this.formBank.privateDepositBank =list.privateDepositBank;
     this.formBank.privateAccountNumber = list.privateAccountNumber;
-  
     this.formBank.taxId = list.taxId;
     this.accountType = list.accountType;
     this.nailist();
@@ -385,7 +383,7 @@ export default {
     //返回
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl});
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').name});
      })
     },
     //提交表单
