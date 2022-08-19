@@ -295,6 +295,25 @@
             </el-form-item>
           </el-col>
         </el-row>
+         <el-row>
+          <el-col :span="12">
+            <el-form-item label="银行卡名">
+              <el-input v-model="form.payCheckBank"  placeholder="请输入银行卡名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="银行卡号">
+              <el-input v-model="form.payCheck" placeholder="请输入银行卡号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+         <el-row>
+          <el-col :span="24">
+            <el-form-item label="身份证号">
+              <el-input v-model="form.idNo"  placeholder="请输入身份证号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
@@ -513,6 +532,9 @@ export default {
     // 表单重置
     reset() {
       this.form = {
+        idNo:undefined,
+        payCheck:undefined,
+        payCheckBank:undefined,
         userId: undefined,
         deptId: undefined,
         userName: undefined,

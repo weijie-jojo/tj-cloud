@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EmployeeInformationMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EmployeeInformation" id="EmployeeInformationResult">
+        <result property="userId"    column="user_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="department"    column="department"    />
+        <result property="employeeNumber"    column="Employee_number"    />
+        <result property="username"    column="username"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="gender"    column="gender"    />
+        <result property="postId"    column="post_id"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="enabled"    column="enabled"    />
+        <result property="payCheck"    column="pay_check"    />
+        <result property="payCheckBank"    column="pay_check_bank"    />
+        <result property="accountCard"    column="account_card"    />
+        <result property="accountCardBank"    column="account_card_bank"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEmployeeInformationVo">
+        select user_id, dept_id, department, Employee_number, username, nick_name, id_no, gender, post_id, phone, email, enabled, pay_check, pay_check_bank, account_card, account_card_bank, create_by, update_by, create_time, update_time from employee_information
+    </sql>
+
+    <select id="selectMaxCode"  resultMap="EmployeeInformationResult">
+        SELECT *FROM employee_information  ORDER BY user_id DESC LIMIT 1
+    </select>
+
+    <select id="selectEmployeeInformation"  resultMap="EmployeeInformationResult">
+        select *from employee_information
+    </select>
+
+    <select id="selectEmployeeInformationList" parameterType="com.ruoyi.system.domain.EmployeeInformation" resultMap="EmployeeInformationResult">
+        <include refid="selectEmployeeInformationVo"/>
+        <where>  
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="employeeNumber != null  and employeeNumber != ''"> and Employee_number = #{employeeNumber}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="postId != null  and postId != ''"> and post_id = #{postId}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="enabled != null "> and enabled = #{enabled}</if>
+            <if test="payCheck != null  and payCheck != ''"> and pay_check = #{payCheck}</if>
+            <if test="payCheckBank != null  and payCheckBank != ''"> and pay_check_bank = #{payCheckBank}</if>
+            <if test="accountCard != null  and accountCard != ''"> and account_card = #{accountCard}</if>
+            <if test="accountCardBank != null  and accountCardBank != ''"> and account_card_bank = #{accountCardBank}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmployeeInformationByUserId" parameterType="Long" resultMap="EmployeeInformationResult">
+        <include refid="selectEmployeeInformationVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertEmployeeInformation" parameterType="com.ruoyi.system.domain.EmployeeInformation" useGeneratedKeys="true" keyProperty="userId">
+        insert into employee_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">dept_id,</if>
+            <if test="department != null">department,</if>
+            <if test="employeeNumber != null">Employee_number,</if>
+            <if test="username != null">username,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="gender != null">gender,</if>
+            <if test="postId != null">post_id,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="payCheck != null">pay_check,</if>
+            <if test="payCheckBank != null">pay_check_bank,</if>
+            <if test="accountCard != null">account_card,</if>
+            <if test="accountCardBank != null">account_card_bank,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">#{deptId},</if>
+            <if test="department != null">#{department},</if>
+            <if test="employeeNumber != null">#{employeeNumber},</if>
+            <if test="username != null">#{username},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="postId != null">#{postId},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="payCheck != null">#{payCheck},</if>
+            <if test="payCheckBank != null">#{payCheckBank},</if>
+            <if test="accountCard != null">#{accountCard},</if>
+            <if test="accountCardBank != null">#{accountCardBank},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeeInformation" parameterType="com.ruoyi.system.domain.EmployeeInformation">
+        update employee_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="employeeNumber != null">Employee_number = #{employeeNumber},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="postId != null">post_id = #{postId},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="payCheck != null">pay_check = #{payCheck},</if>
+            <if test="payCheckBank != null">pay_check_bank = #{payCheckBank},</if>
+            <if test="accountCard != null">account_card = #{accountCard},</if>
+            <if test="accountCardBank != null">account_card_bank = #{accountCardBank},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteEmployeeInformationByUserId" parameterType="Long">
+        delete from employee_information where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteEmployeeInformationByUserIds" parameterType="String">
+        delete from employee_information where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

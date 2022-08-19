@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.EmployeeInformation;
+import com.ruoyi.system.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,11 +38,6 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
-import com.ruoyi.system.service.ISysConfigService;
-import com.ruoyi.system.service.ISysPermissionService;
-import com.ruoyi.system.service.ISysPostService;
-import com.ruoyi.system.service.ISysRoleService;
-import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
@@ -66,6 +63,10 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysConfigService configService;
+
+    @Autowired
+    private IEmployeeInformationService employeeInformationService;
+
     /**
      * 根据userId获取他的部门领导信息
      */
@@ -251,6 +252,37 @@ public class SysUserController extends BaseController
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        EmployeeInformation employeeInformation=new EmployeeInformation();
+        employeeInformation.setUsername(user.getUserName());
+        employeeInformation.setNickName(user.getNickName());
+        employeeInformation.setDeptId(user.getDeptId());
+        employeeInformation.setGender(user.getSex());
+        employeeInformation.setPhone(user.getPhonenumber());
+        employeeInformation.setEmail(user.getEmail());
+        employeeInformation.setPayCheck(user.getPayCheck());
+        employeeInformation.setPayCheckBank(user.getPayCheckBank());
+        employeeInformation.setCreateBy(user.getCreateBy());
+        employeeInformation.setUpdateBy(user.getUpdateBy());
+        employeeInformation.setCreateTime(user.getCreateTime());
+        employeeInformation.setUpdateTime(user.getUpdateTime());
+        employeeInformation.setEnabled(1L);
+        String lastStr= employeeInformationService.selectMaxCode().getEmployeeNumber();
+        Integer lastNum= Integer.parseInt(lastStr.substring(lastStr.length()-4))+1;
+        System.out.println("lastNum=="+lastNum);
+        String employeeNumber="";
+        if (lastNum<10){
+            employeeNumber="TJXZ"+"000"+lastNum;
+        }
+        if (lastNum>=10&&lastNum<100){
+            employeeNumber=employeeNumber+"00"+lastNum;
+        }
+        if (lastNum>=100&&lastNum<1000){
+            employeeNumber=employeeNumber+"0"+lastNum;
+        }
+        employeeInformation.setEmployeeNumber(employeeNumber);
+        System.out.println("employeeInformation=="+employeeInformation);
+        employeeInformationService.insertEmployeeInformation(employeeInformation);
+
         return toAjax(userService.insertUser(user));
     }
 
@@ -275,6 +307,22 @@ public class SysUserController extends BaseController
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
+
+//        EmployeeInformation employeeInformation=new EmployeeInformation();
+//        employeeInformation.setUsername(user.getUserName());
+//        employeeInformation.setNickName(user.getNickName());
+//        employeeInformation.setDeptId(user.getDeptId());
+//        employeeInformation.setGender(user.getSex());
+//        employeeInformation.setPhone(user.getPhonenumber());
+////        employeeInformation.setEmail(user.getEmail());
+//        employeeInformation.setPayCheck(user.getPayCheck());
+//        employeeInformation.setPayCheckBank(user.getPayCheckBank());
+//        employeeInformation.setCreateBy(user.getCreateBy());
+//        employeeInformation.setUpdateBy(user.getUpdateBy());
+//        employeeInformation.setCreateTime(user.getCreateTime());
+//        employeeInformation.setUpdateTime(user.getUpdateTime());
+//        employeeInformation.setEnabled(1L);
+//        employeeInformationService.insertEmployeeInformation(employeeInformation);
         return toAjax(userService.updateUser(user));
     }
 

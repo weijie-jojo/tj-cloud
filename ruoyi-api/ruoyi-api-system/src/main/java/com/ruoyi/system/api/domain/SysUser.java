@@ -25,6 +25,14 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
+    /** 用户账号 */
+    @Excel(name = "银行卡名")
+    private String payCheck;
+
+    /** 用户账号 */
+    @Excel(name = "银行卡号")
+    private String payCheckBank;
+
     /** 部门ID */
     @Excel(name = "部门编号", type = Type.IMPORT)
     private Long deptId;
@@ -296,6 +304,23 @@ public class SysUser extends BaseEntity
     {
         this.roleId = roleId;
     }
+
+    public String getPayCheck() {
+        return payCheck;
+    }
+
+    public void setPayCheck(String payCheck) {
+        this.payCheck = payCheck;
+    }
+
+    public String getPayCheckBank() {
+        return payCheckBank;
+    }
+
+    public void setPayCheckBank(String payCheckBank) {
+        this.payCheckBank = payCheckBank;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -318,6 +343,8 @@ public class SysUser extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
             .append("dept", getDept())
+            .append("payCheck", getPayCheck())
+            .append("payCheckBank", getPayCheckBank())
             .toString();
     }
 }
