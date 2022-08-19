@@ -274,10 +274,10 @@ public class SysUserController extends BaseController
             employeeNumber="TJXZ"+"000"+lastNum;
         }
         if (lastNum>=10&&lastNum<100){
-            employeeNumber=employeeNumber+"00"+lastNum;
+            employeeNumber="TJXZ"+"00"+lastNum;
         }
         if (lastNum>=100&&lastNum<1000){
-            employeeNumber=employeeNumber+"0"+lastNum;
+            employeeNumber="TJXZ"+"0"+lastNum;
         }
         employeeInformation.setEmployeeNumber(employeeNumber);
         System.out.println("employeeInformation=="+employeeInformation);
