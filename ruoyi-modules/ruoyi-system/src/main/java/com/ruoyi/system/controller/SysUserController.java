@@ -252,36 +252,36 @@ public class SysUserController extends BaseController
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        EmployeeInformation employeeInformation=new EmployeeInformation();
-        employeeInformation.setUsername(user.getUserName());
-        employeeInformation.setNickName(user.getNickName());
-        employeeInformation.setDeptId(user.getDeptId());
-        employeeInformation.setGender(user.getSex());
-        employeeInformation.setPhone(user.getPhonenumber());
-        employeeInformation.setEmail(user.getEmail());
-        employeeInformation.setPayCheck(user.getPayCheck());
-        employeeInformation.setPayCheckBank(user.getPayCheckBank());
-        employeeInformation.setCreateBy(user.getCreateBy());
-        employeeInformation.setUpdateBy(user.getUpdateBy());
-        employeeInformation.setCreateTime(user.getCreateTime());
-        employeeInformation.setUpdateTime(user.getUpdateTime());
-        employeeInformation.setEnabled(1L);
-        String lastStr= employeeInformationService.selectMaxCode().getEmployeeNumber();
-        Integer lastNum= Integer.parseInt(lastStr.substring(lastStr.length()-4))+1;
-        System.out.println("lastNum=="+lastNum);
-        String employeeNumber="";
-        if (lastNum<10){
-            employeeNumber="TJXZ"+"000"+lastNum;
-        }
-        if (lastNum>=10&&lastNum<100){
-            employeeNumber="TJXZ"+"00"+lastNum;
-        }
-        if (lastNum>=100&&lastNum<1000){
-            employeeNumber="TJXZ"+"0"+lastNum;
-        }
-        employeeInformation.setEmployeeNumber(employeeNumber);
-        System.out.println("employeeInformation=="+employeeInformation);
-        employeeInformationService.insertEmployeeInformation(employeeInformation);
+//        EmployeeInformation employeeInformation=new EmployeeInformation();
+//        employeeInformation.setUsername(user.getUserName());
+//        employeeInformation.setNickName(user.getNickName());
+//        employeeInformation.setDeptId(user.getDeptId());
+//        employeeInformation.setGender(user.getSex());
+//        employeeInformation.setPhone(user.getPhonenumber());
+//        employeeInformation.setEmail(user.getEmail());
+//        employeeInformation.setPayCheck(user.getPayCheck());
+//        employeeInformation.setPayCheckBank(user.getPayCheckBank());
+//        employeeInformation.setCreateBy(user.getCreateBy());
+//        employeeInformation.setUpdateBy(user.getUpdateBy());
+//        employeeInformation.setCreateTime(user.getCreateTime());
+//        employeeInformation.setUpdateTime(user.getUpdateTime());
+//        employeeInformation.setEnabled(1L);
+//        String lastStr= employeeInformationService.selectMaxCode().getEmployeeNumber();
+//        Integer lastNum= Integer.parseInt(lastStr.substring(lastStr.length()-4))+1;
+//        System.out.println("lastNum=="+lastNum);
+//        String employeeNumber="";
+//        if (lastNum<10){
+//            employeeNumber="TJXZ"+"000"+lastNum;
+//        }
+//        if (lastNum>=10&&lastNum<100){
+//            employeeNumber="TJXZ"+"00"+lastNum;
+//        }
+//        if (lastNum>=100&&lastNum<1000){
+//            employeeNumber="TJXZ"+"0"+lastNum;
+//        }
+//        employeeInformation.setEmployeeNumber(employeeNumber);
+//        System.out.println("employeeInformation=="+employeeInformation);
+//        employeeInformationService.insertEmployeeInformation(employeeInformation);
 
         return toAjax(userService.insertUser(user));
     }
@@ -307,22 +307,6 @@ public class SysUserController extends BaseController
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
-
-//        EmployeeInformation employeeInformation=new EmployeeInformation();
-//        employeeInformation.setUsername(user.getUserName());
-//        employeeInformation.setNickName(user.getNickName());
-//        employeeInformation.setDeptId(user.getDeptId());
-//        employeeInformation.setGender(user.getSex());
-//        employeeInformation.setPhone(user.getPhonenumber());
-////        employeeInformation.setEmail(user.getEmail());
-//        employeeInformation.setPayCheck(user.getPayCheck());
-//        employeeInformation.setPayCheckBank(user.getPayCheckBank());
-//        employeeInformation.setCreateBy(user.getCreateBy());
-//        employeeInformation.setUpdateBy(user.getUpdateBy());
-//        employeeInformation.setCreateTime(user.getCreateTime());
-//        employeeInformation.setUpdateTime(user.getUpdateTime());
-//        employeeInformation.setEnabled(1L);
-//        employeeInformationService.insertEmployeeInformation(employeeInformation);
         return toAjax(userService.updateUser(user));
     }
 

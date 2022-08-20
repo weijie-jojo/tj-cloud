@@ -229,7 +229,7 @@
             <el-form-item label="申请人姓名" prop="applyName">
               <el-select style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
                 @change="selectApplyName">
-                <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.userId"
+                <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.employeeNumber"
                   :disabled="item.disabled"></el-option>
               </el-select>
             </el-form-item>
@@ -965,6 +965,7 @@ export default {
   },
   data() {
     return {
+      employeeNumber:'',
       activeNameseg: '1',
       activeNamese: '1',
       optiond: [
@@ -1082,10 +1083,6 @@ export default {
         specialShareIsmoney: '1',//专票分润方式是否定额
         isOrdinaryShare: '1',
         isSpecialShare: '1',
-
-
-
-
 
         specialShareMoney: '',
         specialShare: '',
@@ -1545,7 +1542,7 @@ export default {
   mounted() {
 
 
-    this.getSelfCode();
+    // this.getSelfCode();
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -1888,10 +1885,11 @@ export default {
 
     },
     selectApplyName(value) {
-      var applyName = this.applyNames.find((item) => item.userId == value);
+      var applyName = this.applyNames.find((item) => item.employeeNumber == value);
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
-
+      this.employeeNumber = value;
+      this.getSelfCode();
     },
     getRate() {
       crudRate.getAllRate().then(res => {
@@ -2137,15 +2135,18 @@ export default {
     //获取编号
     getSelfCode() {
       //获取员工编号
-      getInfo().then(res => {
-        var userId = res.user.userId;
-        crudInformation.getInformation(userId).then(res => {
-          var employeeNumber = res.data.employeeNumber;
-          crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
-            this.formData.selfCode = res;
+      // getInfo().then(res => {
+      //   var userId = res.user.userId;
+      //   crudInformation.getInformation(userId).then(res => {
+      //     var employeeNumber = res.data.employeeNumber;
+      //     crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
+      //       this.formData.selfCode = res;
 
-          })
-        });
+      //     })
+      //   });
+      // })
+      crudReview.getCode({ employeeNumber: this.employeeNumber }).then(res => {
+        this.formData.selfCode = res;
       })
     },
     submitFormNameS() {
