@@ -654,7 +654,7 @@
 
         
 
-        <el-row type="flex" class="row-bg" justify="space-around">
+        <!-- <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="行业类型" prop="industryType">
               <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
@@ -682,7 +682,7 @@
 
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
@@ -1477,11 +1477,11 @@ export default {
           message: '请输入随机字号',
           trigger: 'blur'
         }],
-        fontSize1: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
-        fontSize2: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
-        fontSize3: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
-        fontSize4: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
-        fontSize5: [{ min: 3, message: '字号不能少于3个字符', trigger: 'blur' }],
+        fontSize1: [{ min: 3, message: '字号1不能少于3个字符', trigger: 'blur' }],
+        fontSize2: [{ min: 3, message: '字号2不能少于3个字符', trigger: 'blur' }],
+        fontSize3: [{ min: 3, message: '字号3不能少于3个字符', trigger: 'blur' }],
+        fontSize4: [{ min: 3, message: '字号4不能少于3个字符', trigger: 'blur' }],
+        fontSize5: [{ min: 3, message: '字号5不能少于3个字符', trigger: 'blur' }],
         
 
 
@@ -1666,10 +1666,44 @@ export default {
       });
       return options;
     },
+     strlen(str){
+    var len = 0;
+    for (var i=0; i<str.length; i++) {
+     var c = str.charCodeAt(i);
+    //单字节加1
+     if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+       len++;
+     }
+     else {
+      len+=2;
+     }
+    }
+    return len;
+},
     submitFormName() {
       let fieldsToValidate;
       if(!this.isDisable){
-         fieldsToValidate=['industry','fontsize1','fontsize2','fontsize3','fontsize4','fontsize5']
+         fieldsToValidate=['industry'];
+         if(this.strlen(this.formData.fontSize1)<3){
+          this.$modal.msgError('字号1至少三个字符');
+          return;
+         }
+          if(this.strlen(this.formData.fontSize2)<3){
+          this.$modal.msgError('字号2至少三个字符');
+          return;
+         }
+          if(this.strlen(this.formData.fontSize3)<3){
+          this.$modal.msgError('字号3至少三个字符');
+          return;
+         }
+          if(this.strlen(this.formData.fontSize4)<3){
+          this.$modal.msgError('字号4至少三个字符');
+          return;
+         }
+          if(this.strlen(this.formData.fontSize5)<3){
+          this.$modal.msgError('字号5至少三个字符');
+          return;
+         }
       }else{
          fieldsToValidate=['industry'];
       }
@@ -2027,14 +2061,14 @@ export default {
 
     submitForm() {
 
-      if (this.formData.industryType == '-1') {
-        this.$modal.msgError("请选择行业类型");
-        return;
-      }
-      if (!this.formData.industryTax) {
-        this.$modal.msgError("税率不能为空");
-        return;
-      }
+      // if (this.formData.industryType == '-1') {
+      //   this.$modal.msgError("请选择行业类型");
+      //   return;
+      // }
+      // if (!this.formData.industryTax) {
+      //   this.$modal.msgError("税率不能为空");
+      //   return;
+      // }
        if(this.formData.isSlider=='0'){
            
          if(this.formData.specialShareIsmoney=='1'){
@@ -2246,8 +2280,8 @@ export default {
         freeTradeArea: this.formData.freeTradeArea,
         propertyRight: this.formData.propertyRight,
         natureBusiness: this.formData.natureBusiness,
-        industryType: this.formData.industryType,
-        industryTax: this.formData.industryTax,
+        // industryType: this.formData.industryType,
+        // industryTax: this.formData.industryTax,
         accountType: this.formData.accountType,
         legalPersonName: this.formData.contactName,
 

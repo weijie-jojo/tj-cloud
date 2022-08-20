@@ -464,7 +464,7 @@
           </el-col>
         </el-row>
 
-          <el-row type="flex" class="row-bg" justify="space-around">
+          <!-- <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="行业类型" prop="industryType">
           <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
@@ -492,7 +492,7 @@
               </el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
@@ -1794,14 +1794,14 @@ export default {
     
 
     submitForm() {
-       if (this.formData.industryType == '-1') {
-        this.$modal.msgError("请选择行业类型");
-        return;
-      }
-       if (!this.formData.industryTax) {
-         this.$modal.msgError("税率不能为空");
-         return;
-      }
+      //  if (this.formData.industryType == '-1') {
+      //   this.$modal.msgError("请选择行业类型");
+      //   return;
+      // }
+      //  if (!this.formData.industryTax) {
+      //    this.$modal.msgError("税率不能为空");
+      //    return;
+      // }
 
         if (this.formData.isSlider == '0') {
 
