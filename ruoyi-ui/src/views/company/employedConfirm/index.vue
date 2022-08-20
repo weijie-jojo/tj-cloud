@@ -50,13 +50,13 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-view" @click="look(scope.row)">查看</el-button>
-          <el-button size="mini" type="text" v-if="scope.row.endStatus == 2" icon="el-icon-edit"
+          <el-button size="mini" type="text" v-hasPermi="['company:employedConfirm:edit']" v-if="scope.row.endStatus == 2" icon="el-icon-edit"
             @click="edits(scope.row)">编辑</el-button>
           <el-button v-hasPermi="['company:employedConfirm:edit']"  size="mini" type="text" icon="el-icon-s-goods" v-else
             style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>编辑</el-button>
           <el-button v-hasPermi="['company:employedConfirm:confirm']" size="mini" v-if="scope.row.endStatus == 0" type="text" icon="el-icon-s-goods"
             @click="detail(scope.row)">注册确认办理</el-button>
-          <el-button size="mini" v-else icon="el-icon-s-goods"
+          <el-button  v-hasPermi="['company:employedConfirm:confirm']" size="mini" v-else icon="el-icon-s-goods"
             style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>注册确认办理</el-button>
 
         </template>

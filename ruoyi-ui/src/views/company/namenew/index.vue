@@ -384,14 +384,10 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                 this.$nextTick(function () {
-                      let resmsg;
-                     if (type == 1) {
-                      resmsg = '名称审核完成';
+                   if (type == 1) {
                       this.check('名称审核已完成');
                     } else {
-
-                      resmsg = '名称审核完成';
-                      this.check('名称审核不通过。'+'原因：'+this.remark);
+                       this.check('名称审核不通过。'+'原因：'+this.remark);
                       let parmsEmployed={
                         remarkName:this.remark,
                         selfId: this.formData.selfId,
