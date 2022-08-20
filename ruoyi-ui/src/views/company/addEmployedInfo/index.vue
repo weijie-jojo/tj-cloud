@@ -1530,7 +1530,7 @@ export default {
       },
       deep: true
     },
-    'formData.industryType': 'selectIndustryType',
+    // 'formData.industryType': 'selectIndustryType',
 
     'formData.contactName': {
       handler: function () {
@@ -1550,7 +1550,7 @@ export default {
     //联系人
     this.getContactName();
     //个体户行业类型税率
-    this.getRate();
+   // this.getRate();
     //从上一个页面获取个体户编码
   },
   methods: {

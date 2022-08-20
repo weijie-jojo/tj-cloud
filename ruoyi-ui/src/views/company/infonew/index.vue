@@ -1032,12 +1032,12 @@ export default {
     //联系人
     this.getContactName();
     //个体户行业类型税率
-    this.getRate();
+    //this.getRate();
     //从上一个页面获取个体户编码
 
 
     this.formData = this.$cache.local.getJSON('employedInfo');
-    this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+    //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
@@ -1216,14 +1216,10 @@ export default {
               if (res.code === 200) {
 
                 this.$nextTick(function () {
-                 
-                    let resmsg = '';
                     if (type == 1) {
-                      resmsg = '信息审核完成';
                       this.check('信息审核完成');
                     } else {
                       this.check('信息审核不通过。' + '原因:' + this.remark);
-                      resmsg = '信息审核完成';
                     }
                     this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                  

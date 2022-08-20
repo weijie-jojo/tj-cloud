@@ -1004,13 +1004,13 @@ export default {
     this.getLoginInfo();
     //申请人
     this.getApplyName();
-    //联系人
+    //联.系人
     this.getContactName();
     //个体户行业类型税率
-    this.getRate();
+   // this.getRate();
     //从上一个页面获取个体户编码
     this.formData = this.$cache.local.getJSON('employedInfo');
-    this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+    //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
@@ -1028,6 +1028,7 @@ export default {
     this.formData.isSelfTax=JSON.stringify(this.formData.isSelfTax);
     this.formData.isSpecialSelfTax=JSON.stringify(this.formData.isSpecialSelfTax);
     this.formData.isSelfCount=JSON.stringify(this.formData.isSelfCount);
+    
     
     this.formData.ordinaryProxyIsmoney=JSON.stringify(this.formData.ordinaryProxyIsmoney);
     this.formData.specialProxyIsmoney=JSON.stringify(this.formData.specialProxyIsmoney);

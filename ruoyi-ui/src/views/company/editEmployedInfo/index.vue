@@ -1203,7 +1203,7 @@ export default {
   },
   computed: {},
   watch: {
-    'formData.industryType': 'selectIndustryType',
+    // 'formData.industryType': 'selectIndustryType',
 
     'formData.contactName': {
       handler: function () {
@@ -1219,7 +1219,7 @@ export default {
     //联系人
     this.getContactName();
     //个体户行业类型税率
-    this.getRate();
+    //this.getRate();
     //申请人
     this.getApplyName();
     //从上一个页面获取信息
