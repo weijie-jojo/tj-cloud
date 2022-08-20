@@ -361,6 +361,35 @@
          
         </el-col>
       </el-row>
+       <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业类型" prop="industryType">
+              <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+            <el-select 
+             
+             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
+               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
+                  :value="item.value" style="display: none;" />
+                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
+                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
+                   >
+                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                         <span style="float: left">{{ node.label }}</span>
+                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
+                    </span>
+                  </el-tree>
+              </el-select>
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="行业税率" :required="true">
+            <el-input v-model="industryTax" :readonly="true">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9" class="flexs">
@@ -625,35 +654,7 @@
         </el-col>
       </el-row>
 
-         <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业类型" prop="industryType">
-              <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
-            <el-select 
-             
-             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
-                  :value="item.value" style="display: none;" />
-                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
-                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                   >
-                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
-                         <span style="float: left">{{ node.label }}</span>
-                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
-                    </span>
-                  </el-tree>
-              </el-select>
-            </el-tooltip>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item class="comright" label="行业税率" :required="true">
-            <el-input v-model="industryTax" :readonly="true">
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">

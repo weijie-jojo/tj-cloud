@@ -398,7 +398,7 @@
           <div></div>
         </el-col>
       </el-row>
-       <el-row type="flex" class="row-bg rowCss" justify="space-around">
+       <!-- <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
              <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
@@ -426,7 +426,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
