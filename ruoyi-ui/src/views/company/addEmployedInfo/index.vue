@@ -1132,6 +1132,7 @@ export default {
         applyPhone: '',
         applyDocumentType: '中华人民共和国居民身份证',
         applyIdNum: '',
+        applyId:'',
         //联络员
         contactName: '',
         contactPhone: '',
@@ -1922,6 +1923,7 @@ export default {
       var applyName = this.applyNames.find((item) => item.employeeNumber == value);
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
+      this.formData.applyId = applyName.userId;
       this.employeeNumber = value;
       this.getSelfCode();
     },
@@ -2252,7 +2254,7 @@ export default {
         selfCode: this.formData.selfCode,
 
         oneselfApply: this.formData.oneselfApply,
-        applyName: this.formData.applyName,
+        applyName: this.formData.applyId,
         applyPhone: this.formData.applyPhone,
         applyDocumentType: this.formData.applyDocumentType,
         applyIdNum: this.formData.applyIdNum,
