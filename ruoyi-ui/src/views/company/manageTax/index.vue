@@ -49,9 +49,9 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text"  icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-          <el-button size="mini" v-if="scope.row.taxStatus==0" type="text" icon="el-icon-s-goods"
+          <el-button size="mini" v-hasPermi="['company:atx:examine']" v-if="scope.row.taxStatus==0" type="text" icon="el-icon-s-goods"
             @click="atx(scope.row)">税务办理</el-button>
-          <el-button size="mini" v-else icon="el-icon-s-goods" style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>税务办理</el-button>
+          <el-button size="mini" v-hasPermi="['company:atx:examine']" v-else icon="el-icon-s-goods" style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>税务办理</el-button>
           </template>
       </el-table-column>
     </el-table>

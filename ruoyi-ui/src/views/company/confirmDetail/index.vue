@@ -1523,11 +1523,11 @@ export default {
 
                 this.$nextTick(function () {
                  if (type == 1) {
-                      resmsg = '注册确认完成';
+                     
                       this.check('注册确认完成');
                     } else {
                       this.check('注册确认未通过。' + '原因:' + this.remark);
-                      resmsg = '注册确认完成';
+                     
                     }
                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
                 

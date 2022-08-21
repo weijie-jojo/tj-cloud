@@ -55,8 +55,8 @@
      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
-           <el-button size="mini" v-if="scope.row.nameStatus==0" type="text" icon="el-icon-s-check" @click="bank(scope.row)">名称审核</el-button>
-           <el-button size="mini" v-else  icon="el-icon-s-check" style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>名称审核</el-button>
+           <el-button size="mini" v-hasPermi="['company:name:examine']" v-if="scope.row.nameStatus==0" type="text" icon="el-icon-s-check" @click="bank(scope.row)">名称审核</el-button>
+           <el-button size="mini" v-hasPermi="['company:name:examine']" v-else  icon="el-icon-s-check" style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>名称审核</el-button>
          </template>
       </el-table-column>
     </el-table>
