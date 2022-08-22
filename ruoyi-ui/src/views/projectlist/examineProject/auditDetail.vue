@@ -63,11 +63,6 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方">
                         <el-input :readonly="true" v-model="formData.selfName"></el-input>
-                        <!-- <el-select disabled style="width:100%" clearable v-model="formData.selfName">
-                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
-                                :value="item.selfCode">
-                            </el-option>
-                        </el-select> -->
                     </el-form-item>
 
                     <el-form-item class="comright" label="乙方状态">
@@ -94,6 +89,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="乙方行业类型">
+                        <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
                         <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
                             style="width: 100%;" disabled>
                             <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
@@ -110,7 +106,8 @@
                             </el-tree>
 
                         </el-select>
-                        <!-- <treeselect  disabled   v-model="formData.industryType" :options="industryTypes" :show-count="true" /> -->
+                        </el-tooltip>
+                        
                     </el-form-item>
 
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
@@ -131,8 +128,6 @@
                         <el-input v-model="formData.ticketTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率">
-
-
                         <el-select disabled style="width:100%" clearable v-model="formData.ticketTax">
                             <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
                                 :value="item.value">
@@ -155,22 +150,23 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
 
-                        <el-input 
+                        <el-input
                          maxlength="50"
                         show-word-limit
                         :readonly="true" type="textarea" :rows="2" v-model="formData.fileName">
                         </el-input>
                     </el-form-item>
-                    
+                  
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
-               <el-col :span="9">
-                 <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
+                 <el-col :span="9">
+                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
                         <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
-               </el-col>
-               <el-col :span="9"></el-col>
+                 </el-col>
+                 <el-col :span="9"></el-col>
+
             </el-row>
 
             <el-row type="flex" class="row-bg " justify="space-around">
@@ -184,8 +180,8 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4.2%" label="乙方经营范围">
-                        <el-input 
-                        
+                        <el-input
+                         
                         :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
                             v-model="formData.natureBusiness">
                         </el-input>
@@ -196,8 +192,8 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4.2%" label="发票备注" prop="ticketRemark">
-                        <el-input
-                        maxlength="50"
+                        <el-input 
+                         maxlength="50"
                          show-word-limit
                         :readonly="true" type="textarea" :rows="2" placeholder="请输入发票备注"
                             v-model="formData.projectDesc">
@@ -208,7 +204,7 @@
         <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4%;margin-left: -7%;">
-            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
+            <el-radio disabled v-model="CheckStatus" label="1"> 通过</el-radio>
 
           </el-form-item>
         </el-col>
@@ -218,8 +214,8 @@
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
-              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
-              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
+              <el-radio disabled v-model="CheckStatus" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="CheckStatus == 1"></el-input>
             </div>
 
 
@@ -232,8 +228,7 @@
                 <el-col :span='8' class="flexs">
                 
                      <el-button type="danger" @click="resetForm">关闭</el-button>
-                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">提交</el-button>
-                     <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
+                     
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
@@ -245,15 +240,17 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { getcode, getinfoByUserId, detail,edit,check } from "@/api/project/list";
+import { getcode, getinfoByUserId, detail } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
+    name:'AuditDetail',
     components: {
         uploadSmall
     },
     data() {
         return {
+            selectTipType:'',
             isDetail:'1',
             isNone:[],
             remark:'',
@@ -276,7 +273,7 @@ export default {
             tickettaxvipok: false,
             placename: '',
             isokradio: '1',
-            isokradioS: '1',
+            CheckStatus: '1',
             companyTax: '',//甲方纳税人识别号
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
@@ -342,7 +339,7 @@ export default {
         this.getInfo();
         this.getlist();
         this.getRate();
-        this.getinfoByUserId(); //渠道商
+       // this.getinfoByUserId(); //渠道商
     },
 
 
@@ -356,112 +353,36 @@ export default {
         this.userinfo = res.user;
       })
     },
-    check(resmsg) {
-      let parms = {
-        "checkReasult": resmsg,
-        "checkUser": this.userinfo.userName,
-        'phonenumber': this.userinfo.phonenumber,
-        "projectCode": this.formData.projectCode,
-        "projectType": "1",
-      }
-      check(parms).then(res => {
-        console.log('项目审核完成插入日志成功！');
-      }).catch(error => {
-
-      });
-    },
-      submitForm(type) {
-
-      this.$refs['elForm'].validate(valid => {
-        // TODO 提交表单
-        if (valid) {
-          let parms;
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectCheckStatus:type,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              checkContent: this.remark,
-              projectCheckStatus:type,
-              projectStatus:1,
-            };
-          }
-           edit(parms).then((res) => {
-            if (res != undefined) {
-              if (res.code === 200) {
-                 this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/project/reviewList" }).then(() => {
-                    let resmsg = '';
-                    if (type == 1) {
-                      resmsg = '项目审核完成';
-                      this.check('项目审核完成');
-                    } else {
-                      this.check('项目审核完成未通过'+'(原因)'+this.remark);
-                      resmsg = '项目审核完成';
-                    }
-
-                   let obj = {
-                      title: '项目审核',
-                      backUrl: '/project/reviewList',
-                      resmsg: resmsg
-
-                    }
-                    this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+      formatData(data) {
+      let options = [];
+      data.forEach((item, key) => {
+        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        if (item.children) {
+          item.children.forEach((items, keys) => {
+            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
+            if (items.children) {
+              items.children.forEach((itemss, keyss) => {
+                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                if (itemss.children) {
+                  itemss.children.forEach((itemsss, keysss) => {
+                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
                   });
-                });
-
-              } else {
-                this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/project/reviewList" });
-              }
-
+                }
+              });
             }
-         });
-
-        } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+          });
         }
-      })
-
+      });
+      return options;
     },
-        // 四级菜单
-        formatData(data) {
-            let options = [];
-            if (data.length > 0) {
-
-                data.forEach((item, key) => {
-                    options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
-                    if (item.children) {
-                        item.children.forEach((items, keys) => {
-                            options.push({ label: items.label, value: items.id, taxRates: items.taxRates });
-                            if (items.children) {
-                                items.children.forEach((itemss, keyss) => {
-                                    options.push({ label: itemss.label, value: itemss.id, taxRates: itemss.taxRates });
-                                    if (itemss.children) {
-                                        itemss.children.forEach((itemsss, keysss) => {
-                                            options.push({ label: itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            return options;
-        },
        
         handleNodeClick(node) {
 
             this.formData.industryType = node.id;
             this.$refs.selectTree.blur();
+             this.$nextTick(function(){
+             this.selectTipType=this.$refs.selectTree.selected.label; 
+           });
         },
         getlist() {
             detail({
@@ -472,6 +393,8 @@ export default {
                 this.formData.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
                 this.isokradio = JSON.stringify(this.formData.placeStatus);
                 this.formData.placeStatus = parseInt(this.formData.placeStatus);
+                this.remark=this.formData.checkContent;
+                this.CheckStatus=JSON.stringify(this.formData.projectCheckStatus);
                 if (this.formData.fileName) {
                     if (this.formData.fileName.indexOf("[") != -1) {
                         this.formData.fileName = JSON.parse(this.formData.fileName);
@@ -503,21 +426,8 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/project/reviewList' });
+            this.$tab.closeOpenPage({ path: '/projectlist/examineList' });
         },
-
-        
-        //渠道商接口
-        getinfoByUserId() {
-            getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.userName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
-                    this.placename = res.data;
-                })
-            })
-        },
-
         getRate() {
             crudRate.getAllRate().then(res => {
                 console.log("getAllRate", res.rows);
@@ -526,6 +436,9 @@ export default {
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
+                this.$nextTick(function(){
+                this.selectTipType=this.$refs.selectTree.selected.label; 
+               });
             })
         },
         //把数据整成树状

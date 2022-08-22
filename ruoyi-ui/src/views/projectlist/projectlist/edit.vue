@@ -102,7 +102,11 @@
 
 
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true"></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true">
+                            <template slot="append">
+                                 %
+                           </template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
                         <el-select style="width:100%" clearable v-model="formData.ticketTax">
@@ -466,7 +470,7 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "1",
+              "projectType": "10",
             };
             check(parms).then(res => {
                 console.log('项目修改！');
@@ -625,16 +629,14 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.nickName;
-                this.formData.projectLeader = res.user.nickName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                getinfoByUserId({ userId: this.formData.userId }).then(res => {
                     this.placeCodeOptions = res.data;
                     for(let i in this.placeCodeOptions){
                          if (this.placeCodeOptions[i].placeCode == this.formData.placeCode) {
                            this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
                         }
                     }
+                    this.selectIndustryType();
                 })
             })
         },
@@ -690,7 +692,7 @@ export default {
                 this.formData.projectTrade=this.$refs.selectTree.selected.label;
                });
                //this.formData.projectTrade = rate.industryName;//所属行业
-             ownlist({ username: this.username, industryType: industryType }).then(res => {
+             ownlist({ username: this.formData.projectLeader, industryType: industryType }).then(res => {
                 this.ownoptions = res;
                 let data=this.ownoptions;
                 for(let i in data){
@@ -779,14 +781,13 @@ export default {
                     if (this.fileNameradio == 2) {
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
-                    if(this.$cache.local.getJSON("iscxxiu")==1){
-                        this.formData.projectCheckStatus=0;
-                    }
+                    
                     this.ticketByCode();
                      edit(this.formData).then((res) => {
                           if (res != undefined) {
                                 if (res.code === 200) {
                                     this.$nextTick(function () {
+                                       //this.check('项目审核修改完成');
                                        this.$modal.msgSuccess('项目修改完成');
                                        this.$tab.closeOpenPage({ path: "/projectlist/list" }).then(() => {
                                             this.$tab.refreshPage({path:'/projectlist/list' ,name:'list'});

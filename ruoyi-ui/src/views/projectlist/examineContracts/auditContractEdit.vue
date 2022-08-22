@@ -20,9 +20,7 @@
                         <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input
-                        :readonly="true"
-                        type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input type="number" :readonly="true" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0"
                              oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                             >
@@ -39,8 +37,8 @@
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
-                     <el-form-item class="comright" label="项目完税资料" prop="fileName3">
-                      <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                     <el-form-item class="comright" label="项目合同资料" prop="fileName1">
+                        <uploadSmall ref="productImage"  @getfileName="getfileNameS" :fileName="fileNames"  :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
 
                    
@@ -68,38 +66,49 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import {edit,check} from "@/api/project/list"
+import {edit,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
+import { parse } from 'querystring';
 export default {
+     name:'AuditContractEdit',
      components: { uploadSmall },
     data() {
         return {
+            projectStatusNew:'0',
+            fileNames:[],
             userinfo:{},
-            isDetail:'0',
-            fileName: [],
-            formData: {},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+            fileName: [],
+            isDetail:'0',
+            formData: {
+                fileName1:[],
+            },
             rules: {
-                fileName3: [
+                fileName1: [
                     {
                         required: true,
-                        message: "项目完税资料不能为空",
+                        message: "合同不能为空",
                         trigger: "change",
 
                     },
                 ],
             },
+           
            };
     },
     computed: {},
     mounted() {
-        this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName3=[];
+         this.formData=this.$cache.local.getJSON("projectListNews");
+         this.formData.fileName1=JSON.parse(this.formData.fileName1);
+         this.$refs.productImage.getSrcList(this.formData.fileName1);
+        for (let i in this.formData.fileName1) {
+          this.fileName.push({
+          name: this.formData.fileName1[i],
+          url: this.baseImgPath + this.formData.fileName1[i]
+         })
+       }
     },
     methods: {
-        getfileNameS(data){
-          this.formData.fileName3=data;
-        },
         check(resmsg) {
         getInfo().then(res => {
             this.userinfo=res.user;
@@ -108,54 +117,59 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "10",
+              "projectType": "11",
             };
             check(parms).then(res => {
-                console.log('添加验收成功！');
+                console.log('修改合同成功！');
             }).catch(error => {
 
             });
           })
        
        },
-       //返回
+        getfileNameS(data){
+         this.formData.fileName1=data; 
+         console.log(this.formData.fileName1);
+        },
+      //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewDutypaid'})
+         this.$tab.closeOpenPage({path:'/projectlist/auditContractList'})
        },
-       handleChange(val) {
+        handleChange(val) {
             console.log(val);
         },
         onSubmit() {
+           
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
+               this.projectStatusNew=0;
                 if (valid) {
-                    this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
-
+                this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
+                   if(this.formData.projectAcceptanceStatus==2 || this.formData.projectDutypaidStatus==2){
+                    this.projectStatusNew=1;
+                   }
                     let parms = {
                         projectId: this.formData.projectId,
-                        fileName3: this.formData.fileName3
-                      
+                        fileName1: this.formData.fileName1,
+                        projectContractStatus:0,
+                        projectStatus:this.projectStatusNew
                     };
+                    
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
-                                    
+                                  
                                     this.$nextTick(function () {
-                                        //this.resetForm();
-                                     this.$tab.refreshPage({ path: "/project/reviewDutypaid" }).then(() => {
-                                     this.check('完税办理完成');
-                                          let obj = {
-                                            title: '完税审核',
-                                            backUrl: '/project/reviewDutypaid',
-                                            resmsg: '完税办理完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                    });
+                                    
+                                     this.check('合同修改完成');
+                                     this.$modal.msgSuccess('合同修改完成');
+                                     this.$tab.closeOpenPage({ path: "/projectlist/auditContractList" });
+                                  
+                                        
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/project/reviewDutypaid" });
+                                    this.$tab.closeOpenPage({ path: "/projectlist/auditContractList" });
                                 }
                             }
                         

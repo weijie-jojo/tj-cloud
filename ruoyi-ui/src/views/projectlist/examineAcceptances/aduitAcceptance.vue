@@ -74,9 +74,9 @@
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
                 
-                     <el-button type="danger" @click="resetForm">返回</el-button>
-                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
+                     <el-button type="danger" @click="resetForm">关闭</el-button>
+                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">提交</el-button>
+                     <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
@@ -91,6 +91,7 @@ export default {
      components: { uploadSmall },
     data() {
         return {
+           projectStatusNew:0,
             remark:'',
             isNone:[],
             isDetail:'1',
@@ -139,10 +140,15 @@ export default {
         // TODO 提交表单
         if (valid) {
           let parms;
+          this.projectStatusNew=0;
+          if(this.formData.projectContractStatus==2 || this.formData.projectDutypaidStatus==2){
+              this.projectStatusNew=1;
+          }
           if (type == 1) {
             parms = {
               projectId: this.formData.projectId,
               projectAcceptanceStatus:type,
+              projectStatus:this.projectStatusNew
             };
           } else {
             parms = {
@@ -156,30 +162,31 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                  this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/project/reviewAcceptance" }).then(() => {
+                 
                     let resmsg = '';
                     if (type == 1) {
                       resmsg = '验收审核完成';
                       this.check('验收审核完成');
                     } else {
-                      this.check('验收审核完成未通过'+'(原因)'+this.remark);
+                      this.check('验收审核完成不通过。'+'原因:'+this.remark);
                       resmsg = '验收审核完成';
                     }
 
                    let obj = {
                       title: '验收审核',
-                      backUrl: '/project/reviewAcceptance',
-                      resmsg: resmsg
+                      backUrl: '/projectlist/auditAcceptanceList',
+                      resmsg: resmsg,
+                      backName:'AuditAcceptanceList'
 
                     }
-                    this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                  });
+                    this.$cache.local.setJSON('successProject', obj);
+                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                
                 });
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/project/reviewAcceptance" });
+                this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" });
               }
 
             }
@@ -197,7 +204,7 @@ export default {
    
       //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewContract'})
+         this.$tab.closeOpenPage({path:'/projectlist/auditAcceptanceList'})
        },
     
         handleChange(val) {

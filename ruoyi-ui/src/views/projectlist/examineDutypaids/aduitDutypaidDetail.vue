@@ -52,8 +52,7 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
-
+            <el-radio disabled v-model="projectDutypaidStatus" label="1"> 通过</el-radio>
           </el-form-item>
         </el-col>
 
@@ -62,23 +61,17 @@
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
-              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
-              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
+              <el-radio disabled v-model="projectDutypaidStatus" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="projectDutypaidStatus == 1"></el-input>
             </div>
-
-
-          </el-form-item>
+           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-
-          <el-button type="danger" @click="resetForm">返回</el-button>
-          <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
-          <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
-        </el-col>
+         <el-button type="danger" @click="resetForm">关闭</el-button>
+         </el-col>
         <el-col :span="8"></el-col>
       </el-row>
     </el-form>
@@ -86,15 +79,13 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { edit,check } from "@/api/project/list"
-import { getInfo } from '@/api/login'
-
 export default {
+  name:'AduitDutypaidDetail',
   components: { uploadSmall },
   data() {
     return {
       userinfo:{},
-      isokradioS: '1',
+      projectDutypaidStatus: '1',
       fileName: [],
       isNone:[],
       isDetail:'1',
@@ -107,6 +98,8 @@ export default {
   mounted() {
     this.formData = this.$cache.local.getJSON("projectListNews");
     this.formData.fileName3=JSON.parse(this.formData.fileName3);
+    this.remark=this.formData.taxRemark;
+    this.projectDutypaidStatus=JSON.stringify(this.formData.projectDutypaidStatus);
     this.fileName=[];
     for(let i in this.formData.fileName3){
       this.fileName.push({
@@ -116,88 +109,10 @@ export default {
     }
   },
   methods: {
-    check(resmsg) {
-        getInfo().then(res => {
-            this.userinfo=res.user;
-             let parms = {
-              "checkReasult": resmsg,
-              "checkUser": this.userinfo.userName,
-              'phonenumber': this.userinfo.phonenumber,
-              "projectCode": this.formData.projectCode,
-              "projectType": "5",
-            };
-            check(parms).then(res => {
-                console.log('完税审核完成');
-            }).catch(error => {
-
-            });
-          })
-       
-       },
     getfileNameS(){},
-    submitForm(type) {
-      this.$refs['elForm'].validate(valid => {
-        // TODO 提交表单
-        if (valid) {
-          let parms;
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectDutypaidStatus: type,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              taxRemark: this.remark,
-              projectDutypaidStatus: type,
-              projectStatus: 1,
-            };
-          }
-          edit(parms).then((res) => {
-            if (res != undefined) {
-              if (res.code === 200) {
-                this.$nextTick(function () {
-                  this.$tab.refreshPage({ path: "/project/reviewDutypaid" }).then(() => {
-                    let resmsg = '';
-                    if (type == 1) {
-                      resmsg = '完税审核完成';
-                       this.check('项目审核完成');
-                    } else {
-                      this.check('项目审核完成未通过'+'(原因)'+this.remark);
-                      resmsg = '完税审核完成';
-                    }
-
-                    let obj = {
-                      title: '完税审核',
-                      backUrl: '/project/reviewDutypaid',
-                      resmsg: resmsg
-
-                    }
-                    this.$cache.local.setJSON('successNew', obj);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                  });
-                });
-
-              } else {
-                this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/project/reviewDutypaid" });
-              }
-
-            }
-          });
-
-        } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
-        }
-      })
-
-    },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/project/reviewContract' })
+      this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaidList' })
     },
    
     handleChange(val) {
@@ -264,4 +179,5 @@ export default {
    color: black  !important;
    border-color: rgba(135,206,250,0.7) !important;
 }
+
 </style>

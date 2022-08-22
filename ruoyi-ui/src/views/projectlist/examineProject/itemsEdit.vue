@@ -243,6 +243,7 @@ var phoneVerify = (rule, value, callback) => {
     }
 };
 export default {
+    name:'ItemsEdit',
     components: {
         uploadSmall
     },
@@ -453,6 +454,7 @@ export default {
         this.getlist();
         this.ticketByCode();
         this.getinfoByUserId(); //渠道商
+      
        
    },
    methods: {
@@ -464,10 +466,10 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "1",
+              "projectType": "10",
             };
             check(parms).then(res => {
-                console.log('项目修改！');
+                console.log('项目修改完成！');
             }).catch(error => {
 
             });
@@ -537,6 +539,10 @@ export default {
             }).then((response) => {
                this.formData.industryType='';
                this.formData = response.data[0];
+
+               this.$nextTick(function(){
+                this.selectTipType=this.$refs.selectTree.selected.label; 
+                });
                
                this.projectTotalAmount=this.formData.projectTotalAmount;
              
@@ -613,36 +619,33 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: "/project/projectList/list" });
+            this.$tab.closeOpenPage({ path: "/projectlist/examineList" });
         },
 
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.nickName;
-                this.formData.projectLeader = res.user.nickName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                getinfoByUserId({ userId: this.formData.userId }).then(res => {
                     this.placeCodeOptions = res.data;
                     for(let i in this.placeCodeOptions){
                          if (this.placeCodeOptions[i].placeCode == this.formData.placeCode) {
                            this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
                         }
                     }
+                    this.selectIndustryType();
                 })
             })
         },
         //获取税率
         getRate() {
             crudRate.getAllRate().then(res => {
+                
                 let tree = []; // 用来保存树状的数据形式
                 this.parseTree(res.rows, tree, 0);
                 console.log("tree", tree);
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
-                this.$nextTick(function(){
-                this.selectTipType=this.$refs.selectTree.selected.label; 
-                });
+                
               
                
               })
@@ -685,7 +688,7 @@ export default {
                 this.formData.projectTrade=this.$refs.selectTree.selected.label;
                });
                //this.formData.projectTrade = rate.industryName;//所属行业
-             ownlist({ username: this.username, industryType: industryType }).then(res => {
+             ownlist({ username: this.formData.projectLeader, industryType: industryType }).then(res => {
                 this.ownoptions = res;
                 let data=this.ownoptions;
                 for(let i in data){
@@ -774,24 +777,18 @@ export default {
                     if (this.fileNameradio == 2) {
                         this.formData.fileName = JSON.stringify(this.formData.fileName);
                     }
-                    if(this.$cache.local.getJSON("iscxxiu")==1){
-                        this.formData.projectCheckStatus=0;
-                    }
+                    this.formData.projectCheckStatus=0;
+                    this.formData.projectStatus=0;
                     this.ticketByCode();
                      edit(this.formData).then((res) => {
                           if (res != undefined) {
                                 if (res.code === 200) {
                                     this.$nextTick(function () {
-                                        this.$tab.refreshPage({path:"/project/projectList/list"}).then(() => {
-                                        //this.check('项目修改完成');
-                                          let obj = {
-                                            title: '项目列表',
-                                            backUrl: '/project/projectList/list',
-                                            resmsg: '项目修改完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                        });
+                                       this.check('项目修改完成');
+                                       this.$modal.msgSuccess('项目修改完成');
+                                       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url }).then(() => {
+                                       this.$tab.refreshPage({path: this.$cache.local.getJSON('Projectedit').url ,name: this.$cache.local.getJSON('Projectedit').name});
+                                       })
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);

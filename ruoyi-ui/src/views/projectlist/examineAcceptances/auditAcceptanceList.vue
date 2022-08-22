@@ -8,13 +8,13 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker
-                 @change="prjecs"
-                 v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+                <el-date-picker v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
+
             </el-form-item>
+
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -28,7 +28,7 @@
                    <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
                    <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
                    <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
-                 </el-tabs>
+                </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -38,27 +38,27 @@
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" prop="createTime">
-             <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
+            <el-table-column label="项目时间" align="center"  :show-overflow-tooltip="true">
+              <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
             </el-table-column>
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
-             <el-table-column label="完结状态" align="center" prop="projectStatus">
+            <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectContractStatus == '2'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectContractStatus == '1'">完成</el-link>
-                    <el-link :underline="false" type="primary" v-if="scope.row.projectContractStatus == '0'">办理中</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectAcceptanceStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectAcceptanceStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectAcceptanceStatus == '0'">审核中</el-link>
                 </template>
-            </el-table-column>  
+            </el-table-column> 
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==0   && !scope.row.fileName1" type="text" icon="el-icon-circle-plus-outline"
-                        @click="details(scope.row)">合同办理</el-button>
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==0   && scope.row.fileName1" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核合同
-                    </el-button>    
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看合同</el-button>
-                    <el-button size="mini" v-if="scope.row.projectContractStatus==2" type="text" icon="el-icon-edit" @click="edits(scope.row,scope.row.projectCode)">编辑合同
+                    <el-button size="mini" v-if="!scope.row.fileName2" type="text" icon="el-icon-circle-plus-outline"
+                        @click="add(scope.row)">新增</el-button>
+                    <el-button size="mini" v-if="scope.row.fileName2 && scope.row.projectAcceptanceStatus==0" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
                     </el-button>
-                 </template>
+                      <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
+                    <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
+                    </el-button>
+                </template>
             </el-table-column>
         </el-table>
 
@@ -74,6 +74,7 @@
 import moment from 'moment'
 import { list, del,getCount } from "@/api/project/list";
 export default {
+    name:'AuditAcceptanceList',
     data() {
         return {
             allLabel: '全部',
@@ -101,18 +102,18 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-                type:3,
+                type:4,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectContractStatus:0,
-                projectCheckStatus: 1,
+                projectCheckStatus:1, //项目状态
+                projectAcceptanceStatus:0,
                 start: null, //开始
                 end: null,   //结束
             },
-            projectTime: null,
+            projectTime:null,
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -162,39 +163,36 @@ export default {
             rules: {},
         };
     },
-    filters: {
-     filterTime(time) {
-         return moment(time).format('YYYY-MM-DD')
-     },
+     filters: {
+        filterTime(time) {
+
+            return moment(time).format('YYYY-MM-DD')
+        },
     },
     mounted() {
         this.getList();
     },
     methods: {
-        prjecs(e) {
-        if (!this.projectTime) {
-        this.queryParams.start = null;
-        this.queryParams.end = null;
-       }
-       },
+        //验收详情
         find(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
-            this.$tab.closeOpenPage({ path: '/project/ContractDetailS' });
+           this.$tab.closeOpenPage({ path: '/projectlist/auditAcceptanceDetail' })
         },
-        edits(row,code){
+        //验收修改
+        edit(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/project/contracts' });
+           this.$tab.closeOpenPage({ path: '/projectlist/acceptancesEdit' })
         },
-        handleClick(){
+          handleClick(){
             if(this.endStatus=='-1'){
-             this.queryParams.projectContractStatus=null;
-         }else{
-              this.queryParams.projectContractStatus=this.endStatus;
-         }
+             this.queryParams.projectAcceptanceStatus=null;
+           }else{
+              this.queryParams.projectAcceptanceStatus=this.endStatus;
+            }
               this.queryParams.pageNum=1;
               this.getList();
         },
@@ -219,11 +217,11 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
-              getCount() {
+               getCount() {
       getCount(this.queryParams).then(res => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.loadingLabel = "审核中(" + res.unfinished + ")";
         this.finishLabel = "完成(" + res.finished + ")";
       });
     },
@@ -237,6 +235,7 @@ export default {
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
             };
+           
             list(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
@@ -246,21 +245,21 @@ export default {
                 this.loading=false;
             })
 
-        },
 
+        },
+        //验收审核
         detail(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/project/reviewContractDetail' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitAcceptance' });
         },
-        //办理合同
-        details(scope) {
+        //验收新增
+        add(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/project/contract' });
+            this.$tab.closeOpenPage({ path: '/projectlist/addAcceptance' });
         },
-       
-        /** 搜索按钮操作 */
+       /** 搜索按钮操作 */
         handleQuery() {
 
             this.queryParams.pageNum = 1;
@@ -273,14 +272,14 @@ export default {
             this.endStatus='0';
             this.projectTime = null;
             this.queryParams = {
-                type:3,
+                type:4,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 projectCheckStatus:1, //项目状态
-                projectContractStatus:0,
+                projectAcceptanceStatus:0,
                 start: null, //开始
                 end: null,   //结束
             }
@@ -293,6 +292,8 @@ export default {
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
+
+        
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
@@ -320,7 +321,7 @@ export default {
 </script>
 
 <style scoped>
-   ::v-deep .el-message-box__content{
+    ::v-deep .el-message-box__content{
      height: 200px !important;
    }
    ::v-deep .el-tabs__nav-wrap::after{

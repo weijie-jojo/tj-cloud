@@ -364,7 +364,7 @@ export default {
     mounted() {
         this.getlist();
         this.getRate();
-        this.getinfoByUserId(); //渠道商
+      
     },
 
 
@@ -448,19 +448,6 @@ export default {
          this.$tab.closeOpenPage({ path: '/projectlist/list' })
          
         },
-
-        
-        //渠道商接口
-        getinfoByUserId() {
-            getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.userName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
-                    this.placename = res.data;
-                })
-            })
-        },
-
         getRate() {
             crudRate.getAllRate().then(res => {
                 console.log("getAllRate", res.rows);

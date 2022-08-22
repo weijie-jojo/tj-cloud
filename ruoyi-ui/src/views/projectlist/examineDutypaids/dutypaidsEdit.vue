@@ -40,7 +40,7 @@
                     </el-form-item>
                    
                      <el-form-item class="comright" label="项目完税资料" prop="fileName3">
-                      <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                      <uploadSmall  ref="productImage"  @getfileName="getfileNameS" :fileName="fileNameS" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
 
                    
@@ -71,12 +71,15 @@ import uploadSmall from '@/components/douploads/uploadSmall'
 import {edit,check} from "@/api/project/list"
 import { getInfo } from '@/api/login'
 export default {
+    name:'DutypaidsEdit',
      components: { uploadSmall },
     data() {
         return {
+            projectStatusNew:0,
             userinfo:{},
             isDetail:'0',
             fileName: [],
+            fileNameS: [],
             formData: {},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             rules: {
@@ -94,7 +97,15 @@ export default {
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName3=JSON.parse(this.fileName.fileName3);
+        this.formData.fileName3=JSON.parse(this.formData.fileName3);
+         this.$refs.productImage.getSrcList(this.formData.fileName3);
+     
+          for (let i in this.formData.fileName3) {
+          this.fileName.push({
+          name: this.formData.fileName3[i],
+          url: this.baseImgPath + this.formData.fileName3[i]
+         })
+          }
     },
     methods: {
         getfileNameS(data){
@@ -108,7 +119,7 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "10",
+              "projectType": "13",
             };
             check(parms).then(res => {
                 console.log('添加验收成功！');
@@ -120,7 +131,7 @@ export default {
        },
        //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewDutypaid'})
+         this.$tab.closeOpenPage({path:'/projectlist/aduitDutypaidList'})
        },
        handleChange(val) {
             console.log(val);
@@ -130,30 +141,30 @@ export default {
                 // TODO 提交表单
                 if (valid) {
                     this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
-
+                     this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+                    if(this.formData.projectContractStatus==2 || this.formData.projectAcceptanceStatus==2){
+                        this.projectStatusNew=1;
+                    }
                     let parms = {
                         projectId: this.formData.projectId,
                         fileName3: this.formData.fileName3,
                         projectDutypaidStatus:0,
+                        projectStatus:this.projectStatusNew
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
                                     this.$nextTick(function () {
-                                    this.$tab.refreshPage({ path: "/project/reviewDutypaid" }).then(() => {
+                                  
                                      this.check('完税修改完成');
-                                          let obj = {
-                                            title: '完税审核',
-                                            backUrl: '/project/reviewDutypaid',
-                                            resmsg: '完税修改完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                    });
-                                    });
+                                     this.$modal.msgSuccess('完税修改完成');
+                                     this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" }).then(()=>{
+                                           this.$tab.refreshPage({path:'/projectlist/aduitDutypaidList' ,name:'AduitDutypaidList'});
+                                      }) 
+                                   });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/project/reviewDutypaid" });
+                                    this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" });
                                 }
                             }
                         
