@@ -20,7 +20,7 @@
                         <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0"
                              oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                             >
@@ -36,12 +36,9 @@
                   <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                   
-                     <el-form-item class="comright" label="项目合同资料" prop="fileName1">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-
-                   
+                    <el-form-item class="comright" label="项目验收资料" :required="true">
+                        <uploadSmall ref="productImage"  @getfileName="getfileNameS" :fileName="fileNames"  :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
@@ -56,50 +53,59 @@
             <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="8"></el-col>
             <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">返回</el-button> 
+             <el-button type="danger" @click="resetForm">关闭</el-button> 
              <el-button type="primary" @click="onSubmit">提交</el-button>
             </el-col>
            <el-col :span="8"></el-col>
         </el-row>
         </el-form>
-     </div>
+ </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import {edit,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
-import { parse } from 'querystring';
 export default {
+    name:'AcceptancesEdit',
      components: { uploadSmall },
     data() {
         return {
-            fileNames:[],
-            userinfo:{},
-            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-            fileName: [],
-            isDetail:'0',
-            formData: {
-            },
-            rules: {
-                fileName1: [
+           projectStatusNew:0,
+           userinfo:{},
+           isDetail:'0',
+           fileName: [],
+           fileNames:[],
+           formData: {
+            fileName2:[],
+           },
+           rules: {
+                fileName2: [
                     {
                         required: true,
-                        message: "合同不能为空",
+                        message: "项目验收资料不能为空",
                         trigger: "change",
 
                     },
                 ],
             },
-           
+            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
            };
     },
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName1=JSON.parse(this.formData.fileName1);
+        this.formData.fileName2=JSON.parse(this.formData.fileName2);
+        this.$refs.productImage.getSrcList(this.formData.fileName2);
+     
+          for (let i in this.formData.fileName2) {
+          this.fileName.push({
+          name: this.formData.fileName2[i],
+          url: this.baseImgPath + this.formData.fileName2[i]
+         })
+       }
     },
     methods: {
-        check(resmsg) {
+         check(resmsg) {
         getInfo().then(res => {
             this.userinfo=res.user;
              let parms = {
@@ -107,10 +113,10 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "8",
+              "projectType": "12",
             };
             check(parms).then(res => {
-                console.log('添加合同成功！');
+                console.log('验收修改成功！');
             }).catch(error => {
 
             });
@@ -118,48 +124,48 @@ export default {
        
        },
         getfileNameS(data){
-         this.formData.fileName1=data; 
+           this.formData.fileName2=data;
+           console.log(this.formData.fileName2);
         },
-      //返回
+       //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewContract'})
+         this.$tab.closeOpenPage({path:'/projectlist/auditAcceptanceList'})
        },
-        handleChange(val) {
+       handleChange(val) {
             console.log(val);
         },
         onSubmit() {
-           
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
+                this.projectStatusNew=0;
                 if (valid) {
-                    this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
-
+                    // project_remain_amount
+                    this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+                    if(this.formData.projectContractStatus==2 || this.formData.projectDutypaidStatus==2){
+                        this.projectStatusNew=1;
+                    }
                     let parms = {
                         projectId: this.formData.projectId,
-                        fileName1: this.formData.fileName1,
-                        projectContractStatus:0,
+                        fileName2: this.formData.fileName2,
+                        projectAcceptanceStatus:0,
+                        projectStatus:this.projectStatusNew
                     };
-                    
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
-                                  
-                                    this.$nextTick(function () {
-                                     this.$tab.refreshPage({ path: "/project/reviewContract" }).then(() => {
-                                     this.check('合同修改完成');
-                                          let obj = {
-                                            title: '合同审核',
-                                            backUrl: '/project/reviewContract',
-                                            resmsg: '合同修改完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                    });
+                                   this.$nextTick(function () {
+                                     
+                                    this.check('验收修改完成');
+                                    this.$modal.msgSuccess('验收修改完成');
+                                    this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" }).then(() => {
+                                          // 执行结束的逻辑 
+                                         this.$tab.refreshPage({ path: "/projectlist/auditAcceptanceList",name:'AuditAcceptanceList'})
+                                    })
                                         
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/project/reviewContract" });
+                                    this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" });
                                 }
                             }
                         
@@ -172,7 +178,6 @@ export default {
                 }
             });
         },
-       
     },
 };
 </script>
@@ -207,28 +212,16 @@ export default {
 
 .combottom {
     margin-bottom: 10px;
-
 }
 
 .flexs {
     display: flex;
     justify-content: center;
-
 }
 
 .bankno {
-
     letter-spacing: 2px;
-
     font-size: 20px;
-
     color: blue;
 }
-
-
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

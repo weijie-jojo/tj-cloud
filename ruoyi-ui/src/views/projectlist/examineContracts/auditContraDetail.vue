@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData"  size="medium" label-width="140px">
+        <el-form ref="elForm" :model="formData" :rules="rules"  size="medium" label-width="140px">
 
            
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
@@ -20,7 +20,9 @@
                         <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input
+                          :readonly="true"
+                          type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0"
                              oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                             >
@@ -36,24 +38,26 @@
                   <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                   
-                     <el-form-item class="comright" label="项目验收资料" :required="true">
-                          <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                    <el-form-item class="comright" label="项目合同" prop="fileName1">
+                        <uploadSmall v-if="formData.fileName1.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
-                 <el-form-item class="comright" label="乙方" prop="projectOwner">
+
+                    <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
-                  </el-col>
+                    
+                  
+                </el-col>
             </el-row>
               
-             <el-row type="flex" class="row-bg" justify="space-around">
-          <el-col :span="21">
-            <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-              <el-radio disabled v-model="isokradioS" label="1"> 通过</el-radio>
-           </el-form-item>
+                <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+            <el-radio disabled v-model="projectContractStatus" label="1"> 通过</el-radio>
+          </el-form-item>
         </el-col>
 
       </el-row>   
@@ -61,11 +65,9 @@
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
-              <el-radio disabled v-model="isokradioS" label="2">不通过 </el-radio>
-              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
+              <el-radio disabled v-model="projectContractStatus" label="2">不通过 </el-radio>
+              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="projectContractStatus == 1"></el-input>
             </div>
-
-
           </el-form-item>
         </el-col>
 
@@ -73,56 +75,61 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">关闭</el-button>
-                   </el-col>
+                 <el-button type="danger" @click="resetForm">关闭</el-button>
+                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
-      </el-form>
+         </el-form>
      </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 
 export default {
+    name:'AuditContraDetail',
      components: { uploadSmall },
     data() {
         return {
-            remark:'',
-            isNone:[],
-            isDetail:'1',
-            isokradioS:'1',
-            fileName: [],
+             rules: {
+
+            },
             userinfo:{},
-            formData:{},
+            remark:'',
+            projectContractStatus:'1',
+            isDetail:'1',
+            fileName: [],
+            isNone:[],
+            formData: {fileName1:[]},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
            };
     },
     computed: {},
     mounted() {
+        this.fileName=[];
         this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName2=JSON.parse(this.formData.fileName2);
-        this.remark=this.formData.checkRemark;
-        this.isokradioS=this.formData.projectAcceptanceStatus;
-        for(let i in this.formData.fileName2){
+        this.remark=this.formData.contractRemark;
+        this.projectContractStatus=JSON.stringify(this.formData.projectContractStatus);
+        this.formData.fileName1=JSON.parse(this.formData.fileName1);
+        for(let i in this.formData.fileName1){
            this.fileName.push({
-            name:this.formData.fileName2[i],
-            url:this.baseImgPath+this.formData.fileName2[i]
+            name:this.formData.fileName1[i],
+            url:this.baseImgPath+this.formData.fileName1[i]
            })
         }
     },
     methods: {
-      
-      getfileNameS(){
-
+      getfileNameS(data){
+        this.formData.fileName1=data;
       },
-      
-     //返回
-       resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewAcceptance'})
+      //返回
+        resetForm(){
+         this.$tab.closeOpenPage({path:'/projectlist/auditContractList'})
        },
-      handleChange(val) {
+       handleChange(val) {
             console.log(val);
-      },
+        },
+      
+       
     },
 };
 </script>
@@ -174,20 +181,5 @@ export default {
 
     color: blue;
 }
-::v-deep .el-input.is-disabled .el-input__inner{
-   background-color: rgba(255, 255, 255, 1.5) !important;
-   color: black  !important;
-   border-color: rgba(135,206,250,0.7) !important;
-}
-::v-deep .el-input-group__append{
-   background-color: rgba(255, 255, 255, 1.5) !important;
-   color: black  !important;
-   border-color: rgba(135,206,250,0.7) !important;
-}
 
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>

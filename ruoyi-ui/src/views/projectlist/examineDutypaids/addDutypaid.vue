@@ -20,7 +20,9 @@
                         <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
+                        <el-input
+                        :readonly="true"
+                        type="number" style="width:100%" v-model="formData.projectTotalAmount" 
                             :step="0.01" :min="0"
                              oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                             >
@@ -37,8 +39,8 @@
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
-                     <el-form-item class="comright" label="项目验收资料" :required="true">
-                       <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                     <el-form-item class="comright" label="项目完税资料" prop="fileName3">
+                      <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
 
                    
@@ -62,40 +64,44 @@
            <el-col :span="8"></el-col>
         </el-row>
         </el-form>
- </div>
+     </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import {edit,check} from "@/api/project/list";
+import {edit,check} from "@/api/project/list"
 import { getInfo } from '@/api/login'
 export default {
+    name:'AddDutypaid',
      components: { uploadSmall },
     data() {
         return {
-           userinfo:{},
-           isDetail:'0',
-           fileName: [],
-           formData: {},
-           rules: {
-                fileName2: [
+            userinfo:{},
+            isDetail:'0',
+            fileName: [],
+            formData: {},
+            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+            rules: {
+                fileName3: [
                     {
                         required: true,
-                        message: "项目验收资料不能为空",
+                        message: "项目完税资料不能为空",
                         trigger: "change",
 
                     },
                 ],
             },
-            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
            };
     },
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName2=[];
+        this.formData.fileName3=[];
     },
     methods: {
-         check(resmsg) {
+        getfileNameS(data){
+          this.formData.fileName3=data;
+        },
+        check(resmsg) {
         getInfo().then(res => {
             this.userinfo=res.user;
              let parms = {
@@ -103,22 +109,19 @@ export default {
               "checkUser": this.userinfo.userName,
               'phonenumber': this.userinfo.phonenumber,
               "projectCode": this.formData.projectCode,
-              "projectType": "9",
+              "projectType": "16",
             };
             check(parms).then(res => {
-                console.log('添加验收成功！');
+                console.log('添加完税成功！');
             }).catch(error => {
 
             });
           })
        
        },
-        getfileNameS(data){
-           this.formData.fileName2=data;
-        },
        //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewAcceptance'})
+         this.$tab.closeOpenPage({path:'/projectlist/aduitDutypaidList'})
        },
        handleChange(val) {
             console.log(val);
@@ -127,31 +130,27 @@ export default {
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
-                    this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+                    this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
 
                     let parms = {
                         projectId: this.formData.projectId,
-                        fileName2: this.formData.fileName2
+                        fileName3: this.formData.fileName3
+                      
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {
                                 if (res.code === 200) {
                                    this.$nextTick(function () {
-                                     this.$tab.refreshPage({ path: "/project/reviewAcceptance" }).then(() => {
-                                     this.check('验收办理完成');
-                                          let obj = {
-                                            title: '验收审核',
-                                            backUrl: '/project/reviewAcceptance',
-                                            resmsg: '验收办理完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                    });
-                                        
+                                     this.check('完税新增成功');
+                                     this.$modal.msgSuccess('完税新增成功');
+                                     this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" }).then(()=>{
+                                        this.$tab.refreshPage({path:'/projectlist/aduitDutypaidList',name:'AduitDutypaidList'});
+                                     })
+                                   
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/project/reviewAcceptance" });
+                                    this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" });
                                 }
                             }
                         
@@ -164,6 +163,7 @@ export default {
                 }
             });
         },
+       
     },
 };
 </script>
@@ -198,16 +198,28 @@ export default {
 
 .combottom {
     margin-bottom: 10px;
+
 }
 
 .flexs {
     display: flex;
     justify-content: center;
+
 }
 
 .bankno {
+
     letter-spacing: 2px;
+
     font-size: 20px;
+
     color: blue;
 }
+
+
+
+// ::v-deep .el-tabs__nav-scroll {
+//   width: 50% !important;
+//   margin: 0 auto !important;
+// }
 </style>

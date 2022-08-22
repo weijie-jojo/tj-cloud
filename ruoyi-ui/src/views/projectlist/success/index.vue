@@ -9,8 +9,8 @@
         <el-step title="项目填写完成"></el-step>
         <el-step title="项目审核完成"></el-step>
         <el-step title="合同审核完成"></el-step>
-        <el-step title="完税审核完成"></el-step>
         <el-step title="验收审核完成"></el-step>
+        <el-step title="完税审核完成"></el-step>
        
        </el-steps>
       <el-row type="flex" class="row-bg " justify="space-around">
@@ -59,10 +59,10 @@ export default {
        case '合同审核完成':
        this.shenmsgs=2;
       break;
-       case '完税审核完成':
+       case '验收审核完成':
        this.shenmsgs=3;
       break;
-       case '验收审核完成':
+       case '完税审核完成':
        this.shenmsgs=4;
       break;
       

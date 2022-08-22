@@ -106,6 +106,9 @@ export default {
     this.getLunS();
   },
   methods: {
+    getSrcList(val){
+       this.fileNames=val;
+    },
     closeViewer() {
      this.showViewer = false
     },

@@ -8,13 +8,10 @@
             </el-form-item>
 
             <el-form-item label="项目时间">
-                <el-date-picker 
-                   @change="prjecs"
-                    v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
+                <el-date-picker @change="prjecs" v-model="projectTime" value-format="yyyy-MM-dd" type="daterange"
                     :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
                     :default-time="['00:00:00', '23:59:59']" align="right">
                 </el-date-picker>
-
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -25,43 +22,44 @@
         <el-row :gutter="10" class="mb8">
             <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
-                <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
-                <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
-                <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
-                <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
-              </el-tabs>
+                    <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
+                    <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
+                    <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
+                    <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
+                </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
-      
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
-            <el-table-column label="项目时间" align="center" width="120" prop="createTime">
-                <template slot-scope="scope">
-                    {{ scope.row.createTime | filterTime }}
-                </template>
+            <el-table-column label="项目时间" align="center" prop="createTime">
+                <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
             </el-table-column>
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectCheckStatus == '1'">完成</el-link>
-                    <el-link :underline="false" type="primary" v-if="scope.row.projectCheckStatus == '0'">办理中</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectContractStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectContractStatus == '1'">完成
+                    </el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectContractStatus == '0'">审核中
+                    </el-link>
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 1" type="text" icon="el-icon-view"
-                        @click="find(scope.row, scope.row.projectCode)">查看项目</el-button>
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 0" type="text" icon="el-icon-s-custom"
-                        @click="detail(scope.row)">审核项目
+                    <el-button size="mini" v-if="scope.row.projectContractStatus == 0 && !scope.row.fileName1"
+                        type="text" icon="el-icon-circle-plus-outline" @click="add(scope.row)">新增</el-button>
+                    <el-button size="mini" v-if="scope.row.projectContractStatus == 0 && scope.row.fileName1"
+                        type="text" icon="el-icon-s-custom" @click="audit(scope.row)">审核
                     </el-button>
-                    <el-button size="mini" v-if="scope.row.projectCheckStatus == 2" type="text" icon="el-icon-edit"
-                        @click="edits(scope.row, scope.row.projectCode)">编辑项目
+                    <el-button size="mini" v-if="scope.row.projectContractStatus == 1" type="text" icon="el-icon-view"
+                        @click="find(scope.row, scope.row.projectCode)">查看</el-button>
+                    <el-button size="mini" v-if="scope.row.projectContractStatus == 2" type="text" icon="el-icon-edit"
+                        @click="edit(scope.row, scope.row.projectCode)">修改
                     </el-button>
                 </template>
             </el-table-column>
@@ -77,13 +75,14 @@
 
 <script>
 import moment from 'moment'
-import { list, del ,getCount} from "@/api/project/list";
+import { list, del, getCount } from "@/api/project/list";
 export default {
+    name: 'AuditContractList',
     data() {
         return {
             allLabel: '全部',
             errLabel: '异常',
-            loadingLabel: '办理中',
+            loadingLabel: '审核中',
             finishLabel: '完成',
             endStatus: '0',
             // 遮罩层
@@ -106,13 +105,14 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-                type:2,
+                type: 3,
                 pageNum: 1,
                 pageSize: 10,
-                projectOwner: null,  //乙方
+                selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectCheckStatus: 0, //项目状态
+                projectContractStatus: 0,
+                projectCheckStatus: 1,
                 start: null, //开始
                 end: null,   //结束
             },
@@ -144,6 +144,22 @@ export default {
                     }
                 }]
             },
+            options: [
+                {
+                    value: 0,
+                    label: '进行'
+                },
+                {
+
+                    value: 1,
+                    label: '异常'
+                },
+                {
+
+                    value: 2,
+                    label: '完结',
+                },
+            ],
             // 表单参数
             form: {},
             // 表单校验
@@ -152,7 +168,6 @@ export default {
     },
     filters: {
         filterTime(time) {
-
             return moment(time).format('YYYY-MM-DD')
         },
     },
@@ -160,23 +175,31 @@ export default {
         this.getList();
     },
     methods: {
-       prjecs(e) {
-        if (!this.projectTime) {
-        this.queryParams.start = null;
-        this.queryParams.end = null;
-       }
-       },
+        prjecs(e) {
+            if (!this.projectTime) {
+                this.queryParams.start = null;
+                this.queryParams.end = null;
+            }
+        },
+        //查看合同
         find(row, code) {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
-            this.$tab.closeOpenPage({ path: '/project/DetailS' });
+            this.$tab.closeOpenPage({ path: '/projectlist/AuditContraDetail' });
+        },
+        //修改合同
+        edit(row, code) {
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', row);
+            this.$cache.local.setJSON("projectListNews", row);
+            this.$tab.closeOpenPage({ path: '/projectlist/auditContractEdit' });
         },
         handleClick() {
             if (this.endStatus == '-1') {
-                this.queryParams.projectCheckStatus = null;
+                this.queryParams.projectContractStatus = null;
             } else {
-                this.queryParams.projectCheckStatus = this.endStatus;
+                this.queryParams.projectContractStatus = this.endStatus;
             }
             this.queryParams.pageNum = 1;
             this.getList();
@@ -202,36 +225,20 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
-
-        //跳转票据列表页
-        tickets(row) {
-            this.$confirm("点击查看进入详情", "票据说明", {
-                confirmButtonText: '查看票据',
-                cancelButtonText: '关闭',
-
-            }).then(() => {
-                this.$cache.local.setJSON('publicTickets', row);
-                this.$tab.closeOpenPage({ path: '/project/ticketlist' })
-                //  this.$router.push('ticketlist');
-            }).catch(() => {
-
+        getCount() {
+            getCount(this.queryParams).then(res => {
+                this.errLabel = "异常(" + res.error + ")";
+                this.allLabel = "全部(" + res.total + ")";
+                this.loadingLabel = "审核中(" + res.unfinished + ")";
+                this.finishLabel = "完成(" + res.finished + ")";
             });
-
         },
-          getCount() {
-      getCount(this.queryParams).then(res => {
-        this.errLabel = "异常(" + res.error + ")";
-        this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "办理中(" + res.unfinished + ")";
-        this.finishLabel = "完成(" + res.finished + ")";
-      });
-    },
         /** 查询项目列表 */
         getList() {
             this.loading = true;
             if (this.projectTime != null) {//如果不选择时间，或者选择时间再将时间清除，直接点击查询，会报错，所以要判断一下，这个为时间不为空走这个。
-                this.queryParams.start = this.projectTime[0]+ ' ' + '00:00:00';
-                this.queryParams.end = this.projectTime[1]+ ' ' + '23:59:59';
+                this.queryParams.start = this.projectTime[0] + ' ' + '00:00:00';
+                this.queryParams.end = this.projectTime[1] + ' ' + '23:59:59';
 
             } else {//判断选择时间再将时间清除
                 this.projectTime = null;
@@ -241,17 +248,27 @@ export default {
                 this.total = response.total;
                 this.loading = false;
                 this.getCount();
-            }).catch(err=>{
-                this.loading=false;
+            }).catch(err => {
+                this.loading = false;
             })
+
         },
-        detail(scope) {
+        //审核合同
+        audit(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/project/reviewDetail' });
+            this.$tab.closeOpenPage({ path: '/projectlist/auditContracts' });
         },
+        //办理合同
+        add(scope) {
+            this.$cache.local.setJSON("projectListNews", scope);
+            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$tab.closeOpenPage({ path: '/projectlist/addContract' });
+        },
+
         /** 搜索按钮操作 */
         handleQuery() {
+
             this.queryParams.pageNum = 1;
             this.getList();
         },
@@ -262,14 +279,14 @@ export default {
             this.endStatus = '0';
             this.projectTime = null;
             this.queryParams = {
-                type:2,
+                type: 3,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectStatus: null,
-                projectCheckStatus: 0,
+                projectCheckStatus: 1, //项目状态
+                projectContractStatus: 0,
                 start: null, //开始
                 end: null,   //结束
             }
@@ -282,19 +299,11 @@ export default {
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
-
-        
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
             this.$router.push("editList");
 
-        },
-        edits(row, code) {
-            this.$cache.local.setJSON('projectCodeNew', code);
-            this.$cache.local.setJSON("projectListNews", row);
-            this.$cache.local.setJSON("iscxxiu", 1);
-            this.$tab.closeOpenPage({ path: '/project/editList' })
         },
 
         /** 删除按钮操作 */

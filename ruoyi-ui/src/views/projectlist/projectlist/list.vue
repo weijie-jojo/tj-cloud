@@ -80,7 +80,7 @@
                         未开始</el-link>
 
                     <el-link @click="examine(scope.row.userId, scope.row, 2,scope.row.projectCode)" :underline="false" type="primary"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">审核中</el-link>
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">开票中</el-link>
 
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 2)"
@@ -312,7 +312,11 @@ export default {
             this.$cache.local.setJSON('publicTickets', scope);
             this.$cache.local.setJSON("projectListNews", scope);
             var msg = '审核';
+            
             this.types = type;
+            if(this.types==2){
+                msg='开票'
+            }
             getLeaderByUserId({
                 userId: applyName
             }).then(res => {
@@ -376,11 +380,15 @@ export default {
         editList() {
             switch (this.types) {
                 case 1:
-                    this.$cache.local.setJSON("iscxxiu", 1);
-                    this.$tab.closeOpenPage({ path: '/projectlist/edit' })
+                    let obj={
+                        name:'List',
+                        url:'/projectlist/list',
+                    };
+                    this.$cache.local.setJSON('Projectedit',obj);
+                    this.$tab.closeOpenPage({ path: '/projectlist/itemsEdit' })
                     break;
                 case 2:
-                    this.$cache.local.setJSON("iscxxiu", 1);
+                  
                     this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' })
                     break;
                 case 3:
@@ -399,10 +407,9 @@ export default {
         findList() {
             switch (this.types) {
                 case 1:
-                    this.$tab.closeOpenPage({ path: '/project/DetailS' })
+                    this.$tab.closeOpenPage({ path: '/projectlist/detail' })
                     break;
                 case 2:
-                    this.$cache.local.setJSON("iscxxiu", 0);
                     this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' })
                     break;
                 case 3:
@@ -601,7 +608,7 @@ export default {
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.$cache.local.setJSON("projectCodeNew", row.projectCode);
-            this.$cache.local.setJSON("iscxxiu", 0);
+          
             this.$tab.openPage("项目修改", "/projectlist/edit")
         },
 

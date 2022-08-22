@@ -3,7 +3,7 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
 
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top:20px;margin-bottom: 0px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
                         <el-input v-model="formData.projectCode" disabled></el-input>
@@ -102,7 +102,11 @@
 
 
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true"></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true">
+                        <template slot="append">
+                                 %
+                        </template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
                         <el-select style="width:100%" clearable v-model="formData.ticketTax">

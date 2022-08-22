@@ -163,7 +163,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
                     
                 </el-col>
                 <el-col :span="8"></el-col>
@@ -411,7 +411,7 @@ export default {
                this.industryId = rate.industryId;  //行业类型id
                this.owerTaxfee = rate.taxRate;
                let industryType = rate.industryId;
-             ownlist({ username: this.username, industryType: industryType }).then(res => {
+             ownlist({ username: this.formData.projectLeader, industryType: industryType }).then(res => {
                 this.ownoptions = res;
                 
                    for (let i in this.ownoptions) {
@@ -570,10 +570,10 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.userName;
-                this.formData.projectLeader = res.user.nickName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                //this.userId = res.user.userId;
+               // this.username = res.user.userName;
+                //this.formData.projectLeader = res.user.nickName;
+                getinfoByUserId({ userId: this.formData.userId }).then(res => {
                     this.placeCodeOptions = res.data;
                 })
             })

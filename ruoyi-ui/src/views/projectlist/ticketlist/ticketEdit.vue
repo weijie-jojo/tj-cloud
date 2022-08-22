@@ -113,7 +113,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
 
-                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames"
+                        <uploadSmall  @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames"
                             :isDetail="isDetail"></uploadSmall>
 
                     </el-form-item>
@@ -144,8 +144,8 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-                        <uploadSmall v-if="fileName.length > 0" @getfileName="getfileNameSS"
-                            :fileName="formData.fileName" :fileNameOld="fileName" :isDetail="isDetails"></uploadSmall>
+                        <uploadSmall ref="productImage" @getfileName="getfileNameSS"
+                            :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetails"></uploadSmall>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
@@ -157,7 +157,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
                     <el-button type="primary" @click="onSubmit">提交</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
@@ -387,6 +387,7 @@ export default {
         this.getRate();
         this.formData = this.$cache.local.getJSON("ticketDetails");
         this.formData.fileName = JSON.parse(this.formData.fileName);
+        this.$refs.productImage.getSrcList(this.formData.fileName);
         this.fileName = [];
         let arr = this.formData.fileName;
         for (let i in arr) {
@@ -406,7 +407,7 @@ export default {
                 this.industryId = rate.industryId;  //行业类型id
                 this.owerTaxfee = rate.taxRate;
                 let industryType = rate.industryId;
-                ownlist({ username: this.username, industryType: industryType }).then(res => {
+                ownlist({ username:this.formData.projectLeader, industryType: industryType }).then(res => {
                     this.ownoptions = res;
 
                     for (let i in this.ownoptions) {
@@ -580,10 +581,10 @@ export default {
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.userName;
-                this.formData.projectLeader = res.user.nickName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                // this.userId = res.user.userId;
+                // this.username = res.user.userName;
+                // this.formData.projectLeader = res.user.nickName;
+                getinfoByUserId({ userId: this.formData.userId }).then(res => {
                     this.placeCodeOptions = res.data;
                 })
             })
@@ -618,7 +619,7 @@ export default {
             var day = this.repair(date.getDate());//日
 
             var hour = this.repair(date.getHours());//时
-            var minute = this.repair(date.getMinutes());//分
+            var minute = this.repair(date.getMinformData.fileNameutes());//分
             var second = this.repair(date.getSeconds());//秒
 
             //当前时间 
@@ -643,13 +644,9 @@ export default {
 
                 // TODO 提交表单
                 if (valid) {
-                    if (this.$cache.local.getJSON("iscxxiu") == 1) {
-                        this.formData.projectTicketStatus = 0;
-                    }
                     this.formData.fileName = JSON.stringify(this.formData.fileName);
                     //如果是附件的话
                     arrss.edit(this.Father);
-
                     edit(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res.code === 200) {

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules"  size="medium" label-width="140px">
+        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
-           
+
             <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
@@ -20,62 +20,63 @@
                         <el-input v-model="formData.createTime" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input type="number" :readonly="true" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0"
-                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                            >
+                        <el-input type="number" :readonly="true" style="width:100%"
+                            v-model="formData.projectTotalAmount" :step="0.01" :min="0"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
                             <template slot="append">
-                              元
+                                元
                             </template>
                         </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-           <el-row type="flex" class="row-bg " justify="space-around">
+            <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                  <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                   
-                     <el-form-item class="comright" label="项目合同资料" prop="fileName1">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+
+                    <el-form-item class="comright" label="项目合同资料" prop="fileName1">
+                        <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName"
+                            :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
 
-                   
+
                 </el-col>
 
                 <el-col :span="9">
 
                     <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-input  v-model="formData.selfName" :readonly="true"></el-input>
+                        <el-input v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
-                    
-                  
+
+
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
-            <el-col :span="8"></el-col>
-            <el-col :span='8' class="flexs">
-             <el-button type="danger" @click="resetForm">关闭</el-button> 
-             <el-button type="primary" @click="onSubmit">提交</el-button>
-            </el-col>
-           <el-col :span="8"></el-col>
-        </el-row>
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
+                    <el-button type="primary" @click="onSubmit">提交</el-button>
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
         </el-form>
-     </div>
+    </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
-import {edit,check} from "@/api/project/list";
+import { edit, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
-     components: { uploadSmall },
+    name: 'AddContract',
+    components: { uploadSmall },
     data() {
         return {
-            userinfo:{},
+            userinfo: {},
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             fileName: [],
-            isDetail:'0',
+            isDetail: '0',
             formData: {
             },
             rules: {
@@ -88,46 +89,46 @@ export default {
                     },
                 ],
             },
-           
-           };
+
+        };
     },
     computed: {},
     mounted() {
-        this.formData=this.$cache.local.getJSON("projectListNews");
-       
-        this.formData.fileName1=[];
+        this.formData = this.$cache.local.getJSON("projectListNews");
+
+        this.formData.fileName1 = [];
     },
     methods: {
         check(resmsg) {
-        getInfo().then(res => {
-            this.userinfo=res.user;
-             let parms = {
-              "checkReasult": resmsg,
-              "checkUser": this.userinfo.userName,
-              'phonenumber': this.userinfo.phonenumber,
-              "projectCode": this.formData.projectCode,
-              "projectType": "8",
-            };
-            check(parms).then(res => {
-                console.log('添加合同成功！');
-            }).catch(error => {
+            getInfo().then(res => {
+                this.userinfo = res.user;
+                let parms = {
+                    "checkReasult": resmsg,
+                    "checkUser": this.userinfo.userName,
+                    'phonenumber': this.userinfo.phonenumber,
+                    "projectCode": this.formData.projectCode,
+                    "projectType": "14",
+                };
+                check(parms).then(res => {
+                    console.log('添加合同成功！');
+                }).catch(error => {
 
-            });
-          })
-       
-       },
-        getfileNameS(data){
-         this.formData.fileName1=data; 
+                });
+            })
+
         },
-      //返回
-       resetForm(){
-         this.$tab.closeOpenPage({path:'/project/reviewContract'})
-       },
+        getfileNameS(data) {
+            this.formData.fileName1 = data;
+        },
+        //返回
+        resetForm() {
+            this.$tab.closeOpenPage({ path: '/projectlist/auditContractList' })
+        },
         handleChange(val) {
             console.log(val);
         },
         onSubmit() {
-           
+
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
@@ -137,30 +138,25 @@ export default {
                         projectId: this.formData.projectId,
                         fileName1: this.formData.fileName1
                     };
-                    
+
                     edit(parms).then((res) => {
-                         if (res != undefined) {
-                                if (res.code === 200) {
-                                  
-                                    this.$nextTick(function () {
-                                     this.$tab.refreshPage({ path: "/project/reviewContract" }).then(() => {
-                                     this.check('合同办理完成');
-                                          let obj = {
-                                            title: '合同审核',
-                                            backUrl: '/project/reviewContract',
-                                            resmsg: '合同办理完成'
-                                            };
-                                        this.$cache.local.setJSON('successNew', obj);
-                                        this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
-                                    });
-                                        
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/project/reviewContract" });
-                                }
+                        if (res != undefined) {
+                            if (res.code === 200) {
+                                this.$nextTick(function () {
+                                this.check('合同新增成功');
+                                this.$modal.msgSuccess('合同新增成功');
+                                this.$tab.closeOpenPage({ path: "/projectlist/auditContractList" }).then(() => {
+                                        this.$tab.refreshPage({path:'/projectlist/auditContractList',name:'AuditContractList'});
+                                })
+                                });
+
+
+                            } else {
+                                this.$modal.msgError(res.msg);
+                                this.$tab.closeOpenPage({ path: "/projectlist/auditContractList" });
                             }
-                        
+                        }
+
                     });
                 } else {
                     this.$message({
@@ -170,7 +166,7 @@ export default {
                 }
             });
         },
-       
+
     },
 };
 </script>
