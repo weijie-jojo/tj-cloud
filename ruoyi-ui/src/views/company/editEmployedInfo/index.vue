@@ -1488,6 +1488,7 @@ export default {
       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
           this.formData.placeAliasName=this.places[i].placeAliasName;
+          this.formData.placeCode=this.places[i].placeCode;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
@@ -1617,7 +1618,7 @@ export default {
       getInfo().then(res => {
         this.userinfo=res.user;
         this.formData.userName = res.user.nickName;
-        crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
+        crudPlace.getPlaceByUserId({ userId:this.formData.userId }).then(res => {
 
           this.places = res.data;
         })
@@ -1883,6 +1884,7 @@ export default {
             legalPersonName: this.formData.contactName,
             privateDepositBank: this.formData.privateDepositBank,
             privateAccountNumber: this.formData.privateAccountNumber,
+            placeCode:this.formData.placeCode,
             placeName: this.formData.placeName,
             placeAliasName:this.formData.placeAliasName,
             username: this.formData.userName,
