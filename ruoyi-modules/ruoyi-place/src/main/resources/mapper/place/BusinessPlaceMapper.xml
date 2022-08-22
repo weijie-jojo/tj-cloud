@@ -28,7 +28,7 @@
                     #{item}
                 </foreach>
             </if>
-            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="placeName != null  and placeName != ''"> and place_alias_name like concat('%', #{placeName}, '%')</if>
         </trim>
         ORDER BY
         t.place_id DESC

@@ -15,8 +15,10 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.SelfEmployed;
 import com.ruoyi.place.entity.vo.SysUserVo;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
+import com.ruoyi.place.mapper.SelfEmployedMapper;
 import com.ruoyi.place.mapper.SysUserMapper;
 import com.ruoyi.place.qo.PageQo;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
@@ -57,6 +59,7 @@ public class BusinessPlaceController extends BaseController {
     private final BusinessPlaceMapper businessPlaceMapper;
     private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
     private final SysUserMapper sysUserMapper;
+    private final SelfEmployedMapper selfEmployedMapper;
 
     @GetMapping(value ="/getCount")
     @Log(title = "获取登录用户的渠道数量")
@@ -172,16 +175,29 @@ public class BusinessPlaceController extends BaseController {
         System.out.println("placeCodes=="+placeCodes);
         DataDto dataDto=new DataDto();
         String[] placeCodeStr=placeCodes.split(",");
+        System.out.println("长度"+placeCodeStr.length);
         Integer num=0;//删除的次数
+        Integer num2=0;
+        List<SelfEmployed> list=new ArrayList<>();//存储存在个体户的渠道个体户信息
         for (String placeCode:placeCodeStr) {
-            Integer count=iBusinessPlaceService.delPlace2(placeCode);
-            num+=count;
+            List<SelfEmployed> selfEmployeds= selfEmployedMapper.selectEmployedByPlaceCode(placeCode);
+            if (selfEmployeds.size()<=0){//此渠道不存在个体户
+                Integer count=iBusinessPlaceService.delPlace2(placeCode);
+                num+=count;
+            }else {
+                list=selfEmployeds;
+                num2=1;
+            }
         }
-        System.out.println("num=="+num);
-        if (num>1){
+        if (num>=placeCodeStr.length*2){
             dataDto.success("删除成功");
         }else {
-            dataDto.err("删除失败");
+            if (num2==1){
+                dataDto.err("该渠道存在个体户",list);
+                System.out.println("该渠道存在个体户");
+            }else {
+                dataDto.err("删除失败");
+            }
         }
         return dataDto;
     }

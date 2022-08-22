@@ -47,8 +47,7 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
         }else {
             statusArr =placeVo.getStatus().split(",");
         }
-        String placeName=placeVo.getPlaceName();
-        System.out.println("statusArr=="+statusArr);
+        String placeName=placeVo.getPlaceAliasName();
         return businessPlaceMapper.selectBusinessPlaceJoin(userIdArr,statusArr,placeName);
     }
 
