@@ -50,6 +50,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUser> selectAll() {
         QueryWrapper<SysUser> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("del_flag",0);
         if (redisService.getCacheObject("users")==null){
             List<SysUser> list = sysUserMapper.selectList(queryWrapper);
             redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
