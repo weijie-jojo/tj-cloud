@@ -1075,6 +1075,7 @@ export default {
       dialogVisible3: false,
       userinfo: {},
       formData: {
+        
         isSliderOrdinary:'0',  //普票滑块
         isSlider:'0',  //专票滑块
         ordinaryProxyIsmoney: '1', //普票平台服务费是否定额
@@ -1160,6 +1161,7 @@ export default {
         publicDepositBank1: '',
         publicAccountNumber1: '',
         placeName: '',
+        placeCode:'',
         placeAliasName:'',
         userName: '',
 
@@ -1739,9 +1741,10 @@ export default {
      
     },
     placenew() {
-      for (let i in this.places) {
+       for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
           this.formData.placeAliasName=this.places[i].placeAliasName;
+          this.formData.placeCode=this.places[i].placeCode;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
@@ -2289,6 +2292,7 @@ export default {
 
         privateDepositBank: this.formData.privateDepositBank,
         privateAccountNumber: this.formData.privateAccountNumber,
+        placeCode:this.formData.placeCode,
         placeName: this.formData.placeName,
         placeAliasName:this.formData.placeAliasName,
         username: this.formData.userName,
