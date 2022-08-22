@@ -185,16 +185,22 @@ public class BusinessPlaceController extends BaseController {
                 Integer count=iBusinessPlaceService.delPlace2(placeCode);
                 num+=count;
             }else {
-                list=selfEmployeds;
                 num2=1;
+                list.add(selfEmployeds.get(0));
             }
         }
         if (num>=placeCodeStr.length*2){
             dataDto.success("删除成功");
         }else {
+            StringBuilder sb=new StringBuilder();
             if (num2==1){
-                dataDto.err("该渠道存在个体户",list);
-                System.out.println("该渠道存在个体户");
+                System.out.println("list"+list);
+                for (SelfEmployed selfEmployed:list){
+                     sb.append(selfEmployed.getPlaceAliasName()+",");
+                }
+//                String msg= StringUtils.getDistinct(sb.toString());
+                dataDto.err(sb+"存在个体户");
+                System.out.println(sb+"存在个体户不能删除");
             }else {
                 dataDto.err("删除失败");
             }

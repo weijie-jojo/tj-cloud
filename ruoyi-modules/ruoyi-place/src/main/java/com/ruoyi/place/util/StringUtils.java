@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -73,8 +74,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     /**
      * 自动生成编号
      *
-     * @param prefix 前缀，往往是一串字符串
-     * @param nowNum 当前要生成的数字
      * @return
      */
 //    public static String getConteactNo(String prefix, int nowNum,String patten) {
@@ -106,5 +105,18 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 //
 //        return builder.toString();
 //    }
-
+    /*
+    * stringbuild去重复
+    * */
+    public static String getDistinct(String str){
+        HashSet<Character> set = new HashSet<Character>();
+        char[] chars = str.toCharArray();
+        StringBuffer sb = new StringBuffer();
+        for (char aChar : chars) {
+            if(set.add(aChar)){
+                sb.append(aChar);
+            }
+        }
+        return sb.toString();
+    }
 }
