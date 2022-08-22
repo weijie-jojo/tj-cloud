@@ -291,7 +291,7 @@ public class SysUserController extends BaseController
 //        System.out.println("employeeInformation=="+employeeInformation);
 //        employeeInformationService.insertEmployeeInformation(employeeInformation);
         Integer res=userService.insertUser(user);
-        List<SysUser> list = userService.selectUserList(null);
+        List<SysUser> list = userService.selectAllUser2();
         System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
@@ -319,7 +319,7 @@ public class SysUserController extends BaseController
         }
         user.setUpdateBy(SecurityUtils.getUsername());
         Integer res=userService.updateUser(user);
-        List<SysUser> list = userService.selectUserList(null);
+        List<SysUser> list = userService.selectAllUser2();
         System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
@@ -338,7 +338,7 @@ public class SysUserController extends BaseController
             return AjaxResult.error("当前用户不能删除");
         }
         Integer res=userService.deleteUserByIds(userIds);
-        List<SysUser> list = userService.selectUserList(null);
+        List<SysUser> list = userService.selectAllUser2();
         System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
