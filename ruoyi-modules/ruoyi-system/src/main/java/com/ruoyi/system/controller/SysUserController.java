@@ -292,6 +292,7 @@ public class SysUserController extends BaseController
 //        employeeInformationService.insertEmployeeInformation(employeeInformation);
         Integer res=userService.insertUser(user);
         List<SysUser> list = userService.selectAllUser();
+        System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
     }
@@ -319,6 +320,7 @@ public class SysUserController extends BaseController
         user.setUpdateBy(SecurityUtils.getUsername());
         Integer res=userService.updateUser(user);
         List<SysUser> list = userService.selectAllUser();
+        System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
     }
@@ -337,6 +339,7 @@ public class SysUserController extends BaseController
         }
         Integer res=userService.deleteUserByIds(userIds);
         List<SysUser> list = userService.selectAllUser();
+        System.out.println("list=="+list);
         redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
         return toAjax(res);
     }
