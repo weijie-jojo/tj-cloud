@@ -28,7 +28,7 @@
     </sql>
 
     <select id="selectPayTaxInfoAll"  resultMap="PayTaxInfoResult">
-       SELECT *from pay_tax_info
+        <include refid="selectPayTaxInfoVo"/>
     </select>
 
     <select id="selectPayTaxInfoList" parameterType="com.ruoyi.company.domain.PayTaxInfo" resultMap="PayTaxInfoResult">

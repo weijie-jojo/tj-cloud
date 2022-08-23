@@ -98,43 +98,74 @@
 
     <sql id="selectSelfEmployedVo">
         select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num,
-               password, status, place_name, username, exp_status, maximum, register_time, industry_type,
-               industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce,
-               free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank,
-               private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2,
-               account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status,
-               file_name1, file_name2,file_name3,file_name4,file_name5, info_status, tax_status, bank_status ,
-               business_term,is_active,remark_name,remark_info,file_name6,file_name7,realname_status ,
-               special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money, is_self_tax, register_money, file_name8,
-               ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share, special_share_money,
-               is_ordinary_tax,is_special_tax,remark_register,is_special_self_tax,is_self_count,ordinary_proxy_ismoney, special_proxy_ismoney,
-               ordinary_share_ismoney, special_share_ismoney,is_ordinary_share,is_special_share,place_alias_name,is_slider,is_slider_ordinary,
-               is_public_user
-                from self_employed
+               password, status, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax,
+               organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone,
+               free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number,
+               public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3,
+               public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status,
+               tax_status, bank_status, file_name3, file_name4, end_time, end_status, remark_info, file_name5, business_term, is_active,
+               remark_name, file_name6, file_name7, realname_status, special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money,
+               is_self_tax, register_money, file_name8, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,
+               special_share_money, is_ordinary_tax, is_special_tax, remark_register, is_special_self_tax, is_self_count, ordinary_proxy_ismoney,
+               special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
+               is_slider, is_slider_ordinary, is_public_user
+        from self_employed
+    </sql>
+    <sql id="selectSelfLegalPersonVo">
+        select legal_person_id, self_code, legal_person_name, document_type, id_card_num, political_status, eduation, tel_num,
+               mail, bank, bank_card, opening_bank, receiving_address, password, initial, ending, same, contact_name, contact_id_num,
+               contact_tel, gender, date_birth, nation, residence, personnel_type, occupational_status, create_by, update_by, create_time,
+               update_time from self_legal_person
+    </sql>
+    <sql id="selectSelfApplicationInfoVo">
+        select id, self_code, oneself_apply, apply_name, apply_phone, apply_id_num, apply_document_type, contact_name, contact_phone,
+               contact_id_num, contact_document_type, create_by, update_by, create_time, update_time from self_application_info
+    </sql>
+    <sql id="selectSelfNameReviewVo">
+        select self_id, self_code, title_type, administrative_division, industry, organizational_form, administrative_region, random,
+               registration_authority, font_size1, poposed_name1, font_size2, poposed_name2, font_size3, poposed_name3, font_size4,
+               poposed_name4, font_size5, poposed_name5, font_size6, poposed_name6, font_size7, poposed_name7, font_size8, poposed_name8,
+               font_size9, poposed_name9, font_size10, poposed_name10, create_by, update_by, create_time, update_time, name_status,
+               name_remark from self_name_review
+    </sql>
+    <sql id="selectSelfCheckVo">
+        select id, check_date, check_user, check_reasult, self_code, self_type, phonenumber from self_check
     </sql>
     <sql id="selectSelfEmployedJoin">
-        select * from self_employed t
-                JOIN self_name_review A on t.self_code=A.self_code
-                JOIN  self_application_info B  on t.self_code=B.self_code
-                JOIN  self_legal_person C  on t.self_code=C.self_code
-                JOIN sys_dict_data D on C.eduation=D.dict_value
-    </sql>
+        select
+            t.self_id, t.self_code, t.place_code, t.user_id, t.tax_id, t.self_address, t.self_name, t.legal_person_name, t.id_card_num,
+            t.password, t.status, t.place_name, t.username, t.exp_status, t.maximum, t.register_time, t.industry_type, t.industry_tax,
+            t.organizational_form, t.number_employees, t.contribution_amount, t.city, t.county, t.electronic_commerce, t.free_trade_zone,
+            t.free_trade_area, t.property_right, t.nature_business, t.account_type, t.account_type2, t.private_deposit_bank, t.private_account_number,
+            t.public_deposit_bank_1, t.public_account_number_1, t.public_deposit_bank_2, t.public_account_number_2, t.account_name, t.public_deposit_bank_3,
+            t.public_account_number_3, t.create_by, t.update_by, t.create_time, t.update_time, t.business_status, t.file_name1, t.file_name2,
+            t.info_status, t.tax_status, t.bank_status, t.file_name3, t.file_name4, t.end_time, t.end_status, t.remark_info, t.file_name5,
+            t.business_term, t.is_active, t.remark_name, t.file_name6, t.file_name7, t.realname_status, t.special_self_fee, t.ordinary_self_fee,
+            t.special_self_money, t.ordinary_self_money, t.is_self_tax, t.register_money, t.file_name8, t.ordinary_tax, t.ordinary_special_tax,
+            t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax, t.remark_register,
+            t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
+            t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,
 
-    <insert id="recycle1" >
-        INSERT into self_employed_recycle SELECT *FROM self_employed WHERE self_code=#{selfCode}
-    </insert>
-    <insert id="recycle2" >
-        INSERT into self_name_review_recycle SELECT *FROM self_name_review WHERE self_code=#{selfCode}
-    </insert>
-    <insert id="recycle3" >
-        INSERT into self_application_info_recycle SELECT *FROM self_application_info WHERE self_code=#{selfCode}
-    </insert>
-    <insert id="recycle4" >
-        INSERT into self_legal_person_recycle SELECT *FROM self_legal_person WHERE self_code=#{selfCode}
-    </insert>
-    <insert id="recycle5" >
-        INSERT into self_check_recycle SELECT *FROM self_check WHERE self_code=#{selfCode}
-    </insert>
+            A.self_id, A.self_code, A.title_type, A.administrative_division, A.industry, A.organizational_form, A.administrative_region, A.random,
+            A.registration_authority, A.font_size1, A.poposed_name1, A.font_size2, A.poposed_name2, A.font_size3, A.poposed_name3, A.font_size4,
+            A.poposed_name4, A.font_size5, A.poposed_name5, A.font_size6, A.poposed_name6, A.font_size7, A.poposed_name7, A.font_size8, A.poposed_name8,
+            A.font_size9, A.poposed_name9, A.font_size10, A.poposed_name10, A.create_by, A.update_by, A.create_time, A.update_time, A.name_status,A.name_remark,
+
+            B.id, B.self_code, B.oneself_apply, B.apply_name, B.apply_phone, B.apply_id_num, B.apply_document_type, B.contact_name, B.contact_phone,
+            B.contact_id_num, B.contact_document_type, B.create_by, B.update_by, B.create_time, B.update_time,
+
+            C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
+            C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
+            C.gender, C.date_birth, C.nation, C.residence, C.personnel_type, C.occupational_status, C.create_by, C.update_by, C.create_time, C.update_time,
+
+            D.dict_label
+
+            from self_employed t
+            LEFT JOIN self_name_review A on t.self_code=A.self_code
+            LEFT JOIN  self_application_info B  on t.self_code=B.self_code
+            LEFT JOIN  self_legal_person C  on t.self_code=C.self_code
+            LEFT JOIN sys_dict_data D on C.eduation=D.dict_value
+    </sql>
 
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
@@ -583,6 +614,32 @@
         </trim>
         where self_id = #{selfId}
     </update>
+
+    <insert id="recycle1" >
+        INSERT into self_employed_recycle
+        <include refid="selectSelfEmployedVo"/>
+        WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle2" >
+        INSERT into self_name_review_recycle
+        <include refid="selectSelfNameReviewVo"/>
+        WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle3" >
+        INSERT into self_application_info_recycle
+        <include refid="selectSelfApplicationInfoVo"/>
+        WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle4" >
+        INSERT into self_legal_person_recycle
+        <include refid="selectSelfLegalPersonVo"/>
+        WHERE self_code=#{selfCode}
+    </insert>
+    <insert id="recycle5" >
+        INSERT into self_check_recycle
+        <include refid="selectSelfCheckVo"/>
+        WHERE self_code=#{selfCode}
+    </insert>
 
     <delete id="deleteSelfEmployedBySelfId" parameterType="String">
         delete from self_employed where self_id = #{selfId}

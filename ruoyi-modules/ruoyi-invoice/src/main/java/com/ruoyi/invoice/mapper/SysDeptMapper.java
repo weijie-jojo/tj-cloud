@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface SysDeptMapper extends MPJBaseMapper<SysDept> {
-    @Select("SELECT *FROM sys_dept")
+    @Select("select dept_id, parent_id, ancestors, dept_name, order_num, leader, phone, email, status, del_flag, create_by, create_time, update_by, update_time from sys_dept")
     List<SysDept> selectAllDept();
 }
