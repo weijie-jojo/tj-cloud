@@ -186,6 +186,11 @@ export default {
         },
         //完税修改
         edit(row,code){
+             let obj = {
+             name: 'AduitDutypaidList',
+             url: '/projectlist/aduitDutypaidList',
+            };
+            this.$cache.local.setJSON('Projectedit', obj);
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
@@ -252,12 +257,22 @@ export default {
 
         },
         aduit(scope) {
+              let obj={
+                backurl:'/projectlist/aduitDutypaidList',
+                name:'AduitDutypaidList'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaid' });
         },
         //新增完税
         add(scope) {
+              let obj={
+                backurl:'/projectlist/aduitDutypaidList',
+                name:'AduitDutypaidList'
+            };
+            this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/addDutypaid' });

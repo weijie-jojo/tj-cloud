@@ -194,6 +194,11 @@ export default {
         },
         //修改合同
         edit(row, code) {
+            let obj = {
+             name: 'AuditContractList',
+             url: '/projectlist/auditContractList',
+            };
+            this.$cache.local.setJSON('Projectedit', obj);
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
@@ -259,12 +264,22 @@ export default {
         },
         //审核合同
         audit(scope) {
+             let obj={
+                backurl:'/projectlist/auditContractList',
+                name:'AuditContractList'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/auditContracts' });
         },
         //办理合同
         add(scope) {
+             let obj={
+                backurl:'/projectlist/auditContractList',
+                name:'AuditContractList'
+            };
+            this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/addContract' });

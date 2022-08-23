@@ -176,9 +176,9 @@ export default {
 
                     let obj = {
                       title: '完税审核',
-                      backUrl: '/projectlist/aduitDutypaidList',
+                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
                       resmsg: resmsg,
-                      backName:"AduitDutypaidList",
+                      backName:this.$cache.local.getJSON('aduitProjectBack').name,
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -188,7 +188,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl});
               }
 
             }
@@ -205,7 +205,7 @@ export default {
     },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaidList' })
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl })
     },
    
     handleChange(val) {

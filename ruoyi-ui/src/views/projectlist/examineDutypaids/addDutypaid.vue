@@ -121,7 +121,7 @@ export default {
        },
        //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/projectlist/aduitDutypaidList'})
+         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('addProjectBack').backurl})
        },
        handleChange(val) {
             console.log(val);
@@ -143,14 +143,14 @@ export default {
                                    this.$nextTick(function () {
                                      this.check('完税新增成功');
                                      this.$modal.msgSuccess('完税新增成功');
-                                     this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" }).then(()=>{
-                                        this.$tab.refreshPage({path:'/projectlist/aduitDutypaidList',name:'AduitDutypaidList'});
+                                     this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('addProjectBack').backurl }).then(()=>{
+                                        this.$tab.refreshPage({path:this.$cache.local.getJSON('addProjectBack').backurl,name:this.$cache.local.getJSON('addProjectBack').name});
                                      })
                                    
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/projectlist/aduitDutypaidList" });
+                                    this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('addProjectBack').backurl});
                                 }
                             }
                         

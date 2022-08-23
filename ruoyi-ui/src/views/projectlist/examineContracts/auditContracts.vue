@@ -180,9 +180,9 @@ export default {
 
                     let obj = {
                       title: '合同审核',
-                      backUrl: '/projectlist/auditContractList',
+                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
                       resmsg: resmsg,
-                      backName:"AuditContractList",
+                      backName:this.$cache.local.getJSON('aduitProjectBack').name,
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -192,7 +192,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/projectlist/reviewContract" });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
               }
 
             }
@@ -209,7 +209,7 @@ export default {
     },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/projectlist/auditContractList' })
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl})
     },
     handleChange(val) {
       console.log(val);

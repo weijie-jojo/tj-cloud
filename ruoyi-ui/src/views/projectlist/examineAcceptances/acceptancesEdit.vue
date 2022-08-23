@@ -129,7 +129,7 @@ export default {
         },
        //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/projectlist/auditAcceptanceList'})
+         this.$tab.closeOpenPage({path: this.$cache.local.getJSON('Projectedit').url})
        },
        handleChange(val) {
             console.log(val);
@@ -157,15 +157,15 @@ export default {
                                      
                                     this.check('验收修改完成');
                                     this.$modal.msgSuccess('验收修改完成');
-                                    this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" }).then(() => {
+                                    this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url }).then(() => {
                                           // 执行结束的逻辑 
-                                         this.$tab.refreshPage({ path: "/projectlist/auditAcceptanceList",name:'AuditAcceptanceList'})
+                                         this.$tab.refreshPage({ path:this.$cache.local.getJSON('Projectedit').url,name:this.$cache.local.getJSON('Projectedit').name})
                                     })
                                         
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" });
+                                    this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url });
                                 }
                             }
                         

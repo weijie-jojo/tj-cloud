@@ -399,22 +399,32 @@ export default {
         
         //新增
         addList(){
-            console.log(2222);
+             let obj={
+                backurl:'/projectlist/list',
+                name:'List'
+            };
+            this.$cache.local.setJSON('addProjectBack',obj);
             switch (this.types) {
                 case 3:
-                    this.$tab.closeOpenPage({ path: '/projectlist/addContract' })
+                    this.$tab.openPage('合同新增', '/projectlist/addContract');
                     break;
                 case 4:
-                    this.$tab.closeOpenPage({ path: '/projectlist/addAcceptance' })
+                    this.$tab.openPage('验收新增','/projectlist/addAcceptance');
                     break;
                 case 5:
-                    this.$tab.closeOpenPage({ path: '/projectlist/addDutypaid' })
+                    this.$tab.openPage('完税新增','/projectlist/addDutypaid');
                     break;
               }
         },
         //审核
         aduit(){
+             let obj={
+                backurl:'/projectlist/list',
+                name:'List'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
             switch (this.types) {
+                
                 case 1:
                     this.$tab.closeOpenPage({ path: '/projectlist/auditItems' })
                     break;
@@ -485,28 +495,22 @@ export default {
         progressNew(code, type) {
             this.lookstatus = false;
             this.editstatus = false;
-            let msg = '进度详情';
-            if (type == 0) {
-
-                msg = '进度详情';
-            } else if (type == 1) {
-                msg = '项目详情';
-            } else if (type == 2) {
-                msg = '票据详情';
-            } else if (type == 3) {
-                msg = '合同详情';
-            } else if (type == 4) {
-                msg = '验收详情';
-            } else if (type == 5) {
-                msg = '完税详情';
-            }
+            
             if (type > 0) {
                 this.types = type;
             } else {
                 this.types = '';
             }
+            var parms={
+                 projectCode: code,
+            };
+            checkdetail(parms).then(res => {
+                this.progressList=res.rows;
+                this.title = '进度跟踪';
+                this.dialogVisible = true;
+            })
 
-            this.checkdetail(code, this.types, msg);
+           
         },
         //完成弹框
         projectFinish(code, row, type) {
@@ -532,25 +536,51 @@ export default {
         },
         //异常弹框
         progressError(code, row, type) {
-            // this.lookstatus = false;
-            // this.editstatus = true;
-            // this.$cache.local.setJSON('projectCodeNew', code);
-            // this.$cache.local.setJSON('publicTickets', row);
-            // this.$cache.local.setJSON("projectListNews", row);
-            // let msg = '';
-            // if (type == 1) {
-            //     msg = '项目详情';
-            // } else if (type == 2) {
-            //     msg = '票据详情';
-            // } else if (type == 3) {
-            //     msg = '合同详情';
-            // } else if (type == 4) {
-            //     msg = '验收详情';
-            // } else if (type == 5) {
-            //     msg = '完税详情';
-            // }
-            // this.types = type;
-            // this.checkdetail(code, this.types, msg,2);
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('publicTickets', row);
+            this.$cache.local.setJSON("projectListNews", row);
+             getLeaderByUserId({
+                userId: applyName
+            }).then(res => {
+                getUser(applyName).then(success => {
+                        this.msgs='查看';
+                    if (this.userinfo.userId == success.data.userId) {
+                        this.msgs = '修改';
+                    } else {
+                        this.msgs = '查看';
+                    }
+                    let userName = success.data.nickName;
+                    let phonenumber = success.data.phonenumber;
+                    const h = this.$createElement
+                    this.$confirm(
+                        '', {
+                        message: h('div', null, [
+                            h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+                            h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                        ]),
+                        confirmButtonText: this.msgs,
+                        cancelButtonText: '关闭',
+                        closeOnClickModal: false,
+                        closeOnPressEscape: false,
+
+                    }).then(() => {
+                        if(this.msgs=='查看'){
+                            this.findList();
+                        }else if(this.msgs=='修改'){
+                            this.editList();
+                        }
+                       
+                    }).catch(() => {
+
+                    });
+                });
+
+
+            }).catch(error => {
+                console.log(error);
+            })
+           
         },
         //完成详情接口
         checkdetail(code, type, msg) {
@@ -558,49 +588,80 @@ export default {
             this.projectBrr = [];
             this.projectCrr = [];
             this.progressList = [];
+          
+            
             if (type == 1) {
-                //项目审核详情
-                //项目审核
-                var parms1 = {
-                    projectCode: code,
-                    projectType: 1
-                };
                
-                //项目填写
-                var parms2 = {
-                    projectCode: code,
-                    projectType: 6
-                };
+                //项目审核
+            var parms={
+                 projectCode: code,
+            };
+            checkdetail(parms).then(res => {
+                this.projectArr = res.rows;
+                let Arr=[];
+                for(let i in this.projectArr){
+                if(this.projectArr[i].projectType==1 || this.projectArr[i].projectType==6 || this.projectArr[i].projectType==10){
+                     Arr.push(this.projectArr[i]);
+                   }
+                }
+                this.progressList=Arr;
+                this.title = '项目审核进度跟踪';
+                this.dialogVisible = true;
+            })
+                
               
-                //项目修改
-                var parms3 = {
-                    projectCode: code,
-                    projectType: 10
-                };
-                checkdetail(parms3).then(res => {
-                  checkdetail(parms1).then(res => {
-                      this.projectArr = res.rows;
-                    checkdetail(parms2).then(res => {
-                      this.projectBrr = res.rows;
-                      this.progressList = this.progressList.concat(this.projectCrr,this.projectArr,this.projectBrr);
-                      this.title = '项目审核进度跟踪';
-                      this.dialogVisible = true;
-                   });
-                  });  
-                   this.projectCrr = res.rows;
-                   
-                   
-                });
                
 
             } else if (type == 2) {
                 //  msg = '票据详情';
             } else if (type == 3) {
-                msg = '合同详情';
+                
+            var parms={
+                 projectCode: code,
+            };
+            checkdetail(parms).then(res => {
+                this.projectBrr = res.rows;
+                let Brr=[];
+                for(let i in this.projectBrr){
+                if(this.projectBrr[i].projectType==14 || this.projectBrr[i].projectType==11 || this.projectBrr[i].projectType==3){
+                     Brr.push(this.projectBrr[i]);
+                   }
+                }
+                this.progressList=Brr;
+                this.title = '合同审核进度跟踪';
+                this.dialogVisible = true;
+            })
+
             } else if (type == 4) {
-                msg = '验收详情';
+                 var parms={
+                 projectCode: code,
+            };
+            checkdetail(parms).then(res => {
+                this.projectCrr = res.rows;
+                let Crr=[]
+                for(let i in this.projectCrr){
+                if(this.projectCrr[i].projectType==12 || this.projectCrr[i].projectType==15 || this.projectCrr[i].projectType==4){
+                     Crr.push(this.projectCrr[i]);
+                   }
+                }
+                this.progressList=Crr;
+                this.title = '验收审核进度跟踪';
+                this.dialogVisible = true;
+            })
             } else if (type == 5) {
-                msg = '完税详情';
+             checkdetail(parms).then(res => {
+                this.projectCrr = res.rows;
+                let Drr=[]
+                for(let i in this.projectCrr){
+                if(this.projectCrr[i].projectType==16 || this.projectCrr[i].projectType==13 || this.projectCrr[i].projectType==5){
+                     Drr.push(this.projectCrr[i]);
+                   }
+                }
+                this.progressList=Drr;
+                this.title = '完税审核进度跟踪';
+                this.dialogVisible = true;   
+              })
+                
             }
 
 

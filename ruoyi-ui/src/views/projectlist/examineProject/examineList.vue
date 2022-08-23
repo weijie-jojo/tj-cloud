@@ -237,6 +237,11 @@ export default {
         audit(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+             let obj={
+                backurl:'/projectlist/examineList',
+                name:'ExamineList'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/auditItems' });
         },
         /** 搜索按钮操作 */

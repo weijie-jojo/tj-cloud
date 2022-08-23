@@ -153,6 +153,7 @@ export default {
     detail(row) {
       let obj = {
         backUrl: '/company/customer/manageInfo',
+        backName:'ManageInfo',
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON('employedInfo', row);

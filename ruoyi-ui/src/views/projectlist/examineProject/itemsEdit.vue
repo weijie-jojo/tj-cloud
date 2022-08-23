@@ -619,7 +619,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: "/projectlist/examineList" });
+             this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('Projectedit').url});
         },
 
         //渠道商接口  记得修改 userid
@@ -791,7 +791,9 @@ export default {
                                        })
                                     });
                                 } else {
-                                    this.$modal.msgError(res.msg);
+                                     this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url }).then(() => {
+                                     this.$tab.refreshPage({path: this.$cache.local.getJSON('Projectedit').url ,name: this.$cache.local.getJSON('Projectedit').name});
+                                       })
                                 }
                             }
                         

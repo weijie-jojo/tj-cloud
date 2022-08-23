@@ -142,7 +142,7 @@
 
           
           <el-form-item label="纳税委托协议" prop="fileName3">
-             <uploadSmall  @getfileName="getTaxS" :fileName="[]" :fileNameOld="[]" :isDetail="isDetail"></uploadSmall>
+             <uploadSmall  @getfileName="getTaxS" :fileName="fileName3" :fileNameOld="fileName3" :isDetail="isDetails"></uploadSmall>
           </el-form-item>
         </el-col>
 
@@ -155,7 +155,7 @@
             <div style="height:34px"></div>
           </el-form-item>
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <uploadSmall  @getfileName="getThreeS" :fileName="[]" :fileNameOld="[]"  :isDetail="isDetail"></uploadSmall>
+            <uploadSmall  @getfileName="getThreeS" :fileName="fileName4" :fileNameOld="fileName4"  :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -187,6 +187,7 @@ export default {
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       //pdf预览
       isDetail:'0',
+      isDetails:'0',
       isNone:[],
 
       userinfo: {},

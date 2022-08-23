@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div>
+        <uploadSmall @getfileName="getnames" :fileName="fileName" :fileNameOld="fileNameOld" :isDetail="isDetail"></uploadSmall>
         <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
                     <el-button v-print="'#printMe'" type="primary">打印</el-button>
@@ -130,7 +131,7 @@
            </el-row>
       </el-form>
     </div>
-     <!-- <uploadSmall @getfileName="getnames" :fileName="fileName" :fileNameOld="fileNameOld" :isDetail="isDetail"></uploadSmall> -->
+   
   </div>
 </template>
 
