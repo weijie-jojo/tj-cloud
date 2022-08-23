@@ -285,13 +285,13 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名" prop="fileName6">
-            <uploadSmall v-if="fileNameN6.length > 0" @getfileName="getfileNameS6" :fileName="fileName6"
+            <uploadSmall ref="productImage6" @getfileName="getfileNameS6" :fileName="fileName6"
               :fileNameOld="fileNameN6" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名" prop="fileName7">
-            <uploadSmall v-if="fileNameN7.length > 0" @getfileName="getfileNameS7" :fileName="fileName7"
+            <uploadSmall ref="productImage7" @getfileName="getfileNameS7" :fileName="fileName7"
               :fileNameOld="fileNameN7" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -301,7 +301,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件" prop="fileName5">
-            <uploadSmall v-if="fileNameN5.length > 0" @getfileName="getfileNameS5" :fileName="fileName5"
+            <uploadSmall ref="productImage5" @getfileName="getfileNameS5" :fileName="fileName5"
               :fileNameOld="fileNameN5" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -327,7 +327,7 @@
             <el-input v-model="formData.legalPersonName" :readonly="true"></el-input>
           </el-form-item> -->
           <el-form-item label="营业执照" prop="fileName1">
-            <uploadSmall v-if="fileNameN1.length > 0" @getfileName="getfileNameS1" :fileName="fileName1"
+            <uploadSmall ref="productImage1" @getfileName="getfileNameS1" :fileName="fileName1"
               :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -353,7 +353,7 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item label="核定通知书" prop="fileName2">
-            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileNameS2" :fileName="fileName2"
+            <uploadSmall ref="productImage2" @getfileName="getfileNameS2" :fileName="fileName2"
               :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -528,7 +528,7 @@
 
           </el-form-item>
           <el-form-item label="纳税委托协议" prop="fileName3">
-            <uploadSmall v-if="fileNameN3.length > 0" @getfileName="getfileNameS3" :fileName="fileName3"
+            <uploadSmall ref="productImage3" @getfileName="getfileNameS3" :fileName="fileName3"
               :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -543,7 +543,7 @@
 
 
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <uploadSmall v-if="fileNameN4.length > 0" @getfileName="getfileNameS4" :fileName="fileName4"
+            <uploadSmall ref="productImage4" @getfileName="getfileNameS4" :fileName="fileName4"
               :fileNameOld="fileNameN4" :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
@@ -875,7 +875,7 @@
     <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
           <el-button type="primary" @click="submitForm" class="btn">修改
           </el-button>
         </el-col>
@@ -1353,6 +1353,78 @@ export default {
   },
   mounted() {
 
+    this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData.fileName1 = JSON.parse(this.formData.fileName1);
+    this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+    this.formData.fileName3 = JSON.parse(this.formData.fileName3);
+    this.formData.fileName4 = JSON.parse(this.formData.fileName4);
+    this.formData.fileName5 = JSON.parse(this.formData.fileName5);
+    this.formData.fileName6 = JSON.parse(this.formData.fileName6);
+    this.formData.fileName7 = JSON.parse(this.formData.fileName7);
+
+    this.$refs.productImage1.getSrcList(this.formData.fileName1);
+    this.$refs.productImage2.getSrcList(this.formData.fileName2);
+    this.$refs.productImage3.getSrcList(this.formData.fileName3);
+    this.$refs.productImage4.getSrcList(this.formData.fileName4);
+    this.$refs.productImage5.getSrcList(this.formData.fileName5);
+    this.$refs.productImage6.getSrcList(this.formData.fileName6);
+    this.$refs.productImage7.getSrcList(this.formData.fileName7);
+
+    for (let k1 in this.formData.fileName1) {
+      this.fileNameN1.push({
+        url: this.baseImgPath + this.formData.fileName1[k1],
+        name: this.formData.fileName1[k1],
+      });
+    }
+
+    
+    for (let k2 in this.formData.fileName2) {
+      this.fileNameN2.push({
+        url: this.baseImgPath + this.formData.fileName2[k2],
+        name: this.formData.fileName2[k2],
+      });
+    }
+   
+    for (let k3 in this.formData.fileName3) {
+      this.fileNameN3.push({
+        url: this.baseImgPath + this.formData.fileName3[k3],
+        name: this.formData.fileName3[k3],
+      });
+    }
+
+   
+    for (let k4 in this.formData.fileName4) {
+      this.fileNameN4.push({
+        url: this.baseImgPath + this.formData.fileName4[k4],
+        name: this.formData.fileName4[k4],
+      });
+    }
+
+    
+    for (let k5 in this.formData.fileName5) {
+      this.fileNameN5.push({
+        url: this.baseImgPath + this.formData.fileName5[k5],
+        name: this.formData.fileName5[k5],
+      });
+    }
+    
+    for (let k6 in this.formData.fileName6) {
+      this.fileNameN6.push({
+        url: this.baseImgPath + this.formData.fileName6[k6],
+        name: this.formData.fileName6[k6],
+      });
+    }
+    
+    for (let k7 in this.formData.fileName7) {
+      this.fileNameN7.push({
+        url: this.baseImgPath + this.formData.fileName7[k7],
+        name: this.formData.fileName7[k7],
+      });
+    }
+
+
+
+
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -1363,7 +1435,10 @@ export default {
 
 
 
-    this.formData = this.$cache.local.getJSON('employedInfo');
+
+
+
+
     this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
@@ -1373,20 +1448,8 @@ export default {
 
 
 
-    this.fileName1 = [];
-    this.fileName2 = [];
-    this.fileName3 = [];
-    this.fileName4 = [];
-    this.fileName5 = [];
-    this.fileName6 = [];
-    this.fileName7 = [];
-    this.fileNameN1 = [];
-    this.fileNameN2 = [];
-    this.fileNameN3 = [];
-    this.fileNameN4 = [];
-    this.fileNameN5 = [];
-    this.fileNameN6 = [];
-    this.fileNameN7 = [];
+
+   
 
     this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
     this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
@@ -1446,65 +1509,8 @@ export default {
       this.formData.isSliderOrdinary = '1';
     }
 
-    this.fileName1 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
-    for (let k1 in this.fileName1) {
-      this.fileNameN1.push({
-        url: this.baseImgPath + this.fileName1[k1],
-        name: this.fileName1[k1],
-      });
-    }
+ 
 
-    this.fileName2 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName2);
-    for (let k2 in this.fileName2) {
-      this.fileNameN2.push({
-        url: this.baseImgPath + this.fileName2[k2],
-        name: this.fileName2[k2],
-      });
-    }
-    this.fileName3 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName3);
-    for (let k3 in this.fileName3) {
-      this.fileNameN3.push({
-        url: this.baseImgPath + this.fileName3[k3],
-        name: this.fileName3[k3],
-      });
-    }
-
-    this.fileName4 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName4);
-    for (let k4 in this.fileName4) {
-      this.fileNameN4.push({
-        url: this.baseImgPath + this.fileName4[k4],
-        name: this.fileName4[k4],
-      });
-    }
-
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
-    for (let k5 in this.fileName5) {
-      this.fileNameN5.push({
-        url: this.baseImgPath + this.fileName5[k5],
-        name: this.fileName5[k5],
-      });
-    }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
-    for (let k6 in this.fileName6) {
-      this.fileNameN6.push({
-        url: this.baseImgPath + this.fileName6[k6],
-        name: this.fileName6[k6],
-      });
-    }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
-    for (let k7 in this.fileName7) {
-      this.fileNameN7.push({
-        url: this.baseImgPath + this.fileName7[k7],
-        name: this.fileName7[k7],
-      });
-    }
-    this.formData.fileName1 = JSON.parse(this.formData.fileName1);
-    this.formData.fileName2 = JSON.parse(this.formData.fileName2);
-    this.formData.fileName3 = JSON.parse(this.formData.fileName3);
-    this.formData.fileName4 = JSON.parse(this.formData.fileName4);
-    this.formData.fileName5 = JSON.parse(this.formData.fileName5);
-    this.formData.fileName6 = JSON.parse(this.formData.fileName6);
-    this.formData.fileName7 = JSON.parse(this.formData.fileName7);
     this.nailist();
   },
   methods: {
@@ -1716,24 +1722,31 @@ export default {
     },
     getfileNameS1(data) {
       this.formData.fileName1 = data;
+       console.log(1,data);
     },
     getfileNameS2(data) {
       this.formData.fileName2 = data;
+       console.log(2,data);
     },
     getfileNameS3(data) {
       this.formData.fileName3 = data;
+       console.log(3,data);
     },
     getfileNameS4(data) {
       this.formData.fileName4 = data;
+       console.log(4,data);
     },
     getfileNameS5(data) {
       this.formData.fileName5 = data;
+       console.log(5,data);
     },
     getfileNameS6(data) {
       this.formData.fileName6 = data;
+       console.log(6,data);
     },
     getfileNameS7(data) {
       this.formData.fileName7 = data;
+      console.log(7,data);
     },
     getLoginInfo() {
       getInfo().then(res => {

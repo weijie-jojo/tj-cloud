@@ -120,7 +120,7 @@
             <el-input 
              maxlength="250"
             show-word-limit
-            disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+            :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
         </el-col>

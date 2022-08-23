@@ -112,7 +112,7 @@ export default {
     getfileNameS(){},
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaidList' })
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('auditProjectBackDetail').backurl})
     },
    
     handleChange(val) {

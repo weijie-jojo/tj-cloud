@@ -186,6 +186,10 @@ export default {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
+              let obj={
+                backurl:'/projectlist/auditContractList'
+            };
+            this.$cache.local.setJSON('auditProjectBackDetail',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/AuditContraDetail' });
         },
         //修改合同
@@ -301,8 +305,8 @@ export default {
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-            this.$cache.local.setJSON("projectCodeNew", row.projectCode);
-            this.$router.push("editList");
+            // this.$cache.local.setJSON("projectCodeNew", row.projectCode);
+            // this.$router.push("editList");
 
         },
 

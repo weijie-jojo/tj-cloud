@@ -416,13 +416,13 @@
           <el-col :span="9">
 
             <el-form-item label="工商实名" prop="fileName6">
-             <uploadSmall v-if="fileNameOld2.length>0" @getfileName="getfileName6" :fileName="formData.fileName6" :fileNameOld="fileNameOld2" :isDetail="isDetail"></uploadSmall>
+             <uploadSmall ref="productImage6"  @getfileName="getfileName6" :fileName="isrkone" :fileNameOld="fileNameOld2" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
 
           <el-col :span="9">
              <el-form-item label="税务实名" prop="fileName7">
-              <uploadSmall v-if="fileNameOld3.length>0" @getfileName="getfileName7" :fileName="formData.fileName7" :fileNameOld="fileNameOld3" :isDetail="isDetail"></uploadSmall>
+              <uploadSmall ref="productImage7"  @getfileName="getfileName7" :fileName="isrkone" :fileNameOld="fileNameOld3" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
         </el-row>
@@ -431,7 +431,7 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="身份证扫描件" prop="fileName5">
-              <uploadSmall v-if="fileNameOld1.length>0" @getfileName="getfileName5" :fileName="formData.fileName5" :fileNameOld="fileNameOld1" :isDetail="isDetail"></uploadSmall>
+              <uploadSmall ref="productImage5"  @getfileName="getfileName5" :fileName="isrkone" :fileNameOld="fileNameOld1" :isDetail="isDetail"></uploadSmall>
             </el-form-item>
           </el-col>
           <el-col :span="9"></el-col>
@@ -771,6 +771,7 @@ export default {
   props: [],
   data() {
     return {
+      isrkone:[],
       selectTipType:'请选中行业类型',
       userinfo:{},
       activeNameseg:'1',
@@ -1225,30 +1226,24 @@ export default {
     //从上一个页面获取信息
     var employedInfo = this.$cache.local.getJSON('employedInfo');
     this.formData = employedInfo;
-    //this.$refs.selectTree.blur();
-    // this.$nextTick(function(){
-       
-    //     this.selectTipType=this.$refs.selectTree.selected.label; 
-    //     console.log(this.$refs.selectTree.selected.label);
-    //   })
-    // this.$nextTick(res=>{
-    //   console.log(this.$refs.selectTree.selected.label);
-    //    this.selectTipType=this.$refs.selectTree.selected.label; 
-    // }); 
-   // this.handleNodeClick();
+  
      
     
    
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
     this.formData.fileName6 = JSON.parse(this.formData.fileName6);
     this.formData.fileName7 = JSON.parse(this.formData.fileName7);
+
+    this.$refs.productImage5.getSrcList(this.formData.fileName5);
+    this.$refs.productImage6.getSrcList(this.formData.fileName6);
+    this.$refs.productImage7.getSrcList(this.formData.fileName7);
     
-    this.fileNameOld1=[];
-    this.fileNameOld2=[];
-    this.fileNameOld3=[];
+  
     let arr = this.formData.fileName5;
     let brr = this.formData.fileName6;
     let crr = this.formData.fileName7;
+
+
 
     for (let i in arr) {
       this.fileNameOld1.push({
@@ -1440,15 +1435,17 @@ export default {
     },
      getfileName5(data){
        this.formData.fileName5=data;
-       console.log(data);
+       console.log(5,data);
       },
      
      getfileName6(data){
        this.formData.fileName6=data;
+        console.log(6,data);
       },
      
      getfileName7(data){
        this.formData.fileName7=data;
+        console.log(7,data);
       },
      singleOK(e) {
 
