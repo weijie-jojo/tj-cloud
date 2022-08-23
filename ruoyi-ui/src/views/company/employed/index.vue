@@ -44,7 +44,7 @@
     <el-button v-hasPermi="['company:employed:add1']" type="primary" plain icon="el-icon-plus" size="mini"
       @click="handleAdd">新增</el-button>
     <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini"
-      :disabled="multiple" v-hasPermi="['company:employed:del']" @click="handleDelete">删除</el-button>
+      :disabled="multiple" v-hasPermi="['company:employed:del']" @click="handleDelete">注销</el-button>
 
 
 
@@ -743,6 +743,7 @@ export default {
       this.$cache.local.setJSON('employedInfo', scope);
       let obj = {
         backUrl: '/company/customer/employed',
+        backName:'Employed',
       };
       this.$cache.local.setJSON('backurls', obj);
       getUser(applyName).then(res => {
@@ -1128,7 +1129,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete() {
-      this.$confirm('是否确认删除此个体户的注册信息?', '提示', {
+      this.$confirm('是否确认注销此个体户的注册信息?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

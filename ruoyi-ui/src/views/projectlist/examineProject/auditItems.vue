@@ -407,9 +407,9 @@ export default {
 
                    let obj = {
                       title: '项目审核',
-                      backUrl: '/projectlist/examineList',
+                      backUrl:this.$cache.local.getJSON('aduitProjectBack').backurl,
                       resmsg: resmsg,
-                      backName:'ExamineList'
+                      backName:this.$cache.local.getJSON('aduitProjectBack').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -419,7 +419,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/projectlist/examineList" });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
               }
 
             }
@@ -506,7 +506,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/projectlist/examineList' });
+            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('aduitProjectBack').backurl});
         },
 
         

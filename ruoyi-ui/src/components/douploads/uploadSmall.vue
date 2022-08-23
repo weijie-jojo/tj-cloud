@@ -98,7 +98,8 @@ export default {
     'fileNameOlds': {
       deep: true,  // 深度监听
       handler(newVal, oldVal) {
-        console.log(newVal, oldVal)
+       console.log(111,newVal); 
+       console.log(222,oldVal); 
       }
     }
   },
@@ -106,22 +107,25 @@ export default {
     this.getLunS();
   },
   methods: {
+    //获取已经保存数据库的值
     getSrcList(val){
        this.fileNames=val;
     },
+    //关闭图片预览
     closeViewer() {
      this.showViewer = false
     },
+    //pdf图标优化
     getLunS() {
       let arr = this.fileNameOlds;
-      console.log(this.fileNameOlds);
       for (let i in arr) {
         if (arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'pdf') {
-          arr[i].url = this.baseImgPath + '20220804105302a66ef1-6104-4828-a7a1-f1944f85276120201128024046.png';
+          arr[i].url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
         }
       }
       this.fileNameOlds = arr;
     },
+    //pdf弹框
     pdfdetail(i) {
       this.titles = '正在预览' + i;
       this.viewVisible = true;
@@ -160,7 +164,6 @@ export default {
     },
 
     beforeAvatarUpload(file) {
-      console.log(file);
       const isLt2M = file.size / 1024 / 1024 < 5;
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
       const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
@@ -181,15 +184,18 @@ export default {
 
     },
     handlesuccess(file, fileList) {
+      
       this.fileNames.push(file.obj);
       fileList.name = file.obj;
       if (fileList.name.substring(fileList.name.lastIndexOf('.') + 1) == 'pdf') {
-        fileList.url = this.baseImgPath + '20220804105302a66ef1-6104-4828-a7a1-f1944f85276120201128024046.png';
+        fileList.url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
       }
       this.$emit('getfileName', this.fileNames);
 
     },
     handleRemove(file, fileList) {
+      console.log(fileList);
+      console.log(this.fileNameOlds);
       const i = this.fileNames.findIndex((item) => item === fileList);
       this.fileNames.splice(i, 1);
       this.$emit('getfileName', this.fileNames);
@@ -206,9 +212,7 @@ export default {
         } else {
           this.dialogImageUrls.push(this.baseImgPath + file.name);
           this.showViewer = true
-          //this.dialogImageUrl = this.baseImgPath + file.name;
-          //this.dialogVisible = true;
-        }
+       }
       } else {
         if (file.name.substring(file.name.lastIndexOf('.') + 1) == 'pdf') {
           this.titles = '正在预览' + file.name;
@@ -217,9 +221,7 @@ export default {
         } else {
           this.dialogImageUrls.push(this.baseImgPath + file.name);
           this.showViewer = true
-          //this.dialogImageUrl = this.baseImgPath + file.name;
-          //this.dialogVisible = true;
-        }
+         }
       }
     },
   }

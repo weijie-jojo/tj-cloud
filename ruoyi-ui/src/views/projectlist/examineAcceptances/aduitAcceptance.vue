@@ -174,9 +174,9 @@ export default {
 
                    let obj = {
                       title: '验收审核',
-                      backUrl: '/projectlist/auditAcceptanceList',
+                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
                       resmsg: resmsg,
-                      backName:'AuditAcceptanceList'
+                      backName:this.$cache.local.getJSON('aduitProjectBack').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -186,7 +186,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: "/projectlist/auditAcceptanceList" });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
               }
 
             }
@@ -204,47 +204,14 @@ export default {
    
       //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/projectlist/auditAcceptanceList'})
+         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('aduitProjectBack').backurl})
        },
     
         handleChange(val) {
             console.log(val);
         },
-        onSubmit() {
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                if (valid) {
-                    this.formData.fileName = JSON.stringify(this.formData.fileName);
-
-                    let parms = {
-                        projectId: this.formData.projectId,
-                      
-                    };
-                    edit(parms).then((res) => {
-                         if (res != undefined) {
-                                if (res.code === 200) {
-                                    this.$modal.msgSuccess("合同办理成功!");
-                                    this.$nextTick(function () {
-                                        this.resetForm();
-                                        
-                                    });
-                                } else {
-                                    this.$modal.msgError(res.msg);
-                                }
-                            }
-                        
-                    });
-                } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
-                }
-            });
-        },
-        toReturn2() {
-            this.$router.back();
-        },
+       
+        
     },
 };
 </script>

@@ -186,6 +186,11 @@ export default {
         },
         //验收修改
         edit(row,code){
+             let obj = {
+             name: 'AuditAcceptanceList',
+             url: '/projectlist/auditAcceptanceList',
+            };
+            this.$cache.local.setJSON('Projectedit', obj);
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
@@ -253,12 +258,22 @@ export default {
         },
         //验收审核
         detail(scope) {
+              let obj={
+                backurl:'/projectlist/auditAcceptanceList',
+                name:'AuditAcceptanceList'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitAcceptance' });
         },
         //验收新增
         add(scope) {
+             let obj={
+                backurl:'/projectlist/auditAcceptanceList',
+                name:'AuditAcceptanceList'
+            };
+            this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/addAcceptance' });

@@ -50,17 +50,16 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="行业" prop="industry">
-              <el-input v-model="formData.industry" placeholder="请输入行业" clearable>
-                
-              </el-input>
-                <el-collapse accordion>
-                <el-collapse-item>
-                <template slot="title">
-                <i class="header-icon el-icon-info"></i>
-              </template>
-              <div style="color:green">个体工商户名称，例如“福州市鼓楼区中山社区天天服装店”中，行业为“服装”</div>
-               </el-collapse-item>
-               </el-collapse>
+              <div style="display:flex;align-items:center">
+                <el-input style="width:100%;margin-right:-15px" v-model="formData.industry" placeholder="请输入行业" clearable>
+                </el-input>
+              <el-tooltip style="position: relative;
+    left: 20px;" class="item" effect="dark" content="个体工商户名称,例如福州市鼓楼区中山社区天天服装店，行业为服装" placement="top-start">
+                  <i class="header-icon el-icon-info"></i>
+              </el-tooltip>
+              </div>
+              
+             
               
               
              
