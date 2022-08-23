@@ -426,7 +426,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/projectlist/examineList' });
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('auditProjectBackDetail').backurl});
         },
         getRate() {
             crudRate.getAllRate().then(res => {

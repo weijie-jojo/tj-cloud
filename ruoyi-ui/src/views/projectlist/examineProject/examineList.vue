@@ -169,6 +169,10 @@ export default {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
+             let obj={
+                backurl:'/projectlist/examineList'
+            };
+            this.$cache.local.setJSON('auditProjectBackDetail',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/auditDetail' });
         },
         handleClick() {

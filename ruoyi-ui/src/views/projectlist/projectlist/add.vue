@@ -702,7 +702,7 @@ export default {
                 "projectType": "6",
             };
             check(parms).then(res => {
-                console.log('添加合同成功！');
+                console.log('添加项目成功！');
             }).catch(error => {
 
             });

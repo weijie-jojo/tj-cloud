@@ -119,7 +119,7 @@ export default {
       
      //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:'/projectlist/auditAcceptanceList'})
+         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('auditProjectBackDetail').backurl})
        },
       handleChange(val) {
             console.log(val);

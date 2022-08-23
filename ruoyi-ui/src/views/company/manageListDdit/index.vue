@@ -10,16 +10,16 @@
           <div></div>
         </el-col>
       </el-row>
-            <el-row  type="flex" class="row-bg " justify="space-around">
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户名称" prop="selfName">
-            <el-input  v-model="formData.selfName"></el-input>
+            <el-input v-model="formData.selfName"></el-input>
           </el-form-item>
         </el-col>
-       
+
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" prop="taxId">
-            <el-input  v-model="formData.taxId"></el-input>
+            <el-input v-model="formData.taxId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -75,7 +75,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4%" label="经营场所" prop="selfAddress">
-            <el-input v-model="formData.selfAddress" disabled>
+            <el-input v-model="formData.selfAddress" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -112,10 +112,8 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.3%" label="经营范围" prop="natureBusiness">
-            <el-input type="textarea" 
-             maxlength="250"
-             show-word-limit
-            :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
+            <el-input type="textarea" maxlength="250" show-word-limit :rows="2" placeholder="请输入经营范围"
+              v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
         </el-col>
@@ -254,11 +252,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4.3%" label="经营者居所" prop="residence">
-            <el-input 
-              maxlength="250"
-              show-word-limit
-              type="textarea" :rows="2"
-            v-model="formData.residence" clearable>
+            <el-input maxlength="250" show-word-limit type="textarea" :rows="2" v-model="formData.residence" clearable>
             </el-input>
           </el-form-item>
         </el-col>
@@ -281,14 +275,14 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="工商实名" prop="fileName6">
-            <uploadSmall v-if="fileNameN6.length > 0" @getfileName="getfileNameS6" :fileName="fileName6"
-              :fileNameOld="fileNameN6" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage6" @getfileName="getfileNameS6" :fileName="isNone" :fileNameOld="fileNameN6"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item label="税务实名" prop="fileName7">
-            <uploadSmall v-if="fileNameN7.length > 0" @getfileName="getfileNameS7" :fileName="fileName7"
-              :fileNameOld="fileNameN7" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage7" @getfileName="getfileNameS7" :fileName="isNone" :fileNameOld="fileNameN7"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -297,8 +291,8 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="身份证扫描件" prop="fileName5">
-            <uploadSmall v-if="fileNameN5.length > 0" @getfileName="getfileNameS5" :fileName="fileName5"
-              :fileNameOld="fileNameN5" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage5" @getfileName="getfileNameS5" :fileName="isNone" :fileNameOld="fileNameN5"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
@@ -315,13 +309,13 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-         <el-form-item label="营业执照" prop="fileName1">
-            <uploadSmall v-if="fileNameN1.length > 0" @getfileName="getfileNameS1" :fileName="fileName1"
-              :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
+          <el-form-item label="营业执照" prop="fileName1">
+            <uploadSmall ref="productImage1" @getfileName="getfileNameS1" :fileName="isNone" :fileNameOld="fileNameN1"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-           <el-form-item class="comright" label="注册时间" prop="businessTerm">
+          <el-form-item class="comright" label="注册时间" prop="businessTerm">
             <el-date-picker disabled style="width:100%" v-model="formData.businessTerm" type="date" placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
@@ -338,34 +332,33 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-         
+
           <el-form-item label="核定通知书" prop="fileName2">
-            <uploadSmall v-if="fileNameN2.length > 0" @getfileName="getfileNameS2" :fileName="fileName2"
-              :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage2" @getfileName="getfileNameS2" :fileName="isNone" :fileNameOld="fileNameN2"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-       </el-col>
+        </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="行业类型" prop="industryType">
-             <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
-            <el-select 
-             
-             :popper-append-to-body="false" class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-               <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value" :label="item.label"
-                  :value="item.value" style="display: none;" />
+            <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
+              <el-select :popper-append-to-body="false" class="main-select-tree" ref="selectTree"
+                v-model="formData.industryType" style="width: 100%;">
+                <el-option v-for="item in formatData(industryTypes)" :title="item.label" :key="item.value"
+                  :label="item.label" :value="item.value" style="display: none;" />
                 <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
                   highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode"
-                   >
-                    <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
-                         <span style="float: left">{{ node.label }}</span>
-                         <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates }}</span>
-                    </span>
-                  </el-tree>
+                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
+                  <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
+                    <span style="float: left">{{ node.label }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates
+                    }}</span>
+                  </span>
+                </el-tree>
               </el-select>
             </el-tooltip>
           </el-form-item>
@@ -430,42 +423,42 @@
           </el-col>
 
         </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
+        <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
           <el-col :span="9">
             <el-form-item class="comright" label="对公一般户状态" :required="true">
-              <el-radio   v-model="formData.isPublicUser" label="0">开启</el-radio>
-              <el-radio   v-model="formData.isPublicUser" label="1">关闭</el-radio>
+              <el-radio v-model="formData.isPublicUser" label="0">开启</el-radio>
+              <el-radio v-model="formData.isPublicUser" label="1">关闭</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="9">
           </el-col>
         </el-row>
-        <div v-if="formData.isPublicUser==0">
-             <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
-          <el-col :span="9">
-            <el-form-item class="comright" label="账号类型" :required="true">
-              <el-input value="对公一般户" disabled></el-input>
-            </el-form-item>
+        <div v-if="formData.isPublicUser == 0">
+          <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.accountType == 2">
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号类型" :required="true">
+                <el-input value="对公一般户" disabled></el-input>
+              </el-form-item>
 
 
-            <el-form-item class="comright" label="开户银行">
-              <el-input v-model="formData.publicDepositBank2"></el-input>
-            </el-form-item>
-          </el-col>
+              <el-form-item class="comright" label="开户银行">
+                <el-input v-model="formData.publicDepositBank2"></el-input>
+              </el-form-item>
+            </el-col>
 
-          <el-col :span="9">
-            <el-form-item class="comright" label="账号名称">
-              <el-input v-model="formData.selfName" disabled></el-input>
-            </el-form-item>
-            <el-form-item class="comright" label="银行账号">
-              <el-input v-model="formData.publicAccountNumber2"></el-input>
-            </el-form-item>
-          </el-col>
+            <el-col :span="9">
+              <el-form-item class="comright" label="账号名称">
+                <el-input v-model="formData.selfName" disabled></el-input>
+              </el-form-item>
+              <el-form-item class="comright" label="银行账号">
+                <el-input v-model="formData.publicAccountNumber2"></el-input>
+              </el-form-item>
+            </el-col>
 
-        </el-row>
+          </el-row>
 
         </div>
-      
+
 
 
 
@@ -496,8 +489,8 @@
 
           </el-form-item>
           <el-form-item label="纳税委托协议" prop="fileName3">
-            <uploadSmall v-if="fileNameN3.length > 0" @getfileName="getfileNameS3" :fileName="fileName3"
-              :fileNameOld="fileNameN3" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage3" @getfileName="getfileNameS3" :fileName="isNone" :fileNameOld="fileNameN3"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
 
@@ -511,8 +504,8 @@
 
 
           <el-form-item label="三方协议签约凭证" prop="fileName4">
-            <uploadSmall v-if="fileNameN4.length > 0" @getfileName="getfileNameS4" :fileName="fileName4"
-              :fileNameOld="fileNameN4" :isDetail="isDetail"></uploadSmall>
+            <uploadSmall ref="productImage4" @getfileName="getfileNameS4" :fileName="isNone" :fileNameOld="fileNameN4"
+              :isDetail="isDetail"></uploadSmall>
           </el-form-item>
         </el-col>
       </el-row>
@@ -622,7 +615,7 @@
         </el-col>
       </el-row>
 
-        
+
 
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
@@ -644,7 +637,7 @@
         </el-col>
       </el-row>
 
-    
+
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
@@ -662,11 +655,9 @@
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="个体户注册服务费" :required="true">
-            <el-input style="width:87%" v-model="formData.registerMoney"
-             :min="0"
-             onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
+            <el-input style="width:87%" v-model="formData.registerMoney" :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
@@ -683,80 +674,72 @@
         style="padding-left:8%;padding-right: 6%;">
         <el-collapse-item name="1">
           <template slot="title" :required="true">
-              增值税普通发票
-              <el-radio style="margin-left:10px"  v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+            增值税普通发票
+            <el-radio style="margin-left:10px" v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+            <el-radio v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-             
-           <div v-if="formData.isSliderOrdinary==0">
-            
-            <el-form-item label="普票税率" :required="true">
-              <!-- <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
+
+            <div v-if="formData.isSliderOrdinary == 0">
+
+              <el-form-item label="普票税率" :required="true">
+                <!-- <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
                 <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select> -->
-              <el-input :readonly="true" value="免税">
-                
-                </el-input>
-            </el-form-item>
-            <el-form-item label="普票服务费" :required="true">
-              <div style="">
+                <el-input :readonly="true" value="免税">
 
-                <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
-                <el-input v-if="formData.ordinaryProxyIsmoney == 0"  v-model="formData.ordinarySelfFee"
-                  style="width:87%;margin-right:10px"  :min="0"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">元</template>
                 </el-input>
-                <el-input v-else @input="ordinarySelfFeeh" @change="ordinarySelfFeeh" 
-                  v-model="formData.ordinarySelfFee" style="width:87%;margin-right:10px"  :min="0"
-                  :max="100"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">%</template>
-                </el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="服务费含税" :required="true">
-              <el-radio v-model="formData.isSelfTax" label='0'>是</el-radio>
-              <el-radio v-model="formData.isSelfTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="价税分离" :required="true">
-              <el-radio v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
-              <el-radio v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="是否分润">
-              <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
-              <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
-            </el-form-item>
-            <el-form-item v-if="formData.isOrdinaryShare == 0" label="分润方式" :required="true">
-              <div style="">
+              </el-form-item>
+              <el-form-item label="普票服务费" :required="true">
+                <div style="">
 
-                <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
-                <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
-                <el-input v-if="formData.ordinaryShareIsmoney == 0" v-model="formData.ordinaryShare"
-                  style="margin-right:10px;width:87%;"  :min="0"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">元</template>
-                </el-input>
-                <el-input v-else  @input="ordinaryShareh" @change="ordinaryShareh"
-                  v-model="formData.ordinaryShare" style="margin-right:10px;width:87%;"  :min="0"
-                  :max="100"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">%</template>
-                </el-input>
-              </div>
-            </el-form-item>
-             </div>
+                  <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryProxyIsmoney == 0" v-model="formData.ordinarySelfFee"
+                    style="width:87%;margin-right:10px" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">元</template>
+                  </el-input>
+                  <el-input v-else @input="ordinarySelfFeeh" @change="ordinarySelfFeeh"
+                    v-model="formData.ordinarySelfFee" style="width:87%;margin-right:10px" :min="0" :max="100"
+                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">%</template>
+                  </el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="服务费含税" :required="true">
+                <el-radio v-model="formData.isSelfTax" label='0'>是</el-radio>
+                <el-radio v-model="formData.isSelfTax" label='1'>否</el-radio>
+              </el-form-item>
+              <el-form-item label="价税分离" :required="true">
+                <el-radio v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+                <el-radio v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
+              </el-form-item>
+              <el-form-item label="是否分润">
+                <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
+                <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
+              </el-form-item>
+              <el-form-item v-if="formData.isOrdinaryShare == 0" label="分润方式" :required="true">
+                <div style="">
+
+                  <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.ordinaryShareIsmoney == 0" v-model="formData.ordinaryShare"
+                    style="margin-right:10px;width:87%;" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">元</template>
+                  </el-input>
+                  <el-input v-else @input="ordinaryShareh" @change="ordinaryShareh" v-model="formData.ordinaryShare"
+                    style="margin-right:10px;width:87%;" :min="0" :max="100"
+                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">%</template>
+                  </el-input>
+                </div>
+              </el-form-item>
+            </div>
           </el-col>
 
         </el-collapse-item>
@@ -768,81 +751,74 @@
         <el-collapse-item name="1">
           <template slot="title" :required="true">
             增值税专用发票
-              <el-radio style="margin-left:10px"  v-model="formData.isSlider" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
+            <el-radio style="margin-left:10px" v-model="formData.isSlider" label="0">开启</el-radio>
+            <el-radio v-model="formData.isSlider" label="1">关闭</el-radio>
           </template>
           <el-col :span="10">
-          
-            <div v-if="formData.isSlider==0">
-                 <el-form-item label="专票税率" :required="true">
-              <!-- <el-select style="width:87%;" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
+
+            <div v-if="formData.isSlider == 0">
+              <el-form-item label="专票税率" :required="true">
+                <!-- <el-select style="width:87%;" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
                 <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select> -->
-                   <el-input :readonly="true" value="3">
-                  <template slot="append">%</template>
-               </el-input>
-            </el-form-item>
-            <el-form-item label="专票服务费" :required="true">
-              <div style="">
-                <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
-                <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
-                <el-input v-if="formData.specialProxyIsmoney == 0"  v-model="formData.specialSelfFee"
-                  style="margin-right:10px;width:87%;"  :min="0"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">元</template>
-                </el-input>
-                <el-input v-else @change="specialSelfFeeh" @input="specialSelfFeeh" 
-                  v-model="formData.specialSelfFee" style="margin-right:10px;width:87%;"  :min="0"
-                  :max='100'
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
+                <el-input :readonly="true" value="3">
                   <template slot="append">%</template>
                 </el-input>
-
-              </div>
-            </el-form-item>
-            <el-form-item label="服务费含税" :required="true">
-              <el-radio v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
-              <el-radio v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="价税分离" :required="true">
-              <el-radio v-model="formData.isSpecialTax" label='0'>是</el-radio>
-              <el-radio v-model="formData.isSpecialTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="是否分润">
-              <el-radio v-model="formData.isSpecialShare" label="0">是</el-radio>
-              <el-radio v-model="formData.isSpecialShare" label="1">否</el-radio>
-            </el-form-item>
-            <el-form-item v-if="formData.isSpecialShare == 0" label="分润方式" :required="true">
-              <div style="">
-
-                <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="0">按定额收取</el-radio>
-                <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
-                <el-input v-if="formData.specialShareIsmoney == 0"  v-model="formData.specialShare"
-                  style="margin-right:10px;width:87%;"  :min="0"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">元</template>
-                </el-input>
-                <el-input @input="specialShareh" @change="specialShareh" v-model="formData.specialShare" v-else
-                   style="margin-right:10px;width:87%;"  :min="0" :max="100"
+              </el-form-item>
+              <el-form-item label="专票服务费" :required="true">
+                <div style="">
+                  <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.specialProxyIsmoney == 0" v-model="formData.specialSelfFee"
+                    style="margin-right:10px;width:87%;" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">元</template>
+                  </el-input>
+                  <el-input v-else @change="specialSelfFeeh" @input="specialSelfFeeh" v-model="formData.specialSelfFee"
+                    style="margin-right:10px;width:87%;" :min="0" :max='100'
                     onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                  oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">%</template>
-                </el-input>
-              </div>
-            </el-form-item>
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">%</template>
+                  </el-input>
+
+                </div>
+              </el-form-item>
+              <el-form-item label="服务费含税" :required="true">
+                <el-radio v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
+                <el-radio v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
+              </el-form-item>
+              <el-form-item label="价税分离" :required="true">
+                <el-radio v-model="formData.isSpecialTax" label='0'>是</el-radio>
+                <el-radio v-model="formData.isSpecialTax" label='1'>否</el-radio>
+              </el-form-item>
+              <el-form-item label="是否分润">
+                <el-radio v-model="formData.isSpecialShare" label="0">是</el-radio>
+                <el-radio v-model="formData.isSpecialShare" label="1">否</el-radio>
+              </el-form-item>
+              <el-form-item v-if="formData.isSpecialShare == 0" label="分润方式" :required="true">
+                <div style="">
+
+                  <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="0">按定额收取</el-radio>
+                  <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="1">按百分比收取</el-radio>
+                  <el-input v-if="formData.specialShareIsmoney == 0" v-model="formData.specialShare"
+                    style="margin-right:10px;width:87%;" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">元</template>
+                  </el-input>
+                  <el-input @input="specialShareh" @change="specialShareh" v-model="formData.specialShare" v-else
+                    style="margin-right:10px;width:87%;" :min="0" :max="100"
+                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                    <template slot="append">%</template>
+                  </el-input>
+                </div>
+              </el-form-item>
             </div>
-           </el-col>
+          </el-col>
         </el-collapse-item>
       </el-collapse>
-    <el-row type="flex" class="row-bg " justify="space-around">
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -860,7 +836,7 @@
   </div>
 </template>
 <script>
-var validateIdNumber=(rule, value, callback)=>{
+var validateIdNumber = (rule, value, callback) => {
   var reg = /^[1-9]\d{5}((\d{2}(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[13456789]|1[012])(0[1-9]|[12][0-9]|30))|(02(0[1-9]|1[0-9]|2[0-8]))))|(((0[48]|[2468][048]|[13579][26])|(00))0229))\d{2}[0-9Xx]$/;
 
   var reg1 = /^[1-9]\d{5}((((19|[2-9][0-9])\d{2})(0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|(((19|[2-9][0-9])\d{2})(0[13456789]|1[012])(0[1-9]|[12][0-9]|30))|(((19|[2-9][0-9])\d{2})02(0[1-9]|1[0-9]|2[0-8]))|(((1[6-9]|[2-9][0-9])(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))0229))\d{3}[0-9Xx]$/;
@@ -886,7 +862,7 @@ import { Decimal } from 'decimal.js'
 import { all } from "@/api/company/payTaxInfo";
 
 export default {
-  name:'ManageListDdit',
+  name: 'ManageListDdit',
   components: {},
   dicts: ['political_status', 'educational_level'],
   components: {
@@ -895,7 +871,7 @@ export default {
   props: [],
   data() {
     return {
-      selectTipType:'',
+      selectTipType: '',
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -1065,7 +1041,7 @@ export default {
         idCard: '',
 
       },
-      userinfo:{},
+      userinfo: {},
       accountName_options: [],
       mylist: '',
       rules: {
@@ -1135,19 +1111,19 @@ export default {
           message: '请输入证件类型',
           trigger: 'blur'
         }],
-       contactIdNum: [{
+        contactIdNum: [{
           required: true,
           message: '请输入证件号码',
           trigger: 'blur'
-        }, 
+        },
         // {
         //    pattern: /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/,
         //     message: '请输入正确的证件号'
 
         // },
         {
-          validator:validateIdNumber,
-          required: true, 
+          validator: validateIdNumber,
+          required: true,
           trigger: 'blur'
         }],
 
@@ -1298,7 +1274,7 @@ export default {
           trigger: 'blur'
         }],
       },
-      selectTipType:'',
+      selectTipType: '',
       wordTypeOptions: [{
         "label": "选项一",
         "value": 1
@@ -1335,6 +1311,78 @@ export default {
 
 
     this.formData = this.$cache.local.getJSON('employedInfo');
+
+    this.formData.fileName1 = JSON.parse(this.formData.fileName1);
+    this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+    this.formData.fileName3 = JSON.parse(this.formData.fileName3);
+    this.formData.fileName4 = JSON.parse(this.formData.fileName4);
+    this.formData.fileName5 = JSON.parse(this.formData.fileName5);
+    this.formData.fileName6 = JSON.parse(this.formData.fileName6);
+    this.formData.fileName7 = JSON.parse(this.formData.fileName7);
+
+    this.$refs.productImage1.getSrcList(this.formData.fileName1);
+    this.$refs.productImage2.getSrcList(this.formData.fileName2);
+    this.$refs.productImage3.getSrcList(this.formData.fileName3);
+    this.$refs.productImage4.getSrcList(this.formData.fileName4);
+    this.$refs.productImage5.getSrcList(this.formData.fileName5);
+    this.$refs.productImage6.getSrcList(this.formData.fileName6);
+    this.$refs.productImage7.getSrcList(this.formData.fileName7);
+
+    for (let k1 in this.formData.fileName1) {
+      this.fileNameN1.push({
+        url: this.baseImgPath + this.formData.fileName1[k1],
+        name: this.formData.fileName1[k1],
+      });
+    }
+
+
+    for (let k2 in this.formData.fileName2) {
+      this.fileNameN2.push({
+        url: this.baseImgPath + this.formData.fileName2[k2],
+        name: this.formData.fileName2[k2],
+      });
+    }
+
+    for (let k3 in this.formData.fileName3) {
+      this.fileNameN3.push({
+        url: this.baseImgPath + this.formData.fileName3[k3],
+        name: this.formData.fileName3[k3],
+      });
+    }
+
+
+    for (let k4 in this.formData.fileName4) {
+      this.fileNameN4.push({
+        url: this.baseImgPath + this.formData.fileName4[k4],
+        name: this.formData.fileName4[k4],
+      });
+    }
+
+
+    for (let k5 in this.formData.fileName5) {
+      this.fileNameN5.push({
+        url: this.baseImgPath + this.formData.fileName5[k5],
+        name: this.formData.fileName5[k5],
+      });
+    }
+
+    for (let k6 in this.formData.fileName6) {
+      this.fileNameN6.push({
+        url: this.baseImgPath + this.formData.fileName6[k6],
+        name: this.formData.fileName6[k6],
+      });
+    }
+
+    for (let k7 in this.formData.fileName7) {
+      this.fileNameN7.push({
+        url: this.baseImgPath + this.formData.fileName7[k7],
+        name: this.formData.fileName7[k7],
+      });
+    }
+
+
+
+
     this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
@@ -1344,20 +1392,8 @@ export default {
 
 
 
-    this.fileName1 = [];
-    this.fileName2 = [];
-    this.fileName3 = [];
-    this.fileName4 = [];
-    this.fileName5 = [];
-    this.fileName6 = [];
-    this.fileName7 = [];
-    this.fileNameN1 = [];
-    this.fileNameN2 = [];
-    this.fileNameN3 = [];
-    this.fileNameN4 = [];
-    this.fileNameN5 = [];
-    this.fileNameN6 = [];
-    this.fileNameN7 = [];
+
+
 
     this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
     this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
@@ -1370,7 +1406,7 @@ export default {
     this.formData.specialShareIsmoney = JSON.stringify(this.formData.specialShareIsmoney);
     this.formData.isOrdinaryShare = JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
-       if (this.formData.isPublicUser == '0') {
+    if (this.formData.isPublicUser == '0') {
       this.formData.isPublicUser = '0';
     } else {
       this.formData.isPublicUser = '1';
@@ -1411,99 +1447,42 @@ export default {
       this.formData.isSlider = '1';
     }
 
-      if (this.formData.isSliderOrdinary == '0') {
+    if (this.formData.isSliderOrdinary == '0') {
       this.formData.isSliderOrdinary = '0';
     } else {
       this.formData.isSliderOrdinary = '1';
     }
 
-    this.fileName1 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName1);
-    for (let k1 in this.fileName1) {
-      this.fileNameN1.push({
-        url: this.baseImgPath + this.fileName1[k1],
-        name: this.fileName1[k1],
-      });
-    }
 
-    this.fileName2 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName2);
-    for (let k2 in this.fileName2) {
-      this.fileNameN2.push({
-        url: this.baseImgPath + this.fileName2[k2],
-        name: this.fileName2[k2],
-      });
-    }
-    this.fileName3 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName3);
-    for (let k3 in this.fileName3) {
-      this.fileNameN3.push({
-        url: this.baseImgPath + this.fileName3[k3],
-        name: this.fileName3[k3],
-      });
-    }
 
-    this.fileName4 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName4);
-    for (let k4 in this.fileName4) {
-      this.fileNameN4.push({
-        url: this.baseImgPath + this.fileName4[k4],
-        name: this.fileName4[k4],
-      });
-    }
-
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
-    for (let k5 in this.fileName5) {
-      this.fileNameN5.push({
-        url: this.baseImgPath + this.fileName5[k5],
-        name: this.fileName5[k5],
-      });
-    }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
-    for (let k6 in this.fileName6) {
-      this.fileNameN6.push({
-        url: this.baseImgPath + this.fileName6[k6],
-        name: this.fileName6[k6],
-      });
-    }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
-    for (let k7 in this.fileName7) {
-      this.fileNameN7.push({
-        url: this.baseImgPath + this.fileName7[k7],
-        name: this.fileName7[k7],
-      });
-    }
-    this.formData.fileName1 = JSON.parse(this.formData.fileName1);
-    this.formData.fileName2 = JSON.parse(this.formData.fileName2);
-    this.formData.fileName3 = JSON.parse(this.formData.fileName3);
-    this.formData.fileName4 = JSON.parse(this.formData.fileName4);
-    this.formData.fileName5 = JSON.parse(this.formData.fileName5);
-    this.formData.fileName6 = JSON.parse(this.formData.fileName6);
-    this.formData.fileName7 = JSON.parse(this.formData.fileName7);
     this.nailist();
   },
   methods: {
-      singleOK(e) {
+    singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
         // this.yecomfirm = false;
         // this.yecomfirms = true;
-          this.formData.specialSelfFee ='0';
-         this.formData.ordinarySelfFee = '0';
-         this.formData.registerMoney = '0';
-         this.formData.specialShare = '0';
-         this.formData.ordinaryShare = '0';
-         this.formData.ordinaryProxyIsmoney = '0'; //普票平台服务费是否定额
-         this.formData.specialProxyIsmoney = '0';  //专票平台服务费是否定额
-         this.formData.ordinaryShareIsmoney = '0';//普票分润方式是否定额
-         this.formData.specialShareIsmoney = '0';//专票分润方式是否定额
-         this.formData.isOrdinaryShare = '1';
-         this.formData.isSpecialShare = '1';
-         this.formData.ordinarySpecialTax = '0.03';
-         this.formData.ordinaryTax = '0';
-         this.formData.isSlider='0';
-         this.formData.isSliderOrdinary='0';
-         this.formData.isSpecialSelfTax = '1';
-         this.formData.isSelfTax = '1';
-         this.formData.isOrdinaryTax = '1';
-         this.formData.isSpecialTax = '1';
-      
+        this.formData.specialSelfFee = '0';
+        this.formData.ordinarySelfFee = '0';
+        this.formData.registerMoney = '0';
+        this.formData.specialShare = '0';
+        this.formData.ordinaryShare = '0';
+        this.formData.ordinaryProxyIsmoney = '0'; //普票平台服务费是否定额
+        this.formData.specialProxyIsmoney = '0';  //专票平台服务费是否定额
+        this.formData.ordinaryShareIsmoney = '0';//普票分润方式是否定额
+        this.formData.specialShareIsmoney = '0';//专票分润方式是否定额
+        this.formData.isOrdinaryShare = '1';
+        this.formData.isSpecialShare = '1';
+        this.formData.ordinarySpecialTax = '0.03';
+        this.formData.ordinaryTax = '0';
+        this.formData.isSlider = '0';
+        this.formData.isSliderOrdinary = '0';
+        this.formData.isSpecialSelfTax = '1';
+        this.formData.isSelfTax = '1';
+        this.formData.isOrdinaryTax = '1';
+        this.formData.isSpecialTax = '1';
+
 
       } else {
         // this.yecomfirm = true;
@@ -1583,23 +1562,23 @@ export default {
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
-        this.$nextTick(function(){
-        this.selectTipType=this.$refs.selectTree.selected.label; 
+      this.$nextTick(function () {
+        this.selectTipType = this.$refs.selectTree.selected.label;
       });
     },
-     formatData(data) {
+    formatData(data) {
       let options = [];
       data.forEach((item, key) => {
-        options.push({ label: item.label, value: item.id,taxRates:item.taxRates });
+        options.push({ label: item.label, value: item.id, taxRates: item.taxRates });
         if (item.children) {
           item.children.forEach((items, keys) => {
-            options.push({ label: item.label+'-'+items.label, value: items.id,taxRates:items.taxRates });
+            options.push({ label: item.label + '-' + items.label, value: items.id, taxRates: items.taxRates });
             if (items.children) {
               items.children.forEach((itemss, keyss) => {
-                options.push({ label: item.label+'-'+items.label+'-'+itemss.label, value: itemss.id,taxRates:itemss.taxRates });
+                options.push({ label: item.label + '-' + items.label + '-' + itemss.label, value: itemss.id, taxRates: itemss.taxRates });
                 if (itemss.children) {
                   itemss.children.forEach((itemsss, keysss) => {
-                    options.push({ label:item.label+'-'+items.label+'-'+itemss.label+'-'+itemsss.label, value: itemsss.id,taxRates:itemsss.taxRates });
+                    options.push({ label: item.label + '-' + items.label + '-' + itemss.label + '-' + itemsss.label, value: itemsss.id, taxRates: itemsss.taxRates });
                   });
                 }
               });
@@ -1638,7 +1617,7 @@ export default {
             } else {
               this.formData.isSlider = '1';
             }
-             if (this.unlist.isSliderOrdinary == '0') {
+            if (this.unlist.isSliderOrdinary == '0') {
               this.formData.isSliderOrdinary = '0';
             } else {
               this.formData.isSliderOrdinary = '1';
@@ -1687,24 +1666,31 @@ export default {
     },
     getfileNameS1(data) {
       this.formData.fileName1 = data;
+      console.log(1, data);
     },
     getfileNameS2(data) {
       this.formData.fileName2 = data;
+      console.log(2, data);
     },
     getfileNameS3(data) {
       this.formData.fileName3 = data;
+      console.log(3, data);
     },
     getfileNameS4(data) {
       this.formData.fileName4 = data;
+      console.log(4, data);
     },
     getfileNameS5(data) {
       this.formData.fileName5 = data;
+      console.log(5, data);
     },
     getfileNameS6(data) {
       this.formData.fileName6 = data;
+      console.log(6, data);
     },
     getfileNameS7(data) {
       this.formData.fileName7 = data;
+      console.log(7, data);
     },
     getLoginInfo() {
       getInfo().then(res => {
@@ -1753,9 +1739,9 @@ export default {
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
-          this.$nextTick(function(){
-             this.selectTipType=this.$refs.selectTree.selected.label; 
-         });
+        this.$nextTick(function () {
+          this.selectTipType = this.$refs.selectTree.selected.label;
+        });
         this.selectIndustryType();
       })
     },
@@ -1829,25 +1815,25 @@ export default {
         }
       }
 
-      if(this.formData.isSliderOrdinary==0){
-      if (this.formData.ordinaryShareIsmoney == '1') {
-        if (this.formData.ordinaryShare > 100) {
-          this.$alert('普票分润费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
-          });
-          return;
+      if (this.formData.isSliderOrdinary == 0) {
+        if (this.formData.ordinaryShareIsmoney == '1') {
+          if (this.formData.ordinaryShare > 100) {
+            this.$alert('普票分润费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
         }
-      }
 
 
-      if (this.formData.ordinaryProxyIsmoney == '1') {
-        if (this.formData.ordinarySelfFee > 100) {
-          this.$alert('普票服务费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
-          });
-          return;
+        if (this.formData.ordinaryProxyIsmoney == '1') {
+          if (this.formData.ordinarySelfFee > 100) {
+            this.$alert('普票服务费按百分比不能大于100%', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
         }
-      }
       }
 
       this.$refs['elForm'].validate(valid => {
@@ -1867,7 +1853,7 @@ export default {
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
           };
-        
+
           this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
           this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
           this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
@@ -1892,7 +1878,7 @@ export default {
             contactPhone: this.formData.contactPhone,
             mail: this.formData.mail,
             isSlider: this.formData.isSlider,
-            isSliderOrdinary:this.formData.isSliderOrdinary,
+            isSliderOrdinary: this.formData.isSliderOrdinary,
           };
           crudInfo.updateInfo(parms1).then(res => {
             if (res != undefined) {
@@ -1931,7 +1917,7 @@ export default {
             }
           });
           this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name:this.$cache.local.getJSON('backurls').backName });
+            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName });
           })
         } else {
           this.$message({
@@ -1943,7 +1929,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name: this.$cache.local.getJSON('backurls').backName })
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName })
       });
     },
     nailist() {
