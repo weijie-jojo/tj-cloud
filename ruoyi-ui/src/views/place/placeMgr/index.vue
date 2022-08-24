@@ -245,10 +245,15 @@ export default {
         placeStatus = 2;
       }
       if (item.placeStatus == 1) {
-        this.$message({
-          message: '欠费状态不能点哦',
-          type: 'warning',
-        });
+        // this.$message({
+        //   message: '欠费状态不能点哦',
+        //   type: 'warning',
+        // });
+        this.$confirm('欠费状态不能点哦', '系统提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'error'
+         })
         return;
       }
       if (item.placeStatus == 2) {
@@ -282,7 +287,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       let placeCodeStr = [];
-      console.log(this.multipleSelection);
+     
       this.multipleSelection.map((item) => {
         placeCodeStr.push(item.placeCode);
       })
@@ -299,18 +304,16 @@ export default {
         crudPlace.delPlace(params).then((res) => {
           if (res != undefined) {
             if (res.id == 0) {
-              this.$message({
-                message: res.message,
-                type: 'success',
-              });
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'warning',
-              });
-            }
-            this.$tab.refreshPage();
-
+             this.$modal.msgSuccess('删除成功!');
+             this.$tab.refreshPage();
+             }else{
+                   this.$confirm(res.message+'，无法删除!!', '系统提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                  })
+             }
+            
           }
         })
       }).catch(() => {

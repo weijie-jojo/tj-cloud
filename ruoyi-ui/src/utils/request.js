@@ -94,9 +94,14 @@ service.interceptors.response.use(res => {
     }
       return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (code === 500) {
-      Message({
-        message: msg,
-        type: 'error'
+      // Message({
+      //   message: msg,
+      //   type: 'error'
+      // })
+      MessageBox.alert(msg, '系统提示', {
+        confirmButtonText: '确定',
+       
+         type: 'error'
       })
       return Promise.reject(new Error(msg))
     } else if (code !== 200) {
@@ -122,11 +127,17 @@ service.interceptors.response.use(res => {
     }else{
       message='接口异常,请联系管理员！';
     }
-    Message({
-      message: message,
-      type: 'error',
-      duration: 5 * 1000
+    // Message({
+    //   message: message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
+    MessageBox.alert(message, '系统提示', {
+      confirmButtonText: '确定',
+     
+      type: 'error'
     })
+   
     return Promise.reject(error)
   }
 )

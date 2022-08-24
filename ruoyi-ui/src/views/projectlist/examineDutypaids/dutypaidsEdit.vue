@@ -122,7 +122,7 @@ export default {
               "projectType": "13",
             };
             check(parms).then(res => {
-                console.log('添加验收成功！');
+                console.log('修改完税成功！');
             }).catch(error => {
 
             });
@@ -170,10 +170,11 @@ export default {
                         
                     });
                 } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
+                      this.$alert('请正确填写', '系统提示', {
+                            confirmButtonText: '确定',
+                           
+                            type: 'warning'
+                        });
                 }
             });
         },

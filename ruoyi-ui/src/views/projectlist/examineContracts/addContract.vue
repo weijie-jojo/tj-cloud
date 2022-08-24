@@ -110,7 +110,7 @@ export default {
                     "projectType": "14",
                 };
                 check(parms).then(res => {
-                    console.log('添加合同成功！');
+                    console.log('合同办理成功！');
                 }).catch(error => {
 
                 });
@@ -143,8 +143,8 @@ export default {
                         if (res != undefined) {
                             if (res.code === 200) {
                                 this.$nextTick(function () {
-                                this.check('合同新增成功');
-                                this.$modal.msgSuccess('合同新增成功');
+                                this.check('合同办理成功');
+                                this.$modal.msgSuccess('合同办理成功');
                                 this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('addProjectBack').backurl }).then(() => {
                                  this.$tab.refreshPage({path:this.$cache.local.getJSON('addProjectBack').backurl,name:this.$cache.local.getJSON('addProjectBack').name});
                                 })
@@ -159,10 +159,11 @@ export default {
 
                     });
                 } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
+                     this.$alert('请正确填写', '系统提示', {
+                        confirmButtonText: '确定',
+                       
+                        type: 'warning'
+                        });
                 }
             });
         },

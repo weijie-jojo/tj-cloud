@@ -128,7 +128,9 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-select style="width:100%" @change="changeValue($event)" v-model="formBank.publicDepositBank3" filterable
+            <el-select style="width:100%" 
+             @visible-change="changeValue1($event)"
+            @change="changeValue($event)" v-model="formBank.publicDepositBank3" filterable
               placeholder="请选择">
               <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
@@ -307,8 +309,7 @@ export default {
   },
   mounted() {
     this.getInfo();
-    this.formBank.fileName3=[];
-    this.formBank.fileName4=[];
+   
     let list = this.$cache.local.getJSON("employednewlist");
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
@@ -323,6 +324,12 @@ export default {
  
 
   methods: {
+    changeValue1(e){
+      if(e==true){
+        this.nailist();
+      }
+
+    },
     getTaxS(data){
      this.formBank.fileName3=data;
      console.log(111,data);
@@ -414,7 +421,10 @@ export default {
               this.$modal.msgError(error);
             });
         } else {
-          this.$modal.msgError("请填写完整");
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+              type: 'warning'
+           });
         }
       });
     },

@@ -106,10 +106,10 @@
         </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item prop="fontSize1">
-              <el-input v-if="isDisable" v-model="formData.fontSize1" :disabled="isDisable" clearable>
+            <el-form-item  prop="fontSize1">
+               <el-input v-if="isDisable"  v-model="formData.fontSize1" :disabled="isDisable" clearable>
               </el-input>
-              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize1" :disabled="isDisable" clearable>
+              <el-input ref="fontSize1" v-else  placeholder="请输入字号一" v-model="formData.fontSize1" :disabled="isDisable" clearable>
               </el-input>
             </el-form-item>
           </el-col>
@@ -122,10 +122,11 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
+          
             <el-form-item prop="fontSize2">
-              <el-input v-if="isDisable" v-model="formData.fontSize2" :disabled="isDisable" clearable>
+              <el-input  v-if="isDisable"  v-model="formData.fontSize2" :disabled="isDisable" clearable>
               </el-input>
-              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize2" :disabled="isDisable" clearable>
+              <el-input v-else ref="fontSize2"   placeholder="请输入字号二" v-model="formData.fontSize2" :disabled="isDisable" clearable>
               </el-input>
             </el-form-item>
           </el-col>
@@ -138,12 +139,12 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item prop="fontSize3">
-              <el-input v-if="isDisable" v-model="formData.fontSize3" :disabled="isDisable" clearable>
+            
+            <el-form-item   prop="fontSize3">
+                <el-input v-if="isDisable"  v-model="formData.fontSize3" :disabled="isDisable" clearable>
               </el-input>
-              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize3" :disabled="isDisable" clearable>
+              <el-input   v-else   ref="fontSize3"   placeholder="请输入字号三" v-model="formData.fontSize3" :disabled="isDisable" clearable>
               </el-input>
-
             </el-form-item>
           </el-col>
           <el-col :span="9">
@@ -155,11 +156,12 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item prop="fontSize4">
-              <el-input v-if="isDisable" v-model="formData.fontSize4" :disabled="isDisable" clearable>
+           
+            <el-form-item  prop="fontSize4">
+                <el-input v-if="isDisable" v-model="formData.fontSize4" :disabled="isDisable" clearable>
               </el-input>
-              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize4" :disabled="isDisable" clearable>
-              </el-input>
+             <el-input v-else ref="fontSize4"   placeholder="请输入字号四" v-model="formData.fontSize4" :disabled="isDisable" clearable>
+             </el-input>
 
             </el-form-item>
           </el-col>
@@ -173,13 +175,12 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item prop="fontSize5">
-              <el-input v-if="isDisable" v-model="formData.fontSize5" :disabled="isDisable" clearable>
+          <el-form-item  prop="fontSize5">
+               <el-input v-if="isDisable"  v-model="formData.fontSize5" :disabled="isDisable" clearable>
               </el-input>
-              <el-input v-else placeholder="请输入字号" v-model="formData.fontSize5" :disabled="isDisable" clearable>
+             <el-input  v-else ref="fontSize5"  placeholder="请输入字号五" v-model="formData.fontSize5" :disabled="isDisable" clearable>
               </el-input>
-
-            </el-form-item>
+              </el-form-item>
           </el-col>
           <el-col :span="9">
             <el-form-item>
@@ -227,7 +228,8 @@
           <el-col :span="9">
             <el-form-item label="申请人姓名" prop="applyName">
               <el-select style="width:100%" v-model="formData.applyName" placeholder="请选择申请人姓名" clearable filterable
-                @change="selectApplyName">
+               @visible-change="changeApplyName($event)"
+               @change="selectApplyName">
                 <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.employeeNumber"
                   :disabled="item.disabled"></el-option>
               </el-select>
@@ -422,7 +424,7 @@
           <el-col :span="9">
             <el-form-item label="银行账号类型" prop="accountType">
               <el-select style="width:100%" v-model="formData.accountType" placeholder="请选择银行账号类型"
-                @change="selectAccountType">
+               @change="selectAccountType">
                 <el-option v-for="(item, index) in accountTypes" :key="index" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
@@ -686,7 +688,9 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="渠道商全名" prop="placeName">
-              <el-select @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名"
+              <el-select
+              @visible-change="changeValue1($event)"
+              @change="placenew" style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名"
                 clearable filterable>
                 <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
                 </el-option>
@@ -1478,11 +1482,11 @@ export default {
           message: '请输入随机字号',
           trigger: 'blur'
         }],
-        fontSize1: [{ min: 3, message: '字号1不能少于3个字符', trigger: 'blur' }],
-        fontSize2: [{ min: 3, message: '字号2不能少于3个字符', trigger: 'blur' }],
-        fontSize3: [{ min: 3, message: '字号3不能少于3个字符', trigger: 'blur' }],
-        fontSize4: [{ min: 3, message: '字号4不能少于3个字符', trigger: 'blur' }],
-        fontSize5: [{ min: 3, message: '字号5不能少于3个字符', trigger: 'blur' }],
+        fontSize1: [{ min: 3, message: '字号一不能少于3个字符', trigger: 'blur' }],
+        fontSize2: [{ min: 3, message: '字号二不能少于3个字符', trigger: 'blur' }],
+        fontSize3: [{ min: 3, message: '字号三不能少于3个字符', trigger: 'blur' }],
+        fontSize4: [{ min: 3, message: '字号四不能少于3个字符', trigger: 'blur' }],
+        fontSize5: [{ min: 3, message: '字号五不能少于3个字符', trigger: 'blur' }],
         
 
 
@@ -1554,6 +1558,17 @@ export default {
     //从上一个页面获取个体户编码
   },
   methods: {
+    changeApplyName(e){
+       if(e==true){
+        this.getApplyName();
+      }
+    },
+    changeValue1(e){
+      console.log(e);
+      if(e==true){
+        this.getLoginInfo();
+      }
+    },
       handPoxy(e) {
       if (e == '1') {
         if (this.formData.ordinaryProxyIsmoney == '1') {
@@ -1684,28 +1699,31 @@ export default {
     submitFormName() {
       let fieldsToValidate;
       if(!this.isDisable){
-         fieldsToValidate=['industry'];
-         if(this.strlen(this.formData.fontSize1)<3){
-          this.$modal.msgError('字号1至少三个字符');
-          return;
+         fieldsToValidate=['industry','fontSize1','fontSize2','fontSize3','fontSize4','fontSize5'];
+           
+         if(!this.formData.fontSize1){
+           this.formData.fontSize1='.';
+           this.$refs.fontSize1.focus();
          }
-          if(this.strlen(this.formData.fontSize2)<3){
-          this.$modal.msgError('字号2至少三个字符');
-          return;
-         }
-          if(this.strlen(this.formData.fontSize3)<3){
-          this.$modal.msgError('字号3至少三个字符');
-          return;
-         }
-          if(this.strlen(this.formData.fontSize4)<3){
-          this.$modal.msgError('字号4至少三个字符');
-          return;
-         }
-          if(this.strlen(this.formData.fontSize5)<3){
-          this.$modal.msgError('字号5至少三个字符');
-          return;
-         }
-      }else{
+          if(!this.formData.fontSize2){
+           this.formData.fontSize2='.';
+           this.$refs.fontSize2.focus();
+          }
+          if(!this.formData.fontSize3){
+           this.formData.fontSize3='.';
+           this.$refs.fontSize3.focus();
+          }
+          if(!this.formData.fontSize4){
+           this.formData.fontSize4='.';
+           this.$refs.fontSize4.focus();
+          }
+         
+          if(!this.formData.fontSize5){
+           this.formData.fontSize5='.';
+           this.$refs.fontSize5.focus();
+          }
+        
+       }else{
          fieldsToValidate=['industry'];
       }
          Promise.all(
@@ -1728,10 +1746,33 @@ export default {
          if(valid){
             this.actives = 1;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+          if(this.formData.fontSize1=='.'){
+            this.formData.fontSize1='';
+          }
+          if(this.formData.fontSize2=='.'){
+            this.formData.fontSize2='';
+          }
+          if(this.formData.fontSize3=='.'){
+            this.formData.fontSize3='';
+          }
+          if(this.formData.fontSize4=='.'){
+            this.formData.fontSize4='';
+          }
+          //console.log(this.formData.fontSize5);
+          // if(this.formData.fontSize5='.'){
+          //   this.formData.fontSize5='';
+          // }
+             this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
+            let that=this;
+           setTimeout(function(){
+             if(that.formData.fontSize5='.'){
+                that.formData.fontSize5='';
+              }
+           },1000)
         }
       });
       
@@ -1739,6 +1780,7 @@ export default {
      
     },
     placenew() {
+      
        for (let i in this.places) {
         if (this.places[i].placeName == this.formData.placeName) {
           this.formData.placeAliasName=this.places[i].placeAliasName;
@@ -1865,10 +1907,11 @@ export default {
          if(valid){
             this.actives = 4;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
         }
       });
       //this.actives = 4;
@@ -2010,10 +2053,11 @@ export default {
          if(valid){
             this.actives = 2;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+             this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       });
       
@@ -2049,10 +2093,12 @@ export default {
          if(valid){
             this.actives = 3;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+           this.$alert('请填写完整', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
+          
         }
       });
       //this.actives = 3;
@@ -2075,16 +2121,20 @@ export default {
            
          if(this.formData.specialShareIsmoney=='1'){
             if(this.formData.specialShare>100){
-                this.$alert('专票分润费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+              this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                 
+                  type: 'error'
             });
                 return;
            }
          }
            if(this.formData.specialProxyIsmoney=='1'){
             if(this.formData.specialSelfFee>100){
-                 this.$alert('专票服务费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+              this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                 
+                  type: 'error'
               });
                 return;
            }
@@ -2094,8 +2144,10 @@ export default {
        if(this.formData.isSliderOrdinary==0){
       if(this.formData.ordinaryShareIsmoney=='1'){
             if( this.formData.ordinaryShare>100){
-               this.$alert('普票分润费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+               this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                
+                  type: 'error'
             });
                 return;
            }
@@ -2104,8 +2156,10 @@ export default {
     
       if(this.formData.ordinaryProxyIsmoney=='1'){
             if( this.formData.ordinarySelfFee>100){
-                this.$alert('普票服务费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                
+                  type: 'error'
               });
                 return;
            }
@@ -2116,10 +2170,11 @@ export default {
         if (valid) {
           this.submitFormNameS(); //名称录入成功l
         } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       })
     },
@@ -2227,22 +2282,22 @@ export default {
 
             }
           }).catch(error => {
+              this.getSelfCode();
+              this.$alert('已重新获取个体户编码,请重新提交', '系统提示', {
+              confirmButtonText: '确定',
             
-            let that = this;
-            setTimeout(function () {
-              that.getSelfCode();
-              that.$modal.msgSuccess('已重新获取个体户编码,请重新提交')
-            }, 3000);
-
+              type: 'success'
+              });
           });
 
 
 
         } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+           this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
         }
       })
     },

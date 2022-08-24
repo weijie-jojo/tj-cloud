@@ -343,7 +343,7 @@ export default {
         this.getInfo();
         this.getlist();
         this.getRate();
-        this.getinfoByUserId(); //渠道商
+       // this.getinfoByUserId(); //渠道商
     },
 
 
@@ -426,10 +426,11 @@ export default {
          });
 
         } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+            this.$alert('请正确填写', '系统提示', {
+                            confirmButtonText: '确定',
+                          
+                            type: 'warning'
+                        });
         }
       })
 
@@ -513,9 +514,9 @@ export default {
         //渠道商接口
         getinfoByUserId() {
             getInfo().then(res => {
-                this.userId = res.user.userId;
-                this.username = res.user.userName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                //this.userId = res.user.userId;
+               // this.username = res.user.userName;
+                getinfoByUserId({ userId:this.formData.userId }).then(res => {
                     this.placename = res.data;
                 })
             })

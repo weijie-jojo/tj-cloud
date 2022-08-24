@@ -1,22 +1,29 @@
 <template>
   <div>
-    <el-upload :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
+    <div style="position:relative;">
+      <el-upload ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
       :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="9"
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
-      <el-button v-if="isDetails == 0" size="small" type="primary">点击上传</el-button>
+      <el-button v-if="isDetails == 0" size="small" type="primary" style="width:80px;">点击上传</el-button>
+
       <div v-if="isDetails == 0" slot="tip" class="el-upload__tip">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
     </el-upload>
+    <div style="position: absolute;left: 150px;
+    top: -15px;" :class="isDetail==0 ?'brrs':'arrs'">
+      <el-button v-hasPermi="['common:action:uploads']" size="small" type="primary" @click="uploadAll" style="width:80px">下载全部</el-button>
+    </div>
+    </div>
+    
+    
+
 
     <!-- 图片预览 -->
     <!-- <el-dialog :visible.sync="dialogVisible" append-to-body>
        <el-image width="100%" ref="preview" :src="dialogImageUrl" :preview-src-list="dialogImageUrls"></el-image>
     </el-dialog> -->
-    <el-image-viewer
-           v-if="showViewer"
-           :on-close="closeViewer"
-           :url-list="dialogImageUrls" />
+    <el-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="dialogImageUrls" />
     <!--PDF 预览-->
-    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog==false'>
+    <el-dialog :title="titles" :visible.sync="viewVisible" width="80%" center @close='closeDialog == false'>
       <div>
         <div class="tools flexs">
           <el-button class="page" style="margin-right:20px;font-size: 20px;">共{{ pageNum }}/{{ pageTotalNum }}
@@ -43,6 +50,7 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import pdf from 'vue-pdf-signature'
 import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
+
 export default {
   name: 'uploadSmall',
   components: {
@@ -51,11 +59,11 @@ export default {
   },
   data() {
     return {
-      showViewer:false,
+      showViewer: false,
       errOk: false,
       dialogVisible: false,
       dialogImageUrl: "",
-      dialogImageUrls:[],
+      dialogImageUrls: [],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       fileNameOlds: this.$options.propsData.fileNameOld,
       fileNames: this.$options.propsData.fileName,
@@ -104,26 +112,63 @@ export default {
     }
   },
   mounted() {
-    this.getLunS();
+    this.pdfIconChange();
   },
   methods: {
+    // 导出错误详情
+    async uploadAll() {
+        this.$nextTick(()=>{
+          this.fileNameOlds=this.$refs.uploads.uploadFiles;
+        })
+      if(this.fileNameOlds.length==0){
+          this.$alert('下载必须至少有一份文件', '系统提示', {
+          confirmButtonText: '确定',
+           type: 'warning'
+        });
+      }else{
+          let arr=this.fileNameOlds;
+        this.$modal.loading("正在下载文件，请稍后...");
+        for(let i in arr){
+        var name = arr[i].name;
+        var url = arr[i].url;
+        var suffix = url.substring(url.lastIndexOf("."), url.length);
+        const a = document.createElement('a')
+         a.setAttribute('download', name + suffix)
+         a.setAttribute('target', '_blank')
+         a.setAttribute('href', url)
+         a.click()
+        }
+       this.$modal.closeLoading();
+      
+      }
+      
+
+    },
+
     //获取已经保存数据库的值
-    getSrcList(val){
-       this.fileNames=val;
+    getSrcList(val) {
+      this.fileNames = val;
     },
     //关闭图片预览
     closeViewer() {
-     this.showViewer = false
+      this.showViewer = false
     },
     //pdf图标优化
-    getLunS() {
-      let arr = this.fileNameOlds;
-      for (let i in arr) {
-        if (arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'pdf') {
-          arr[i].url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
+    pdfIconChange() {
+      if (this.fileNameOld.length > 0) {
+        let arr = this.fileNameOlds;
+
+        for (let i in arr) {
+          if (arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'pdf') {
+            arr[i].url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
+          }
         }
+        this.fileNameOlds = arr;
+      }else{
+         this.$nextTick(()=>{
+          this.fileNameOlds=this.$refs.uploads.uploadFiles;
+        })
       }
-      this.fileNameOlds = arr;
     },
     //pdf弹框
     pdfdetail(i) {
@@ -163,20 +208,26 @@ export default {
       }
     },
 
-    beforeAvatarUpload(file) {
+    beforeAvatarUpload(file, fileList) {
+
       const isLt2M = file.size / 1024 / 1024 < 5;
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
       const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
       if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$alert('上传文件只能是 jpg,png,jpeg,pdf格式', '提示', {
+        this.$alert('上传文件只能是 jpg,png,jpeg,pdf格式', '系统提示', {
           confirmButtonText: '确定',
+           type: 'warning'
         });
+
         return false;
       }
       if (!isLt2M) {
-        this.$alert('上传文件大小不能超过 10MB!', '提示', {
+        this.$alert('上传文件大小不能超过 10MB!', '系统提示', {
           confirmButtonText: '确定',
+
+          type: 'warning'
         });
+
         return false;
       }
       return fileSuffix & isLt2M;
@@ -184,25 +235,24 @@ export default {
 
     },
     handlesuccess(file, fileList) {
-      
+
       this.fileNames.push(file.obj);
       fileList.name = file.obj;
       if (fileList.name.substring(fileList.name.lastIndexOf('.') + 1) == 'pdf') {
         fileList.url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
       }
+
       this.$emit('getfileName', this.fileNames);
 
     },
     handleRemove(file, fileList) {
-      console.log(fileList);
-      console.log(this.fileNameOlds);
       const i = this.fileNames.findIndex((item) => item === fileList);
       this.fileNames.splice(i, 1);
       this.$emit('getfileName', this.fileNames);
 
     },
     handlePreview(file) {
-      this.dialogImageUrls=[];
+      this.dialogImageUrls = [];
       this.errOk = false;
       if (file.hasOwnProperty('response')) {
         if (file.response.obj.substring(file.response.obj.lastIndexOf('.') + 1) == 'pdf') {
@@ -212,7 +262,7 @@ export default {
         } else {
           this.dialogImageUrls.push(this.baseImgPath + file.name);
           this.showViewer = true
-       }
+        }
       } else {
         if (file.name.substring(file.name.lastIndexOf('.') + 1) == 'pdf') {
           this.titles = '正在预览' + file.name;
@@ -221,7 +271,7 @@ export default {
         } else {
           this.dialogImageUrls.push(this.baseImgPath + file.name);
           this.showViewer = true
-         }
+        }
       }
     },
   }
@@ -237,5 +287,25 @@ export default {
 
 .upload-demo {
   width: 88%;
+}
+
+/* 大图预览的关闭图标 改为大一点的白色 */
+.el-image-viewer__btn.el-image-viewer__close {
+  color: #FFF;
+  border: #FFF;
+  opacity: unset;
+  top: 50px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+}
+.arrs{
+  top: 0px !important;
+  margin-top: 0px;
+  left: 0px !important;
+}
+.brrs{
+  margin-top: 15px;
 }
 </style>

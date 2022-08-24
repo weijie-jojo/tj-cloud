@@ -711,10 +711,12 @@ export default {
         },
         onSubmit() {
             if (this.formData.projectTotalAmount < 1) {
-                this.$alert('项目金额必须大于1', '提示', {
-                    confirmButtonText: '确定',
-                });
-                return;
+                 this.$alert('项目金额必须大于1', '系统提示', {
+                            confirmButtonText: '确定',
+                          
+                            type: 'error'
+                 });
+               return;
             }
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
@@ -752,10 +754,11 @@ export default {
 
                     });
                 } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
+                      this.$alert('请正确填写', '系统提示', {
+                            confirmButtonText: '确定',
+                         
+                            type: 'warning'
+                        });
                 }
             });
         },
