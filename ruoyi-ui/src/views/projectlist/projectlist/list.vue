@@ -328,23 +328,29 @@ export default {
             this.getList();
         },
         examine(applyName, scope, type, code) {
-           // console.log(scope.row.filename1);
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', scope);
             this.$cache.local.setJSON("projectListNews", scope);
             var msg = '审核';
             if(type==3){
-              if(!this.$cache.local.getJSON('publicTickets').filename1){
-                msg='新增';
+               
+              if(!this.$cache.local.getJSON('publicTickets').fileName1){
+                msg='办理';
+              }else{
+                msg='审核';
               }
             }else if(type==4){
-              if(!this.$cache.local.getJSON('publicTickets').filename2){
-                msg='新增';
-             }
+              if(!this.$cache.local.getJSON('publicTickets').fileName2){
+                msg='办理';
+             }else{
+                msg='审核';
+              }
             }else if(type==5){
-             if(!this.$cache.local.getJSON('publicTickets').filename3){
-                msg='新增';
-             }
+             if(!this.$cache.local.getJSON('publicTickets').fileName3){
+                msg='办理';
+             }else{
+                msg='审核';
+              }
             }
             this.types = type;
             if (this.types == 2) {
@@ -378,12 +384,12 @@ export default {
                     }).then(() => {
                         if(this.msgs=='查看'){
                             this.findList();
-                        }else if(this.msgs=='新增'){
+                        }else if(this.msgs=='办理'){
                             this.addList();
                         }else if(this.msgs=='审核'){
                             this.aduit();
                         }else if(this.msgs=='开票'){
-                           this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' })
+                           this.$tab.openPage('票据列表查看','/projectlist/ticketlist');
                         }
                        
                     }).catch(() => {
@@ -426,16 +432,16 @@ export default {
             switch (this.types) {
                 
                 case 1:
-                    this.$tab.closeOpenPage({ path: '/projectlist/auditItems' })
+                    this.$tab.openPage('项目审核中', '/projectlist/auditItems');
                     break;
                 case 3:
-                    this.$tab.closeOpenPage({ path: '/projectlist/auditContracts' })
+                    this.$tab.openPage('合同审核中','/projectlist/auditContracts');
                     break;
                 case 4:
-                    this.$tab.closeOpenPage({ path: '/projectlist/aduitAcceptance' })
+                    this.$tab.openPage('验收审核中','/projectlist/aduitAcceptance');
                     break;
                 case 5:
-                    this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaid' })
+                    this.$tab.openPage('完税审核中','/projectlist/aduitDutypaid');
                     break;
               }
         },
@@ -448,19 +454,19 @@ export default {
                         url: '/projectlist/list',
                     };
                     this.$cache.local.setJSON('Projectedit', obj);
-                    this.$tab.closeOpenPage({ path: '/projectlist/itemsEdit' })
+                    this.$tab.openPage('项目审核修改','/projectlist/itemsEdit');
                 break;
                 case 2:
-                    this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' })
+                    this.$tab.openPage( '票据列表','/projectlist/ticketlist');
                 break;
                 case 3:
-                    this.$tab.closeOpenPage({ path: '/projectlist/auditContractEdit' })
+                    this.$tab.openPage('合同审核修改','/projectlist/auditContractEdit');
                 break;
                 case 4:
-                    this.$tab.closeOpenPage({ path: '/projectlist/acceptancesEdit' })
+                    this.$tab.openPage('验收审核修改', '/projectlist/acceptancesEdit');
                 break;
                 case 5:
-                    this.$tab.closeOpenPage({ path: '/projectlist/dutypaidsEdit' })
+                    this.$tab.openPage('完税审核修改','/projectlist/dutypaidsEdit');
                 break;
 
             }
@@ -536,13 +542,14 @@ export default {
         },
         //异常弹框
         progressError(code, row, type) {
+            this.types = type;
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
              getLeaderByUserId({
-                userId: applyName
+                userId: row.userId
             }).then(res => {
-                getUser(applyName).then(success => {
+                getUser(row.userId).then(success => {
                         this.msgs='查看';
                     if (this.userinfo.userId == success.data.userId) {
                         this.msgs = '修改';
@@ -557,7 +564,7 @@ export default {
                         message: h('div', null, [
                             h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
                             h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + msg)
+                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' +  this.msgs)
                         ]),
                         confirmButtonText: this.msgs,
                         cancelButtonText: '关闭',
@@ -783,7 +790,10 @@ export default {
                         this.getList();
                         this.$modal.msgSuccess("删除成功");
                     } else {
-                        this.$modal.msgError(res.msg);
+                        this.$alert(res.msg, '提示', {
+                           confirmButtonText: '确定',
+                         });
+                       // this.$modal.msgError(res.msg);
                     }
 
                 })

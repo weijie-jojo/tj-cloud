@@ -441,12 +441,16 @@ export default {
         },
         ticketAsee(e) {
             if (e > this.projectRemainAmount) {
-                this.$modal.msgError('发票金额不能大于剩余金额');
+                  this.$alert('发票金额不能大于剩余金额', '系统提示', {
+                    confirmButtonText: '确定',
+                   
+                    type: 'warning'
+                });
                 this.formData.ticketAmount = 0;
-                 this.ticketByCode();
+                this.ticketByCode();
                 return;
             }else{
-               this.ticketByCode();
+                this.ticketByCode();
             }
             
 
@@ -662,9 +666,12 @@ export default {
             
             this.formData.fileName = JSON.stringify(this.formData.fileName);
             if(this.formData.ticketAmount<1){
-               this.$alert('发票金额必须大于1', '提示', {
-                 confirmButtonText: '确定',
-               });
+                this.$alert('发票金额必须大于1', '系统提示', {
+                    confirmButtonText: '确定',
+                   
+                    type: 'warning'
+                });
+              
                 return;
             }
             
@@ -695,10 +702,11 @@ export default {
                        }
                     });
                 } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
+                   this.$alert('请正确填写', '系统提示', {
+                    confirmButtonText: '确定',
+                   
+                    type: 'warning'
+                });
                 }
             });
         },

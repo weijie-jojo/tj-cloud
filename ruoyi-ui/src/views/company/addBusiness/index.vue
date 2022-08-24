@@ -179,7 +179,11 @@ export default {
               this.$modal.msgError(error);
             });
         } else {
-          this.$modal.msgError("请填写完整");
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
         }
       });
     },

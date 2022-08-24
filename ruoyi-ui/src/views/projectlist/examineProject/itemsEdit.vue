@@ -759,14 +759,18 @@ export default {
         },
         onSubmit() {
             if(this.formData.projectTotalAmount<=0){
-                 this.$alert('项目金额必须大于0', '提示', {
-                confirmButtonText: '确定',
-              });
-                return;
+                  this.$alert('项目金额必须大于0', '系统提示', {
+                            confirmButtonText: '确定',
+                          
+                            type: 'warning'
+                });
+                  return;
             }else  if(this.formData.projectTotalAmount<this.projectTotalAmount){
-              this.$alert('项目金额不能小于原来的项目金额', '提示', {
-                confirmButtonText: '确定',
-              });
+              this.$alert('项目金额不能小于原来的项目金额', '系统提示', {
+                    confirmButtonText: '确定',
+                  
+                   type: 'warning'
+                });
                 return;
             }
           
@@ -800,10 +804,11 @@ export default {
                     });
                     
                     } else {
-                    this.$message({
-                        message: "请填写完整",
-                        type: "warning",
-                    });
+                      this.$alert('请正确填写', '系统提示', {
+                            confirmButtonText: '确定',
+                          
+                            type: 'warning'
+                        });
                 }
             });
         },

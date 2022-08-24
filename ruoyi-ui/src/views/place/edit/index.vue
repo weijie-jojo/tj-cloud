@@ -845,16 +845,20 @@ export default {
        if (this.ruleForm.editIsSlider == '0') {
             if (this.ruleForm.editSpecialProxyIsmoney == '1') {
               if (this.ruleForm.editSpecialProxyFee > 100) {
-                this.$alert('专票服务费按百分比不能大于100%', '提示', {
+                this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                 
+                  type: 'error'
                 });
                 return;
               }
             }
             if (this.ruleForm.editSpecialShareIsmoney == '1') {
               if (this.ruleForm.editSpecialShare > 100) {
-                this.$alert('专票分润费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
+                this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+                   confirmButtonText: '确定',
+                 
+                   type: 'error'
                 });
                 return;
               }
@@ -863,8 +867,10 @@ export default {
           if (this.ruleForm.editIsSliderOrdinary == '0') {
             if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
               if (this.ruleForm.editOrdinaryShare > 100) {
-                this.$alert('普票分润费按百分比不能大于100%', '提示', {
+                this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                
+                  type: 'error'
                 });
                 return;
               }
@@ -873,8 +879,10 @@ export default {
 
             if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
               if (this.ruleForm.editOrdinaryProxyFee > 100) {
-                this.$alert('普票服务费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
+                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+                   confirmButtonText: '确定',
+                
+                   type: 'error'
                 });
                 return;
               }
@@ -958,11 +966,11 @@ export default {
 
           })
         } else {
-          this.$message({
-            message: "请填写完整",
-            type: 'warning',
-          });
-          return false;
+           this.$alert('请填写完整', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       })
     },

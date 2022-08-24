@@ -177,7 +177,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
           <el-col :span="21">
             <el-form-item label="经营场所">
-              <el-input v-model="formData.selfAddress" disabled>
+              <el-input v-model="formData.selfAddress" :readonly="true">
               </el-input>
             </el-form-item>
           </el-col>
@@ -497,7 +497,10 @@
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="渠道商全名" prop="placeName">
-              <el-select style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名" clearable filterable>
+              <el-select 
+               @visible-change="changeValue1($event)"
+               @change="placenew"
+              style="width:100%" v-model="formData.placeName" placeholder="请选择渠道商全名" clearable filterable>
                 <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName" :value="item.placeName">
                 </el-option>
               </el-select>
@@ -1344,7 +1347,12 @@ export default {
     
   },
   methods: {
-      
+    changeValue1(e){
+      console.log(e);
+      if(e==true){
+        this.getLoginInfo();
+      }
+    },   
    handleChangeSelectId(item) {
     console.log(">>> item", item)        //选中对象
     },
@@ -1604,10 +1612,11 @@ export default {
          if(valid){
             this.actives = 4;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+             this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+             
+              type: 'warning'
+           });
         }
       });
     },
@@ -1742,10 +1751,11 @@ export default {
          if(valid){
             this.actives = 2;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       });
     },
@@ -1779,10 +1789,11 @@ export default {
          if(valid){
             this.actives = 3;
          }else{
-           this.$message({
-            message: '请正确填写',
-            type: 'warning'
-          })
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       });
     },
@@ -1805,16 +1816,20 @@ export default {
 
         if (this.formData.specialShareIsmoney == '1') {
           if (this.formData.specialShare > 100) {
-            this.$alert('专票分润费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
+            this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                
+                  type: 'error'
             });
             return;
           }
         }
         if (this.formData.specialProxyIsmoney == '1') {
           if (this.formData.specialSelfFee > 100) {
-            this.$alert('专票服务费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
+            this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                 
+                  type: 'error'
             });
             return;
           }
@@ -1824,8 +1839,10 @@ export default {
       if(this.formData.isSliderOrdinary==0){
       if(this.formData.ordinaryShareIsmoney=='1'){
             if( this.formData.ordinaryShare>100){
-               this.$alert('普票分润费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+               this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                  
+                  type: 'error'
             });
                 return;
            }
@@ -1834,8 +1851,10 @@ export default {
     
       if(this.formData.ordinaryProxyIsmoney=='1'){
             if( this.formData.ordinaryProxyFee>100){
-                this.$alert('普票服务费按百分比不能大于100%', '提示', {
-               confirmButtonText: '确定',
+                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                
+                  type: 'error'
               });
                 return;
            }
@@ -1981,10 +2000,12 @@ export default {
             this.$tab.refreshPage({ path:"/company/customer/employed",name:'Employed'} )
           })
         } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+           this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
+          
         }
       })
     },

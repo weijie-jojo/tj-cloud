@@ -52,7 +52,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="scope.row.projectContractStatus == 0 && !scope.row.fileName1"
-                        type="text" icon="el-icon-circle-plus-outline" @click="add(scope.row)">新增</el-button>
+                        type="text" icon="el-icon-circle-plus-outline" @click="add(scope.row)">办理</el-button>
                     <el-button size="mini" v-if="scope.row.projectContractStatus == 0 && scope.row.fileName1"
                         type="text" icon="el-icon-s-custom" @click="audit(scope.row)">审核
                     </el-button>

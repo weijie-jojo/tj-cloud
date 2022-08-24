@@ -816,8 +816,8 @@ export default {
       this.ruleForm.specialInvoice13Money = '';
       this.ruleForm.specialSelfFee = null;
       this.ruleForm.isSpecialTax = '1';
-      this.ruleForm.ordinarySelfFee = null;
-      this.ruleForm.ordinaryProxyFee = '';
+      this.ruleForm.ordinarySelfFee = 0;
+      this.ruleForm.ordinaryProxyFee = 0;
       this.ruleForm.ordinaryProxyMoeny = '';
       this.ruleForm.isOrdinaryTax = '1';
     },
@@ -847,16 +847,20 @@ export default {
           if (this.ruleForm.isSlider == '0') {
             if (this.ruleForm.specialShareIsmoney == '1') {
               if (this.ruleForm.specialShare > 100) {
-                this.$alert('专票分润费按百分比不能大于100%', '提示', {
+                this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                 
+                  type: 'error'
                 });
                 return;
               }
             }
             if (this.ruleForm.specialProxyIsmoney == '1') {
               if (this.ruleForm.specialProxyFee > 100) {
-                this.$alert('专票服务费按百分比不能大于100%', '提示', {
+                this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                 
+                  type: 'error'
                 });
                 return;
               }
@@ -867,8 +871,10 @@ export default {
           if (this.ruleForm.isSliderOrdinary == '0') {
             if (this.ruleForm.ordinaryShareIsmoney == '1') {
               if (this.ruleForm.ordinaryShare > 100) {
-                this.$alert('普票分润费按百分比不能大于100%', '提示', {
+                this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                 
+                  type: 'error'
                 });
                 return;
               }
@@ -877,8 +883,10 @@ export default {
 
             if (this.ruleForm.ordinaryProxyIsmoney == '1') {
               if (this.ruleForm.ordinaryProxyFee > 100) {
-                this.$alert('普票服务费按百分比不能大于100%', '提示', {
+                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
                   confirmButtonText: '确定',
+                 
+                  type: 'error'
                 });
                 return;
               }
@@ -978,11 +986,12 @@ export default {
 
         }
         else {
-          this.$message({
-            message: "请填写完整",
-            type: 'warning',
-          });
-          return false;
+            this.$alert('请填写完整', '系统提示', {
+              confirmButtonText: '确定',
+              
+              type: 'warning'
+           });
+          
         }
       });
     },

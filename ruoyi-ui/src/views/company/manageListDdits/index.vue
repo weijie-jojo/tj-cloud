@@ -384,7 +384,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="行业税率" :required="true">
+          <el-form-item class="comright" label="行业税率" prop="industryTax">
             <el-input v-model="industryTax" :readonly="true">
             </el-input>
           </el-form-item>
@@ -515,7 +515,9 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="开户银行" prop="publicDepositBank3">
-            <el-select style="width:100%" @change="changeValue($event)" v-model="formData.publicDepositBank3" filterable
+            <el-select style="width:100%"
+              @visible-change="changeValue2($event)"
+            @change="changeValue($event)" v-model="formData.publicDepositBank3" filterable
               placeholder="请选择">
               <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
@@ -659,7 +661,9 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="渠道商全名" prop="placeName">
-            <el-select style="width:100%" @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
+            <el-select style="width:100%"
+            @visible-change="changeValue1($event)"
+            @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
               clearable filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
                 :value="item.placeName">
@@ -1099,6 +1103,11 @@ export default {
       accountName_options: [],
       mylist: '',
       rules: {
+          industryTax:[{
+           required: true,
+          message: ' 税率不能为空,请重新选择行业类型',
+          trigger: 'change'    
+        }],
         fileName1: [
           { required: true, message: "请上传营业执照", trigger: "change" },
         ],
@@ -1427,9 +1436,9 @@ export default {
 
     this.getLoginInfo();
     //申请人
-    this.getApplyName();
+   // this.getApplyName();
     //联系人
-    this.getContactName();
+   // this.getContactName();
     //个体户行业类型税率
     this.getRate();
 
@@ -1514,6 +1523,20 @@ export default {
     this.nailist();
   },
   methods: {
+     //银行接口
+     changeValue2(e){
+      console.log(e);
+      if(e==true){
+        this.nailist();
+      }
+    },
+    //渠道商
+     changeValue1(e){
+      console.log(e);
+      if(e==true){
+        this.getLoginInfo();
+      }
+    },
        singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
@@ -1844,28 +1867,26 @@ export default {
       this.activeName = 'second';
     },
     submitForm() {
-      if (this.formData.industryType == '-1') {
-        this.$modal.msgError("请选择行业类型");
-        return;
-      }
-      if (!this.formData.industryTax) {
-        this.$modal.msgError("税率不能为空");
-        return;
-      }
+      
+     
       if (this.formData.isSlider == '0') {
 
         if (this.formData.specialShareIsmoney == '1') {
           if (this.formData.specialShare > 100) {
-            this.$alert('专票分润费按百分比不能大于100%', '提示', {
+            this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
               confirmButtonText: '确定',
+            
+              type: 'error'
             });
             return;
           }
         }
         if (this.formData.specialProxyIsmoney == '1') {
           if (this.formData.specialSelfFee > 100) {
-            this.$alert('专票服务费按百分比不能大于100%', '提示', {
-              confirmButtonText: '确定',
+            this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+               confirmButtonText: '确定',
+              
+               type: 'error'
             });
             return;
           }
@@ -1875,8 +1896,10 @@ export default {
       if(this.formData.isSliderOrdinary==0){
       if (this.formData.ordinaryShareIsmoney == '1') {
         if (this.formData.ordinaryShare > 100) {
-          this.$alert('普票分润费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
+          this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+              confirmButtonText: '确定',
+              
+              type: 'error'
           });
           return;
         }
@@ -1885,8 +1908,10 @@ export default {
 
       if (this.formData.ordinaryProxyIsmoney == '1') {
         if (this.formData.ordinarySelfFee > 100) {
-          this.$alert('普票服务费按百分比不能大于100%', '提示', {
-            confirmButtonText: '确定',
+          this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+              confirmButtonText: '确定',
+           
+              type: 'error'
           });
           return;
         }
@@ -1993,10 +2018,11 @@ export default {
             this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl,name:this.$cache.local.getJSON('backurls').backName });
           })
         } else {
-          this.$message({
-            message: '请填写完整',
-            type: 'warning'
-          })
+          this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       })
     },

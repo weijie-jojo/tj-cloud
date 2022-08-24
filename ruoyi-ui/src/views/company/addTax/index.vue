@@ -51,7 +51,7 @@
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
-          <el-button type="danger" @click="resetForm">返回</el-button>
+          <el-button type="danger" @click="resetForm">关闭</el-button>
           <el-button type="primary" @click="onSubmit">提交</el-button>
         </el-col>
         <el-col :span="8"></el-col>
@@ -283,7 +283,11 @@ export default {
               this.$modal.msgError(error);
             });
         } else {
-          this.$modal.msgError("请填写完整");
+            this.$alert('请正确填写', '系统提示', {
+              confirmButtonText: '确定',
+            
+              type: 'warning'
+           });
         }
       });
     },
