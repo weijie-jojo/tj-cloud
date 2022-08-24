@@ -49,7 +49,7 @@ import pdf from 'vue-pdf-signature'
 import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
 
 export default {
-  name: 'uploadSmall',
+  name: 'uploadInvoices',
   components: {
     pdf,
     ElImageViewer
