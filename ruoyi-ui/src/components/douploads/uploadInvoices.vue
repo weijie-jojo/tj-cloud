@@ -2,7 +2,7 @@
   <div>
    
       <el-upload ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
-      :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="9"
+      :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple 
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
       <el-button v-if="isDetails == 0" size="small" type="primary" style="width:80px;">点击上传</el-button>
 
