@@ -419,8 +419,8 @@
                </el-col> 
             </el-row>   
             <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                    :isDetail="isDetails"></uploadSmall>
+                <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadInvoices>
             </el-form-item>
              <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
@@ -520,7 +520,7 @@
     </div>
 </template>
 <script>
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -529,7 +529,7 @@
     export default {
     name: 'travelExpense',
       components: {
-        uploadSmall
+        uploadInvoices
     },
     data() {
       return {

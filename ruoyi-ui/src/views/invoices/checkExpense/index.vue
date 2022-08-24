@@ -242,8 +242,8 @@
                     :isDetail="isDetail"></showPdfAndImg>
             </el-form-item> -->
             <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                    :isDetail="isDetails"></uploadSmall>
+                <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadInvoices>
             </el-form-item>
             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
                 <el-form-item  v-if="item.suffix=='pdf'">
@@ -304,7 +304,7 @@
 </template>
 <script>
 import pdf from 'vue-pdf-signature'
-import uploadSmall from '@/components/douploads/uploadSmall'
+import uploadInvoices from '@/components/douploads/uploadInvoices'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
 import { getDepts, getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
@@ -312,7 +312,7 @@ import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
     name: 'expense',
     components: {
-        uploadSmall,
+        uploadInvoices,
         pdf
     },
     data() {

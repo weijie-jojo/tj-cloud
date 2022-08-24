@@ -150,8 +150,8 @@
              <el-row type="flex" justify="space-around" >
                 <el-col :span="9">
                     <el-form-item  label="付款凭证影像" style="margin-top:20px">
-                    <uploadSmall v-if="imgArr.length >=0" :fileName="isNone" :fileNameOld="imgArr"
-                                    :isDetail="isDetail"></uploadSmall>
+                    <uploadInvoices v-if="imgArr.length >=0" :fileName="isNone" :fileNameOld="imgArr"
+                                    :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>   
                 <el-col :span="9"></el-col>
@@ -165,7 +165,7 @@
     </div>
 </template>
 <script>
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId,getPost} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -174,7 +174,7 @@
     dicts: ['pay_way'],
     name: 'borrow',
      components: {
-        uploadSmall
+        uploadInvoices
     },
     data() {
       return {
