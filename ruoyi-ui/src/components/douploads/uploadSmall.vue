@@ -1,8 +1,10 @@
 <template>
   <div>
     <div style="position:relative;">
-      <el-upload ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
-      :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="9"
+      <el-upload
+      
+      ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
+      :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple 
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
       <el-button v-if="isDetails == 0" size="small" type="primary" style="width:80px;">点击上传</el-button>
 
@@ -116,7 +118,7 @@ export default {
   },
   methods: {
     // 导出错误详情
-    async uploadAll() {
+     uploadAll() {
         this.$nextTick(()=>{
           this.fileNameOlds=this.$refs.uploads.uploadFiles;
         })
@@ -126,8 +128,10 @@ export default {
            type: 'warning'
         });
       }else{
-          let arr=this.fileNameOlds;
-          console.log(this.fileNameOlds);
+        this.$nextTick(()=>{
+        this.fileNameOlds=this.$refs.uploads.uploadFiles;
+        let arr=this.fileNameOlds;
+        console.log(this.fileNameOlds);
         this.$modal.loading("正在下载文件，请稍后...");
         for(let i in arr){
         var name = arr[i].name;
@@ -141,6 +145,8 @@ export default {
          a.click()
         }
        this.$modal.closeLoading();
+        })
+         
       
       }
       
