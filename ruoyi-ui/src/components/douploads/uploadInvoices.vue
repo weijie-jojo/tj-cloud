@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="position:relative;">
+   
       <el-upload ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
       :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="9"
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
@@ -8,11 +8,8 @@
 
       <div v-if="isDetails == 0" slot="tip" class="el-upload__tip">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
     </el-upload>
-    <div style="position: absolute;left: 150px;
-    top: -15px;" :class="isDetail==0 ?'brrs':'arrs'">
-      <el-button  size="small" type="primary" @click="uploadAll" style="width:80px">下载全部</el-button>
-    </div>
-    </div>
+   
+  
     
     
 
