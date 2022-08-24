@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -103,6 +104,19 @@ public class SysFileController
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/doDownload")
+    public void doDownload(HttpServletResponse resp,HttpServletRequest req) throws Exception {
+        String fileName=req.getParameter("fileName");
+        System.out.println("fileName===="+fileName);
+        // 1.设置文件是以流的形式发送数据
+        resp.setContentType("application/octet-stream");
+        // 2.告诉前端浏览器，这个文件用来下载，并且文件名是xxx
+        resp.addHeader("Content-Disposition", "attachment; filename="
+                + URLEncoder.encode(fileName, "UTF-8"));
+        File f = new File(configProps.getName() + fileName);
+        org.apache.commons.io.FileUtils.copyFile(f, resp.getOutputStream());
     }
 
 }
