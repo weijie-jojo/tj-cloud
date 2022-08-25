@@ -384,6 +384,14 @@ public class SelfEmployed extends BaseEntity
     @Excel(name = "对公一般户", readConverterExp = "0=是,1=否")
     private Long isPublicUser;
 
+    /** 分润方式(增值税普通发票) */
+    @Excel(name = "分润方式(增值税普通发票)")
+    private BigDecimal selfShare;
+
+    /** 是否开启分润 0是 1否 */
+    @Excel(name = "是否开启分润 0是 1否")
+    private Long isSelfShare;
+
     public void setSelfId(String selfId)
     {
         this.selfId = selfId;

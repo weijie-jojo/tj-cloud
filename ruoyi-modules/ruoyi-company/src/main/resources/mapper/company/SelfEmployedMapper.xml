@@ -94,6 +94,8 @@
         <result property="isSlider"    column="is_slider"    />
         <result property="isSliderOrdinary"    column="is_slider_ordinary"    />
         <result property="isPublicUser"    column="is_public_user"    />
+        <result property="selfShare"    column="self_share"    />
+        <result property="isSelfShare"    column="is_self_share"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -108,7 +110,7 @@
                is_self_tax, register_money, file_name8, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,
                special_share_money, is_ordinary_tax, is_special_tax, remark_register, is_special_self_tax, is_self_count, ordinary_proxy_ismoney,
                special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
-               is_slider, is_slider_ordinary, is_public_user
+               is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share
         from self_employed
     </sql>
     <sql id="selectSelfLegalPersonVo">
@@ -144,7 +146,7 @@
             t.special_self_money, t.ordinary_self_money, t.is_self_tax, t.register_money, t.file_name8, t.ordinary_tax, t.ordinary_special_tax,
             t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax, t.remark_register,
             t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
-            t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,
+            t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,t.self_share,t.is_self_share,
 
             A.self_id, A.self_code, A.title_type, A.administrative_division, A.industry, A.organizational_form, A.administrative_region, A.random,
             A.registration_authority, A.font_size1, A.poposed_name1, A.font_size2, A.poposed_name2, A.font_size3, A.poposed_name3, A.font_size4,
@@ -217,6 +219,7 @@
             <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>
             <if test="selfEmployedVo.isSlider != null "> and t.is_slider = #{selfEmployedVo.isSlider}</if>
             <if test="selfEmployedVo.isSliderOrdinary != null "> and t.is_slider_ordinary = #{selfEmployedVo.isSliderOrdinary}</if>
+            <if test="selfEmployedVo.isSelfShare != null "> and t.is_self_share = #{selfEmployedVo.isSelfShare}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -239,6 +242,7 @@
             <if test="selfEmployedVo.isActive != null  and selfEmployedVo.isActive != ''"> and t.is_active like concat('%', #{selfEmployedVo.isActive}, '%')</if>
             <if test="selfEmployedVo.placeAliasName != null  and selfEmployedVo.placeAliasName != ''"> and t.place_alias_name like concat('%', #{selfEmployedVo.placeAliasName}, '%')</if>
             <if test="selfEmployedVo.isPublicUser != null "> and t.is_public_user = #{selfEmployedVo.isPublicUser}</if>
+            <if test="selfEmployedVo.isSelfShare != null "> and t.is_self_share = #{selfEmployedVo.isSelfShare}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -328,6 +332,7 @@
             <if test="isSlider != null "> and is_slider = #{isSlider}</if>
             <if test="isSliderOrdinary != null "> and is_slider_ordinary = #{isSliderOrdinary}</if>
             <if test="isPublicUser != null "> and is_public_user = #{isPublicUser}</if>
+            <if test="isSelfShare != null "> and is_self_share = #{isSelfShare}</if>
         </where>
     </select>
 
@@ -427,6 +432,8 @@
             <if test="isSlider != null">is_slider,</if>
             <if test="isSliderOrdinary != null">is_slider_ordinary,</if>
             <if test="isPublicUser != null">is_public_user,</if>
+            <if test="selfShare != null">self_share,</if>
+            <if test="isSelfShare != null">is_self_share,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -517,6 +524,8 @@
             <if test="isSlider != null">#{isSlider},</if>
             <if test="isSliderOrdinary != null">#{isSliderOrdinary},</if>
             <if test="isPublicUser != null">#{isPublicUser},</if>
+            <if test="selfShare != null">#{selfShare},</if>
+            <if test="isSelfShare != null">#{isSelfShare},</if>
         </trim>
     </insert>
 
@@ -611,6 +620,8 @@
             <if test="isSlider != null">is_slider = #{isSlider},</if>
             <if test="isSliderOrdinary != null">is_slider_ordinary = #{isSliderOrdinary},</if>
             <if test="isPublicUser != null">is_public_user = #{isPublicUser},</if>
+            <if test="selfShare != null">self_share = #{selfShare},</if>
+            <if test="isSelfShare != null">is_self_share = #{isSelfShare},</if>
         </trim>
         where self_id = #{selfId}
     </update>
