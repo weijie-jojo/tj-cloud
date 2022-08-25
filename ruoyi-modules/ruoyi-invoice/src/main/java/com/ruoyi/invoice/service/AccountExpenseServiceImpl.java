@@ -44,9 +44,8 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
         accountExpense.setGmCheck(JudgeNull.isNull(accountExpense.getGmCheck()));
         accountExpense.setDmCheck(JudgeNull.isNull(accountExpense.getDmCheck()));
         accountExpense.setFinanceCheck(JudgeNull.isNull(accountExpense.getFinanceCheck()));
-        System.out.println("getGmCheck=="+ accountExpense.getGmCheck());
-        System.out.println("getDmCheck=="+ accountExpense.getDmCheck());
-        System.out.println("getFinanceCheck=="+ accountExpense.getFinanceCheck());
+        accountExpense.setStepType(JudgeNull.isNull(accountExpense.getStepType()));
+        updateWrapper.set(accountExpense.getStepType()!=null,"step_type",accountExpense.getStepType());
         if (accountExpense.getGmCheck()!=null){
             updateWrapper.set("gm_check", accountExpense.getGmCheck());
         }
@@ -136,6 +135,7 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
         timeQo.setEndTime(JudgeNull.isNull(timeQo.getEndTime()));
         Integer currentPages=JudgeNull.isNull(currentPage);
         Integer limits=JudgeNull.isNull(limit);
+        accountExpense.setStepType(JudgeNull.isNull(accountExpense.getStepType()));
         System.out.println("getInvoiceType=="+accountExpense.getInvoiceType());
         IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseMapper.selectJoinPage(new Page(currentPages,limits),AccountExpenseVo.class,
                 new MPJQueryWrapper<AccountExpense>()
