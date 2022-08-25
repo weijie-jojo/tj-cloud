@@ -207,4 +207,8 @@ public class BusinessAgencyFee implements Serializable {
     /** 是否开启分润 0是 1否 */
     @TableField("is_self_share")
     private Long isSelfShare;
+
+    /** 个体户注册费是否定额 1 百分比 0定额 */
+    @TableField("self_share_ismoney")
+    private Long selfShareIsmoney;
 }

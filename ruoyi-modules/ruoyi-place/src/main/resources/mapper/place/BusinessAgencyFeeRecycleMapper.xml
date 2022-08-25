@@ -11,7 +11,7 @@
                special_proxy_money, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,
                special_share_money, is_self_tax, is_special_self_tax, ordinary_proxy_ismoney, special_proxy_ismoney,
                ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, is_slider, is_slider_ordinary,
-               self_share,is_self_share
+               self_share,is_self_share,self_share_ismoney
         from business_agency_fee
     </sql>
 
