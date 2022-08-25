@@ -20,7 +20,7 @@
     <sql id="selectSelfCheckJoin">
         select t.id, t.check_date, t.check_user, t.check_reasult, t.self_code, t.self_type,t.phonenumber,
         A.dict_label from self_check t
-        JOIN sys_dict_data A ON t.self_type=A.dict_value
+        LEFT JOIN sys_dict_data A ON t.self_type=A.dict_value
     </sql>
     <select id="selectSelfCheckList" parameterType="com.ruoyi.company.domain.SelfCheck" resultType="com.ruoyi.company.domain.vo.SelfCheckVo">
         <include refid="selectSelfCheckJoin"/>

@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectSelfIndustryRate"  resultMap="SelfIndustryRateResult">
-        select *from self_industry_rate
+        <include refid="selectSelfIndustryRateVo"/>
     </select>
 
     <select id="selectSelfIndustryRateList" parameterType="com.ruoyi.project.domain.SelfIndustryRate" resultMap="SelfIndustryRateResult">

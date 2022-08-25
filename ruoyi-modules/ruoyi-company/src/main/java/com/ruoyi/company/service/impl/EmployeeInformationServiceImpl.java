@@ -1,7 +1,11 @@
 package com.ruoyi.company.service.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.EmployeeInformationMapper;
@@ -17,8 +21,13 @@ import com.ruoyi.company.service.IEmployeeInformationService;
 @Service
 public class EmployeeInformationServiceImpl implements IEmployeeInformationService 
 {
+    private final static long expireTime = CacheConstants.EXPIRATION;
+
     @Autowired
     private EmployeeInformationMapper employeeInformationMapper;
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询员工信息（不分页）
@@ -27,7 +36,11 @@ public class EmployeeInformationServiceImpl implements IEmployeeInformationServi
      */
     @Override
     public List<EmployeeInformation> selectEmployeeInformation() {
-        return employeeInformationMapper.selectEmployeeInformation();
+        if (redisService.getCacheObject("employeeInformation")==null){
+            List<EmployeeInformation> list = employeeInformationMapper.selectEmployeeInformation();
+            redisService.setCacheObject("employeeInformation", list, expireTime, TimeUnit.MINUTES);
+        }
+        return redisService.getCacheObject("employeeInformation");
     }
 
     /**

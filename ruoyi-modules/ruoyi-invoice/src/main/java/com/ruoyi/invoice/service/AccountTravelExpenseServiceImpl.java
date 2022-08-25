@@ -47,9 +47,8 @@ public class AccountTravelExpenseServiceImpl implements AccountTravelExpenseServ
         accountTravelExpense.setGmCheck(JudgeNull.isNull(accountTravelExpense.getGmCheck()));
         accountTravelExpense.setDmCheck(JudgeNull.isNull(accountTravelExpense.getDmCheck()));
         accountTravelExpense.setFinanceCheck(JudgeNull.isNull(accountTravelExpense.getFinanceCheck()));
-        System.out.println("getGmCheck=="+ accountTravelExpense.getGmCheck());
-        System.out.println("getDmCheck=="+ accountTravelExpense.getDmCheck());
-        System.out.println("getFinanceCheck=="+ accountTravelExpense.getFinanceCheck());
+        accountTravelExpense.setStepType(JudgeNull.isNull(accountTravelExpense.getStepType()));
+        updateWrapper.set(accountTravelExpense.getStepType()!=null,"step_type",accountTravelExpense.getStepType());
         if (accountTravelExpense.getGmCheck()!=null){
             updateWrapper.set("gm_check", accountTravelExpense.getGmCheck());
         }
@@ -85,6 +84,7 @@ public class AccountTravelExpenseServiceImpl implements AccountTravelExpenseServ
         timeQo.setEndTime(JudgeNull.isNull(timeQo.getEndTime()));
         accountTravelExpense.setInvoiceType(JudgeNull.isNull(accountTravelExpense.getInvoiceType()));
         accountTravelExpense.setDeptId(JudgeNull.isNull(accountTravelExpense.getDeptId()));
+        accountTravelExpense.setStepType(JudgeNull.isNull(accountTravelExpense.getStepType()));
         Integer currentPages=JudgeNull.isNull(currentPage);
         Integer limits=JudgeNull.isNull(limit);
         IPage<AccountTravelExpenseVo> sysTravelExpenseIPage = accountTravelExpenseMapper.selectJoinPage(new Page<>(currentPages,limits), AccountTravelExpenseVo.class,

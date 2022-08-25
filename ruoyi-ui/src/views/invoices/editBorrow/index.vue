@@ -146,14 +146,14 @@
              <el-row type="flex" justify="space-around" >
                 <el-col :span="9">
                     <el-form-item  label="付款凭证影像" style="margin-top:20px">
-                    <uploadSmall v-if="borrowImage.length >=0" :fileName="isNone" :fileNameOld="isNone"
-                                    :isDetail="isDetail"></uploadSmall>
+                    <uploadInvoices v-if="borrowImage.length >=0" :fileName="isNone" :fileNameOld="isNone"
+                                    :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="还凭证影像" style="margin-top:20px">
-                        <uploadSmall v-if="borrowImage2.length > 0" :fileName="isNone" :fileNameOld="isNone"
-                                    :isDetail="isDetail"></uploadSmall>
+                        <uploadInvoices v-if="borrowImage2.length > 0" :fileName="isNone" :fileNameOld="isNone"
+                                    :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9"></el-col>
@@ -171,14 +171,14 @@
 </template>
 <script>
     import {getUser} from '@/api/system/user'
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId,editBorrow2} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     export default {
     components: {
-        uploadSmall
+        uploadInvoices
     },
     dicts: ['pay_way'],
     name: 'borrow',

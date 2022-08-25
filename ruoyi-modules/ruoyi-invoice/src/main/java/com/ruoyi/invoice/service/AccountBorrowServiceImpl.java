@@ -48,9 +48,8 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
         accountBorrow.setGmCheck(JudgeNull.isNull(accountBorrow.getGmCheck()));
         accountBorrow.setDmCheck(JudgeNull.isNull(accountBorrow.getDmCheck()));
         accountBorrow.setFinanceCheck(JudgeNull.isNull(accountBorrow.getFinanceCheck()));
-        System.out.println("getGmCheck=="+ accountBorrow.getGmCheck());
-        System.out.println("getDmCheck=="+ accountBorrow.getDmCheck());
-        System.out.println("getFinanceCheck=="+ accountBorrow.getFinanceCheck());
+        accountBorrow.setStepType(JudgeNull.isNull(accountBorrow.getStepType()));
+        updateWrapper.set(accountBorrow.getStepType()!=null,"step_type",accountBorrow.getStepType());
         if (accountBorrow.getGmCheck()!=null){
             updateWrapper.set("gm_check", accountBorrow.getGmCheck());
         }
@@ -76,6 +75,8 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
         accountBorrow.setInvoiceType(JudgeNull.isNull(accountBorrow.getInvoiceType()));
         accountBorrow.setDeptId(JudgeNull.isNull(accountBorrow.getDeptId()));
         accountBorrow.setBorrowCode(JudgeNull.isNull(accountBorrow.getBorrowCode()));
+        accountBorrow.setStepType(JudgeNull.isNull(accountBorrow.getStepType()));
+        System.out.println("StepType=="+accountBorrow.getStepType());
         Integer currentPages=JudgeNull.isNull(currentPage);
         Integer limits=JudgeNull.isNull(limit);
         IPage<AccountBorrowVo> sysTravelExpenseIPage = accountBorrowMapper.selectJoinPage(new Page<>(currentPages,limits), AccountBorrowVo.class,
@@ -93,8 +94,8 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
                         .eq(accountBorrow.getCreateUser()!=null,"t.create_user", accountBorrow.getCreateUser())
                         .eq(accountBorrow.getInvoiceType()!=null,"t.invoice_type", accountBorrow.getInvoiceType())
                         .eq(accountBorrow.getStepType()!=null,"t.step_type",accountBorrow.getStepType())
-                        .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
-                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .ge(timeQo.getStartTime()!=null,"t.borrow_date",timeQo.getStartTime())
+                        .le(timeQo.getEndTime()!=null,"t.borrow_date",timeQo.getEndTime())
                         .orderByDesc("t.borrow_id"));
         return sysTravelExpenseIPage;
     }

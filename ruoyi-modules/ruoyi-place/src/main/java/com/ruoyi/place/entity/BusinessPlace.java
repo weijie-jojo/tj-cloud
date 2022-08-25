@@ -156,6 +156,10 @@ public class BusinessPlace implements Serializable{
     @TableField("place_alias")
     private String placeAlias;
 
+    /** 客户类型(0 渠道 1 直客） */
+    @TableField("customer_type")
+    private Long customerType;
+
 //    /**
 //     * 部门id
 //     */

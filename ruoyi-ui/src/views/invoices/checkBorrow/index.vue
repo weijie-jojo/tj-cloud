@@ -149,8 +149,8 @@
            <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="9">
                    <el-form-item  v-hasPermi="['invoices:borrow:upload']" label="付款凭证影像：" >
-                        <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                            :isDetail="isDetails"></uploadSmall>
+                        <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                            :isDetail="isDetails"></uploadInvoices>
 
                     </el-form-item>
                 </el-col>
@@ -210,7 +210,7 @@
 </template>
 <script>
     import {getUser} from '@/api/system/user'
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
@@ -218,7 +218,7 @@
     export default {
     name: 'borrow',
       components: {
-        uploadSmall
+        uploadInvoices
     },
     dicts: ['pay_way'],
     data() {
@@ -310,6 +310,7 @@
         //后端查询的数据
         searchPayways:[],
         borrows:[],//单据审核管理页面调整传过来的借支单数据
+        stepType:'',
       }
     },
     mounted: function() {
@@ -330,9 +331,10 @@
         this.ruleForm.borrowCode=this.borrows[0].borrowCode;
         this.ruleForm.borrowDate=this.borrows[0].borrowDate;
         this.ruleForm.deptName=this.borrows[0].name;
-        getUser(this.borrows[0].borrowName).then(res=>{
-            this.ruleForm.borrowName=res.data.nickName;
-        });  
+        // getUser(this.borrows[0].borrowName).then(res=>{
+        //     this.ruleForm.borrowName=res.data.nickName;
+        // });  
+        this.ruleForm.borrowName=this.borrows[0].borrowName;
         this.ruleForm.userId=this.borrows[0].userId;
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;
@@ -366,6 +368,7 @@
     methods: {
         getExpense(data){
              this.imgArr=data;
+             this.stepType=2;
         },
         isAgrees(){
             console.log("点了是否同意");
@@ -387,10 +390,12 @@
                             if(this.ruleForm.isAgree==1){
                                 this.rejectReasult="总经理审批同意";
                                 this.checkType=3;
+                                this.stepType=1;
                             };
                             if(this.ruleForm.isAgree==2){//驳回
                                 this.checkType=6;
                                 this.rejectReasult="总经理驳回："+this.rejectReasult;
+                                this.stepType=3;
                             };
                             var params1={
                                 invoiceCode:this.ruleForm.borrowCode,
@@ -405,6 +410,7 @@
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
                                 borrowImage:this.imgArr.join(),
+                                stepType:this.stepType,
                             };
                             addCheckInvoices(params1).then(res => {
                                 // this.$message({
@@ -434,10 +440,12 @@
                             if(this.ruleForm.isAgree==1){
                                 this.rejectReasult="财务审批同意";
                                 this.checkType=4;
+                                this.stepType=1;
                             };
                             if(this.ruleForm.isAgree==2){//驳回
                                 this.checkType=6;
                                 this.rejectReasult="财务驳回："+this.rejectReasult;
+                                this.stepType=3;
                             };
                             var params1={
                                 invoiceCode:this.ruleForm.borrowCode,
@@ -452,6 +460,7 @@
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
                                 borrowImage:this.imgArr.join(),
+                                stepType:this.stepType,
                             };
                             addCheckInvoices(params1).then(res => {
                                 // this.$message({
@@ -481,10 +490,12 @@
                             if(this.ruleForm.isAgree==1){
                                 this.rejectReasult="部门主管审批同意";
                                 this.checkType=2;
+                                this.stepType=1;
                             };
                             if(this.ruleForm.isAgree==2){//驳回
                                 this.checkType=6;
                                 this.rejectReasult="部门主管驳回："+this.rejectReasult;
+                                this.stepType=3;
                             };
                             var params1={
                                 invoiceCode:this.ruleForm.borrowCode,
@@ -499,6 +510,7 @@
                                 borrowId:this.borrowId,
                                 invoiceType:this.checkType,
                                 borrowImage:this.imgArr.join(),
+                                stepType:this.stepType,
                             };
                             addCheckInvoices(params1).then(res => {
                                 // this.$message({

@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.domain.EmployeeInformation;
 import com.ruoyi.system.service.*;
 import io.swagger.annotations.Api;
@@ -49,6 +52,8 @@ import com.ruoyi.system.api.model.LoginUser;
 @Api(tags = "用户管理")
 public class SysUserController extends BaseController
 {
+    private final static long expireTime = CacheConstants.EXPIRATION;
+
     @Autowired
     private ISysUserService userService;
 
@@ -66,6 +71,9 @@ public class SysUserController extends BaseController
 
     @Autowired
     private IEmployeeInformationService employeeInformationService;
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 根据userId获取他的部门领导信息
@@ -282,8 +290,11 @@ public class SysUserController extends BaseController
 //        employeeInformation.setEmployeeNumber(employeeNumber);
 //        System.out.println("employeeInformation=="+employeeInformation);
 //        employeeInformationService.insertEmployeeInformation(employeeInformation);
-
-        return toAjax(userService.insertUser(user));
+        Integer res=userService.insertUser(user);
+        List<SysUser> list = userService.selectAllUser2();
+        System.out.println("list=="+list);
+        redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
+        return toAjax(res);
     }
 
     /**
@@ -307,7 +318,11 @@ public class SysUserController extends BaseController
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.updateUser(user));
+        Integer res=userService.updateUser(user);
+        List<SysUser> list = userService.selectAllUser2();
+        System.out.println("list=="+list);
+        redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
+        return toAjax(res);
     }
 
     /**
@@ -322,7 +337,11 @@ public class SysUserController extends BaseController
         {
             return AjaxResult.error("当前用户不能删除");
         }
-        return toAjax(userService.deleteUserByIds(userIds));
+        Integer res=userService.deleteUserByIds(userIds);
+        List<SysUser> list = userService.selectAllUser2();
+        System.out.println("list=="+list);
+        redisService.setCacheObject("users", list, expireTime, TimeUnit.MINUTES);
+        return toAjax(res);
     }
 
     /**

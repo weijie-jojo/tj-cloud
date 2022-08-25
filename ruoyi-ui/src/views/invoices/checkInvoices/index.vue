@@ -86,7 +86,7 @@
           <div class="secondDiv">
             <span>单据日期</span>
               <el-date-picker
-                v-model="search.startTime"
+                v-model="search.startTime2"
                 type="date"
                 placeholder="开始日期"
                 value-format="yyyy-MM-dd"
@@ -94,13 +94,13 @@
               </el-date-picker>
               至
               <el-date-picker
-                v-model="search.endTime"
+                v-model="search.endTime2"
                 type="date"
                 placeholder="结束日期"
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
-              <el-select
+              <!-- <el-select
                 v-model="search.travelExpenseType"
                 clearable
                 placeholder="请选择状态"
@@ -113,7 +113,7 @@
                   :value="item.value"
                 >
                 </el-option>
-              </el-select>
+              </el-select> -->
             <el-button 
               style="margin-left:20px" 
               type="primary" 
@@ -179,7 +179,7 @@
           <div class="secondDiv">
             <span>单据日期</span>
               <el-date-picker
-                v-model="search.startTime"
+                v-model="search.startTime3"
                 type="date"
                 placeholder="开始日期"
                 value-format="yyyy-MM-dd"
@@ -187,13 +187,13 @@
               </el-date-picker>
               至
               <el-date-picker
-                v-model="search.endTime"
+                v-model="search.endTime3"
                 type="date"
                 placeholder="结束日期"
                 value-format="yyyy-MM-dd"
               >
               </el-date-picker>
-              <el-select
+              <!-- <el-select
                 v-model="search.borrowType"
                 clearable
                 placeholder="请选择状态"
@@ -206,7 +206,7 @@
                   :value="item.value"
                 >
                 </el-option>
-              </el-select>
+              </el-select> -->
             <el-button 
               style="margin-left:20px" 
               type="primary" 

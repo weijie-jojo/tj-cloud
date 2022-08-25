@@ -1,14 +1,14 @@
-package com.ruoyi.company.domain;
+package com.ruoyi.place.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.core.annotation.Excel;
+import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.core.annotation.Excel;
-import com.ruoyi.common.core.web.domain.BaseEntity;
-import org.apache.poi.hpsf.Decimal;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 个体商户对象 self_employed
