@@ -312,7 +312,7 @@ export default {
                 placeCode: [
                     {
                         required: true,
-                        message: "请选择渠道商",
+                        message: "请选择客户",
                         trigger: "change",
                     },
                 ],

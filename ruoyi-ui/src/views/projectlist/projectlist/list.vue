@@ -61,70 +61,38 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
-                <template slot-scope="scope">
-                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 1)"
-                        v-if="scope.row.projectCheckStatus == '0'">审核中</el-link>
-                    <el-link :underline="false" type="danger"
-                        @click="progressError(scope.row.projectCode, scope.row, 1)"
-                        v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
-                    <el-link :underline="false" type="success"
-                        @click="projectFinish(scope.row.projectCode, scope.row, 1)"
-                        v-if="scope.row.projectCheckStatus == '1'">完成</el-link>
-                </template>
-            </el-table-column>
+            
             <el-table-column label="项目票据" align="center">
 
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="info"
-                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
-                        未开始</el-link>
+                    
 
                     <el-link @click="examine(scope.row.userId, scope.row, 2, scope.row.projectCode)" :underline="false"
                         type="primary"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '0'">开票中</el-link>
+                        v-if="scope.row.projectTicketStatus == '0'">开票中</el-link>
 
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 2)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '2'">异常</el-link>
+                        v-if=" scope.row.projectTicketStatus == '2'">异常</el-link>
 
                     <el-link @click="projectFinish(scope.row.projectCode, scope.row, 2)" :underline="false"
                         type="success"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectTicketStatus == '1'">完成</el-link>
+                        v-if=" scope.row.projectTicketStatus == '1'">完成</el-link>
 
                 </template>
             </el-table-column>
-            <el-table-column label="项目合同" align="center">
+              <el-table-column label="项目资料" align="center">
 
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="info"
-                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
-                        未开始</el-link>
-
-                    <el-link @click="examine(scope.row.userId, scope.row, 3)" :underline="false" type="primary"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == 0">审核中
-                    </el-link>
-                    <el-link :underline="false" type="danger"
-                        @click="progressError(scope.row.projectCode, scope.row, 3)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '2'">异常
-                    </el-link>
-                    <el-link :underline="false" type="success"
-                        @click="projectFinish(scope.row.projectCode, scope.row, 3)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectContractStatus == '1'">完成
-                    </el-link>
-
-                </template>
-            </el-table-column>
-            <el-table-column label="项目验收" align="center">
-
-                <template slot-scope="scope">
-                    <el-link :underline="false" type="info"
-                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
-                        未开始</el-link>
+                    
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == 0">审核中
+                        v-if="scope.row.projectAcceptanceStatus == 0  && !scope.row.fileName2">办理中
                     </el-link>
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
+                        v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.fileName2">审核中
+                    </el-link>
+                     
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 4)"
                         v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常
@@ -136,32 +104,96 @@
 
                 </template>
             </el-table-column>
+            <!-- <el-table-column label="项目合同" align="center">
+
+                <template slot-scope="scope">
+                   
+
+                    <el-link @click="examine(scope.row.userId, scope.row, 3)" :underline="false" type="primary"
+                        v-if="scope.row.projectContractStatus == 0 && !scope.row.fileName1">办理中
+                    </el-link>
+                     <el-link @click="examine(scope.row.userId, scope.row, 3)" :underline="false" type="primary"
+                        v-if=" scope.row.projectContractStatus == 0 && scope.row.fileName1">审核中
+                    </el-link>
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 3)"
+                        v-if="scope.row.projectContractStatus == '2'">异常
+                    </el-link>
+                    <el-link :underline="false" type="success"
+                        @click="projectFinish(scope.row.projectCode, scope.row, 3)"
+                        v-if=" scope.row.projectContractStatus == '1'">完成
+                    </el-link>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="项目验收" align="center">
+
+                <template slot-scope="scope">
+                    
+
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
+                        v-if="scope.row.projectAcceptanceStatus == 0  && !scope.row.fileName2">办理中
+                    </el-link>
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
+                        v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.fileName2">审核中
+                    </el-link>
+                     
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常
+                    </el-link>
+                    <el-link :underline="false" type="success"
+                        @click="projectFinish(scope.row.projectCode, scope.row, 4)"
+                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '1'">完成
+                    </el-link>
+
+                </template>
+            </el-table-column> -->
             <el-table-column label="项目完税" align="center">
 
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="info"
-                        v-if="scope.row.projectCheckStatus == 0 || scope.row.projectCheckStatus == 2">
-                        未开始</el-link>
-
+                    
+                      <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
+                        v-if="scope.row.projectDutypaidStatus == '0' && !scope.row.fileName3">办理中
+                    </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '0'">审核中
+                        v-if="scope.row.projectDutypaidStatus == '0' && scope.row.fileName3">审核中
                     </el-link>
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '2'">异常
+                        v-if="scope.row.projectDutypaidStatus == '2'">异常
                     </el-link>
                     <el-link :underline="false" type="success"
                         @click="projectFinish(scope.row.projectCode, scope.row, 5)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectDutypaidStatus == '1'">完成
+                        v-if="scope.row.projectDutypaidStatus == '1'">完成
                     </el-link>
                 </template>
 
             </el-table-column>
+             <el-table-column label="项目收款" :align="center">
+               
+            </el-table-column>
+             <el-table-column label="项目出款" :align="center">
+                
+            </el-table-column>
+            <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
+                <template slot-scope="scope">
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 1)"
+                        v-if="scope.row.projectCheckStatus == '0'">审核中</el-link>
+                   
+                   <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 1)"
+                        v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success"
+                        @click="projectFinish(scope.row.projectCode, scope.row, 1)"
+                        v-if="scope.row.projectCheckStatus == '1'">完成</el-link>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
-                    </el-button>
+                    <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
+                    </el-button> -->
                 </template>
             </el-table-column>
         </el-table>

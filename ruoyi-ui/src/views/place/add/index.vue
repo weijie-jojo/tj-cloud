@@ -3,15 +3,60 @@
     <el-form ref="form" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row type="flex" class="row-bg " style="margin-top:20px" justify="space-around">
         <el-col :span="9">
-          <el-form-item label="渠道商编码" prop="placeCode">
+          <el-form-item label="客户编号" prop="placeCode">
             <el-input v-model="ruleForm.placeCode" :readonly="true" />
           </el-form-item>
-          <el-form-item label="渠道商名称" prop="placeName">
-            <el-input v-model="ruleForm.placeName" />
+          <el-form-item label="客户名称" prop="placeName">
+            <el-input v-model="ruleForm.placeName" @input="placeNews" />
+          </el-form-item>
+          <el-form-item label="客户全名" :required="true">
+                 <div style="display:flex;align-items:center">
+              <el-input style="width:100%;margin-right:-15px" v-model="placeAliasName" :disabled="true" />
+              <el-tooltip style="position: relative;
+    left: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
+                  <i class="header-icon el-icon-info"></i>
+              </el-tooltip>
+              </div>
+          
           </el-form-item>
           <el-form-item label="联系人" prop="placeLinkman">
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
+
+         <el-form-item label="是否分润" prop='isSelfShare'>
+              <el-radio v-model="ruleForm.isSelfShare" label="0">是</el-radio>
+              <el-radio v-model="ruleForm.isSelfShare" label="1">否</el-radio>
+            </el-form-item>
+            <el-row v-if="ruleForm.isSelfShare == 0" type="flex" justify="flex-end">
+              <el-col :span="24">
+                <el-form-item label="分润方式" prop="selfShare">
+                  <div style="">
+                    <el-radio @change="selfShareIsmoneys" v-model="ruleForm.selfShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="selfShareIsmoneys" v-model="ruleForm.selfShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="ruleForm.selfShareIsmoney == 0" style="width:100%" 
+                      :min="0" v-model="ruleForm.selfShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-model="ruleForm.selfShare" v-else style="width:100%"
+                      @input="isSelfShares" @change="isSelfShares" :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+
+
           <el-form-item label="个体户注册服务费" prop="ordinarySelfFee">
             <el-input
              v-model="ruleForm.ordinarySelfFee" @change="handleChange"  :min="0"
@@ -27,8 +72,14 @@
           <el-form-item label="业务经理" :required="true">
             <el-input v-model="ruleForm.userName" :readonly="true"></el-input>
           </el-form-item>
-          <el-form-item label="渠道商别名" prop="placeAlias">
-            <el-input v-model='ruleForm.placeAlias' />
+          <el-form-item label="客户别名" prop="placeAlias">
+            <el-input v-model='ruleForm.placeAlias' @input="placeNews"/>
+          </el-form-item>
+          <el-form-item label="客户类型" :required="true">
+             <el-select style="width:100%" v-model="ruleForm.customerType" clearable placeholder="请选择客户类型">
+                  <el-option v-for="item in customerOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select> 
           </el-form-item>
           <el-form-item label="联系方式" prop="placeTel">
             <el-input v-model="ruleForm.placeTel" />
@@ -276,10 +327,11 @@ import { getInfo } from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
-  name: "placeMgr",
+  name: "Add",
 
   data() {
     return {
+      placeAliasName:'',
       editSpecialProxyFee: '2',
       editOrdinaryProxyFee: '2',
       editSpecialInvoice13: '2',
@@ -346,6 +398,10 @@ export default {
         status: '',
       },
       ruleForm: {
+        selfShareIsmoney:'0',
+        isSelfShare:'1',
+        selfShare:'0',
+        customerType:'0',
         isSliderOrdinary: '0',
         isSlider: '0',//专票滑块
         isSelfTax: '1',     //普票价税分离
@@ -353,7 +409,7 @@ export default {
         ordinaryTax: '0',//普票税率
         ordinarySpecialTax: '0.03',//专票税率
 
-        placeAlias: '',//渠道商别名
+        placeAlias: '',//客户别名
         placeCode: '',
         placeName: '',
         placeLinkman: '',
@@ -405,7 +461,7 @@ export default {
         editPlaceId: '',
         editPlaceCode: '',
         editPlaceName: '',
-        editPlaceAlias: '',//渠道商别名
+        editPlaceAlias: '',//客户别名
         editPlaceLinkman: '',
         editPlaceTel: '',
         editUserId: '',
@@ -434,6 +490,16 @@ export default {
         editOrdinaryProxyMoney: '',
         editIsOrdinaryTax: '',//是否含税-普票
       },
+      customerOptions:[
+        {
+        value:'0',
+        label:'渠道'
+        },
+         {
+        value:'1',
+        label:'直客'
+        }
+      ],
       option: [
         {
           value: '0',
@@ -474,6 +540,15 @@ export default {
         },
       ],
       rules: {
+        selfShareIsmoney:[{
+           required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
+        }],
+        isSelfShare:[{
+           required: true, message: '请选择个体注册服务是否分润', trigger: 'change'
+        }],
+        selfShare:[{
+            required: true, message: '请输入个体注册服务费分润费', trigger: 'blur'
+        }],
         isSpecialShare: [{
           required: true, message: '请选择专票是否分润', trigger: 'change'
         }],
@@ -512,13 +587,13 @@ export default {
           { required: true, message: '请选择专票价税分离', trigger: 'change' }
         ],
         placeCode: [
-          { required: true, message: '请输入编号', trigger: 'blur' }
+          { required: true, message: '请输入客户编号', trigger: 'blur' }
         ],
         placeAlias: [
-          { required: true, message: '请输入渠道别名', trigger: 'blur' }
+          { required: true, message: '请输入客户别名', trigger: 'blur' }
         ],
         placeName: [
-          { required: true, message: '请输入渠道商名', trigger: 'blur' }
+          { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         placeLinkman: [
           { required: true, message: '请输入联系人', trigger: 'blur' }
@@ -565,10 +640,10 @@ export default {
 
 
         editPlaceAlias: [
-          { required: true, message: '请输入渠道别名', trigger: 'blur' }
+          { required: true, message: '请输入客户别名', trigger: 'blur' }
         ],
         editPlaceName: [
-          { required: true, message: '请输入渠道商名', trigger: 'blur' }
+          { required: true, message: '请输入客户名', trigger: 'blur' }
         ],
         editPlaceLinkman: [
           { required: true, message: '请输入联系人', trigger: 'blur' }
@@ -606,8 +681,8 @@ export default {
         ],
       },
       queryTypeOptions: [
-        { key: 'placeName', display_name: '渠道商名称' },
-        { key: 'placeStatus', display_name: '渠道商状态' },
+        { key: 'placeName', display_name: '客户名称' },
+        { key: 'placeStatus', display_name: '客户状态' },
         { key: 'nickName', display_name: '业务经理' }
       ],
       // 表单参数
@@ -631,6 +706,15 @@ export default {
   },
 
   methods: {
+    placeNews(){
+     if(this.ruleForm.placeName==null){
+      this.ruleForm.placeName='';
+     }
+     if(this.ruleForm.placeAlias==null){
+      this.ruleForm.placeAlias='';
+     }
+     this.placeAliasName=this.ruleForm.placeName+this.ruleForm.placeAlias;
+    },
     handleChange(value) {
       console.log(value);
     },
@@ -653,6 +737,22 @@ export default {
       if (this.ruleForm.editSpecialProxyIsmoney == '1') {
         if (e > 100) {
           this.ruleForm.editSpecialProxyFee = '100';
+        }
+      }
+    },
+    isSelfShares(e){
+       if (this.ruleForm.selfShareIsmoney == '1') {
+        if (e > 100) {
+          this.ruleForm.selfShare = '100';
+        }
+      }
+    },
+    selfShareIsmoneys(e){
+       if (e == '1') {
+        if (this.ruleForm.selfShareIsmoney == '1') {
+          if (this.ruleForm.selfShare > 100) {
+            this.ruleForm.selfShare = '100';
+          }
         }
       }
     },
@@ -788,6 +888,10 @@ export default {
     
     // 表单重置
     reset() {
+      this.ruleForm.selfShareIsmoney='0';
+      this.ruleForm.isSelfShare='1';
+      this.ruleForm.selfShare='0';
+      this.ruleForm.customerType='0';
       this.ruleForm.isSliderOrdinary = '0',
       this.ruleForm.isSlider = '0';
       this.ruleForm.isSelfTax = '1';   //普票价税分离
@@ -803,7 +907,7 @@ export default {
 
 
       this.ruleForm.placeName = null;
-      this.ruleForm.placeAlias = null;//渠道商别名
+      this.ruleForm.placeAlias = null;//客户别名
       this.ruleForm.placeLinkman = null;
       this.ruleForm.placeTel = null;
       this.ruleForm.userId = null;
@@ -844,6 +948,15 @@ export default {
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
+          if (this.ruleForm.selfShareIsmoney == '1') {
+          if (this.ruleForm.selfShare > 100) {
+          this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                 
+                  type: 'error'
+                });
+          }
+        }
           if (this.ruleForm.isSlider == '0') {
             if (this.ruleForm.specialShareIsmoney == '1') {
               if (this.ruleForm.specialShare > 100) {
@@ -910,6 +1023,7 @@ export default {
 
           let data = {
             businessPlace: {
+              customerType:this.ruleForm.customerType,
               placeCode: this.ruleForm.placeCode,
               placeName: this.ruleForm.placeName,
               placeAlias: this.ruleForm.placeAlias,
@@ -954,6 +1068,11 @@ export default {
               specialProxyIsmoney: this.ruleForm.specialProxyIsmoney,
               isSpecialShare: this.ruleForm.isSpecialShare,
               specialShareIsmoney: this.ruleForm.specialShareIsmoney,
+
+
+                selfShareIsmoney: this.ruleForm.selfShareIsmoney,
+                isSelfShare: this.ruleForm.isSelfShare,
+                selfShare:this.ruleForm.selfShare
 
 
 

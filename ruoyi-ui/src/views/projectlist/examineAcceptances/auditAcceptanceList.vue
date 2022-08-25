@@ -108,7 +108,7 @@ export default {
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectCheckStatus:1, //项目状态
+                // projectCheckStatus:1, //项目状态
                 projectAcceptanceStatus:0,
                 start: null, //开始
                 end: null,   //结束
@@ -297,7 +297,7 @@ export default {
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectCheckStatus:1, //项目状态
+                // projectCheckStatus:1, //项目状态
                 projectAcceptanceStatus:0,
                 start: null, //开始
                 end: null,   //结束

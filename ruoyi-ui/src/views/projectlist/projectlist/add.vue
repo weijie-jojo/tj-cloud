@@ -31,7 +31,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商全名">
+                    <el-form-item class="comright" label="客户全名">
                         <el-select filterable @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
                             <el-option v-for="item in placeCodeOptions" :key="item.placeCode"
                                 :label="item.placeAliasName" :value="item.placeCode">
@@ -49,7 +49,7 @@
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商状态" prop="isokradio">
+                    <el-form-item class="comright" label="客户状态" prop="isokradio">
                         <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
                         <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
                         <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
