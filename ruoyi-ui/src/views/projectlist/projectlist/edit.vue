@@ -33,7 +33,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商全名">
+                    <el-form-item class="comright" label="客户全名">
                         <el-select filterable @change="placeNew" style="width:100%" clearable v-model="formData.placeCode">
                             <el-option v-for="item in placeCodeOptions" :key="item.placeCode" :label="item.placeAliasName"
                                 :value="item.placeCode">

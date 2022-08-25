@@ -1,63 +1,52 @@
 <template>
-  <div class="login">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">腾集后台管理系统</h3>
-      <el-form-item prop="username">
-        <el-input
-          v-model="loginForm.username"
-          type="text"
-          auto-complete="off"
-          placeholder="账号"
-        >
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input
-          v-model="loginForm.password"
-          type="password"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter.native="handleLogin"
-        >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="code" v-if="captchaOnOff">
-        <el-input
-          v-model="loginForm.code"
-          auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter.native="handleLogin"
-        >
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
-        </el-input>
-        <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
-        </div>
-      </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-form-item style="width:100%;">
-        <el-button
-          :loading="loading"
-          size="medium"
-          type="primary"
-          style="width:100%;"
-          @click.native.prevent="handleLogin"
-        >
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
-      </el-form-item>
-    </el-form>
-    <!--  底部  -->
-    <div class="el-login-footer">
-      <span>Copyright © 2021-2022 tengji.vip All Rights Reserved.</span>
+  <div class="">
+    <vue-particles class="login-background" color="#97D0F2" :particleOpacity="0.7" :particlesNumber="50"
+      shapeType="circle" :particleSize="4" linesColor="#97D0F2" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4"
+      :linesDistance="150" :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
+    </vue-particles>
+
+    <div class="login">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+        <h3 class="title">腾集后台管理系统</h3>
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+            <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
+            @keyup.enter.native="handleLogin">
+            <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="code" v-if="captchaOnOff">
+          <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
+            @keyup.enter.native="handleLogin">
+            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          </el-input>
+          <div class="login-code">
+            <img :src="codeUrl" @click="getCode" class="login-code-img" />
+          </div>
+        </el-form-item>
+        <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+        <el-form-item style="width:100%;">
+          <el-button :loading="loading" size="medium" type="primary" style="width:100%;"
+            @click.native.prevent="handleLogin">
+            <span v-if="!loading">登 录</span>
+            <span v-else>登 录 中...</span>
+          </el-button>
+          <div style="float: right;" v-if="register">
+            <router-link class="link-type" :to="'/register'">立即注册</router-link>
+          </div>
+        </el-form-item>
+      </el-form>
+      <!--  底部  -->
+      <div class="el-login-footer">
+        <span>Copyright © 2021-2022 tengji.vip All Rights Reserved.</span>
+      </div>
+
     </div>
+
   </div>
 </template>
 
@@ -66,8 +55,10 @@ import { getCodeImg } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
+
 export default {
   name: "Login",
+
   data() {
     return {
       codeUrl: "",
@@ -97,7 +88,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true
@@ -141,7 +132,7 @@ export default {
             Cookies.remove('rememberMe');
           }
           this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
+            this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {
             this.loading = false;
             if (this.captchaOnOff) {
@@ -156,14 +147,38 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
+.login-background {
+  background-color: #333;
+ // background-image: url("../assets/images/bg.jpg");
+ // background-size: cover;
+  //@extendbackground: linear-gradient(-180deg, #dcf2e6 0%, #ffffff 100%);
+  width: 100%;
+  height: 100%;
+  /**宽高100%是为了图片铺满屏幕 */
+  z-index: 1;
+  position: absolute;
+}
+
+.login-other {
+  z-index: 1;
+  margin: 180px 0 0 calc(calc(100vw - 410px) / 2);
+  position: absolute;
+}
+
 .login {
+   z-index: 1;
+  position: absolute;
+  top:0;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
-  background-size: cover;
+  // background-image: url("../assets/images/login-background.jpg");
+  //background-image: url("../assets/images/bg.jpg");
+  //background-size: cover;
 }
+
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -175,32 +190,39 @@ export default {
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
+
   .el-input {
     height: 38px;
+
     input {
       height: 38px;
     }
   }
+
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
   }
 }
+
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .login-code {
   width: 33%;
   height: 38px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
   }
 }
+
 .el-login-footer {
   height: 40px;
   line-height: 40px;
@@ -213,6 +235,7 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .login-code-img {
   height: 38px;
 }

@@ -39,6 +39,9 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 
 import Print from 'vue-print-nb'
+
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
 Vue.use(Print)
 
 //mockjs请求

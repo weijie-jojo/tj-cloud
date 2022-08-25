@@ -7,11 +7,12 @@
         finish-status="success"
         style="padding-left:2%;margin-top:30px;margin-bottom:20px;">
         <el-step title="项目填写完成"></el-step>
-        <el-step title="项目审核完成"></el-step>
-        <el-step title="合同审核完成"></el-step>
-        <el-step title="验收审核完成"></el-step>
+        <el-step title="票据审核完成"></el-step>
+        <el-step title="资料审核完成"></el-step>
         <el-step title="完税审核完成"></el-step>
-       
+        <el-step title="收款审核完成"></el-step>
+        <el-step title="出款审核完成"></el-step>
+        <el-step title="项目审核完成"></el-step>
        </el-steps>
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
@@ -53,17 +54,23 @@ export default {
       case '项目填写完成':
        this.shenmsgs=0;
       break;
-       case '项目审核完成':
+       case '票据审核完成':
        this.shenmsgs=1;
       break;
-       case '合同审核完成':
+       case '资料审核完成':
        this.shenmsgs=2;
       break;
-       case '验收审核完成':
+       case '完税审核完成':
        this.shenmsgs=3;
       break;
-       case '完税审核完成':
+       case '收款审核完成':
        this.shenmsgs=4;
+      break;
+       case '出款审核完成':
+       this.shenmsgs=5;
+      break;
+       case '项目审核完成':
+       this.shenmsgs=6;
       break;
       
 

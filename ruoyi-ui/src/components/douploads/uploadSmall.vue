@@ -10,7 +10,7 @@
 
       <div v-if="isDetails == 0" slot="tip" class="el-upload__tip">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
     </el-upload>
-    <div style="position: absolute;left: 150px;
+    <div v-if="isDetails == 1" style="position: absolute;left: 150px;
     top: -15px;" :class="isDetail==0 ?'brrs':'arrs'">
       <el-button  size="small" type="primary" @click="uploadAll" style="width:80px">下载全部</el-button>
     </div>
@@ -61,6 +61,7 @@ export default {
   },
   data() {
     return {
+      flag:0,
       showViewer: false,
       errOk: false,
       dialogVisible: false,
@@ -128,23 +129,32 @@ export default {
            type: 'warning'
         });
       }else{
+        
         this.$nextTick(()=>{
+          
         this.fileNameOlds=this.$refs.uploads.uploadFiles;
         let arr=this.fileNameOlds;
         console.log(this.fileNameOlds);
         this.$modal.loading("正在下载文件，请稍后...");
         for(let i in arr){
-        var name = arr[i].name;
-        var url = this.baseImgPath+arr[i].name;
-        //var suffix = url.substring(url.lastIndexOf("."), url.length);
-        const a = document.createElement('a')
+       
+         var name = arr[i].name;
+         var url = this.baseImgPath+arr[i].name;
+         //var suffix = url.substring(url.lastIndexOf("."), url.length);
+         const a = document.createElement('a')
         
          a.setAttribute('download', name);
          a.setAttribute('target', '_blank');
          a.setAttribute('href', url)
-         a.click()
+         a.click();
+         
         }
-       this.$modal.closeLoading();
+         this.$modal.closeLoading();
+        
+       
+        
+         
+
         })
          
       
@@ -152,8 +162,14 @@ export default {
       
 
     },
-
-    //获取已经保存数据库的值
+  sleep1(ms) { //sleep延迟方法2
+     
+      var unixtime_ms = new Date().getTime();
+      while(new Date().getTime() < unixtime_ms + ms) 
+      {}
+      
+  },
+   //获取已经保存数据库的值
     getSrcList(val) {
       this.fileNames = val;
     },

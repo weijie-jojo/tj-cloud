@@ -660,10 +660,10 @@
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="渠道商全名" prop="placeName">
+          <el-form-item class="comright" label="客户全名" prop="placeName">
             <el-select style="width:100%"
             @visible-change="changeValue1($event)"
-            @change="placenew" v-model="formData.placeName" placeholder="请选择渠道商全名"
+            @change="placenew" v-model="formData.placeName" placeholder="请选择客户全名"
               clearable filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
                 :value="item.placeName">
@@ -679,13 +679,57 @@
         </el-col>
       </el-row>
 
+        <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+           <el-col :span="9">
+                <el-form-item label="是否分润" prop='isSelfShare'>
+              <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
+              <el-radio v-model="formData.isSelfShare" label="1">否</el-radio>
+            </el-form-item>
+          </el-col>
+           <el-col :span="9">
+
+          </el-col>
+        
+        </el-row>
+        <el-row v-if="formData.isSelfCount == 0 && formData.isSelfShare==0" type="flex" class="row-bg " justify="space-around">
+           <el-col :span="9">
+                 <el-form-item label="分润方式" prop="selfShare">
+                  <div style="">
+                    <el-radio @change="selfShareIsmoneys" v-model="formData.selfShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="selfShareIsmoneys" v-model="formData.selfShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="formData.selfShareIsmoney == 0" style="width:87%" 
+                      :min="0" v-model="formData.selfShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-model="formData.selfShare" v-else style="width:87%" 
+                      @input="isSelfShares" @change="isSelfShares" :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+          </el-col>
+           <el-col :span="9">
+
+          </el-col>
+        
+        </el-row>
+
    
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item label="单独结算" :required="true">
-            <el-radio v-model="formData.isSelfCount" label="0" @change="singleOK">是</el-radio>
-            <el-radio v-model="formData.isSelfCount" label="1" @change="singleOK">否</el-radio>
+          <el-form-item label="结算方式" :required="true">
+            <el-radio v-model="formData.isSelfCount" label="0" @change="singleOK">按个体结算</el-radio>
+            <el-radio v-model="formData.isSelfCount" label="1" @change="singleOK">按客户结算</el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -712,17 +756,14 @@
         </el-col>
 
       </el-row>
-
-
-      <el-collapse v-if="formData.isSelfCount == 0" v-model="activeNamese" accordion
-        style="padding-left:8%;padding-right: 6%;">
-        <el-collapse-item name="1">
-          <template slot="title" :required="true">
-            增值税普通发票
-              <el-radio   style="margin-left:10px"   v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
-              <el-radio   v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
-          </template>
-          <el-col :span="10">
+      <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
+         <el-col :span="9">
+             
+          <el-form-item label="增值税普通发票" :required="true">
+            <el-radio  v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+            <el-radio  v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+          </el-form-item>
+         
            <div v-if="formData.isSliderOrdinary==0">
             <el-form-item label="普票税率" :required="true">
               <!-- <el-select style="width:87%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
@@ -764,7 +805,7 @@
               <el-radio v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
               <el-radio v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
-            <el-form-item label="是否分润">
+            <el-form-item label="是否分润" :required="true">
               <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
               <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
             </el-form-item>
@@ -791,21 +832,15 @@
               </div>
             </el-form-item>
              </div>
-          </el-col>
-
-        </el-collapse-item>
-
-      </el-collapse>
-
-      <el-collapse v-if="formData.isSelfCount == 0" v-model="activeNameseg" accordion
-        style="padding-left:8%;padding-right: 6%;">
-        <el-collapse-item name="1">
-          <template slot="title" :required="true">
-            增值税专用发票
-              <el-radio  style="margin-left:10px"  v-model="formData.isSlider" label="0">开启</el-radio>
-              <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
-          </template>
-          <el-col :span="10">
+          
+        </el-col>
+        <el-col :span="9">
+                  
+          <el-form-item label="增值税专用发票" :required="true">
+            <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
+            <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
+          </el-form-item>
+          
            
             <div v-if="formData.isSlider==0">
                  <el-form-item label="专票税率" :required="true">
@@ -873,9 +908,14 @@
               </div>
             </el-form-item>
             </div>
-           </el-col>
-        </el-collapse-item>
-      </el-collapse>
+          
+        </el-col>
+      </el-row>
+
+
+    
+
+    
     <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span='8' class="flexs">
@@ -1051,6 +1091,9 @@ export default {
       places: [],
 
       formData: {
+        selfShareIsmoney:'0',
+        isSelfShare:'1',
+        selfShare:'0',
         selfCode: '',
 
         //申请信息
@@ -1103,6 +1146,15 @@ export default {
       accountName_options: [],
       mylist: '',
       rules: {
+         selfShareIsmoney:[{
+           required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
+        }],
+        isSelfShare:[{
+           required: true, message: '请选择个体注册服务是否分润', trigger: 'change'
+        }],
+        selfShare:[{
+            required: true, message: '请输入个体注册服务费分润费', trigger: 'blur'
+        }],
           industryTax:[{
            required: true,
           message: ' 税率不能为空,请重新选择行业类型',
@@ -1268,7 +1320,7 @@ export default {
         }],
         placeName: [{
           required: true,
-          message: '请选择渠道商全名',
+          message: '请选择客户全名',
           trigger: 'change'
         }],
         userName: [{
@@ -1349,13 +1401,6 @@ export default {
   computed: {},
   watch: {
     'formData.industryType': 'selectIndustryType',
-
-    // 'formData.contactName': {
-    //   handler: function () {
-    //     this.formData.legalPersonName = this.formData.contactName;
-    //   },
-    //   deep: true
-    // }
   },
   created() {
 
@@ -1435,10 +1480,7 @@ export default {
 
 
     this.getLoginInfo();
-    //申请人
-   // this.getApplyName();
-    //联系人
-   // this.getContactName();
+  
     //个体户行业类型税率
     this.getRate();
 
@@ -1455,7 +1497,9 @@ export default {
     this.formData.applyName = parseInt(this.formData.applyName);
 
 
-
+    this.formData.selfShareIsmoney= JSON.stringify(this.formData.selfShareIsmoney);
+    this.formData.isSelfShare= JSON.stringify(this.formData.isSelfShare);
+    this.formData.selfShare= JSON.stringify(this.formData.selfShare);
 
 
    
@@ -1523,6 +1567,22 @@ export default {
     this.nailist();
   },
   methods: {
+     isSelfShares(e){
+       if (this.formData.selfShareIsmoney == '1') {
+        if (e > 100) {
+          this.formData.selfShare = '100';
+        }
+      }
+    },
+    selfShareIsmoneys(e){
+       if (e == '1') {
+        if (this.formData.selfShareIsmoney == '1') {
+          if (this.formData.selfShare > 100) {
+            this.formData.selfShare = '100';
+          }
+        }
+      }
+    },
      //银行接口
      changeValue2(e){
       console.log(e);
@@ -1540,9 +1600,11 @@ export default {
        singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
-        // this.yecomfirm = false;
-        // this.yecomfirms = true;
-          this.formData.specialSelfFee ='0';
+      
+         this.formData.selfShareIsmoney='0';
+         this.formData.isSelfShare='1';
+         this.formData.selfShare='0';
+         this.formData.specialSelfFee ='0';
          this.formData.ordinarySelfFee = '0';
          this.formData.registerMoney = '0';
          this.formData.specialShare = '0';
@@ -1564,12 +1626,8 @@ export default {
       
 
       } else {
-        // this.yecomfirm = true;
-        // this.yecomfirms = false;
-        this.placenew();
-
-
-      }
+         this.placenew();
+        }
     },
     handPoxy(e) {
       if (e == '1') {
@@ -1848,18 +1906,8 @@ export default {
         }
       }
     },
-    getContactName() {
-      crudPerson.getAllPerson().then(res => {
-        console.log("getContactName", res.rows);
-        this.contactNames = res.rows;
-      })
-    },
-    getApplyName() {
-      crudInformation.getAllInformation().then(res => {
-        console.log("getApplyName", res.rows);
-        this.applyNames = res.rows;
-      })
-    },
+    
+   
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -1870,6 +1918,14 @@ export default {
       
      
       if (this.formData.isSlider == '0') {
+       if (this.formData.selfShareIsmoney == '1') {
+          if (this.formData.selfShare > 100) {
+             this.$alert('个体注册服务分润费按百分比不能大于100%', '系统提示', {
+                  confirmButtonText: '确定',
+                  type: 'error'
+                });
+             }
+          } 
 
         if (this.formData.specialShareIsmoney == '1') {
           if (this.formData.specialShare > 100) {

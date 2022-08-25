@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="auto">
-      <el-form-item label="渠道商全名" prop="placeAliasName">
-        <el-input v-model="queryParams.placeAliasName" placeholder="请输入渠道商全名" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="客户全名" prop="placeAliasName">
+        <el-input v-model="queryParams.placeAliasName" placeholder="请输入客户全名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select clearable v-model="queryParams.status" placeholder="请选择">
@@ -29,8 +29,8 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!-- <el-table-column label="渠道商名称" align="center" prop="placeName" :show-overflow-tooltip="true" /> -->
-      <el-table-column label="渠道商全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
+      <!-- <el-table-column label="客户名称" align="center" prop="placeName" :show-overflow-tooltip="true" /> -->
+      <el-table-column label="客户全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
       <el-table-column label="联系人" align="center" prop="placeLinkman" :show-overflow-tooltip="true" />
       <el-table-column label="联系方式" prop="placeTel" :show-overflow-tooltip="true" />
       <el-table-column form-item label="业务经理" prop="userName" :show-overflow-tooltip="true" />
@@ -40,7 +40,7 @@
           <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
 
 
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-hasPermi="['place:placeMgr:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
 
           <!-- <el-button size="mini" type="text" v-if="scope.row.placeStatus == 0" @click="isDormancy(scope.row, 2)">
             休眠
@@ -164,8 +164,8 @@ export default {
       ],
       rules: { },
       queryTypeOptions: [
-        { key: 'placeName', display_name: '渠道商名称' },
-        { key: 'placeStatus', display_name: '渠道商状态' },
+        { key: 'placeName', display_name: '客户名称' },
+        { key: 'placeStatus', display_name: '客户状态' },
         { key: 'nickName', display_name: '业务经理' }
       ],
       // 表单参数
@@ -211,7 +211,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.$tab.openPage("渠道客户新增", "/place/add")
+      this.$tab.openPage("客户新增", "/place/add")
     },
     /** 修改按钮操作 */
     handleUpdate(item) {
@@ -221,7 +221,7 @@ export default {
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
       this.$modal.closeLoading();
       this.$cache.local.setJSON("placeItems",res);
-      this.$tab.openPage("渠道客户编辑", "/place/edit")
+      this.$tab.openPage("客户编辑", "/place/edit")
       })
 
       
@@ -234,7 +234,7 @@ export default {
       agencyfee.selectFeeByCode({ placeCode: item.placeCode }).then(res => {
         this.$modal.closeLoading();
         this.$cache.local.setJSON("placeDetailItems",res);
-        this.$tab.openPage("渠道客户详情", "/place/detail")
+        this.$tab.openPage("客户详情", "/place/detail")
      
      })
    },
@@ -249,9 +249,9 @@ export default {
         //   message: '欠费状态不能点哦',
         //   type: 'warning',
         // });
-        this.$confirm('欠费状态不能点哦', '系统提示', {
+        this.$alert('欠费状态不能点哦', '系统提示', {
               confirmButtonText: '确定',
-              cancelButtonText: '取消',
+             
               type: 'error'
          })
         return;
@@ -296,7 +296,7 @@ export default {
       };
 
 
-      this.$confirm('是否确认删除此渠道的信息', '提示', {
+      this.$confirm('是否确认删除此客户的信息', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -307,9 +307,9 @@ export default {
              this.$modal.msgSuccess('删除成功!');
              this.$tab.refreshPage();
              }else{
-                   this.$confirm(res.message+'，无法删除!!', '系统提示', {
+                   this.$alert(res.message+'，无法删除!!', '系统提示', {
                     confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                 
                     type: 'error'
                   })
              }

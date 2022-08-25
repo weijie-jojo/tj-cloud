@@ -33,7 +33,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商全名">
+                    <el-form-item class="comright" label="客户全名">
                         <el-input v-model="formData.placeAliasName" :readonly="true"></el-input>
                     </el-form-item>
 
@@ -47,7 +47,7 @@
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="渠道商状态" prop="isokradio">
+                    <el-form-item class="comright" label="客户状态" prop="isokradio">
                         <el-input :readonly="true" v-if="isokradio == 0" value="正常"></el-input>
                         <el-input :readonly="true" v-else value="冻结"></el-input>
                     </el-form-item>
