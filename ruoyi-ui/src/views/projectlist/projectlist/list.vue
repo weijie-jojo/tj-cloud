@@ -701,6 +701,8 @@ export default {
                 this.dialogVisible = true;   
               })
                 
+            }else if(type==6){
+                
             }
 
 
