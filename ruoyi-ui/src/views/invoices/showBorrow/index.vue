@@ -365,11 +365,11 @@
         this.ruleForm.borrowCode=this.borrows[0].borrowCode;
         this.ruleForm.borrowDate=this.borrows[0].borrowDate;
         this.ruleForm.deptName=this.borrows[0].name;
-         console.log('borrowName==',this.borrows[0].borrowName);
-        getUser(this.borrows[0].borrowName).then(res=>{
-            console.log('users==',res.data);
-            this.ruleForm.borrowName=res.data.nickName;
-        });    
+        // getUser(this.borrows[0].borrowName).then(res=>{
+        //     console.log('users==',res.data);
+        //     this.ruleForm.borrowName=res.data.nickName;
+        // }); 
+        this.ruleForm.borrowName=this.borrows[0].borrowName;   
         this.ruleForm.userId=this.borrows[0].userId;
         this.ruleForm.job=this.borrows[0].job;
         this.ruleForm.borrowDesc=this.borrows[0].borrowDesc;

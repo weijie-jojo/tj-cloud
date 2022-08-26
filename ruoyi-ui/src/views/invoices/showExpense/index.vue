@@ -6,7 +6,8 @@
             </el-form-item>
             <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
-                    <el-button v-print="'#printMe'" type="primary">打印</el-button>
+                    <el-button type="primary" @click="printme">打印详情</el-button>
+                    <!-- <el-button v-print="'#printMe'" type="primary">打印</el-button> -->
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
@@ -540,6 +541,9 @@ export default {
 
     },
     methods: {
+        printme(){
+          this.$tab.openPage("报销单打印",'/invoices/expensePrint');
+        },
         beforePage() {
             this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
         },
