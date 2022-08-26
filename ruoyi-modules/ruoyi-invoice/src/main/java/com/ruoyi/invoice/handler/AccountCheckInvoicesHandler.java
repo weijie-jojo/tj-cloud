@@ -1,7 +1,8 @@
 package com.ruoyi.invoice.handler;
 
 
-import com.ruoyi.invoice.annotation.Log;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.invoice.dto.DataDto;
 import com.ruoyi.invoice.pojo.AccountCheckInvoices;
 import com.ruoyi.invoice.service.AccountCheckInvoicesService;
@@ -25,7 +26,6 @@ public class AccountCheckInvoicesHandler {
     private final AccountCheckInvoicesService accountCheckInvoicesService;
 
     @GetMapping(value ="/getAllCheck")
-    @Log("单据审批结果信息")
     @ApiOperation("单据审批结果信息")
     public List<AccountCheckInvoices> getAllBorrow(AccountCheckInvoices sysCheckInvoice){
         List<AccountCheckInvoices> accountCheckInvoices = accountCheckInvoicesService.selectAllCheck(sysCheckInvoice);
@@ -33,8 +33,8 @@ public class AccountCheckInvoicesHandler {
     }
 
     @PostMapping(value ="/addCheckInvoices")
-    @Log("插入差旅报销单")
-    @ApiOperation("插入借支单")
+    @Log(title = "插入审批结果信息",businessType = BusinessType.INSERT)
+    @ApiOperation("插入审批结果信息")
     public DataDto addCheckInvoices(AccountCheckInvoices sysCheckInvoice){
         int num= accountCheckInvoicesService.addCheckInvoices(sysCheckInvoice);
         DataDto dataDto = new DataDto();

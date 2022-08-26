@@ -2,8 +2,9 @@ package com.ruoyi.invoice.handler;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.invoice.annotation.Log;
 import com.ruoyi.invoice.dto.DataDto;
 import com.ruoyi.invoice.pojo.AccountExpenseItem;
 import com.ruoyi.invoice.pojo.AccountTravelExpense;
@@ -35,8 +36,8 @@ public class AccountTravelExpenseHandler {
     private final SysUserService sysUserService;
 
     @PutMapping(value ="/editTravelExpense2")
-    @Log("修改借支单（编辑）")
-    @ApiOperation("修改借支单（编辑）")
+    @Log(title = "修改差旅报销单（编辑）",businessType = BusinessType.UPDATE)
+    @ApiOperation("修改差旅报销单（编辑）")
     public DataDto editTravelExpense2(AccountTravelExpense accountTravelExpense){
         int num= accountTravelExpenseService.editTravelExpense(accountTravelExpense);
         DataDto dataDto = new DataDto();
@@ -47,8 +48,8 @@ public class AccountTravelExpenseHandler {
     }
 
     @PutMapping(value ="/editTravelExpenseById")
-    @Log("修改借支单(审核)")
-    @ApiOperation("修改借支单(审核)")
+    @Log(title = "修改差旅报销单（审核）",businessType = BusinessType.UPDATE)
+    @ApiOperation("修改差旅报销单(审核)")
     public DataDto editTravelExpenseById(AccountTravelExpense accountTravelExpense){
         if (accountTravelExpense.getInvoiceType()<5){//办理中
             accountTravelExpense.setStepType(1);
@@ -68,7 +69,7 @@ public class AccountTravelExpenseHandler {
     }
 
     @PostMapping(value ="/addTravelExpense")
-    @Log("插入差旅报销单")
+    @Log(title = "插入差旅报销单",businessType = BusinessType.INSERT)
     @ApiOperation("插入差旅报销单")
     public DataDto addTravelExpense(AccountTravelExpense accountTravelExpense){
         accountTravelExpense.setStepType(1);
@@ -84,7 +85,6 @@ public class AccountTravelExpenseHandler {
         }
     }
     @GetMapping(value ="/getTravelExpense")
-    @Log("查询所有差旅报销单信息(登录用户的)")
     @ApiOperation("查询所有差旅报销单信息(登录用户的)")
     public DataDto getTravelExpense(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit){
         if(accountTravelExpense.getTravelExpenseCode()==null){//不是查看某条单据（查看登录用户的所有单据）
@@ -102,7 +102,6 @@ public class AccountTravelExpenseHandler {
         return dataDto;
     }
     @GetMapping(value ="/getAllTravelExpense")
-    @Log("查询所有差旅报销单信息")
     @ApiOperation("查询所有差旅报销单信息")
     public DataDto getAllTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense(accountTravelExpense,timeQo,currentPage,limit);
@@ -111,7 +110,6 @@ public class AccountTravelExpenseHandler {
         return dataDto;
     }
     @GetMapping(value ="/getCheckTravelExpense")
-    @Log("查询所有待审核差旅报销单信息")
     @ApiOperation("查询所有待审核差旅报销单信息")
     public DataDto getCheckTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         List<SysUserVo> sysUserVos=sysUserService.getRoleByUserId(SecurityUtils.getUserId());
@@ -134,8 +132,8 @@ public class AccountTravelExpenseHandler {
         dataDto.success(accountTravelExpenseIPage.getRecords(),accountTravelExpenseIPage.getTotal());
         return dataDto;
     }
-    @Log("删除报销单（逻辑删除）")
-    @ApiOperation("删除菜单（逻辑删除）")
+    @Log(title = "删除差旅报销单（逻辑删除）",businessType = BusinessType.UPDATE)
+    @ApiOperation("删除差旅报销单（逻辑删除）")
     @PutMapping("/editTravelExpense")
 //    @PreAuthorize("@el.check('invoice:del')")
     public DataDto editTravelExpense(String travelExpenseIds){
@@ -153,7 +151,7 @@ public class AccountTravelExpenseHandler {
         }
         return dataDto;
     }
-    @Log("撤回操作")
+    @Log(title = "撤回操作",businessType = BusinessType.UPDATE)
     @ApiOperation("撤回操作")
     @PutMapping("/editTravelExpenseType")
     public int editTravelExpenseType(AccountTravelExpense accountTravelExpense){
@@ -161,7 +159,6 @@ public class AccountTravelExpenseHandler {
     }
 
     @GetMapping(value ="/getExpenseItem")
-    @Log("查询所有报销项目")
     @ApiOperation("查询所有报销项目")
     public  List<AccountExpenseItem> getExpenseItem(){
         List<AccountExpenseItem> accountExpenseItems = accountTravelExpenseService.getAllExpenseItem();
@@ -173,6 +170,7 @@ public class AccountTravelExpenseHandler {
      *
      * */
     @GetMapping("getTravelExpenseCode")
+    @ApiOperation("获取差旅报销单编号")
     public DataDto getTravelExpenseCode() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

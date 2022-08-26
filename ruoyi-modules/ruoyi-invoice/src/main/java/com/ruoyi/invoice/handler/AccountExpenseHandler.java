@@ -1,10 +1,10 @@
 package com.ruoyi.invoice.handler;
 
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.invoice.annotation.Log;
 import com.ruoyi.invoice.dto.DataDto;
 import com.ruoyi.invoice.mapper.EmployeeInformationMapper;
 import com.ruoyi.invoice.mapper.SysBankcardMapper;
@@ -16,7 +16,6 @@ import com.ruoyi.invoice.pojo.SysUser;
 import com.ruoyi.invoice.qo.TimeQo;
 import com.ruoyi.invoice.service.AccountExpenseService;
 import com.ruoyi.invoice.service.SysUserService;
-import com.ruoyi.invoice.vo.AccountBorrowVo;
 import com.ruoyi.invoice.vo.AccountExpenseVo;
 import com.ruoyi.invoice.vo.SysBankcardVo;
 import com.ruoyi.invoice.vo.SysUserVo;
@@ -27,7 +26,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -47,7 +47,6 @@ public class AccountExpenseHandler {
     private final EmployeeInformationMapper employeeInformationMapper;
 
     @GetMapping(value ="/getPost")
-    @Log("查询岗位信息")
     @ApiOperation("查询岗位信息")
     public EmployeeInformation getPost(Integer userId){
         EmployeeInformation employeeInformation= employeeInformationMapper.getPost(userId);
@@ -55,7 +54,7 @@ public class AccountExpenseHandler {
     }
 
     @PutMapping(value ="/editExpenseByExpenseId")
-    @Log("修改借支单（审核）")
+    @Log(title = "修改借支单（审核）",businessType = BusinessType.UPDATE)
     @ApiOperation("修改借支单（审核）")
     public DataDto editExpenseByExpenseId(AccountExpense accountExpense){
         if (accountExpense.getInvoiceType()<5){//办理中
@@ -74,8 +73,9 @@ public class AccountExpenseHandler {
         }
         return dataDto;
     }
+
     @PutMapping(value ="/editExpense2")
-    @Log("修改借支单（编辑）")
+    @Log(title = "修改借支单（编辑）",businessType = BusinessType.UPDATE)
     @ApiOperation("修改借支单（编辑）")
     public DataDto editExpense2(AccountExpense accountExpense){
         System.out.println("accountExpense==="+accountExpense);
@@ -86,37 +86,36 @@ public class AccountExpenseHandler {
         }
         return dataDto;
     }
+
     @GetMapping(value ="/getAllDept")
-    @Log("查询所有部门")
     @ApiOperation("查询所有部门")
     public DataDto getAllDept(){
         List<SysDept> depts= sysDeptMapper.selectAllDept();
         DataDto<SysDept> dataDto = new DataDto<>();
         return dataDto.success(depts);
     }
+
     @GetMapping(value ="/getAllUser")
-    @Log("查询所有用户")
     @ApiOperation("查询所有用户")
     public List<SysUser> getAllUser(){
         return sysUserService.selectAll();
     }
 
     @GetMapping(value ="/getCardInfoBycompany")
-    @Log("根据用户id查询对应的银行卡信息")
     @ApiOperation("根据用户id查询对应的银行卡信息")
     public SysUser getCardInfoBycompany(Integer userId){
         SysUser sysUser = sysUserService.selectByCompany(userId);
         return sysUser;
     }
+
     @GetMapping(value ="/getUserByUserName")
-    @Log("根据用户id查询对应的银行卡信息")
     @ApiOperation("根据用户id查询对应的银行卡信息")
     public SysUserVo getUserByUserName(String userName){
         SysUserVo sysUser = sysUserService.getUserByUserName(userName);
         return sysUser;
     }
+
     @GetMapping(value ="/getBankNameBycardId")
-    @Log("根据银行卡id查询对应的银行名")
     @ApiOperation("根据银行卡id查询对应的银行名")
     public DataDto getBankNameBycardId(int bankcardId){
         SysBankcardVo sysBankcard=sysBankcardMapper.selectBankNameBycardId(bankcardId);
@@ -124,8 +123,9 @@ public class AccountExpenseHandler {
         dataDto.success(sysBankcard.getBankName());
         return dataDto;
     }
+
     @PostMapping
-    @Log("插入报销单")
+    @Log(title = "插入报销单",businessType = BusinessType.INSERT)
     @ApiOperation("插入报销单")
     public DataDto addExpense(AccountExpense accountExpense)  {
 //        System.out.println("accountExpense"+ accountExpense.getExpenseImage().split(",").toString());
@@ -142,8 +142,8 @@ public class AccountExpenseHandler {
             return dataDto.err("不允许插入重复单据，自动返回，请重新创建");
         }
     }
+
     @GetMapping(value ="/getAllExpense")
-    @Log("查询所有报销单信息（登录用户的）")
     @ApiOperation("查询所有报销单信息（登录用户的）")
     public DataDto selectAllExpense(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit){
         if(accountExpense.getExpenseCode()==null){//不是查看某条单据（查看登录用户的所有单据）
@@ -160,8 +160,8 @@ public class AccountExpenseHandler {
         dataDto.success(list,sysExpenseVoIPage.getTotal());
         return dataDto;
     }
+
     @GetMapping(value ="/getAllExpenses")
-    @Log("查询所有报销单信息")
     @ApiOperation("查询所有报销单信息")
     public DataDto selectAllExpenses(AccountExpense accountExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseService.selectAllExpense(accountExpense,timeQo,currentPage,limit);
@@ -169,8 +169,8 @@ public class AccountExpenseHandler {
         dataDto.success(sysExpenseVoIPage.getRecords(),sysExpenseVoIPage.getTotal());
         return dataDto;
     }
+
     @GetMapping(value ="/getCheckExpense")
-    @Log("查询所有待审核报销单信息")
     @ApiOperation("查询所有待审核报销单信息")
     public DataDto getCheckExpense(AccountExpense accountExpense,TimeQo timeQo, Integer currentPage, Integer limit){
         List<SysUserVo> sysUserVos=sysUserService.getRoleByUserId(SecurityUtils.getUserId());
@@ -198,7 +198,8 @@ public class AccountExpenseHandler {
         dataDto.success(sysExpenseVoIPage.getRecords(),sysExpenseVoIPage.getTotal());
         return dataDto;
     }
-    @Log("删除报销单（逻辑删除）")
+
+    @Log(title = "删除报销单（逻辑删除）",businessType = BusinessType.UPDATE)
     @ApiOperation("删除菜单（逻辑删除）")
     @PutMapping("/editExpense")
 //    @PreAuthorize("@el.check('invoice:del')")
@@ -218,13 +219,15 @@ public class AccountExpenseHandler {
         }
         return dataDto;
     }
-    @Log("撤回操作")
+
+    @Log(title = "撤回操作",businessType = BusinessType.UPDATE)
     @ApiOperation("撤回操作")
     @PutMapping("/editExpenseType")
     public int editExpenseType(AccountExpense accountExpense){
         return accountExpenseService.editExpenseType(accountExpense);
     }
-    @Log("审核报销单")
+
+    @Log(title = "审核报销单",businessType = BusinessType.UPDATE)
     @ApiOperation("审核报销单")
     @PutMapping("/checkExpense")
 //    @PreAuthorize("@el.check('invoice:check')")
@@ -243,6 +246,7 @@ public class AccountExpenseHandler {
      *
      * */
     @GetMapping("getExpenseCode")
+    @ApiOperation("获取报销单编号")
     public DataDto getExpenseCode() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

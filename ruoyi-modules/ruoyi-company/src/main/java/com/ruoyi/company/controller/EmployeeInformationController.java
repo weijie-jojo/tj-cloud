@@ -92,7 +92,7 @@ public class EmployeeInformationController extends BaseController {
      */
     @ApiOperation("新增员工信息")
 //    @RequiresPermissions("company:information:add")
-    @Log(title = "员工信息", businessType = BusinessType.INSERT)
+    @Log(title = "新增员工信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody EmployeeInformation employeeInformation)
     {
@@ -104,7 +104,7 @@ public class EmployeeInformationController extends BaseController {
      */
     @ApiOperation("修改员工信息")
 //    @RequiresPermissions("company:information:edit")
-    @Log(title = "员工信息", businessType = BusinessType.UPDATE)
+    @Log(title = "修改员工信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody EmployeeInformation employeeInformation)
     {
@@ -116,7 +116,7 @@ public class EmployeeInformationController extends BaseController {
      */
     @ApiOperation("删除员工信息")
 //    @RequiresPermissions("company:information:remove")
-    @Log(title = "员工信息", businessType = BusinessType.DELETE)
+    @Log(title = "删除员工信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {

@@ -53,18 +53,17 @@
     </resultMap>
 
     <sql id="selectSelfProjectVo">
-        select project_owner_taxid,ticket_type,ticket_tax,self_name,project_id, project_code, project_name, project_trade,
-               project_owner, purch_company, project_total_amount, project_leader, project_gross_margin, project_gross_profit,
-               project_net_profit, project_package_amount, project_desc, project_status, is_deleted, create_by, update_by,
-               create_time, update_time, check_content, file_name, project_time_start, project_time_end, project_check_status,
-               project_ticket_status, project_contract_status, project_acceptance_status, project_dutypaid_status,
-               place_code,purch_company_taxid,project_remain_amount ,ticket_remark, contract_remark, check_remark, tax_remark,
-               file_name1, file_name2, file_name3, user_id  ,end_status, end_time from self_project
+        select project_id, project_code, project_name, project_trade, project_owner, purch_company, project_total_amount,
+               project_leader, project_gross_margin, project_gross_profit, project_net_profit, project_package_amount,
+               project_desc, project_status, is_deleted, create_by, update_by, create_time, update_time, check_content,
+               file_name, project_time_start, project_time_end, project_check_status, project_ticket_status,
+               project_contract_status, project_acceptance_status, project_dutypaid_status, place_code, purch_company_taxid,
+               self_name, ticket_type, ticket_tax, project_owner_taxid, project_remain_amount, ticket_remark, contract_remark,
+               check_remark, tax_remark, file_name1, file_name2, file_name3, user_id, end_status, end_time from self_project
     </sql>
 
-    <sql id="selectSelfTicketVo">
-        select ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code,
-               ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time, is_deleted from self_ticket
+    <sql id="selectProjectCheckVo">
+        select id, check_date, check_user, check_reasult, project_code, project_type, phonenumber from project_check
     </sql>
 
     <sql id="selectProjectJoinTicketByCodeVo">
@@ -331,7 +330,7 @@
     </insert>
     <insert id="recycle2" >
         INSERT into project_check_recycle
-        <include refid="selectSelfTicketVo"/>
+        <include refid="selectProjectCheckVo"/>
         WHERE project_code=#{projectCode}
     </insert>
 

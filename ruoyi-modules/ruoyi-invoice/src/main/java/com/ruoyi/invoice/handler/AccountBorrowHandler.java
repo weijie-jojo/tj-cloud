@@ -2,8 +2,9 @@ package com.ruoyi.invoice.handler;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.invoice.annotation.Log;
 import com.ruoyi.invoice.dto.DataDto;
 import com.ruoyi.invoice.mapper.CompanyMapper;
 import com.ruoyi.invoice.pojo.AccountBorrow;
@@ -21,15 +22,13 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor //代替了resouse或者Autowrited
-@Api(tags = "单据管理差旅报销单")
+@Api(tags = "单据管理借支单")
 @RequestMapping("/borrow")
 public class AccountBorrowHandler {
 
@@ -38,7 +37,7 @@ public class AccountBorrowHandler {
     private final SysUserService sysUserService;
 
     @PutMapping(value ="/editBorrow2")
-    @Log("修改借支单（编辑）")
+    @Log(title = "修改借支单（编辑）",businessType= BusinessType.UPDATE)
     @ApiOperation("修改借支单（编辑）")
     public DataDto editBorrow2(AccountBorrow accountBorrow){
         int num= accountBorrowService.editBorrow(accountBorrow);
@@ -50,7 +49,7 @@ public class AccountBorrowHandler {
     }
 
     @PutMapping(value ="/editBorrowByBorrowId")
-    @Log("修改借支单")
+    @Log(title = "修改借支单",businessType= BusinessType.UPDATE)
     @ApiOperation("修改借支单")
     public DataDto editBorrowByBorrowId(AccountBorrow accountBorrow){
         if (accountBorrow.getInvoiceType()<5){//办理中
@@ -71,7 +70,7 @@ public class AccountBorrowHandler {
     }
 
     @PostMapping(value ="/addBorrow")
-    @Log("插入差旅报销单")
+    @Log(title = "插入借支单",businessType= BusinessType.INSERT)
     @ApiOperation("插入借支单")
     public DataDto addTravelExpense(AccountBorrow accountBorrow){
         accountBorrow.setStepType(1);
@@ -88,7 +87,6 @@ public class AccountBorrowHandler {
 
     }
     @GetMapping(value ="/getAllBorrow")
-    @Log("查询所有借支单信息（登录用户的）")
     @ApiOperation("查询所有借支单信息（登录用户的）")
 //    @PreAuthorize("@el.check('getAllBorrow:list')")
     public DataDto getAllBorrow(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
@@ -107,7 +105,6 @@ public class AccountBorrowHandler {
         return dataDto;
     }
     @GetMapping(value ="/getAllBorrows")
-    @Log("查询所有借支单信息")
     @ApiOperation("查询所有借支单信息")
 //    @PreAuthorize("@el.check('getAllBorrow:list')")
     public DataDto getAllBorrows(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
@@ -117,7 +114,6 @@ public class AccountBorrowHandler {
         return dataDto;
     }
     @GetMapping(value ="/getCheckBorrow")
-    @Log("查询所有待审核借支单信息")
     @ApiOperation("查询所有待审核借支单信息")
     public DataDto getCheckBorrow(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
 
@@ -141,7 +137,7 @@ public class AccountBorrowHandler {
         dataDto.success(sysBorrowVoIPage.getRecords(),sysBorrowVoIPage.getTotal());
         return dataDto;
     }
-    @Log("删除报销单（逻辑删除）")
+    @Log(title = "删除报销单（逻辑删除）",businessType= BusinessType.DELETE)
     @ApiOperation("删除菜单（逻辑删除）")
     @PutMapping("/editBorrow")
 //    @PreAuthorize("@el.check('invoice:del')")
@@ -160,17 +156,15 @@ public class AccountBorrowHandler {
         }
         return dataDto;
     }
-    @Log("撤回操作")
+    @Log(title = "撤回操作",businessType= BusinessType.UPDATE)
     @ApiOperation("撤回操作")
     @PutMapping("/editBorrowType")
     public int editBorrowType(AccountBorrow accountBorrow){
         return accountBorrowService.editBorrowType(accountBorrow);
     }
-    /*
-     * 获取借支单编号
-     *
-     * */
+
     @GetMapping("getBorrowCode")
+    @ApiOperation("获取借支单编号")
     public DataDto getBorrowCode() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -195,20 +189,15 @@ public class AccountBorrowHandler {
     }
 
     @GetMapping(value ="/getAllCompany")
-    @Log("查询所有公司信息")
     @ApiOperation("查询所有公司信息")
     public DataDto getAllCompany(){
         List<sysGroup> companies= companyMapper.selectAllCompany();
         DataDto<sysGroup> dataDto = new DataDto<>();
         return dataDto.success(companies);
     }
-    /*
-     * 获取收款单位信息（用户表）
-     *
-     * */
+
     @GetMapping(value ="/getAllGetUser")
-    @Log("查询所有收款公司或者个人")
-    @ApiOperation("查询所有收款公司或者个人")
+    @ApiOperation("获取收款单位信息（用户表）")
     public DataDto getAllGetUser(){
         List<SysUser> tCompanies= sysUserService.selectAll();
         DataDto<SysUser> dataDto = new DataDto<>();

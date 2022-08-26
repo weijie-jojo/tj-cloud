@@ -90,7 +90,7 @@ public class BusinessPlaceController extends BaseController
      */
     @ApiOperation("新增平台渠道商")
 //    @RequiresPermissions("company:place:add")
-    @Log(title = "平台渠道商", businessType = BusinessType.INSERT)
+    @Log(title = "新增平台渠道商", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BusinessPlace businessPlace)
     {
@@ -102,7 +102,7 @@ public class BusinessPlaceController extends BaseController
      */
     @ApiOperation("修改平台渠道商")
 //    @RequiresPermissions("company:place:edit")
-    @Log(title = "平台渠道商", businessType = BusinessType.UPDATE)
+    @Log(title = "修改平台渠道商", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BusinessPlace businessPlace)
     {
@@ -114,7 +114,7 @@ public class BusinessPlaceController extends BaseController
      */
     @ApiOperation("删除平台渠道商")
 //    @RequiresPermissions("company:place:remove")
-    @Log(title = "平台渠道商", businessType = BusinessType.DELETE)
+    @Log(title = "删除平台渠道商", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{placeIds}")
     public AjaxResult remove(@PathVariable String[] placeIds)
     {

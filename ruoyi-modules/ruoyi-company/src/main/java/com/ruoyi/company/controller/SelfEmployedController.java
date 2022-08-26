@@ -1,37 +1,31 @@
 package com.ruoyi.company.controller;
 
-import java.util.*;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.ruoyi.common.core.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.redis.util.ListUtil;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.domain.vo.SysUserVo;
 import com.ruoyi.company.mapper.SysUserMapper;
-import com.ruoyi.company.service.ISelfApplicationInfoService;
-import com.ruoyi.company.service.ISelfLegalPersonService;
-import com.ruoyi.company.service.ISelfNameReviewService;
+import com.ruoyi.company.service.ISelfEmployedService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.company.service.ISelfEmployedService;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 个体商户Controller
@@ -46,12 +40,6 @@ public class SelfEmployedController extends BaseController
 {
     @Autowired
     private ISelfEmployedService selfEmployedService;
-    @Autowired
-    private ISelfLegalPersonService selfLegalPersonService;
-    @Autowired
-    private ISelfNameReviewService selfNameReviewService;
-    @Autowired
-    private ISelfApplicationInfoService selfApplicationInfoService;
     @Resource
     private  SysUserMapper sysUserMapper;
     /**
@@ -92,91 +80,51 @@ public class SelfEmployedController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
             }
         }
-        List<SelfEmployedVo> list1 =new ArrayList<>();
-        List<SelfEmployedVo> list2 =new ArrayList<>();
-        List<SelfEmployedVo> list3 =new ArrayList<>();
+
+//        List<SelfEmployedVo> list1 =new ArrayList<>();
+//        List<SelfEmployedVo> list2 =new ArrayList<>();
+//        List<SelfEmployedVo> list3 =new ArrayList<>();
+        List<SelfEmployedVo> list1= ListUtil.getInstance().getList1();
+        List<SelfEmployedVo> list2= ListUtil.getInstance().getList2();
+        List<SelfEmployedVo> list3= ListUtil.getInstance().getList3();
+        selfEmployedVo.setInfoStatus(null);
+        selfEmployedVo.setNameStatus(null);
+        selfEmployedVo.setBusinessStatus(null);
+        selfEmployedVo.setTaxStatus(null);
+        selfEmployedVo.setBankStatus(null);
+        selfEmployedVo.setEndStatus(null);
+        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         if (selfEmployedVo.getType()==1){//注册进度
-            selfEmployedVo.setEndStatus(0);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setEndStatus(1);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setEndStatus(2);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getEndStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getEndStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getEndStatus()==2).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==2){//名称审核
-            selfEmployedVo.setNameStatus(0);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(2);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getNameStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getNameStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getNameStatus()==2).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==3){//信息审核
-            selfEmployedVo.setInfoStatus(0L);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setInfoStatus(1L);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setInfoStatus(2L);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getInfoStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getInfoStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getInfoStatus()==2).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==4){//工商办理
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(0L);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==5){//税务办理
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(0L);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==6){//银行办理
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            selfEmployedVo.setBankStatus(0L);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            selfEmployedVo.setBankStatus(1L);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1&&s.getBankStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1&&s.getBankStatus()==1).collect(Collectors.toList());
         }
         if (selfEmployedVo.getType()==7){
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            selfEmployedVo.setBankStatus(1L);
-            selfEmployedVo.setEndStatus(0);
-            list1 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            selfEmployedVo.setBankStatus(1L);
-            selfEmployedVo.setEndStatus(1);
-            list2 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
-            selfEmployedVo.setNameStatus(1);
-            selfEmployedVo.setInfoStatus(1L);
-            selfEmployedVo.setBusinessStatus(1L);
-            selfEmployedVo.setTaxStatus(1L);
-            selfEmployedVo.setBankStatus(1L);
-            selfEmployedVo.setEndStatus(2);
-            list3 = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+            list1= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1&&s.getBankStatus()==1&&s.getEndStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1&&s.getBankStatus()==1&&s.getEndStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getNameStatus()==1&&s.getInfoStatus()==1&&s.getBusinessStatus()==1&&s.getTaxStatus()==1&&s.getBankStatus()==1&&s.getEndStatus()==2).collect(Collectors.toList());
         }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());

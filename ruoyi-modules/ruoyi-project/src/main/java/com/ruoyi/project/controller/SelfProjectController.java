@@ -1,15 +1,12 @@
 package com.ruoyi.project.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.project.domain.BusinessPlace;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfTicket;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
@@ -22,21 +19,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 项目信息Controller
@@ -86,48 +77,42 @@ public class SelfProjectController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//登录用户名
             }
         }
-        List<SelfProject> list1 =new ArrayList<>();
-        List<SelfProject> list2 =new ArrayList<>();
-        List<SelfProject> list3 =new ArrayList<>();
+//        List<SelfProject> list1 =new ArrayList<>();
+//        List<SelfProject> list2 =new ArrayList<>();
+//        List<SelfProject> list3 =new ArrayList<>();
+        List<SelfProject> list1= ListUtil.getInstance().getList1();
+        List<SelfProject> list2= ListUtil.getInstance().getList2();
+        List<SelfProject> list3= ListUtil.getInstance().getList3();
+        selfProject.setProjectStatus(null);
+        selfProject.setProjectCheckStatus(null);
+        selfProject.setProjectContractStatus(null);
+        selfProject.setProjectAcceptanceStatus(null);
+        selfProject.setProjectDutypaidStatus(null);
+        List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         if (selfProject.getType()==1){//项目进度列表
-            selfProject.setProjectStatus(0L);
-            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectStatus(2L);
-            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectStatus(1L);
-            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            list1= list.stream().filter(s->s.getProjectStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectStatus()==2).collect(Collectors.toList());
         }
         if (selfProject.getType()==2){//项目审核
-            selfProject.setProjectCheckStatus(0L);
-            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
-            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(2L);
-            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            list1= list.stream().filter(s->s.getProjectCheckStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectCheckStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectCheckStatus()==2).collect(Collectors.toList());
         }
         if (selfProject.getType()==3){//合同审核
-            selfProject.setProjectContractStatus(0L);
-            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectContractStatus(1L);
-            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectContractStatus(2L);
-            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            list1= list.stream().filter(s->s.getProjectContractStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectContractStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectContractStatus()==2).collect(Collectors.toList());
         }
         if (selfProject.getType()==4){//验收审核
-            selfProject.setProjectAcceptanceStatus(0L);
-            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectAcceptanceStatus(1L);
-            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectAcceptanceStatus(2L);
-            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            list1= list.stream().filter(s->s.getProjectAcceptanceStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectAcceptanceStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectAcceptanceStatus()==2).collect(Collectors.toList());
         }
         if (selfProject.getType()==5){//完税审核
-            selfProject.setProjectDutypaidStatus(0L);
-            list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectDutypaidStatus(1L);
-            list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectDutypaidStatus(2L);
-            list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
+            list1= list.stream().filter(s->s.getProjectDutypaidStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectDutypaidStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectDutypaidStatus()==2).collect(Collectors.toList());
         }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());

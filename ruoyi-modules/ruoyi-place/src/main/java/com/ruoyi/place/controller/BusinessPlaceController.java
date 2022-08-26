@@ -2,13 +2,8 @@ package com.ruoyi.place.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.google.common.base.Joiner;
 import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableDataInfo;
-import com.ruoyi.common.core.web.page.TableSupport;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
@@ -20,26 +15,22 @@ import com.ruoyi.place.entity.vo.SysUserVo;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
 import com.ruoyi.place.mapper.SelfEmployedMapper;
 import com.ruoyi.place.mapper.SysUserMapper;
-import com.ruoyi.place.qo.PageQo;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import com.ruoyi.place.service.IBusinessPlaceService;
-import com.ruoyi.place.util.JudgeNull;
 import com.ruoyi.place.util.StringUtils;
-import com.ruoyi.place.vo.BusinessAgencyFeeVo;
 import com.ruoyi.place.vo.PlaceVo;
-import com.ruoyi.system.api.domain.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -62,7 +53,6 @@ public class BusinessPlaceController extends BaseController {
     private final SelfEmployedMapper selfEmployedMapper;
 
     @GetMapping(value ="/getCount")
-    @Log(title = "获取登录用户的渠道数量")
     @ApiOperation("获取登录用户的渠道数量")
     public Integer getCount(PlaceVo placeVo){
         //获取登录用户的部门id
@@ -96,7 +86,6 @@ public class BusinessPlaceController extends BaseController {
     };
 
     @GetMapping(value ="/getByPage")
-    @Log(title = "分页条件查询")
     @ApiOperation("分页条件查询")
     public TableDataInfo getByPage(PlaceVo placeVo){
         //获取登录用户的部门id
@@ -130,7 +119,7 @@ public class BusinessPlaceController extends BaseController {
         return getDataTable(placeVos);
     };
     @PostMapping
-    @Log(title = "新增渠道")
+    @Log(title = "新增渠道",businessType = BusinessType.INSERT)
     @ApiOperation("新增渠道")
 //    @PreAuthorize("@el.check('place:add')")
     public DataDto addPlace(@Validated @RequestBody Map map){
@@ -169,7 +158,7 @@ public class BusinessPlaceController extends BaseController {
         }
     };
     @ApiOperation("删除渠道")
-    @Log(title = "删除渠道")
+    @Log(title = "删除渠道",businessType = BusinessType.UPDATE)
     @PutMapping(value ="/delPlace")
     public DataDto delPlace(String placeCodes) {
         System.out.println("placeCodes=="+placeCodes);
@@ -209,6 +198,7 @@ public class BusinessPlaceController extends BaseController {
     }
     @ApiOperation("修改渠道")
     @PutMapping("/editPlace")
+    @Log(title = "修改渠道",businessType = BusinessType.UPDATE)
     public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
 
 //        BusinessAgencyFee businessAgencyFee1= iBusinessAgencyFeeService.selectFeeByCode(businessAgencyFee.getPlaceCode());
@@ -240,6 +230,7 @@ public class BusinessPlaceController extends BaseController {
     }
     @ApiOperation("改变状态")
     @PutMapping("/editPlace2")
+    @Log(title = "改变状态",businessType = BusinessType.UPDATE)
     public DataDto editPlace2(BusinessPlace businessPlace) {
         DataDto dataDto=new DataDto();
         int num=iBusinessPlaceService.editPlace2(businessPlace);
