@@ -1,11 +1,5 @@
 <template>
-  <div class="">
-    <vue-particles class="login-background" color="#97D0F2" :particleOpacity="0.7" :particlesNumber="50"
-      shapeType="circle" :particleSize="4" linesColor="#97D0F2" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4"
-      :linesDistance="150" :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
-    </vue-particles>
-
-    <div class="login">
+  <div class="login">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="title">腾集后台管理系统</h3>
         <el-form-item prop="username">
@@ -45,7 +39,7 @@
         <span>Copyright © 2021-2022 tengji.vip All Rights Reserved.</span>
       </div>
 
-    </div>
+   
 
   </div>
 </template>
@@ -147,36 +141,18 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.login-background {
-  background-color: #333;
- // background-image: url("../assets/images/bg.jpg");
- // background-size: cover;
-  //@extendbackground: linear-gradient(-180deg, #dcf2e6 0%, #ffffff 100%);
-  width: 100%;
-  height: 100%;
-  /**宽高100%是为了图片铺满屏幕 */
-  z-index: 1;
-  position: absolute;
-}
 
-.login-other {
-  z-index: 1;
-  margin: 180px 0 0 calc(calc(100vw - 410px) / 2);
-  position: absolute;
-}
+
 
 .login {
-   z-index: 1;
-  position: absolute;
-  top:0;
-  width: 100%;
-  display: flex;
+ display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  background-image: url("../assets/images/night1.gif");
   // background-image: url("../assets/images/login-background.jpg");
   //background-image: url("../assets/images/bg.jpg");
-  //background-size: cover;
+  background-size: cover;
 }
 
 .title {
