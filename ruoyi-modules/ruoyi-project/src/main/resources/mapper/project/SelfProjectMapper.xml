@@ -61,9 +61,12 @@
                place_code,purch_company_taxid,project_remain_amount ,ticket_remark, contract_remark, check_remark, tax_remark,
                file_name1, file_name2, file_name3, user_id  ,end_status, end_time from self_project
     </sql>
-<!--    A.ticket_id, A.project_code, A.ticket_amount, A.ticket_type, A.ticket_content, A.ticket_remark,-->
-<!--    A.ticket_tax, A.ticket_code, A.ticket_time, A.file_name, A.ticket_type_code, A.create_by, A.update_by,-->
-<!--    A.create_time, A.update_time,-->
+
+    <sql id="selectSelfTicketVo">
+        select ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code,
+               ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time, is_deleted from self_ticket
+    </sql>
+
     <sql id="selectProjectJoinTicketByCodeVo">
         select  t.project_id, t.project_code, t.project_name, t.project_trade, t.project_owner, t.purch_company,
                 t.project_total_amount, t.project_leader, t.project_gross_margin, t.project_gross_profit,
@@ -75,8 +78,8 @@
                 t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status,C.place_alias_name
-                from self_project t  JOIN self_employed B ON t.project_owner = B.self_code
-                                JOIN business_place C ON t.place_code = C.place_code
+                from self_project t LEFT JOIN self_employed B ON t.project_owner = B.self_code
+                                    LEFT  JOIN business_place C ON t.place_code = C.place_code
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
@@ -322,10 +325,14 @@
     </update>
 
     <insert id="recycle1" >
-        INSERT into self_project_recycle SELECT *FROM self_project WHERE project_code=#{projectCode}
+        INSERT into self_project_recycle
+        <include refid="selectSelfProjectVo"/>
+        WHERE project_code=#{projectCode}
     </insert>
     <insert id="recycle2" >
-        INSERT into project_check_recycle SELECT *FROM project_check WHERE project_code=#{projectCode}
+        INSERT into project_check_recycle
+        <include refid="selectSelfTicketVo"/>
+        WHERE project_code=#{projectCode}
     </insert>
 
     <delete id="deleteProjectByCode" parameterType="String">

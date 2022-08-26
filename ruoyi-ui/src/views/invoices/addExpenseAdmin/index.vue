@@ -224,8 +224,8 @@
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="12">
                     <el-form-item label="报销凭证影像">
-                        <uploadSmall v-if="imgArrOld.length >= 0" @getfileName="getExpense" :fileName="imgArr"
-                        :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadSmall>
+                        <uploadInvoices v-if="imgArrOld.length >= 0" @getfileName="getExpense" :fileName="imgArr"
+                        :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>
                 
@@ -261,7 +261,7 @@
     </div>
 </template>
 <script>
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getInfo} from '@/api/login'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -269,7 +269,7 @@
     import { getExpenseItem } from '@/api/invoices/travelExpense'
     export default {
     components: {
-     uploadSmall
+     uploadInvoices
     },
     name: 'expense',
     data() {

@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectEmployeeInformation"  resultMap="EmployeeInformationResult">
-        select *from employee_information
+        <include refid="selectEmployeeInformationVo"/>
     </select>
 
     <select id="selectEmployeeInformationList" parameterType="com.ruoyi.company.domain.EmployeeInformation" resultMap="EmployeeInformationResult">

@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectSelfLegalPerson"  resultMap="SelfLegalPersonResult">
-        select *from self_legal_person
+        <include refid="selectSelfLegalPersonVo"/>
     </select>
 
     <select id="selectSelfLegalPersonList" parameterType="com.ruoyi.company.domain.SelfLegalPerson" resultMap="SelfLegalPersonResult">

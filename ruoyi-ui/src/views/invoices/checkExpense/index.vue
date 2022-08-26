@@ -242,8 +242,8 @@
                     :isDetail="isDetail"></showPdfAndImg>
             </el-form-item> -->
             <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                <uploadSmall @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
-                    :isDetail="isDetails"></uploadSmall>
+                <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                    :isDetail="isDetails"></uploadInvoices>
             </el-form-item>
             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
                 <el-form-item  v-if="item.suffix=='pdf'">
@@ -304,7 +304,7 @@
 </template>
 <script>
 import pdf from 'vue-pdf-signature'
-import uploadSmall from '@/components/douploads/uploadSmall'
+import uploadInvoices from '@/components/douploads/uploadInvoices'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
 import { getDepts, getAllGetCompany, getCode, editExpenseByExpenseId } from '@/api/invoices/expense'
@@ -312,7 +312,7 @@ import { getExpenseItem } from '@/api/invoices/travelExpense'
 export default {
     name: 'expense',
     components: {
-        uploadSmall,
+        uploadInvoices,
         pdf
     },
     data() {
@@ -437,6 +437,8 @@ export default {
 
             expenseId: '',
             filePath2: '',
+
+            stepType:'',
         }
     },
     mounted: function () {
@@ -545,9 +547,11 @@ export default {
                         if (this.ruleForm.isAgree == 1) {
                             this.rejectReasult = "总经理审批同意";
                             this.checkType = 3;
+                            this.stepType=1;
                         };
                         if (this.ruleForm.isAgree == 2) {//驳回
                             this.checkType = 6;
+                            this.stepType=3;
                             this.rejectReasult = "总经理驳回：" + this.rejectReasult;
                         };
                         var params1 = {
@@ -563,6 +567,7 @@ export default {
                             expenseId: this.expenseId,
                             invoiceType: this.checkType,
                             expenseImage2: this.imgArr2.join(),
+                            stepType:this.stepType,
                         };
                         addCheckInvoices(params1).then(res => {
                             // this.$message({
@@ -592,10 +597,12 @@ export default {
                         if (this.ruleForm.isAgree == 1) {
                             this.rejectReasult = "财务审批同意";
                             this.checkType = 5;
+                            this.stepType=2;
                         };
                         if (this.ruleForm.isAgree == 2) {//驳回
                             this.checkType = 6;
                             this.rejectReasult = "财务驳回：" + this.rejectReasult;
+                            this.stepType=3;
                         };
                         var params1 = {
                             invoiceCode: this.ruleForm.expenseCode,
@@ -609,6 +616,7 @@ export default {
                             expenseId: this.expenseId,
                             invoiceType: this.checkType,
                             expenseImage2: this.imgArr2.join(),
+                            stepType:this.stepType,
                         };
                         addCheckInvoices(params1).then(res => {
                             // this.$message({
@@ -638,9 +646,11 @@ export default {
                         if (this.ruleForm.isAgree == 1) {
                             this.rejectReasult = "部门主管审批同意";
                             this.checkType = 2;
+                            this.stepType=1;
                         };
                         if (this.ruleForm.isAgree == 2) {//驳回
                             this.checkType = 6;
+                            this.stepType=3;
                             this.rejectReasult = "部门主管驳回：" + this.rejectReasult;
                         };
                         var params1 = {
@@ -655,6 +665,7 @@ export default {
                             expenseId: this.expenseId,
                             invoiceType: this.checkType,
                             expenseImage2: this.imgArr2.join(),
+                            stepType:this.stepType,
                         };
                         addCheckInvoices(params1).then(res => {
                             // this.$message({

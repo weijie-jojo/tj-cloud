@@ -91,6 +91,10 @@ public class BusinessPlace extends BaseEntity
     @Excel(name = "渠道商别名")
     private String placeAlias;
 
+    /** 客户类型(0 渠道 1 直客） */
+    @Excel(name = "客户类型(0 渠道 1 直客）")
+    private Long customerType;
+
     public void setPlaceId(String placeId) 
     {
         this.placeId = placeId;

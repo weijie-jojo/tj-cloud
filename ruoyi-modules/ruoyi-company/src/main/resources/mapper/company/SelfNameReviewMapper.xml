@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                t.font_size7, t.poposed_name7, t.font_size8, t.poposed_name8, t.font_size9, t.poposed_name9,
                t.font_size10, t.poposed_name10,t.name_status,t.name_remark,
                A.place_name,A.username,A.legal_person_name,A.create_time
-        from self_name_review t JOIN self_employed A on t.self_code=A.self_code
+        from self_name_review t LEFT JOIN self_employed A on t.self_code=A.self_code
     </sql>
 
     <select id="selectSelfNameReviewJoin" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
@@ -122,7 +122,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectMaxCode"  resultMap="SelfNameReviewResult">
-        SELECT *FROM self_name_review  ORDER BY self_id DESC LIMIT 1
+        <include refid="selectSelfNameReviewVo"/>
+        ORDER BY self_id DESC LIMIT 1
     </select>
 
     <insert id="insertSelfNameReview" parameterType="com.ruoyi.company.domain.SelfNameReview" useGeneratedKeys="true" keyProperty="selfId">

@@ -444,7 +444,7 @@
             <el-row>
                 <el-col :span="8">
                     <el-form-item  label="报销凭证影像："  >
-                        <uploadSmall  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadSmall>
+                        <uploadInvoices  @getfileName="getThree" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -467,7 +467,7 @@
     </div>
 </template>
 <script>
-    import uploadSmall from '@/components/douploads/uploadSmall'
+    import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany ,getPost} from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -475,7 +475,7 @@
     import { getCode,addTravelExpense } from '@/api/invoices/travelExpense'
     export default {
     components: {
-     uploadSmall
+     uploadInvoices
     },
     name: 'travelExpense',
     data() {

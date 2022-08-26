@@ -106,35 +106,26 @@ public class SelfProjectController extends BaseController
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==3){//合同审核
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectContractStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectContractStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectContractStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==4){//验收审核
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectAcceptanceStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectAcceptanceStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectAcceptanceStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
         if (selfProject.getType()==5){//完税审核
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectDutypaidStatus(0L);
             list1 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectDutypaidStatus(1L);
             list2 = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
-            selfProject.setProjectCheckStatus(1L);
             selfProject.setProjectDutypaidStatus(2L);
             list3 =selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         }
