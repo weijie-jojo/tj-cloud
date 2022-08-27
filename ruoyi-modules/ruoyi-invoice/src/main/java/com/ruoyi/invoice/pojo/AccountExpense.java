@@ -9,7 +9,13 @@ public class AccountExpense {
     private String dept;
     private String createTime;
     private String updateTime;
-    private int accessoryNum;
+
+    private String accessoryNum1;
+    private String accessoryNum2;
+    private String accessoryNum3;
+    private String accessoryNum4;
+    private String accessoryNum5;
+
     private String item1Remark;
     private double item1Money;
     private String item1Desc;

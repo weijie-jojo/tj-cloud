@@ -11,18 +11,18 @@
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
-                <el-col :span="6">
+                <el-col :span="9">
                     <el-form-item label="报销单号" :required="true">
                         <el-input :readonly="true" v-model="ruleForm.expenseCode"></el-input>
 
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="9">
                     <el-form-item label="报销部门" :required="true">
                         <el-input :readonly="true" v-model="ruleForm.deptName"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="9">
                     <el-form-item label="报销日期" prop="expenseDate">
                         <el-date-picker disabled v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
                             style="width:100%">
@@ -30,20 +30,9 @@
                     </el-form-item>
 
                 </el-col>
-                <el-col :span="6">
-                    <el-form-item label="附件">
-                        <el-input :readonly="true" type="number" v-model="ruleForm.accessory">
-                            <template slot="append">
-                                张
-                            </template>
-                        </el-input>
-
-                    </el-form-item>
-                </el-col>
-
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
+                <el-col :span="7">
                     <el-form-item>
                         <div>费用项目</div>
                     </el-form-item>
@@ -63,7 +52,47 @@
                         <el-input v-model="ruleForm.item5desc" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="5">
+                    <el-form-item>
+                        <div>附件</div>
+                    </el-form-item>
+                    <el-form-item >
+                        <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum1">
+                            <template slot="append">
+                                张
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                      <el-form-item >
+                        <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum2">
+                            <template slot="append">
+                                张
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                      <el-form-item >
+                        <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum3">
+                            <template slot="append">
+                                张
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                      <el-form-item >
+                        <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum4">
+                            <template slot="append">
+                                张
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                      <el-form-item >
+                        <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum5">
+                            <template slot="append">
+                                张
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="7">
                     <el-form-item>
                         <div>金额</div>
                     </el-form-item>
@@ -353,7 +382,11 @@ export default {
                 dept: '',//部门
                 deptId: '',//部门id
                 expenseDate: '',//报销日期create_time
-                accessory: '',//附件数量accessory_num
+                accessoryNum1: '',//附件数量
+                accessoryNum2: '',//附件数量
+                accessoryNum3: '',//附件数量
+                accessoryNum4: '',//附件数量
+                accessoryNum5: '',//附件数量
 
                 userGetid: '',//收款单位/人id
                 bankcardGetid: '',//收款单位/人银行卡号
@@ -364,7 +397,6 @@ export default {
                 bankPayname: '',//付款单位银行卡所属银行
 
                 paywayId: '',
-                accessory: '',
                 item1desc: '',
                 item1money: '',
                 item1remark: '',
@@ -465,7 +497,11 @@ export default {
         console.log("role==", this.ruleForm.role);
 
         this.ruleForm.expenseName = this.expenses[0].nickName;
-        this.ruleForm.accessory = this.expenses[0].accessoryNum;
+        this.ruleForm.accessoryNum1 = this.expenses[0].accessoryNum1;
+        this.ruleForm.accessoryNum2 = this.expenses[0].accessoryNum2;
+        this.ruleForm.accessoryNum3 = this.expenses[0].accessoryNum3;
+        this.ruleForm.accessoryNum4 = this.expenses[0].accessoryNum4;
+        this.ruleForm.accessoryNum5 = this.expenses[0].accessoryNum5;
         this.ruleForm.paywayRemark = this.expenses[0].paywayRemark;
         this.ruleForm.item1desc = this.expenses[0].item1Desc;
         this.ruleForm.item1money = this.expenses[0].item1Money;
