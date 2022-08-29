@@ -53,7 +53,7 @@
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="!scope.row.fileName2 && !scope.row.fileName1" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">办理</el-button>
-                    <el-button size="mini"   type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
+                    <el-button size="mini" v-if="scope.row.fileName2 && scope.row.projectAcceptanceStatus==0 && scope.row.fileName1 && scope.row.projectContractStatus==0"    type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
                     </el-button>
                       <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==1 && scope.row.projectContractStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==2 && scope.row.projectContractStatus==2"  type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
@@ -189,8 +189,8 @@ export default {
         //验收修改
         edit(row,code){
              let obj = {
-             name: 'AuditAcceptanceList',
-             url: '/projectlist/auditAcceptanceList',
+             name: 'AuditMeansList',
+             url: '/projectlist/auditMeansList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
            this.$cache.local.setJSON('projectCodeNew', code);

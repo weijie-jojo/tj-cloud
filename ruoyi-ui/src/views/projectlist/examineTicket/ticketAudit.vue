@@ -44,19 +44,17 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectDutypaidStatus == '2'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectDutypaidStatus == '1'">完成</el-link>
-                    <el-link :underline="false" type="primary" v-if="scope.row.projectDutypaidStatus == '0'">办理中</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectTicketStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectTicketStatus == '0'">开票中</el-link>
                 </template>
             </el-table-column>   
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">开票</el-button>
-                    <el-button size="mini" v-if="scope.row.fileName3 && scope.row.projectDutypaidStatus==0" type="text" icon="el-icon-s-custom" @click="aduit(scope.row)">审核
-                    </el-button>
-                     <el-button size="mini" v-if="scope.row.projectDutypaidStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
-                    <el-button size="mini" v-if="scope.row.projectDutypaidStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
+                    <el-button size="mini" v-if="scope.row.projectTicketStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
+                    <el-button size="mini" v-if="scope.row.projectTicketStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
                 </template>
             </el-table-column>
@@ -74,12 +72,12 @@
 import moment from 'moment'
 import { list, del,getCount } from "@/api/project/list";
 export default {
-    name:'AduitDutypaidList',
+    name:'ticketAudit',
     data() {
         return {
             allLabel: '全部',
             errLabel: '异常',
-            loadingLabel: '审核中',
+            loadingLabel: '开票中',
             finishLabel: '完成',
             endStatus:'0',
             // 遮罩层
@@ -108,8 +106,7 @@ export default {
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                // projectCheckStatus: 1, //项目状态
-                projectDutypaidStatus: 0,
+                projectTicketStatus:0,
                 start: null, //开始
                 end: null,   //结束
             },
@@ -198,9 +195,9 @@ export default {
         },
          handleClick(){
             if(this.endStatus=='-1'){
-             this.queryParams.projectDutypaidStatus=null;
+             this.queryParams.projectTicketStatus=null;
            }else{
-              this.queryParams.projectDutypaidStatus=this.endStatus;
+              this.queryParams.projectTicketStatus=this.endStatus;
             }
               this.queryParams.pageNum=1;
               this.getList();
@@ -230,7 +227,7 @@ export default {
       getCount(this.queryParams).then(res => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "办理中(" + res.unfinished + ")";
+        this.loadingLabel = "开票中(" + res.unfinished + ")";
         this.finishLabel = "完成(" + res.finished + ")";
       });
     },
@@ -296,8 +293,7 @@ export default {
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                // projectCheckStatus: 1, //项目状态
-                projectDutypaidStatus: 0,
+                projectTicketStatus: 0,
                 start: null, //开始
                 end: null,   //结束
             }

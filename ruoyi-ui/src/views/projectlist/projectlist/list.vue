@@ -87,19 +87,19 @@
                     
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectAcceptanceStatus == 0  && !scope.row.fileName2">办理中
+                        v-if="scope.row.projectAcceptanceStatus == 0  && !scope.row.fileName2 && scope.row.projectContractStatus == '0' && !scope.row.fileNam1">办理中
                     </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.fileName2">审核中
+                        v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.fileName2 && scope.row.projectContractStatus == '0' && scope.row.fileNam1">审核中
                     </el-link>
                      
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '2'">异常
+                        v-if="scope.row.projectAcceptanceStatus == '2' && scope.row.projectContractStatus == '2'">异常
                     </el-link>
                     <el-link :underline="false" type="success"
                         @click="projectFinish(scope.row.projectCode, scope.row, 4)"
-                        v-if="scope.row.projectCheckStatus == '1' && scope.row.projectAcceptanceStatus == '1'">完成
+                        v-if="scope.row.projectAcceptanceStatus == '1' && scope.row.projectContractStatus == '1'">完成
                     </el-link>
 
                 </template>
@@ -170,10 +170,10 @@
                 </template>
 
             </el-table-column>
-             <el-table-column label="项目收款" :align="center">
+             <el-table-column label="项目收款" align="center">
                
             </el-table-column>
-             <el-table-column label="项目出款" :align="center">
+             <el-table-column label="项目出款" align="center">
                 
             </el-table-column>
             <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
@@ -444,13 +444,14 @@ export default {
             this.$cache.local.setJSON('addProjectBack',obj);
             switch (this.types) {
                 case 3:
-                    this.$tab.openPage('合同新增', '/projectlist/addContract');
+                    // this.$tab.openPage('合同新增', '/projectlist/addContract');
                     break;
                 case 4:
-                    this.$tab.openPage('验收新增','/projectlist/addAcceptance');
+                    
+                    this.$tab.openPage('资料办理','/projectlist/addMeans');
                     break;
                 case 5:
-                    this.$tab.openPage('完税新增','/projectlist/addDutypaid');
+                    this.$tab.openPage('完税办理','/projectlist/addDutypaid');
                     break;
               }
         },
@@ -467,10 +468,10 @@ export default {
                     this.$tab.openPage('项目审核中', '/projectlist/auditItems');
                     break;
                 case 3:
-                    this.$tab.openPage('合同审核中','/projectlist/auditContracts');
+                  //  this.$tab.openPage('合同审核中','/projectlist/auditContracts');
                     break;
                 case 4:
-                    this.$tab.openPage('验收审核中','/projectlist/aduitAcceptance');
+                    this.$tab.openPage('资料审核中','/projectlist/aduitMeans');
                     break;
                 case 5:
                     this.$tab.openPage('完税审核中','/projectlist/aduitDutypaid');
@@ -492,10 +493,10 @@ export default {
                     this.$tab.openPage( '票据列表','/projectlist/ticketlist');
                 break;
                 case 3:
-                    this.$tab.openPage('合同审核修改','/projectlist/auditContractEdit');
+                   // this.$tab.openPage('合同审核修改','/projectlist/auditContractEdit');
                 break;
                 case 4:
-                    this.$tab.openPage('验收审核修改', '/projectlist/acceptancesEdit');
+                    this.$tab.openPage('资料审核修改', '/projectlist/meansEdit');
                 break;
                 case 5:
                     this.$tab.openPage('完税审核修改','/projectlist/dutypaidsEdit');
@@ -518,10 +519,10 @@ export default {
                     this.$tab.openPage( "票据列表查看",'/projectlist/ticketlist');
                     break;
                 case 3:
-                    this.$tab.openPage( "合同审核查看",'/projectlist/auditContraDetail');
+                    //   this.$tab.openPage( "合同审核查看",'/projectlist/auditContraDetail');
                     break;
                 case 4:
-                    this.$tab.openPage( "验收审核查看", '/projectlist/auditAcceptanceDetail');
+                    this.$tab.openPage( "资料审核查看", '/projectlist/auditMeansDetail');
                     break;
                 case 5:
                     this.$tab.openPage( "完税审核查看",'/projectlist/aduitDutypaidDetail');

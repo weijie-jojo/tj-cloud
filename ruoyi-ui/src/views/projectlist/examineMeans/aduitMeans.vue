@@ -114,7 +114,7 @@ export default {
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName2=JSON.parse(this.formData.fileName1);
+        this.formData.fileName1=JSON.parse(this.formData.fileName1);
         this.formData.fileName2=JSON.parse(this.formData.fileName2);
         this.$refs.productImage1.getSrcList(this.formData.fileName1);
         this.$refs.productImage2.getSrcList(this.formData.fileName2);
