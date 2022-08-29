@@ -121,9 +121,11 @@ export default {
             })
 
         },
+        //合同
         getContractFile(data) {
             this.formData.fileName1 = data;
         },
+        //验收
         getAccepFile(data) {
             this.formData.fileName2 = data;
         },

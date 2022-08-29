@@ -53,13 +53,14 @@
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="!scope.row.fileName2 && !scope.row.fileName1" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">办理</el-button>
-                    <el-button size="mini" v-if="scope.row.fileName2 && scope.row.projectAcceptanceStatus==0 && scope.row.fileName1 && scope.row.projectContractStatus==0" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
+                    <el-button size="mini"   type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
                     </el-button>
                       <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==1 && scope.row.projectContractStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==2 && scope.row.projectContractStatus==2"  type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
                 </template>
             </el-table-column>
+            <!-- v-if="scope.row.fileName2 && scope.row.projectAcceptanceStatus==0 && scope.row.fileName1 && scope.row.projectContractStatus==0" -->
         </el-table>
 
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
@@ -183,7 +184,7 @@ export default {
                 backurl:'/projectlist/auditAcceptanceList'
             };
             this.$cache.local.setJSON('auditProjectBackDetail',obj);
-           this.$tab.closeOpenPage({ path: '/projectlist/auditAcceptanceDetail' })
+           this.$tab.closeOpenPage({ path: '/projectlist/auditMeansDetail' })
         },
         //验收修改
         edit(row,code){
@@ -195,10 +196,12 @@ export default {
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/acceptancesEdit' })
+           this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
         },
           handleClick(){
             if(this.endStatus=='-1'){
+              this.queryParams.projectContractStatus=null;
+              this.queryParams.projectAcceptanceStatus=null;
              }else{
               this.queryParams.projectContractStatus=this.endStatus;
               this.queryParams.projectAcceptanceStatus=this.endStatus;
@@ -227,7 +230,7 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
-               getCount() {
+     getCount() {
       getCount(this.queryParams).then(res => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
@@ -260,13 +263,13 @@ export default {
         //验收审核
         detail(scope) {
               let obj={
-                backurl:'/projectlist/auditAcceptanceList',
-                name:'AuditAcceptanceList'
+                backurl:'/projectlist/auditMeansList',
+                name:'AuditMeansList'
             };
             this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitAcceptance' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitMeans' });
         },
         //资料办理
         add(scope) {

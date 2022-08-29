@@ -37,8 +37,8 @@
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
-                     <el-form-item class="comright" label="项目验收资料" :required="true">
-                          <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                       <el-form-item class="comright" label="项目合同资料" :required="true">
+                      <uploadSmall ref="productImage1"   :fileName="fileName1" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
 
@@ -46,6 +46,9 @@
                  <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
+                     <el-form-item class="comright" label="项目验收资料" :required="true">
+                      <uploadSmall ref="productImage2"   :fileName="fileName2" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
+                 </el-form-item>
                   </el-col>
             </el-row>
               
@@ -88,6 +91,10 @@ export default {
      components: { uploadSmall },
     data() {
         return {
+            fileNameN1: [],
+            fileNameN2: [],
+            fileName1: [],
+            fileName2: [],
             remark:'',
             isNone:[],
             isDetail:'1',
@@ -104,8 +111,20 @@ export default {
         this.formData.fileName2=JSON.parse(this.formData.fileName2);
         this.remark=this.formData.checkRemark;
         this.projectAcceptanceStatus=JSON.stringify(this.formData.projectAcceptanceStatus);
-        for(let i in this.formData.fileName2){
-           this.fileName.push({
+         this.formData.fileName2=JSON.parse(this.formData.fileName1);
+        this.formData.fileName2=JSON.parse(this.formData.fileName2);
+        this.$refs.productImage1.getSrcList(this.formData.fileName1);
+        this.$refs.productImage2.getSrcList(this.formData.fileName2);
+       for(let j in this.formData.fileName1){
+           this.fileNameN1.push({
+            name:this.formData.fileName1[j],
+            url:this.baseImgPath+this.formData.fileName1[j]
+           })
+        }
+       
+       
+       for(let i in this.formData.fileName2){
+           this.fileNameN2.push({
             name:this.formData.fileName2[i],
             url:this.baseImgPath+this.formData.fileName2[i]
            })

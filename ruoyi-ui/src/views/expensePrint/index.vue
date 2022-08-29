@@ -48,12 +48,12 @@
               </div>
             </el-col>
             <el-col :span="2">
-              <div class="comborder">总张数</div>
-              <div class="comborder1 flexs" :style="[c1]" style="border-bottom:0px;border-top: 0;"></div>
-              <div class="comborder1 flexs" :style="[c2]" style="border-bottom:0px;border-top: 0;"></div>
-              <div class="comborder1 flexs" :style="[c3]" style="border-bottom:0px;border-top: 0;"></div>
-              <div class="comborder1 flexs" :style="[c4]" style="border-bottom:0px;border-top: 0;"></div>
-              <div class="comborder1 flexs" :style="[c5]" style="border-bottom:0px;border-top: 0;"></div>
+              <div class="comborder">张数</div>
+              <div class="comborder1 flexs" :style="[c1]" >{{ruleForm.accessoryNum1}}</div>
+              <div class="comborder1 flexs" :style="[c2]" >{{ruleForm.accessoryNum2}}</div>
+              <div class="comborder1 flexs" :style="[c3]" >{{ruleForm.accessoryNum3}}</div>
+              <div class="comborder1 flexs" :style="[c4]" >{{ruleForm.accessoryNum4}}</div>
+              <div class="comborder1 flexs" :style="[c5]" >{{ruleForm.accessoryNum5}}</div>
             </el-col>
             <el-col :span="4">
               <div class="comborder">金额</div>

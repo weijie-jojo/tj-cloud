@@ -36,16 +36,20 @@
                   <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                   
-                     <el-form-item class="comright" label="项目验收资料" :required="true">
-                          <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+                    <el-form-item class="comright" label="项目合同资料" :required="true">
+                      <uploadSmall ref="productImage1"   :fileName="fileName1" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
+                    
+                    
                 </el-col>
 
                 <el-col :span="9">
                  <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
-                    </el-form-item>
+                 </el-form-item>
+                 <el-form-item class="comright" label="项目验收资料" :required="true">
+                      <uploadSmall ref="productImage2"   :fileName="fileName2" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
+                 </el-form-item>
                   </el-col>
             </el-row>
               
@@ -92,23 +96,38 @@ export default {
     components: { uploadSmall },
     data() {
         return {
-           projectStatusNew:0,
-            remark:'',
-            isNone:[],
-            isDetail:'1',
-            isokradioS:'1',
-            fileName: [],
-            userinfo:{},
-            formData:{},
-            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+          fileNameN1: [],
+          fileNameN2: [],
+          fileName1: [],
+          fileName2: [],
+          projectStatusNew:0,
+          remark:'',
+          isNone:[],
+          isDetail:'1',
+          isokradioS:'1',
+          fileName: [],
+          userinfo:{},
+          formData:{},
+          baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
            };
     },
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
+        this.formData.fileName2=JSON.parse(this.formData.fileName1);
         this.formData.fileName2=JSON.parse(this.formData.fileName2);
-        for(let i in this.formData.fileName2){
-           this.fileName.push({
+        this.$refs.productImage1.getSrcList(this.formData.fileName1);
+        this.$refs.productImage2.getSrcList(this.formData.fileName2);
+       for(let j in this.formData.fileName1){
+           this.fileNameN1.push({
+            name:this.formData.fileName1[j],
+            url:this.baseImgPath+this.formData.fileName1[j]
+           })
+        }
+       
+       
+       for(let i in this.formData.fileName2){
+           this.fileNameN2.push({
             name:this.formData.fileName2[i],
             url:this.baseImgPath+this.formData.fileName2[i]
            })
@@ -126,7 +145,7 @@ export default {
               "projectType": "4",
             };
             check(parms).then(res => {
-                console.log('验收审核完成');
+                console.log('资料审核完成');
             }).catch(error => {
 
             });
@@ -149,6 +168,7 @@ export default {
             parms = {
               projectId: this.formData.projectId,
               projectAcceptanceStatus:type,
+              projectContractStatus:type,
               projectStatus:this.projectStatusNew
             };
           } else {
@@ -156,6 +176,7 @@ export default {
               projectId: this.formData.projectId,
               checkContent: this.remark,
               projectAcceptanceStatus:type,
+              projectContractStatus:type,
               projectStatus:1,
             };
           }
@@ -166,15 +187,15 @@ export default {
                  
                     let resmsg = '';
                     if (type == 1) {
-                      resmsg = '验收审核完成';
-                      this.check('验收审核完成');
+                      resmsg = '资料审核完成';
+                      this.check('资料审核完成');
                     } else {
-                      this.check('验收审核完成不通过。'+'原因:'+this.remark);
-                      resmsg = '验收审核完成';
+                      this.check('资料审核完成不通过。'+'原因:'+this.remark);
+                      resmsg = '资料审核完成';
                     }
 
                    let obj = {
-                      title: '验收审核',
+                      title: '资料审核',
                       backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
                       resmsg: resmsg,
                       backName:this.$cache.local.getJSON('aduitProjectBack').name
@@ -194,11 +215,10 @@ export default {
          });
 
         } else {
-          this.$alert('请正确填写', '系统提示', {
-                        confirmButtonText: '确定',
-                       
-                        type: 'warning'
-                        });
+            this.$alert('请正确填写', '系统提示', {
+            confirmButtonText: '确定',
+            type: 'warning'
+            });
         }
       })
 
@@ -276,9 +296,4 @@ export default {
    color: black  !important;
    border-color: rgba(135,206,250,0.7) !important;
 }
-
-// ::v-deep .el-tabs__nav-scroll {
-//   width: 50% !important;
-//   margin: 0 auto !important;
-// }
 </style>
