@@ -401,7 +401,7 @@ export default {
                       resmsg = '项目审核完成';
                       this.check('项目审核完成');
                     } else {
-                      this.check('项目审核完成不通过。'+'原因:'+this.remark);
+                      this.check('项目审核不通过。'+'原因:'+this.remark);
                       resmsg = '项目审核完成';
                     }
 

@@ -6,24 +6,22 @@
             <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
-                        <el-input v-model="Father.projectCode" disabled></el-input>
+                        <el-input v-model="Father.projectCode" :readonly="true"></el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input disabled v-model="Father.projectName"></el-input>
+                    <el-form-item class="comright" label="项目名称">
+                        <el-input :readonly="true" v-model="Father.projectName"></el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="Father.projectTimeStart" disabled></el-input>
+                    <el-form-item class="comright" label="项目时间">
+                        <el-input v-model="Father.projectTimeStart" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="Father.projectTotalAmount"
-                            :step="0.01" :min="0"
-                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                            >
+                    <el-form-item class="comright" label="项目金额">
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="Father.projectTotalAmount"
+                            :step="0.01" :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -35,19 +33,19 @@
                 <el-col :span="9">
 
 
-                    <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="甲方">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                         </el-select> -->
-                        <el-input disabled v-model="Father.purchCompany"></el-input>
+                        <el-input v-model="Father.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
 
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="甲方纳税人识别号" :required="true">
-                        <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
+                    <el-form-item class="comright" label="甲方纳税人识别号">
+                        <el-input :readonly="true" v-model="Father.purchCompanyTaxid"></el-input>
                     </el-form-item>
 
                 </el-col>
@@ -55,18 +53,19 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" :required="true">
-                        <el-input v-model="Father.selfName" disabled></el-input>
+                    <el-form-item class="comright" label="乙方">
+                        <el-input v-model="Father.selfName" :required="true" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已开金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="Father.projectPackageAmount" :step="0.01"
-                            :min="0">
+                    <el-form-item class="comright" label="已开金额">
+                        <el-input :required="true" :readonly="true" type="number" style="width:100%"
+                            v-model="Father.projectPackageAmount" :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
 
                     </el-form-item>
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
-                        <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketType"
+                            @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -77,10 +76,10 @@
                         <el-radio disabled v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
                     </el-form-item>
                     <el-form-item class="comright" label="发票种类编号" prop="ticketTypeCode">
-                        <el-input v-model="formData.ticketTypeCode"></el-input>
+                        <el-input :readonly="true" v-model="formData.ticketTypeCode"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="发票时间" :required="true">
-                        <el-input v-model="formData.ticketTime" disabled></el-input>
+                    <el-form-item class="comright" label="发票时间">
+                        <el-input :readonly="true" v-model="formData.ticketTime"></el-input>
                     </el-form-item>
 
 
@@ -88,19 +87,20 @@
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="乙方纳税人识别号" :required="true">
-                        <el-input disabled v-model="owerTax"></el-input>
+                    <el-form-item class="comright" label="乙方纳税人识别号">
+                        <el-input v-model="owerTax" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="剩余金额" :required="true">
-                        <el-input disabled type="number" style="width:100%" v-model="Father.projectRemainAmount" :step="0.01" :min="0">
+                    <el-form-item class="comright" label="剩余金额">
+                        <el-input :readonly="true" type="number" style="width:100%" v-model="Father.projectRemainAmount"
+                            :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input style="width:86%" v-model="formData.ticketTax" :disabled="true"></el-input>
+                        <el-input style="width:86%" v-model="formData.ticketTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
+                        <el-select disabled style="width:100%" clearable v-model="formData.ticketTax">
                             <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -108,23 +108,24 @@
                     </el-form-item>
 
                     <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
-                        <el-input 
-                         maxlength="50"
-                        show-word-limit
-                        type="textarea" disabled :rows="2" v-model="Father.fileName">
+                        <el-input maxlength="50" show-word-limit type="textarea" disabled :rows="2"
+                            v-model="Father.fileName">
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileNames" :isDetail="isDetail"></uploadSmall>
-                     </el-form-item>
+
+                        <uploadSmall v-if="fileName.length > 0" @getfileName="getfileNameS" :fileName="isNone"
+                            :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
+
+                    </el-form-item>
+
+
                     <el-form-item class="comright" label="发票编号" prop="ticketCode">
-                        <el-input v-model="formData.ticketCode"></el-input>
+                        <el-input v-model="formData.ticketCode" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="发票金额" prop="ticketAmount">
-                        <el-input @input="ticketAsee" @change="ticketAsee" type="number" style="width:100%" v-model="formData.ticketAmount"
-                            :step="0.01" :min="0"
-                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                            >
+                        <el-input :readonly="true" @change="ticketAsee" type="number" style="width:100%"
+                            v-model="formData.ticketAmount" :step="0.01" :min="0">
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -134,11 +135,9 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4.2%" label="发票备注">
-                        <el-input
-                        maxlength="50"
-                         show-word-limit
-                        type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.ticketRemark">
+                    <el-form-item style="padding-right:4%" label="发票备注">
+                        <el-input maxlength="50" show-word-limit :readonly="true" type="textarea" :rows="2"
+                            placeholder="请输入发票备注" v-model="formData.ticketRemark">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -146,46 +145,74 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-                        <uploadSmall @getfileName="getfileNameSS" :fileName="isNone" :fileNameOld="isNone" :isDetail="isDetails"></uploadSmall>
+                        <uploadSmall v-if="fileNames.length > 0" @getfileName="getfileNameS" :fileName="isNone"
+                            :fileNameOld="fileNames" :isDetail="isDetail"></uploadSmall>
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
                 </el-col>
             </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="21">
+                    <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+                        <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
+
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="21">
+                    <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+                        <div style="display: flex; align-items: center;justify-content: flex-start;">
+                            <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
+                            <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark"
+                                :disabled="isokradioS == 1"></el-input>
+                        </div>
 
 
+                    </el-form-item>
+                </el-col>
 
+            </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">关闭</el-button>
-                    <el-button type="primary" @click="onSubmit">提交</el-button>
+
+                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
+                    <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
+
+
+
         </el-form>
-      
+
     </div>
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list2, add } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist,edit,check} from "@/api/project/list";
+import { list2 } from "@/api/project/ticket";
+import { detail, getcode, getinfoByUserId, ownlist, edit, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
-import { Decimal } from 'decimal.js'
 export default {
-    name:'TicketAdd',
+    name: 'ExamTicket',
     components: {
         uploadSmall
     },
     data() {
         return {
-            projectRemainAmount:'0',
-            isDetail:'1',
-            isDetails:'0',
-            isNone:[],
+            isokradioS: '1',
             fileNames: [],
+            isDetail: '1',
+            isNone: [],
+            remark: '',
+
+            issuedAmount: 0.00, //已开金额
+            balance: 0.00,  //剩余金额
             projectStatus: 1,//乙方状态
             username: '',
             userId: '',
@@ -205,7 +232,7 @@ export default {
             owerTax: '',//乙方纳税人识别号
             owntype: '',//乙方行业类型
             owerTaxfee: '',//乙方税率
-
+            userinfo: {},
             Father: [],
             formData: {
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode,//项目编号
@@ -215,7 +242,7 @@ export default {
                 ticketCode: '',//发票种类编号
                 ticketTypeCode: '',//发票编号
                 fileName: '',//开票内容
-                ticketAmount: '0',//发票金额
+                ticketAmount: '',//发票金额
                 ticketTime: '',  //发票时间
                 isDeleted: 1,
             },
@@ -282,7 +309,7 @@ export default {
                 ticketAmount: [
                     {
                         required: true,
-                        message: "请输入发票金额额",
+                        message: "请输入发票金额",
                         trigger: "blur",
                     },
                 ],
@@ -312,7 +339,7 @@ export default {
                 placeCode: [
                     {
                         required: true,
-                        message: "请选择客户",
+                        message: "请选择渠道商",
                         trigger: "change",
                     },
                 ],
@@ -380,31 +407,109 @@ export default {
     mounted() {
         this.getlist();
         this.getinfoByUserId();
-       
+        this.ticketByCode();
         this.gettoday();
         this.getRate();
+        this.formData = this.$cache.local.getJSON("ticketDetails");
+        this.formData.fileName = JSON.parse(this.formData.fileName);
+        this.fileNames = [];
+        for (let j in this.formData.fileName) {
+            this.fileNames.push({
+                url: this.baseImgPath + this.formData.fileName[j],
+                name: this.formData.fileName[j]
+            })
+        }
     },
 
 
     methods: {
+        getfileNameS() {
+
+        },
         check(resmsg) {
-        getInfo().then(res => {
-            this.userinfo=res.user;
-             let parms = {
-              "checkReasult": resmsg,
-              "checkUser": this.userinfo.userName,
-              'phonenumber': this.userinfo.phonenumber,
-              "projectCode": this.Father.projectCode,
-              "projectType": "7",
-            };
+            let parms = {
+                "checkReasult": resmsg,
+                "checkUser": this.userinfo.userName,
+                'phonenumber': this.userinfo.phonenumber,
+                "projectCode": this.Father.projectCode,
+                "projectType": "2",
+            }
             check(parms).then(res => {
-                console.log('添加票据成功！');
+                console.log('票据审核完成插入日志成功！');
             }).catch(error => {
 
             });
-          })
-       
-       },
+        },
+        submitForm(type) {
+
+            this.$refs['elForm'].validate(valid => {
+                // TODO 提交表单
+                if (valid) {
+                    let parms;
+                    let arrs = 0;
+                    if (this.Father.projectRemainAmount == 0) {
+                        arrs = 1;
+                    } else {
+                        arrs = 0;
+                    }
+                    if (type == 1) {
+                        parms = {
+                            projectId: this.Father.projectId,
+                            projectTicketStatus: arrs,
+
+                        };
+                    } else {
+                        parms = {
+                            projectId: this.Father.projectId,
+                            ticketRemark: this.remark,
+                            projectTicketStatus: type,
+                            projectStatus: 1,
+                        };
+                    }
+                    edit(parms).then((res) => {
+                        if (res != undefined) {
+                            if (res.code === 200) {
+                                this.$nextTick(function () {
+
+                                    let resmsg = '';
+                                    if (type == 1) {
+                                        resmsg = '票据审核完成';
+                                        this.check('票据审核完成');
+                                    } else {
+                                        this.check('票据审核不通过。' + '原因：' + this.remark);
+                                        resmsg = '票据审核完成';
+                                    }
+
+                                    let obj = {
+                                        title: '票据审核',
+                                        backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
+                                        resmsg: resmsg,
+                                        backName: this.$cache.local.getJSON('aduitProjectBack').name
+
+                                    }
+                                    this.$cache.local.setJSON('successProject', obj);
+                                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+
+
+                                });
+
+                            } else {
+                                this.$modal.msgError(res.msg);
+                                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
+                            }
+
+                        }
+                    });
+
+                } else {
+                    this.$message({
+                        message: '请填写完整',
+                        type: 'warning'
+                    })
+                }
+            })
+
+        },
         //监听行业类型
         selectIndustryType() {
             var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
@@ -432,81 +537,40 @@ export default {
 
 
         },
-        
-        getfileNameS(){
 
-        },
-        getfileNameSS(data){
-             this.formData.fileName=data;
-        },
+
         ticketAsee(e) {
-            if (e > this.projectRemainAmount) {
-                  this.$alert('发票金额不能大于剩余金额', '系统提示', {
-                    confirmButtonText: '确定',
-                   
-                    type: 'warning'
-                });
-                this.formData.ticketAmount = 0;
-                this.ticketByCode();
-                return;
-            }else{
-                this.ticketByCode();
+            console.log(e);
+            console.log(this.balance);
+            if (e > this.balance) {
+                this.$modal.msgError('发票金额不能大于剩余金额');
+                this.formData.ticketAmount = '';
             }
-            
 
         },
-       
-          //计算已开和剩余金额
+        //计算已开和剩余金额
         ticketByCode() {
-            list2({
-                projectCode: this.Father.projectCode
-            }).then(res => {
-                let arr = res;
-                   if(Array.isArray(arr) && arr.length>0){
-                    this.Father.projectPackageAmount = 0;
-                   for (let i in arr) {
-                    if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
-                        this.Father.projectPackageAmount=new Decimal(this.Father.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
-                    }
-                  }
-                  //如果存在发票 累计发票 加上发票金额 
-                   this.Father.projectPackageAmount=new Decimal(this.Father.projectPackageAmount).add(new Decimal(this.formData.ticketAmount));
-                   this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
-               }else{
-                   this.Father.projectPackageAmount=this.formData.ticketAmount;
-                   this.Father.projectRemainAmount = new Decimal(this.Father.projectTotalAmount).sub(new Decimal(this.Father.projectPackageAmount));
-               }
-            }).catch(err => {
 
-            });
-            
-          
-            
         },
         getlist() {
             detail({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then((response) => {
-                if (response.data.length == 0) {
-                    this.Father = this.$cache.local.getJSON("publicTickets");
-                } else {
-                    this.Father = response.data[0];
-                }
-                this.projectRemainAmount=this.Father.projectRemainAmount;
+                this.Father = response.data[0];
                 if (this.Father.fileName) {
-                   if(this.Father.fileName.indexOf("[") != -1 ){
-                       this.Father.fileName = JSON.parse(this.Father.fileName);
+                    if (this.Father.fileName.indexOf("[") != -1) {
+                        this.Father.fileName = JSON.parse(this.Father.fileName);
                     }
-                    
+                    // this.Father.fileName = JSON.parse(this.Father.fileName);
                     if (Array.isArray(this.Father.fileName)) {
-                        this.fileNames=[];
                         this.fileNameradio = '2';
+                        this.fileName = [];
                         //如果是图片的话
                         for (let j in this.Father.fileName) {
-                           this.fileNames.push({
-                            url:this.baseImgPath+this.Father.fileName[j],
-                            name:this.Father.fileName[j]
-                           })
+                            this.fileName.push({
+                                url: this.baseImgPath + this.Father.fileName[j],
+                                name: this.Father.fileName[j]
+                            })
                         }
 
                     } else {
@@ -557,7 +621,10 @@ export default {
                 this.industryTypes = tree;
                 this.industryTypeList = res.rows;
                 var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
+                //   this.industryId = rate.industryId;  //行业类型id
+                //   this.owerTaxfee = rate.taxRate;
                 let industryType = rate.industryId;
+
                 ownlist({ username: this.username, industryType: industryType }).then(res => {
                     this.ownoptions = res;
                     for (let i in this.ownoptions) {
@@ -606,10 +673,11 @@ export default {
         resetForm() {
             this.$tab.closeOpenPage({ path: '/projectlist/ticketList' });
         },
-       
+
         //渠道商接口  记得修改 userid
         getinfoByUserId() {
             getInfo().then(res => {
+                this.userinfo = res.user;
                 this.userId = res.user.userId;
                 this.username = res.user.userName;
                 this.formData.projectLeader = res.user.nickName;
@@ -623,11 +691,16 @@ export default {
 
         //监听开票内容类型
         tickettaxvip(e) {
-             if (e > 0) {
+            // this.formData.ticketType=e;
+            if (e > 0) {
+
                 this.tickettaxvipok = true;
+                // this.formData.ticketTax = 3;
             } else {
                 this.tickettaxvipok = false;
-             }
+
+            }
+
         },
         repair(i) {
             if (i >= 0 && i <= 9) {
@@ -662,56 +735,7 @@ export default {
         handleChange(val) {
             console.log(val);
         },
-        onSubmit() {
-            
-            this.formData.fileName = JSON.stringify(this.formData.fileName);
-            if(this.formData.ticketAmount<1){
-                this.$alert('发票金额必须大于1', '系统提示', {
-                    confirmButtonText: '确定',
-                   
-                    type: 'warning'
-                });
-              
-                return;
-            }
-            
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                if (valid) {
-                    //如果是附件的话
-                    let params={
-                        projectId:this.Father.projectId,
-                        projectRemainAmount:this.Father.projectRemainAmount,
-                        projectPackageAmount:this.Father.projectPackageAmount,
-                    }
-                    edit(params);
-                    add(this.formData).then((res) => {
-                        if (res != undefined) {
-                                if (res.code === 200) {
-                                 this.$nextTick(function () {
-                                    this.check('票据新增');
-                                     this.$modal.msgSuccess('票据新增成功');
-                                     this.$tab.closeOpenPage({ path: "/projectlist/ticketList" }).then(() => {
-                                     this.$tab.refreshPage({ path: '/projectlist/ticketList', name: 'TicketList' });
-                                    });
-                                  
-                                     });
-                                } else {
-                                     this.$modal.msgError(res.msg);
-                                     this.$tab.closeOpenPage({ path: "/projectlist/ticketList" });
-                                }
-                       }
-                    });
-                } else {
-                   this.$alert('请正确填写', '系统提示', {
-                    confirmButtonText: '确定',
-                   
-                    type: 'warning'
-                });
-                }
-            });
-        },
-       
+
     },
 };
 </script>
@@ -762,5 +786,17 @@ export default {
     font-size: 20px;
 
     color: blue;
+}
+
+::v-deep .el-input.is-disabled .el-input__inner {
+    background-color: rgba(255, 255, 255, 1.5) !important;
+    color: black !important;
+    border-color: rgba(135, 206, 250, 0.7) !important;
+}
+
+::v-deep .el-input-group__append {
+    background-color: rgba(255, 255, 255, 1.5) !important;
+    color: black !important;
+    border-color: rgba(135, 206, 250, 0.7) !important;
 }
 </style>

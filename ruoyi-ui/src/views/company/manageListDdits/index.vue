@@ -663,10 +663,10 @@
           <el-form-item class="comright" label="客户全名" prop="placeName">
             <el-select style="width:100%"
             @visible-change="changeValue1($event)"
-            @change="placenew" v-model="formData.placeName" placeholder="请选择客户全名"
+            @change="placenew" v-model="formData.placeCode" placeholder="请选择客户全名"
               clearable filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
-                :value="item.placeName">
+                :value="item.placeCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -679,7 +679,42 @@
         </el-col>
       </el-row>
 
-        <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+       
+
+   
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item label="结算方式" :required="true">
+            <el-radio v-model="formData.isSelfCount" label="0" @change="singleOK">按个体结算</el-radio>
+            <el-radio v-model="formData.isSelfCount" label="1" @change="singleOK">按客户结算</el-radio>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+
+        </el-col>
+      </el-row>
+
+
+      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item label="个体户注册服务费" :required="true">
+            <el-input style="width:87%" v-model="formData.registerMoney"
+             :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+
+        </el-col>
+        <el-col :span="9">
+
+        </el-col>
+
+      </el-row>
+      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
            <el-col :span="9">
                 <el-form-item label="是否分润" prop='isSelfShare'>
               <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
@@ -722,40 +757,6 @@
           </el-col>
         
         </el-row>
-
-   
-
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9">
-          <el-form-item label="结算方式" :required="true">
-            <el-radio v-model="formData.isSelfCount" label="0" @change="singleOK">按个体结算</el-radio>
-            <el-radio v-model="formData.isSelfCount" label="1" @change="singleOK">按客户结算</el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-
-        </el-col>
-      </el-row>
-
-
-      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9">
-          <el-form-item label="个体户注册服务费" :required="true">
-            <el-input style="width:87%" v-model="formData.registerMoney"
-             :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-
-        </el-col>
-        <el-col :span="9">
-
-        </el-col>
-
-      </el-row>
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
          <el-col :span="9">
              
@@ -1587,14 +1588,20 @@ export default {
      changeValue2(e){
       console.log(e);
       if(e==true){
-        this.nailist();
+        if(this.accountName_options.length==0){
+          this.nailist();
+        }
+       
       }
     },
     //渠道商
      changeValue1(e){
       console.log(e);
       if(e==true){
-        this.getLoginInfo();
+        if(this.places.length==0){
+          this.getLoginInfo();
+        }
+       
       }
     },
        singleOK(e) {
@@ -1727,8 +1734,9 @@ export default {
     },
     placenew() {
       for (let i in this.places) {
-        if (this.places[i].placeName == this.formData.placeName) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
           this.formData.placeAliasName = this.places[i].placeAliasName;
+          this.formData.placeName = this.places[i].placeName;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.ordinaryProxyIsmoney = JSON.stringify(this.unlist.ordinaryProxyIsmoney);

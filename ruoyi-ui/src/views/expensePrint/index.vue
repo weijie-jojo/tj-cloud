@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <div>
-      <!-- <uploadSmall @getfileName="getnames" :fileName="fileName" :fileNameOld="fileNameOld" :isDetail="isDetail"></uploadSmall> -->
       <el-row type="flex" class="row-bg" justify="end">
         <el-col :span="6" style="display: flex;justify-content: flex-end;">
           <el-button type="primary" @click="back">返回</el-button>
@@ -10,7 +9,7 @@
       </el-row>
 
       <el-form id="printMe">
-        <div :style="{ height: screenHeight * 0.63 + 'px' }">
+        <div style="height: 50vh;">
           <div class="reimtitle" style="text-align:center;position: relative;">
             <span>费用报销单</span>
             <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
@@ -50,11 +49,11 @@
             </el-col>
             <el-col :span="2">
               <div class="comborder">张数</div>
-              <div class="comborder1 flexs" :style="[c1]">{{ ruleForm.accessoryNum1 }}</div>
-              <div class="comborder1 flexs" :style="[c2]">{{ ruleForm.accessoryNum2 }}</div>
-              <div class="comborder1 flexs" :style="[c3]">{{ ruleForm.accessoryNum3 }}</div>
-              <div class="comborder1 flexs" :style="[c4]">{{ ruleForm.accessoryNum4 }}</div>
-              <div class="comborder1 flexs" :style="[c5]">{{ ruleForm.accessoryNum5 }}</div>
+              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.accessoryNum1  }}</div>
+              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.accessoryNum2  }}</div>
+              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.accessoryNum3  }}</div>
+              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.accessoryNum4  }}</div>
+              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.accessoryNum5  }}</div>
             </el-col>
             <el-col :span="4">
               <div class="comborder">金额</div>
@@ -80,13 +79,14 @@
             </el-col>
             <el-col :span="2">
               <div class="comborder1">
-                {{  accessoryNum }}张
+                {{  accessoryNum  }}张
               </div>
             </el-col>
             <el-col :span="4">
               <div class="comborder1" style="text-align:center">
                 {{  ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money + ruleForm.item4Money
                 + ruleForm.item5Money
+
 
                 }}
               </div>
@@ -100,6 +100,7 @@
               <div class="comborder" style="text-align: left;padding-left: 4px; letter-spacing: 4px;">总计(大写)人民币:<span>
                   {{  digitUppercase(ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money +
                   ruleForm.item4Money + ruleForm.item5Money)
+
 
                   }}</span></div>
             </el-col>
@@ -118,90 +119,56 @@
               <div>报销人:{{  ruleForm.nickName  }}</div>
             </el-col>
           </el-row>
+          
         </div>
-        <div style="    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    color: blue;">
-          审批进度
-        </div>
-
-
-        <el-row type="flex" class="row-bg" justify="space-around" :style="{ height: '50vh', width: '100%' }">
-          <el-col :span="23">
-
-            <el-table border :data="checks">
+        <el-row class="row-bg"  style="height:50vh;width:100%;padding-top:10px">
+          
+          <el-col :span="24">
+            <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
+            <el-table border :data="checks" style="margin-top: 20px;">
               <el-table-column prop="checkDate" label="时间" width="180" />
               <el-table-column prop="checkUser" label="人员" width="180" />
               <el-table-column prop="checkReasult" label="结果" />
             </el-table>
-
-
-
-
-
           </el-col>
-
         </el-row>
-
-
-
-
-
-
         <!-- transform: rotate(90deg); -->
-
-
-
         <div v-for="(item, index) in imgArr" :key="index">
           <div v-if="imgArr.length > 0">报销凭证影像</div>
-          <pdf v-if="item.suffix == 'pdf'" :src="item.url">
-          </pdf>
-          <el-image v-else :src="item.url" fill="scale-down" :style="{ height: screenHeight * 0.6 + 'px' }"></el-image>
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.632+ 'px' }"></el-image>
 
         </div>
         <div v-if="imgArr.length / 2 !== 2 && imgArr.length > 0 && imgArr.length !== 2"
-          :style="{ height: screenHeight * 0.56 + 'px' }">
-
-
+          :style="{ height: screenHeight*0.6+ 'px' }">
         </div>
-
-
-
-
-
-
-
-
-
-
         <div v-for="(item, index) in imgArr2" :key="index">
           <div v-if="imgArr2.length > 0">付款凭证影像</div>
-          <pdf v-if="item.suffix == 'pdf'" :src="item.url">
-          </pdf>
-          <el-image v-else :src="item.url" fill="scale-down" :style="{ height: screenHeight * 0.6 + 'px' }"></el-image>
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.632+ 'px' }"></el-image>
 
         </div>
         <div v-if="imgArr2.length / 2 !== 2 && imgArr2.length > 0 && imgArr2.length !== 2"
-          :style="{ height: screenHeight * 0.56 + 'px' }">
+          :style="{ height: screenHeight*0.6 + 'px' }">
 
         </div>
       </el-form>
+
+
+
     </div>
 
   </div>
 </template>
 
 <script>
-
 import { getAllCheck } from '@/api/invoices/checkInvoices'
 import { Decimal } from 'decimal.js'
-import pdf from 'vue-pdf-signature'
-import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
+// import pdf from 'vue-pdf-signature'
+// import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
 export default {
   // name: 'ExpensePrint',
   components: {
-    pdf
+    // pdf,
+
   },
   data() {
     return {
@@ -213,7 +180,7 @@ export default {
       c3: {},
       c4: {},
       c5: {},
-
+      baseImgPath1: "/eladmin/api/files/showPdf?imgPath=",
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       imgArr: [],
       imgArr2: [],
@@ -227,8 +194,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.screenHeight);
-    // this.$modal.loading("正在加载数据，请稍后...");
     this.ruleForm = JSON.parse(window.localStorage.getItem('expenses')).list[0];
     if (!this.ruleForm.accessoryNum1) {
       this.ruleForm.accessoryNum1 = 0;
@@ -271,8 +236,12 @@ export default {
         if (item != null && item != "") {
           var suffix = item.substring(item.lastIndexOf('.') + 1, item.length);
           if (suffix == 'pdf') {
+            // this.imgArr.push({
+            //   url: pdf.createLoadingTask({ url: this.baseImgPath1 + item, CMapReaderFactory, cMapPacked: true }),
+            //   suffix: suffix,
+            // })
             this.imgArr.push({
-              url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
+              url: this.baseImgPath1 + item,
               suffix: suffix,
             })
           } else {
@@ -294,8 +263,12 @@ export default {
         if (item != null && item != "") {
           var suffix = item.substring(item.lastIndexOf('.') + 1, item.length);
           if (suffix == 'pdf') {
+            // this.imgArr2.push({
+            //   url: pdf.createLoadingTask({ url: this.baseImgPath1 + item, CMapReaderFactory, cMapPacked: true }),
+            //   suffix: suffix,
+            // })
             this.imgArr2.push({
-              url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
+              url: this.baseImgPath1 + item,
               suffix: suffix,
             })
           } else {
@@ -315,11 +288,6 @@ export default {
 
   },
   methods: {
-
-
-
-
-
     getHeight() {
       this.$nextTick(() => {
         console.log(document.getElementById('remark1').scrollHeight);
@@ -418,18 +386,12 @@ export default {
 }
 
 .comborder1 {
-
-
   height: 40px;
   line-height: 40px;
   text-align: center;
   border: 1px solid #333;
 }
-
 .comborder {
-  height: auto;
-  /* padding-top: 30px;
-    padding-bottom: 30px;  */
   height: 60px;
   line-height: 60px;
   text-align: center;
@@ -449,7 +411,6 @@ export default {
 }
 
 #remark4 {
-
   padding: 5px;
 }
 
@@ -458,23 +419,12 @@ export default {
 }
 
 #printMe {
-  display: block;
+  /* display: block; */
 }
-
-.comheight {
-  width: 100vw;
-  height: 50vh;
-}
-
-.comsyheight {
-  height: 0;
-}
-
 @media print {
-  @page {
+  /* @page {
     size: auto;
-    margin: 3mm;
-  }
-
+    margin: 0mm;
+  } */
 }
 </style>

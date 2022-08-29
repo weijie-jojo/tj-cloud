@@ -443,6 +443,13 @@ export default {
             };
             this.$cache.local.setJSON('addProjectBack',obj);
             switch (this.types) {
+                case 2:
+                let obj1={
+                    backurl:'/projectlist/list'
+                    };
+                this.$cache.local.setJSON('backTicket',obj1);
+                this.$tab.opne('票据新增','/projectlist/ticketList');
+                break;
                 case 3:
                     // this.$tab.openPage('合同新增', '/projectlist/addContract');
                     break;
@@ -467,6 +474,12 @@ export default {
                 case 1:
                     this.$tab.openPage('项目审核中', '/projectlist/auditItems');
                     break;
+                case 2:
+                   let obj1={
+                    backurl:'/projectlist/list'
+                    };
+                   this.$cache.local.setJSON('backTicket',obj1);
+                    this.$tab.openPage('票据审核中','/projectlist/ticketList')
                 case 3:
                   //  this.$tab.openPage('合同审核中','/projectlist/auditContracts');
                     break;
@@ -490,6 +503,10 @@ export default {
                     this.$tab.openPage('项目审核修改','/projectlist/itemsEdit');
                 break;
                 case 2:
+                    let obj1={
+                    backurl:'/projectlist/list'
+                    };
+                    this.$cache.local.setJSON('backTicket',obj1);
                     this.$tab.openPage( '票据列表','/projectlist/ticketlist');
                 break;
                 case 3:
@@ -516,6 +533,10 @@ export default {
                     this.$tab.openPage( "项目审核查看",'/projectlist/auditDetail');
                     break;
                 case 2:
+                   let obj1={
+                    backurl:'/projectlist/list'
+                    };
+                   this.$cache.local.setJSON('backTicket',obj1);
                     this.$tab.openPage( "票据列表查看",'/projectlist/ticketlist');
                     break;
                 case 3:

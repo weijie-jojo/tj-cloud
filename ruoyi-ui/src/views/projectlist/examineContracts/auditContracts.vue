@@ -174,7 +174,7 @@ export default {
                       resmsg = '合同审核完成';
                       this.check('合同审核完成');
                     } else {
-                      this.check('合同审核完成不通过。' + '原因:' + this.remark);
+                      this.check('合同审核不通过。' + '原因:' + this.remark);
                       resmsg = '合同审核完成';
                     }
 

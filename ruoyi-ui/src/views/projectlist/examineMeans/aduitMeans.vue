@@ -190,7 +190,7 @@ export default {
                       resmsg = '资料审核完成';
                       this.check('资料审核完成');
                     } else {
-                      this.check('资料审核完成不通过。'+'原因:'+this.remark);
+                      this.check('资料审核不通过。'+'原因:'+this.remark);
                       resmsg = '资料审核完成';
                     }
 

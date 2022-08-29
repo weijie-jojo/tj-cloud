@@ -82,6 +82,10 @@
                 <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple"
                     @click="handleDelete">作废</el-button>
             </el-col>
+            <el-col :span="1.5"> 
+                <el-button type="danger" plain icon="el-icon-close" size="mini" @click="resetForm">关闭</el-button>
+            </el-col>
+          
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -99,6 +103,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="aduit(scope.row)">审核</el-button>
                     <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">查看</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
                     </el-button>
@@ -107,6 +112,7 @@
         </el-table>
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
+           
     </div>
 </template>
 
@@ -255,6 +261,20 @@ export default {
         });
     },
     methods: {
+        aduit(row){
+            this.$cache.local.setJSON("ticketDetails", row);
+            let obj={
+                backurl:'/projectlist/ticketList',
+                name:'TicketList'
+            };
+            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
+        },
+       //关闭
+        resetForm() {
+            this.$tab.closeOpenPage({path:this.$cache.local.getJSON('backTicket').backUrl}).then(() => {
+            })
+        },
           //计算已开和剩余金额
         ticketByCode() {
 

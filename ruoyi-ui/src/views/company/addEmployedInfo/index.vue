@@ -689,9 +689,9 @@
           <el-col :span="9">
             <el-form-item label="客户全名" prop="placeName">
               <el-select @visible-change="changeValue1($event)" @change="placenew" style="width:100%"
-                v-model="formData.placeName" placeholder="请选择客户全名" clearable filterable>
+                v-model="formData.placeCode" placeholder="请选择客户全名" clearable filterable>
                 <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
-                  :value="item.placeName">
+                  :value="item.placeCode">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -714,6 +714,21 @@
           <el-col :span="9">
 
           </el-col>
+        </el-row>
+        <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+          <el-col :span="9">
+            <el-form-item label="个体户注册服务费" prop="registerMoney">
+              <el-input v-model="formData.registerMoney" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                <template slot="append">元</template>
+              </el-input>
+            </el-form-item>
+
+          </el-col>
+          <el-col :span="9">
+
+          </el-col>
+
         </el-row>
         <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
@@ -757,21 +772,7 @@
         </el-row>
 
 
-        <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
-          <el-col :span="9">
-            <el-form-item label="个体户注册服务费" prop="registerMoney">
-              <el-input v-model="formData.registerMoney" :min="0" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
-                <template slot="append">元</template>
-              </el-input>
-            </el-form-item>
-
-          </el-col>
-          <el-col :span="9">
-
-          </el-col>
-
-        </el-row>
+     
         <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
           <el-col :span="9">
             <el-form-item label="增值税普通发票" :required="true">
@@ -1591,13 +1592,19 @@ export default {
   methods: {
     changeApplyName(e) {
       if (e == true) {
-        this.getApplyName();
+        if(this.applyNames.length==0){
+          this.getApplyName();
+        }
+        
       }
     },
     changeValue1(e) {
       console.log(e);
       if (e == true) {
-        this.getLoginInfo();
+        if(this.places.length==0){
+          this.getLoginInfo();
+        }
+        
       }
     },
     isSelfShares(e) {
@@ -1829,9 +1836,10 @@ export default {
     placenew() {
 
       for (let i in this.places) {
-        if (this.places[i].placeName == this.formData.placeName) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
           this.formData.placeAliasName = this.places[i].placeAliasName;
-          this.formData.placeCode = this.places[i].placeCode;
+         // this.formData.placeCode = this.places[i].placeCode;
+          this.formData.placeName=this.places[i].placeName;
           crudPlace.selectFeeByCode({ placeCode: this.places[i].placeCode }).then(res => {
             this.unlist = res;
             this.formData.specialSelfFee = this.unlist.specialProxyFee;
