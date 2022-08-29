@@ -35,7 +35,6 @@ public class AccountBorrow implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "borrow_id")
-    @ApiModelProperty(value = "borrowId")
     private int borrowId;
 
     @Column(name = "dept_name")
@@ -43,37 +42,37 @@ public class AccountBorrow implements Serializable {
     private String deptName;
 
     @Column(name = "borrow_date")
-    @ApiModelProperty(value = "borrowDate")
+    @ApiModelProperty(value = "借款日期")
     private String borrowDate;
 
 
     @Column(name = "pay_date")
-    @ApiModelProperty(value = "payDate")
+    @ApiModelProperty(value = "还款日期")
     private String payDate;
 
     @Column(name = "total_money")
-    @ApiModelProperty(value = "totalMoney")
+    @ApiModelProperty(value = "总借款金额")
     private Double totalMoney;
 
     @Column(name = "payway_id")
-    @ApiModelProperty(value = "paywayId")
+    @ApiModelProperty(value = "付款方式")
     private Integer paywayId;
 
     @Column(name = "job")
-    @ApiModelProperty(value = "job")
+    @ApiModelProperty(value = "职务")
     private String job;
 
     @Column(name = "borrow_name")
-    @ApiModelProperty(value = "borrowName")
+    @ApiModelProperty(value = "借款人名")
     private String borrowName;
 
 
     @Column(name = "borrow_desc")
-    @ApiModelProperty(value = "borrowDesc")
+    @ApiModelProperty(value = "借支事由")
     private String borrowDesc;
 
     @Column(name = "is_deleted")
-    @ApiModelProperty(value = "isDeleted")
+    @ApiModelProperty(value = "是否删除;1:删除,0:未删除")
     private Integer isDeleted;
 
     @Column(name = "borrow_code")
@@ -81,7 +80,7 @@ public class AccountBorrow implements Serializable {
     private String borrowCode;
 
     @Column(name = "pay_company_id")
-    @ApiModelProperty(value = "借款单位id")
+    @ApiModelProperty(value = "借款单位")
     private String payCompanyId;
 
     @Column(name = "card_pay_id")
@@ -93,7 +92,7 @@ public class AccountBorrow implements Serializable {
     private String bankNamePay;
 
     @Column(name = "get_user_id")
-    @ApiModelProperty(value = "收款人名")
+    @ApiModelProperty(value = "收款人id")
     private String getUserId;
 
     @Column(name = "card_get_id")

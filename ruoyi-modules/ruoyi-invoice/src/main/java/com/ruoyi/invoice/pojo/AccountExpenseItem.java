@@ -39,7 +39,7 @@ public class AccountExpenseItem implements Serializable {
     private int id;
 
     @Column(name = "item_name")
-    @ApiModelProperty(value = "itemName")
+    @ApiModelProperty(value = "报销项目名")
     private String itemName;
 
     @Column(name = "create_time")
@@ -51,7 +51,7 @@ public class AccountExpenseItem implements Serializable {
     private String updateTime;
 
     @Column(name = "item_money")
-    @ApiModelProperty(value = "itemMoney")
+    @ApiModelProperty(value = "报销费用（每天）")
     private Integer itemMoney;
 
 

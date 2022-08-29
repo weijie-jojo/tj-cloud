@@ -81,15 +81,22 @@
               label="单据状态"
               align="center"
             />
-           <el-table-column label="进度状态" align="center">
+           <el-table-column 
+              label="进度状态" 
+              align="center">
               <template slot-scope="scope">
-                <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                <el-link 
+                  :underline="false" 
+                  type="primary"
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6"
+                  @click="getCheck(scope.row.expenseCode)">办理中
                 </el-link>
                 <el-link :underline="false" type="danger"
-                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                  v-if="scope.row.invoiceType == 6"
+                  @click="getCheck(scope.row.expenseCode)">异常</el-link>
                 <el-link :underline="false" type="success"
-                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+                  v-if="scope.row.invoiceType == 5 "
+                  @click="getCheck(scope.row.expenseCode)">完成</el-link>
               </template>
             </el-table-column>
             <el-table-column label="主管" align="center">
@@ -97,7 +104,6 @@
                   <el-link :underline="false" type="primary"
                     v-if="scope.row.invoiceType == 1">办理中
                   </el-link>
-
                   <el-link :underline="false" type="success" 
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
@@ -279,13 +285,18 @@
             />
               <el-table-column label="进度状态" align="center">
               <template slot-scope="scope">
-                <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                <el-link 
+                  :underline="false" 
+                  type="primary"
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6"
+                  @click="getCheck(scope.row.travelExpenseCode)">办理中
                 </el-link>
                 <el-link :underline="false" type="danger"
-                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                  v-if="scope.row.invoiceType == 6"
+                  @click="getCheck(scope.row.travelExpenseCode)">异常</el-link>
                 <el-link :underline="false" type="success"
-                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+                  v-if="scope.row.invoiceType == 5 "
+                  @click="getCheck(scope.row.travelExpenseCode)">完成</el-link>
               </template>
             </el-table-column>
             <el-table-column label="主管" align="center">
@@ -459,12 +470,15 @@
              <el-table-column label="进度状态" align="center">
               <template slot-scope="scope">
                 <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6">办理中
+                  v-if="scope.row.invoiceType != 5 && scope.row.invoiceType != 6"
+                  @click="getCheck(scope.row.borrowCode)">办理中
                 </el-link>
                 <el-link :underline="false" type="danger"
-                  v-if="scope.row.invoiceType == 6">异常</el-link>
+                  v-if="scope.row.invoiceType == 6"
+                  @click="getCheck(scope.row.borrowCode)">异常</el-link>
                 <el-link :underline="false" type="success"
-                  v-if="scope.row.invoiceType == 5 ">完成</el-link>
+                  v-if="scope.row.invoiceType == 5 "
+                  @click="getCheck(scope.row.borrowCode)">完成</el-link>
               </template>
             </el-table-column>
             <el-table-column label="主管" align="center">
@@ -573,8 +587,32 @@
                 @current-change="handleCurrentChange3"
               />
             </div>
+        
         </el-tab-pane>
       </el-tabs>
+      <!-- 进度提示 -->
+      <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="操作日志" :visible.sync="checkVisible"
+          width="70%">
+          <el-table :data="checks">
+            <el-table-column label="操作步骤" align="center" prop="checkReasult" :show-overflow-tooltip="true" />
+            <el-table-column label="操作时间" align="center" prop="checkDate" width="180" />
+            <el-table-column label="操作用户" align="center" prop="checkUser" />
+          </el-table>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="checkVisible = false">关闭</el-button>
+          </span>
+        </el-dialog>  
+
+        <el-dialog
+          title="信息"
+          :visible.sync="messageVisible"
+          width="30%"
+          :before-close="handleClose">
+          <span>this.message</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="messageVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
     </div>
   </div>
 </template>
@@ -582,7 +620,7 @@
 // import initDict from '@/mixins/initDict'
 import {getInfo} from '@/api/login'
 // import initDict,{getDicts} from '@/api/system/dict'
-import {addCheckInvoices} from '@/api/invoices/checkInvoices'
+import {addCheckInvoices,getAllCheck} from '@/api/invoices/checkInvoices'
 import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/borrow";
 import { editExpense,getExpenses,editExpenseType } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
@@ -593,6 +631,11 @@ export default {
   props: [],
   data() {
     return {
+      checks:'',
+      checkVisible:false,
+      messageVisible:false,
+      message:'',
+
       borrowId:'',
       //上传
       limitNum:10,
@@ -772,7 +815,14 @@ export default {
   },
 
   methods: {
-    
+    getCheck(expenseCode){
+      console.log('1111111');
+      this.checkVisible=true;
+      getAllCheck({invoiceCode:expenseCode}).then(res=>{
+        console.log('selectAllCheck==',res);
+        this.checks = res;
+      })
+    },
     pz(item){
       if(item.invoiceType==4){
         this.imgDialog=true;

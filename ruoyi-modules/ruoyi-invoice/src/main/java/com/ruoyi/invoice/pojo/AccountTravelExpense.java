@@ -39,15 +39,15 @@ public class AccountTravelExpense implements Serializable {
     private int id;
 
     @Column(name = "job")
-    @ApiModelProperty(value = "job")
+    @ApiModelProperty(value = "职别")
     private String job;
 
     @Column(name = "together_num")
-    @ApiModelProperty(value = "togetherNum")
+    @ApiModelProperty(value = "同行人数")
     private int togetherNum;
 
     @Column(name = "reason")
-    @ApiModelProperty(value = "reason")
+    @ApiModelProperty(value = "报销事由")
     private String reason;
 
     @Column(name = "create_time")
@@ -63,7 +63,7 @@ public class AccountTravelExpense implements Serializable {
     private Integer isDeleted;
 
     @Column(name = "travel_expense_code")
-    @ApiModelProperty(value = "travelExpenseCode")
+    @ApiModelProperty(value = "报销单号")
     private String travelExpenseCode;
 
     @Column(name = "invoice_type")
@@ -75,52 +75,52 @@ public class AccountTravelExpense implements Serializable {
     private Long createUser;
 
     @Column(name = "user_getid")
-    @ApiModelProperty(value = "user_getid")
+    @ApiModelProperty(value = "收款单位（人）")
     private String userGetid;
 
     @Column(name = "bankcard_getid")
-    @ApiModelProperty(value = "bankcard_getid")
+    @ApiModelProperty(value = "收款单位（人）银行卡")
     private String bankcardGetid;
 
     @Column(name = "bank_getname")
-    @ApiModelProperty(value = "bank_getname")
+    @ApiModelProperty(value = "收款单位（人）银行卡所属银行")
     private String bankGetname;
 
     @Column(name = "company_payId")
-    @ApiModelProperty(value = "company_payId")
+    @ApiModelProperty(value = "付款单位id")
     private String companyPayId;
 
     @Column(name = "bank_paycode")
-    @ApiModelProperty(value = "bank_paycode")
+    @ApiModelProperty(value = "付款单位银行卡")
     private String bankPaycode;
 
     @Column(name = "bank_payname")
-    @ApiModelProperty(value = "bank_payname")
+    @ApiModelProperty(value = "付款单位银行卡所属银行")
     private String bankPayname;
 
     @Column(name = "travel_date1")
-    @ApiModelProperty(value = "travel_date1")
+    @ApiModelProperty(value = "起忆时间")
     private String travelDate1;
     @Column(name = "place1")
-    @ApiModelProperty(value = "place1")
+    @ApiModelProperty(value = "起忆地点")
     private String place1;
     @Column(name = "travel_way1")
-    @ApiModelProperty(value = "travelWay1")
+    @ApiModelProperty(value = "出行方式")
     private String travelWay1;
     @Column(name = "days1")
-    @ApiModelProperty(value = "days1")
+    @ApiModelProperty(value = "天数")
     private String days1;
     @Column(name = "traffic1")
-    @ApiModelProperty(value = "traffic1")
+    @ApiModelProperty(value = "交通费")
     private String traffic1;
     @Column(name = "stay1")
-    @ApiModelProperty(value = "stay1")
+    @ApiModelProperty(value = "住宿费")
     private String stay1;
     @Column(name = "subsidy1")
-    @ApiModelProperty(value = "subsidy1")
+    @ApiModelProperty(value = "差旅补助")
     private String subsidy1;
     @Column(name = "other1")
-    @ApiModelProperty(value = "other1")
+    @ApiModelProperty(value = "其他费用")
     private String other1;
 
     @Column(name = "travel_date2")
