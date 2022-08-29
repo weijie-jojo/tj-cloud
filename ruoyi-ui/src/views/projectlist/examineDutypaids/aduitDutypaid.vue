@@ -170,7 +170,7 @@ export default {
                       resmsg = '完税审核完成';
                        this.check('完税审核完成');
                     } else {
-                      this.check('完税审核完成不通过。'+'原因:'+this.remark);
+                      this.check('完税审核不通过。'+'原因:'+this.remark);
                       resmsg = '完税审核完成';
                     }
 

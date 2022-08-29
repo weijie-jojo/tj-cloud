@@ -23,6 +23,15 @@
             <el-form-item label="联系人" prop="editPlaceLinkman">
             <el-input v-model="ruleForm.editPlaceLinkman" :readonly="confirmEditStatus" />
           </el-form-item>
+          <el-form-item label="个体户注册服务费" prop="editOrdinarySelfFee">
+                <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
+                  @change="handleChange"  :min="0"  style="width:100%"
+                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                   oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                  >
+                  <template slot="append">元</template>
+                </el-input>
+              </el-form-item>
             
                <el-form-item label="是否分润" prop='isSelfShare'>
               <el-radio v-model="ruleForm.isSelfShare" label="0">是</el-radio>
@@ -61,15 +70,7 @@
             </el-row>
 
 
-            <el-form-item label="个体户注册服务费" prop="editOrdinarySelfFee">
-                <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
-                  @change="handleChange"  :min="0"  style="width:100%"
-                   onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                   oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                  >
-                  <template slot="append">元</template>
-                </el-input>
-              </el-form-item>
+         
         </el-col>
         <el-col :span="9">
           <el-form-item label="业务经理" prop="editUserId" :required="true">

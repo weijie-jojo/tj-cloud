@@ -168,7 +168,7 @@ export default {
                       resmsg = '验收审核完成';
                       this.check('验收审核完成');
                     } else {
-                      this.check('验收审核完成不通过。'+'原因:'+this.remark);
+                      this.check('验收审核不通过。'+'原因:'+this.remark);
                       resmsg = '验收审核完成';
                     }
 
@@ -194,10 +194,9 @@ export default {
 
         } else {
           this.$alert('请正确填写', '系统提示', {
-                        confirmButtonText: '确定',
-                       
-                        type: 'warning'
-                        });
+            confirmButtonText: '确定',
+            type: 'warning'
+           });
         }
       })
 

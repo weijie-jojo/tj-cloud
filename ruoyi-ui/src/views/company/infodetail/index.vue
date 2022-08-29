@@ -460,6 +460,21 @@
       </el-row>
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
+          <el-form-item label="个体户注册服务费" :required="true">
+            <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true" type="number" :step="0.01"
+              :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+
+        </el-col>
+        <el-col :span="9">
+
+        </el-col>
+
+      </el-row>
+      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
           <el-form-item label="是否分润" prop='isSelfShare'>
             <el-radio disabled v-model="formData.isSelfShare" label="0">是</el-radio>
             <el-radio disabled v-model="formData.isSelfShare" label="1">否</el-radio>
@@ -497,21 +512,7 @@
         </el-col>
 
       </el-row>
-      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
-        <el-col :span="9">
-          <el-form-item label="个体户注册服务费" :required="true">
-            <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true" type="number" :step="0.01"
-              :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-
-        </el-col>
-        <el-col :span="9">
-
-        </el-col>
-
-      </el-row>
+    
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
         <el-col :span="9">
           <el-form-item label="增值税普通发票" :required="true">
