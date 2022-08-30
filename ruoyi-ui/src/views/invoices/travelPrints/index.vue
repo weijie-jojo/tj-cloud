@@ -9,7 +9,7 @@
 
       <el-form id="printMe">
         <div :style="{height:screenHeight+'px'}">
-          <div class="reimtitle" style="text-align:center;position: relative;">
+          <!-- <div class="reimtitle" style="text-align:center;position: relative;">
             <span>费用报销单</span>
             <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
                ruleForm.expenseCode  }}</span>
@@ -117,7 +117,7 @@
             <el-col :span="6">
               <div>报销人:{{  ruleForm.nickName  }}</div>
             </el-col>
-          </el-row>
+          </el-row> -->
           
         </div>
         <el-row class="row-bg"  :style="{height:screenHeight+'px',width:'100%',paddingTop:'10px'}">
@@ -228,7 +228,7 @@ export default {
   },
 
   mounted() {
-    this.ruleForm = JSON.parse(window.localStorage.getItem('expenses')).list[0];
+    this.ruleForm = JSON.parse(window.localStorage.getItem('travelExpenses')).list[0];
     if (!this.ruleForm.accessoryNum1) {
       this.ruleForm.accessoryNum1 = 0;
     }
@@ -249,10 +249,10 @@ export default {
     let arr3 = new Decimal(arr1).add(new Decimal(arr2));
     this.accessoryNum = arr3;
 
-    var expenses = JSON.parse(window.localStorage.getItem('expenses')).list
-    var expenseCode = expenses[0].expenseCode;
-    console.log('expenseCode==', expenseCode);
-    getAllCheck({ invoiceCode: expenseCode }).then(res => {
+    var expenses = JSON.parse(window.localStorage.getItem('travelExpenses')).list
+    var travelExpenseCode = expenses[0].travelExpenseCode;
+    
+    getAllCheck({ invoiceCode: travelExpenseCode }).then(res => {
       console.log('selectAllCheck==', res);
       this.checks = res
     })
@@ -323,7 +323,7 @@ export default {
   },
   methods: {
     beforePage(){
-      this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
+      this.$tab.closeOpenPage({ path: '/invoices/showTravelExpense' });
     },
     getImg(src){
      var img_url =src
