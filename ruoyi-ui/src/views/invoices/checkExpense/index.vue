@@ -271,20 +271,18 @@
                     :isDetail="isDetail"></showPdfAndImg>
             </el-form-item> -->
             <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
-                <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                <uploadInvoices ref="invoices" @getfileName="getExpense" :fileName="isNone" :fileNameOld="imgArr2Old"
                     :isDetail="isDetails"></uploadInvoices>
             </el-form-item>
             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" style="margin-top:20px">           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
+                    <pdf ref="pdf" :src="item.url">
                     </pdf>
                 </el-form-item>
                 <el-form-item  v-else>
                     <div class="imgTitle">报销凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
+                    <el-image :src="item.url" ></el-image>
                 </el-form-item>
             </div>
 
@@ -333,6 +331,7 @@
 </template>
 <script>
 import pdf from 'vue-pdf-signature'
+import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
 import uploadInvoices from '@/components/douploads/uploadInvoices'
 import { getAllCheck, addCheckInvoices } from '@/api/invoices/checkInvoices'
 import { getAllCompany } from '@/api/invoices/borrow'
@@ -358,6 +357,7 @@ export default {
             imgpath: '',
             //上传
             imgArr2: [],
+            imgArr2Old:[],
             imgDialog: false,
             dialogImageUrl: '',
             dialogVisible: false,
@@ -543,18 +543,51 @@ export default {
         imgArr.map((item, index) => {
             if (item != null && item != "") {
                 var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
-                this.imgArr.push({
-                    url:  item,
-                    suffix: suffix,
-                })
+                if(suffix=='pdf'){
+                        this.imgArr.push({
+                        url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
+                        suffix: suffix,
+                    })
+                    }  else{
+                        this.imgArr.push({
+                        url: this.baseImgPath+item,
+                        suffix: suffix,
+                    })
+                    }
+                
                 // this.imgArr.push({id:index,value:item});
             }
         })
+
+
+        var imgArr2 = this.expenseImage2.split(",");
+        this.imgArr2=[];
+        if (imgArr2[0] == "") {
+
+
+        } else {
+            imgArr2.map((item, index) => {
+                if (item != null && item != "") {
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
+                     this.imgArr2Old.push({
+                        url:  this.baseImgPath+item,
+                        name: item,
+                    })
+                    
+                    this.imgArr2.push(item);
+
+                      
+                }
+            })
+            this.$refs.invoices.getSrcList(this.imgArr2);
+
+        }
         console.log("imgArr==",this.imgArr);
     },
     methods: {
         getExpense(data) {
             this.imgArr2 = data;
+            console.log(this.imgArr2);
         },
         isAgrees() {
             console.log("点了是否同意");

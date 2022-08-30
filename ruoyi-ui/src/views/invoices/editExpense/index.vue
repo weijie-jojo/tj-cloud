@@ -256,7 +256,7 @@
         <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="12">
                 <el-form-item  label="报销凭证影像：" >
-                <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
+                <uploadInvoices ref="invoices" @getfileName="getExpense" :fileName="isNone" :fileNameOld="imgArrOld"
                     :isDetail="isDetails"></uploadInvoices>
                 </el-form-item>
             </el-col>
@@ -276,7 +276,7 @@
         <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="5"></el-col>
             <!-- <el-col :span='8' class="flexs"> -->
-            <el-button type="danger" @click="toReturn">返回</el-button>
+            <el-button type="danger" @click="toReturn">关闭</el-button>
             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
             <!-- </el-col> -->
             <el-col :span="8"></el-col>
@@ -493,7 +493,7 @@ export default {
         this.ruleForm.dmCheck = this.expenses[0].dmCheck;
 
         this.expenseImage = this.expenses[0].expenseImage;
-        this.imgArrOld = [];
+        // this.imgArrOld = [];
         var imgArr = this.expenseImage.split(",");
         this.imgArr2=[];
         imgArr.map((item, index) => {
@@ -503,8 +503,11 @@ export default {
                     url: this.baseImgPath + item
                 })
                 this.imgArr2.push(item);
+               
             }
         })
+        this.$refs.invoices.getSrcList(this.imgArr2);
+       
     },
     computed: {          
         totalMoney:function(){ 
@@ -514,6 +517,7 @@ export default {
     methods: {
         getExpense(data) {
             this.imgArr2 = data;
+            console.log(data);
         },
         isAgrees() {
             console.log("点了是否同意");

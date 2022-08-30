@@ -57,6 +57,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/print',
+    component: () => import('@/views/common/expensePrint/index'),
+    hidden: true
+  },
+  {
     path: '/401',
     component: () => import('@/views/error/401'),
     hidden: true
