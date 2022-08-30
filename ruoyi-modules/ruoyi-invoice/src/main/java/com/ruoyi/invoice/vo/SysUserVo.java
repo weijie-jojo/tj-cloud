@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class SysUserVo {
     private Long userId;
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "用户昵称")
     private String nickName;
     @ApiModelProperty(value = "报销卡开户银行名")
     private String accountCard;

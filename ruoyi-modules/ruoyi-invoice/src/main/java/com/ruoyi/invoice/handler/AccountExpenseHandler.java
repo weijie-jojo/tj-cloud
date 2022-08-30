@@ -9,6 +9,7 @@ import com.ruoyi.invoice.dto.DataDto;
 import com.ruoyi.invoice.mapper.EmployeeInformationMapper;
 import com.ruoyi.invoice.mapper.SysBankcardMapper;
 import com.ruoyi.invoice.mapper.SysDeptMapper;
+import com.ruoyi.invoice.mapper.SysUserMapper;
 import com.ruoyi.invoice.pojo.AccountExpense;
 import com.ruoyi.invoice.pojo.EmployeeInformation;
 import com.ruoyi.invoice.pojo.SysDept;
@@ -26,6 +27,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,51 @@ public class AccountExpenseHandler {
     private final SysDeptMapper sysDeptMapper;
 
     private final EmployeeInformationMapper employeeInformationMapper;
+
+    private final SysUserMapper sysUserMapper;
+
+    @GetMapping(value ="/getLeaderByUserId")
+    @ApiOperation("获取领导信息（日志用）")
+    public List<SysUserVo> getLeaderByUserId(Integer type){
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+//        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        List<SysUserVo> leaders=new ArrayList<>();
+        if (type==1){//主管
+            System.out.println(111);
+            for (SysUserVo role:roles){
+                if (role.getRoleId()==9){//出纳
+                    leaders=sysUserMapper.getUserByRoleId(8);
+                }
+                if (role.getRoleId()==11){//文员
+                    leaders=sysUserMapper.getUserByRoleId(10);
+                }
+                if (role.getRoleId()==3){//业务人员
+                    leaders=sysUserMapper.getUserByRoleId(12);
+                }
+                if (role.getRoleId()==110){//程序员
+                    leaders=sysUserMapper.getUserByRoleId(4);
+                }
+                if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6||role.getRoleId()==7||role.getRoleId()==8||role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//各主管 总经理 及管理员
+                    leaders.add(sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()));
+                }
+            }
+        }else if (type==2){//总经办
+            System.out.println(222);
+            leaders= sysUserMapper.getUserByRoleId(5);//总经理
+            List<SysUserVo> sysUserVos= sysUserMapper.getUserByRoleId(6);//副总
+            for(SysUserVo sysUserVo:sysUserVos){
+                leaders.add(sysUserVo);
+            }
+        }else if(type==3){//财务
+            System.out.println(333);
+            leaders= sysUserMapper.getUserByRoleId(7);
+        }
+        return leaders;
+    }
 
     @GetMapping(value ="/getPost")
     @ApiOperation("查询岗位信息")
