@@ -1,11 +1,12 @@
 <template>
   <div class="app-container">
     <div>
-      <el-row type="flex" class="row-bg" justify="end">
+      <!-- <el-row type="flex" class="row-bg" justify="end">
         <el-col :span="6" style="display: flex;justify-content: flex-end;">
-        <el-button type="primary" v-print="'#printMe'">打印</el-button>
+          <el-button type="primary" @click="back">返回</el-button>
+          <el-button type="primary" v-print="'#printMe'">确认打印</el-button>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-form id="printMe">
         <div :style="{height:screenHeight+'px'}">
@@ -132,44 +133,31 @@
           </el-col>
         </el-row>
         <!-- transform: rotate(90deg); -->
-        <div v-if="imgArr.length > 0" :style="{ height: screenHeight*0.05+'px'}">报销凭证影像</div>
+        <div v-if="imgArr.length > 0">报销凭证影像</div>
         <div v-for="(item, index) in imgArr" :key="index">
          
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.9+ 'px',width: screenWidth+ 'px'}"></el-image>
-          <div v-if="index%2 !=0 && imgArr.length>2" :style="{ height: screenHeight*0.1+'px',width:screenWidth+ 'px'}"></div>
-        
-        </div>
-        <div v-if="imgArr.length %2 !=0 && imgArr.length>0" :style="{ height: screenHeight*0.9+'px',width:screenWidth+ 'px'}">
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.95+ 'px',width: screenWidth+ 'px' }"></el-image>
 
         </div>
-        <!-- <div v-if="imgArr.length / 2 !== 2 && imgArr.length > 0 && imgArr.length !== 2"
-          :style="{ height: screenHeight*0.9+ 'px' }">
-        </div> -->
-        
-        <!-- <div v-if="imgArr2.length > 0" :style="{ height: screenHeight*0.1+'px'}">付款凭证影像</div>
-        
+        <div v-if="imgArr.length / 2 !== 2 && imgArr.length > 0 && imgArr.length !== 2"
+          :style="{ height: screenHeight*0.95+ 'px' }">
+        </div>
+        <div v-if="imgArr2.length > 0">付款凭证影像</div>
         <div v-for="(item, index) in imgArr2" :key="index">
          
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.9+ 'px',width: screenWidth+ 'px' }"></el-image>
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.95+ 'px',width: screenWidth+ 'px' }"></el-image>
 
         </div>
         <div v-if="imgArr2.length / 2 !== 2 && imgArr2.length > 0 && imgArr2.length !== 2"
-          :style="{ height: screenHeight*0.9 + 'px' }">
+          :style="{ height: screenHeight*0.95 + 'px' }">
 
-        </div> -->
+        </div>
       </el-form>
 
 
 
     </div>
-    <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="8"></el-col>
-                <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage" style="width:130px">返回</el-button>
 
-                </el-col>
-                <el-col :span="8"></el-col>
-            </el-row>
   </div>
 </template>
 
@@ -301,9 +289,6 @@ export default {
 
   },
   methods: {
-    beforePage(){
-      this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
-    },
     getImg(src){
      var img_url =src
      var img = new Image()

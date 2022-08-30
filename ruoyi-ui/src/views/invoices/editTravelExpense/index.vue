@@ -401,14 +401,14 @@
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="12">
                    <el-form-item label="报销凭证影像">
-                      <uploadInvoices v-if="imgArrOld.length > 0" @getfileName="getExpense" :fileName="imgArr2"
-                    :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadInvoices>
+                      <uploadInvoices ref="invoices"  @getfileName="getExpense" :fileName="isNone"
+                    :fileNameOld="imgArrOld" :isDetail="isDetails"></uploadInvoices>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12"></el-col>
             </el-row>   
              <el-form-item id="btn">
-                <el-button @click="toReturn" style="width:100px;">取消</el-button>
+                <el-button @click="toReturn" style="width:100px;">关闭</el-button>
                 <el-button type="primary" @click="submitForm('ruleForm')" style="width:100px;margin-left: 120px">确认修改</el-button>
             </el-form-item>
         </el-form>
@@ -428,6 +428,7 @@
     },
     data() {
       return {
+        isDetails: '0',
         isDetail: '0',
         imgArrOld:[],
         imgArr:[],
@@ -627,7 +628,7 @@
         this.ruleForm.dmCheck=this.travelExpenses[0].dmCheck;
 
         this.expenseImage=this.travelExpenses[0].expenseImage;
-        this.imgArrOld = [];
+       // this.imgArrOld = [];
         this.imgArr2=[];
         var imgArr= this.expenseImage.split(",");  
         imgArr.map((item,index)=>{
@@ -637,9 +638,11 @@
                     url: this.baseImgPath + item
                 })
                 this.imgArr2.push(item);
+               
               //   this.imgArr.push({id:index,value:item});
             }
         })
+        this.$refs.invoices.getSrcList(this.imgArr2);
         console.log( "imgArr=====",this.imgArr);
 
     },

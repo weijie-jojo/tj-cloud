@@ -162,46 +162,26 @@
             <el-form-item label="借款人"  class="right2" >
                 <el-input  v-model="ruleForm.borrowName" placeholder="" class="inputCss" disabled></el-input> 
             </el-form-item>
-           
-            <!-- <el-row type="flex" justify="space-around" >
-                <el-col :span="9">
-                    <el-form-item  label="付款凭证影像" style="margin-top:20px">
-                    <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                                    :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                    <el-form-item label="还凭证影像" style="margin-top:20px">
-                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
-                                    :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9"></el-col>
-            </el-row>  -->
-            <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
+                    <pdf ref="pdf" :src="item.url">
                     </pdf>
                 </el-form-item>
                 <el-form-item  v-else>
                     <div class="imgTitle">报销凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
+                    <el-image :src="item.url" ></el-image>
                 </el-form-item>
             </div>
             <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">付款凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
+                    <pdf ref="pdf" :src="item.url">
                     </pdf>
                 </el-form-item>
                 <el-form-item  v-else>
                     <div class="imgTitle">付款凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
+                    <el-image :src="item.url" ></el-image>
                 </el-form-item>
             </div>
 
@@ -240,8 +220,9 @@
     </div>
 </template>
 <script>
+    import pdf from 'vue-pdf-signature'
+    import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
     import {getUser} from '@/api/system/user'
-    import uploadSmall from '@/components/douploads/uploadSmall'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import {getCardInfoBycompany,getBankNameBycardId} from '@/api/invoices/expense'
     import {addBorrow,getCode,getAllCompany,getAllGetUser,editBorrowByBorrowId} from '@/api/invoices/borrow'
@@ -250,7 +231,8 @@
     dicts: ['pay_way'],
     name: 'borrow',
      components: {
-        uploadSmall
+        pdf,
+        
     },
     data() {
       return {
@@ -409,11 +391,19 @@
         }else{
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
-                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
-                      this.imgArr.push({
-                        url: item,
+                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length); 
+                     if(suffix=='pdf'){
+                        this.imgArr.push({
+                        url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
                         suffix: suffix,
                     })
+                     }else{
+                        this.imgArr.push({
+                        url: this.baseImgPath+item,
+                        suffix: suffix,
+                    })
+                     }    
+                     
                 }
             })
             
@@ -427,22 +417,25 @@
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
                      var suffix=item.substring(item.lastIndexOf('.')+1,item.length);     
-                     this.imgArr2.push({
-                        url:  item,
+                     if(suffix=='pdf'){
+                        this.imgArr2.push({
+                            url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
                         suffix: suffix,
                     })
+                     }else{
+                        this.imgArr2.push({
+                        url:  this.baseImgPath+item,
+                        suffix: suffix,
+                    })
+                     }
+                     
+                    
                 }
             })
            
         }
 
-        // if (this.borrowImage2==""||this.borrowImage2==undefined) {
-        //     console.log("404");
-        //     this.isShowImg2=false;
-        // }else{
-        //     this.imgpath2 =this.baseImgPath+this.borrowImage2
-        //     this.isShowImg2=true;
-        // }
+    
 
 
 
