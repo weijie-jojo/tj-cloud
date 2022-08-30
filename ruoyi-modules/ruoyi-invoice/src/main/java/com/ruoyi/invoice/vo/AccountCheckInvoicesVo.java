@@ -1,9 +1,11 @@
 package com.ruoyi.invoice.vo;
 
 import com.ruoyi.invoice.pojo.AccountCheckInvoices;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class AccountCheckInvoicesVo extends AccountCheckInvoices {
-    private String username;//用户名
+    @ApiModelProperty(value = "用户名")
+    private String username;
 }

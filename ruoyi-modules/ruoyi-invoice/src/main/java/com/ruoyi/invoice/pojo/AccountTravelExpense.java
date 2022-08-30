@@ -124,53 +124,37 @@ public class AccountTravelExpense implements Serializable {
     private String other1;
 
     @Column(name = "travel_date2")
-    @ApiModelProperty(value = "travel_date2")
     private String travelDate2;
     @Column(name = "place2")
-    @ApiModelProperty(value = "place2")
     private String place2;
     @Column(name = "travel_way2")
-    @ApiModelProperty(value = "travelWay2")
     private String travelWay2;
     @Column(name = "days2")
-    @ApiModelProperty(value = "days2")
     private String days2;
     @Column(name = "traffic2")
-    @ApiModelProperty(value = "traffic2")
     private String traffic2;
     @Column(name = "stay2")
-    @ApiModelProperty(value = "stay2")
     private String stay2;
     @Column(name = "subsidy2")
-    @ApiModelProperty(value = "subsidy2")
     private String subsidy2;
     @Column(name = "other2")
-    @ApiModelProperty(value = "other2")
     private String other2;
 
     @Column(name = "travel_date3")
-    @ApiModelProperty(value = "travel_date3")
     private String travelDate3;
     @Column(name = "place3")
-    @ApiModelProperty(value = "place3")
     private String place3;
     @Column(name = "travel_way3")
-    @ApiModelProperty(value = "travelWay3")
     private String travelWay3;
     @Column(name = "days3")
-    @ApiModelProperty(value = "days3")
     private String days3;
     @Column(name = "traffic3")
-    @ApiModelProperty(value = "traffic3")
     private String traffic3;
     @Column(name = "stay3")
-    @ApiModelProperty(value = "stay3")
     private String stay3;
     @Column(name = "subsidy3")
-    @ApiModelProperty(value = "subsidy3")
     private String subsidy3;
     @Column(name = "other3")
-    @ApiModelProperty(value = "other3")
     private String other3;
 
     @Column(name = "dept_id")

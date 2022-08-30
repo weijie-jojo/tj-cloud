@@ -3,6 +3,7 @@ package com.ruoyi.project.domain;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
  * @author ruoyi
  * @date 2022-06-17
  */
+@Data
 public class SelfIndustryRate extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -46,74 +48,4 @@ public class SelfIndustryRate extends BaseEntity
     @ApiModelProperty(value = "应税所得率")
     private BigDecimal taxRate;
 
-    public void setIndustryId(String industryId) 
-    {
-        this.industryId = industryId;
-    }
-
-    public String getIndustryId() 
-    {
-        return industryId;
-    }
-    public void setIndustryCode(String industryCode) 
-    {
-        this.industryCode = industryCode;
-    }
-
-    public String getIndustryCode() 
-    {
-        return industryCode;
-    }
-    public void setIndustryName(String industryName) 
-    {
-        this.industryName = industryName;
-    }
-
-    public String getIndustryName() 
-    {
-        return industryName;
-    }
-    public void setParentId(Long parentId) 
-    {
-        this.parentId = parentId;
-    }
-
-    public Long getParentId() 
-    {
-        return parentId;
-    }
-    public void setIsDelete(String isDelete) 
-    {
-        this.isDelete = isDelete;
-    }
-
-    public String getIsDelete() 
-    {
-        return isDelete;
-    }
-    public void setTaxRate(BigDecimal taxRate) 
-    {
-        this.taxRate = taxRate;
-    }
-
-    public BigDecimal getTaxRate() 
-    {
-        return taxRate;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("industryId", getIndustryId())
-            .append("industryCode", getIndustryCode())
-            .append("industryName", getIndustryName())
-            .append("parentId", getParentId())
-            .append("isDelete", getIsDelete())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("taxRate", getTaxRate())
-            .toString();
-    }
 }

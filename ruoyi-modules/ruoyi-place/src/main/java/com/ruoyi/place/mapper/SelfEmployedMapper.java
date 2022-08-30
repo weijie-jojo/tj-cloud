@@ -1,7 +1,6 @@
 package com.ruoyi.place.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
-import com.ruoyi.place.entity.BusinessPlaceRecycle;
 import com.ruoyi.place.entity.SelfEmployed;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

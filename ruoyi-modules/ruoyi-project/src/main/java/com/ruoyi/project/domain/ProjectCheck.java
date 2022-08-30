@@ -3,6 +3,7 @@ package com.ruoyi.project.domain;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -14,6 +15,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2022-08-01
  */
+@Data
 public class ProjectCheck extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -53,81 +55,5 @@ public class ProjectCheck extends BaseEntity
     @ApiModelProperty(value = "手机号码")
     private String phonenumber;
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-    public void setCheckDate(Date checkDate)
-    {
-        this.checkDate = checkDate;
-    }
-
-    public Date getCheckDate()
-    {
-        return checkDate;
-    }
-    public void setCheckUser(String checkUser)
-    {
-        this.checkUser = checkUser;
-    }
-
-    public String getCheckUser()
-    {
-        return checkUser;
-    }
-    public void setCheckReasult(String checkReasult)
-    {
-        this.checkReasult = checkReasult;
-    }
-
-    public String getCheckReasult()
-    {
-        return checkReasult;
-    }
-    public void setProjectCode(String projectCode)
-    {
-        this.projectCode = projectCode;
-    }
-
-    public String getProjectCode()
-    {
-        return projectCode;
-    }
-    public void setProjectType(String projectType)
-    {
-        this.projectType = projectType;
-    }
-
-    public String getProjectType()
-    {
-        return projectType;
-    }
-    public void setPhonenumber(String phonenumber)
-    {
-        this.phonenumber = phonenumber;
-    }
-
-    public String getPhonenumber()
-    {
-        return phonenumber;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("checkDate", getCheckDate())
-                .append("checkUser", getCheckUser())
-                .append("checkReasult", getCheckReasult())
-                .append("projectCode", getProjectCode())
-                .append("projectType", getProjectType())
-                .append("phonenumber", getPhonenumber())
-                .toString();
-    }
 }
 
