@@ -6,7 +6,7 @@
             </el-form-item>
             <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
-                    <el-button type="primary" @click="printme">打印详情</el-button>
+                    <el-button type="primary" @click="printme">打印预览</el-button>
                     <!-- <el-button v-print="'#printMe'" type="primary">打印</el-button> -->
                 </el-col>
             </el-row>
@@ -348,6 +348,34 @@ export default {
     name: 'expense',
     data() {
         return {
+             printObj: {
+              
+                asyncUrl (reslove, vue) {
+                setTimeout(() => {
+                  reslove('/print')
+                }, 2000)
+              },
+                //url: 'https://www.baidu.com/',
+              preview: true,
+              previewBeforeOpenCallback (vue) {
+                console.log('正在加载预览窗口')
+              },
+              previewOpenCallback (vue) {
+                console.log('已经加载完预览窗口')
+              },
+              beforeOpenCallback (vue) {
+                console.log('打开之前');
+                
+              },
+              openCallback (vue) {
+
+                console.log('正在打印')
+              },
+              closeCallback (vue) {
+              
+                console.log('关闭了打印工具')
+              }
+            },
             isDetail: '1',
             isNone: [],
 
@@ -594,7 +622,7 @@ export default {
     },
     methods: {
         printme(){
-          this.$tab.openPage("报销单打印",'/invoices/expensePrint');
+          this.$tab.openPage("报销单打印预览",'/invoices/expensePrint');
         },
         beforePage() {
             this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
@@ -953,11 +981,11 @@ export default {
     background-color: transparent !important;
     color: black;
 }
-
-  .imgTitle{
+.imgTitle{
         margin-top:30px;
         margin-left:600px;
         margin-bottom:30px;
         font-size:20px;
-    }
+}
+
 </style>

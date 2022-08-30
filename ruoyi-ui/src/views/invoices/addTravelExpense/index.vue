@@ -473,6 +473,7 @@
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
     import { getCode,addTravelExpense } from '@/api/invoices/travelExpense'
+    import { Decimal } from 'decimal.js'
     export default {
     components: {
      uploadInvoices
@@ -608,16 +609,62 @@
     },
     computed: {
         subTotalMoney1:function(){
-            return this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1;
+       
+            if(!this.ruleForm.traffic1){
+                this.ruleForm.traffic1=0;
+            }
+            if(!this.ruleForm.stay1){
+                this.ruleForm.stay1=0;
+            }
+            if(!this.ruleForm.subsidy1){
+                this.ruleForm.subsidy1=0;
+            }
+            if(!this.ruleForm.other1){
+                this.ruleForm.other1=0;
+            }
+             return  new Decimal(this.ruleForm.traffic1).add(new Decimal(this.ruleForm.stay1)).add(new Decimal(this.ruleForm.subsidy1)).add(new Decimal(this.ruleForm.other1));
         },
         subTotalMoney2:function(){
-             return this.ruleForm.traffic2+this.ruleForm.stay2+this.ruleForm.subsidy2+this.ruleForm.other2;
+            if(!this.ruleForm.traffic2){
+                this.ruleForm.traffic2=0;
+            }
+            if(!this.ruleForm.stay2){
+                this.ruleForm.stay2=0;
+            }
+            if(!this.ruleForm.subsidy2){
+                this.ruleForm.subsidy2=0;
+            }
+            if(!this.ruleForm.other2){
+                this.ruleForm.other2=0;
+            }
+            return  new Decimal(this.ruleForm.traffic2).add(new Decimal(this.ruleForm.stay2)).add(new Decimal(this.ruleForm.subsidy2)).add(new Decimal(this.ruleForm.other2));
         },
         subTotalMoney3:function(){
-             return this.ruleForm.traffic3+this.ruleForm.stay3+this.ruleForm.subsidy3+this.ruleForm.other3;
+            if(!this.ruleForm.traffic3){
+                this.ruleForm.traffic3=0;
+            }
+            if(!this.ruleForm.stay3){
+                this.ruleForm.stay3=0;
+            }
+            if(!this.ruleForm.subsidy3){
+                this.ruleForm.subsidy3=0;
+            }
+            if(!this.ruleForm.other3){
+                this.ruleForm.other3=0;
+            }
+            return  new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
         },
         totalMoney:function(){
-            return this.subTotalMoney1+this.subTotalMoney2+this.subTotalMoney3;
+            if(!this.subTotalMoney1){
+                this.subTotalMoney1=0;
+            }
+            if(!this.subTotalMoney2){
+                this.subTotalMoney2=0;
+            }
+            if(!this.subTotalMoney3){
+                this.subTotalMoney3=0;
+            }
+            return  new Decimal(this.subTotalMoney1).add(new Decimal(this.subTotalMoney2)).add(new Decimal(this.subTotalMoney3));
         },
     },
     methods: {
