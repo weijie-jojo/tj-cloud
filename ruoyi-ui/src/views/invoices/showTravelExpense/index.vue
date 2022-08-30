@@ -12,9 +12,9 @@
                 <span style="font-size:30px">差旅费报销单详情</span>                  
             </el-form-item>
              <el-button 
-            v-print="'#printMe'" 
+             @click="printme"
             type="primary"
-            style="margin-left:1400px;margin-bottom: 40px;">打印</el-button>
+            style="margin-left:1400px;margin-bottom: 40px;">打印预览</el-button>
             <el-row >
                 <el-col :span="4">
                     <el-form-item label="差旅报销单单号" >
@@ -784,6 +784,9 @@
       
     },
     methods: {
+        printme(){
+          this.$tab.openPage("报销单打印预览",'/invoices/travelPrints');
+        },
           beforePage() {
             this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
         },
