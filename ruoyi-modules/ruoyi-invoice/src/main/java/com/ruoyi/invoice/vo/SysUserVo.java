@@ -16,4 +16,7 @@ public class SysUserVo {
     private int roleId;
     @ApiModelProperty(value = "部门id")
     private int deptId;
+    @ApiModelProperty(value = "手机号")
+    private String phonenumber;
+
 }

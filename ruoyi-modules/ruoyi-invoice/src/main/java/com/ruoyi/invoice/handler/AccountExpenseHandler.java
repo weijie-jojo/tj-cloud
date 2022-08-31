@@ -54,7 +54,7 @@ public class AccountExpenseHandler {
     @ApiOperation("获取领导信息（日志用）")
     public List<SysUserVo> getLeaderByUserId(Integer type){
         //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+//        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
         //根据部门id获取用户集合
 //        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
         //根据登录用户获取用户角色信息
