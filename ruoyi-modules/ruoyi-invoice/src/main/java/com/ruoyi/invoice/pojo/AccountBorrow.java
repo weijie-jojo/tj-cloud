@@ -20,6 +20,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
 * @website https://el-admin.vip
@@ -52,7 +53,7 @@ public class AccountBorrow implements Serializable {
 
     @Column(name = "total_money")
     @ApiModelProperty(value = "总借款金额")
-    private Double totalMoney;
+    private BigDecimal totalMoney;
 
     @Column(name = "payway_id")
     @ApiModelProperty(value = "付款方式")

@@ -20,6 +20,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
 * @website https://el-admin.vip
@@ -56,7 +57,7 @@ public class AccountTravelExpense implements Serializable {
 
     @Column(name = "total_all_money")
     @ApiModelProperty(value = "总费用")
-    private Double totalAllMoney;
+    private BigDecimal totalAllMoney;
 
     @Column(name = "is_deleted")
     @ApiModelProperty(value = "是否显示")
@@ -112,16 +113,16 @@ public class AccountTravelExpense implements Serializable {
     private String days1;
     @Column(name = "traffic1")
     @ApiModelProperty(value = "交通费")
-    private String traffic1;
+    private BigDecimal traffic1;
     @Column(name = "stay1")
     @ApiModelProperty(value = "住宿费")
-    private String stay1;
+    private BigDecimal stay1;
     @Column(name = "subsidy1")
     @ApiModelProperty(value = "差旅补助")
-    private String subsidy1;
+    private BigDecimal subsidy1;
     @Column(name = "other1")
     @ApiModelProperty(value = "其他费用")
-    private String other1;
+    private BigDecimal other1;
 
     @Column(name = "travel_date2")
     private String travelDate2;
@@ -132,13 +133,13 @@ public class AccountTravelExpense implements Serializable {
     @Column(name = "days2")
     private String days2;
     @Column(name = "traffic2")
-    private String traffic2;
+    private BigDecimal traffic2;
     @Column(name = "stay2")
-    private String stay2;
+    private BigDecimal stay2;
     @Column(name = "subsidy2")
-    private String subsidy2;
+    private BigDecimal subsidy2;
     @Column(name = "other2")
-    private String other2;
+    private BigDecimal other2;
 
     @Column(name = "travel_date3")
     private String travelDate3;
@@ -149,13 +150,13 @@ public class AccountTravelExpense implements Serializable {
     @Column(name = "days3")
     private String days3;
     @Column(name = "traffic3")
-    private String traffic3;
+    private BigDecimal traffic3;
     @Column(name = "stay3")
-    private String stay3;
+    private BigDecimal stay3;
     @Column(name = "subsidy3")
-    private String subsidy3;
+    private BigDecimal subsidy3;
     @Column(name = "other3")
-    private String other3;
+    private BigDecimal other3;
 
     @Column(name = "dept_id")
     @ApiModelProperty(value = "报销人所属部门id")

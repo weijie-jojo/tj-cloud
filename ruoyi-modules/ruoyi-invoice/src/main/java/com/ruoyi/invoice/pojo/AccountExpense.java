@@ -3,6 +3,8 @@ package com.ruoyi.invoice.pojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class AccountExpense {
     @ApiModelProperty(value = "报销编号")
@@ -26,24 +28,24 @@ public class AccountExpense {
     @ApiModelProperty(value = "项目备注")
     private String item1Remark;
     @ApiModelProperty(value = "项目金额")
-    private double item1Money;
+    private BigDecimal item1Money;
     @ApiModelProperty(value = "项目描述")
     private String item1Desc;
     private String item2Remark;
-    private double item2Money;
+    private BigDecimal item2Money;
     private String item2Desc;
     private String item3Remark;
-    private double item3Money;
+    private BigDecimal item3Money;
     private String item3Desc;
     private String item4Remark;
-    private double item4Money;
+    private BigDecimal item4Money;
     private String item4Desc;
     private String item5Remark;
-    private double item5Money;
+    private BigDecimal item5Money;
     private String item5Desc;
 
     @ApiModelProperty(value = "总费用")
-    private double totalMoney;
+    private BigDecimal totalMoney;
     @ApiModelProperty(value = "付款方式")
     private Integer paywayId;
     @ApiModelProperty(value = "付款方式备注")
