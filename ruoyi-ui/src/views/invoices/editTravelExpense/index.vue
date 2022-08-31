@@ -295,27 +295,27 @@
             <el-form-item label="小计" style="margin-left:1410px;margin-top:-350px">
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1}}
+               {{subTotalMoney1}}
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2}}
+               {{subTotalMoney2}}
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3}}
+               {{subTotalMoney3}}
             </el-form-item>
             <el-row style="margin-top:20px">
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
                         <el-input
                             disabled
-                            v-model="totalMoney"
+                            v-model="totalAllMoney"
                             style="width:140px"></el-input>
                             <span style="margin-left:10px">元</span>  
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item  label="总计金额(大写)"  >                 
-                        {{digitUppercase(totalMoney)+"元"}}    
+                        {{digitUppercase(totalAllMoney)}}    
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -596,7 +596,7 @@
             }
             return  new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
         },
-        totalMoney:function(){
+        totalAllMoney:function(){
             if(!this.subTotalMoney1){
                 this.subTotalMoney1=0;
             }
@@ -664,7 +664,8 @@
         this.ruleForm.subsidy3=this.travelExpenses[0].subsidy3;
         this.ruleForm.other3=this.travelExpenses[0].other3;
 
-        this.ruleForm.totalMoney=this.travelExpenses[0].totalMoney;
+        this.ruleForm.totalAllMoney=this.travelExpenses[0].totalAllMoney;
+        this.totalAllMoney=this.travelExpenses[0].totalAllMoney;
         this.ruleForm.paywayId=this.travelExpenses[0].label;
         this.ruleForm.payDate=this.travelExpenses[0].payDate;
 
@@ -987,7 +988,7 @@
                         expenseImage:this.imgArr2.join(),
 
                         //总费用
-                        totalAllMoney:parseFloat(this.totalMoney)
+                        totalAllMoney:parseFloat(this.totalAllMoney)
                     };
                   
                     console.log('submit!');

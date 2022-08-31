@@ -175,16 +175,13 @@
               
                 <el-col :span="9">
                     <el-form-item label="合计金额(小写)">
-                        {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
-                                + ruleForm.item5money
-                        }}
+                        {{ ruleForm.totalMoney}}
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
                     <el-form-item label="合计金额(大写)">
-                        {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money +
-                                ruleForm.item4money + ruleForm.item5money)
+                        {{ digitUppercase(ruleForm.totalMoney)
                         }}
                     </el-form-item>
                 </el-col>
@@ -547,6 +544,7 @@ export default {
         this.ruleForm.item5desc = this.expenses[0].item5Desc;
         this.ruleForm.item5money = this.expenses[0].item5Money;
         this.ruleForm.item5remark = this.expenses[0].item5Remark;
+        this.ruleForm.totalMoney=this.expenses[0].totalMoney;
 
         this.ruleForm.companyPayId = this.expenses[0].companyPayId;
         this.ruleForm.bankPaycode = this.expenses[0].bankPaycode;

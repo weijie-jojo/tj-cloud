@@ -271,11 +271,11 @@
             </el-row>
            
              <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="5"></el-col>
-                <!-- <el-col :span='8' class="flexs"> -->
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
                 <el-button type="danger" @click="toReturn">关闭</el-button>
                 <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <!-- </el-col> -->
+                </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
 

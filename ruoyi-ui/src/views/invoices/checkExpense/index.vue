@@ -172,13 +172,13 @@
                 
                 <el-col :span="9">
                     <el-form-item label="合计金额(小写)">
-                        {{ ruleForm.totalMoney+"元"}}
+                        {{ ruleForm.totalMoney}}
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
                     <el-form-item label="合计金额(大写)">
-                        {{ digitUppercase(ruleForm.totalMoney)+"元"}}
+                        {{ digitUppercase(ruleForm.totalMoney)}}
                     </el-form-item>
                 </el-col>
                 <el-col :span="9"></el-col>
