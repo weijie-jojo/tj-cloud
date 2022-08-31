@@ -306,16 +306,16 @@
             <el-row style="margin-top:20px">
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
-                        {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}    
+                        <el-input
+                            disabled
+                            v-model="totalMoney"
+                            style="width:140px"></el-input>
+                            <span style="margin-left:10px">元</span>  
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item  label="总计金额(大写)"  >                 
-                        {{digitUppercase(ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3)+"元"}}    
+                        {{digitUppercase(totalMoney)+"元"}}    
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -420,6 +420,7 @@
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
+    import { Decimal } from 'decimal.js'
     import { getCode,getExpenseItem,editTravelExpenseById,editTravelExpense2} from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
@@ -428,6 +429,7 @@
     },
     data() {
       return {
+        isNone:[],
         isDetails: '0',
         isDetail: '0',
         imgArrOld:[],
@@ -546,6 +548,66 @@
         rejectReasult:'',
         checks:[],
       }
+    },
+    computed: {
+        subTotalMoney1:function(){
+       
+            if(!this.ruleForm.traffic1){
+                this.ruleForm.traffic1=0;
+            }
+            if(!this.ruleForm.stay1){
+                this.ruleForm.stay1=0;
+            }
+            if(!this.ruleForm.subsidy1){
+                this.ruleForm.subsidy1=0;
+            }
+            if(!this.ruleForm.other1){
+                this.ruleForm.other1=0;
+            }
+             return  new Decimal(this.ruleForm.traffic1).add(new Decimal(this.ruleForm.stay1)).add(new Decimal(this.ruleForm.subsidy1)).add(new Decimal(this.ruleForm.other1));
+        },
+        subTotalMoney2:function(){
+            if(!this.ruleForm.traffic2){
+                this.ruleForm.traffic2=0;
+            }
+            if(!this.ruleForm.stay2){
+                this.ruleForm.stay2=0;
+            }
+            if(!this.ruleForm.subsidy2){
+                this.ruleForm.subsidy2=0;
+            }
+            if(!this.ruleForm.other2){
+                this.ruleForm.other2=0;
+            }
+            return  new Decimal(this.ruleForm.traffic2).add(new Decimal(this.ruleForm.stay2)).add(new Decimal(this.ruleForm.subsidy2)).add(new Decimal(this.ruleForm.other2));
+        },
+        subTotalMoney3:function(){
+            if(!this.ruleForm.traffic3){
+                this.ruleForm.traffic3=0;
+            }
+            if(!this.ruleForm.stay3){
+                this.ruleForm.stay3=0;
+            }
+            if(!this.ruleForm.subsidy3){
+                this.ruleForm.subsidy3=0;
+            }
+            if(!this.ruleForm.other3){
+                this.ruleForm.other3=0;
+            }
+            return  new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
+        },
+        totalMoney:function(){
+            if(!this.subTotalMoney1){
+                this.subTotalMoney1=0;
+            }
+            if(!this.subTotalMoney2){
+                this.subTotalMoney2=0;
+            }
+            if(!this.subTotalMoney3){
+                this.subTotalMoney3=0;
+            }
+            return  new Decimal(this.subTotalMoney1).add(new Decimal(this.subTotalMoney2)).add(new Decimal(this.subTotalMoney3));
+        },
     },
     mounted: function() {
         this.getAllCompany();
@@ -925,9 +987,7 @@
                         expenseImage:this.imgArr2.join(),
 
                         //总费用
-                        totalAllMoney:this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1+
-                        this.ruleForm.traffic2+this.ruleForm.stay2+this.ruleForm.subsidy2+this.ruleForm.other2+
-                        this.ruleForm.traffic3+this.ruleForm.stay3+this.ruleForm.subsidy3+this.ruleForm.other3,
+                        totalAllMoney:parseFloat(this.totalMoney)
                     };
                   
                     console.log('submit!');
