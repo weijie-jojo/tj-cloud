@@ -102,14 +102,16 @@
             <el-table-column label="主管" align="center">
               <template slot-scope="scope">
                   <el-link :underline="false" type="primary"
-                    v-if="scope.row.invoiceType == 1">办理中
+                    v-if="scope.row.invoiceType == 1" @click="expenseHandle(1)">办理中
                   </el-link>
                   <el-link :underline="false" type="success" 
+                    @click="expenseFinsh(scope.row.expenseCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
+                  @click="expenseFinsh(scope.row.expenseCode,1)"
                     v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -119,7 +121,7 @@
                   v-if="scope.row.invoiceType == 1">未开始
                 </el-link>
                 <el-link  :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 2">办理中
+                  v-if="scope.row.invoiceType == 2" @click="expenseHandle(2)">办理中
                 </el-link>
         
                 <el-link :underline="false" type="info" 
@@ -127,9 +129,11 @@
                 <el-link :underline="false" type="danger" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.expenseCode,2)"
                   v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.expenseCode,2)"
                   v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -139,7 +143,7 @@
                   v-if="scope.row.invoiceType <= 2">未开始
                 </el-link>
                 <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 3">办理中
+                  v-if="scope.row.invoiceType == 3" @click="expenseHandle(3)">办理中
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
@@ -148,6 +152,7 @@
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.expenseCode,3)"
                   v-if="scope.row.invoiceType == 5">完成</el-link>
               </template>
             </el-table-column>
@@ -164,7 +169,9 @@
                   @click="editExpense(scope.row)"
                   >编辑
                 </el-button>
+                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
+                v-if='scope.row.invoiceType<=3'
                   type="primary" 
                   size="mini"
                   @click="rollback(scope.row)"
@@ -202,7 +209,7 @@
                     size="small" 
                     type="primary" 
                     @click="cancel" 
-                class="btn2">返回</el-button>
+                class="btn2">关闭</el-button>
             </el-dialog>
         <!-- 差旅报销单tab页面 -->
         <el-tab-pane label="差旅报销单">
@@ -302,15 +309,17 @@
             <el-table-column label="主管" align="center">
               <template slot-scope="scope">
                   <el-link :underline="false" type="primary"
-                    v-if="scope.row.invoiceType == 1">办理中
+                    v-if="scope.row.invoiceType == 1" @click="expenseHandle(1)">办理中
                   </el-link>
 
                   <el-link :underline="false" type="success" 
+                      @click="expenseFinsh(scope.row.travelExpenseCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
+                  @click="expenseFinsh(scope.row.travelExpenseCode,1)"
                     v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -320,7 +329,7 @@
                   v-if="scope.row.invoiceType == 1">未开始
                 </el-link>
                 <el-link  :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 2">办理中
+                  v-if="scope.row.invoiceType == 2" @click="expenseHandle(2)">办理中
                 </el-link>
         
                 <el-link :underline="false" type="info" 
@@ -328,9 +337,11 @@
                 <el-link :underline="false" type="danger" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.travelExpenseCode,2)"
                   v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.travelExpenseCode,2)"
                   v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -340,7 +351,7 @@
                   v-if="scope.row.invoiceType <= 2">未开始
                 </el-link>
                 <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 3">办理中
+                  v-if="scope.row.invoiceType == 3" @click="expenseHandle(3)">办理中
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
@@ -349,6 +360,7 @@
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.travelExpenseCode,3)"
                   v-if="scope.row.invoiceType == 5">完成</el-link>
               </template>
             </el-table-column>
@@ -365,7 +377,9 @@
                   @click="editTravelExpense(scope.row)"
                   >编辑
                 </el-button>
+                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
+                v-if='scope.row.invoiceType<=3'
                   type="primary" 
                   size="mini"
                   @click="rollback2(scope.row)"
@@ -484,15 +498,17 @@
             <el-table-column label="主管" align="center">
               <template slot-scope="scope">
                   <el-link :underline="false" type="primary"
-                    v-if="scope.row.invoiceType == 1">办理中
+                    v-if="scope.row.invoiceType == 1" @click="expenseHandle(1)">办理中
                   </el-link>
 
                   <el-link :underline="false" type="success" 
+                    @click="expenseFinsh(scope.row.borrowCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
+                  @click="expenseFinsh(scope.row.borrowCode,1)"
                     v-if="scope.row.invoiceType >=2 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -502,7 +518,7 @@
                   v-if="scope.row.invoiceType == 1">未开始
                 </el-link>
                 <el-link  :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 2">办理中
+                  v-if="scope.row.invoiceType == 2" @click="expenseHandle(2)">办理中
                 </el-link>
         
                 <el-link :underline="false" type="info" 
@@ -510,9 +526,11 @@
                 <el-link :underline="false" type="danger" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.borrowCode,2)"
                   v-if="scope.row.financeCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.borrowCode,2)"
                   v-if="scope.row.invoiceType >=3 && scope.row.invoiceType != 6">完成</el-link>
               </template>
             </el-table-column>
@@ -522,7 +540,7 @@
                   v-if="scope.row.invoiceType <= 2">未开始
                 </el-link>
                 <el-link :underline="false" type="primary"
-                  v-if="scope.row.invoiceType == 3">办理中
+                  v-if="scope.row.invoiceType == 3" @click="expenseHandle(3)">办理中
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
@@ -531,6 +549,7 @@
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
 
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.borrowCode,3)"
                   v-if="scope.row.invoiceType == 4 || scope.row.invoiceType == 5">完成</el-link>
               </template>
             </el-table-column>
@@ -543,6 +562,7 @@
                   v-if="scope.row.invoiceType == 4">办理中
                 </el-link>
                 <el-link :underline="false" type="success"
+                @click="expenseFinsh(scope.row.borrowCode,4)"
                   v-if="scope.row.invoiceType == 5">完成</el-link>
 
                 <el-link :underline="false" type="info"
@@ -568,7 +588,9 @@
                     size="mini"
                    @click="pz(scope.row)"
                 >还款凭证</el-button>
+                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
+                v-if='scope.row.invoiceType<=3'
                   type="primary" 
                   size="mini"
                   @click="rollback3(scope.row)"
@@ -622,7 +644,7 @@ import {getInfo} from '@/api/login'
 // import initDict,{getDicts} from '@/api/system/dict'
 import {addCheckInvoices,getAllCheck} from '@/api/invoices/checkInvoices'
 import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/borrow";
-import { editExpense,getExpenses,editExpenseType } from "@/api/invoices/expense";
+import { editExpense,getExpenses,editExpenseType,getLeaderByUserId } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
 export default {
   dicts: ['step_type'],
@@ -631,6 +653,7 @@ export default {
   props: [],
   data() {
     return {
+      datainfo:{},
       checks:'',
       checkVisible:false,
       messageVisible:false,
@@ -815,6 +838,54 @@ export default {
   },
 
   methods: {
+    //主管  财务 总经办 办理中
+    expenseHandle(type){
+      let params={
+        type:type
+      };
+      getLeaderByUserId(params).then(res=>{
+
+          console.log(res);
+          if(type==1){
+          this.datainfo=res[0];
+          }else if(type==2){
+            this.datainfo=res[2];
+          }else if(type==3){
+            this.datainfo=res[0];
+          }
+             const h = this.$createElement;
+          this.$confirm(
+            '', {
+            message: h('div', null, [
+              h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+              h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+              
+              h('p', { style: 'margin:5px 0 0 40px;' }, '请等待' + this.datainfo.nickName + '(' + this.datainfo.phonenumber + ')' + '审核')
+            ]),
+
+
+
+            confirmButtonText: '确定',
+            cancelButtonText: '关闭',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+
+          }).then(() => {
+            // if (this.errNameMsg == '修改') {
+            //    this.$tab.openPage("个体户名称修改", "/company/customer/editEmployedName")
+            // } else {
+            //    this.$tab.openPage("个体户名称查看", "/company/customer/namedetail")
+            // }
+          }).catch(() => {
+
+          });
+
+        })
+      
+    },
+    expenseFinsh(expenseCode,type){
+
+    },
     getCheck(expenseCode){
       console.log('1111111');
       this.checkVisible=true;

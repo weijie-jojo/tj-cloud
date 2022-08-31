@@ -120,11 +120,15 @@
           </el-row> -->
           
         </div>
-        <el-row class="row-bg"  :style="{height:screenHeight+'px',width:'100%',paddingTop:'10px'}">
+        <el-row class="row-bg"  :style="{height:screenHeight+'px',width:screenWidth+ 'px',paddingTop:'10px'}">
           
           <el-col :span="24">
             <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
-            <el-table border :data="checks" style="margin-top: 20px;">
+            <el-table  :data="checks" style="margin-top: 20px;"
+            :cell-style="cellStyle"
+            :row-style="rowStyle"
+            :header-cell-style="rowStyle"
+            >
               <el-table-column prop="checkDate" label="时间" width="180" />
               <el-table-column prop="checkUser" label="人员" width="180" />
               <el-table-column prop="checkReasult" label="结果" />
@@ -322,6 +326,12 @@ export default {
 
   },
   methods: {
+    rowStyle({row, rowIndex}){
+      return 'border:1px solid #333;';
+    },
+    cellStyle({row, rowIndex}){
+      return 'border:1px solid #333;';
+    },
     beforePage(){
       this.$tab.closeOpenPage({ path: '/invoices/showTravelExpense' });
     },
@@ -465,7 +475,7 @@ export default {
 @media print {
   @page {
     size: auto;
-    margin: 0mm;
+    margin: 3mm;
   }
   #printMe{
     zoom: 100%;

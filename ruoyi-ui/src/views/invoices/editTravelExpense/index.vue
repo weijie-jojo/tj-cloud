@@ -649,6 +649,7 @@
     methods: {
          getExpense(data) {
             this.imgArr2 = data;
+            console.log(data);
         },
         isAgrees(){
             console.log("点了是否同意");
