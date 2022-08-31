@@ -171,13 +171,13 @@
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="8">
                     <el-form-item label="合计金额(小写)"  prop="money">
-                        {{ totalMoney}}
+                        {{ totalMoney+'元'}}
                     </el-form-item>
                     </el-col>
                     <el-col :span="8"></el-col>
                     <el-col :span="8">
                         <el-form-item label="合计金额(大写)" >
-                        {{digitUppercase(totalMoney)}}
+                        {{digitUppercase(totalMoney)+'元'}}
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -511,7 +511,23 @@ export default {
     },
     computed: {          
         totalMoney:function(){ 
-            return this.ruleForm.item1money+this.ruleForm.item2money+this.ruleForm.item3money+this.ruleForm.item4money+this.ruleForm.item5money;
+            if(!this.ruleForm.item1money){
+                this.ruleForm.item1money=0;
+            }
+            if(!this.ruleForm.item2money){
+                this.ruleForm.item2money=0;
+            }
+            if(!this.ruleForm.item3money){
+                this.ruleForm.item3money=0;
+            }
+            if(!this.ruleForm.item4money){
+                this.ruleForm.item4money=0;
+            }
+            if(!this.ruleForm.item5money){
+                this.ruleForm.item5money=0;
+            }
+            return  new Decimal(this.ruleForm.item1money).add(new Decimal(this.ruleForm.item2money)).add(new Decimal(this.ruleForm.item3money)).add(new Decimal(this.ruleForm.item4money)).add(new Decimal(this.ruleForm.item5money));
+            
         }
     },
     methods: {
@@ -655,7 +671,7 @@ export default {
                 item5Money: this.ruleForm.item5money,
                 item5Desc: this.ruleForm.item5desc,
 
-                totalMoney: this.totalMoney,
+                totalMoney: parseFloat(this.totalMoney),
                 paywayId: this.ruleForm.paywayId,
                 paywayRemark: this.ruleForm.paywayRemark,
 
