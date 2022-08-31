@@ -427,16 +427,16 @@
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     var invoiceType=1;
-                    this.roles.map(item=>{//总经理
-                        if(item.id==5||item.id==6){
-                            invoiceType=3;
-                            // this.ruleForm.dmCheck=this.ruleForm.borrowName;
-                            this.ruleForm.gmCheck=this.ruleForm.borrowName;
+                    var checkReasult="发起";
+                    this.roles.map(item=>{
+                        if(item.roleId==5||item.roleId==6){//总经理
+                            invoiceType=2;//新增默认部门主管审批
+                            checkReasult="发起，部门主管审批同意"
+                            this.ruleForm.dmCheck=this.ruleForm.borrowName;
                         }
                     })
                     let params={
-                        // dmCheck:this.ruleForm.dmCheck,
-                        gmCheck:this.ruleForm.gmCheck,
+                        dmCheck:this.ruleForm.dmCheck,
 
                         invoiceType:invoiceType,
                         deptId:this.ruleForm.deptId,
@@ -464,7 +464,7 @@
                     };
                     let params2={
                         invoiceCode:this.ruleForm.borrowCode,
-                        checkReasult:"发起",
+                        checkReasult:checkReasult,
                         checkUser:this.ruleForm.borrowName,
                         checkDate:this.returnTime(new Date()),
                         invoiceType:3,//单据类型

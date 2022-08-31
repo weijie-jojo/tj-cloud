@@ -433,6 +433,7 @@
             this.ruleForm.dept=res.user.dept.deptName;
             this.ruleForm.deptId=res.user.deptId;
             this.roles=res.user.roles;
+            console.log("roles==", res.user.roles);
             this.ruleForm.userGetid=res.user.id;
             //根据收款人id查找收款银行卡信息
             getCardInfoBycompany(res.user.userId).then(res => {
@@ -566,16 +567,17 @@
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     var invoiceType=1;
-                    this.roles.map(item=>{//总经理
-                        if(item.id==5||item.id==6){
-                            invoiceType=3;
-                            // this.ruleForm.dmCheck=this.ruleForm.expenseName;
-                            this.ruleForm.gmCheck=this.ruleForm.expenseName;
+                    var checkReasult="发起";
+                    this.roles.map(item=>{
+                        console.log("roleId",item.roleId);
+                        if(item.roleId==5||item.roleId==6){//总经理
+                            invoiceType=2;//新增默认部门主管审批
+                            checkReasult="发起，部门主管审批同意"
+                            this.ruleForm.dmCheck=this.ruleForm.expenseName;
                         }
                     })
                     let params={
-                        // dmCheck:this.ruleForm.dmCheck,
-                        gmCheck:this.ruleForm.gmCheck,
+                        dmCheck:this.ruleForm.dmCheck,
 
                         invoiceType:invoiceType,//发起状态
                         deptId:this.ruleForm.deptId,
@@ -620,7 +622,7 @@
                     };
                     let params2={
                         invoiceCode:this.ruleForm.expenseCode,
-                        checkReasult:"发起",
+                        checkReasult:checkReasult,
                         checkUser:this.ruleForm.expenseName,
                         checkDate:this.returnTime(new Date()),
                         invoiceType:1,//单据类型（报销单）
