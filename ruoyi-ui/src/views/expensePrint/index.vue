@@ -120,11 +120,16 @@
           </el-row>
           
         </div>
-        <el-row class="row-bg"  :style="{height:screenHeight+'px',width:'100%',paddingTop:'10px'}">
-          
+        <el-row class="row-bg"  :style="{height:screenHeight+'px',width:screenWidth+ 'px',paddingTop:'10px'}">
+        
           <el-col :span="24">
             <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
-            <el-table border :data="checks" style="margin-top: 20px;">
+            <el-table  :data="checks" style="margin-top: 20px;"
+            :cell-style="cellStyle"
+            :row-style="rowStyle"
+            :header-cell-style="rowStyle"
+            
+            >
               <el-table-column prop="checkDate" label="时间" width="180" />
               <el-table-column prop="checkUser" label="人员" width="180" />
               <el-table-column prop="checkReasult" label="结果" />
@@ -322,6 +327,19 @@ export default {
 
   },
   methods: {
+    // tableRowStyle(){
+    //   return 'background-color:pink;font-size:15px;'
+    // },
+    rowStyle({row, rowIndex}){
+      return 'border:1px solid #333;';
+    },
+    cellStyle({row, rowIndex}){
+      return 'border:1px solid #333;';
+    },
+    tableRowClassName({row, rowIndex}) {
+        
+        return 'success-row';
+      },
     beforePage(){
       this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
     },
@@ -367,6 +385,10 @@ export default {
         }
       })
     },
+     //设置表格行的样式
+    tableRowStyle({row,rowIndex}){
+       return 'background-color:pink;font-size:15px;'
+    },
     back() {
       this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
     },
@@ -409,6 +431,7 @@ export default {
 }
 </script>
 <style>
+
 .flexs {
   display: flex;
   align-items: center;
@@ -461,14 +484,31 @@ export default {
   padding: 5px;
 }
 
+/* .el-table tr{
+  border: 1px solid #333;
+}
+.el-table th{
+  border: 1px solid #333;
+}
+.el-table td{
+  border: 1px solid #333;
+}
+.el-table__cell{
+  border: 1px solid #333;
+} */
+
+					
+			
+			
+	
+		
+
 
 @media print {
   @page {
-    size: auto;
-    margin: 0mm;
-  }
-  #printMe{
-    zoom: 100%;
-  }
+    size: auto; /* auto is the initial value */
+    margin: 3mm; /* this affects the margin in the printer settings */
+}
+  
 }
 </style>

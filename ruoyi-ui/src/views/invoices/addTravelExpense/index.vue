@@ -460,7 +460,7 @@
                 </el-col>
             </el-row>
             <el-form-item class="btn" >
-                <el-button @click="toReturn" style="width:100px">取消</el-button>
+                <el-button @click="toReturn" style="width:100px">关闭</el-button>
                 <el-button type="primary" @click="submitForm('ruleForm')" style="width:100px;margin-left: 120px;">提交</el-button>
             </el-form-item>
         </el-form>

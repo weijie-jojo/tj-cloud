@@ -460,49 +460,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-            <!-- <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销凭证影像">
-                        <uploadSmall v-if="imgArr.length > 0" :fileName="isNone" :fileNameOld="imgArr"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                    <el-form-item label="付款凭证影像">
-                        <uploadSmall v-if="imgArr2.length > 0" :fileName="isNone" :fileNameOld="imgArr2"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9"></el-col>
-            </el-row>  -->
-           <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
-                <el-form-item  v-if="item.suffix=='pdf'">
-                    <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
-                    </pdf>
-                </el-form-item>
-                <el-form-item  v-else>
-                    <div class="imgTitle">报销凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
-                </el-form-item>
-            </div>
-            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
-                <el-form-item  v-if="item.suffix=='pdf'">
-                    <div class="imgTitle">付款凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
-                    </pdf>
-                </el-form-item>
-                <el-form-item  v-else>
-                    <div class="imgTitle">付款凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
-                </el-form-item>
-            </div>
-            
             <el-form-item style="margin-top:100px">
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
@@ -524,10 +481,34 @@
                 </el-table>
             </el-form-item>
 
+          
+           <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">报销凭证影像</div>
+                    <pdf  :src="item.url"></pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">报销凭证影像</div>
+                    <el-image :src="item.url" ></el-image>
+                </el-form-item>
+            </div>
+            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
+                <el-form-item  v-if="item.suffix=='pdf'">
+                    <div class="imgTitle">付款凭证影像</div>
+                    <pdf  :src="item.url" ></pdf>
+                </el-form-item>
+                <el-form-item  v-else>
+                    <div class="imgTitle">付款凭证影像</div>
+                    <el-image :src="item.url" ></el-image>
+                </el-form-item>
+            </div>
+            
+        
+
              <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="5"></el-col>
+                <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage" style="width:100px">返回</el-button>
+                    <el-button type="danger" @click="beforePage" style="width:100px">关闭</el-button>
                 </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
@@ -539,6 +520,7 @@
 </template>
 <script>
     import pdf from 'vue-pdf-signature'
+    import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
@@ -750,6 +732,8 @@
         this.expenseImage2=this.travelExpenses[0].expenseImage2;
         
         var imgArr= this.expenseImage.split(",");
+        this.imgArr=[];
+        this.imgArr2=[];
 
         if (imgArr[0]=="") {
             
@@ -757,10 +741,19 @@
             imgArr.map((item,index)=>{
                 if(item!=null&&item!=""){
                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length);
-                    this.imgArr.push({
-                        url:  item,
+                    if(suffix=='pdf'){
+                        this.imgArr.push({
+                        url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
                         suffix: suffix,
                     })
+                    }
+                   
+                    else{
+                        this.imgArr.push({
+                        url: this.baseImgPath+item,
+                        suffix: suffix,
+                    })
+                    }
                 }
             });
             
@@ -773,10 +766,19 @@
             imgArr2.map((item,index)=>{
                 if(item!=null&&item!=""){
                     var suffix=item.substring(item.lastIndexOf('.')+1,item.length); 
-                     this.imgArr2.push({
-                        url:  item,
+                    if(suffix=='pdf'){
+                        this.imgArr2.push({
+                        url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
                         suffix: suffix,
                     })
+                    }
+                   
+                    else{
+                        this.imgArr2.push({
+                        url: this.baseImgPath+item,
+                        suffix: suffix,
+                    })
+                    }
                 }
             })
             
@@ -785,7 +787,7 @@
     },
     methods: {
         printme(){
-          this.$tab.openPage("报销单打印预览",'/invoices/travelPrints');
+          this.$tab.openPage("差旅打印预览",'/invoices/travelPrints');
         },
           beforePage() {
             this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });

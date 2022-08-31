@@ -513,7 +513,7 @@
           
             
             <el-form-item id="btn">
-                <el-button @click="toReturn" style="width:80px">返回</el-button>
+                <el-button @click="toReturn" style="width:80px">关闭</el-button>
                 <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;margin-left:80px">审核</el-button>
             </el-form-item>
         </el-form>
