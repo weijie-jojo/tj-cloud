@@ -3,12 +3,12 @@
     <div>
       <el-row type="flex" class="row-bg" justify="end">
         <el-col :span="6" style="display: flex;justify-content: flex-end;">
-        <el-button type="primary" v-print="'#printMe'">打印</el-button>
+          <el-button type="primary" v-print="'#printMe'">打印</el-button>
         </el-col>
       </el-row>
 
       <el-form id="printMe">
-        <div :style="{height:screenHeight*0.5+'px'}">
+        <div :style="{ height: screenHeight * 0.5 + 'px' }">
           <div class="reimtitle" style="text-align:center;position: relative;">
             <span>费用报销单</span>
             <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
@@ -83,8 +83,8 @@
             </el-col>
             <el-col :span="4">
               <div class="comborder1" style="text-align:center">
-                {{  ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money + ruleForm.item4Money
-                + ruleForm.item5Money
+                {{  ruleForm.totalMoney
+
 
 
                 }}
@@ -97,8 +97,8 @@
           <el-row>
             <el-col :span="24">
               <div class="comborder" style="text-align: left;padding-left: 4px; letter-spacing: 4px;">总计(大写)人民币:<span>
-                  {{  digitUppercase(ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money +
-                  ruleForm.item4Money + ruleForm.item5Money)
+                  {{  digitUppercase(ruleForm.totalMoney)
+
 
 
                   }}</span></div>
@@ -118,87 +118,100 @@
               <div>报销人:{{  ruleForm.nickName  }}</div>
             </el-col>
           </el-row>
-          
+
         </div>
-        <div :style="{height:screenHeight*0.5+'px'}">
-          <el-row class="row-bg"  :style="{width:screenWidth+'px',height:screenHeight*0.5+'px'}">
-        
-        <el-col :span="24">
-          <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
-          <el-table  :data="checks" style="margin-top: 20px;"
-          :cell-style="cellStyle"
-          :row-style="rowStyle"
-          :header-cell-style="rowStyle"
-          
-          >
-            <el-table-column prop="checkDate" label="时间" width="180" />
-            <el-table-column prop="checkUser" label="人员" width="180" />
-            <el-table-column prop="checkReasult" label="结果" />
-          </el-table>
-        </el-col>
-      </el-row>
+        <div :style="{ height: screenHeight * 0.5 + 'px' }">
+          <el-row class="row-bg" :style="{ width: screenWidth + 'px', height: screenHeight * 0.5 + 'px' }">
+
+            <el-col :span="24">
+              <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
+              <el-table :data="checks" style="margin-top: 20px;" 
+                :cell-style="{border:'1px solid #333'}"
+                
+                fit
+                :header-cell-style="{border:'1px solid #333'}"
+                class="exporttable"
+                >
+                <el-table-column prop="checkDate" label="时间" width="180" />
+                <el-table-column prop="checkUser" label="人员" width="180" />
+                <el-table-column prop="checkReasult" label="结果" />
+              </el-table>
+            </el-col>
+          </el-row>
         </div>
-    
+
         <!-- transform: rotate(90deg); -->
-        <div v-if="imgArr.length > 0" :style="{ height: screenHeight*0.05+'px'}">报销凭证影像</div>
+        <div v-if="imgArr.length > 0" :style="{ height: screenHeight * 0.05 + 'px' }">报销凭证影像</div>
         <div v-for="(item, index) in imgArr" :key="index">
-          
-          <div v-if="index>1" :style="{ height: screenHeight*0.1+'px',width:screenWidth+ 'px'}">
-          
-          
+
+          <div v-if="index > 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+
+
           </div>
-          
-          <div v-if="index==1" :style="{ height: screenHeight*0.1+'px',width:screenWidth+ 'px'}">
-            
+
+          <div v-if="index == 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+
           </div>
-          
-          
-         
-          
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.4+ 'px',width: screenWidth+ 'px'}"></el-image>
-          
-         
+
+
+
+
+          <el-image :src="item.url" fill="scale-down"
+            :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
+
+
         </div>
-        <div v-if="imgArr.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.4+'px',width:screenWidth+ 'px'}">
+        <div v-if="imgArr.length ==1"
+          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+
+        </div>
+        <div v-if="imgArr.length % 2 !== 0 && imgArr.length > 1"
+          :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }">
 
         </div>
 
-        <div v-if="imgArr2.length > 0" :style="{ height: screenHeight*0.05+'px'}">付款凭证影像</div>
+        <div v-if="imgArr2.length > 0" :style="{ height: screenHeight * 0.05 + 'px' }">付款凭证影像</div>
         <div v-for="(item, index) in imgArr2" :key="index">
-          
-          <div v-if="index>1" :style="{ height: screenHeight*0.1+'px',width:screenWidth+ 'px'}">
-          
-          
+
+          <div v-if="index > 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+
+
           </div>
-          
-          <div v-if="index==1" :style="{ height: screenHeight*0.1+'px',width:screenWidth+ 'px'}">
-            
+
+          <div v-if="index == 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+
           </div>
-          
-          
-         
-          
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.4+ 'px',width: screenWidth+ 'px'}"></el-image>
-          
-         
-        </div>
-        <div v-if="imgArr2.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.4+'px',width:screenWidth+ 'px'}">
+
+
+
+
+          <el-image :src="item.url" fill="scale-down"
+            :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
+
 
         </div>
-       
+        <div v-if="imgArr2.length ==1"
+          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+
+        </div>
+        <div v-if="imgArr2.length % 2 !== 0 && imgArr2.length > 1"
+          :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }">
+
+        </div>
+
       </el-form>
 
 
 
     </div>
     <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="8"></el-col>
-                <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage" style="width:130px">关闭</el-button>
+      <el-col :span="8"></el-col>
+      <el-col :span='8' class="flexs">
+        <el-button type="danger" @click="beforePage" style="width:130px">关闭</el-button>
 
-                </el-col>
-                <el-col :span="8"></el-col>
-            </el-row>
+      </el-col>
+      <el-col :span="8"></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -206,16 +219,16 @@
 import { getAllCheck } from '@/api/invoices/checkInvoices'
 import { Decimal } from 'decimal.js'
 export default {
-  
+
   components: {
     // pdf,
 
   },
   data() {
     return {
-      dpi:'',
-      screenWidth: 1123, // 屏幕尺寸
-      screenHeight: 794, // 屏幕尺寸
+      dpi: '',
+      screenWidth: 756, // 屏幕尺寸
+      screenHeight: 1086, // 屏幕尺寸
       clientHeight: '',
       scalesNum: 0.4,
       c1: {},
@@ -235,12 +248,11 @@ export default {
     }
 
   },
- 
+
   mounted() {
-   
-    this.getRealDpi();
-    this.setPrintSize(this.dpi);
-   // console.log(window.screen);
+
+
+
     this.ruleForm = JSON.parse(window.localStorage.getItem('expenses')).list[0];
     if (!this.ruleForm.accessoryNum1) {
       this.ruleForm.accessoryNum1 = 0;
@@ -335,70 +347,68 @@ export default {
 
   },
   methods: {
-     getDpi() {
-     for (var i = 56; i < 2000; i++) {
-        if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
-          console.log(2222,i);  
-          return i;
-        }
-     }
+    //  getDpi() {
+    //  for (var i = 56; i < 2000; i++) {
+    //     if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
+    //       console.log(2222,i);  
+    //       return i;
+    //     }
+    //  }
 
-    },
-    //获取屏幕多少英寸
-    getRealDpi(){
-      const div = document.createElement('div')
-      div.style.cssText = 'height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'
-      document.body.appendChild(div)
-      const devicePixelRatio = window.devicePixelRatio || 1,
-      dpi = div.offsetWidth * devicePixelRatio;
-       this.dpi=dpi;
-       console.log('当前屏幕多少英寸',this.dpi);
-    },
-    setPrintSize(dpi){
-        switch(dpi){
-          case 72: 
-         this.screenWidth=756; // 屏幕尺寸
-         this.screenHeight=1086 ; // 屏幕尺寸
-         break;
-         case 96:
-         this.screenWidth=756; // 屏幕尺寸
-         this.screenHeight=1086; // 屏幕尺寸
-         break;
-         case 120:
-         this.screenWidth=1449; // 屏幕尺寸  38 37
-         this.screenHeight=2068; // 屏幕尺寸
-         break;
-         case 150:
-         this.screenWidth=1202; // 屏幕尺寸
-         this.screenHeight=1717; // 屏幕尺寸
-         break;
-         case 300:
-         this.screenWidth=2442; // 屏幕尺寸
-         this.screenHeight=3471; // 屏幕尺寸
-         break;
-        }
+    // },
+    // //获取屏幕多少英寸
+    // getRealDpi(){
+    //   const div = document.createElement('div')
+    //   div.style.cssText = 'height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'
+    //   document.body.appendChild(div)
+    //   const devicePixelRatio = window.devicePixelRatio || 1,
+    //   dpi = div.offsetWidth * devicePixelRatio;
+    //    this.dpi=dpi;
+    //    console.log('当前屏幕多少英寸',this.dpi);
+    // },
+    // setPrintSize(dpi){
 
+    //     switch(dpi){
+    //       case 72: 
+    //      this.screenWidth=756; // 屏幕尺寸  38
+    //      this.screenHeight=1086; // 屏幕尺寸
+    //      break;
+    //      case 96:
+    //      this.screenWidth=756; // 屏幕尺寸
+    //      this.screenHeight=1086; // 屏幕尺寸
+    //      break;
+    //      case 120:
+    //      this.screenWidth=1449; // 屏幕尺寸  38 37
+    //      this.screenHeight=2068; // 屏幕尺寸
+    //      break;
+    //      case 150:
+    //      this.screenWidth=1202; // 屏幕尺寸
+    //      this.screenHeight=1717; // 屏幕尺寸
+    //      break;
+    //      case 300:
+    //      this.screenWidth=2442; // 屏幕尺寸
+    //      this.screenHeight=3471; // 屏幕尺寸
+    //      break;
+    //     }
+
+    // },
+
+    rowStyle({ row, rowIndex }) {
+      return 'border:1px solid #333;';
+    },
+    cellStyle({ row, rowIndex }) {
+      return 'border:1px solid #333;';
     },
    
-    rowStyle({row, rowIndex}){
-      return 'border:1px solid #333;';
-    },
-    cellStyle({row, rowIndex}){
-      return 'border:1px solid #333;';
-    },
-    tableRowClassName({row, rowIndex}) {
-        
-        return 'success-row';
-      },
-    beforePage(){
+    beforePage() {
       this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
     },
-    getImg(src){
-     var img_url =src
-     var img = new Image()
-     img.src=img_url
-     this.pictureHeight.height = Math.ceil(img.height/img.width * 460)+'px'
-   },
+    getImg(src) {
+      var img_url = src
+      var img = new Image()
+      img.src = img_url
+      this.pictureHeight.height = Math.ceil(img.height / img.width * 460) + 'px'
+    },
     getHeight() {
       this.$nextTick(() => {
         console.log(document.getElementById('remark1').scrollHeight);
@@ -435,9 +445,9 @@ export default {
         }
       })
     },
-     //设置表格行的样式
-    tableRowStyle({row,rowIndex}){
-       return 'background-color:pink;font-size:15px;'
+    //设置表格行的样式
+    tableRowStyle({ row, rowIndex }) {
+      return 'background-color:pink;font-size:15px;'
     },
     back() {
       this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
@@ -481,7 +491,6 @@ export default {
 }
 </script>
 <style>
-
 .flexs {
   display: flex;
   align-items: center;
@@ -507,6 +516,7 @@ export default {
   text-align: center;
   border: 1px solid #333;
 }
+
 .comborder {
   height: 60px;
   line-height: 60px;
@@ -533,10 +543,14 @@ export default {
 #remark5 {
   padding: 5px;
 }
-.el-table::before{
-  background-color: #333;
-}
 
+/* .el-table::before {
+  background-color: #333;
+  height: 2px;
+} */
+.exporttable {
+  border-color:  black;
+  }
 /* .el-table tr{
   border: 1px solid #333;
 }
@@ -550,18 +564,18 @@ export default {
   border: 1px solid #333;
 } */
 
-					
-			
-			
-	
-		
+
+
+
+
+
 
 
 @media print {
   @page {
-    size: A4 portrait; /* auto is the initial value */
-    margin: 5mm; /* this affects the margin in the printer settings */
-}
-  
+    size: A4 portrait;
+    margin-left: 10mm;
+    margin-right: 10mm;
+  }
 }
 </style>
