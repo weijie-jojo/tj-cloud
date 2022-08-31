@@ -329,28 +329,24 @@
             <el-form-item label="小计" style="margin-left:1370px;margin-top:-350px">
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1}}
+                {{subTotalMoney1}}
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2}}
+                {{subTotalMoney2}}
             </el-form-item>
             <el-form-item  class="subtotal">
-                {{ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3}}
+                {{subTotalMoney3}}
             </el-form-item>
             </el-row>
             <el-row style="margin-top:20px">
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
-                        {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}    
+                        {{ruleForm.totalAllMoney}}    
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item  label="总计金额(大写)"  >                 
-                        {{digitUppercase(ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3)+"元"}}    
+                        {{digitUppercase(ruleForm.totalAllMoney)}}    
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -525,6 +521,7 @@
     import { getCardInfoBycompany } from '@/api/invoices/expense'
     import {getAllCompany,getAllGetUser} from '@/api/invoices/borrow'
     import {getInfo} from '@/api/login'
+    import { Decimal } from 'decimal.js'
     import { getCode,addTravelExpense,getExpenseItem,editTravelExpenseById} from '@/api/invoices/travelExpense'
     export default {
     name: 'travelExpense',
@@ -533,6 +530,9 @@
     },
     data() {
       return {
+        subTotalMoney1:'',
+        subTotalMoney2:'',
+        subTotalMoney3:'',
         isDetail: '1',
         isNone: [],
         isShowImg:false,
@@ -703,7 +703,54 @@
         this.ruleForm.subsidy3=this.travelExpenses[0].subsidy3;
         this.ruleForm.other3=this.travelExpenses[0].other3;
 
-        this.ruleForm.totalMoney=this.travelExpenses[0].totalMoney;
+
+        if(!this.ruleForm.traffic1){
+                this.ruleForm.traffic1=0;
+            }
+            if(!this.ruleForm.stay1){
+                this.ruleForm.stay1=0;
+            }
+            if(!this.ruleForm.subsidy1){
+                this.ruleForm.subsidy1=0;
+            }
+            if(!this.ruleForm.other1){
+                this.ruleForm.other1=0;
+            }
+          this.subTotalMoney1=new Decimal(this.ruleForm.traffic1).add(new Decimal(this.ruleForm.stay1)).add(new Decimal(this.ruleForm.subsidy1)).add(new Decimal(this.ruleForm.other1));
+
+          if(!this.ruleForm.traffic2){
+                this.ruleForm.traffic2=0;
+            }
+            if(!this.ruleForm.stay2){
+                this.ruleForm.stay2=0;
+            }
+            if(!this.ruleForm.subsidy2){
+                this.ruleForm.subsidy2=0;
+            }
+            if(!this.ruleForm.other2){
+                this.ruleForm.other2=0;
+            }
+          this.subTotalMoney2=new Decimal(this.ruleForm.traffic2).add(new Decimal(this.ruleForm.stay2)).add(new Decimal(this.ruleForm.subsidy2)).add(new Decimal(this.ruleForm.other2));
+
+          if(!this.ruleForm.traffic3){
+                this.ruleForm.traffic3=0;
+            }
+            if(!this.ruleForm.stay3){
+                this.ruleForm.stay3=0;
+            }
+            if(!this.ruleForm.subsidy3){
+                this.ruleForm.subsidy3=0;
+            }
+            if(!this.ruleForm.other3){
+                this.ruleForm.other3=0;
+            }
+          this.subTotalMoney3=new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
+
+
+
+
+
+        this.ruleForm.totalAllMoney=this.travelExpenses[0].totalAllMoney;
         this.ruleForm.paywayId=this.travelExpenses[0].label;
         this.ruleForm.payDate=this.travelExpenses[0].payDate;
 

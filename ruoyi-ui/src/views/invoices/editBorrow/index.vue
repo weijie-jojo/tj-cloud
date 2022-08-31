@@ -163,7 +163,7 @@
                 <el-button type="primary" @click="submitForm('ruleForm')" >保存</el-button>
             </el-form-item> -->
            <el-form-item id="btn">
-                <el-button @click="toReturn" style="width:100px">取消</el-button>
+                <el-button @click="toReturn" style="width:100px">关闭</el-button>
                 <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 120px;width:100px">确认修改</el-button>
             </el-form-item>
         </el-form>

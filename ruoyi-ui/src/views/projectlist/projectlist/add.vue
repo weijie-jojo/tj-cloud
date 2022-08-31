@@ -49,11 +49,11 @@
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="客户状态" prop="isokradio">
+                    <!-- <el-form-item class="comright" label="客户状态" prop="isokradio">
                         <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
                         <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
                         <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
                         <el-input v-model.trim="inputValCompute"></el-input>
                     </el-form-item>
