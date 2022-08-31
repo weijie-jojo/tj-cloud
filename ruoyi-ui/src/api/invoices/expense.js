@@ -1,5 +1,12 @@
 import request from '@/utils/request'
 
+export function getLeaderByUserId(params) {
+  return request({
+    url: 'invoices/expense/getLeaderByUserId',
+    method: 'get',
+    params
+  })
+}
 export function getDepts() {
   return request({
     url: 'invoices/expense/getAllDept',
@@ -138,5 +145,5 @@ export function getPost(userId) {
 
   })
 }
-export default {getUserByUserName, getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
+export default {getLeaderByUserId,getUserByUserName, getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
 
