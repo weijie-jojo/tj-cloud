@@ -190,7 +190,7 @@
                 <el-input-number
                     v-model="ruleForm.traffic1"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -199,7 +199,7 @@
                 <el-input-number
                     v-model="ruleForm.traffic2"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                         class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -208,7 +208,7 @@
                 <el-input-number
                     v-model="ruleForm.traffic3"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -219,7 +219,7 @@
                 <el-input-number
                     v-model="ruleForm.stay1"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -228,7 +228,7 @@
                 <el-input-number
                     v-model="ruleForm.stay2"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -237,7 +237,7 @@
                 <el-input-number
                     v-model="ruleForm.stay3"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -248,7 +248,7 @@
                 <el-input-number
                     v-model="ruleForm.subsidy1"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -257,7 +257,7 @@
                 <el-input-number
                     v-model="ruleForm.subsidy2"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -266,7 +266,7 @@
                 <el-input-number
                     v-model="ruleForm.subsidy3"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                         class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -277,7 +277,7 @@
                 <el-input-number
                     v-model="ruleForm.other1"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                         class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -286,7 +286,7 @@
                 <el-input-number
                     v-model="ruleForm.other2"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                     class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -295,7 +295,7 @@
                 <el-input-number
                     v-model="ruleForm.other3"
                     :precision="2"
-                    :step="0.01" :min="0"
+                    :step="0.1" :min="0"
                         class="numberInput"
                 ></el-input-number>
                 <div class="yuan">元</div>
@@ -336,9 +336,7 @@
                 </el-col>
                 <el-col :span="10">
                     <el-form-item  label="总计金额(大写)" >
-                        {{digitUppercase(ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3)+"元"}}
+                        {{digitUppercase(totalMoney)+"元"}}
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -774,9 +772,8 @@
                         expenseImage:this.imgArr.join(),
 
                         //总费用
-                        totalAllMoney:this.ruleForm.traffic1+this.ruleForm.stay1+this.ruleForm.subsidy1+this.ruleForm.other1+
-                        this.ruleForm.traffic2+this.ruleForm.stay2+this.ruleForm.subsidy2+this.ruleForm.other2+
-                        this.ruleForm.traffic3+this.ruleForm.stay3+this.ruleForm.subsidy3+this.ruleForm.other3,
+                        totalAllMoney:parseFloat(this.totalMoney)
+
                     };
                     let params2={
                         invoiceCode:this.ruleForm.travelExpenseCode,

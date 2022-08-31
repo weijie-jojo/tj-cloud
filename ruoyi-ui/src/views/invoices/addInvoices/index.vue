@@ -108,6 +108,7 @@
                     @click="expenseFinsh(scope.row.expenseCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
+                  @click="expenseDanger(scope.row.expenseCode,1)"
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
@@ -127,6 +128,7 @@
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
                 <el-link :underline="false" type="danger" 
+                @click="expenseDanger(scope.row.expenseCode,2)"
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
                 @click="expenseFinsh(scope.row.expenseCode,2)"
@@ -147,6 +149,7 @@
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
+                 @click="expenseDanger(scope.row.expenseCode,3)"
                   v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
@@ -315,7 +318,8 @@
                   <el-link :underline="false" type="success" 
                       @click="expenseFinsh(scope.row.travelExpenseCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
-                  <el-link :underline="false" type="danger" 
+                  <el-link :underline="false" type="danger"
+                  @click="expenseDanger(scope.row.travelExpenseCode,1)" 
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
@@ -335,6 +339,7 @@
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
                 <el-link :underline="false" type="danger" 
+                @click="expenseDanger(scope.row.travelExpenseCode,2)" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
                 @click="expenseFinsh(scope.row.travelExpenseCode,2)"
@@ -355,6 +360,7 @@
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
+                @click="expenseDanger(scope.row.travelExpenseCode,3)" 
                   v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
@@ -505,6 +511,7 @@
                     @click="expenseFinsh(scope.row.borrowCode,1)"
                     v-if="scope.row.gmCheck != ''  && scope.row.invoiceType == 6">完成</el-link>
                   <el-link :underline="false" type="danger" 
+                  @click="expenseDanger(scope.row.borrowCode,1)" 
                     v-if="scope.row.gmCheck == '' && scope.row.dmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
 
                   <el-link :underline="false" type="success"
@@ -524,6 +531,7 @@
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
                 <el-link :underline="false" type="danger" 
+                @click="expenseDanger(scope.row.borrowCode,2)" 
                   v-if="scope.row.financeCheck == '' && scope.row.gmCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="success"
                 @click="expenseFinsh(scope.row.borrowCode,2)"
@@ -544,6 +552,7 @@
                 </el-link>
 
                 <el-link :underline="false" type="danger" 
+                @click="expenseDanger(scope.row.borrowCode,3)" 
                   v-if="scope.row.financeCheck != '' && scope.row.invoiceType == 6">异常</el-link>
                 <el-link :underline="false" type="info" 
                   v-if="scope.row.financeCheck == '' && scope.row.invoiceType == 6">未开始</el-link>
@@ -625,16 +634,7 @@
           </span>
         </el-dialog>  
 
-        <el-dialog
-          title="信息"
-          :visible.sync="messageVisible"
-          width="30%"
-          :before-close="handleClose">
-          <span>this.message</span>
-          <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="messageVisible = false">确 定</el-button>
-          </span>
-        </el-dialog>
+        
     </div>
   </div>
 </template>
@@ -653,6 +653,9 @@ export default {
   props: [],
   data() {
     return {
+      userinfo:'',
+      errArrName:'',
+      checkLabel:'',
       datainfo:{},
       checks:'',
       checkVisible:false,
@@ -828,6 +831,7 @@ export default {
   mounted() {
     getInfo().then(res => {
         console.log("getInfo==",res);
+        this.userinfo=res.user;
         this.loginRoles=res.user.roles;
         this.checkPerson=res.user.nickName;
     })
@@ -852,6 +856,8 @@ export default {
             this.datainfo=res[2];
           }else if(type==3){
             this.datainfo=res[0];
+          }else if(type==4){
+            this.datainfo=res[0];
           }
              const h = this.$createElement;
           this.$confirm(
@@ -866,7 +872,7 @@ export default {
 
 
             confirmButtonText: '确定',
-            cancelButtonText: '关闭',
+           // cancelButtonText: '关闭',
             closeOnClickModal: false,
             closeOnPressEscape: false,
 
@@ -883,8 +889,87 @@ export default {
         })
       
     },
-    expenseFinsh(expenseCode,type){
+    expenseDanger(expenseCode,type){
+      getAllCheck({invoiceCode:expenseCode}).then(res=>{
+        console.log('selectAllCheck==',res);
+        
+        let arr=res;
+        let brr=[];
+        this.checkLabel=null;
+        if(type==1){
+          this.checkLabel='部门主管驳回';          
+        }else if(type==2) {
+          this.checkLabel='总经理驳回';
+        }else if(type==3){
+          this.checkLabel='财务驳回';
+        }else if(type==4){
+          this.checkLabel='借支人驳回';    
+        }
+        for( let i in arr){
+            if(arr[i].checkReasult.indexOf(this.checkLabel) !==-1){
+              brr.push(arr[i]);
+            }
+        }
+      
+        this.errArrName = brr[brr.length-1].checkReasult;
+        const h = this.$createElement;
+          this.$confirm(
+            '', {
+            message: h('div', null, [
+              h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
+              h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
+              h('P', { style: 'margin:20px 0 0 40px;' }, this.errArrName),
+              // h('p', { style: 'margin:5px 0 0 40px;' }, '请等待' + this.userinfo.nickName + '(' + this.userinfo.phonenumber + ')' + '修改')
+            ]),
 
+
+
+            confirmButtonText: '确定',
+            // cancelButtonText: '关闭',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+
+          }).then(() => {
+           // this.$tab.openPage("个体户名称修改", "/company/customer/editEmployedName")
+            // if (this.errNameMsg == '修改') {
+            //    this.$tab.openPage("个体户名称修改", "/company/customer/editEmployedName")
+            // } else {
+            //    this.$tab.openPage("个体户名称查看", "/company/customer/namedetail")
+            // }
+          }).catch(() => {
+
+          });
+
+        
+
+       
+      })
+     
+    },
+    expenseFinsh(expenseCode,type){
+      getAllCheck({invoiceCode:expenseCode}).then(res=>{
+        console.log('selectAllCheck==',res);
+        
+        let arr=res;
+        let brr=[];
+        this.checkLabel=null;
+        if(type==1){
+          this.checkLabel='部门主管';          
+        }else if(type==2) {
+          this.checkLabel='总经理';
+        }else if(type==3){
+          this.checkLabel='财务';
+        }else if(type==4){
+          this.checkLabel='借支';    
+        }
+        for( let i in arr){
+            if(arr[i].checkReasult.indexOf(this.checkLabel) !==-1){
+              brr.push(arr[i]);
+            }
+        }
+        this.checks = brr;
+        this.checkVisible=true;
+      })
     },
     getCheck(expenseCode){
       console.log('1111111');

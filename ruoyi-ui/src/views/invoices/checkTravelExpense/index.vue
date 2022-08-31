@@ -334,16 +334,12 @@
             <el-row style="margin-top:20px">
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
-                        {{ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3+"元"}}    
+                        {{ruleForm.totalMoney+"元"}}    
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item  label="总计金额(大写)"  >                 
-                        {{digitUppercase(ruleForm.traffic1+ruleForm.stay1+ruleForm.subsidy1+ruleForm.other1+
-                        ruleForm.traffic2+ruleForm.stay2+ruleForm.subsidy2+ruleForm.other2+
-                        ruleForm.traffic3+ruleForm.stay3+ruleForm.subsidy3+ruleForm.other3)+"元"}}    
+                        {{digitUppercase(ruleForm.totalMoney)+"元"}}    
                     </el-form-item>
                 </el-col>
             </el-row>

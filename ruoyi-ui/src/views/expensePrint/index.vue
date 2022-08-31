@@ -8,7 +8,7 @@
       </el-row>
 
       <el-form id="printMe">
-        <div :style="{height:screenHeight+'px'}">
+        <div :style="{height:screenHeight*0.5+'px'}">
           <div class="reimtitle" style="text-align:center;position: relative;">
             <span>费用报销单</span>
             <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
@@ -120,22 +120,25 @@
           </el-row>
           
         </div>
-        <el-row class="row-bg"  :style="{height:screenHeight+'px',width:screenWidth+ 'px',paddingTop:'10px'}">
+        <div :style="{height:screenHeight*0.5+'px'}">
+          <el-row class="row-bg"  :style="{width:screenWidth+'px',height:screenHeight*0.5+'px'}">
         
-          <el-col :span="24">
-            <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
-            <el-table  :data="checks" style="margin-top: 20px;"
-            :cell-style="cellStyle"
-            :row-style="rowStyle"
-            :header-cell-style="rowStyle"
-            
-            >
-              <el-table-column prop="checkDate" label="时间" width="180" />
-              <el-table-column prop="checkUser" label="人员" width="180" />
-              <el-table-column prop="checkReasult" label="结果" />
-            </el-table>
-          </el-col>
-        </el-row>
+        <el-col :span="24">
+          <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
+          <el-table  :data="checks" style="margin-top: 20px;"
+          :cell-style="cellStyle"
+          :row-style="rowStyle"
+          :header-cell-style="rowStyle"
+          
+          >
+            <el-table-column prop="checkDate" label="时间" width="180" />
+            <el-table-column prop="checkUser" label="人员" width="180" />
+            <el-table-column prop="checkReasult" label="结果" />
+          </el-table>
+        </el-col>
+      </el-row>
+        </div>
+    
         <!-- transform: rotate(90deg); -->
         <div v-if="imgArr.length > 0" :style="{ height: screenHeight*0.05+'px'}">报销凭证影像</div>
         <div v-for="(item, index) in imgArr" :key="index">
@@ -152,11 +155,11 @@
           
          
           
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.9+ 'px',width: screenWidth+ 'px'}"></el-image>
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.4+ 'px',width: screenWidth+ 'px'}"></el-image>
           
          
         </div>
-        <div v-if="imgArr.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.9+'px',width:screenWidth+ 'px'}">
+        <div v-if="imgArr.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.4+'px',width:screenWidth+ 'px'}">
 
         </div>
 
@@ -175,11 +178,11 @@
           
          
           
-          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.9+ 'px',width: screenWidth+ 'px'}"></el-image>
+          <el-image :src="item.url" fill="scale-down" :style="{ height: screenHeight*0.4+ 'px',width: screenWidth+ 'px'}"></el-image>
           
          
         </div>
-        <div v-if="imgArr2.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.9+'px',width:screenWidth+ 'px'}">
+        <div v-if="imgArr2.length %2 !==0 && imgArr.length>0" :style="{ height: screenHeight*0.4+'px',width:screenWidth+ 'px'}">
 
         </div>
        
@@ -210,6 +213,7 @@ export default {
   },
   data() {
     return {
+      dpi:'',
       screenWidth: 1123, // 屏幕尺寸
       screenHeight: 794, // 屏幕尺寸
       clientHeight: '',
@@ -231,8 +235,12 @@ export default {
     }
 
   },
-
+ 
   mounted() {
+   
+    this.getRealDpi();
+    this.setPrintSize(this.dpi);
+   // console.log(window.screen);
     this.ruleForm = JSON.parse(window.localStorage.getItem('expenses')).list[0];
     if (!this.ruleForm.accessoryNum1) {
       this.ruleForm.accessoryNum1 = 0;
@@ -327,9 +335,51 @@ export default {
 
   },
   methods: {
-    // tableRowStyle(){
-    //   return 'background-color:pink;font-size:15px;'
-    // },
+     getDpi() {
+     for (var i = 56; i < 2000; i++) {
+        if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
+          console.log(2222,i);  
+          return i;
+        }
+     }
+
+    },
+    //获取屏幕多少英寸
+    getRealDpi(){
+      const div = document.createElement('div')
+      div.style.cssText = 'height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'
+      document.body.appendChild(div)
+      const devicePixelRatio = window.devicePixelRatio || 1,
+      dpi = div.offsetWidth * devicePixelRatio;
+       this.dpi=dpi;
+       console.log('当前屏幕多少英寸',this.dpi);
+    },
+    setPrintSize(dpi){
+        switch(dpi){
+          case 72: 
+         this.screenWidth=756; // 屏幕尺寸
+         this.screenHeight=1086 ; // 屏幕尺寸
+         break;
+         case 96:
+         this.screenWidth=756; // 屏幕尺寸
+         this.screenHeight=1086; // 屏幕尺寸
+         break;
+         case 120:
+         this.screenWidth=1449; // 屏幕尺寸  38 37
+         this.screenHeight=2068; // 屏幕尺寸
+         break;
+         case 150:
+         this.screenWidth=1202; // 屏幕尺寸
+         this.screenHeight=1717; // 屏幕尺寸
+         break;
+         case 300:
+         this.screenWidth=2442; // 屏幕尺寸
+         this.screenHeight=3471; // 屏幕尺寸
+         break;
+        }
+
+    },
+   
     rowStyle({row, rowIndex}){
       return 'border:1px solid #333;';
     },
@@ -483,6 +533,9 @@ export default {
 #remark5 {
   padding: 5px;
 }
+.el-table::before{
+  background-color: #333;
+}
 
 /* .el-table tr{
   border: 1px solid #333;
@@ -506,8 +559,8 @@ export default {
 
 @media print {
   @page {
-    size: auto; /* auto is the initial value */
-    margin: 3mm; /* this affects the margin in the printer settings */
+    size: A4 portrait; /* auto is the initial value */
+    margin: 5mm; /* this affects the margin in the printer settings */
 }
   
 }

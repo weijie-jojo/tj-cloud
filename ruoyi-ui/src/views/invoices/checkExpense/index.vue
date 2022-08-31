@@ -172,17 +172,13 @@
                 
                 <el-col :span="9">
                     <el-form-item label="合计金额(小写)">
-                        {{ ruleForm.item1money + ruleForm.item2money + ruleForm.item3money + ruleForm.item4money
-                                + ruleForm.item5money
-                        }}
+                        {{ ruleForm.totalMoney+"元"}}
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
                     <el-form-item label="合计金额(大写)">
-                        {{ digitUppercase(ruleForm.item1money + ruleForm.item2money + ruleForm.item3money +
-                                ruleForm.item4money + ruleForm.item5money)
-                        }}
+                        {{ digitUppercase(ruleForm.totalMoney)+"元"}}
                     </el-form-item>
                 </el-col>
                 <el-col :span="9"></el-col>
@@ -345,6 +341,7 @@ export default {
     },
     data() {
         return {
+            
             isDetail: '1',
             isDetails: '0',
             isNone: [],
@@ -474,6 +471,7 @@ export default {
             stepType:'',
         }
     },
+    
     mounted: function () {
         this.selectAllCheck();
         this.getAllCompany();
@@ -497,7 +495,7 @@ export default {
         console.log("roles==", this.ruleForm.roles);
 
         this.ruleForm.expenseName = this.expenses[0].nickName;
-
+        this.ruleForm.totalMoney=this.expenses[0].totalMoney;
         this.ruleForm.accessoryNum1 = this.expenses[0].accessoryNum1;
         this.ruleForm.accessoryNum2 = this.expenses[0].accessoryNum2;
         this.ruleForm.accessoryNum3 = this.expenses[0].accessoryNum3;
