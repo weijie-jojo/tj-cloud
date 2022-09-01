@@ -227,20 +227,20 @@ public class SelfProjectController extends BaseController
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         for (SelfProject selfProject1:list){
             selfProject1.setTicketTax(selfProject1.getTicketTax().movePointRight(2));
-            if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
-                selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
+            if (selfProject1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfProject1.setOrdinaryShare(selfProject1.getOrdinaryShare().movePointRight(2));
             }
-            if (selfProject.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
-                selfProject.setSpecialShare(selfProject.getSpecialShare().movePointRight(2));
+            if (selfProject1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfProject1.setSpecialShare(selfProject1.getSpecialShare().movePointRight(2));
             }
-            if (selfProject.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-                selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointRight(2));
+            if (selfProject1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfProject1.setOrdinarySelfFee(selfProject1.getOrdinarySelfFee().movePointRight(2));
             }
-            if (selfProject.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-                selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointRight(2));
+            if (selfProject1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfProject1.setSpecialSelfFee(selfProject1.getSpecialSelfFee().movePointRight(2));
             }
-            if (selfProject.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
-                selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
+            if (selfProject1.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfProject1.setSelfShare(selfProject1.getSelfShare().movePointRight(2));
             }
         }
 
