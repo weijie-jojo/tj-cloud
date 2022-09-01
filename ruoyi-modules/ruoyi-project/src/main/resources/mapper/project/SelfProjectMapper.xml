@@ -127,7 +127,7 @@
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status,C.place_alias_name
                 from self_project t
-                                    LEFT JOIN self_employed A ON t.purch_company_taxid = A.purch_company_taxid
+                                    LEFT JOIN self_purch_company A ON t.purch_company_taxid = A.purch_company_taxid
                                     LEFT JOIN self_employed B ON t.project_owner = B.self_code
                                     LEFT  JOIN business_place C ON t.place_code = C.place_code
     </sql>
