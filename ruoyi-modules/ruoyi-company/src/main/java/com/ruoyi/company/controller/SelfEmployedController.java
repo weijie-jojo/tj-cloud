@@ -192,6 +192,9 @@ public class SelfEmployedController extends BaseController
             if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
                 selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
             }
+            if (selfEmployedVo1.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfEmployedVo1.setSelfShare(selfEmployedVo1.getSelfShare().movePointRight(2));
+            }
         }
         return getDataTable(list);
     }
@@ -251,6 +254,9 @@ public class SelfEmployedController extends BaseController
             if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
                 selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
             }
+            if (selfEmployedVo1.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfEmployedVo1.setSelfShare(selfEmployedVo1.getSelfShare().movePointRight(2));
+            }
         }
         return getDataTable(list);
     }
@@ -278,6 +284,9 @@ public class SelfEmployedController extends BaseController
             }
             if (selfEmployedVo1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
                 selfEmployedVo1.setSpecialSelfFee(selfEmployedVo1.getSpecialSelfFee().movePointRight(2));
+            }
+            if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointRight(2));
             }
         }
         return getDataTable(list);
@@ -320,7 +329,9 @@ public class SelfEmployedController extends BaseController
         if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
             selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointRight(2));
         }
-
+        if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointRight(2));
+        }
         return AjaxResult.success(selfEmployed);
 
     }
@@ -348,7 +359,9 @@ public class SelfEmployedController extends BaseController
         if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
             selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
         }
-
+        if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointLeft(2));
+        }
         selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
         try {
             return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
@@ -390,6 +403,11 @@ public class SelfEmployedController extends BaseController
                 selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
             }
 
+        }
+        if (selfEmployed1.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            if(selfEmployed.getSelfShare()!=null){
+                selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointLeft(2));
+            }
         }
 
         Long contributionAmount= selfEmployedService.selectSelfEmployedBySelfId(selfEmployed.getSelfId()).getContributionAmount();

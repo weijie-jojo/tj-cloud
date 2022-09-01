@@ -40,7 +40,7 @@ public class SelfPurchCompanyController extends BaseController
     @ApiOperation("查询甲方信息列表")
     public TableDataInfo list(SelfPurchCompany selfPurchCompany)
     {
-        startPage();
+//        startPage();
         List<SelfPurchCompany> list = selfPurchCompanyService.selectSelfPurchCompanyList(selfPurchCompany);
         return getDataTable(list);
     }

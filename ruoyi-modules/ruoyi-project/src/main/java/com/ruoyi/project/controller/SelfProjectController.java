@@ -171,6 +171,21 @@ public class SelfProjectController extends BaseController
         List<ProjectJoinTicketVo> selfProjects=selfProjectService.selectProjectJoinTicketByCode(projectCode);
         for (ProjectJoinTicketVo selfProject:selfProjects){
             selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
+            if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
+            }
+            if (selfProject.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfProject.setSpecialShare(selfProject.getSpecialShare().movePointRight(2));
+            }
+            if (selfProject.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointRight(2));
+            }
+            if (selfProject.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointRight(2));
+            }
+            if (selfProject.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
+            }
         }
         return AjaxResult.success(selfProjects);
     }
@@ -212,6 +227,21 @@ public class SelfProjectController extends BaseController
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         for (SelfProject selfProject1:list){
             selfProject1.setTicketTax(selfProject1.getTicketTax().movePointRight(2));
+            if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
+            }
+            if (selfProject.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfProject.setSpecialShare(selfProject.getSpecialShare().movePointRight(2));
+            }
+            if (selfProject.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointRight(2));
+            }
+            if (selfProject.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointRight(2));
+            }
+            if (selfProject.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
+            }
         }
 
         return getDataTable(list);
@@ -241,6 +271,21 @@ public class SelfProjectController extends BaseController
     {
         SelfProject selfProject=  selfProjectService.selectSelfProjectByProjectId(projectId);
         selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
+        if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
+        }
+        if (selfProject.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfProject.setSpecialShare(selfProject.getSpecialShare().movePointRight(2));
+        }
+        if (selfProject.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointRight(2));
+        }
+        if (selfProject.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointRight(2));
+        }
+        if (selfProject.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
+        }
         return AjaxResult.success(selfProject);
     }
 
@@ -256,11 +301,27 @@ public class SelfProjectController extends BaseController
         selfProject.setUserId(SecurityUtils.getUserId());
         selfProject.setEndStatus(0);
         selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
+
+        if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointLeft(2));
+        }
+        if (selfProject.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfProject.setSpecialShare(selfProject.getSpecialShare().movePointLeft(2));
+        }
+        if (selfProject.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointLeft(2));
+        }
+        if (selfProject.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointLeft(2));
+        }
+        if (selfProject.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            selfProject.setSelfShare(selfProject.getSelfShare().movePointLeft(2));
+        }
         try {
             int num=selfProjectService.insertSelfProject(selfProject);
             return toAjax(num);
         }catch (DuplicateKeyException ex){
-            return error("不允许插入重复单据，自动返回，请重新创建");
+            return error("不允许插入重复项目，自动返回，请重新创建");
         }
 
     }
@@ -274,8 +335,37 @@ public class SelfProjectController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SelfProject selfProject)
     {
+        SelfProject selfProject1= selfProjectService.selectSelfProjectByProjectId(selfProject.getProjectId());
         if (selfProject.getTicketTax()!=null){
             selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
+        }
+        if (selfProject1.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+
+            if(selfProject.getOrdinaryShare()!=null){
+                selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointLeft(2));
+            }
+        }
+        if (selfProject1.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            if(selfProject.getSpecialShare()!=null){
+                selfProject.setSpecialShare(selfProject.getSpecialShare().movePointLeft(2));
+            }
+        }
+        if (selfProject1.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            if(selfProject.getOrdinarySelfFee()!=null){
+                selfProject.setOrdinarySelfFee(selfProject.getOrdinarySelfFee().movePointLeft(2));
+            }
+
+        }
+        if (selfProject1.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            if(selfProject.getSpecialSelfFee()!=null){
+                selfProject.setSpecialSelfFee(selfProject.getSpecialSelfFee().movePointLeft(2));
+            }
+
+        }
+        if (selfProject1.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            if(selfProject.getSelfShare()!=null){
+                selfProject.setSelfShare(selfProject.getSelfShare().movePointLeft(2));
+            }
         }
         return toAjax(selfProjectService.updateSelfProject(selfProject));
     }

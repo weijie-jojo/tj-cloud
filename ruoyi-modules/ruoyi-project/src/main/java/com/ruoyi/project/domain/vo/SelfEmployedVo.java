@@ -121,4 +121,9 @@ public class SelfEmployedVo extends SelfEmployed {
     @ApiModelProperty(value ="申请前职业状况")
     private String occupationalStatus;
 
+    //self_application_info
+    /** 法人电话 */
+    @ApiModelProperty(value ="法人电话")
+    private String contactPhone;
+
 }
