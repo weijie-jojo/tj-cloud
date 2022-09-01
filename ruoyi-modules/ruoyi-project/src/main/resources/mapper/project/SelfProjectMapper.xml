@@ -123,13 +123,21 @@
                 t.special_share_ismoney, t.is_ordinary_share, t.is_special_share, t.is_slider, t.is_slider_ordinary, t.self_share,
                 t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
                 A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
-                A.bank_name, A.bank_code, A.place_alias_name,
-                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
-                C.place_name,C.place_status,C.place_alias_name
-                from self_project t
+                A.bank_name, A.bank_code,
+                B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
+                B.private_deposit_bank, B.private_account_number,B.public_deposit_bank_1, B.public_account_number_1, B.public_deposit_bank_2,
+                B.public_account_number_2, B.account_name, B.public_deposit_bank_3,B.public_account_number_3,
+                C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
+                C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
+                C.gender, C.date_birth, C.nation, C.residence, C.personnel_type, C.occupational_status, C.create_by, C.update_by, C.create_time, C.update_time,
+                D.place_name,D.place_status,D.place_alias_name,
+                E.contact_phone
+        from self_project t
                                     LEFT JOIN self_purch_company A ON t.purch_company_taxid = A.purch_company_taxid
                                     LEFT JOIN self_employed B ON t.project_owner = B.self_code
-                                    LEFT  JOIN business_place C ON t.place_code = C.place_code
+                                    LEFT JOIN self_legal_person C  on t.project_owner=C.self_code
+                                    LEFT JOIN business_place D ON t.place_code = D.place_code
+                                    LEFT JOIN self_application_info E  on t.project_owner=E.self_code
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
