@@ -12,6 +12,7 @@ import com.ruoyi.project.service.ISelfPurchCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -78,7 +79,11 @@ public class SelfPurchCompanyController extends BaseController
     @ApiOperation("新增甲方信息")
     public AjaxResult add(@RequestBody SelfPurchCompany selfPurchCompany)
     {
-        return toAjax(selfPurchCompanyService.insertSelfPurchCompany(selfPurchCompany));
+        try {
+            return toAjax(selfPurchCompanyService.insertSelfPurchCompany(selfPurchCompany));
+        }catch (DuplicateKeyException ex){
+            return error("甲方或税号重复，请重新填写");
+        }
     }
 
     /**
