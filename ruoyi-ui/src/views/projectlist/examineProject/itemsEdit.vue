@@ -539,6 +539,72 @@ export default {
             }).then((response) => {
                this.formData.industryType='';
                this.formData = response.data[0];
+               this.formData.selfShareIsmoney = JSON.stringify(this.formData.selfShareIsmoney);
+                this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
+                this.formData.selfShare = JSON.stringify(this.formData.selfShare);
+
+
+
+                this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+                this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
+                this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
+                this.formData.isSpecialSelfTax = JSON.stringify(this.formData.isSpecialSelfTax);
+                this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
+
+
+
+
+                this.formData.ordinaryProxyIsmoney = JSON.stringify(this.formData.ordinaryProxyIsmoney);
+                this.formData.specialProxyIsmoney = JSON.stringify(this.formData.specialProxyIsmoney);
+                this.formData.ordinaryShareIsmoney = JSON.stringify(this.formData.ordinaryShareIsmoney);
+                this.formData.specialShareIsmoney = JSON.stringify(this.formData.specialShareIsmoney);
+                this.formData.isOrdinaryShare = JSON.stringify(this.formData.isOrdinaryShare);
+                this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
+
+
+
+                if (this.formData.isOrdinaryTax == 1) {
+                    this.formData.isOrdinaryTax = '1';
+                } else {
+                    this.formData.isOrdinaryTax = '0';
+                }
+                if (this.formData.isSpecialTax == 1) {
+                    this.formData.isSpecialTax = '1';
+                } else {
+                    this.formData.isSpecialTax = '0';
+                }
+
+                if (this.formData.isSelfCount == '0') {
+                    this.formData.isSelfCount = '0';
+                } else if(this.formData.isSelfCount=='1') {
+                    this.formData.isSelfCount = '1';
+                }
+                else if(this.formData.isSelfCount=='2') {
+                    this.formData.isSelfCount = '2';
+                }
+
+                if (this.formData.isSelfTax == '0') {
+                    this.formData.isSelfTax = '0';
+                } else {
+                    this.formData.isSelfTax = '1';
+                }
+                if (this.formData.isSpecialSelfTax == '0') {
+                    this.formData.isSpecialSelfTax = '0';
+                } else {
+                    this.formData.isSpecialSelfTax = '1';
+                }
+
+                if (this.formData.isSlider == '0') {
+                    this.formData.isSlider = '0';
+                } else {
+                    this.formData.isSlider = '1';
+                }
+
+                if (this.formData.isSliderOrdinary == '0') {
+                    this.formData.isSliderOrdinary = '0';
+                } else {
+                    this.formData.isSliderOrdinary = '1';
+                }
 
                this.$nextTick(function(){
                 this.selectTipType=this.$refs.selectTree.selected.label; 

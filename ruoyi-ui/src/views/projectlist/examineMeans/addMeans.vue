@@ -2,8 +2,16 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
 
-
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
+            <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>  
+            <el-row type="flex" class="row-bg rowCss"  justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
                         <el-input v-model="formData.projectCode" :readonly="true"></el-input>
@@ -21,8 +29,8 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
                         <el-input :readonly="true" type="number" style="width:100%"
-                            v-model="formData.projectTotalAmount" :step="0.01" :min="0"
-                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                            v-model="formData.projectTotalAmount" :step="0.00001" :min="0"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'>
                             <template slot="append">
                                 元
                             </template>
@@ -35,14 +43,8 @@
                     <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目合同资料">
-                        <uploadSmall @getfileName="getContractFile" :fileName="fileName1" :fileNameOld="fileName1"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                    <el-form-item class="comright" label="项目验收资料">
-                        <uploadSmall @getfileName="getAccepFile" :fileName="fileName2" :fileNameOld="fileName2"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
+                    
+                   
 
 
                 </el-col>
@@ -54,6 +56,58 @@
                     </el-form-item>
 
 
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目合同</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>  
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="项目合同资料">
+                        <el-radio v-model="formData.isUpContract" label="0">有</el-radio>
+                        <el-radio v-model="formData.isUpContract" label="1">无</el-radio>
+                        <div  v-if="formData.isUpContract==0">
+                            <uploadSmall @getfileName="getContractFile" :fileName="fileName1" :fileNameOld="fileName1"
+                            :isDetail="isDetail"></uploadSmall>
+                        </div>
+                       
+                    </el-form-item>
+                  
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+              
+            </el-row>
+            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目验收</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around" >
+                <el-col :span="9">
+                    <el-form-item class="comright" label="项目验收资料">
+                        <el-radio v-model="formData.isUpAcceptance" label="0">有</el-radio>
+                        <el-radio v-model="formData.isUpAcceptance" label="1">无</el-radio>
+                        <div v-if="formData.isUpAcceptance==0">
+                            <uploadSmall  @getfileName="getAccepFile" :fileName="fileName2" :fileNameOld="fileName2"
+                            :isDetail="isDetail"></uploadSmall>
+                        </div>
+                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                  
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
@@ -76,12 +130,14 @@ export default {
     components: { uploadSmall },
     data() {
         return {
+            contractIf:'0',
+            acceptf:'0',
             userinfo: {},
             isDetail: '0',
             fileName1: [],
             fileName2: [],
             formData: {
-                
+              
             },
             rules: {
                 fileName2: [
@@ -101,6 +157,8 @@ export default {
         this.formData = this.$cache.local.getJSON("projectListNews");
         this.formData.fileName2 = [];
         this.formData.fileName1 = [];
+        this.formData.isUpContract='0';
+        this.formData.isUpAcceptance='0';
     },
     methods: {
         check(resmsg) {
@@ -145,7 +203,9 @@ export default {
                     let parms = {
                         projectId: this.formData.projectId,
                         fileName2: this.formData.fileName2,
-                        fileName1: this.formData.fileName1
+                        fileName1: this.formData.fileName1,
+                        isUpAcceptance:this.formData.isUpAcceptance,
+                        isUpContract:this.formData.isUpContract
                     };
                     edit(parms).then((res) => {
                         if (res != undefined) {
@@ -168,9 +228,8 @@ export default {
                     });
                 } else {
                      this.$alert('请正确填写', '系统提示', {
-                            confirmButtonText: '确定',
-                            
-                            type: 'warning'
+                      confirmButtonText: '确定',
+                      type: 'warning'
                       });
                 }
             });

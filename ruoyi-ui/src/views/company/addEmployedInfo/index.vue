@@ -2181,8 +2181,8 @@ export default {
       //   this.$modal.msgError("税率不能为空");
       //   return;
       // }
-      if (this.formData.isSlider == '0') {
-        if (this.formData.selfShareIsmoney == '1') {
+      
+      if (this.formData.selfShareIsmoney == '1') {
           if (this.formData.selfShare > 100) {
             this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
               confirmButtonText: '确定',
@@ -2190,9 +2190,9 @@ export default {
             });
           }
         }
-
-
-        if (this.formData.specialShareIsmoney == '1') {
+      
+      if (this.formData.isSlider == '0') {
+          if (this.formData.specialShareIsmoney == '1') {
           if (this.formData.specialShare > 100) {
             this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
               confirmButtonText: '确定',
