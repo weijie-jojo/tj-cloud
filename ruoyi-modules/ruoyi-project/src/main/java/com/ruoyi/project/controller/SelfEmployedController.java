@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.project.domain.SelfEmployed;
+import com.ruoyi.project.domain.vo.SelfEmployedVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
 import com.ruoyi.project.service.ISelfEmployedService;
@@ -56,7 +57,7 @@ public class SelfEmployedController extends BaseController
     @ApiOperation("查询个体商户列表(根据登录业务员跟行业类型)")
 //    @RequiresPermissions("company:employed:query")
     @GetMapping("/getByUserIndusty")
-    public List<SelfEmployed> getByUserIndusty(String industryType)
+    public List<SelfEmployedVo> getByUserIndusty(String industryType)
     {
         //获取登录用户的部门id
         Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();

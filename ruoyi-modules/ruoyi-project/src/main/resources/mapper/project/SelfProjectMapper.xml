@@ -50,6 +50,40 @@
         <result property="userId"    column="user_id"    />
         <result property="endStatus"    column="end_status"    />
         <result property="endTime"    column="end_time"    />
+        <result property="ticketRemark2"    column="ticket_remark2"    />
+        <result property="fileName4"    column="file_name4"    />
+        <result property="isUpContract"    column="is_up_contract"    />
+        <result property="isUpAcceptance"    column="is_up_acceptance"    />
+        <result property="isUpRate"    column="is_up_rate"    />
+        <result property="isUpDutypaid"    column="is_up_dutypaid"    />
+        <result property="ordinarySelfFee"    column="ordinary_self_fee"    />
+        <result property="specialSelfMoney"    column="special_self_money"    />
+        <result property="isSelfTax"    column="is_self_tax"    />
+        <result property="registerMoney"    column="register_money"    />
+        <result property="ordinaryTax"    column="ordinary_tax"    />
+        <result property="ordinarySpecialTax"    column="ordinary_special_tax"    />
+        <result property="ordinaryShare"    column="ordinary_share"    />
+        <result property="ordinaryShareMoney"    column="ordinary_share_money"    />
+        <result property="specialShare"    column="special_share"    />
+        <result property="specialShareMoney"    column="special_share_money"    />
+        <result property="isOrdinaryTax"    column="is_ordinary_tax"    />
+        <result property="isSpecialTax"    column="is_special_tax"    />
+        <result property="isSpecialSelfTax"    column="is_special_self_tax"    />
+        <result property="isSelfCount"    column="is_self_count"    />
+        <result property="ordinaryProxyIsmoney"    column="ordinary_proxy_ismoney"    />
+        <result property="specialProxyIsmoney"    column="special_proxy_ismoney"    />
+        <result property="ordinaryShareIsmoney"    column="ordinary_share_ismoney"    />
+        <result property="specialShareIsmoney"    column="special_share_ismoney"    />
+        <result property="isOrdinaryShare"    column="is_ordinary_share"    />
+        <result property="isSpecialShare"    column="is_special_share"    />
+        <result property="isSlider"    column="is_slider"    />
+        <result property="isSliderOrdinary"    column="is_slider_ordinary"    />
+        <result property="selfShare"    column="self_share"    />
+        <result property="isSelfShare"    column="is_self_share"    />
+        <result property="selfShareIsmoney"    column="self_share_ismoney"    />
+        <result property="specialSelfFee"    column="special_self_fee"    />
+        <result property="ordinarySelfMoney"    column="ordinary_self_money"    />
+        <result property="projectRateStatus"    column="project_rate_status"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -59,7 +93,14 @@
                file_name, project_time_start, project_time_end, project_check_status, project_ticket_status,
                project_contract_status, project_acceptance_status, project_dutypaid_status, place_code, purch_company_taxid,
                self_name, ticket_type, ticket_tax, project_owner_taxid, project_remain_amount, ticket_remark, contract_remark,
-               check_remark, tax_remark, file_name1, file_name2, file_name3, user_id, end_status, end_time from self_project
+               check_remark, tax_remark, file_name1, file_name2, file_name3, user_id, end_status, end_time ,
+               ticket_remark2, file_name4, is_up_contract, is_up_acceptance, is_up_rate, is_up_dutypaid, ordinary_self_fee,
+               special_self_money, is_self_tax, register_money, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money,
+               special_share, special_share_money, is_ordinary_tax, is_special_tax, is_special_self_tax, is_self_count,
+               ordinary_proxy_ismoney, special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share,
+               is_special_share, is_slider, is_slider_ordinary, self_share, is_self_share, self_share_ismoney, special_self_fee,
+               ordinary_self_money, project_rate_status
+        from self_project
     </sql>
 
     <sql id="selectProjectCheckVo">
@@ -75,14 +116,28 @@
                 t.project_acceptance_status, t.project_dutypaid_status, t.place_code,t.purch_company_taxid,t.self_name,
                 t.ticket_type,t.ticket_tax,t.project_owner_taxid,t.project_remain_amount,t.user_id,t.end_status, t.end_time,
                 t.ticket_remark, t.contract_remark, t.check_remark, t.tax_remark, t.file_name1, t.file_name2, t.file_name3,
+                t.ticket_remark2, t.file_name4, t.is_up_contract, t.is_up_acceptance, t.is_up_rate, t.is_up_dutypaid,
+                t.ordinary_self_fee, t.special_self_money, t.is_self_tax, t.register_money, t.ordinary_tax, t.ordinary_special_tax,
+                t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax,
+                t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney,
+                t.special_share_ismoney, t.is_ordinary_share, t.is_special_share, t.is_slider, t.is_slider_ordinary, t.self_share,
+                t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
+                A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
+                A.bank_name, A.bank_code, A.place_alias_name,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,
                 C.place_name,C.place_status,C.place_alias_name
-                from self_project t LEFT JOIN self_employed B ON t.project_owner = B.self_code
+                from self_project t
+                                    LEFT JOIN self_employed A ON t.purch_company_taxid = A.purch_company_taxid
+                                    LEFT JOIN self_employed B ON t.project_owner = B.self_code
                                     LEFT  JOIN business_place C ON t.place_code = C.place_code
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
-        where  t.project_code=#{projectCode}
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="projectCode != null ">
+                t.project_code = #{projectCode}
+            </if>
+        </trim>
     </select>
     <select id="selectSelfProjectList"  resultMap="SelfProjectResult">
         <include refid="selectSelfProjectVo"/>
@@ -136,6 +191,40 @@
                     #{item}
                 </foreach>
             </if>
+            <if test="selfProject.ticketRemark2 != null  and selfProject.ticketRemark2 != ''"> and ticket_remark2 = #{selfProject.ticketRemark2}</if>
+            <if test="selfProject.fileName4 != null  and selfProject.fileName4 != ''"> and file_name4 = #{selfProject.fileName4}</if>
+            <if test="selfProject.isUpContract != null "> and is_up_contract = #{selfProject.isUpContract}</if>
+            <if test="selfProject.isUpAcceptance != null "> and is_up_acceptance = #{selfProject.isUpAcceptance}</if>
+            <if test="selfProject.isUpRate != null "> and is_up_rate = #{selfProject.isUpRate}</if>
+            <if test="selfProject.isUpDutypaid != null "> and is_up_dutypaid = #{selfProject.isUpDutypaid}</if>
+            <if test="selfProject.ordinarySelfFee != null "> and ordinary_self_fee = #{selfProject.ordinarySelfFee}</if>
+            <if test="selfProject.specialSelfMoney != null "> and special_self_money = #{selfProject.specialSelfMoney}</if>
+            <if test="selfProject.isSelfTax != null "> and is_self_tax = #{selfProject.isSelfTax}</if>
+            <if test="selfProject.registerMoney != null "> and register_money = #{selfProject.registerMoney}</if>
+            <if test="selfProject.ordinaryTax != null "> and ordinary_tax = #{selfProject.ordinaryTax}</if>
+            <if test="selfProject.ordinarySpecialTax != null "> and ordinary_special_tax = #{selfProject.ordinarySpecialTax}</if>
+            <if test="selfProject.ordinaryShare != null "> and ordinary_share = #{selfProject.ordinaryShare}</if>
+            <if test="selfProject.ordinaryShareMoney != null "> and ordinary_share_money = #{selfProject.ordinaryShareMoney}</if>
+            <if test="selfProject.specialShare != null "> and special_share = #{selfProject.specialShare}</if>
+            <if test="selfProject.specialShareMoney != null "> and special_share_money = #{selfProject.specialShareMoney}</if>
+            <if test="selfProject.isOrdinaryTax != null "> and is_ordinary_tax = #{selfProject.isOrdinaryTax}</if>
+            <if test="selfProject.isSpecialTax != null "> and is_special_tax = #{selfProject.isSpecialTax}</if>
+            <if test="selfProject.isSpecialSelfTax != null "> and is_special_self_tax = #{selfProject.isSpecialSelfTax}</if>
+            <if test="selfProject.isSelfCount != null "> and is_self_count = #{selfProject.isSelfCount}</if>
+            <if test="selfProject.ordinaryProxyIsmoney != null "> and ordinary_proxy_ismoney = #{selfProject.ordinaryProxyIsmoney}</if>
+            <if test="selfProject.specialProxyIsmoney != null "> and special_proxy_ismoney = #{selfProject.specialProxyIsmoney}</if>
+            <if test="selfProject.ordinaryShareIsmoney != null "> and ordinary_share_ismoney = #{selfProject.ordinaryShareIsmoney}</if>
+            <if test="selfProject.specialShareIsmoney != null "> and special_share_ismoney = #{selfProject.specialShareIsmoney}</if>
+            <if test="selfProject.isOrdinaryShare != null "> and is_ordinary_share = #{selfProject.isOrdinaryShare}</if>
+            <if test="selfProject.isSpecialShare != null "> and is_special_share = #{selfProject.isSpecialShare}</if>
+            <if test="selfProject.isSlider != null "> and is_slider = #{selfProject.isSlider}</if>
+            <if test="selfProject.isSliderOrdinary != null "> and is_slider_ordinary = #{selfProject.isSliderOrdinary}</if>
+            <if test="selfProject.selfShare != null "> and self_share = #{selfProject.selfShare}</if>
+            <if test="selfProject.isSelfShare != null "> and is_self_share = #{selfProject.isSelfShare}</if>
+            <if test="selfProject.selfShareIsmoney != null "> and self_share_ismoney = #{selfProject.selfShareIsmoney}</if>
+            <if test="selfProject.specialSelfFee != null "> and special_self_fee = #{selfProject.specialSelfFee}</if>
+            <if test="selfProject.ordinarySelfMoney != null "> and ordinary_self_money = #{selfProject.ordinarySelfMoney}</if>
+            <if test="selfProject.projectRateStatus != null "> and project_rate_status = #{selfProject.projectRateStatus}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -197,6 +286,40 @@
             <if test="userId != null">user_id,</if>
             <if test="endStatus != null">end_status,</if>
             <if test="endTime != null">end_time,</if>
+            <if test="ticketRemark2 != null">ticket_remark2,</if>
+            <if test="fileName4 != null">file_name4,</if>
+            <if test="isUpContract != null">is_up_contract,</if>
+            <if test="isUpAcceptance != null">is_up_acceptance,</if>
+            <if test="isUpRate != null">is_up_rate,</if>
+            <if test="isUpDutypaid != null">is_up_dutypaid,</if>
+            <if test="ordinarySelfFee != null">ordinary_self_fee,</if>
+            <if test="specialSelfMoney != null">special_self_money,</if>
+            <if test="isSelfTax != null">is_self_tax,</if>
+            <if test="registerMoney != null">register_money,</if>
+            <if test="ordinaryTax != null">ordinary_tax,</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax,</if>
+            <if test="ordinaryShare != null">ordinary_share,</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money,</if>
+            <if test="specialShare != null">special_share,</if>
+            <if test="specialShareMoney != null">special_share_money,</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax,</if>
+            <if test="isSpecialTax != null">is_special_tax,</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax,</if>
+            <if test="isSelfCount != null">is_self_count,</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney,</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney,</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney,</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney,</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share,</if>
+            <if test="isSpecialShare != null">is_special_share,</if>
+            <if test="isSlider != null">is_slider,</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary,</if>
+            <if test="selfShare != null">self_share,</if>
+            <if test="isSelfShare != null">is_self_share,</if>
+            <if test="selfShareIsmoney != null">self_share_ismoney,</if>
+            <if test="specialSelfFee != null">special_self_fee,</if>
+            <if test="ordinarySelfMoney != null">ordinary_self_money,</if>
+            <if test="projectRateStatus != null">project_rate_status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -243,6 +366,40 @@
             <if test="userId != null">#{userId},</if>
             <if test="endStatus != null">#{endStatus},</if>
             <if test="endTime != null">#{endTime},</if>
+            <if test="ticketRemark2 != null">#{ticketRemark2},</if>
+            <if test="fileName4 != null">#{fileName4},</if>
+            <if test="isUpContract != null">#{isUpContract},</if>
+            <if test="isUpAcceptance != null">#{isUpAcceptance},</if>
+            <if test="isUpRate != null">#{isUpRate},</if>
+            <if test="isUpDutypaid != null">#{isUpDutypaid},</if>
+            <if test="ordinarySelfFee != null">#{ordinarySelfFee},</if>
+            <if test="specialSelfMoney != null">#{specialSelfMoney},</if>
+            <if test="isSelfTax != null">#{isSelfTax},</if>
+            <if test="registerMoney != null">#{registerMoney},</if>
+            <if test="ordinaryTax != null">#{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">#{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">#{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">#{ordinaryShareMoney},</if>
+            <if test="specialShare != null">#{specialShare},</if>
+            <if test="specialShareMoney != null">#{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">#{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">#{isSpecialTax},</if>
+            <if test="isSpecialSelfTax != null">#{isSpecialSelfTax},</if>
+            <if test="isSelfCount != null">#{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">#{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">#{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">#{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">#{specialShareIsmoney},</if>
+            <if test="isOrdinaryShare != null">#{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">#{isSpecialShare},</if>
+            <if test="isSlider != null">#{isSlider},</if>
+            <if test="isSliderOrdinary != null">#{isSliderOrdinary},</if>
+            <if test="selfShare != null">#{selfShare},</if>
+            <if test="isSelfShare != null">#{isSelfShare},</if>
+            <if test="selfShareIsmoney != null">#{selfShareIsmoney},</if>
+            <if test="specialSelfFee != null">#{specialSelfFee},</if>
+            <if test="ordinarySelfMoney != null">#{ordinarySelfMoney},</if>
+            <if test="projectRateStatus != null">#{projectRateStatus},</if>
         </trim>
     </insert>
 
@@ -293,6 +450,40 @@
             <if test="userId != null">user_id = #{userId},</if>
             <if test="endStatus != null">end_status = #{endStatus},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="ticketRemark2 != null">ticket_remark2 = #{ticketRemark2},</if>
+            <if test="fileName4 != null">file_name4 = #{fileName4},</if>
+            <if test="isUpContract != null">is_up_contract = #{isUpContract},</if>
+            <if test="isUpAcceptance != null">is_up_acceptance = #{isUpAcceptance},</if>
+            <if test="isUpRate != null">is_up_rate = #{isUpRate},</if>
+            <if test="isUpDutypaid != null">is_up_dutypaid = #{isUpDutypaid},</if>
+            <if test="ordinarySelfFee != null">ordinary_self_fee = #{ordinarySelfFee},</if>
+            <if test="specialSelfMoney != null">special_self_money = #{specialSelfMoney},</if>
+            <if test="isSelfTax != null">is_self_tax = #{isSelfTax},</if>
+            <if test="registerMoney != null">register_money = #{registerMoney},</if>
+            <if test="ordinaryTax != null">ordinary_tax = #{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax = #{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">ordinary_share = #{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money = #{ordinaryShareMoney},</if>
+            <if test="specialShare != null">special_share = #{specialShare},</if>
+            <if test="specialShareMoney != null">special_share_money = #{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax = #{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">is_special_tax = #{isSpecialTax},</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax = #{isSpecialSelfTax},</if>
+            <if test="isSelfCount != null">is_self_count = #{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney = #{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney = #{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney = #{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney = #{specialShareIsmoney},</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share = #{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">is_special_share = #{isSpecialShare},</if>
+            <if test="isSlider != null">is_slider = #{isSlider},</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary = #{isSliderOrdinary},</if>
+            <if test="selfShare != null">self_share = #{selfShare},</if>
+            <if test="isSelfShare != null">is_self_share = #{isSelfShare},</if>
+            <if test="selfShareIsmoney != null">self_share_ismoney = #{selfShareIsmoney},</if>
+            <if test="specialSelfFee != null">special_self_fee = #{specialSelfFee},</if>
+            <if test="ordinarySelfMoney != null">ordinary_self_money = #{ordinarySelfMoney},</if>
+            <if test="projectRateStatus != null">project_rate_status = #{projectRateStatus},</if>
         </trim>
         where project_id = #{projectId}
     </update>

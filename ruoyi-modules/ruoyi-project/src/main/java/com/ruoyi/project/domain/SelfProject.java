@@ -201,4 +201,141 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "完结时间")
     private Date endTime;
 
+    /** 发票备注 */
+    @ApiModelProperty(value = "发票备注")
+    private String ticketRemark2;
+
+    /** 缴税凭证 */
+    @ApiModelProperty(value = "缴税凭证")
+    private String fileName4;
+
+    /** 是否上传合同资料 */
+    @ApiModelProperty(value = "是否上传合同资料")
+    private Long isUpContract;
+
+    /** 是否上传验收资料 */
+    @ApiModelProperty(value = "是否上传验收资料")
+    private Long isUpAcceptance;
+
+    /** 是否上传缴税凭证 */
+    @ApiModelProperty(value = "是否上传缴税凭证")
+    private Long isUpRate;
+
+    /** 是否上传完税凭证 */
+    @ApiModelProperty(value = "是否上传完税凭证")
+    private Long isUpDutypaid;
+
+    /** 普票个体户代办费 */
+    @ApiModelProperty(value = "普票个体户代办费")
+    private BigDecimal ordinarySelfFee;
+
+    /** 专票个体户代办费(元） */
+    @ApiModelProperty(value = "专票个体户代办费(元）")
+    private BigDecimal specialSelfMoney;
+
+    /** 个体户服务费是否含税(普票) 0 是 1否 */
+    @ApiModelProperty(value = "个体户服务费是否含税(普票) 0 是 1否")
+    private Long isSelfTax;
+
+    /** 注册服务费 1500(同个体户代办费) */
+    @ApiModelProperty(value = "注册服务费 1500(同个体户代办费)")
+    private BigDecimal registerMoney;
+
+    /** 普票税率(增值税普通发票） */
+    @ApiModelProperty(value = "普票税率(增值税普通发票）")
+    private BigDecimal ordinaryTax;
+
+    /** 普票税率(增值税专用发票） */
+    @ApiModelProperty(value = "普票税率(增值税专用发票）")
+    private BigDecimal ordinarySpecialTax;
+
+    /** 分润方式(增值税普通发票）百分比 */
+    @ApiModelProperty(value = "分润方式(增值税普通发票）百分比")
+    private BigDecimal ordinaryShare;
+
+    /** 分润方式(增值税普通发票）定额 */
+    @ApiModelProperty(value = "分润方式(增值税普通发票）定额")
+    private BigDecimal ordinaryShareMoney;
+
+    /** 分润方式(增值税专用发票）百分比 */
+    @ApiModelProperty(value = "分润方式(增值税专用发票）百分比")
+    private BigDecimal specialShare;
+
+    /** 分润方式(增值税专用发票）定额 */
+    @ApiModelProperty(value = "分润方式(增值税专用发票）定额")
+    private BigDecimal specialShareMoney;
+
+    /** 普票价税分离（与服务费含税一样，是，否；默认选择否）
+     */
+    @ApiModelProperty(value = "普票价税分离 与服务费含税一样，是，否；默认选择否")
+    private Long isOrdinaryTax;
+
+    /** 专票价税分离（与服务费含税一样，是，否；默认选择否） */
+    @ApiModelProperty(value = "专票价税分离 与服务费含税一样，是，否；默认选择否")
+    private Long isSpecialTax;
+
+    /** 个体户服务费是否含税(专票) 0 是 1否 */
+    @ApiModelProperty(value = "个体户服务费是否含税(专票) 0 是 1否")
+    private Long isSpecialSelfTax;
+
+    /** 是否单独结算 0 是 1否 */
+    @ApiModelProperty(value = "是否单独结算 0 是 1否")
+    private Long isSelfCount;
+
+    /** 普票平台服务费是否定额 */
+    @ApiModelProperty(value = "普票平台服务费是否定额")
+    private Long ordinaryProxyIsmoney;
+
+    /** 专票平台服务费是否定额 */
+    @ApiModelProperty(value = "专票平台服务费是否定额")
+    private Long specialProxyIsmoney;
+
+    /** 普票分润方式是否定额 */
+    @ApiModelProperty(value = "普票分润方式是否定额")
+    private Long ordinaryShareIsmoney;
+
+    /** 专票分润方式是否定额 */
+    @ApiModelProperty(value = "专票分润方式是否定额")
+    private Long specialShareIsmoney;
+
+    /** 是否开启分润 0是 1否(普票) */
+    @ApiModelProperty(value = "是否开启分润 0是 1否(普票)")
+    private Long isOrdinaryShare;
+
+    /** 是否开启分润 0是 1否(专票) */
+    @ApiModelProperty(value = "是否开启分润 0是 1否(专票)")
+    private Long isSpecialShare;
+
+    /** 滑块0是 1否(专票) */
+    @ApiModelProperty(value = "滑块0是 1否(专票)")
+    private Long isSlider;
+
+    /** 滑块0是 1否(普票) */
+    @ApiModelProperty(value = "滑块0是 1否(普票)")
+    private Long isSliderOrdinary;
+
+    /** 分润方式(增值税普通发票) */
+    @ApiModelProperty(value = "分润方式(增值税普通发票)")
+    private BigDecimal selfShare;
+
+    /** 是否开启分润 0是 1否 */
+    @ApiModelProperty(value = "是否开启分润 0是 1否")
+    private Long isSelfShare;
+
+    /** 个体户注册费是否定额 1 百分比 0定额 */
+    @ApiModelProperty(value = "个体户注册费是否定额 1 百分比 0定额")
+    private Long selfShareIsmoney;
+
+    /** 专票个体户代办费 */
+    @ApiModelProperty(value = "专票个体户代办费")
+    private BigDecimal specialSelfFee;
+
+    /** 普票个体户代办费(元） */
+    @ApiModelProperty(value = "普票个体户代办费(元）")
+    private BigDecimal ordinarySelfMoney;
+
+    /** 缴税状态 0否 1是 */
+    @ApiModelProperty(value = "缴税状态 0否 1是")
+    private Long projectRateStatus;
+
 }
