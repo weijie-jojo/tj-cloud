@@ -2,8 +2,16 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules"  size="medium" label-width="140px">
 
-           
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
+            <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg rowCss" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
                         <el-input v-model="formData.projectCode" :readonly="true"></el-input>
@@ -23,8 +31,8 @@
                         <el-input
                         :readonly="true"
                         type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0"
-                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            :step="0.00001" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                             >
                             <template slot="append">
                               元
@@ -39,9 +47,9 @@
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                    
-                     <el-form-item class="comright" label="项目完税资料" prop="fileName3">
+                     <!-- <el-form-item class="comright" label="项目完税资料">
                       <uploadSmall @getfileName="getfileNameS" :fileName="fileName" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
+                    </el-form-item> -->
 
                    
                 </el-col>
@@ -52,6 +60,58 @@
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
                     
+                  
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">缴税信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>  
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="缴税凭证">
+                        <el-radio v-model="formData.isUpRate" label="0">有</el-radio>
+                        <el-radio v-model="formData.isUpRate" label="1">无</el-radio>
+                        <div  v-if="formData.isUpRate==0">
+                            <uploadSmall @getfileName="getPayTax" :fileName="fileName4" :fileNameOld="fileName4"
+                            :isDetail="isDetail"></uploadSmall>
+                        </div>
+                       
+                    </el-form-item>
+                  
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+              
+            </el-row>
+            <el-row type="flex" class="row-bg" style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">完税信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="完税凭证">
+                        <el-radio v-model="formData.isUpDutypaid"  label="0">有</el-radio>
+                        <el-radio v-model="formData.isUpDutypaid"  label="1">无</el-radio>
+                        <div v-if="formData.isUpDutypaid==0">
+                            <uploadSmall  @getfileName="getDuty" :fileName="fileName3" :fileNameOld="fileName3"
+                            :isDetail="isDetail"></uploadSmall>
+                        </div>
+                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
                   
                 </el-col>
             </el-row>
@@ -75,6 +135,8 @@ export default {
      components: { uploadSmall },
     data() {
         return {
+            fileName4:[],
+            fileName3:[],
             userinfo:{},
             isDetail:'0',
             fileName: [],
@@ -95,10 +157,16 @@ export default {
     computed: {},
     mounted() {
         this.formData=this.$cache.local.getJSON("projectListNews");
+        this.formData.isUpDutypaid='0';
+        this.formData.isUpRate='0';
         this.formData.fileName3=[];
+        this.formData.fileName4=[];
     },
     methods: {
-        getfileNameS(data){
+        getPayTax(data){
+          this.formData.fileName4=data;
+        },
+        getDuty(data){
           this.formData.fileName3=data;
         },
         check(resmsg) {
@@ -131,11 +199,13 @@ export default {
                 // TODO 提交表单
                 if (valid) {
                     this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
-
+                    this.formData.fileName4 = JSON.stringify(this.formData.fileName4);
                     let parms = {
+                        isUpRate:this.formData.isUpRate,
+                        isUpDutypaid:this.formData.isUpDutypaid,
                         projectId: this.formData.projectId,
-                        fileName3: this.formData.fileName3
-                      
+                        fileName3: this.formData.fileName3,
+                        fileName4: this.formData.fileName4
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {

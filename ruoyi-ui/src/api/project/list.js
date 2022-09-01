@@ -7,7 +7,13 @@ export function list(query) {
     params: query
   })
 }
-
+export function getPuJialist(query) {
+  return request({
+    url: '/project/company/list',
+    method: 'get',
+    params: query
+  })
+}
 
 export function detail(query) {
   return request({
@@ -26,6 +32,13 @@ export function ownlist(query) {
 export function add(data) {
   return request({
     url: 'project/project',
+    method: 'post',
+    data: data
+  })
+}
+export function addJia(data) {
+  return request({
+    url: '/project/company',
     method: 'post',
     data: data
   })
@@ -95,4 +108,4 @@ export function getCount(query){
 }
 
 
-export default {getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {addJia,getPuJialist,getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

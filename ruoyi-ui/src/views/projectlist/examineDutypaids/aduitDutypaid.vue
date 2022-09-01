@@ -1,9 +1,17 @@
 <template>
   <div>
     <el-form ref="elForm" :model="formData" size="medium" label-width="140px">
+      <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
 
-
-      <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
+      <el-row type="flex" class="row-bg rowCss"  justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="项目编号" :required="true">
             <el-input v-model="formData.projectCode" :readonly="true"></el-input>
@@ -20,8 +28,8 @@
             <el-input v-model="formData.createTime" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
-            <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.01" :min="0"
-             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.00001" :min="0"
+             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
             >
               <template slot="append">
                 元
@@ -36,9 +44,9 @@
             <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
           </el-form-item>
 
-          <el-form-item class="comright" label="项目完税资料" :required="true">
+          <!-- <el-form-item class="comright" label="项目完税资料" :required="true">
                  <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
-           </el-form-item>
+           </el-form-item> -->
             </el-col>
            <el-col :span="9">
            <el-form-item class="comright" label="乙方" prop="projectOwner">
@@ -48,6 +56,58 @@
 
         </el-col>
       </el-row>
+
+      <el-row type="flex" class="row-bg " style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">缴税信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>  
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="缴税凭证">
+                        <el-radio disabled  v-model="formData.isUpRate" label="0">有</el-radio>
+                        <el-radio disabled  v-model="formData.isUpRate" label="1">无</el-radio>
+                        <div v-show="formData.isUpRate==0">
+                            <uploadSmall ref="productImage2"   :fileName="isNone" :fileNameOld="fileNameN2"
+                            :isDetail="isDetail"></uploadSmall>
+                        </div>
+                       
+                    </el-form-item>
+                  
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+              
+            </el-row>
+            <el-row type="flex" class="row-bg" style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">完税信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="完税凭证">
+                        <el-radio disabled v-model="formData.isUpDutypaid"  label="0">有</el-radio>
+                        <el-radio disabled v-model="formData.isUpDutypaid"  label="1">无</el-radio>
+                        <div v-show="formData.isUpDutypaid==0" >
+                          <uploadSmall ref="productImage1"   :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
+                        </div>
+                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+            </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
@@ -94,6 +154,8 @@ export default {
   components: { uploadSmall },
   data() {
     return {
+      fileNameN2:[],
+      fileNameN1:[],
       projectStatusNew:0,
       userinfo:{},
       isokradioS: '1',
@@ -109,11 +171,25 @@ export default {
   mounted() {
     this.formData = this.$cache.local.getJSON("projectListNews");
     this.formData.fileName3=JSON.parse(this.formData.fileName3);
-    this.fileName=[];
+    this.formData.fileName4=JSON.parse(this.formData.fileName4);
+    this.formData.isUpDutypaid=JSON.stringify(this.formData.isUpDutypaid);
+    this.formData.isUpRate=JSON.stringify(this.formData.isUpRate);
+    this.$nextTick(()=>{
+      this.$refs.productImage1.getSrcList(this.formData.fileName3);
+      this.$refs.productImage2.getSrcList(this.formData.fileName4);
+    })
+  
+    //this.fileName=[];
     for(let i in this.formData.fileName3){
-      this.fileName.push({
+      this.fileNameN1.push({
         url:this.baseImgPath+this.formData.fileName3[i],
         name:this.formData.fileName3[i]
+      })
+    }
+    for(let j in this.formData.fileName4){
+      this.fileNameN2.push({
+        url:this.baseImgPath+this.formData.fileName4[j],
+        name:this.formData.fileName4[j]
       })
     }
   },

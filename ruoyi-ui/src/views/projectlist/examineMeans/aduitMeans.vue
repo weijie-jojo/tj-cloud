@@ -2,8 +2,16 @@
     <div>
         <el-form ref="elForm" :model="formData"  size="medium" label-width="140px">
 
-           
-            <el-row type="flex" class="row-bg rowCss combottom" style="padding-top: 20px;" justify="space-around">
+          <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg rowCss"  justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号" :required="true">
                         <el-input v-model="formData.projectCode" :readonly="true"></el-input>
@@ -21,8 +29,8 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
                         <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0"
-                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            :step="0.00001" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                             >
                             <template slot="append">
                               元
@@ -36,22 +44,67 @@
                   <el-form-item class="comright" label="甲方" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="项目合同资料" :required="true">
-                      <uploadSmall ref="productImage1"   :fileName="fileName1" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
-                    
-                    
                 </el-col>
-
                 <el-col :span="9">
                  <el-form-item class="comright" label="乙方" prop="projectOwner">
                         <el-input  v-model="formData.selfName" :readonly="true"></el-input>
                  </el-form-item>
-                 <el-form-item class="comright" label="项目验收资料" :required="true">
-                      <uploadSmall ref="productImage2"   :fileName="fileName2" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
-                 </el-form-item>
+                
                   </el-col>
             </el-row>
+
+            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目合同</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>  
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="项目合同资料">
+                        <el-radio disabled  v-model="formData.isUpContract" label="0">有</el-radio>
+                        <el-radio disabled  v-model="formData.isUpContract"  label="1">无</el-radio>
+                        <div  v-show="formData.isUpContract==0">
+                          <uploadSmall ref="productImage1"   :fileName="fileName1" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
+                        </div>
+                       
+                    </el-form-item>
+                  
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+              
+            </el-row>
+            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目验收</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item class="comright" label="项目验收资料">
+                        <el-radio disabled v-model="formData.isUpAcceptance"  label="0">有</el-radio>
+                        <el-radio disabled v-model="formData.isUpAcceptance"  label="1">无</el-radio>
+                        <div v-show="formData.isUpAcceptance==0">
+                          <uploadSmall ref="productImage2"   :fileName="fileName2" :fileNameOld="fileNameN2" :isDetail="isDetail"></uploadSmall>
+                        </div>
+                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                  
+                </el-col>
+            </el-row>
+
+
               
              <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="21">
@@ -116,6 +169,8 @@ export default {
         this.formData=this.$cache.local.getJSON("projectListNews");
         this.formData.fileName1=JSON.parse(this.formData.fileName1);
         this.formData.fileName2=JSON.parse(this.formData.fileName2);
+        this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
+        this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
         this.$refs.productImage1.getSrcList(this.formData.fileName1);
         this.$refs.productImage2.getSrcList(this.formData.fileName2);
        for(let j in this.formData.fileName1){
