@@ -83,7 +83,7 @@
 
             C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
             C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
-            C.gender, C.date_birth, C.nation, C.residence, C.personnel_type, C.occupational_status, C.create_by, C.update_by, C.create_time, C.update_time,
+            C.gender, C.date_birth, C.nation, C.residence, C.personnel_type, C.occupational_status, C.create_by, C.update_by, C.create_time, C.update_time
 
         from self_employed t
                  LEFT JOIN  self_legal_person C  on t.self_code=C.self_code
@@ -156,7 +156,7 @@
         <include refid="selectSelfEmployedVo"/>
         where self_id = #{selfId}
     </select>
-    <select id="selectSelfEmployedByUser"  resultMap="SelfEmployedResult">
+    <select id="selectSelfEmployedByUser"  resultType="com.ruoyi.project.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             t.industry_type= #{industryType}
