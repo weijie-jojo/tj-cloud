@@ -97,12 +97,11 @@ public class SelfProjectController extends BaseController
             list2= list.stream().filter(s->s.getProjectCheckStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectCheckStatus()==2).collect(Collectors.toList());
         }
-//        if (selfProject.getType()==3){//合同审核
-//            list1= list.stream().filter(s->s.getProjectContractStatus()==0).collect(Collectors.toList());
-//            list2= list.stream().filter(s->s.getProjectContractStatus()==1).collect(Collectors.toList());
-//            list3= list.stream().filter(s->s.getProjectContractStatus()==2).collect(Collectors.toList());
-//            list3= list.stream().filter(s->s.getProjectContractStatus()==-1).collect(Collectors.toList());
-//        }
+        if (selfProject.getType()==3){//发票审核
+            list1= list.stream().filter(s->s.getProjectTicketStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectTicketStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectTicketStatus()==2).collect(Collectors.toList());
+        }
         if (selfProject.getType()==4){//合同 验收审核
             list1= list.stream().filter(s->s.getProjectAcceptanceStatus()==0).collect(Collectors.toList());
             list2= list.stream().filter(s->s.getProjectAcceptanceStatus()==1).collect(Collectors.toList());
