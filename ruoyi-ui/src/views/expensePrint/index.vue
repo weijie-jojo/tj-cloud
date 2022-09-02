@@ -130,6 +130,7 @@
                 
                 fit
                 :header-cell-style="{border:'1px solid #333'}"
+            
                 class="exporttable"
                 >
                 <el-table-column prop="checkDate" label="时间" width="180" />
@@ -578,4 +579,12 @@ export default {
     margin-right: 10mm;
   }
 }
+
+.el-table--border:after,
+.el-table--group:after,
+.el-table:before {
+    /* background-color:1px solid black; */
+    border-bottom: 2px solid black;
+}
+
 </style>

@@ -498,4 +498,10 @@ export default {
   }
  
 }
+.el-table--border:after,
+.el-table--group:after,
+.el-table:before {
+    /* background-color:1px solid black; */
+    border-bottom: 2px solid black;
+}
 </style>
