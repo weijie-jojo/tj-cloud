@@ -197,10 +197,10 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围">
+                    <el-form-item style="padding-right:4%" label="经营范围">
                         <el-input
                         
-                        disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
+                        disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>

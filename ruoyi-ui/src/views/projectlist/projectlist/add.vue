@@ -79,8 +79,15 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="名称" prop="purchCompany">
                         <!-- <el-input v-model="formData.purchCompany"></el-input> -->
-                        <el-autocomplete style="width:100%" v-model="formData.purchCompany"
+                        <el-autocomplete 
+                        popper-class="my-autocomplete"
+                        style="width:100%" v-model="formData.purchCompany"
                             :fetch-suggestions="querySearchAsync" placeholder="请输入内容" @select="handleSelect">
+                            <template slot-scope="{ item }">
+                                <div class="name">{{ item.purchCompany }}</div>
+                                <span class="addr">{{ item.purchCompanyAddress }}</span>
+                            </template>
+                        
                         </el-autocomplete>
                     </el-form-item>
                     <el-form-item class="comright" label="地址">
@@ -203,7 +210,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" label="经营范围">
-                        <el-input disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
+                        <el-input disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="natureBusiness">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -677,12 +684,12 @@ export default {
 
                 fileName: '',//开票内容
                 placeCode: "",
-                projectAcceptanceStatus: 0,
+                projectAcceptanceStatus: '-1', //办理中 验收
                 projectCheckStatus: 0,
                 projectCode: "",
-                projectContractStatus: 0,
+                projectContractStatus: '-1',  //办理中  合同
                 projectDesc: "",
-                projectDutypaidStatus: 0,
+                projectDutypaidStatus: '-1', //办理中  完税
                 projectGrossMargin: 0,
                 projectGrossProfit: 0,
                 projectLeader: "",
@@ -909,7 +916,7 @@ export default {
     mounted() {
          // this.restaurants = this.loadAll();
          // this.getPuJialist();
-       
+        //this.getPuJialist();
         this.gettoday();
         this.getRate();
         this.getinfoByUserId(); //渠道商
@@ -934,17 +941,19 @@ export default {
             this.timeout = setTimeout(() => {
                 
                 cb(results);
-            }, 3000 * Math.random());
+            }, 1000 * Math.random());
         },
         createStateFilter(queryString) {
-            console.log(queryString);
+            
             return (state) => {
-                return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+               return (state.purchCompany.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
 
         handleSelect(item) {
             console.log(item);
+            this.formData.purchCompanyTaxid=item.purchCompanyTaxid;
+            this.formData.purchCompany=item.purchCompany;
             this.formData.purchCompanyAddress=item.purchCompanyAddress;//甲方地址
             this.formData.purchCompanyPhone=item.purchCompanyPhone;//甲方电话
             this.formData.bankName=item.bankName;//甲方开户行
@@ -1560,5 +1569,24 @@ export default {
     font-size: 20px;
 
     color: blue;
+}
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
+
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .addr {
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
+  }
 }
 </style>

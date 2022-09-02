@@ -203,6 +203,7 @@ export default {
                     let parms = {
                         isUpRate:this.formData.isUpRate,
                         isUpDutypaid:this.formData.isUpDutypaid,
+                        projectDutypaidStatus:0,
                         projectId: this.formData.projectId,
                         fileName3: this.formData.fileName3,
                         fileName4: this.formData.fileName4

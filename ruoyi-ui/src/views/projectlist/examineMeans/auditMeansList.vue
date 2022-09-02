@@ -24,10 +24,11 @@
         <el-row :gutter="10" class="mb8">
               <el-col :span="15">
                 <el-tabs v-model="endStatus" @tab-click="handleClick">
+                   <el-tab-pane :label="addLabel" name="-1"></el-tab-pane>
                    <el-tab-pane :label="loadingLabel" name="0"></el-tab-pane>
                    <el-tab-pane :label="errLabel" name="2"></el-tab-pane>
                    <el-tab-pane :label="finishLabel" name="1"></el-tab-pane>
-                   <el-tab-pane :label="allLabel" name="-1"></el-tab-pane>
+                   <el-tab-pane :label="allLabel" name="-3"></el-tab-pane>
                 </el-tabs>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -44,16 +45,17 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectAcceptanceStatus == '2' && scope.row.projectContractStatus==2">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectAcceptanceStatus == '1' && scope.row.projectContractStatus==1">完成</el-link>
-                    <el-link :underline="false" type="primary" v-if="scope.row.projectAcceptanceStatus == '0' && scope.row.projectContractStatus==0">审核中</el-link>
+                    <el-link :underline="false" type="danger"  v-if="scope.row.projectAcceptanceStatus == 2 && scope.row.projectContractStatus==2">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectAcceptanceStatus == 1 && scope.row.projectContractStatus==1">完成</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.projectContractStatus==0">审核中</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectAcceptanceStatus == -1 && scope.row.projectContractStatus==-1">办理中</el-link>
                 </template>
             </el-table-column> 
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="!scope.row.fileName2 && !scope.row.fileName1" type="text" icon="el-icon-circle-plus-outline"
+                    <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==-1 && scope.row.projectContractStatus==-1" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">办理</el-button>
-                    <el-button size="mini" v-if="scope.row.fileName2 && scope.row.projectAcceptanceStatus==0 && scope.row.fileName1 && scope.row.projectContractStatus==0"    type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
+                    <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==0 && scope.row.projectContractStatus==0"    type="text" icon="el-icon-s-custom" @click="detail(scope.row)">审核
                     </el-button>
                       <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==1 && scope.row.projectContractStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectAcceptanceStatus==2 && scope.row.projectContractStatus==2"  type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
@@ -79,6 +81,7 @@ export default {
     data() {
         return {
             allLabel: '全部',
+            addLabel: '办理中',
             errLabel: '异常',
             loadingLabel: '办理中',
             finishLabel: '完成',
@@ -199,7 +202,7 @@ export default {
            this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
         },
           handleClick(){
-            if(this.endStatus=='-1'){
+            if(this.endStatus=='-3'){
               this.queryParams.projectContractStatus=null;
               this.queryParams.projectAcceptanceStatus=null;
              }else{
@@ -232,6 +235,7 @@ export default {
         },
      getCount() {
       getCount(this.queryParams).then(res => {
+        this.addLabel='办理中('+res.bl+')';
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
         this.loadingLabel = "审核中(" + res.unfinished + ")";

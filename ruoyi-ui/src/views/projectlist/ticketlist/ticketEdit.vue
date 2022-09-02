@@ -21,7 +21,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" :required="true">
                         <el-input disabled type="number" style="width:100%" v-model="Father.projectTotalAmount"
-                            :step="0.01" :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                            :step="0.00001" :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'>
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
@@ -58,7 +58,8 @@
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额" :required="true">
                         <el-input disabled type="number" style="width:100%" v-model="Father.projectPackageAmount"
-                            :step="0.01" :min="0">
+                            :step="0.00001" :min="0"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'>
                             <template slot="append">元</template>
                         </el-input>
 
@@ -91,7 +92,9 @@
                     </el-form-item>
                     <el-form-item class="comright" label="剩余金额" :required="true">
                         <el-input disabled type="number" style="width:100%" v-model="Father.projectRemainAmount"
-                            :step="0.01" :min="0">
+                            :step="0.00001" :min="0"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                            >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>

@@ -204,6 +204,8 @@ export default {
                         projectId: this.formData.projectId,
                         fileName2: this.formData.fileName2,
                         fileName1: this.formData.fileName1,
+                        projectAcceptanceStatus:0,
+                        projectContractStatus:0,
                         isUpAcceptance:this.formData.isUpAcceptance,
                         isUpContract:this.formData.isUpContract
                     };
