@@ -86,6 +86,7 @@ public class SelfProjectController extends BaseController
         selfProject.setProjectContractStatus(null);
         selfProject.setProjectAcceptanceStatus(null);
         selfProject.setProjectDutypaidStatus(null);
+        selfProject.setProjectTicketStatus(null);
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         if (selfProject.getType()==1){//项目进度列表
             list1= list.stream().filter(s->s.getProjectStatus()==0).collect(Collectors.toList());
@@ -322,7 +323,8 @@ public class SelfProjectController extends BaseController
             int num=selfProjectService.insertSelfProject(selfProject);
             return toAjax(num);
         }catch (DuplicateKeyException ex){
-            return error("不允许插入重复项目，自动返回，请重新创建");
+//            return error("不允许插入重复项目，自动返回，请重新创建");
+            return null;
         }
 
     }

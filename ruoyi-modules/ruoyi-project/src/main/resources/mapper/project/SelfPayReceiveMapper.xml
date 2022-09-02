@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.SelfPayReceiveMapper">
+
+    <resultMap type="com.ruoyi.project.domain.SelfPayReceive" id="SelfPayReceiveResult">
+        <result property="payReceiveId"    column="pay_receive_id"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="payReceiveSysCode"    column="pay_receive_sys_code"    />
+        <result property="payReceiveCode"    column="pay_receive_code"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectTotalAmount"    column="project_total_amount"    />
+        <result property="projectPackageAmount"    column="project_package_amount"    />
+        <result property="projectRemainAmount"    column="project_remain_amount"    />
+        <result property="payTotalAmount"    column="pay_total_amount"    />
+        <result property="payPackageAmount"    column="pay_package_amount"    />
+        <result property="payRemainAmount"    column="pay_remain_amount"    />
+        <result property="receiveName"    column="receive_name"    />
+        <result property="receiveTime"    column="receive_time"    />
+        <result property="receiveMoney"    column="receive_money"    />
+        <result property="receiveAccount"    column="receive_account"    />
+        <result property="fileNameReceive"    column="file_name_receive"    />
+        <result property="payName"    column="pay_name"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="payMoney"    column="pay_money"    />
+        <result property="payAccount"    column="pay_account"    />
+        <result property="fileNamePay"    column="file_name_pay"    />
+        <result property="payName2"    column="pay_name2"    />
+        <result property="payTime2"    column="pay_time2"    />
+        <result property="payMoney2"    column="pay_money2"    />
+        <result property="payAccount2"    column="pay_account2"    />
+        <result property="fileNamePay2"    column="file_name_pay2"    />
+        <result property="payName3"    column="pay_name3"    />
+        <result property="payTime3"    column="pay_time3"    />
+        <result property="payMoney3"    column="pay_money3"    />
+        <result property="payAccount3"    column="pay_account3"    />
+        <result property="fileNamePay3"    column="file_name_pay3"    />
+    </resultMap>
+
+    <sql id="selectSelfPayReceiveVo">
+        select pay_receive_id, project_code, pay_receive_sys_code, pay_receive_code, project_name, project_total_amount, project_package_amount, project_remain_amount, pay_total_amount, pay_package_amount, pay_remain_amount, receive_name, receive_time, receive_money, receive_account, file_name_receive, pay_name, pay_time, pay_money, pay_account, file_name_pay, pay_name2, pay_time2, pay_money2, pay_account2, file_name_pay2, pay_name3, pay_time3, pay_money3, pay_account3, file_name_pay3 from self_pay_receive
+    </sql>
+
+    <select id="selectSelfPayReceiveList" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultMap="SelfPayReceiveResult">
+        <include refid="selectSelfPayReceiveVo"/>
+        <where>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
+            <if test="payReceiveCode != null  and payReceiveCode != ''"> and pay_receive_code = #{payReceiveCode}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectTotalAmount != null "> and project_total_amount = #{projectTotalAmount}</if>
+            <if test="projectPackageAmount != null "> and project_package_amount = #{projectPackageAmount}</if>
+            <if test="projectRemainAmount != null "> and project_remain_amount = #{projectRemainAmount}</if>
+            <if test="payTotalAmount != null "> and pay_total_amount = #{payTotalAmount}</if>
+            <if test="payPackageAmount != null "> and pay_package_amount = #{payPackageAmount}</if>
+            <if test="payRemainAmount != null "> and pay_remain_amount = #{payRemainAmount}</if>
+            <if test="receiveName != null  and receiveName != ''"> and receive_name like concat('%', #{receiveName}, '%')</if>
+            <if test="receiveTime != null "> and receive_time = #{receiveTime}</if>
+            <if test="receiveMoney != null "> and receive_money = #{receiveMoney}</if>
+            <if test="receiveAccount != null  and receiveAccount != ''"> and receive_account = #{receiveAccount}</if>
+            <if test="fileNameReceive != null  and fileNameReceive != ''"> and file_name_receive = #{fileNameReceive}</if>
+            <if test="payName != null  and payName != ''"> and pay_name like concat('%', #{payName}, '%')</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="payMoney != null "> and pay_money = #{payMoney}</if>
+            <if test="payAccount != null  and payAccount != ''"> and pay_account = #{payAccount}</if>
+            <if test="fileNamePay != null  and fileNamePay != ''"> and file_name_pay = #{fileNamePay}</if>
+            <if test="payName2 != null  and payName2 != ''"> and pay_name2 = #{payName2}</if>
+            <if test="payTime2 != null "> and pay_time2 = #{payTime2}</if>
+            <if test="payMoney2 != null "> and pay_money2 = #{payMoney2}</if>
+            <if test="payAccount2 != null  and payAccount2 != ''"> and pay_account2 = #{payAccount2}</if>
+            <if test="fileNamePay2 != null  and fileNamePay2 != ''"> and file_name_pay2 = #{fileNamePay2}</if>
+            <if test="payName3 != null  and payName3 != ''"> and pay_name3 = #{payName3}</if>
+            <if test="payTime3 != null "> and pay_time3 = #{payTime3}</if>
+            <if test="payMoney3 != null "> and pay_money3 = #{payMoney3}</if>
+            <if test="payAccount3 != null  and payAccount3 != ''"> and pay_account3 = #{payAccount3}</if>
+            <if test="fileNamePay3 != null  and fileNamePay3 != ''"> and file_name_pay3 = #{fileNamePay3}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfPayReceiveByPayReceiveId" parameterType="String" resultMap="SelfPayReceiveResult">
+        <include refid="selectSelfPayReceiveVo"/>
+        where pay_receive_id = #{payReceiveId}
+    </select>
+
+    <insert id="insertSelfPayReceive" parameterType="com.ruoyi.project.domain.SelfPayReceive" useGeneratedKeys="true" keyProperty="payReceiveId">
+        insert into self_pay_receive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code,</if>
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code,</if>
+            <if test="payReceiveCode != null and payReceiveCode != ''">pay_receive_code,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="projectTotalAmount != null">project_total_amount,</if>
+            <if test="projectPackageAmount != null">project_package_amount,</if>
+            <if test="projectRemainAmount != null">project_remain_amount,</if>
+            <if test="payTotalAmount != null">pay_total_amount,</if>
+            <if test="payPackageAmount != null">pay_package_amount,</if>
+            <if test="payRemainAmount != null">pay_remain_amount,</if>
+            <if test="receiveName != null">receive_name,</if>
+            <if test="receiveTime != null">receive_time,</if>
+            <if test="receiveMoney != null">receive_money,</if>
+            <if test="receiveAccount != null">receive_account,</if>
+            <if test="fileNameReceive != null">file_name_receive,</if>
+            <if test="payName != null">pay_name,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="payMoney != null">pay_money,</if>
+            <if test="payAccount != null">pay_account,</if>
+            <if test="fileNamePay != null">file_name_pay,</if>
+            <if test="payName2 != null">pay_name2,</if>
+            <if test="payTime2 != null">pay_time2,</if>
+            <if test="payMoney2 != null">pay_money2,</if>
+            <if test="payAccount2 != null">pay_account2,</if>
+            <if test="fileNamePay2 != null">file_name_pay2,</if>
+            <if test="payName3 != null">pay_name3,</if>
+            <if test="payTime3 != null">pay_time3,</if>
+            <if test="payMoney3 != null">pay_money3,</if>
+            <if test="payAccount3 != null">pay_account3,</if>
+            <if test="fileNamePay3 != null">file_name_pay3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">#{payReceiveSysCode},</if>
+            <if test="payReceiveCode != null and payReceiveCode != ''">#{payReceiveCode},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="projectTotalAmount != null">#{projectTotalAmount},</if>
+            <if test="projectPackageAmount != null">#{projectPackageAmount},</if>
+            <if test="projectRemainAmount != null">#{projectRemainAmount},</if>
+            <if test="payTotalAmount != null">#{payTotalAmount},</if>
+            <if test="payPackageAmount != null">#{payPackageAmount},</if>
+            <if test="payRemainAmount != null">#{payRemainAmount},</if>
+            <if test="receiveName != null">#{receiveName},</if>
+            <if test="receiveTime != null">#{receiveTime},</if>
+            <if test="receiveMoney != null">#{receiveMoney},</if>
+            <if test="receiveAccount != null">#{receiveAccount},</if>
+            <if test="fileNameReceive != null">#{fileNameReceive},</if>
+            <if test="payName != null">#{payName},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="payMoney != null">#{payMoney},</if>
+            <if test="payAccount != null">#{payAccount},</if>
+            <if test="fileNamePay != null">#{fileNamePay},</if>
+            <if test="payName2 != null">#{payName2},</if>
+            <if test="payTime2 != null">#{payTime2},</if>
+            <if test="payMoney2 != null">#{payMoney2},</if>
+            <if test="payAccount2 != null">#{payAccount2},</if>
+            <if test="fileNamePay2 != null">#{fileNamePay2},</if>
+            <if test="payName3 != null">#{payName3},</if>
+            <if test="payTime3 != null">#{payTime3},</if>
+            <if test="payMoney3 != null">#{payMoney3},</if>
+            <if test="payAccount3 != null">#{payAccount3},</if>
+            <if test="fileNamePay3 != null">#{fileNamePay3},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfPayReceive" parameterType="com.ruoyi.project.domain.SelfPayReceive">
+        update self_pay_receive
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code = #{payReceiveSysCode},</if>
+            <if test="payReceiveCode != null and payReceiveCode != ''">pay_receive_code = #{payReceiveCode},</if>
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="projectTotalAmount != null">project_total_amount = #{projectTotalAmount},</if>
+            <if test="projectPackageAmount != null">project_package_amount = #{projectPackageAmount},</if>
+            <if test="projectRemainAmount != null">project_remain_amount = #{projectRemainAmount},</if>
+            <if test="payTotalAmount != null">pay_total_amount = #{payTotalAmount},</if>
+            <if test="payPackageAmount != null">pay_package_amount = #{payPackageAmount},</if>
+            <if test="payRemainAmount != null">pay_remain_amount = #{payRemainAmount},</if>
+            <if test="receiveName != null">receive_name = #{receiveName},</if>
+            <if test="receiveTime != null">receive_time = #{receiveTime},</if>
+            <if test="receiveMoney != null">receive_money = #{receiveMoney},</if>
+            <if test="receiveAccount != null">receive_account = #{receiveAccount},</if>
+            <if test="fileNameReceive != null">file_name_receive = #{fileNameReceive},</if>
+            <if test="payName != null">pay_name = #{payName},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="payMoney != null">pay_money = #{payMoney},</if>
+            <if test="payAccount != null">pay_account = #{payAccount},</if>
+            <if test="fileNamePay != null">file_name_pay = #{fileNamePay},</if>
+            <if test="payName2 != null">pay_name2 = #{payName2},</if>
+            <if test="payTime2 != null">pay_time2 = #{payTime2},</if>
+            <if test="payMoney2 != null">pay_money2 = #{payMoney2},</if>
+            <if test="payAccount2 != null">pay_account2 = #{payAccount2},</if>
+            <if test="fileNamePay2 != null">file_name_pay2 = #{fileNamePay2},</if>
+            <if test="payName3 != null">pay_name3 = #{payName3},</if>
+            <if test="payTime3 != null">pay_time3 = #{payTime3},</if>
+            <if test="payMoney3 != null">pay_money3 = #{payMoney3},</if>
+            <if test="payAccount3 != null">pay_account3 = #{payAccount3},</if>
+            <if test="fileNamePay3 != null">file_name_pay3 = #{fileNamePay3},</if>
+        </trim>
+        where pay_receive_id = #{payReceiveId}
+    </update>
+
+    <delete id="deleteSelfPayReceiveByPayReceiveId" parameterType="String">
+        delete from self_pay_receive where pay_receive_id = #{payReceiveId}
+    </delete>
+
+    <delete id="deleteSelfPayReceiveByPayReceiveIds" parameterType="String">
+        delete from self_pay_receive where pay_receive_id in
+        <foreach item="payReceiveId" collection="array" open="(" separator="," close=")">
+            #{payReceiveId}
+        </foreach>
+    </delete>
+</mapper>
