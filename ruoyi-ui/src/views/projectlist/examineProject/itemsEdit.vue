@@ -1,9 +1,17 @@
 <template>
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
+            <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">项目信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>   
 
-
-            <el-row type="flex" class="row-bg rowCss" style="padding-top:20px" justify="space-around">
+            <el-row type="flex" class="row-bg rowCss" justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="项目编号">
                         <el-input v-model="formData.projectCode" disabled></el-input>
@@ -21,8 +29,8 @@
                     </el-form-item>
                     <el-form-item class="comright" label="项目金额" prop="projectTotalAmount">
                         <el-input :disabled="isticket" type="number" style="width:100%" v-model="formData.projectTotalAmount" 
-                            :step="0.01" :min="0"
-                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                            :step="0.00001" :min="0"
+                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                             >
                               <template slot="append">元</template>
                         </el-input>
@@ -41,30 +49,111 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="甲方" prop="purchCompany">
-                        <!-- <el-select  clearable v-model="formData.purchCompany">
-                          <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                        </el-select> -->
-                        <el-input v-model="formData.purchCompany"></el-input>
-                    </el-form-item>
+                   
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="客户状态" prop="isokradio">
+                    <!-- <el-form-item class="comright" label="客户状态" prop="isokradio">
                         <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
                         <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
                         <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="甲方纳税人识别号" prop="purchCompanyTaxid">
-                        <el-input v-model.trim="inputValCompute"></el-input>
+                    </el-form-item> -->
+                   
+                    <el-form-item class="comright" label="业务经理">
+                        <el-input v-model="formData.projectLeader" disabled></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
 
+            <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">甲方信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>   
+            <el-row type="flex" class="row-bg " justify="space-around">
+               <el-col :span="9">
+                   <el-form-item class="comright" label="名称" prop="purchCompany">
+                     <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
+                   </el-form-item>
+                   <el-form-item class="comright" label="地址">
+                        <el-input v-model="formData.purchCompanyAddress" :readonly="true" maxlength="250" show-word-limit type="textarea" :rows="1"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="开户行">
+                        <el-input v-model="formData.bankName" :readonly="true"></el-input>
+                    </el-form-item>
+            
+               </el-col>
+               <el-col :span="9">
+                   <el-form-item class="comright" label="纳税人识别号" prop="purchCompanyTaxid">
+                        <el-input v-model.trim="inputValCompute" :readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="电话">
+                        <el-input v-model="formData.purchCompanyPhone" :readonly="true"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="帐号">
+                        <el-input  v-model="formData.bankCode" :readonly="true"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">乙方信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业类型" prop="industryType">
+                    <el-form-item class="comright" label="名称" prop="projectOwner">
+                        <el-select filterable @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
+                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
+                                :value="item.selfCode">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item class="comright" label="地址">
+                        <el-input :readonly="true" v-model="formData.residence" maxlength="250" show-word-limit type="textarea" :rows="1"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="开户行">
+                        <el-input v-if="formData.accountType == 1" v-model="formData.privateDepositBank" :readonly="true"></el-input>
+                        <el-input v-else v-model="formData.publicAccountNumber1" :readonly="true"></el-input>
+                    </el-form-item>
+
+                    <!-- <el-form-item class="comright" label="乙方状态">
+                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item> -->
+                </el-col>
+
+                <el-col :span="9">
+
+                    <el-form-item class="comright" label="纳税人识别号">
+                        <el-input disabled v-model="formData.projectOwnerTaxid"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="电话">
+                        <el-input :readonly="true" v-model="formData.contactPhone"></el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="帐号">
+                        <el-input v-if="formData.accountType == 1" v-model="formData.privateAccountNumber" :readonly="true"></el-input>
+                        <el-input v-else v-model="formData.publicAccountNumber1" :readonly="true"></el-input>
+                        
+                    </el-form-item>
+                  
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                  
+                    <el-form-item class="comright" label="行业类型" prop="industryType">
                        <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
                        <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType"
                             style="width: 100%;">
@@ -86,6 +175,49 @@
 
 
 
+                    
+                </el-col>
+
+                <el-col :span="9">
+                    
+                    <el-form-item class="comright" label="行业税率">
+                        <el-input disabled v-model="owerTaxfee"></el-input>
+                    </el-form-item>
+
+
+                  
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="21">
+                    <el-form-item style="padding-right:4%" label="经营范围">
+                        <el-input
+                        
+                        disabled type="textarea" :rows="2" placeholder="请输入经营范围" v-model="natureBusiness">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">票据信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+
+
+
+           
+
+
+
+
+
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
                     <el-form-item class="comright" label="发票类型" prop="ticketType">
                         <el-select style="width:100%" clearable v-model="formData.ticketType" @change="tickettaxvip">
                             <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
@@ -93,65 +225,6 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                </el-col>
-
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方行业税率">
-                        <el-input disabled v-model="owerTaxfee"></el-input>
-                    </el-form-item>
-
-
-                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
-                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true"></el-input>
-                    </el-form-item>
-                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
-                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
-                            <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
-                        <el-select filterable @change="ownnew" style="width:100%" clearable v-model="formData.projectOwner">
-                            <el-option v-for="item in ownoptions" :key="item.selfId" :label="item.selfName"
-                                :value="item.selfCode">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="乙方纳税人识别号">
-                        <el-input disabled v-model="formData.projectOwnerTaxid"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="业务经理">
-                        <el-input v-model="formData.projectLeader" disabled></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-
-
-
-
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
                     <el-form-item class="comright" label="开票内容类型">
                         <el-radio v-model="fileNameradio" label="1" @change="filenamer">手动输入</el-radio>
                         <el-radio v-model="fileNameradio" label="2" @change="filenamer">上传附件 </el-radio>
@@ -162,6 +235,16 @@
                 </el-col>
 
                 <el-col :span="9">
+                    <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
+                        <el-input style="width:86%" v-model="formData.ticketTax" :required="true"></el-input>
+                    </el-form-item>
+                    <el-form-item v-else class="comright" label="发票税率" prop="ticketTax">
+                        <el-select style="width:100%" clearable v-model="formData.ticketTax">
+                            <el-option v-for="item in ticketNormal" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item class="comright" label="开票内容" prop="fileName" v-if="fileNameradio == 1">
 
                         <el-input 
@@ -183,24 +266,15 @@
                   
             </el-row>
 
-            <el-row type="flex" class="row-bg " justify="space-around">
+            <!-- <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
                     <el-form-item style="padding-right:4%" class="comright" label="项目行业类型" prop="projectTrade">
                          <el-input disabled v-model="formData.projectTrade"></el-input>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
 
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围">
-                        <el-input
-                        
-                        disabled type="textarea" :rows="2" placeholder="请输入乙方经营范围" v-model="natureBusiness">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+           
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
@@ -211,6 +285,243 @@
                         type="textarea" :rows="2" placeholder="请输入发票备注" v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">结算信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="结算方式" :required="true">
+                        <el-radio v-model="formData.isSelfCount" label="0" @change="singleOK">按个体结算</el-radio>
+                        <el-radio v-model="formData.isSelfCount" label="1" @change="singleOK">按客户结算</el-radio>
+                        <el-radio v-model="formData.isSelfCount" label="2" @change="singleOK">按项目结算</el-radio>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+
+                </el-col>
+            </el-row>
+            <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="个体户注册服务费" prop="registerMoney">
+                        <el-input v-model="formData.registerMoney" :min="0"
+                            onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+
+                </el-col>
+                <el-col :span="9">
+
+                </el-col>
+
+            </el-row>
+            <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="是否分润" prop='isSelfShare'>
+                        <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
+                        <el-radio v-model="formData.isSelfShare" label="1">否</el-radio>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+
+                </el-col>
+
+            </el-row>
+            <el-row v-if="formData.isSelfCount == 0 && formData.isSelfShare == 0" type="flex" class="row-bg "
+                justify="space-around">
+                <el-col :span="9">
+                    <el-form-item label="分润方式" prop="selfShare">
+                        <div style="">
+                            <el-radio @change="selfShareIsmoneys" v-model="formData.selfShareIsmoney" label="0">按定额收取
+                            </el-radio>
+                            <el-radio @change="selfShareIsmoneys" v-model="formData.selfShareIsmoney" label="1">按百分比收取
+                            </el-radio>
+
+                            <el-input v-if="formData.selfShareIsmoney == 0" style="width:100%" :min="0"
+                                v-model="formData.selfShare" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                <template slot="append">元</template>
+                            </el-input>
+                            <el-input v-model="formData.selfShare" v-else style="width:100%" @input="isSelfShares"
+                                @change="isSelfShares" :step="0.01" :min="0" :max="100"
+                                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                <template slot="append">%</template>
+                            </el-input>
+                        </div>
+
+                    </el-form-item>
+                </el-col>
+                <el-col :span="9">
+
+                </el-col>
+
+            </el-row>
+
+            <el-row type="flex" class="row-bg " justify="space-around"
+                v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2">
+                <el-col :span="9">
+                    <el-form-item label="增值税普通发票" :required="true">
+                        <el-radio @change="ispublic" v-model="formData.isSliderOrdinary" label="0">开启</el-radio>
+                        <el-radio @change="ispublic" v-model="formData.isSliderOrdinary" label="1">关闭</el-radio>
+                    </el-form-item>
+
+                    <div v-if="formData.isSliderOrdinary == 0">
+                        <el-form-item label="普票税率" :required="true">
+                            <!-- <el-select style="width:100%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
+                  <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select> -->
+                            <el-input :readonly="true" value="免税">
+
+                            </el-input>
+
+                        </el-form-item>
+                        <el-form-item label="普票服务费" prop="ordinarySelfFee">
+                            <div style="">
+
+                                <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="0">按定额收取
+                                </el-radio>
+                                <el-radio @change="handPoxy" v-model="formData.ordinaryProxyIsmoney" label="1">按百分比收取
+                                </el-radio>
+                                <el-input v-if="formData.ordinaryProxyIsmoney == 0" v-model="formData.ordinarySelfFee"
+                                    style="margin-right:10px" :min="0"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">元</template>
+                                </el-input>
+                                <el-input v-else @input="ordinarySelfFeeh" @change="ordinarySelfFeeh"
+                                    v-model="formData.ordinarySelfFee" style="margin-right:10px" :min="0" :max="100"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="服务费含税" :required="true">
+                            <el-radio v-model="formData.isSelfTax" label='0'>是</el-radio>
+                            <el-radio v-model="formData.isSelfTax" label='1'>否</el-radio>
+                        </el-form-item>
+                        <el-form-item label="价税分离" :required="true">
+                            <el-radio v-model="formData.isOrdinaryTax" label='0'>是</el-radio>
+                            <el-radio v-model="formData.isOrdinaryTax" label='1'>否</el-radio>
+                        </el-form-item>
+                        <el-form-item label="是否分润" :required="true">
+                            <el-radio v-model="formData.isOrdinaryShare" label="0">是</el-radio>
+                            <el-radio v-model="formData.isOrdinaryShare" label="1">否</el-radio>
+                        </el-form-item>
+                        <el-form-item v-if="formData.isOrdinaryShare == 0" label="分润方式" prop="ordinaryShare">
+                            <div style="">
+
+                                <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="0">按定额收取
+                                </el-radio>
+                                <el-radio @change="hanOrshare" v-model="formData.ordinaryShareIsmoney" label="1">按百分比收取
+                                </el-radio>
+                                <el-input v-if="formData.ordinaryShareIsmoney == 0" v-model="formData.ordinaryShare"
+                                    style="margin-right:10px;width:100%" :min="0"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">元</template>
+                                </el-input>
+                                <el-input v-else @input="ordinaryShareh" @change="ordinaryShareh"
+                                    v-model="formData.ordinaryShare" style="margin-right:10px;width:100%" :min="0"
+                                    :max="100" onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </div>
+                        </el-form-item>
+                    </div>
+
+
+
+                </el-col>
+                <el-col :span="9">
+                    <el-form-item label="增值税专用发票" :required="true">
+                        <el-radio  @change="ispublic" v-model="formData.isSlider" label="0">开启</el-radio>
+                        <el-radio  @change="ispublic" v-model="formData.isSlider" label="1">关闭</el-radio>
+                    </el-form-item>
+                    <div v-if="formData.isSlider == 0">
+                        <el-form-item label="专票税率" :required="true">
+                            <!-- <el-select style="width:100%" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
+                  <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select> -->
+                            <el-input :readonly="true" value="3">
+                                <template slot="append">%</template>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="专票服务费" prop="specialSelfFee">
+                            <div style="">
+                                <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="0">按定额收取
+                                </el-radio>
+                                <el-radio @change="handSpecial" v-model="formData.specialProxyIsmoney" label="1">按百分比收取
+                                </el-radio>
+                                <el-input v-if="formData.specialProxyIsmoney == 0" v-model="formData.specialSelfFee"
+                                    style="margin-right:10px;width:100%" :min="0"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">元</template>
+                                </el-input>
+                                <el-input v-else @input="specialSelfFeeh" @change="specialSelfFeeh"
+                                    v-model="formData.specialSelfFee" style="margin-right:10px;width:100%" :min="0"
+                                    :max='100' onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">%</template>
+                                </el-input>
+
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="服务费含税" :required="true">
+                            <el-radio v-model="formData.isSpecialSelfTax" label='0'>是</el-radio>
+                            <el-radio v-model="formData.isSpecialSelfTax" label='1'>否</el-radio>
+                        </el-form-item>
+                        <el-form-item label="价税分离" :required="true">
+                            <el-radio v-model="formData.isSpecialTax" label='0'>是</el-radio>
+                            <el-radio v-model="formData.isSpecialTax" label='1'>否</el-radio>
+                        </el-form-item>
+                        <el-form-item label="是否分润" :required="true">
+                            <el-radio v-model="formData.isSpecialShare" label="0">是</el-radio>
+                            <el-radio v-model="formData.isSpecialShare" label="1">否</el-radio>
+                        </el-form-item>
+                        <el-form-item v-if="formData.isSpecialShare == 0" label="分润方式" prop="specialShare">
+                            <div style="">
+
+                                <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="0">按定额收取
+                                </el-radio>
+                                <el-radio @change="handMoney" v-model="formData.specialShareIsmoney" label="1">按百分比收取
+                                </el-radio>
+                                <el-input v-if="formData.specialShareIsmoney == 0" v-model="formData.specialShare"
+                                    style="margin-right:10px;width:100%" :min="0"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">元</template>
+                                </el-input>
+                                <el-input @input="specialShareh" @change="specialShareh" v-model="formData.specialShare"
+                                    v-else style="margin-right:10px;width:100%" :min="0" :max="100"
+                                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                                    oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </div>
+                        </el-form-item>
+
+
+
+                    </div>
+
+
                 </el-col>
             </el-row>
 
@@ -232,6 +543,7 @@ import crudRate from '@/api/project/rate'
 import { detail, getcode, getinfoByUserId, edit, ownlist,check} from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
+import crudPlace from '@/api/company/place'
 //手机号验证
 var phoneVerify = (rule, value, callback) => {
     if (value) {
@@ -458,6 +770,44 @@ export default {
        
    },
    methods: {
+     //结算方式赋值
+     singleOK() {
+
+if (this.formData.isSelfCount == 0 || this.formData.isSelfCount == 2) {
+
+    this.formData.selfShareIsmoney = '0';
+    this.formData.isSelfShare = '1';
+    this.formData.selfShare = '0';
+    this.formData.specialSelfFee = '0';
+    this.formData.ordinarySelfFee = '0';
+    this.formData.registerMoney = '0';
+    this.formData.specialShare = '0';
+    this.formData.ordinaryShare = '0';
+    this.formData.ordinaryProxyIsmoney = '0'; //普票平台服务费是否定额
+    this.formData.specialProxyIsmoney = '0';  //专票平台服务费是否定额
+    this.formData.ordinaryShareIsmoney = '0';//普票分润方式是否定额
+    this.formData.specialShareIsmoney = '0';//专票分润方式是否定额
+    this.formData.isOrdinaryShare = '1';
+    this.formData.isSpecialShare = '1';
+    this.formData.ordinarySpecialTax = '0.03';
+    this.formData.ordinaryTax = '0';
+    if (this.formData.ticketType == 0) {
+        this.formData.isSlider = '1';
+        this.formData.isSliderOrdinary = '0';
+    } else {
+        this.formData.isSlider = '0';
+        this.formData.isSliderOrdinary = '1';
+    }
+
+    this.formData.isSpecialSelfTax = '1';
+    this.formData.isSelfTax = '1';
+    this.formData.isOrdinaryTax = '1';
+    this.formData.isSpecialTax = '1';
+
+} else {
+    this.placeNew();
+}
+},
      check(resmsg) {
         getInfo().then(res => {
             this.userinfo=res.user;
@@ -665,6 +1015,14 @@ export default {
                     } else {
                         this.projectStatus = 1;
                     }
+
+                    this.formData.residence = this.ownoptions[i].residence;
+                    this.formData.privateDepositBank = this.ownoptions[i].privateDepositBank;
+                    this.formData.privateAccountNumber = this.ownoptions[i].privateAccountNumber;
+                    this.formData.publicDepositBank1 = this.ownoptions[i].publicDepositBank1;
+                    this.formData.publicAccountNumber1 = this.ownoptions[i].publicAccountNumber1;
+                    this.formData.accountType = this.ownoptions[i].accountType;
+                    this.formData.contactPhone = this.ownoptions[i].contactPhone;
                     
                     this.formData.selfName = this.ownoptions[i].selfName;
                     this.natureBusiness = this.ownoptions[i].natureBusiness;
@@ -673,11 +1031,94 @@ export default {
             }
         },
         //监听渠道商状态  
-        placeNew(e) {
+          placeNew(e) {
             console.log(e);
             for (let i in this.placeCodeOptions) {
                 if (this.placeCodeOptions[i].placeCode == e) {
                     this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
+                    crudPlace.selectFeeByCode({ placeCode: this.placeCodeOptions[i].placeCode }).then(res => {
+                        this.unlist = res;
+                        if (this.formData.isSelfCount == 1) {
+
+                            this.formData.specialSelfFee = this.unlist.specialProxyFee;
+
+
+
+                            this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
+                            this.formData.registerMoney = this.unlist.ordinarySelfFee;
+                            this.formData.specialShare = this.unlist.specialShare;
+                            this.formData.ordinaryShare = this.unlist.ordinaryShare;
+
+                            this.formData.selfShareIsmoney = JSON.stringify(this.unlist.selfShareIsmoney);
+                            this.formData.isSelfShare = JSON.stringify(this.unlist.isSelfShare);
+                            this.formData.selfShare = JSON.stringify(this.unlist.selfShare);
+
+
+                            this.formData.ordinaryProxyIsmoney = JSON.stringify(this.unlist.ordinaryProxyIsmoney); //普票平台服务费是否定额
+                            this.formData.specialProxyIsmoney = JSON.stringify(this.unlist.specialProxyIsmoney)  //专票平台服务费是否定额
+                            this.formData.ordinaryShareIsmoney = JSON.stringify(this.unlist.ordinaryShareIsmoney);//普票分润方式是否定额
+                            this.formData.specialShareIsmoney = JSON.stringify(this.unlist.specialShareIsmoney);//专票分润方式是否定额
+                            this.formData.isOrdinaryShare = JSON.stringify(this.unlist.isOrdinaryShare);
+                            this.formData.isSpecialShare = JSON.stringify(this.unlist.isSpecialShare);
+
+                            this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
+                            this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
+
+
+                            if (this.unlist.isSlider == '0') {
+                                this.formData.isSlider = '0';
+                            } else {
+                                this.formData.isSlider = '1';
+                            }
+
+                            if (this.unlist.isSliderOrdinary == '0') {
+                                this.formData.isSliderOrdinary = '0';
+                            } else {
+                                this.formData.isSliderOrdinary = '1';
+                            }
+
+                            //含税专票
+                            if (this.unlist.isSpecialTax) {
+                                this.formData.isSpecialSelfTax = '0';
+                            } else {
+                                this.formData.isSpecialSelfTax = '1';
+                            }
+                            //普票含税
+                            if (this.unlist.isOrdinaryTax) {
+                                this.formData.isSelfTax = '0';
+                            } else {
+                                this.formData.isSelfTax = '1';
+                            }
+
+                            //普票价格分离
+                            if (this.unlist.isSelfTax == '0') {
+                                this.formData.isOrdinaryTax = '0';
+                            } else {
+                                this.formData.isOrdinaryTax = '1';
+                            }
+                            //专票价格分离
+                            if (this.unlist.isSpecialSelfTax == '0') {
+                                this.formData.isSpecialTax = '0';
+                            } else {
+                                this.formData.isSpecialTax = '1';
+                            }
+
+
+                        }
+
+
+                        this.$nextTick(() => {
+                            if (this.formData.ticketType == 0) {
+                                this.formData.isSlider = '1';
+                                this.formData.isSliderOrdinary = '0';
+                            } else {
+                                this.formData.isSlider = '0';
+                                this.formData.isSliderOrdinary = '1';
+                            }
+                        })
+
+                    });
+                    return;
                 }
             }
 
@@ -785,6 +1226,15 @@ export default {
                 this.tickettaxvipok = false;
 
             }
+            this.$nextTick(() => {
+                if (this.formData.ticketType == 0) {
+                    this.formData.isSlider = '1';
+                    this.formData.isSliderOrdinary = '0';
+                } else {
+                    this.formData.isSlider = '0';
+                    this.formData.isSliderOrdinary = '1';
+                }
+            })
 
         },
         repair(i) {
@@ -838,6 +1288,65 @@ export default {
                    type: 'warning'
                 });
                 return;
+            }
+            if (this.formData.isSelfCount < 2) {
+                if (this.formData.selfShareIsmoney == '1') {
+                    if (this.formData.selfShare > 100) {
+                        this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
+                            confirmButtonText: '确定',
+                            type: 'error'
+                        });
+                    }
+                }
+            }
+
+
+            if (this.formData.isSlider == '0') {
+                if (this.formData.specialShareIsmoney == '1') {
+                    if (this.formData.specialShare > 100) {
+                        this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+                            confirmButtonText: '确定',
+
+                            type: 'error'
+                        });
+                        return;
+                    }
+                }
+                if (this.formData.specialProxyIsmoney == '1') {
+                    if (this.formData.specialSelfFee > 100) {
+                        this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+                            confirmButtonText: '确定',
+
+                            type: 'error'
+                        });
+                        return;
+                    }
+                }
+            }
+
+            if (this.formData.isSliderOrdinary == 0) {
+                if (this.formData.ordinaryShareIsmoney == '1') {
+                    if (this.formData.ordinaryShare > 100) {
+                        this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+                            confirmButtonText: '确定',
+
+                            type: 'error'
+                        });
+                        return;
+                    }
+                }
+
+
+                if (this.formData.ordinaryProxyIsmoney == '1') {
+                    if (this.formData.ordinarySelfFee > 100) {
+                        this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+                            confirmButtonText: '确定',
+
+                            type: 'error'
+                        });
+                        return;
+                    }
+                }
             }
           
             this.$refs["elForm"].validate((valid) => {

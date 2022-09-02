@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '腾集后台管理系统',
+      title: '腾集系统',
       logo: logoImg
     }
   }

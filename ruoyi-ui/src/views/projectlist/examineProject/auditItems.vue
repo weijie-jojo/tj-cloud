@@ -175,10 +175,10 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="21">
-                    <el-form-item style="padding-right:4%" label="乙方经营范围" :required="true">
+                    <el-form-item style="padding-right:4%" label="经营范围" :required="true">
                         <el-input
                         
-                        :readonly="true" type="textarea" :rows="2" placeholder="请输入乙方经营范围"
+                        :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
                             v-model="formData.natureBusiness">
                         </el-input>
                     </el-form-item>
@@ -269,6 +269,16 @@
                             v-model="formData.projectDesc">
                         </el-input>
                     </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row type="flex" class="row-bg" style="margin-bottom:20px;" justify="space-around">
+                <el-col :span="9" class="flexs">
+                    <div class="bankno" style="width:35%">结算信息</div>
+                    <div style="width:50%;hegiht:10px"></div>
+                </el-col>
+                <el-col :span="9">
+                    <div></div>
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">

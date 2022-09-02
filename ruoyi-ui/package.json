@@ -1,7 +1,7 @@
 {
   "name": "ruoyi",
   "version": "3.5.0",
-  "description": "腾集后台管理系统",
+  "description": "腾集系统",
   "author": "若依",
   "license": "MIT",
   "scripts": {

@@ -87,10 +87,10 @@
                     
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectAcceptanceStatus == 0  && !scope.row.fileName2 && scope.row.projectContractStatus == '0' && !scope.row.fileNam1">办理中
+                        v-if="scope.row.projectAcceptanceStatus == '-1' && scope.row.projectContractStatus == '-1' ">办理中
                     </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectAcceptanceStatus == 0 && scope.row.fileName2 && scope.row.projectContractStatus == '0' && scope.row.fileNam1">审核中
+                        v-if="scope.row.projectAcceptanceStatus == '0' && scope.row.projectContractStatus == '0'">审核中
                     </el-link>
                      
                     <el-link :underline="false" type="danger"
@@ -154,10 +154,10 @@
                 <template slot-scope="scope">
                     
                       <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectDutypaidStatus == '0' && !scope.row.fileName3">办理中
+                        v-if="scope.row.projectDutypaidStatus == '-1' ">办理中
                     </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectDutypaidStatus == '0' && scope.row.fileName3">审核中
+                        v-if="scope.row.projectDutypaidStatus == '0'">审核中
                     </el-link>
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 5)"
@@ -366,23 +366,24 @@ export default {
             var msg = '审核';
             if(type==3){
                
-              if(!this.$cache.local.getJSON('publicTickets').fileName1){
-                msg='办理';
-              }else{
-                msg='审核';
-              }
+            //   if(!this.$cache.local.getJSON('publicTickets').fileName1){
+            //     msg='办理';
+            //   }else{
+            //     msg='审核';
+            //   }
             }else if(type==4){
-              if(!this.$cache.local.getJSON('publicTickets').fileName2){
-                msg='办理';
-             }else{
-                msg='审核';
-              }
+                if(this.$cache.local.getJSON('publicTickets').projectAcceptanceStatus==-1 && this.$cache.local.getJSON('publicTickets').projectContractStatus==-1){
+                    msg='办理';
+                }else{
+                    msg='审核';
+                }
+             
             }else if(type==5){
-             if(!this.$cache.local.getJSON('publicTickets').fileName3){
-                msg='办理';
-             }else{
-                msg='审核';
-              }
+                if(this.$cache.local.getJSON('publicTickets').projectDutypaidStatus==-1){
+                    msg='办理';
+                }else{
+                    msg='审核';
+                }
             }
             this.types = type;
             if (this.types == 2) {
