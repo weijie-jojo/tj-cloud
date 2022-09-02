@@ -120,7 +120,8 @@
           </el-row> -->
           
         </div>
-        <el-row class="row-bg"  :style="{height:screenHeight*0.5+'px',width:screenWidth+ 'px'}">
+        <div :style="{ height: screenHeight * 0.5 + 'px'}">
+          <el-row class="row-bg"  :style="{width: screenWidth + 'px',height:screenHeight*0.5+'px',paddingTop:'15px'}">
           
           <el-col :span="24">
             <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
@@ -137,18 +138,23 @@
             </el-table>
           </el-col>
         </el-row>
+
+        </div>
+      
         <!-- transform: rotate(90deg); -->
-        <div v-if="imgArr.length > 0" :style="{ height: screenHeight * 0.05 + 'px' }">报销凭证影像</div>
-        <div v-for="(item, index) in imgArr" :key="index">
+          <!-- transform: rotate(90deg); -->
+        
+          <div v-for="(item, index) in imgArr" :key="index">
+          <div v-if="index > 0 &&  index%2 !==0" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
 
-          <div v-if="index > 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
-
-
-          </div>
-
-          <div v-if="index == 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
 
           </div>
+          <div :style="{ height: screenHeight * 0.05 + 'px' }">报销凭证影像</div>
+         
+
+          <!-- <div :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+
+          </div> -->
 
 
 
@@ -163,36 +169,24 @@
 
         </div>
         <div v-if="imgArr.length % 2 !== 0 && imgArr.length > 1"
-          :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }">
+          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
 
         </div>
 
-        <div v-if="imgArr2.length > 0" :style="{ height: screenHeight * 0.05 + 'px' }">付款凭证影像</div>
+       
         <div v-for="(item, index) in imgArr2" :key="index">
-
-          <div v-if="index > 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
-
-
-          </div>
-
-          <div v-if="index == 1" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
-
-          </div>
-
-
-
-
+          <div :style="{ height: screenHeight * 0.05 + 'px' }">付款凭证影像</div>
           <el-image :src="item.url" fill="scale-down"
             :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
 
 
         </div>
         <div v-if="imgArr2.length ==1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+          :style="{ height: screenHeight * 0.55+ 'px', width: screenWidth + 'px' }">
 
         </div>
         <div v-if="imgArr2.length % 2 !== 0 && imgArr2.length > 1"
-          :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }">
+          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
 
         </div>
        

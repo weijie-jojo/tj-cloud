@@ -51,7 +51,7 @@
             </el-table-column>   
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="!scope.row.fileName3" type="text" icon="el-icon-circle-plus-outline"
+                    <el-button size="mini" v-if="scope.row.projectTicketStatus==0" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">开票</el-button>
                     <el-button size="mini" v-if="scope.row.projectTicketStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectTicketStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
@@ -100,7 +100,7 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-                type:5,
+                type:3,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
