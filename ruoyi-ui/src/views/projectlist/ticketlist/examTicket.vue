@@ -195,8 +195,9 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list2 } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist, edit, check } from "@/api/project/list";
+import { list2,edit } from "@/api/project/ticket";
+import arrss from "@/api/project/list";
+import { detail, getcode, getinfoByUserId, ownlist, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
     name: 'ExamTicket',
@@ -440,33 +441,44 @@ export default {
 
             });
         },
+       
         submitForm(type) {
 
             this.$refs['elForm'].validate(valid => {
                 // TODO 提交表单
                 if (valid) {
                     let parms;
-                    let arrs = 0;
-                    if (this.Father.projectRemainAmount == 0) {
-                        arrs = 1;
-                    } else {
-                        arrs = 0;
-                    }
+                    this.ticketByCode();
+                    
                     if (type == 1) {
+                    
+                      this.formData.isDeleted=1;
+                      if (this.Father.projectRemainAmount == 0) {
                         parms = {
                             projectId: this.Father.projectId,
-                            projectTicketStatus: arrs,
+                            projectTicketStatus: 1,
 
                         };
+                      } else {
+                        parms = {
+                            projectId: this.Father.projectId,
+                            projectTicketStatus: 0,
+
+                        };
+                       }
+                         
                     } else {
+                        this.formData.isDeleted=3;
                         parms = {
                             projectId: this.Father.projectId,
                             ticketRemark: this.remark,
                             projectTicketStatus: type,
-                            projectStatus: 1,
+                            
                         };
                     }
-                    edit(parms).then((res) => {
+                    arrss.edit(parms);
+                    
+                    edit(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res.code === 200) {
                                 this.$nextTick(function () {
@@ -680,8 +692,8 @@ export default {
                 this.userinfo = res.user;
                 this.userId = res.user.userId;
                 this.username = res.user.userName;
-                this.formData.projectLeader = res.user.nickName;
-                getinfoByUserId({ userId: this.userId }).then(res => {
+                //this.formData.projectLeader = res.user.nickName;
+                getinfoByUserId({ userId: this.formData.userId }).then(res => {
                     this.placeCodeOptions = res.data;
                 })
             })

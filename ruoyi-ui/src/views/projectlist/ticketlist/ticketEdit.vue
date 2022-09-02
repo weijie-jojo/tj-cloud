@@ -650,6 +650,7 @@ export default {
                     this.formData.fileName = JSON.stringify(this.formData.fileName);
                     //如果是附件的话
                     arrss.edit(this.Father);
+                    this.formData.isDeleted=2;
                     edit(this.formData).then((res) => {
                         if (res != undefined) {
                             if (res.code === 200) {

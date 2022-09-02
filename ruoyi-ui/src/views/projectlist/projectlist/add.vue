@@ -709,6 +709,9 @@ export default {
                 industryType: '',
                 selfName: '',
                 isDeleted: 1,
+                userId:'',
+                placeAliasName:'',
+
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -1164,6 +1167,8 @@ export default {
             for (let i in this.placeCodeOptions) {
                 if (this.placeCodeOptions[i].placeCode == e) {
                     this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
+                    this.formData.placeAliasName=this.placeCodeOptions[i].placeAliasName;
+                    
                     crudPlace.selectFeeByCode({ placeCode: this.placeCodeOptions[i].placeCode }).then(res => {
                         this.unlist = res;
                         if (this.formData.isSelfCount == 1) {
@@ -1477,6 +1482,8 @@ export default {
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
+                    this.formData.userId=this.userId;
+
                     //如果是附件的话
                     if (this.fileNameradio == 2) {
                         // this.formData.fileName = this.fileNamefile;

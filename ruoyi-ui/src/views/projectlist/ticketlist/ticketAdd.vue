@@ -217,7 +217,7 @@ export default {
                 fileName: '',//开票内容
                 ticketAmount: '0',//发票金额
                 ticketTime: '',  //发票时间
-                isDeleted: 1,
+                isDeleted: 2,
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -679,12 +679,12 @@ export default {
                 // TODO 提交表单
                 if (valid) {
                     //如果是附件的话
-                    let params={
-                        projectId:this.Father.projectId,
-                        projectRemainAmount:this.Father.projectRemainAmount,
-                        projectPackageAmount:this.Father.projectPackageAmount,
-                    }
-                    edit(params);
+                    // let params={
+                    //     projectId:this.Father.projectId,
+                    //     projectRemainAmount:this.Father.projectRemainAmount,
+                    //     projectPackageAmount:this.Father.projectPackageAmount,
+                    // }
+                    // edit(params);
                     add(this.formData).then((res) => {
                         if (res != undefined) {
                                 if (res.code === 200) {

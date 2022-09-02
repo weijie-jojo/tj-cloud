@@ -98,14 +98,17 @@
             <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
                     <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="aduit(scope.row)">审核</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">查看</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
+                   
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1" @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
                     </el-button>
                 </template>
             </el-table-column>
