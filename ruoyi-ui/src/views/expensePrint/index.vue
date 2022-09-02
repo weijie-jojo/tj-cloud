@@ -584,7 +584,7 @@ export default {
 .el-table--group:after,
 .el-table:before {
     /* background-color:1px solid black; */
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
 }
 
 </style>

@@ -31,4 +31,8 @@ public class ListUtil {
         List<T> list3 = new ArrayList<>();
         return list3;
     }
+    public <T> List<T> getList4(){
+        List<T> list4 = new ArrayList<>();
+        return list4;
+    }
 }

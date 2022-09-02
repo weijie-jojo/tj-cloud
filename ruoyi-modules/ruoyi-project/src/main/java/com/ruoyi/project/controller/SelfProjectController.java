@@ -77,12 +77,10 @@ public class SelfProjectController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//登录用户名
             }
         }
-//        List<SelfProject> list1 =new ArrayList<>();
-//        List<SelfProject> list2 =new ArrayList<>();
-//        List<SelfProject> list3 =new ArrayList<>();
         List<SelfProject> list1= ListUtil.getInstance().getList1();
         List<SelfProject> list2= ListUtil.getInstance().getList2();
         List<SelfProject> list3= ListUtil.getInstance().getList3();
+        List<SelfProject> list4= ListUtil.getInstance().getList4();
         selfProject.setProjectStatus(null);
         selfProject.setProjectCheckStatus(null);
         selfProject.setProjectContractStatus(null);
@@ -99,26 +97,30 @@ public class SelfProjectController extends BaseController
             list2= list.stream().filter(s->s.getProjectCheckStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectCheckStatus()==2).collect(Collectors.toList());
         }
-        if (selfProject.getType()==3){//合同审核
-            list1= list.stream().filter(s->s.getProjectContractStatus()==0).collect(Collectors.toList());
-            list2= list.stream().filter(s->s.getProjectContractStatus()==1).collect(Collectors.toList());
-            list3= list.stream().filter(s->s.getProjectContractStatus()==2).collect(Collectors.toList());
-        }
-        if (selfProject.getType()==4){//验收审核
+//        if (selfProject.getType()==3){//合同审核
+//            list1= list.stream().filter(s->s.getProjectContractStatus()==0).collect(Collectors.toList());
+//            list2= list.stream().filter(s->s.getProjectContractStatus()==1).collect(Collectors.toList());
+//            list3= list.stream().filter(s->s.getProjectContractStatus()==2).collect(Collectors.toList());
+//            list3= list.stream().filter(s->s.getProjectContractStatus()==-1).collect(Collectors.toList());
+//        }
+        if (selfProject.getType()==4){//合同 验收审核
             list1= list.stream().filter(s->s.getProjectAcceptanceStatus()==0).collect(Collectors.toList());
             list2= list.stream().filter(s->s.getProjectAcceptanceStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectAcceptanceStatus()==2).collect(Collectors.toList());
+            list4= list.stream().filter(s->s.getProjectAcceptanceStatus()==-1).collect(Collectors.toList());
         }
         if (selfProject.getType()==5){//完税审核
             list1= list.stream().filter(s->s.getProjectDutypaidStatus()==0).collect(Collectors.toList());
             list2= list.stream().filter(s->s.getProjectDutypaidStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectDutypaidStatus()==2).collect(Collectors.toList());
+            list4= list.stream().filter(s->s.getProjectDutypaidStatus()==-1).collect(Collectors.toList());
         }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());
         datasMap.put("finished", list2.size());
         datasMap.put("error", list3.size());
-        datasMap.put("total", list1.size()+list2.size()+list3.size());
+        datasMap.put("bl", list4.size());
+        datasMap.put("total", list1.size()+list2.size()+list3.size()+list4.size());
         return datasMap;
     }
     /**
