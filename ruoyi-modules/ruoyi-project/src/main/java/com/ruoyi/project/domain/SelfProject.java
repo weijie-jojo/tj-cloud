@@ -93,7 +93,7 @@ public class SelfProject extends BaseEntity
     private Long projectStatus;
 
     /** 是否删除;1:删除,0:未删除 */
-    @ApiModelProperty(value = "是否删除;1:删除,0:未删除")
+    @ApiModelProperty(value = "0：作废 1：审核 完  2：审核中")
     private String isDeleted;
 
     /** 审核意见（驳回原因） */
