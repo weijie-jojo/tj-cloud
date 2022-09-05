@@ -204,9 +204,9 @@ export default {
     vertical-align: middle;
   }
 }
-.el-input__inner{
-  font-size: 18px;
-}
+// .el-input__inner{
+//   font-size: 18px;
+// }
 
 .el-login-footer {
   height: 40px;

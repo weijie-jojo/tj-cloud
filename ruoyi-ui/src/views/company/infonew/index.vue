@@ -89,7 +89,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="证件号码" prop="contactIdNum">
+          <el-form-item class="comright" label="证件号码"  :required="true">
             <el-input :readonly="true" v-model="formData.contactIdNum" clearable>
             </el-input>
           </el-form-item>
@@ -670,10 +670,6 @@ export default {
         contactIdNum: [{
           required: true,
           message: '请输入证件号码',
-          trigger: 'blur'
-        }, {
-          pattern: /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
-          message: '身份证号格式错误',
           trigger: 'blur'
         }],
 
