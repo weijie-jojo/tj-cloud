@@ -8,13 +8,17 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.project.domain.SelfPayReceive;
+import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.service.ISelfPayReceiveService;
+import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -104,4 +108,24 @@ public class SelfPayReceiveController extends BaseController
     {
         return toAjax(selfPayReceiveService.deleteSelfPayReceiveByPayReceiveIds(payReceiveIds));
     }
+
+    /**
+     * 获取编号
+     */
+    @GetMapping(value ="/getCode")
+    @ApiOperation("获取编码")
+    public String getCode(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = sdf.format(date);
+        SelfPayReceive selfPayReceive=selfPayReceiveService.selectLast();
+        System.out.println("selfPayReceive=="+selfPayReceive);
+        String code="";
+        if (selfPayReceive!=null){
+            code=  StringUtils.getCode("PRSYS",selfPayReceive.getPayReceiveSysCode(),"yyyyMMdd");
+        }else {//没有数据时
+            code="PRSYS"+"-"+nowDate+"-"+"0001";
+        }
+        return code;
+    };
 }

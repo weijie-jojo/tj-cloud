@@ -42,6 +42,11 @@
         select pay_receive_id, project_code, pay_receive_sys_code, pay_receive_code, project_name, project_total_amount, project_package_amount, project_remain_amount, pay_total_amount, pay_package_amount, pay_remain_amount, receive_name, receive_time, receive_money, receive_account, file_name_receive, pay_name, pay_time, pay_money, pay_account, file_name_pay, pay_name2, pay_time2, pay_money2, pay_account2, file_name_pay2, pay_name3, pay_time3, pay_money3, pay_account3, file_name_pay3 from self_pay_receive
     </sql>
 
+    <select id="selectLast" resultMap="SelfPayReceiveResult">
+        <include refid="selectSelfPayReceiveVo"/>
+        ORDER BY pay_receive_id DESC LIMIT 0,1
+    </select>
+
     <select id="selectSelfPayReceiveList" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultMap="SelfPayReceiveResult">
         <include refid="selectSelfPayReceiveVo"/>
         <where>

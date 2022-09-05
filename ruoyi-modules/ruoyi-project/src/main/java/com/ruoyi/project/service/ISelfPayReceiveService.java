@@ -1,6 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.SelfPayReceive;
+import com.ruoyi.project.domain.SelfProject;
 
 import java.util.List;
 
@@ -12,6 +13,12 @@ import java.util.List;
  */
 public interface ISelfPayReceiveService
 {
+    /*
+     *
+     * 查询最后一条数据
+     * */
+    public SelfPayReceive selectLast() ;
+
     /**
      * 查询【请填写功能名称】
      *

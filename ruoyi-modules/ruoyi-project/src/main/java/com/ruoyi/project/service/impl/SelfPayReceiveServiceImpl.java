@@ -20,6 +20,11 @@ public class SelfPayReceiveServiceImpl implements ISelfPayReceiveService
     @Autowired
     private SelfPayReceiveMapper selfPayReceiveMapper;
 
+    @Override
+    public SelfPayReceive selectLast() {
+        return selfPayReceiveMapper.selectLast();
+    }
+
     /**
      * 查询【请填写功能名称】
      *
