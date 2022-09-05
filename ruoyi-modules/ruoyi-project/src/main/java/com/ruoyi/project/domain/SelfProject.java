@@ -338,4 +338,12 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "缴税状态 0否 1是")
     private Long projectRateStatus;
 
+    /** 0收款中 1完成 2异常 */
+    @ApiModelProperty(value = "0收款中 1完成 2异常")
+    private Long projectReceiveStatus;
+
+    /** 0出款中 1完成 2异常 */
+    @ApiModelProperty(value = "0出款中 1完成 2异常")
+    private Long projectPayStatus;
+
 }

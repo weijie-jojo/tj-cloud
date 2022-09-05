@@ -184,4 +184,15 @@
             #{payReceiveId}
         </foreach>
     </delete>
+
+<!--    <insert id="recycle1" >-->
+<!--        INSERT into self_project_recycle-->
+<!--        <include refid="selectSelfProjectVo"/>-->
+<!--        WHERE project_code=#{projectCode}-->
+<!--    </insert>-->
+
+<!--    <delete id="deleteProjectByCode" parameterType="String">-->
+<!--        delete from self_project where project_code =#{projectCode}-->
+<!--    </delete>-->
+
 </mapper>

@@ -84,6 +84,8 @@
         <result property="specialSelfFee"    column="special_self_fee"    />
         <result property="ordinarySelfMoney"    column="ordinary_self_money"    />
         <result property="projectRateStatus"    column="project_rate_status"    />
+        <result property="projectReceiveStatus"    column="project_receive_status"    />
+        <result property="projectPayStatus"    column="project_pay_status"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -99,7 +101,7 @@
                special_share, special_share_money, is_ordinary_tax, is_special_tax, is_special_self_tax, is_self_count,
                ordinary_proxy_ismoney, special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share,
                is_special_share, is_slider, is_slider_ordinary, self_share, is_self_share, self_share_ismoney, special_self_fee,
-               ordinary_self_money, project_rate_status
+               ordinary_self_money, project_rate_status,project_receive_status, project_pay_status
         from self_project
     </sql>
 
@@ -122,6 +124,7 @@
                 t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney,
                 t.special_share_ismoney, t.is_ordinary_share, t.is_special_share, t.is_slider, t.is_slider_ordinary, t.self_share,
                 t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
+                t.project_receive_status, t.project_pay_status,
                 A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
                 A.bank_name, A.bank_code,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
@@ -233,6 +236,8 @@
             <if test="selfProject.specialSelfFee != null "> and special_self_fee = #{selfProject.specialSelfFee}</if>
             <if test="selfProject.ordinarySelfMoney != null "> and ordinary_self_money = #{selfProject.ordinarySelfMoney}</if>
             <if test="selfProject.projectRateStatus != null "> and project_rate_status = #{selfProject.projectRateStatus}</if>
+            <if test="selfProject.projectReceiveStatus != null "> and project_receive_status = #{selfProject.projectReceiveStatus}</if>
+            <if test="selfProject.projectPayStatus != null "> and project_pay_status = #{selfProject.projectPayStatus}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -328,6 +333,8 @@
             <if test="specialSelfFee != null">special_self_fee,</if>
             <if test="ordinarySelfMoney != null">ordinary_self_money,</if>
             <if test="projectRateStatus != null">project_rate_status,</if>
+            <if test="projectReceiveStatus != null">project_receive_status,</if>
+            <if test="projectPayStatus != null">project_pay_status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -408,6 +415,8 @@
             <if test="specialSelfFee != null">#{specialSelfFee},</if>
             <if test="ordinarySelfMoney != null">#{ordinarySelfMoney},</if>
             <if test="projectRateStatus != null">#{projectRateStatus},</if>
+            <if test="projectReceiveStatus != null">#{projectReceiveStatus},</if>
+            <if test="projectPayStatus != null">#{projectPayStatus},</if>
         </trim>
     </insert>
 
@@ -492,6 +501,8 @@
             <if test="specialSelfFee != null">special_self_fee = #{specialSelfFee},</if>
             <if test="ordinarySelfMoney != null">ordinary_self_money = #{ordinarySelfMoney},</if>
             <if test="projectRateStatus != null">project_rate_status = #{projectRateStatus},</if>
+            <if test="projectReceiveStatus != null">project_receive_status = #{projectReceiveStatus},</if>
+            <if test="projectPayStatus != null">project_pay_status = #{projectPayStatus},</if>
         </trim>
         where project_id = #{projectId}
     </update>
