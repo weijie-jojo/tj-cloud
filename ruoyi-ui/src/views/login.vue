@@ -140,7 +140,7 @@ export default {
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" lang="scss" scoped>
 
 
 
@@ -204,9 +204,9 @@ export default {
     vertical-align: middle;
   }
 }
-.el-input__inner{
-  font-size: 18px;
-}
+// .el-input__inner{
+//   font-size: 18px;
+// }
 
 .el-login-footer {
   height: 40px;

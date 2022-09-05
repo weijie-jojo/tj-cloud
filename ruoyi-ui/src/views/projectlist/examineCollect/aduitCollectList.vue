@@ -7,71 +7,86 @@
                     <el-form-item class="comright" label="项目编号">
                         <el-input :readonly="true" v-model="publicList.projectCode"></el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已开金额">
-                        <el-input type="number" :readonly="true" style="width:100%"
-                            v-model="publicList.projectPackageAmount" :step="0.00000"
-                            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-                            >
+                    <el-form-item class="comright" label="项目名称 ">
+                        <el-input  :readonly="true" v-model="publicList.projectName"></el-input>
+                     </el-form-item>
+                     <el-form-item class="comright" label="甲方名称 ">
+                        <el-input  :readonly="true" v-model="publicList.purchCompany"></el-input>
+                     </el-form-item>
+                     <el-form-item class="comright" label="应收赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="已收赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="未收赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="9">
+                   <el-form-item class="comright" label="项目时间">
+                    <el-input  :readonly="true" v-model="publicList.createTime"></el-input>
+                   </el-form-item>
+                  
                     <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-                         :step="0.00000"
-                         >
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="乙方名称">
+                        <el-input  :readonly="true" v-model="publicList.selfName"></el-input>
+                     </el-form-item>
+                     <el-form-item class="comright" label="应出赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="已出赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="comright" label="未出赃款">
+                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                        >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item class="comright" label="剩余金额">
-                        <el-input type="number" :readonly="true" style="width:100%"
-                            v-model="publicList.projectRemainAmount" :step="0.00000"
-                            oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-                            >
-                            <template slot="append">元</template>
-                        </el-input>
-                    </el-form-item>
+                  
                 </el-col>
             </el-row>
 
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="发票类型">
-                        <el-select disabled style="width:100%" clearable v-model="publicList.ticketType">
-                            <el-option v-for="item in ticketTypeoptions" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item class="comright" label="开票内容" v-if="fileNameradio == 1">
-                        <el-input
-                         maxlength="50"
-                        show-word-limit
-                        :readonly="true" type="textarea" :rows="2" v-model="publicList.fileName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="开票内容附件" v-if="fileNameradio == 2">
-                        <uploadSmall @getfileName="getfileNameS" :fileName="publicList.fileName" :fileNameOld="fileName"
-                            :isDetail="isDetail"></uploadSmall>
-                    </el-form-item>
+                   
+                  
+                    
                 </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="发票税率">
-                        <el-input v-if="publicList.ticketTax == 0" :readonly="true" value="免税"></el-input>
-                        <el-input v-else value="3%" :readonly="true"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="发票备注">
-                        <el-input
-                        maxlength="50"
-                         show-word-limit
-                        :readonly="true" v-model="publicList.projectDesc"></el-input>
-                    </el-form-item>
+                    
                 </el-col>
             </el-row>
 
@@ -83,13 +98,12 @@
                     size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple"
-                    @click="handleDelete">作废</el-button>
+            <!-- <el-col :span="1.5"> 
+                <el-button type="danger"  icon="el-icon-edit" size="mini">修改</el-button>
             </el-col>
             <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-circle-close" size="mini" @click="resetForms">关闭</el-button>
-            </el-col>
+                <el-button type="danger"  icon="el-icon-delete" size="mini">删除</el-button>
+            </el-col> -->
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -135,7 +149,7 @@ import { list, del ,list2 } from "@/api/project/ticket"
 import { detail,edit } from "@/api/project/list"
 import { Decimal } from 'decimal.js'
 export default {
-    name:'TicketList',
+    name:'AduitCollectList',
     components: {
         uploadSmall
     },
@@ -237,13 +251,7 @@ export default {
             rules: {},
         };
     },
-    // filters: {
-    //     dataFormat(newVal) {
-    //         let that=this;
-    //         return newVal = that.textFormat(newVal, '#,##0');
-           
-    //     }
-    // },
+   
    mounted() {
         detail({
             projectCode: this.$cache.local.getJSON("projectCodeNew")
@@ -278,7 +286,7 @@ export default {
                 this.fileNameradio = '1';
             }
             this.getList();
-            this.ticketByCode();
+            //this.ticketByCode();
         });
     },
     methods: {

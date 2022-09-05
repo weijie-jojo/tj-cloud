@@ -480,7 +480,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .flexs {
   display: flex;
   align-items: center;

@@ -51,9 +51,9 @@
           <el-button size="mini" type="text" icon="el-icon-view" @click="detail(scope.row)">查看</el-button>
           <!-- <el-button size="mini" type="text" icon="el-icon-table-lamp"
             @click="businessTable(scope.row)">工商表格</el-button> -->
-          <el-button size="mini" v-hasPermi="['company:business:examine']" v-if="scope.row.businessStatus == 0" type="text" icon="el-icon-s-goods"
+          <el-button size="mini" v-hasPermi="['company:business:examine']" v-if="scope.row.businessStatus == 0" type="text" icon="el-icon-s-check"
             @click="business(scope.row)">办理工商</el-button>
-          <el-button size="mini" v-hasPermi="['company:business:examine']" v-else icon="el-icon-s-goods"
+          <el-button size="mini" v-hasPermi="['company:business:examine']" v-else icon="el-icon-s-check"
             style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain disabled>办理工商</el-button>
         </template>
       </el-table-column>

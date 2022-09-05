@@ -122,7 +122,7 @@
     </div>
 </template>
 <script>
-import uploadSmall from '@/components/douploads/uploadSmall'
+import uploadSmall from '@/components/douploads/uploadFiles'
 import { edit, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {

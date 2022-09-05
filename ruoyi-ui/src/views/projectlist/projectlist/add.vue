@@ -79,15 +79,14 @@
                 <el-col :span="9">
                     <el-form-item class="comright" label="名称" prop="purchCompany">
                         <!-- <el-input v-model="formData.purchCompany"></el-input> -->
-                        <el-autocomplete 
-                        popper-class="my-autocomplete"
-                        style="width:100%" v-model="formData.purchCompany"
-                            :fetch-suggestions="querySearchAsync" placeholder="请输入内容" @select="handleSelect">
+                        <el-autocomplete ref="autos" popper-class="my-autocomplete" style="width:100%"
+                            v-model="formData.purchCompany" :fetch-suggestions="querySearchAsync" placeholder="请输入内容"
+                            @select="handleSelect">
                             <template slot-scope="{ item }">
                                 <div class="name">{{ item.purchCompany }}</div>
                                 <span class="addr">{{ item.purchCompanyAddress }}</span>
                             </template>
-                        
+
                         </el-autocomplete>
                     </el-form-item>
                     <el-form-item class="comright" label="地址">
@@ -453,8 +452,8 @@
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="增值税专用发票" :required="true">
-                        <el-radio  @change="ispublic" v-model="formData.isSlider" label="0">开启</el-radio>
-                        <el-radio  @change="ispublic" v-model="formData.isSlider" label="1">关闭</el-radio>
+                        <el-radio @change="ispublic" v-model="formData.isSlider" label="0">开启</el-radio>
+                        <el-radio @change="ispublic" v-model="formData.isSlider" label="1">关闭</el-radio>
                     </el-form-item>
                     <div v-if="formData.isSlider == 0">
                         <el-form-item label="专票税率" :required="true">
@@ -558,7 +557,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { getPuJialist,addJia,list, getcode, getinfoByUserId, add, ownlist, check } from "@/api/project/list";
+import { getPuJialist, addJia, list, getcode, getinfoByUserId, add, ownlist, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 import crudPlace from '@/api/company/place'
@@ -644,10 +643,10 @@ export default {
             owerTaxfee: '',//乙方税率
             placeCodeOptions: '',//渠道商
             formData: {
-                purchCompanyAddress:'',//甲方地址
-                purchCompanyPhone:'',//甲方电话
-                bankName:'',//甲方开户行
-                bankCode:'',//甲方开户账号
+                purchCompanyAddress: '',//甲方地址
+                purchCompanyPhone: '',//甲方电话
+                bankName: '',//甲方开户行
+                bankCode: '',//甲方开户账号
 
 
                 isSliderOrdinary: '0',  //普票滑块
@@ -672,8 +671,8 @@ export default {
                 isSelfCount: '2',//结算方式 
                 registerMoney: '', //注册服务费  
 
-                specialShare:'0',
-                ordinaryShare:'0',
+                specialShare: '0',
+                ordinaryShare: '0',
 
                 projectOwnerTaxid: '',
                 projectDesc: '',//开票描述
@@ -709,8 +708,8 @@ export default {
                 industryType: '',
                 selfName: '',
                 isDeleted: 1,
-                userId:'',
-                placeAliasName:'',
+                userId: '',
+                placeAliasName: '',
 
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
@@ -917,9 +916,7 @@ export default {
 
     },
     mounted() {
-         // this.restaurants = this.loadAll();
-         // this.getPuJialist();
-        //this.getPuJialist();
+        this.getPuJialist();
         this.gettoday();
         this.getRate();
         this.getinfoByUserId(); //渠道商
@@ -927,45 +924,49 @@ export default {
 
 
     methods: {
-        ispublic(){
+        ispublic() {
             if (this.formData.ticketType == 0) {
-                    this.formData.isSlider = '1';
-                    this.formData.isSliderOrdinary = '0';
-                } else {
-                    this.formData.isSlider = '0';
-                    this.formData.isSliderOrdinary = '1';
-                }
+                this.formData.isSlider = '1';
+                this.formData.isSliderOrdinary = '0';
+            } else {
+                this.formData.isSlider = '0';
+                this.formData.isSliderOrdinary = '1';
+            }
         },
         querySearchAsync(queryString, cb) {
-            this.getPuJialist();
-            var restaurants = this.restaurants;
-            var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
-                
-                cb(results);
-            }, 1000 * Math.random());
+        this.formData.purchCompanyTaxid = '';
+         // this.formData.purchCompany = '';
+         this.formData.purchCompanyAddress = '';//甲方地址
+         this.formData.purchCompanyPhone = '';//甲方电话
+         this.formData.bankName = '';//甲方开户行
+         this.formData.bankCode = '';//甲方开户账号
+         this.getPuJialist();
+         var restaurants = this.restaurants;
+         var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+         clearTimeout(this.timeout);
+         this.timeout = setTimeout(() => {
+              cb(results);
+         }, 1000 * Math.random());
         },
         createStateFilter(queryString) {
-            
-            return (state) => {
-               return (state.purchCompany.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+           return (state) => {
+                return (state.purchCompany.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
 
         handleSelect(item) {
             console.log(item);
-            this.formData.purchCompanyTaxid=item.purchCompanyTaxid;
-            this.formData.purchCompany=item.purchCompany;
-            this.formData.purchCompanyAddress=item.purchCompanyAddress;//甲方地址
-            this.formData.purchCompanyPhone=item.purchCompanyPhone;//甲方电话
-            this.formData.bankName=item.bankName;//甲方开户行
-            this.formData.bankCode=item.bankCode;//甲方开户账号
+            this.formData.purchCompanyTaxid = item.purchCompanyTaxid;
+            this.formData.purchCompany = item.purchCompany;
+            this.formData.purchCompanyAddress = item.purchCompanyAddress;//甲方地址
+            this.formData.purchCompanyPhone = item.purchCompanyPhone;//甲方电话
+            this.formData.bankName = item.bankName;//甲方开户行
+            this.formData.bankCode = item.bankCode;//甲方开户账号
         },
         //甲方数据
         getPuJialist() {
-            let params={
-                purchCompany:this.formData.purchCompany
+            let params = {
+                purchCompany: this.formData.purchCompany
             };
             getPuJialist(params).then(res => {
                 this.restaurants = res.rows;
@@ -1167,8 +1168,8 @@ export default {
             for (let i in this.placeCodeOptions) {
                 if (this.placeCodeOptions[i].placeCode == e) {
                     this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
-                    this.formData.placeAliasName=this.placeCodeOptions[i].placeAliasName;
-                    
+                    this.formData.placeAliasName = this.placeCodeOptions[i].placeAliasName;
+
                     crudPlace.selectFeeByCode({ placeCode: this.placeCodeOptions[i].placeCode }).then(res => {
                         this.unlist = res;
                         if (this.formData.isSelfCount == 1) {
@@ -1482,7 +1483,7 @@ export default {
             this.$refs["elForm"].validate((valid) => {
                 // TODO 提交表单
                 if (valid) {
-                    this.formData.userId=this.userId;
+                    this.formData.userId = this.userId;
 
                     //如果是附件的话
                     if (this.fileNameradio == 2) {
@@ -1577,23 +1578,25 @@ export default {
 
     color: blue;
 }
+
 .my-autocomplete {
-  li {
-    line-height: normal;
-    padding: 7px;
+    li {
+        line-height: normal;
+        padding: 7px;
 
-    .name {
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .addr {
-      font-size: 12px;
-      color: #b4b4b4;
-    }
+        .name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
 
-    .highlighted .addr {
-      color: #ddd;
+        .addr {
+            font-size: 12px;
+            color: #b4b4b4;
+        }
+
+        .highlighted .addr {
+            color: #ddd;
+        }
     }
-  }
 }
 </style>

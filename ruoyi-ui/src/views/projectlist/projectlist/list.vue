@@ -43,8 +43,9 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="乙方" align="center" prop="selfName" width="200" :show-overflow-tooltip="true" />
+
             <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
+            <el-table-column label="乙方" align="center" prop="selfName" width="200" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
             <el-table-column label="项目时间" align="center" :show-overflow-tooltip="true">
                 <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
@@ -61,38 +62,36 @@
                 </template>
             </el-table-column>
 
-            
-            <el-table-column label="项目票据" align="center">
+
+            <el-table-column label="项目票据" prop="projectTicketStatus" align="center" :filters="filterList" :filter-method="filterHandler">
 
                 <template slot-scope="scope">
-                    
+
 
                     <el-link @click="examine(scope.row.userId, scope.row, 2, scope.row.projectCode)" :underline="false"
-                        type="primary"
-                        v-if="scope.row.projectTicketStatus == '0'">开票中</el-link>
+                        type="primary" v-if="scope.row.projectTicketStatus == '0'">开票中</el-link>
 
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 2)"
-                        v-if=" scope.row.projectTicketStatus == '2'">异常</el-link>
+                        v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
 
                     <el-link @click="projectFinish(scope.row.projectCode, scope.row, 2)" :underline="false"
-                        type="success"
-                        v-if=" scope.row.projectTicketStatus == '1'">完成</el-link>
+                        type="success" v-if="scope.row.projectTicketStatus == '1'">完成</el-link>
 
                 </template>
             </el-table-column>
-              <el-table-column label="项目资料" align="center">
+            <el-table-column label="项目资料" align="center"  prop="projectAcceptanceStatus"  :filters="filterList1" :filter-method="filterHandler">
 
                 <template slot-scope="scope">
-                    
+
 
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
-                        v-if="scope.row.projectAcceptanceStatus == '-1' && scope.row.projectContractStatus == '-1' ">办理中
+                        v-if="scope.row.projectAcceptanceStatus == '-1' && scope.row.projectContractStatus == '-1'">办理中
                     </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 4)"
                         v-if="scope.row.projectAcceptanceStatus == '0' && scope.row.projectContractStatus == '0'">审核中
                     </el-link>
-                     
+
                     <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 4)"
                         v-if="scope.row.projectAcceptanceStatus == '2' && scope.row.projectContractStatus == '2'">异常
@@ -149,12 +148,12 @@
 
                 </template>
             </el-table-column> -->
-            <el-table-column label="项目完税" align="center">
+            <el-table-column label="项目完税" align="center" prop="projectDutypaidStatus" :filters="filterList1" :filter-method="filterHandler">
 
                 <template slot-scope="scope">
-                    
-                      <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
-                        v-if="scope.row.projectDutypaidStatus == '-1' ">办理中
+
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
+                        v-if="scope.row.projectDutypaidStatus == '-1'">办理中
                     </el-link>
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 5)"
                         v-if="scope.row.projectDutypaidStatus == '0'">审核中
@@ -170,18 +169,18 @@
                 </template>
 
             </el-table-column>
-             <el-table-column label="项目收款" align="center">
-               
+            <el-table-column label="项目收款" align="center">
+
             </el-table-column>
-             <el-table-column label="项目出款" align="center">
-                
+            <el-table-column label="项目出款" align="center">
+
             </el-table-column>
-            <el-table-column label="项目审核" align="center" prop="projectCheckStatus">
+            <el-table-column label="项目审核" align="center" prop="projectCheckStatus" :filters="filterList2" :filter-method="filterHandler">
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '0'">审核中</el-link>
-                   
-                   <el-link :underline="false" type="danger"
+
+                    <el-link :underline="false" type="danger"
                         @click="progressError(scope.row.projectCode, scope.row, 1)"
                         v-if="scope.row.projectCheckStatus == '2'">异常</el-link>
                     <el-link :underline="false" type="success"
@@ -201,10 +200,7 @@
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize" @pagination="getList" />
         <!-- 进度提示 -->
-        <el-dialog 
-        :closeOnClickModal=false 
-        :closeOnPressEscape=false 
-        :title="title" :visible.sync="dialogVisible"
+        <el-dialog :closeOnClickModal=false :closeOnPressEscape=false :title="title" :visible.sync="dialogVisible"
             width="70%">
             <el-table :data="progressList">
                 <el-table-column label="步骤" align="center" prop="dictLabel" :show-overflow-tooltip="true" />
@@ -234,8 +230,26 @@ export default {
     name: 'List',
     data() {
         return {
-            msgs:'',
-            userinfo:{},
+            filterList: [
+                { text: '开票中', value: 0 },
+                { text: '异常', value: 2 },
+                { text: '完成', value: 1 },
+
+            ],
+            filterList1: [
+                { text: '办理中', value: -1 },
+                { text: '审核中', value: 0 },
+                { text: '异常', value: 2 },
+                { text: '完成', value: 1 },
+
+            ],
+            filterList2: [
+                { text: '审核中', value: 0 },
+                { text: '异常', value: 2 },
+                { text: '完成', value: 1 },
+            ],
+            msgs: '',
+            userinfo: {},
             projectArr: [],
             projectBrr: [],
             projectCrr: [],
@@ -331,7 +345,7 @@ export default {
     },
     filters: {
         filterTime(time) {
-         return moment(time).format('YYYY-MM-DD')
+            return moment(time).format('YYYY-MM-DD')
         },
     },
     mounted() {
@@ -339,11 +353,15 @@ export default {
         this.getList();
     },
     methods: {
-      getLoginInfo() {
-       getInfo().then(res => {
-        this.userinfo = res.user;
-        })
-       },
+        filterHandler(value, row, column) {
+            const property = column['property'];
+            return row[property] === value;
+        },
+        getLoginInfo() {
+            getInfo().then(res => {
+                this.userinfo = res.user;
+            })
+        },
         prjecs(e) {
             if (!this.projectTime) {
                 this.queryParams.start = null;
@@ -364,25 +382,25 @@ export default {
             this.$cache.local.setJSON('publicTickets', scope);
             this.$cache.local.setJSON("projectListNews", scope);
             var msg = '审核';
-            if(type==3){
-               
-            //   if(!this.$cache.local.getJSON('publicTickets').fileName1){
-            //     msg='办理';
-            //   }else{
-            //     msg='审核';
-            //   }
-            }else if(type==4){
-                if(this.$cache.local.getJSON('publicTickets').projectAcceptanceStatus==-1 && this.$cache.local.getJSON('publicTickets').projectContractStatus==-1){
-                    msg='办理';
-                }else{
-                    msg='审核';
+            if (type == 3) {
+
+                //   if(!this.$cache.local.getJSON('publicTickets').fileName1){
+                //     msg='办理';
+                //   }else{
+                //     msg='审核';
+                //   }
+            } else if (type == 4) {
+                if (this.$cache.local.getJSON('publicTickets').projectAcceptanceStatus == -1 && this.$cache.local.getJSON('publicTickets').projectContractStatus == -1) {
+                    msg = '办理';
+                } else {
+                    msg = '审核';
                 }
-             
-            }else if(type==5){
-                if(this.$cache.local.getJSON('publicTickets').projectDutypaidStatus==-1){
-                    msg='办理';
-                }else{
-                    msg='审核';
+
+            } else if (type == 5) {
+                if (this.$cache.local.getJSON('publicTickets').projectDutypaidStatus == -1) {
+                    msg = '办理';
+                } else {
+                    msg = '审核';
                 }
             }
             this.types = type;
@@ -393,7 +411,7 @@ export default {
                 userId: applyName
             }).then(res => {
                 getUser(applyName).then(success => {
-                        this.msgs='查看';
+                    this.msgs = '查看';
                     if (this.userinfo.userId == success.data.userId) {
                         this.msgs = msg;
                     } else {
@@ -415,16 +433,20 @@ export default {
                         closeOnPressEscape: false,
 
                     }).then(() => {
-                        if(this.msgs=='查看'){
+                        if (this.msgs == '查看') {
                             this.findList();
-                        }else if(this.msgs=='办理'){
+                        } else if (this.msgs == '办理') {
                             this.addList();
-                        }else if(this.msgs=='审核'){
+                        } else if (this.msgs == '审核') {
                             this.aduit();
-                        }else if(this.msgs=='开票'){
-                           this.$tab.openPage('票据列表查看','/projectlist/ticketlist');
+                        } else if (this.msgs == '开票') {
+                          let obj={
+                            backurl:'/projectlist/List'
+                            };
+                            this.$cache.local.setJSON('backTicket',obj);
+                            this.$tab.openPage('票据列表查看', '/projectlist/ticketlist');
                         }
-                       
+
                     }).catch(() => {
 
                     });
@@ -435,62 +457,62 @@ export default {
                 console.log(error);
             })
         },
-        
+
         //新增
-        addList(){
-             let obj={
-                backurl:'/projectlist/list',
-                name:'List'
+        addList() {
+            let obj = {
+                backurl: '/projectlist/list',
+                name: 'List'
             };
-            this.$cache.local.setJSON('addProjectBack',obj);
+            this.$cache.local.setJSON('addProjectBack', obj);
             switch (this.types) {
                 case 2:
-                let obj1={
-                    backurl:'/projectlist/list'
+                    let obj1 = {
+                        backurl: '/projectlist/list'
                     };
-                this.$cache.local.setJSON('backTicket',obj1);
-                this.$tab.opne('票据新增','/projectlist/ticketList');
-                break;
+                    this.$cache.local.setJSON('backTicket', obj1);
+                    this.$tab.opne('票据新增', '/projectlist/ticketList');
+                    break;
                 case 3:
                     // this.$tab.openPage('合同新增', '/projectlist/addContract');
                     break;
                 case 4:
-                    
-                    this.$tab.openPage('资料办理','/projectlist/addMeans');
+
+                    this.$tab.openPage('资料办理', '/projectlist/addMeans');
                     break;
                 case 5:
-                    this.$tab.openPage('完税办理','/projectlist/addDutypaid');
+                    this.$tab.openPage('完税办理', '/projectlist/addDutypaid');
                     break;
-              }
+            }
         },
         //审核
-        aduit(){
-             let obj={
-                backurl:'/projectlist/list',
-                name:'List'
+        aduit() {
+            let obj = {
+                backurl: '/projectlist/list',
+                name: 'List'
             };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$cache.local.setJSON('aduitProjectBack', obj);
             switch (this.types) {
-                
+
                 case 1:
                     this.$tab.openPage('项目审核中', '/projectlist/auditItems');
                     break;
                 case 2:
-                   let obj1={
-                    backurl:'/projectlist/list'
+                    let obj1 = {
+                        backurl: '/projectlist/list'
                     };
-                   this.$cache.local.setJSON('backTicket',obj1);
-                    this.$tab.openPage('票据审核中','/projectlist/ticketList')
+                    this.$cache.local.setJSON('backTicket', obj1);
+                    this.$tab.openPage('票据审核中', '/projectlist/ticketList')
                 case 3:
-                  //  this.$tab.openPage('合同审核中','/projectlist/auditContracts');
+                    //  this.$tab.openPage('合同审核中','/projectlist/auditContracts');
                     break;
                 case 4:
-                    this.$tab.openPage('资料审核中','/projectlist/aduitMeans');
+                    this.$tab.openPage('资料审核中', '/projectlist/aduitMeans');
                     break;
                 case 5:
-                    this.$tab.openPage('完税审核中','/projectlist/aduitDutypaid');
+                    this.$tab.openPage('完税审核中', '/projectlist/aduitDutypaid');
                     break;
-              }
+            }
         },
         //修改
         editList() {
@@ -501,53 +523,53 @@ export default {
                         url: '/projectlist/list',
                     };
                     this.$cache.local.setJSON('Projectedit', obj);
-                    this.$tab.openPage('项目审核修改','/projectlist/itemsEdit');
-                break;
+                    this.$tab.openPage('项目审核修改', '/projectlist/itemsEdit');
+                    break;
                 case 2:
-                    let obj1={
-                    backurl:'/projectlist/list'
+                    let obj1 = {
+                        backurl: '/projectlist/list'
                     };
-                    this.$cache.local.setJSON('backTicket',obj1);
-                    this.$tab.openPage( '票据列表','/projectlist/ticketlist');
-                break;
+                    this.$cache.local.setJSON('backTicket', obj1);
+                    this.$tab.openPage('票据列表', '/projectlist/ticketlist');
+                    break;
                 case 3:
-                   // this.$tab.openPage('合同审核修改','/projectlist/auditContractEdit');
-                break;
+                    // this.$tab.openPage('合同审核修改','/projectlist/auditContractEdit');
+                    break;
                 case 4:
                     this.$tab.openPage('资料审核修改', '/projectlist/meansEdit');
-                break;
+                    break;
                 case 5:
-                    this.$tab.openPage('完税审核修改','/projectlist/dutypaidsEdit');
-                break;
+                    this.$tab.openPage('完税审核修改', '/projectlist/dutypaidsEdit');
+                    break;
 
             }
         },
         //详情
         findList() {
             this.dialogVisible = false;
-            let obj={
-                backurl:'/projectlist/list'
+            let obj = {
+                backurl: '/projectlist/list'
             };
-            this.$cache.local.setJSON('auditProjectBackDetail',obj);
+            this.$cache.local.setJSON('auditProjectBackDetail', obj);
             switch (this.types) {
                 case 1:
-                    this.$tab.openPage( "项目审核查看",'/projectlist/auditDetail');
+                    this.$tab.openPage("项目审核查看", '/projectlist/auditDetail');
                     break;
                 case 2:
-                   let obj1={
-                    backurl:'/projectlist/list'
+                    let obj1 = {
+                        backurl: '/projectlist/list'
                     };
-                   this.$cache.local.setJSON('backTicket',obj1);
-                    this.$tab.openPage( "票据列表查看",'/projectlist/ticketlist');
+                    this.$cache.local.setJSON('backTicket', obj1);
+                    this.$tab.openPage("票据列表查看", '/projectlist/ticketlist');
                     break;
                 case 3:
                     //   this.$tab.openPage( "合同审核查看",'/projectlist/auditContraDetail');
                     break;
                 case 4:
-                    this.$tab.openPage( "资料审核查看", '/projectlist/auditMeansDetail');
+                    this.$tab.openPage("资料审核查看", '/projectlist/auditMeansDetail');
                     break;
                 case 5:
-                    this.$tab.openPage( "完税审核查看",'/projectlist/aduitDutypaidDetail');
+                    this.$tab.openPage("完税审核查看", '/projectlist/aduitDutypaidDetail');
                     break;
 
             }
@@ -556,22 +578,22 @@ export default {
         progressNew(code, type) {
             this.lookstatus = false;
             this.editstatus = false;
-            
+
             if (type > 0) {
                 this.types = type;
             } else {
                 this.types = '';
             }
-            var parms={
-                 projectCode: code,
+            var parms = {
+                projectCode: code,
             };
             checkdetail(parms).then(res => {
-                this.progressList=res.rows;
+                this.progressList = res.rows;
                 this.title = '进度跟踪';
                 this.dialogVisible = true;
             })
 
-           
+
         },
         //完成弹框
         projectFinish(code, row, type) {
@@ -601,11 +623,11 @@ export default {
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
-             getLeaderByUserId({
+            getLeaderByUserId({
                 userId: row.userId
             }).then(res => {
                 getUser(row.userId).then(success => {
-                        this.msgs='查看';
+                    this.msgs = '查看';
                     if (this.userinfo.userId == success.data.userId) {
                         this.msgs = '修改';
                     } else {
@@ -619,7 +641,7 @@ export default {
                         message: h('div', null, [
                             h('i', { class: 'el-icon-question', style: 'color:#f90;font-size:30px;' }),
                             h('span', { style: 'margin-left:10px;font-size:16px;line-height:30px;font-weight:600;vertical-align:top;' }, '温馨提示'),
-                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' +  this.msgs)
+                            h('p', { style: 'margin:40px 0 0 40px;height:80px' }, '请等待' + userName + '(' + phonenumber + ')' + this.msgs)
                         ]),
                         confirmButtonText: this.msgs,
                         cancelButtonText: '关闭',
@@ -627,12 +649,12 @@ export default {
                         closeOnPressEscape: false,
 
                     }).then(() => {
-                        if(this.msgs=='查看'){
+                        if (this.msgs == '查看') {
                             this.findList();
-                        }else if(this.msgs=='修改'){
+                        } else if (this.msgs == '修改') {
                             this.editList();
                         }
-                       
+
                     }).catch(() => {
 
                     });
@@ -642,7 +664,7 @@ export default {
             }).catch(error => {
                 console.log(error);
             })
-           
+
         },
         //完成详情接口
         checkdetail(code, type, msg) {
@@ -650,86 +672,86 @@ export default {
             this.projectBrr = [];
             this.projectCrr = [];
             this.progressList = [];
-          
-            
+
+
             if (type == 1) {
-               
+
                 //项目审核
-            var parms={
-                 projectCode: code,
-            };
-            checkdetail(parms).then(res => {
-                this.projectArr = res.rows;
-                let Arr=[];
-                for(let i in this.projectArr){
-                if(this.projectArr[i].projectType==1 || this.projectArr[i].projectType==6 || this.projectArr[i].projectType==10){
-                     Arr.push(this.projectArr[i]);
-                   }
-                }
-                this.progressList=Arr;
-                this.title = '项目审核进度跟踪';
-                this.dialogVisible = true;
-            })
-                
-              
-               
+                var parms = {
+                    projectCode: code,
+                };
+                checkdetail(parms).then(res => {
+                    this.projectArr = res.rows;
+                    let Arr = [];
+                    for (let i in this.projectArr) {
+                        if (this.projectArr[i].projectType == 1 || this.projectArr[i].projectType == 6 || this.projectArr[i].projectType == 10) {
+                            Arr.push(this.projectArr[i]);
+                        }
+                    }
+                    this.progressList = Arr;
+                    this.title = '项目审核进度跟踪';
+                    this.dialogVisible = true;
+                })
+
+
+
 
             } else if (type == 2) {
                 //  msg = '票据详情';
             } else if (type == 3) {
-                
-            var parms={
-                 projectCode: code,
-            };
-            checkdetail(parms).then(res => {
-                this.projectBrr = res.rows;
-                let Brr=[];
-                for(let i in this.projectBrr){
-                if(this.projectBrr[i].projectType==14 || this.projectBrr[i].projectType==11 || this.projectBrr[i].projectType==3){
-                     Brr.push(this.projectBrr[i]);
-                   }
-                }
-                this.progressList=Brr;
-                this.title = '合同审核进度跟踪';
-                this.dialogVisible = true;
-            })
+
+                var parms = {
+                    projectCode: code,
+                };
+                checkdetail(parms).then(res => {
+                    this.projectBrr = res.rows;
+                    let Brr = [];
+                    for (let i in this.projectBrr) {
+                        if (this.projectBrr[i].projectType == 14 || this.projectBrr[i].projectType == 11 || this.projectBrr[i].projectType == 3) {
+                            Brr.push(this.projectBrr[i]);
+                        }
+                    }
+                    this.progressList = Brr;
+                    this.title = '合同审核进度跟踪';
+                    this.dialogVisible = true;
+                })
 
             } else if (type == 4) {
-                 var parms={
-                 projectCode: code,
-            };
-            checkdetail(parms).then(res => {
-                this.projectCrr = res.rows;
-                let Crr=[]
-                for(let i in this.projectCrr){
-                if(this.projectCrr[i].projectType==12 || this.projectCrr[i].projectType==15 || this.projectCrr[i].projectType==4){
-                     Crr.push(this.projectCrr[i]);
-                   }
-                }
-                this.progressList=Crr;
-                this.title = '验收审核进度跟踪';
-                this.dialogVisible = true;
-            })
+                var parms = {
+                    projectCode: code,
+                };
+                checkdetail(parms).then(res => {
+                    this.projectCrr = res.rows;
+                    let Crr = []
+                    for (let i in this.projectCrr) {
+                        if (this.projectCrr[i].projectType == 12 || this.projectCrr[i].projectType == 15 || this.projectCrr[i].projectType == 4) {
+                            Crr.push(this.projectCrr[i]);
+                        }
+                    }
+                    this.progressList = Crr;
+                    this.title = '验收审核进度跟踪';
+                    this.dialogVisible = true;
+                })
             } else if (type == 5) {
-             checkdetail(parms).then(res => {
-                this.projectCrr = res.rows;
-                let Drr=[]
-                for(let i in this.projectCrr){
-                if(this.projectCrr[i].projectType==16 || this.projectCrr[i].projectType==13 || this.projectCrr[i].projectType==5){
-                     Drr.push(this.projectCrr[i]);
-                   }
-                }
-                this.progressList=Drr;
-                this.title = '完税审核进度跟踪';
-                this.dialogVisible = true;   
-              })
-                
-            }else if(type==6){
-                
+                checkdetail(parms).then(res => {
+                    this.projectCrr = res.rows;
+                    let Drr = []
+                    for (let i in this.projectCrr) {
+                        if (this.projectCrr[i].projectType == 16 || this.projectCrr[i].projectType == 13 || this.projectCrr[i].projectType == 5) {
+                            Drr.push(this.projectCrr[i]);
+                        }
+                    }
+                    this.progressList = Drr;
+                    this.title = '完税审核进度跟踪';
+                    this.dialogVisible = true;
+                })
+
+            } else if (type == 6) {
+
             }
 
 
-            
+
         },
         //返回当前时间
         returnTime(time2) {
@@ -848,9 +870,9 @@ export default {
                         this.$modal.msgSuccess("删除成功");
                     } else {
                         this.$alert(res.msg, '提示', {
-                           confirmButtonText: '确定',
-                         });
-                       // this.$modal.msgError(res.msg);
+                            confirmButtonText: '确定',
+                        });
+                        // this.$modal.msgError(res.msg);
                     }
 
                 })
