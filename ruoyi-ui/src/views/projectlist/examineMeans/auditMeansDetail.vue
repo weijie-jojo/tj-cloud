@@ -138,7 +138,7 @@
     </div>
 </template>
 <script>
-import uploadSmall from '@/components/douploads/uploadSmall'
+import uploadSmall from '@/components/douploads/uploadFiles'
 
 export default {
     name: 'AuditMeansDetail',

@@ -689,6 +689,8 @@ export default {
                 projectContractStatus: '-1',  //办理中  合同
                 projectDesc: "",
                 projectDutypaidStatus: '-1', //办理中  完税
+                projectReceiveStatus:'0',//收款
+                projectPayStatus:'0',//出款
                 projectGrossMargin: 0,
                 projectGrossProfit: 0,
                 projectLeader: "",

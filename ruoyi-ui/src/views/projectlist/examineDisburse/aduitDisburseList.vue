@@ -13,27 +13,21 @@
                      <el-form-item class="comright" label="甲方名称 ">
                         <el-input  :readonly="true" v-model="publicList.purchCompany"></el-input>
                      </el-form-item>
-                     <el-form-item class="comright" label="应收赃款">
+                     <el-form-item class="comright" label="应出赃款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已收赃款">
+                    <el-form-item class="comright" label="已出赃款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="未收赃款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                        >
-                            <template slot="append">元</template>
-                        </el-input>
-                    </el-form-item>
+                 
                 </el-col>
 
                 <el-col :span="9">
@@ -51,13 +45,7 @@
                     <el-form-item class="comright" label="乙方名称">
                         <el-input  :readonly="true" v-model="publicList.selfName"></el-input>
                      </el-form-item>
-                     <el-form-item class="comright" label="应出赃款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                        >
-                            <template slot="append">元</template>
-                        </el-input>
-                    </el-form-item>
+                     
                     <el-form-item class="comright" label="已出赃款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
@@ -65,13 +53,7 @@
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="未出赃款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-                        >
-                            <template slot="append">元</template>
-                        </el-input>
-                    </el-form-item>
+                    
 
                   
                 </el-col>
@@ -93,11 +75,11 @@
         </el-form>
 
         <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
+            <!-- <el-col :span="1.5">
                 <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus"
                     size="mini" @click="handleAdd">新增
                 </el-button>
-            </el-col>
+            </el-col> -->
             <!-- <el-col :span="1.5"> 
                 <el-button type="danger"  icon="el-icon-edit" size="mini">修改</el-button>
             </el-col>
@@ -123,7 +105,7 @@
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
-                    <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link>
+                  
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">

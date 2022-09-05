@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+//获取项目类别
 export function list(query) {
   return request({
     url: 'project/project/list',
@@ -7,6 +8,15 @@ export function list(query) {
     params: query
   })
 }
+//获取流水号code
+export function getReceiveCode() {
+  return request({
+    url: '/project/receive/getCode',
+    method: 'get',
+    
+  })
+}
+//获取甲方列表
 export function getPuJialist(query) {
   return request({
     url: '/project/company/list',
@@ -15,6 +25,7 @@ export function getPuJialist(query) {
   })
 }
 
+//获取项目详情
 export function detail(query) {
   return request({
     url: 'project/project/selectProjectJoinTicketByCode',
@@ -22,6 +33,7 @@ export function detail(query) {
     params: query
   })
 }
+//获取乙方
 export function ownlist(query) {
   return request({
     url: 'project/employed/getByUserIndusty',
@@ -29,6 +41,7 @@ export function ownlist(query) {
     params: query
   })
 }
+//项目新增
 export function add(data) {
   return request({
     url: 'project/project',
@@ -36,6 +49,7 @@ export function add(data) {
     data: data
   })
 }
+//甲方新增
 export function addJia(data) {
   return request({
     url: '/project/company',
@@ -43,6 +57,7 @@ export function addJia(data) {
     data: data
   })
 }
+//获取项目编码
 export function getcode(query){
     return request({
         url:'project/project/getCode',
@@ -50,13 +65,14 @@ export function getcode(query){
         params:query   
     })
 }
+//项目删除
 export function del(projectIds) {
   return request({
     url: 'project/project/'+projectIds,
     method: 'delete',
  })
 }
-
+//项目修改
 export function edit(data) {
   return request({
     url: 'project/project',
@@ -64,7 +80,7 @@ export function edit(data) {
     data:data
   })
 }
-
+//获取项目各个审核列表标签 统计数量
 export function getProjectCount(query){
   return request({
     url: 'project/project/getCount',
@@ -72,7 +88,7 @@ export function getProjectCount(query){
     params: query
   })
 }
-
+//获取乙方
 export function getinfoByUserId(data){
   return request({
     url:'project/place/getInfoByUserId',
@@ -98,7 +114,7 @@ export function checkdetail(query) {
     params: query
   })
 }
-
+//获取票据标签页 统计数量
 export function getCount(query){
   return request({
     url: '/project/project/getCount3',
@@ -108,4 +124,4 @@ export function getCount(query){
 }
 
 
-export default {addJia,getPuJialist,getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {getReceiveCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

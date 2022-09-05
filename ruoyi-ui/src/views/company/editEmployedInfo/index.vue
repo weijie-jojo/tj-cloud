@@ -1404,11 +1404,8 @@ export default {
   },
   methods: {
     changeValue1(e){
-      console.log(e);
       if(e==true){
-        if(this.places.length==0){
         this.getLoginInfo();
-        }
       }
     },   
    handleChangeSelectId(item) {

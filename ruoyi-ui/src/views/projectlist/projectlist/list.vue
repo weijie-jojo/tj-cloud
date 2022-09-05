@@ -169,11 +169,36 @@
                 </template>
 
             </el-table-column>
-            <el-table-column label="项目收款" align="center">
+            <el-table-column label="项目收款" prop="projectReceiveStatus" align="center" :filters="filterList3" :filter-method="filterHandler">
+               
+                <template slot-scope="scope">
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 6)"
+                        v-if="scope.row.projectReceiveStatus == '0'">收款中</el-link>
 
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 6)"
+                        v-if="scope.row.projectReceiveStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success"
+                        @click="projectFinish(scope.row.projectCode, scope.row, 6)"
+                        v-if="scope.row.projectReceiveStatus == '1'">完成</el-link>
+
+                </template>
+                
             </el-table-column>
-            <el-table-column label="项目出款" align="center">
+            <el-table-column label="项目出款" prop="projectPayStatus" align="center" :filters="filterList4" :filter-method="filterHandler">
+                <template slot-scope="scope">
 
+                    <el-link :underline="false" type="primary" @click="examine(scope.row.userId, scope.row, 7)"
+                        v-if="scope.row.projectPayStatus == '0'">出款中</el-link>
+
+                    <el-link :underline="false" type="danger"
+                        @click="progressError(scope.row.projectCode, scope.row, 7)"
+                        v-if="scope.row.projectPayStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success"
+                        @click="projectFinish(scope.row.projectCode, scope.row, 7)"
+                        v-if="scope.row.projectPayStatus == '1'">完成</el-link>
+                </template>
+               
             </el-table-column>
             <el-table-column label="项目审核" align="center" prop="projectCheckStatus" :filters="filterList2" :filter-method="filterHandler">
                 <template slot-scope="scope">
@@ -245,6 +270,16 @@ export default {
             ],
             filterList2: [
                 { text: '审核中', value: 0 },
+                { text: '异常', value: 2 },
+                { text: '完成', value: 1 },
+            ],
+            filterList3: [
+                { text: '收款中', value: 0 },
+                { text: '异常', value: 2 },
+                { text: '完成', value: 1 },
+            ],
+            filterList4: [
+                { text: '出款中', value: 0 },
                 { text: '异常', value: 2 },
                 { text: '完成', value: 1 },
             ],
@@ -402,6 +437,10 @@ export default {
                 } else {
                     msg = '审核';
                 }
+            }else if(type == 6){
+                msg = '收款'
+            }else if(type == 7){
+                msg = '出款'
             }
             this.types = type;
             if (this.types == 2) {
@@ -444,7 +483,21 @@ export default {
                             backurl:'/projectlist/List'
                             };
                             this.$cache.local.setJSON('backTicket',obj);
-                            this.$tab.openPage('票据列表查看', '/projectlist/ticketlist');
+                            this.$tab.openPage('票据列表', '/projectlist/ticketlist');
+                        }else if(this.msgs=='收款'){
+                            let obj={
+                            backurl:'/projectlist/List'
+                            };
+                            this.$cache.local.setJSON('backTicket',obj);
+                            this.$tab.openPage('收款列表', '/projectlist/aduitCollectList');
+
+                        }else if(this.msgs=='出款'){
+                            let obj={
+                            backurl:'/projectlist/List'
+                            };
+                            this.$cache.local.setJSON('backTicket',obj);
+                            this.$tab.openPage('出款列表', '/projectlist/aduitDisburseList');
+
                         }
 
                     }).catch(() => {
