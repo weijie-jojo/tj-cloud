@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.SelfPayMapper">
+
+    <resultMap type="com.ruoyi.project.domain.SelfPay" id="SelfPayResult">
+        <result property="payId"    column="pay_id"    />
+        <result property="payReceiveSysCode"    column="pay_receive_sys_code"    />
+        <result property="payName"    column="pay_name"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="payMoney"    column="pay_money"    />
+        <result property="payAccount"    column="pay_account"    />
+        <result property="fileNamePay"    column="file_name_pay"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSelfPayVo">
+        select pay_id, pay_receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time from self_pay
+    </sql>
+
+    <select id="selectSelfPayList" parameterType="com.ruoyi.project.domain.SelfPay" resultMap="SelfPayResult">
+        <include refid="selectSelfPayVo"/>
+        <where>
+            <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
+            <if test="payName != null  and payName != ''"> and pay_name like concat('%', #{payName}, '%')</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="payMoney != null "> and pay_money = #{payMoney}</if>
+            <if test="payAccount != null  and payAccount != ''"> and pay_account = #{payAccount}</if>
+            <if test="fileNamePay != null  and fileNamePay != ''"> and file_name_pay = #{fileNamePay}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfPayByPayId" parameterType="String" resultMap="SelfPayResult">
+        <include refid="selectSelfPayVo"/>
+        where pay_id = #{payId}
+    </select>
+
+    <insert id="insertSelfPay" parameterType="com.ruoyi.project.domain.SelfPay" useGeneratedKeys="true" keyProperty="payId">
+        insert into self_pay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code,</if>
+            <if test="payName != null">pay_name,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="payMoney != null">pay_money,</if>
+            <if test="payAccount != null">pay_account,</if>
+            <if test="fileNamePay != null">file_name_pay,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">#{payReceiveSysCode},</if>
+            <if test="payName != null">#{payName},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="payMoney != null">#{payMoney},</if>
+            <if test="payAccount != null">#{payAccount},</if>
+            <if test="fileNamePay != null">#{fileNamePay},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfPay" parameterType="com.ruoyi.project.domain.SelfPay">
+        update self_pay
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code = #{payReceiveSysCode},</if>
+            <if test="payName != null">pay_name = #{payName},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="payMoney != null">pay_money = #{payMoney},</if>
+            <if test="payAccount != null">pay_account = #{payAccount},</if>
+            <if test="fileNamePay != null">file_name_pay = #{fileNamePay},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where pay_id = #{payId}
+    </update>
+
+    <delete id="deleteSelfPayByPayId" parameterType="String">
+        delete from self_pay where pay_id = #{payId}
+    </delete>
+
+    <delete id="deleteSelfPayByPayIds" parameterType="String">
+        delete from self_pay where pay_id in
+        <foreach item="payId" collection="array" open="(" separator="," close=")">
+            #{payId}
+        </foreach>
+    </delete>
+</mapper>

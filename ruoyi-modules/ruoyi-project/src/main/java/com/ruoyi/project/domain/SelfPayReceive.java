@@ -101,45 +101,4 @@ public class SelfPayReceive extends BaseEntity
     @ApiModelProperty(value = "出账凭证 出款信息")
     private String fileNamePay;
 
-    /** 出账账户2（出款信息） */
-    @ApiModelProperty(value = "出账账户2 出款信息")
-    private String payName2;
-
-    /** 转账时间2（出款信息） */
-    @ApiModelProperty(value = "转账时间2 出款信息")
-    private Date payTime2;
-
-    /** 出款金额2（出款信息） */
-    @ApiModelProperty(value = "出款金额2 出款信息")
-    private BigDecimal payMoney2;
-
-    /** 出账帐号2（出款信息） */
-    @ApiModelProperty(value = "出账帐号2 出款信息")
-    private String payAccount2;
-
-    /** 出账凭证2（出款信息） */
-    @ApiModelProperty(value = "出账凭证2 出款信息")
-    private String fileNamePay2;
-
-    /** 出账账户3（出款信息） */
-    @ApiModelProperty(value = "出账账户3 出款信息")
-    private String payName3;
-
-    /** 转账时间3（出款信息） */
-    @ApiModelProperty(value = "转账时间3 出款信息")
-    private Date payTime3;
-
-    /** 出款金额3（出款信息） */
-    @ApiModelProperty(value = "出款金额3 出款信息")
-    private BigDecimal payMoney3;
-
-    /** 出账帐号3（出款信息） */
-    @ApiModelProperty(value = "出账帐号3 出款信息")
-    private String payAccount3;
-
-    /** 出账凭证3（出款信息） */
-    @ApiModelProperty(value = "出账凭证3 出款信息")
-    private String fileNamePay3;
-
-   
 }

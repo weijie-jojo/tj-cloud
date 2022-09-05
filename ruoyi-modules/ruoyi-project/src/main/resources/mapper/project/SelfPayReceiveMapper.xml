@@ -21,34 +21,33 @@
         <result property="receiveMoney"    column="receive_money"    />
         <result property="receiveAccount"    column="receive_account"    />
         <result property="fileNameReceive"    column="file_name_receive"    />
-        <result property="payName"    column="pay_name"    />
-        <result property="payTime"    column="pay_time"    />
-        <result property="payMoney"    column="pay_money"    />
-        <result property="payAccount"    column="pay_account"    />
-        <result property="fileNamePay"    column="file_name_pay"    />
-        <result property="payName2"    column="pay_name2"    />
-        <result property="payTime2"    column="pay_time2"    />
-        <result property="payMoney2"    column="pay_money2"    />
-        <result property="payAccount2"    column="pay_account2"    />
-        <result property="fileNamePay2"    column="file_name_pay2"    />
-        <result property="payName3"    column="pay_name3"    />
-        <result property="payTime3"    column="pay_time3"    />
-        <result property="payMoney3"    column="pay_money3"    />
-        <result property="payAccount3"    column="pay_account3"    />
-        <result property="fileNamePay3"    column="file_name_pay3"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectSelfPayReceiveVo">
-        select pay_receive_id, project_code, pay_receive_sys_code, pay_receive_code, project_name, project_total_amount, project_package_amount, project_remain_amount, pay_total_amount, pay_package_amount, pay_remain_amount, receive_name, receive_time, receive_money, receive_account, file_name_receive, pay_name, pay_time, pay_money, pay_account, file_name_pay, pay_name2, pay_time2, pay_money2, pay_account2, file_name_pay2, pay_name3, pay_time3, pay_money3, pay_account3, file_name_pay3 from self_pay_receive
+        select pay_receive_id, project_code, pay_receive_sys_code, pay_receive_code, project_name, project_total_amount, project_package_amount, project_remain_amount, pay_total_amount, pay_package_amount, pay_remain_amount, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time  from self_pay_receive
     </sql>
-
+    <sql id="selectSelfPayVo">
+        select pay_id, pay_receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time from self_pay
+    </sql>
+    <sql id="selectSelfPayReceiveJoin">
+        select t.pay_receive_id, t.project_code, t.pay_receive_sys_code, t.pay_receive_code, t.project_name, t.project_total_amount, t.project_package_amount,
+               t.project_remain_amount, t.pay_total_amount, t.pay_package_amount, t.pay_remain_amount, t.receive_name, t.receive_time, t.receive_money,
+               t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,
+               A.pay_name, A.pay_time, A.pay_money, A.pay_account, A.file_name_pay,A.create_by AS create_by_pay, A.update_by AS update_by_pay,
+               A.create_time AS create_time_pay, A.update_time AS update_time_pay
+        FROM self_pay_receive t  LEFT JOIN self_pay A ON t.pay_receive_sys_code=A.pay_receive_sys_code
+    </sql>
     <select id="selectLast" resultMap="SelfPayReceiveResult">
         <include refid="selectSelfPayReceiveVo"/>
         ORDER BY pay_receive_id DESC LIMIT 0,1
     </select>
 
-    <select id="selectSelfPayReceiveList" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultMap="SelfPayReceiveResult">
-        <include refid="selectSelfPayReceiveVo"/>
+    <select id="selectSelfPayReceiveJoin" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultType="com.ruoyi.project.domain.SelfPayReceive">
+        <include refid="selectSelfPayReceiveJoin"/>
         <where>
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
             <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
@@ -70,16 +69,27 @@
             <if test="payMoney != null "> and pay_money = #{payMoney}</if>
             <if test="payAccount != null  and payAccount != ''"> and pay_account = #{payAccount}</if>
             <if test="fileNamePay != null  and fileNamePay != ''"> and file_name_pay = #{fileNamePay}</if>
-            <if test="payName2 != null  and payName2 != ''"> and pay_name2 = #{payName2}</if>
-            <if test="payTime2 != null "> and pay_time2 = #{payTime2}</if>
-            <if test="payMoney2 != null "> and pay_money2 = #{payMoney2}</if>
-            <if test="payAccount2 != null  and payAccount2 != ''"> and pay_account2 = #{payAccount2}</if>
-            <if test="fileNamePay2 != null  and fileNamePay2 != ''"> and file_name_pay2 = #{fileNamePay2}</if>
-            <if test="payName3 != null  and payName3 != ''"> and pay_name3 = #{payName3}</if>
-            <if test="payTime3 != null "> and pay_time3 = #{payTime3}</if>
-            <if test="payMoney3 != null "> and pay_money3 = #{payMoney3}</if>
-            <if test="payAccount3 != null  and payAccount3 != ''"> and pay_account3 = #{payAccount3}</if>
-            <if test="fileNamePay3 != null  and fileNamePay3 != ''"> and file_name_pay3 = #{fileNamePay3}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfPayReceiveList" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultMap="SelfPayReceiveResult">
+        <include refid="selectSelfPayReceiveVo"/>
+        <where>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
+            <if test="payReceiveCode != null  and payReceiveCode != ''"> and pay_receive_code = #{payReceiveCode}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectTotalAmount != null "> and project_total_amount = #{projectTotalAmount}</if>
+            <if test="projectPackageAmount != null "> and project_package_amount = #{projectPackageAmount}</if>
+            <if test="projectRemainAmount != null "> and project_remain_amount = #{projectRemainAmount}</if>
+            <if test="payTotalAmount != null "> and pay_total_amount = #{payTotalAmount}</if>
+            <if test="payPackageAmount != null "> and pay_package_amount = #{payPackageAmount}</if>
+            <if test="payRemainAmount != null "> and pay_remain_amount = #{payRemainAmount}</if>
+            <if test="receiveName != null  and receiveName != ''"> and receive_name like concat('%', #{receiveName}, '%')</if>
+            <if test="receiveTime != null "> and receive_time = #{receiveTime}</if>
+            <if test="receiveMoney != null "> and receive_money = #{receiveMoney}</if>
+            <if test="receiveAccount != null  and receiveAccount != ''"> and receive_account = #{receiveAccount}</if>
+            <if test="fileNameReceive != null  and fileNameReceive != ''"> and file_name_receive = #{fileNameReceive}</if>
         </where>
     </select>
 
@@ -111,16 +121,8 @@
             <if test="payMoney != null">pay_money,</if>
             <if test="payAccount != null">pay_account,</if>
             <if test="fileNamePay != null">file_name_pay,</if>
-            <if test="payName2 != null">pay_name2,</if>
-            <if test="payTime2 != null">pay_time2,</if>
-            <if test="payMoney2 != null">pay_money2,</if>
-            <if test="payAccount2 != null">pay_account2,</if>
-            <if test="fileNamePay2 != null">file_name_pay2,</if>
-            <if test="payName3 != null">pay_name3,</if>
-            <if test="payTime3 != null">pay_time3,</if>
-            <if test="payMoney3 != null">pay_money3,</if>
-            <if test="payAccount3 != null">pay_account3,</if>
-            <if test="fileNamePay3 != null">file_name_pay3,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -143,16 +145,8 @@
             <if test="payMoney != null">#{payMoney},</if>
             <if test="payAccount != null">#{payAccount},</if>
             <if test="fileNamePay != null">#{fileNamePay},</if>
-            <if test="payName2 != null">#{payName2},</if>
-            <if test="payTime2 != null">#{payTime2},</if>
-            <if test="payMoney2 != null">#{payMoney2},</if>
-            <if test="payAccount2 != null">#{payAccount2},</if>
-            <if test="fileNamePay2 != null">#{fileNamePay2},</if>
-            <if test="payName3 != null">#{payName3},</if>
-            <if test="payTime3 != null">#{payTime3},</if>
-            <if test="payMoney3 != null">#{payMoney3},</if>
-            <if test="payAccount3 != null">#{payAccount3},</if>
-            <if test="fileNamePay3 != null">#{fileNamePay3},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -174,21 +168,8 @@
             <if test="receiveMoney != null">receive_money = #{receiveMoney},</if>
             <if test="receiveAccount != null">receive_account = #{receiveAccount},</if>
             <if test="fileNameReceive != null">file_name_receive = #{fileNameReceive},</if>
-            <if test="payName != null">pay_name = #{payName},</if>
-            <if test="payTime != null">pay_time = #{payTime},</if>
-            <if test="payMoney != null">pay_money = #{payMoney},</if>
-            <if test="payAccount != null">pay_account = #{payAccount},</if>
-            <if test="fileNamePay != null">file_name_pay = #{fileNamePay},</if>
-            <if test="payName2 != null">pay_name2 = #{payName2},</if>
-            <if test="payTime2 != null">pay_time2 = #{payTime2},</if>
-            <if test="payMoney2 != null">pay_money2 = #{payMoney2},</if>
-            <if test="payAccount2 != null">pay_account2 = #{payAccount2},</if>
-            <if test="fileNamePay2 != null">file_name_pay2 = #{fileNamePay2},</if>
-            <if test="payName3 != null">pay_name3 = #{payName3},</if>
-            <if test="payTime3 != null">pay_time3 = #{payTime3},</if>
-            <if test="payMoney3 != null">pay_money3 = #{payMoney3},</if>
-            <if test="payAccount3 != null">pay_account3 = #{payAccount3},</if>
-            <if test="fileNamePay3 != null">file_name_pay3 = #{fileNamePay3},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where pay_receive_id = #{payReceiveId}
     </update>
