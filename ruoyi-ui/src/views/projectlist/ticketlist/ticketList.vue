@@ -83,7 +83,7 @@
                     @click="handleDelete">作废</el-button>
             </el-col>
             <el-col :span="1.5"> 
-                <el-button type="danger" plain icon="el-icon-close" size="mini" @click="resetForm">关闭</el-button>
+                <el-button type="danger"  icon="el-icon-circle-close" size="mini" @click="resetForms">关闭</el-button>
             </el-col>
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -106,7 +106,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                    
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1" @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1 || scope.row.isDeleted==0" @click="detail(scope.row)">查看</el-button>
                     <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
                     </el-button>
@@ -274,9 +274,8 @@ export default {
             this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
         },
        //关闭
-        resetForm() {
-            this.$tab.closeOpenPage({path:this.$cache.local.getJSON('backTicket').backUrl}).then(() => {
-            })
+        resetForms() {
+            this.$tab.closeOpenPage({path: this.$cache.local.getJSON('backTicket').backurl});
         },
           //计算已开和剩余金额
         ticketByCode() {
