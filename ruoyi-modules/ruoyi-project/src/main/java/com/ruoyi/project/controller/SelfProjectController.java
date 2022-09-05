@@ -7,11 +7,15 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.project.domain.SelfPay;
+import com.ruoyi.project.domain.SelfPayReceive;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfTicket;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
+import com.ruoyi.project.service.ISelfPayReceiveService;
+import com.ruoyi.project.service.ISelfPayService;
 import com.ruoyi.project.service.ISelfProjectService;
 import com.ruoyi.project.service.ISelfTicketService;
 import com.ruoyi.project.util.StringUtils;
@@ -22,6 +26,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,8 +185,9 @@ public class SelfProjectController extends BaseController
     @GetMapping(value = "/selectProjectJoinTicketByCode")
     public AjaxResult selectProjectJoinTicketByCode(String projectCode)
     {
-        List<ProjectJoinTicketVo> selfProjects=selfProjectService.selectProjectJoinTicketByCode(projectCode);
-        for (ProjectJoinTicketVo selfProject:selfProjects){
+        ProjectJoinTicketVo selfProject=selfProjectService.selectProjectJoinTicketByCode(projectCode);
+
+        if(selfProject!=null){
             selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
             if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
                 selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
@@ -199,7 +205,8 @@ public class SelfProjectController extends BaseController
                 selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
             }
         }
-        return AjaxResult.success(selfProjects);
+
+        return AjaxResult.success(selfProject);
     }
 
 

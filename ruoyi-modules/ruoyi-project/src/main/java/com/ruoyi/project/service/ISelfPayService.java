@@ -1,6 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.SelfPay;
+import com.ruoyi.project.domain.SelfPayReceive;
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public interface ISelfPayService
      * @return 出款信息
      */
     public SelfPay selectSelfPayByPayId(String payId);
+
+    /**
+     * 查询出款信息
+     *
+     * @param projectCode 出款信息主键
+     * @return 出款信息
+     */
+    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
+
 
     /**
      * 查询出款信息列表

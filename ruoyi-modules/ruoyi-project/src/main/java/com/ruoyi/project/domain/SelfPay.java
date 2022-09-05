@@ -44,5 +44,17 @@ public class SelfPay extends BaseEntity
     /** 出账凭证（出款信息） */
     @ApiModelProperty(value = "出账凭证")
     private String fileNamePay;
+
+    /** 项目编号 */
+    @ApiModelProperty(value = "项目编号")
+    private String projectCode;
+
+    /** 付款流水号（财务输入） */
+    @ApiModelProperty(value = "付款流水号 财务输入")
+    private String payCode;
+
+    /** 付款流水号（关联收付款表） */
+    @ApiModelProperty(value = "付款流水号 关联收付款表")
+    private String paySysCode;
     
 }

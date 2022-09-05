@@ -29,7 +29,7 @@ public class SelfProjectServiceImpl implements ISelfProjectService
      * @return 项目信息
      */
     @Override
-    public List<ProjectJoinTicketVo> selectProjectJoinTicketByCode(String projectCode) {
+    public ProjectJoinTicketVo selectProjectJoinTicketByCode(String projectCode) {
         return selfProjectMapper.selectProjectJoinTicketByCode(projectCode);
     }
 

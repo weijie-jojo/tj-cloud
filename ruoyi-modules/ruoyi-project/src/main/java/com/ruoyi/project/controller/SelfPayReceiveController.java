@@ -35,6 +35,21 @@ public class SelfPayReceiveController extends BaseController
     @Autowired
     private ISelfPayReceiveService selfPayReceiveService;
 
+
+    /**
+     * 根据收款流水查询
+     */
+    @RequiresPermissions("company:receive:query")
+    @GetMapping("/getInfoByReceiveCode")
+    @ApiOperation("根据收款流水查询")
+    public TableDataInfo getInfoByReceiveCode(String payReceiveSysCode)
+    {
+        startPage();
+        List<SelfPayReceive> list = selfPayReceiveService.selectSelfPayReceiveJoinByCode(payReceiveSysCode);
+        return getDataTable(list);
+    }
+
+
     /**
      * 查询【收付款信息表】列表
      */
@@ -72,6 +87,19 @@ public class SelfPayReceiveController extends BaseController
     {
         return AjaxResult.success(selfPayReceiveService.selectSelfPayReceiveByPayReceiveId(payReceiveId));
     }
+
+    /**
+     * 获取出款信息详细信息(根据projectCode)
+     */
+    @RequiresPermissions("company:pay:query")
+    @GetMapping(value = "/{projectCode}")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)")
+    public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
+    {
+
+        return AjaxResult.success(selfPayReceiveService.selectSelfPayReceiveByProjectCode(projectCode));
+    }
+
 
     /**
      * 新增【收付款信息表】

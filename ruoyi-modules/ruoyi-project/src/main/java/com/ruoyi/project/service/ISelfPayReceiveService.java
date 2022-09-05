@@ -19,6 +19,12 @@ public interface ISelfPayReceiveService
      * */
     public SelfPayReceive selectLast() ;
 
+    /*
+     * 根据收款流水查询
+     *
+     * */
+    public List<SelfPayReceive> selectSelfPayReceiveJoinByCode(String payReceiveSysCode);
+
     /**
      * 查询【请填写功能名称】
      *
@@ -26,6 +32,14 @@ public interface ISelfPayReceiveService
      * @return 【请填写功能名称】
      */
     public SelfPayReceive selectSelfPayReceiveByPayReceiveId(String payReceiveId);
+
+    /**
+     * 查询【请填写功能名称】
+     *
+     * @param projectCode 【请填写功能名称】主键
+     * @return 【请填写功能名称】
+     */
+    public List<SelfPayReceive> selectSelfPayReceiveByProjectCode(String projectCode);
 
     /**
      * 查询【请填写功能名称】列表

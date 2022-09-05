@@ -16,10 +16,13 @@
         <result property="updateBy"    column="update_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="payCode"    column="pay_code"    />
+        <result property="paySysCode"    column="pay_sys_code"    />
     </resultMap>
 
     <sql id="selectSelfPayVo">
-        select pay_id, pay_receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time from self_pay
+        select pay_id, pay_receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
     </sql>
 
     <select id="selectSelfPayList" parameterType="com.ruoyi.project.domain.SelfPay" resultMap="SelfPayResult">
@@ -31,12 +34,20 @@
             <if test="payMoney != null "> and pay_money = #{payMoney}</if>
             <if test="payAccount != null  and payAccount != ''"> and pay_account = #{payAccount}</if>
             <if test="fileNamePay != null  and fileNamePay != ''"> and file_name_pay = #{fileNamePay}</if>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="payCode != null  and payCode != ''"> and pay_code = #{payCode}</if>
+            <if test="paySysCode != null  and paySysCode != ''"> and pay_sys_code = #{paySysCode}</if>
         </where>
     </select>
 
     <select id="selectSelfPayByPayId" parameterType="String" resultMap="SelfPayResult">
         <include refid="selectSelfPayVo"/>
         where pay_id = #{payId}
+    </select>
+
+    <select id="selectSelfPayByProjectCode" parameterType="String" resultMap="SelfPayResult">
+        <include refid="selectSelfPayVo"/>
+        where project_code = #{projectCode}
     </select>
 
     <insert id="insertSelfPay" parameterType="com.ruoyi.project.domain.SelfPay" useGeneratedKeys="true" keyProperty="payId">
@@ -52,6 +63,9 @@
             <if test="updateBy != null">update_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="projectCode != null and projectCode != ''">project_code,</if>
+            <if test="payCode != null and payCode != ''">pay_code,</if>
+            <if test="paySysCode != null and paySysCode != ''">pay_sys_code,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="payReceiveSysCode != null and payReceiveSysCode != ''">#{payReceiveSysCode},</if>
@@ -64,6 +78,9 @@
             <if test="updateBy != null">#{updateBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
+            <if test="payCode != null and payCode != ''">#{payCode},</if>
+            <if test="paySysCode != null and paySysCode != ''">#{paySysCode},</if>
         </trim>
     </insert>
 
@@ -80,6 +97,9 @@
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
+            <if test="payCode != null and payCode != ''">pay_code = #{payCode},</if>
+            <if test="paySysCode != null and paySysCode != ''">pay_sys_code = #{paySysCode},</if>
         </trim>
         where pay_id = #{payId}
     </update>

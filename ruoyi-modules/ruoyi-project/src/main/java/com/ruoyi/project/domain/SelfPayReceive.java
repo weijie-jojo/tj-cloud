@@ -1,5 +1,6 @@
 package com.ruoyi.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,30 +37,6 @@ public class SelfPayReceive extends BaseEntity
     /** 项目名称 */
     @ApiModelProperty(value = "项目名称")
     private String projectName;
-
-    /** 应收账款（项目总金额） */
-    @ApiModelProperty(value = "应收账款 项目总金额")
-    private BigDecimal projectTotalAmount;
-
-    /** 已收账款（分包总金额） */
-    @ApiModelProperty(value = "已收账款 分包总金额")
-    private BigDecimal projectPackageAmount;
-
-    /** 未收账款（剩余可用金额） */
-    @ApiModelProperty(value = "未收账款 剩余可用金额")
-    private BigDecimal projectRemainAmount;
-
-    /** 应出账款 */
-    @ApiModelProperty(value = "应出账款")
-    private BigDecimal payTotalAmount;
-
-    /** 已出账款 */
-    @ApiModelProperty(value = "已出账款")
-    private BigDecimal payPackageAmount;
-
-    /** 未出账款 */
-    @ApiModelProperty(value = "未出账款")
-    private BigDecimal payRemainAmount;
 
     /** 转账账户（收款信息） */
     @ApiModelProperty(value = "转账账户 收款信息")
@@ -100,5 +77,31 @@ public class SelfPayReceive extends BaseEntity
     /** 出账凭证（出款信息） */
     @ApiModelProperty(value = "出账凭证 出款信息")
     private String fileNamePay;
+
+    /** 创建者 */
+    @ApiModelProperty(value = "创建者 出款信息")
+    private String createByPay;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间 出款信息")
+    private Date createTimePay;
+
+    /** 更新者 */
+    @ApiModelProperty(value = "更新者 出款信息")
+    private String updateByPay;
+
+    /** 更新时间 */
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @ApiModelProperty(value = "更新时间 出款信息")
+    private Date updateTimePay;
+
+    /** 付款流水号（财务输入） */
+    @ApiModelProperty(value = "付款流水号 财务输入")
+    private String payCode;
+
+    /** 付款流水号（关联收付款表） */
+    @ApiModelProperty(value = "付款流水号 关联收付款表")
+    private String paySysCode;
 
 }

@@ -2,6 +2,7 @@ package com.ruoyi.project.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.SelfPay;
+import com.ruoyi.project.domain.SelfPayReceive;
 import com.ruoyi.project.mapper.SelfPayMapper;
 import com.ruoyi.project.service.ISelfPayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,17 @@ public class SelfPayServiceImpl implements ISelfPayService
     public SelfPay selectSelfPayByPayId(String payId)
     {
         return selfPayMapper.selectSelfPayByPayId(payId);
+    }
+
+    /**
+     * 查询
+     *
+     * @param projectCode
+     * @return
+     */
+    @Override
+    public List<SelfPay> selectSelfPayByProjectCode(String projectCode) {
+        return selfPayMapper.selectSelfPayByProjectCode(projectCode);
     }
 
     /**

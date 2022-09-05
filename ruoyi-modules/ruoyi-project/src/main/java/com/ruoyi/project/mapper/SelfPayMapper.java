@@ -1,6 +1,7 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfPay;
+import com.ruoyi.project.domain.SelfPayReceive;
 
 import java.util.List;
 
@@ -19,6 +20,14 @@ public interface SelfPayMapper
      * @return 出款信息
      */
     public SelfPay selectSelfPayByPayId(String payId);
+
+    /**
+     * 查询
+     *
+     * @param projectCode
+     * @return
+     */
+    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
 
     /**
      * 查询出款信息列表

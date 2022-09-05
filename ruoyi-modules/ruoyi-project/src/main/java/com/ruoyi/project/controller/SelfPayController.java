@@ -70,6 +70,17 @@ public class SelfPayController extends BaseController
     }
 
     /**
+     * 获取出款信息详细信息(根据projectCode)
+     */
+    @RequiresPermissions("company:pay:query")
+    @GetMapping(value = "/{projectCode}")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)")
+    public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
+    {
+        return AjaxResult.success(selfPayService.selectSelfPayByProjectCode(projectCode));
+    }
+
+    /**
      * 新增出款信息
      */
     @RequiresPermissions("company:pay:add")

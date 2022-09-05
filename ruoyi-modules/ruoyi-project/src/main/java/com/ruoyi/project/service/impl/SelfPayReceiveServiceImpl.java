@@ -38,6 +38,17 @@ public class SelfPayReceiveServiceImpl implements ISelfPayReceiveService
     }
 
     /**
+     * 查询
+     *
+     * @param projectCode
+     * @return SelfPayReceive
+     */
+    @Override
+    public List<SelfPayReceive> selectSelfPayReceiveByProjectCode(String projectCode) {
+        return selfPayReceiveMapper.selectSelfPayReceiveByProjectCode(projectCode);
+    }
+
+    /**
      * 查询【请填写功能名称】列表
      *
      * @param selfPayReceive 【请填写功能名称】
@@ -47,6 +58,16 @@ public class SelfPayReceiveServiceImpl implements ISelfPayReceiveService
     public List<SelfPayReceive> selectSelfPayReceiveList(SelfPayReceive selfPayReceive)
     {
         return selfPayReceiveMapper.selectSelfPayReceiveList(selfPayReceive);
+    }
+
+    /*
+     * 根据收款流水查询
+     *
+     * */
+    @Override
+    public List<SelfPayReceive> selectSelfPayReceiveJoinByCode(String payReceiveSysCode)
+    {
+        return selfPayReceiveMapper.selectSelfPayReceiveJoinByCode(payReceiveSysCode);
     }
 
     /**

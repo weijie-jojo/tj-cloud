@@ -86,6 +86,11 @@
         <result property="projectRateStatus"    column="project_rate_status"    />
         <result property="projectReceiveStatus"    column="project_receive_status"    />
         <result property="projectPayStatus"    column="project_pay_status"    />
+        <result property="receiveMoneys"    column="receive_moneys"    />
+        <result property="receiveRemainMoneys"    column="receive_remain_moneys"    />
+        <result property="payTotalMoneys"    column="pay_total_moneys"    />
+        <result property="payMoneys"    column="pay_moneys"    />
+        <result property="payRemainMoneys"    column="pay_remain_moneys"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -101,7 +106,8 @@
                special_share, special_share_money, is_ordinary_tax, is_special_tax, is_special_self_tax, is_self_count,
                ordinary_proxy_ismoney, special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share,
                is_special_share, is_slider, is_slider_ordinary, self_share, is_self_share, self_share_ismoney, special_self_fee,
-               ordinary_self_money, project_rate_status,project_receive_status, project_pay_status
+               ordinary_self_money, project_rate_status,project_receive_status, project_pay_status,receive_moneys, receive_remain_moneys,
+               pay_total_moneys, pay_moneys, pay_remain_moneys
         from self_project
     </sql>
 
@@ -124,7 +130,8 @@
                 t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney,
                 t.special_share_ismoney, t.is_ordinary_share, t.is_special_share, t.is_slider, t.is_slider_ordinary, t.self_share,
                 t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
-                t.project_receive_status, t.project_pay_status,
+                t.project_receive_status, t.project_pay_status,t.receive_moneys, t.receive_remain_moneys, t.pay_total_moneys,
+                t.pay_moneys, t.pay_remain_moneys,
                 A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
                 A.bank_name, A.bank_code,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
@@ -238,6 +245,11 @@
             <if test="selfProject.projectRateStatus != null "> and project_rate_status = #{selfProject.projectRateStatus}</if>
             <if test="selfProject.projectReceiveStatus != null "> and project_receive_status = #{selfProject.projectReceiveStatus}</if>
             <if test="selfProject.projectPayStatus != null "> and project_pay_status = #{selfProject.projectPayStatus}</if>
+            <if test="selfProject.receiveMoneys != null "> and receive_moneys = #{selfProject.receiveMoneys}</if>
+            <if test="selfProject.receiveRemainMoneys != null "> and receive_remain_moneys = #{selfProject.receiveRemainMoneys}</if>
+            <if test="selfProject.payTotalMoneys != null "> and pay_total_moneys = #{selfProject.payTotalMoneys}</if>
+            <if test="selfProject.payMoneys != null "> and pay_moneys = #{selfProject.payMoneys}</if>
+            <if test="selfProject.payRemainMoneys != null "> and pay_remain_moneys = #{selfProject.payRemainMoneys}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -335,6 +347,11 @@
             <if test="projectRateStatus != null">project_rate_status,</if>
             <if test="projectReceiveStatus != null">project_receive_status,</if>
             <if test="projectPayStatus != null">project_pay_status,</if>
+            <if test="receiveMoneys != null">receive_moneys,</if>
+            <if test="receiveRemainMoneys != null">receive_remain_moneys,</if>
+            <if test="payTotalMoneys != null">pay_total_moneys,</if>
+            <if test="payMoneys != null">pay_moneys,</if>
+            <if test="payRemainMoneys != null">pay_remain_moneys,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -417,6 +434,11 @@
             <if test="projectRateStatus != null">#{projectRateStatus},</if>
             <if test="projectReceiveStatus != null">#{projectReceiveStatus},</if>
             <if test="projectPayStatus != null">#{projectPayStatus},</if>
+            <if test="receiveMoneys != null">#{receiveMoneys},</if>
+            <if test="receiveRemainMoneys != null">#{receiveRemainMoneys},</if>
+            <if test="payTotalMoneys != null">#{payTotalMoneys},</if>
+            <if test="payMoneys != null">#{payMoneys},</if>
+            <if test="payRemainMoneys != null">#{payRemainMoneys},</if>
         </trim>
     </insert>
 
@@ -503,6 +525,11 @@
             <if test="projectRateStatus != null">project_rate_status = #{projectRateStatus},</if>
             <if test="projectReceiveStatus != null">project_receive_status = #{projectReceiveStatus},</if>
             <if test="projectPayStatus != null">project_pay_status = #{projectPayStatus},</if>
+            <if test="receiveMoneys != null">receive_moneys = #{receiveMoneys},</if>
+            <if test="receiveRemainMoneys != null">receive_remain_moneys = #{receiveRemainMoneys},</if>
+            <if test="payTotalMoneys != null">pay_total_moneys = #{payTotalMoneys},</if>
+            <if test="payMoneys != null">pay_moneys = #{payMoneys},</if>
+            <if test="payRemainMoneys != null">pay_remain_moneys = #{payRemainMoneys},</if>
         </trim>
         where project_id = #{projectId}
     </update>

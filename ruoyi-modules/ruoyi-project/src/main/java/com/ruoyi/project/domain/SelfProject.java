@@ -346,4 +346,24 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "0出款中 1完成 2异常")
     private Long projectPayStatus;
 
+    /** 已收账款 */
+    @ApiModelProperty(value = "已收账款")
+    private BigDecimal receiveMoneys;
+
+    /** 未收账款 */
+    @ApiModelProperty(value = "未收账款")
+    private BigDecimal receiveRemainMoneys;
+
+    /** 应出账款 */
+    @ApiModelProperty(value = "应出账款")
+    private BigDecimal payTotalMoneys;
+
+    /** 已出账款 */
+    @ApiModelProperty(value = "已出账款")
+    private BigDecimal payMoneys;
+
+    /** 未出账款 */
+    @ApiModelProperty(value = "未出账款")
+    private BigDecimal payRemainMoneys;
+
 }

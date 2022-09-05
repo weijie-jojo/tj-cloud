@@ -28,6 +28,14 @@ public interface SelfPayReceiveMapper
     public SelfPayReceive selectSelfPayReceiveByPayReceiveId(String payReceiveId);
 
     /**
+     * 查询
+     *
+     * @param projectCode
+     * @return
+     */
+    public List<SelfPayReceive> selectSelfPayReceiveByProjectCode(String projectCode);
+
+    /**
      * 查询【请填写功能名称】列表
      *
      * @param selfPayReceive 【请填写功能名称】
@@ -35,6 +43,11 @@ public interface SelfPayReceiveMapper
      */
     public List<SelfPayReceive> selectSelfPayReceiveList(SelfPayReceive selfPayReceive);
 
+    /*
+    * 根据收款流水查询
+    *
+    * */
+    public List<SelfPayReceive> selectSelfPayReceiveJoinByCode(String payReceiveSysCode);
     /**
      * 新增【请填写功能名称】
      *
