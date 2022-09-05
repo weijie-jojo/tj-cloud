@@ -13,27 +13,28 @@
                      <el-form-item class="comright" label="甲方名称 ">
                         <el-input  :readonly="true" v-model="publicList.purchCompany"></el-input>
                      </el-form-item>
-                     <el-form-item class="comright" label="应收赃款">
+                     <el-form-item class="comright" label="应收账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已收赃款">
+                    <el-form-item class="comright" label="已收账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="未收赃款">
+                    <el-form-item class="comright" label="未收账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
+                    
                 </el-col>
 
                 <el-col :span="9">
@@ -43,7 +44,7 @@
                   
                     <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
@@ -51,27 +52,29 @@
                     <el-form-item class="comright" label="乙方名称">
                         <el-input  :readonly="true" v-model="publicList.selfName"></el-input>
                      </el-form-item>
-                     <el-form-item class="comright" label="应出赃款">
+                     <el-form-item class="comright" label="应出账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="已出赃款">
+                    <el-form-item class="comright" label="已出账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item class="comright" label="未出赃款">
+                    <el-form-item class="comright" label="未出账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
-                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                         oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
+                     
+                   
 
                   
                 </el-col>
@@ -98,22 +101,19 @@
                     size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
-            <!-- <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-edit" size="mini">修改</el-button>
-            </el-col>
-            <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-delete" size="mini">删除</el-button>
-            </el-col> -->
+          
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="发票种类编号" align="center" prop="ticketTypeCode" :show-overflow-tooltip="true" />
-            <el-table-column label="发票编号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
-            <el-table-column label="发票时间" align="center" prop="ticketTime" width="180" />
-            <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true">
+            <el-table-column label="流水号" align="center" prop="ticketTypeCode" :show-overflow-tooltip="true" />
+            <el-table-column label="转账时间" align="center" prop="ticketTime" width="180" /> 
+            <el-table-column label="转账账户" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
+            <el-table-column label="转账账号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
+            
+            <el-table-column label="转账金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                     <div>{{ numberToCurrencyNo(scope.row.ticketAmount)}}</div>
                 </template>
@@ -123,13 +123,13 @@
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
-                    <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link>
+                    <!-- <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link> -->
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                    
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1 || scope.row.isDeleted==0" @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1" @click="detail(scope.row)">查看</el-button>
                     <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
                     </el-button>
@@ -293,11 +293,11 @@ export default {
         aduit(row){
             this.$cache.local.setJSON("ticketDetails", row);
             let obj={
-                backurl:'/projectlist/ticketList',
-                name:'TicketList'
+                backurl:'/projectlist/aduitCollectList',
+                name:'AduitCollectList'
             };
             this.$cache.local.setJSON('aduitProjectBack',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
+            this.$tab.closeOpenPage({ path: '/projectlist/addCollect' });
         },
        //关闭
         resetForms() {
@@ -349,7 +349,7 @@ export default {
         },
         detail(row) {
             this.$cache.local.setJSON("ticketDetails", row);
-            this.$tab.openPage("票据查看", "/projectlist/ticketDetail")
+            this.$tab.openPage("收款审核查看", "/projectlist/auditCollectDetail")
           
         },
         
@@ -381,12 +381,12 @@ export default {
 
         /** 新增按钮操作 */
         handleAdd() {
-            this.$tab.openPage('票据新增','/projectlist/ticketAdd')
+            this.$tab.closeOpenPage({path:'/projectlist/addCollect'});
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
           this.$cache.local.setJSON("ticketDetails", row);
-          this.$tab.openPage("票据修改", "/projectlist/ticketEdit")
+          this.$tab.closeOpenPage({path:"/projectlist/collectEdit"})
         },
 
         /** 删除按钮操作 */
@@ -406,7 +406,7 @@ export default {
                             });
                         }
                         this.getList();
-                        this.ticketByCode();
+                       // this.ticketByCode();
                     }
                 })
             }

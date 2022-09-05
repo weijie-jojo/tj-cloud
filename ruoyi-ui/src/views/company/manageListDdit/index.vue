@@ -1415,22 +1415,15 @@ export default {
   methods: {
     //银行接口
      changeValue2(e){
-      console.log(e);
-      if(e==true){
-        if(this.accountName_options.length==0){
-          this.nailist();
-        }
-        
-      }
+       if(e==true){
+       this.nailist();
+       }
     },
     //渠道商
      changeValue1(e){
       console.log(e);
       if(e==true){
-        if(this.places.length==0){
-          this.getLoginInfo();
-        }
-        
+         this.getLoginInfo();
       }
     },
     singleOK(e) {

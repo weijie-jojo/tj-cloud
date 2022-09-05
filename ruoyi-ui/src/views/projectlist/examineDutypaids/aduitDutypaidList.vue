@@ -295,6 +295,7 @@ export default {
             this.endStatus='0';
             this.projectTime = null;
             this.queryParams = {
+                type: 5,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方

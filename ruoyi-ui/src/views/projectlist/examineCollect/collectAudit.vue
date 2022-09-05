@@ -44,17 +44,17 @@
             <el-table-column label="业务经理" align="center" prop="projectLeader" :show-overflow-tooltip="true" />
             <el-table-column label="完结状态" align="center" prop="projectStatus">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="danger" v-if="scope.row.projectTicketStatus == '2'">异常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.projectTicketStatus == '1'">完成</el-link>
-                    <el-link :underline="false" type="primary" v-if="scope.row.projectTicketStatus == '0'">收款中</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.projectReceiveStatus == '2'">异常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.projectReceiveStatus == '1'">完成</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.projectReceiveStatus == '0'">收款中</el-link>
                 </template>
             </el-table-column>   
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" v-if="scope.row.projectTicketStatus==0" type="text" icon="el-icon-circle-plus-outline"
+                    <el-button size="mini" v-if="scope.row.projectReceiveStatus==0" type="text" icon="el-icon-circle-plus-outline"
                         @click="add(scope.row)">收款</el-button>
-                    <el-button size="mini" v-if="scope.row.projectTicketStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
-                    <el-button size="mini" v-if="scope.row.projectTicketStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
+                    <el-button size="mini" v-if="scope.row.projectReceiveStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
+                    <el-button size="mini" v-if="scope.row.projectReceiveStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
                 </template>
             </el-table-column>
@@ -100,13 +100,13 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-                type:3,
+                type:6,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectTicketStatus:0,
+                projectReceiveStatus:0,
                 start: null, //开始
                 end: null,   //结束
             },
@@ -176,32 +176,32 @@ export default {
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
-                backurl:'/projectlist/ticketAudit'
+                backurl:'/projectlist/collectAudit'
             };
             this.$cache.local.setJSON('backTicket',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
         //完税修改
         edit(row,code){
             let obj1={
-                backurl:'/projectlist/ticketAudit'
+                backurl:'/projectlist/collectAudit'
             };
             this.$cache.local.setJSON('backTicket',obj1);
              let obj = {
-             name: 'TicketAudit',
-             url: '/projectlist/ticketAudit',
+             name: 'CollectAudit',
+             url: '/projectlist/collectAudit',
             };
             this.$cache.local.setJSON('Projectedit', obj);
            this.$cache.local.setJSON('projectCodeNew', code);
            this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+           this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
          handleClick(){
             if(this.endStatus=='-1'){
-             this.queryParams.projectTicketStatus=null;
+             this.queryParams.projectReceiveStatus=null;
            }else{
-              this.queryParams.projectTicketStatus=this.endStatus;
+              this.queryParams.projectReceiveStatus=this.endStatus;
             }
               this.queryParams.pageNum=1;
               this.getList();
@@ -259,32 +259,32 @@ export default {
         },
         aduit(scope) {
               let obj={
-                backurl:'/projectlist/ticketAudit',
-                name:'TicketAudit'
+                backurl:'/projectlist/collectAudit',
+                name:'CollectAudit'
             };
             let obj1={
-                backurl:'/projectlist/ticketAudit'
+                backurl:'/projectlist/collectAudit'
             };
             this.$cache.local.setJSON('backTicket',obj1);
             this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
         //新增完税
         add(scope) {
               let obj={
-                backurl:'/projectlist/TicketAudit',
-                name:'TicketAudit'
+                backurl:'/projectlist/collectAudit',
+                name:'CollectAudit'
             };
             let obj1={
-                backurl:'/projectlist/ticketAudit'
+                backurl:'/projectlist/collectAudit'
             };
             this.$cache.local.setJSON('backTicket',obj1);
             this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
 
         /** 搜索按钮操作 */
@@ -300,12 +300,13 @@ export default {
             this.endStatus='0';
             this.projectTime = null;
             this.queryParams = {
+                type:6,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
-                projectTicketStatus: 0,
+                projectReceiveStatus: 0,
                 start: null, //开始
                 end: null,   //结束
             }

@@ -1608,20 +1608,13 @@ export default {
   methods: {
     changeApplyName(e) {
       if (e == true) {
-        if(this.applyNames.length==0){
-          this.getApplyName();
-        }
-        
-      }
+         this.getApplyName();
+       }
     },
     changeValue1(e) {
-      console.log(e);
       if (e == true) {
-        if(this.places.length==0){
-          this.getLoginInfo();
-        }
-        
-      }
+        this.getLoginInfo();
+       }
     },
     isSelfShares(e) {
       if (this.formData.selfShareIsmoney == '1') {

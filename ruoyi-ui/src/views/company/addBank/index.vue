@@ -326,9 +326,9 @@ export default {
   methods: {
     changeValue1(e){
       if(e==true){
-        if(this.accountName_options.length==0){
+        
           this.nailist();
-        }
+        
         
       }
 
