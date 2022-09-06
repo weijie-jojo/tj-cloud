@@ -369,7 +369,7 @@
         <include refid="selectSelfEmployedVo"/>
         <trim prefix="where" prefixOverrides="and|or">
             <if test="userIdArr != null  and userIdArr.size() >0 ">
-                AND t.user_id in
+                AND user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
