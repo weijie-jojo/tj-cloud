@@ -70,7 +70,7 @@ public class SelfReceiveController extends BaseController
      */
     @GetMapping("/getInfoByCode")
     @ApiOperation("获取出款信息详细信息(根据projectCode)分页")
-    public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
+    public AjaxResult getInfoByCode(String projectCode)
     {
         startPage();
         List<SelfReceive> list= selfReceiveService.selectSelfReceiveByProjectCode(projectCode);
@@ -82,7 +82,7 @@ public class SelfReceiveController extends BaseController
      */
     @GetMapping("/getInfoByCode2")
     @ApiOperation("获取出款信息详细信息(根据projectCode)不分页")
-    public AjaxResult getInfoByCode2(@PathVariable("projectCode") String projectCode)
+    public AjaxResult getInfoByCode2(String projectCode)
     {
         return AjaxResult.success(selfReceiveService.selectSelfReceiveByProjectCode(projectCode));
     }
