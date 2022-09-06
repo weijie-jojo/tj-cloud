@@ -14,6 +14,13 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface SelfEmployedMapper 
 {
+    /**
+     * 查询登录用户个体户数量
+     *
+     * @param userIdArr
+     * @return 个体商户集合
+     */
+    public List<SelfEmployed> selectEmployedJoinCount(@Param("userIdArr") List<Long> userIdArr);
 
 
     /**

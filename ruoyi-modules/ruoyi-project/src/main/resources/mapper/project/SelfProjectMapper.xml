@@ -91,6 +91,13 @@
         <result property="payTotalMoneys"    column="pay_total_moneys"    />
         <result property="payMoneys"    column="pay_moneys"    />
         <result property="payRemainMoneys"    column="pay_remain_moneys"    />
+        <result property="isRegisterMoney"    column="is_register_money"    />
+        <result property="isDisposable"    column="is_disposable"    />
+        <result property="disposableShare"    column="disposable_share"    />
+        <result property="disposableShareIsmoney"    column="disposable_share_ismoney"    />
+        <result property="isDisposableShare"    column="is_disposable_share"    />
+        <result property="disposableFee"    column="disposable_fee"    />
+        <result property="disposableFeeIsmoney"    column="disposable_fee_ismoney"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -107,7 +114,8 @@
                ordinary_proxy_ismoney, special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share,
                is_special_share, is_slider, is_slider_ordinary, self_share, is_self_share, self_share_ismoney, special_self_fee,
                ordinary_self_money, project_rate_status,project_receive_status, project_pay_status,receive_moneys, receive_remain_moneys,
-               pay_total_moneys, pay_moneys, pay_remain_moneys
+               pay_total_moneys, pay_moneys, pay_remain_moneys,is_register_money, is_disposable, disposable_share, disposable_share_ismoney,
+               is_disposable_share, disposable_fee, disposable_fee_ismoney
         from self_project
     </sql>
 
@@ -131,7 +139,8 @@
                 t.special_share_ismoney, t.is_ordinary_share, t.is_special_share, t.is_slider, t.is_slider_ordinary, t.self_share,
                 t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
                 t.project_receive_status, t.project_pay_status,t.receive_moneys, t.receive_remain_moneys, t.pay_total_moneys,
-                t.pay_moneys, t.pay_remain_moneys,
+                t.pay_moneys, t.pay_remain_moneys,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney,
+                t.is_disposable_share, t.disposable_fee, t.disposable_fee_ismoney,
                 A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
                 A.bank_name, A.bank_code,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
@@ -250,6 +259,13 @@
             <if test="selfProject.payTotalMoneys != null "> and pay_total_moneys = #{selfProject.payTotalMoneys}</if>
             <if test="selfProject.payMoneys != null "> and pay_moneys = #{selfProject.payMoneys}</if>
             <if test="selfProject.payRemainMoneys != null "> and pay_remain_moneys = #{selfProject.payRemainMoneys}</if>
+            <if test="selfProject.isRegisterMoney != null "> and is_register_money = #{selfProject.isRegisterMoney}</if>
+            <if test="selfProject.isDisposable != null "> and is_disposable = #{selfProject.isDisposable}</if>
+            <if test="selfProject.disposableShare != null "> and disposable_share = #{selfProject.disposableShare}</if>
+            <if test="selfProject.disposableShareIsmoney != null "> and disposable_share_ismoney = #{selfProject.disposableShareIsmoney}</if>
+            <if test="selfProject.isDisposableShare != null "> and is_disposable_share = #{selfProject.isDisposableShare}</if>
+            <if test="selfProject.disposableFee != null "> and disposable_fee = #{selfProject.disposableFee}</if>
+            <if test="selfProject.disposableFeeIsmoney != null "> and disposable_fee_ismoney = #{selfProject.disposableFeeIsmoney}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -352,6 +368,13 @@
             <if test="payTotalMoneys != null">pay_total_moneys,</if>
             <if test="payMoneys != null">pay_moneys,</if>
             <if test="payRemainMoneys != null">pay_remain_moneys,</if>
+            <if test="isRegisterMoney != null">is_register_money,</if>
+            <if test="isDisposable != null">is_disposable,</if>
+            <if test="disposableShare != null">disposable_share,</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney,</if>
+            <if test="isDisposableShare != null">is_disposable_share,</if>
+            <if test="disposableFee != null">disposable_fee,</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -439,6 +462,13 @@
             <if test="payTotalMoneys != null">#{payTotalMoneys},</if>
             <if test="payMoneys != null">#{payMoneys},</if>
             <if test="payRemainMoneys != null">#{payRemainMoneys},</if>
+            <if test="isRegisterMoney != null">#{isRegisterMoney},</if>
+            <if test="isDisposable != null">#{isDisposable},</if>
+            <if test="disposableShare != null">#{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">#{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">#{isDisposableShare},</if>
+            <if test="disposableFee != null">#{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">#{disposableFeeIsmoney},</if>
         </trim>
     </insert>
 
@@ -530,6 +560,13 @@
             <if test="payTotalMoneys != null">pay_total_moneys = #{payTotalMoneys},</if>
             <if test="payMoneys != null">pay_moneys = #{payMoneys},</if>
             <if test="payRemainMoneys != null">pay_remain_moneys = #{payRemainMoneys},</if>
+            <if test="isRegisterMoney != null">is_register_money = #{isRegisterMoney},</if>
+            <if test="isDisposable != null">is_disposable = #{isDisposable},</if>
+            <if test="disposableShare != null">disposable_share = #{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney = #{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">is_disposable_share = #{isDisposableShare},</if>
+            <if test="disposableFee != null">disposable_fee = #{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney = #{disposableFeeIsmoney},</if>
         </trim>
         where project_id = #{projectId}
     </update>

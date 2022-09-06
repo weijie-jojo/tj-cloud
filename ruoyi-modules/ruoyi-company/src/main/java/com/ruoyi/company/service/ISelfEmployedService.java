@@ -23,6 +23,13 @@ public interface ISelfEmployedService
      */
     public List<SelfEmployedVo> selectEmployedJoinReview(List<Long> userIdArr, SelfEmployedVo selfEmployedVo);
     /**
+     * 查询登录用户个体户数量
+     *
+     * @param userIdArr
+     * @return 个体商户集合
+     */
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr);
+    /**
      * 连表selfNameReview查询(完结）
      *
      * @param selfEmployedVo 个体商户

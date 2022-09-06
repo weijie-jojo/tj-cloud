@@ -173,7 +173,7 @@ public class SelfEmployedController extends BaseController
             }
         }
 
-        List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
+        List<SelfEmployed> list = selfEmployedService.selectEmployedJoinCount(userIdArr);
 
         return list.size();
     }

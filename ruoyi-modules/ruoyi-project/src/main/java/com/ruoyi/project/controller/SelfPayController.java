@@ -97,11 +97,11 @@ public class SelfPayController extends BaseController
      */
     @GetMapping("/getInfoByCode")
     @ApiOperation("获取出款信息详细信息(根据projectCode)分页")
-    public AjaxResult getInfoByCode(String projectCode)
+    public TableDataInfo getInfoByCode(String projectCode)
     {
         startPage();
         List<SelfPay> list=selfPayService.selectSelfPayByProjectCode(projectCode);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     /**

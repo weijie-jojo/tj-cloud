@@ -41,18 +41,6 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value = "名称审核不通过原因")
     private String remarkName;
 
-//    /** 工商审核不通过原因 */
-//    @ApiModelProperty(value = "工商审核不通过原因")
-//    private String remark_business;
-
-//    /** 银行审核不通过原因 */
-//    @ApiModelProperty(value = "银行审核不通过原因")
-//    private String remark_bank;
-//
-//    /** 税务审核不通过原因 */
-//    @ApiModelProperty(value = "税务审核不通过原因")
-//    private String remark_tax;
-
     /** 完结状态 */
     @ApiModelProperty(value = "完结状态")
     private Integer endStatus;
@@ -394,5 +382,32 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value = "个体户注册费是否定额 1 百分比 0定额")
     private Long selfShareIsmoney;
 
+    /** 是否收取注册服务费 */
+    @ApiModelProperty(value =  "是否收取注册服务费")
+    private Long isRegisterMoney;
+
+    /** 是否开启一次性收取费用 0是 1否 */
+    @ApiModelProperty(value =  "是否开启一次性收取费用 0是 1否")
+    private Long isDisposable;
+
+    /** 分润值(一次性收取费用) */
+    @ApiModelProperty(value =  "分润值(一次性收取费用)")
+    private BigDecimal disposableShare;
+
+    /** 分润方式是否定额 1 百分比 0定额(一次性收取费用) */
+    @ApiModelProperty(value =  "分润方式是否定额 1 百分比 0定额(一次性收取费用)")
+    private Long disposableShareIsmoney;
+
+    /** 是否开启分润 0是 1否(一次性收取费用) */
+    @ApiModelProperty(value =  "是否开启分润 0是 1否(一次性收取费用)")
+    private Long isDisposableShare;
+
+    /** 一次性收取费用值 */
+    @ApiModelProperty(value =  "一次性收取费用值")
+    private BigDecimal disposableFee;
+
+    /** 一次性收取费用是否定额 1 百分比 0定额 */
+    @ApiModelProperty(value =  "一次性收取费用是否定额 1 百分比 0定额")
+    private Long disposableFeeIsmoney;
 }
 
