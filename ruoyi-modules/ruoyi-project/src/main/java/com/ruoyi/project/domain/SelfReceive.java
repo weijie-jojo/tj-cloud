@@ -58,4 +58,8 @@ public class SelfReceive extends BaseEntity
     @ApiModelProperty(value = "转账凭证 收款信息")
     private String fileNameReceive;
 
+    /** 是否审核（0审核中 1完成 2异常） */
+    @ApiModelProperty(value = "是否审核（0审核中 1完成 2异常）")
+    private Long isCheck;
+
 }

@@ -8,6 +8,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.project.domain.SelfReceive;
+import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
 import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
@@ -55,28 +56,36 @@ public class SelfReceiveController extends BaseController
     /**
      * 根据receiveSysCode获取收付款流水
      */
-    @RequiresPermissions("company:receive:query")
     @GetMapping("/getInfoByReceiveCode")
     @ApiOperation("根据receiveSysCode获取收付款流水")
     public TableDataInfo getInfoByReceiveCode(String receiveSysCode)
     {
         startPage();
-        List<SelfReceive> list = selfReceiveService.selectSelfPayReceiveJoinByCode(receiveSysCode);
+        List<SelfPayReceiveVo> list = selfReceiveService.selectSelfPayReceiveJoinByCode(receiveSysCode);
         return getDataTable(list);
     }
 
     /**
-     * 获取出款信息详细信息(根据projectCode)
+     * 获取出款信息详细信息(根据projectCode)分页
      */
-    @RequiresPermissions("company:pay:query")
-    @GetMapping(value = "/{projectCode}")
-    @ApiOperation("获取出款信息详细信息(根据projectCode)")
+    @GetMapping("/getInfoByCode")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)分页")
     public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
     {
-
-        return AjaxResult.success(selfReceiveService.selectSelfReceiveByProjectCode(projectCode));
+        startPage();
+        List<SelfReceive> list= selfReceiveService.selectSelfReceiveByProjectCode(projectCode);
+        return AjaxResult.success(list);
     }
 
+    /**
+     * 获取出款信息详细信息(根据projectCode)不分页
+     */
+    @GetMapping("/getInfoByCode2")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)不分页")
+    public AjaxResult getInfoByCode2(@PathVariable("projectCode") String projectCode)
+    {
+        return AjaxResult.success(selfReceiveService.selectSelfReceiveByProjectCode(projectCode));
+    }
 
     /**
      * 查询收付款信息列表
@@ -106,7 +115,6 @@ public class SelfReceiveController extends BaseController
     /**
      * 获取收付款信息详细信息
      */
-    @RequiresPermissions("company:receive:query")
     @GetMapping(value = "/{receiveId}")
     public AjaxResult getInfo(@PathVariable("receiveId") String receiveId)
     {

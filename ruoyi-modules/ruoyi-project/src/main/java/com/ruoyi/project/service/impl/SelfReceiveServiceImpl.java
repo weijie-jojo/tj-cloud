@@ -2,6 +2,7 @@ package com.ruoyi.project.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.SelfReceive;
+import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
 import com.ruoyi.project.mapper.SelfReceiveMapper;
 import com.ruoyi.project.service.ISelfReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class SelfReceiveServiceImpl implements ISelfReceiveService
      *
      * */
     @Override
-    public List<SelfReceive> selectSelfPayReceiveJoinByCode(String receiveSysCode) {
+    public List<SelfPayReceiveVo> selectSelfPayReceiveJoinByCode(String receiveSysCode) {
         return selfReceiveMapper.selectSelfPayReceiveJoinByCode(receiveSysCode);
     }
     /**

@@ -85,7 +85,6 @@ public class SelfPayController extends BaseController
     /**
      * 获取出款信息详细信息
      */
-    @RequiresPermissions("company:pay:query")
     @GetMapping(value = "/{payId}")
     @ApiOperation("获取出款信息详细信息")
     public AjaxResult getInfo(@PathVariable("payId") String payId)
@@ -94,12 +93,23 @@ public class SelfPayController extends BaseController
     }
 
     /**
-     * 获取出款信息详细信息(根据projectCode)
+     * 获取出款信息详细信息(根据projectCode)分页
      */
-    @RequiresPermissions("company:pay:query")
     @GetMapping(value = "/{projectCode}")
-    @ApiOperation("获取出款信息详细信息(根据projectCode)")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)分页")
     public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
+    {
+        startPage();
+        List<SelfPay> list=selfPayService.selectSelfPayByProjectCode(projectCode);
+        return AjaxResult.success(list);
+    }
+
+    /**
+     * 获取出款信息详细信息(根据projectCode)不分页
+     */
+    @GetMapping(value = "/{projectCode}")
+    @ApiOperation("获取出款信息详细信息(根据projectCode)不分页")
+    public AjaxResult getInfoByCode2(@PathVariable("projectCode") String projectCode)
     {
         return AjaxResult.success(selfPayService.selectSelfPayByProjectCode(projectCode));
     }

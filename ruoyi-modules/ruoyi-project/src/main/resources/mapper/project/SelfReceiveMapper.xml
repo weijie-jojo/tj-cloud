@@ -19,17 +19,18 @@
         <result property="updateBy"    column="update_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="isCheck"    column="is_check"    />
     </resultMap>
 
     <sql id="selectSelfReceiveVo">
-        select receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time from self_receive
+        select is_check,receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time from self_receive
     </sql>
 
     <sql id="selectSelfPayReceiveJoin">
         select t.receive_id, t.project_code, t.receive_sys_code, t.receive_code, t.project_name, t.receive_name, t.receive_time, t.receive_money,
-               t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,
+               t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,t.is_check,
                A.pay_name, A.pay_time, A.pay_money, A.pay_account, A.file_name_pay,A.create_by AS createByPay, A.update_by AS updateByPay,
-               A.create_time AS createTimePay, A.update_time AS updateTimePay, A.pay_code, A.pay_sys_code
+               A.create_time AS createTimePay, A.update_time AS updateTimePay, A.pay_code, A.pay_sys_code,A.is_check AS checkPay
         FROM self_receive t  LEFT JOIN self_pay A ON t.receive_sys_code=A.receive_sys_code
     </sql>
 
@@ -38,7 +39,7 @@
         ORDER BY receive_id DESC LIMIT 0,1
     </select>
 
-    <select id="selectSelfPayReceiveJoinByCode" parameterType="String" resultType="com.ruoyi.project.domain.SelfReceive">
+    <select id="selectSelfPayReceiveJoinByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.SelfPayReceiveVo">
         <include refid="selectSelfPayReceiveJoin"/>
        where receive_sys_code=#{receiveSysCode}
     </select>
@@ -55,6 +56,7 @@
             <if test="receiveMoney != null "> and receive_money = #{receiveMoney}</if>
             <if test="receiveAccount != null  and receiveAccount != ''"> and receive_account = #{receiveAccount}</if>
             <if test="fileNameReceive != null  and fileNameReceive != ''"> and file_name_receive = #{fileNameReceive}</if>
+            <if test="isCheck != null "> and is_check = #{isCheck}</if>
         </where>
     </select>
 
@@ -68,7 +70,7 @@
         where project_code = #{projectCode}
     </select>
 
-    <insert id="insertSelfReceive" parameterType="SelfReceive" useGeneratedKeys="true" keyProperty="receiveId">
+    <insert id="insertSelfReceive" parameterType="com.ruoyi.project.domain.SelfReceive" useGeneratedKeys="true" keyProperty="receiveId">
         insert into self_receive
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">project_code,</if>
@@ -84,6 +86,7 @@
             <if test="updateBy != null">update_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="isCheck != null">is_check,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -99,10 +102,11 @@
             <if test="updateBy != null">#{updateBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="isCheck != null">#{isCheck},</if>
         </trim>
     </insert>
 
-    <update id="updateSelfReceive" parameterType="SelfReceive">
+    <update id="updateSelfReceive" parameterType="com.ruoyi.project.domain.SelfReceive">
         update self_receive
         <trim prefix="SET" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
@@ -118,6 +122,7 @@
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isCheck != null">is_check = #{isCheck},</if>
         </trim>
         where receive_id = #{receiveId}
     </update>

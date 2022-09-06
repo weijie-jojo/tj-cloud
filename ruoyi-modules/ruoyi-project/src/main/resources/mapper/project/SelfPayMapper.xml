@@ -19,10 +19,11 @@
         <result property="projectCode"    column="project_code"    />
         <result property="payCode"    column="pay_code"    />
         <result property="paySysCode"    column="pay_sys_code"    />
+        <result property="isCheck"    column="is_check"    />
     </resultMap>
 
     <sql id="selectSelfPayVo">
-        select pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
+        select is_check,pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
     </sql>
 
     <select id="selectLast" resultMap="SelfPayResult">
@@ -42,6 +43,7 @@
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
             <if test="payCode != null  and payCode != ''"> and pay_code = #{payCode}</if>
             <if test="paySysCode != null  and paySysCode != ''"> and pay_sys_code = #{paySysCode}</if>
+            <if test="isCheck != null "> and is_check = #{isCheck}</if>
         </where>
     </select>
 
@@ -71,6 +73,7 @@
             <if test="projectCode != null and projectCode != ''">project_code,</if>
             <if test="payCode != null and payCode != ''">pay_code,</if>
             <if test="paySysCode != null and paySysCode != ''">pay_sys_code,</if>
+            <if test="isCheck != null">is_check,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="receiveSysCode != null and receiveSysCode != ''">#{receiveSysCode},</if>
@@ -86,6 +89,7 @@
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
             <if test="payCode != null and payCode != ''">#{payCode},</if>
             <if test="paySysCode != null and paySysCode != ''">#{paySysCode},</if>
+            <if test="isCheck != null">#{isCheck},</if>
         </trim>
     </insert>
 
@@ -105,6 +109,7 @@
             <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
             <if test="payCode != null and payCode != ''">pay_code = #{payCode},</if>
             <if test="paySysCode != null and paySysCode != ''">pay_sys_code = #{paySysCode},</if>
+            <if test="isCheck != null">is_check = #{isCheck},</if>
         </trim>
         where pay_id = #{payId}
     </update>

@@ -1,6 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.SelfReceive;
+import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface ISelfReceiveService
      * 根据receiveSysCode获取收付款流水
      *
      * */
-    public List<SelfReceive> selectSelfPayReceiveJoinByCode(String receiveSysCode);
+    public List<SelfPayReceiveVo> selectSelfPayReceiveJoinByCode(String receiveSysCode);
 
     /**
      * 获取出款信息详细信息(根据projectCode)

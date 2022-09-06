@@ -55,4 +55,8 @@ public class SelfPayReceiveVo extends SelfReceive {
     /** 付款流水号（关联收付款表） */
     @ApiModelProperty(value = "付款流水号 关联收付款表")
     private String paySysCode;
+
+    /** 是否审核（0审核中 1完成 2异常） */
+    @ApiModelProperty(value = "是否审核（0审核中 1完成 2异常）")
+    private Long checkPay;
 }
