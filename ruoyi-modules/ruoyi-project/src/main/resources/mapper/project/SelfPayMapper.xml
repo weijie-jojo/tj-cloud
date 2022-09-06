@@ -6,7 +6,7 @@
 
     <resultMap type="com.ruoyi.project.domain.SelfPay" id="SelfPayResult">
         <result property="payId"    column="pay_id"    />
-        <result property="payReceiveSysCode"    column="pay_receive_sys_code"    />
+        <result property="receiveSysCode"    column="receive_sys_code"    />
         <result property="payName"    column="pay_name"    />
         <result property="payTime"    column="pay_time"    />
         <result property="payMoney"    column="pay_money"    />
@@ -22,13 +22,18 @@
     </resultMap>
 
     <sql id="selectSelfPayVo">
-        select pay_id, pay_receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
+        select pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
     </sql>
+
+    <select id="selectLast" resultMap="SelfPayResult">
+        <include refid="selectSelfPayVo"/>
+        ORDER BY pay_id DESC LIMIT 0,1
+    </select>
 
     <select id="selectSelfPayList" parameterType="com.ruoyi.project.domain.SelfPay" resultMap="SelfPayResult">
         <include refid="selectSelfPayVo"/>
         <where>
-            <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
+            <if test="receiveSysCode != null  and receiveSysCode != ''"> and receive_sys_code = #{receiveSysCode}</if>
             <if test="payName != null  and payName != ''"> and pay_name like concat('%', #{payName}, '%')</if>
             <if test="payTime != null "> and pay_time = #{payTime}</if>
             <if test="payMoney != null "> and pay_money = #{payMoney}</if>
@@ -53,7 +58,7 @@
     <insert id="insertSelfPay" parameterType="com.ruoyi.project.domain.SelfPay" useGeneratedKeys="true" keyProperty="payId">
         insert into self_pay
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code,</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">receive_sys_code,</if>
             <if test="payName != null">pay_name,</if>
             <if test="payTime != null">pay_time,</if>
             <if test="payMoney != null">pay_money,</if>
@@ -68,7 +73,7 @@
             <if test="paySysCode != null and paySysCode != ''">pay_sys_code,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">#{payReceiveSysCode},</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">#{receiveSysCode},</if>
             <if test="payName != null">#{payName},</if>
             <if test="payTime != null">#{payTime},</if>
             <if test="payMoney != null">#{payMoney},</if>
@@ -87,7 +92,7 @@
     <update id="updateSelfPay" parameterType="com.ruoyi.project.domain.SelfPay">
         update self_pay
         <trim prefix="SET" suffixOverrides=",">
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code = #{payReceiveSysCode},</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">receive_sys_code = #{receiveSysCode},</if>
             <if test="payName != null">pay_name = #{payName},</if>
             <if test="payTime != null">pay_time = #{payTime},</if>
             <if test="payMoney != null">pay_money = #{payMoney},</if>

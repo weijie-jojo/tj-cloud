@@ -1,7 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.SelfPay;
-import com.ruoyi.project.domain.SelfPayReceive;
+import com.ruoyi.project.domain.SelfReceive;
 
 import java.util.List;
 
@@ -13,6 +13,20 @@ import java.util.List;
  */
 public interface ISelfPayService
 {
+    /*
+     *
+     * 查询最后一条数据
+     * */
+    public SelfPay selectLast() ;
+
+    /**
+     * 获取付款信息详细信息(根据projectCode)
+     *
+     * @param projectCode 出款信息主键
+     * @return 出款信息
+     */
+    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
+
     /**
      * 查询出款信息
      *
@@ -20,14 +34,6 @@ public interface ISelfPayService
      * @return 出款信息
      */
     public SelfPay selectSelfPayByPayId(String payId);
-
-    /**
-     * 查询出款信息
-     *
-     * @param projectCode 出款信息主键
-     * @return 出款信息
-     */
-    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
 
 
     /**

@@ -1,63 +1,15 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.project.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.ruoyi.project.domain.SelfReceive;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * 【请填写功能名称】对象 self_pay_receive
- *
- * @author ruoyi
- * @date 2022-09-02
- */
 @Data
-public class SelfPayReceive extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
-
-    /** ID */
-    private String payReceiveId;
-
-    /** 项目编号 */
-    @ApiModelProperty(value = "项目编号")
-    private String projectCode;
-
-    /** 收付款流水号（系统自动生成） */
-    @ApiModelProperty(value = "收付款流水号 系统自动生成")
-    private String payReceiveSysCode;
-
-    /** 收付款流水号（财务输入） */
-    @ApiModelProperty(value = "收付款流水号 财务输入")
-    private String payReceiveCode;
-
-    /** 项目名称 */
-    @ApiModelProperty(value = "项目名称")
-    private String projectName;
-
-    /** 转账账户（收款信息） */
-    @ApiModelProperty(value = "转账账户 收款信息")
-    private String receiveName;
-
-    /** 转账时间（收款信息） */
-    @ApiModelProperty(value = "转账时间 收款信息")
-    private Date receiveTime;
-
-    /** 收款金额（收款信息） */
-    @ApiModelProperty(value = "收款金额 收款信息")
-    private BigDecimal receiveMoney;
-
-    /** 转账帐号（收款信息） */
-    @ApiModelProperty(value = "转账帐号 收款信息")
-    private String receiveAccount;
-
-    /** 转账凭证（收款信息） */
-    @ApiModelProperty(value = "转账凭证 收款信息")
-    private String fileNameReceive;
-
+public class SelfPayReceiveVo extends SelfReceive {
     /** 出账账户（出款信息） */
     @ApiModelProperty(value = "出账账户 出款信息")
     private String payName;
@@ -103,5 +55,4 @@ public class SelfPayReceive extends BaseEntity
     /** 付款流水号（关联收付款表） */
     @ApiModelProperty(value = "付款流水号 关联收付款表")
     private String paySysCode;
-
 }

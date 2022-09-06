@@ -7,16 +7,14 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.project.domain.SelfPay;
-import com.ruoyi.project.domain.SelfPayReceive;
+import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfTicket;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
-import com.ruoyi.project.service.ISelfPayReceiveService;
-import com.ruoyi.project.service.ISelfPayService;
 import com.ruoyi.project.service.ISelfProjectService;
+import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.service.ISelfTicketService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
@@ -26,7 +24,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +46,8 @@ public class SelfProjectController extends BaseController
     private ISelfTicketService selfTicketService;
     @Autowired
     private ISelfProjectService selfProjectService;
+    @Autowired
+    private ISelfReceiveService selfReceiveService;
     @Resource
     private SysUserMapper sysUserMapper;
     /**
@@ -403,9 +402,12 @@ public class SelfProjectController extends BaseController
         for (String projectId:projectIds){
             String projectCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
             List<SelfTicket> selfTickets= selfTicketService.selectSelfTicketByProjectCode(projectCode);
+            List<SelfReceive> selfReceives =selfReceiveService.selectSelfReceiveByProjectCode(projectCode);
             if (selfTickets.size()>0){
                 System.out.println("存在发票不能删除！");
-            }else {
+            } else if (selfReceives.size()>0){
+                System.out.println("存在收付款信息不能删除！");
+            } else {
                 selfProjectService.deleteProjectByCode(projectCode);
                 selfProjectService.deleteCheckByCode(projectCode);
                 count+=1;
@@ -415,7 +417,7 @@ public class SelfProjectController extends BaseController
         if (count>0){
             return toAjax(200);
         }else {
-            return error("存在发票不能删除！");
+            return error("存在发票或收付款信息不能删除！");
         }
 
     }

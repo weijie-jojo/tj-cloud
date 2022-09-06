@@ -1,7 +1,7 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfPay;
-import com.ruoyi.project.domain.SelfPayReceive;
+import com.ruoyi.project.domain.SelfReceive;
 
 import java.util.List;
 
@@ -14,6 +14,21 @@ import java.util.List;
 public interface SelfPayMapper
 {
     /**
+     * 获取最后一条数据
+     *
+     * @return 项目信息
+     */
+    public SelfPay selectLast();
+
+    /**
+     * 获取付款信息详细信息(根据projectCode)
+     *
+     * @param projectCode
+     * @return
+     */
+    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
+
+    /**
      * 查询出款信息
      *
      * @param payId 出款信息主键
@@ -21,13 +36,7 @@ public interface SelfPayMapper
      */
     public SelfPay selectSelfPayByPayId(String payId);
 
-    /**
-     * 查询
-     *
-     * @param projectCode
-     * @return
-     */
-    public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
+
 
     /**
      * 查询出款信息列表

@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.project.mapper.SelfPayReceiveMapper">
+<mapper namespace="com.ruoyi.project.mapper.SelfReceiveMapper">
 
-    <resultMap type="com.ruoyi.project.domain.SelfPayReceive" id="SelfPayReceiveResult">
-        <result property="payReceiveId"    column="pay_receive_id"    />
+    <resultMap type="com.ruoyi.project.domain.SelfReceive" id="SelfReceiveResult">
+        <result property="receiveId"    column="receive_id"    />
         <result property="projectCode"    column="project_code"    />
-        <result property="payReceiveSysCode"    column="pay_receive_sys_code"    />
-        <result property="payReceiveCode"    column="pay_receive_code"    />
+        <result property="receiveSysCode"    column="receive_sys_code"    />
+        <result property="receiveCode"    column="receive_code"    />
         <result property="projectName"    column="project_name"    />
         <result property="receiveName"    column="receive_name"    />
         <result property="receiveTime"    column="receive_time"    />
@@ -21,33 +21,34 @@
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectSelfPayReceiveVo">
-        select pay_receive_id, project_code, pay_receive_sys_code, pay_receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time  from self_pay_receive
+    <sql id="selectSelfReceiveVo">
+        select receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time from self_receive
     </sql>
 
     <sql id="selectSelfPayReceiveJoin">
-        select t.pay_receive_id, t.project_code, t.pay_receive_sys_code, t.pay_receive_code, t.project_name, t.receive_name, t.receive_time, t.receive_money,
+        select t.receive_id, t.project_code, t.receive_sys_code, t.receive_code, t.project_name, t.receive_name, t.receive_time, t.receive_money,
                t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,
                A.pay_name, A.pay_time, A.pay_money, A.pay_account, A.file_name_pay,A.create_by AS createByPay, A.update_by AS updateByPay,
                A.create_time AS createTimePay, A.update_time AS updateTimePay, A.pay_code, A.pay_sys_code
-        FROM self_pay_receive t  LEFT JOIN self_pay A ON t.pay_receive_sys_code=A.pay_receive_sys_code
+        FROM self_receive t  LEFT JOIN self_pay A ON t.receive_sys_code=A.receive_sys_code
     </sql>
-    <select id="selectLast" resultMap="SelfPayReceiveResult">
-        <include refid="selectSelfPayReceiveVo"/>
-        ORDER BY pay_receive_id DESC LIMIT 0,1
+
+    <select id="selectLast" resultMap="SelfReceiveResult">
+        <include refid="selectSelfReceiveVo"/>
+        ORDER BY receive_id DESC LIMIT 0,1
     </select>
 
-    <select id="selectSelfPayReceiveJoinByCode" parameterType="String" resultType="com.ruoyi.project.domain.SelfPayReceive">
+    <select id="selectSelfPayReceiveJoinByCode" parameterType="String" resultType="com.ruoyi.project.domain.SelfReceive">
         <include refid="selectSelfPayReceiveJoin"/>
-       where pay_receive_sys_code=#{payReceiveSysCode}
+       where receive_sys_code=#{receiveSysCode}
     </select>
 
-    <select id="selectSelfPayReceiveList" parameterType="com.ruoyi.project.domain.SelfPayReceive" resultMap="SelfPayReceiveResult">
-        <include refid="selectSelfPayReceiveVo"/>
+    <select id="selectSelfReceiveList" parameterType="com.ruoyi.project.domain.SelfReceive" resultMap="SelfReceiveResult">
+        <include refid="selectSelfReceiveVo"/>
         <where>
             <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
-            <if test="payReceiveSysCode != null  and payReceiveSysCode != ''"> and pay_receive_sys_code = #{payReceiveSysCode}</if>
-            <if test="payReceiveCode != null  and payReceiveCode != ''"> and pay_receive_code = #{payReceiveCode}</if>
+            <if test="receiveSysCode != null  and receiveSysCode != ''"> and receive_sys_code = #{receiveSysCode}</if>
+            <if test="receiveCode != null  and receiveCode != ''"> and receive_code = #{receiveCode}</if>
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
             <if test="receiveName != null  and receiveName != ''"> and receive_name like concat('%', #{receiveName}, '%')</if>
             <if test="receiveTime != null "> and receive_time = #{receiveTime}</if>
@@ -57,22 +58,22 @@
         </where>
     </select>
 
-    <select id="selectSelfPayReceiveByPayReceiveId" parameterType="String" resultMap="SelfPayReceiveResult">
-        <include refid="selectSelfPayReceiveVo"/>
-        where pay_receive_id = #{payReceiveId}
+    <select id="selectSelfReceiveByReceiveId" parameterType="String" resultMap="SelfReceiveResult">
+        <include refid="selectSelfReceiveVo"/>
+        where receive_id = #{receiveId}
     </select>
 
-    <select id="selectSelfPayReceiveByProjectCode" parameterType="String" resultMap="SelfPayReceiveResult">
-        <include refid="selectSelfPayReceiveVo"/>
+    <select id="selectSelfReceiveByProjectCode" parameterType="String" resultMap="SelfReceiveResult">
+        <include refid="selectSelfReceiveVo"/>
         where project_code = #{projectCode}
     </select>
 
-    <insert id="insertSelfPayReceive" parameterType="com.ruoyi.project.domain.SelfPayReceive" useGeneratedKeys="true" keyProperty="payReceiveId">
-        insert into self_pay_receive
+    <insert id="insertSelfReceive" parameterType="SelfReceive" useGeneratedKeys="true" keyProperty="receiveId">
+        insert into self_receive
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">project_code,</if>
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code,</if>
-            <if test="payReceiveCode != null and payReceiveCode != ''">pay_receive_code,</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">receive_sys_code,</if>
+            <if test="receiveCode != null and receiveCode != ''">receive_code,</if>
             <if test="projectName != null">project_name,</if>
             <if test="receiveName != null">receive_name,</if>
             <if test="receiveTime != null">receive_time,</if>
@@ -80,12 +81,14 @@
             <if test="receiveAccount != null">receive_account,</if>
             <if test="fileNameReceive != null">file_name_receive,</if>
             <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">#{payReceiveSysCode},</if>
-            <if test="payReceiveCode != null and payReceiveCode != ''">#{payReceiveCode},</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">#{receiveSysCode},</if>
+            <if test="receiveCode != null and receiveCode != ''">#{receiveCode},</if>
             <if test="projectName != null">#{projectName},</if>
             <if test="receiveName != null">#{receiveName},</if>
             <if test="receiveTime != null">#{receiveTime},</if>
@@ -93,43 +96,47 @@
             <if test="receiveAccount != null">#{receiveAccount},</if>
             <if test="fileNameReceive != null">#{fileNameReceive},</if>
             <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
 
-    <update id="updateSelfPayReceive" parameterType="com.ruoyi.project.domain.SelfPayReceive">
-        update self_pay_receive
+    <update id="updateSelfReceive" parameterType="SelfReceive">
+        update self_receive
         <trim prefix="SET" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
-            <if test="payReceiveSysCode != null and payReceiveSysCode != ''">pay_receive_sys_code = #{payReceiveSysCode},</if>
-            <if test="payReceiveCode != null and payReceiveCode != ''">pay_receive_code = #{payReceiveCode},</if>
+            <if test="receiveSysCode != null and receiveSysCode != ''">receive_sys_code = #{receiveSysCode},</if>
+            <if test="receiveCode != null and receiveCode != ''">receive_code = #{receiveCode},</if>
             <if test="projectName != null">project_name = #{projectName},</if>
             <if test="receiveName != null">receive_name = #{receiveName},</if>
             <if test="receiveTime != null">receive_time = #{receiveTime},</if>
             <if test="receiveMoney != null">receive_money = #{receiveMoney},</if>
             <if test="receiveAccount != null">receive_account = #{receiveAccount},</if>
             <if test="fileNameReceive != null">file_name_receive = #{fileNameReceive},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where pay_receive_id = #{payReceiveId}
+        where receive_id = #{receiveId}
     </update>
 
-    <delete id="deleteSelfPayReceiveByPayReceiveId" parameterType="String">
-        delete from self_pay_receive where pay_receive_id = #{payReceiveId}
+    <delete id="deleteSelfReceiveByReceiveId" parameterType="String">
+        delete from self_receive where receive_id = #{receiveId}
     </delete>
 
-    <delete id="deleteSelfPayReceiveByPayReceiveIds" parameterType="String">
-        delete from self_pay_receive where pay_receive_id in
-        <foreach item="payReceiveId" collection="array" open="(" separator="," close=")">
-            #{payReceiveId}
+    <delete id="deleteSelfReceiveByReceiveIds" parameterType="String">
+        delete from self_receive where receive_id in
+        <foreach item="receiveId" collection="array" open="(" separator="," close=")">
+            #{receiveId}
         </foreach>
     </delete>
 
-<!--    <insert id="recycle1" >-->
-<!--        INSERT into self_project_recycle-->
-<!--        <include refid="selectSelfProjectVo"/>-->
-<!--        WHERE project_code=#{projectCode}-->
+<!--    <insert id="recycle" >-->
+<!--        INSERT into self_receive_recycle-->
+<!--        <include refid="selectSelfPayReceiveVo"/>-->
+<!--        WHERE pay_receive_sys_code=#{payReceiveSysCode}-->
 <!--    </insert>-->
 
 <!--    <delete id="deleteProjectByCode" parameterType="String">-->

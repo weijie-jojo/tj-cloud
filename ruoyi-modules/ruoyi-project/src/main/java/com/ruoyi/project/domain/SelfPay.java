@@ -23,7 +23,7 @@ public class SelfPay extends BaseEntity
 
     /** 收付款流水号（关联收付款表） */
     @ApiModelProperty(value = "收付款流水号 关联收付款表")
-    private String payReceiveSysCode;
+    private String receiveSysCode;
 
     /** 出账账户（出款信息） */
     @ApiModelProperty(value = "出账账户")

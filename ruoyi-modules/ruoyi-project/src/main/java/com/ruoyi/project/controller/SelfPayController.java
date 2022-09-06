@@ -8,13 +8,17 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.project.domain.SelfPay;
+import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.service.ISelfPayService;
+import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +34,26 @@ public class SelfPayController extends BaseController
 {
     @Autowired
     private ISelfPayService selfPayService;
+
+    /**
+     * 获取编号
+     */
+    @GetMapping(value ="/getCode")
+    @ApiOperation("获取编码")
+    public String getCode(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = sdf.format(date);
+        SelfPay selfPay =selfPayService.selectLast();
+        System.out.println("selfPay=="+ selfPay);
+        String code="";
+        if (selfPay !=null){
+            code=  StringUtils.getCode("PRSYS", selfPay.getPaySysCode(),"yyyyMMdd");
+        }else {//没有数据时
+            code="PRSYS"+"-"+nowDate+"-"+"0001";
+        }
+        return code;
+    };
 
     /**
      * 查询出款信息列表
