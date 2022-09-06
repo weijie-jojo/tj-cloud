@@ -95,7 +95,7 @@ public class SelfPayController extends BaseController
     /**
      * 获取出款信息详细信息(根据projectCode)分页
      */
-    @GetMapping(value = "/{projectCode}")
+    @GetMapping("/getInfoByCode")
     @ApiOperation("获取出款信息详细信息(根据projectCode)分页")
     public AjaxResult getInfoByCode(@PathVariable("projectCode") String projectCode)
     {
@@ -107,7 +107,7 @@ public class SelfPayController extends BaseController
     /**
      * 获取出款信息详细信息(根据projectCode)不分页
      */
-    @GetMapping(value = "/{projectCode}")
+    @GetMapping("/getInfoByCode2")
     @ApiOperation("获取出款信息详细信息(根据projectCode)不分页")
     public AjaxResult getInfoByCode2(@PathVariable("projectCode") String projectCode)
     {
