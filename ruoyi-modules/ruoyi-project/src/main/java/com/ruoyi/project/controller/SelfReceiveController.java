@@ -11,6 +11,7 @@ import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
 import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.util.StringUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 收付款信息Controller
+ * 收款信息Controller
  *
  * @author ruoyi
  * @date 2022-09-06
  */
 @RestController
 @RequestMapping("/receive")
+@Api(tags = "收款信息表")
 public class SelfReceiveController extends BaseController
 {
     @Autowired
@@ -81,17 +83,18 @@ public class SelfReceiveController extends BaseController
      * 获取出款信息详细信息(根据projectCode)不分页
      */
     @GetMapping("/getInfoByCode2")
-    @ApiOperation("获取出款信息详细信息(根据projectCode)不分页")
+    @ApiOperation("获取收款信息详细信息(根据projectCode)不分页")
     public AjaxResult getInfoByCode2(String projectCode)
     {
         return AjaxResult.success(selfReceiveService.selectSelfReceiveByProjectCode(projectCode));
     }
 
     /**
-     * 查询收付款信息列表
+     * 查询收款信息列表
      */
     @RequiresPermissions("company:receive:list")
     @GetMapping("/list")
+    @ApiOperation("查询收款信息列表")
     public TableDataInfo list(SelfReceive selfReceive)
     {
         startPage();
@@ -100,55 +103,60 @@ public class SelfReceiveController extends BaseController
     }
 
     /**
-     * 导出收付款信息列表
+     * 导出收款信息列表
      */
     @RequiresPermissions("company:receive:export")
-    @Log(title = "收付款信息", businessType = BusinessType.EXPORT)
+    @Log(title = "收款信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出收款信息列表")
     public void export(HttpServletResponse response, SelfReceive selfReceive)
     {
         List<SelfReceive> list = selfReceiveService.selectSelfReceiveList(selfReceive);
         ExcelUtil<SelfReceive> util = new ExcelUtil<SelfReceive>(SelfReceive.class);
-        util.exportExcel(response, list, "收付款信息数据");
+        util.exportExcel(response, list, "收款信息数据");
     }
 
     /**
-     * 获取收付款信息详细信息
+     * 获取收款信息详细信息
      */
     @GetMapping(value = "/{receiveId}")
+    @ApiOperation("获取收款信息详细信息")
     public AjaxResult getInfo(@PathVariable("receiveId") String receiveId)
     {
         return AjaxResult.success(selfReceiveService.selectSelfReceiveByReceiveId(receiveId));
     }
 
     /**
-     * 新增收付款信息
+     * 新增收款信息
      */
     @RequiresPermissions("company:receive:add")
-    @Log(title = "收付款信息", businessType = BusinessType.INSERT)
+    @Log(title = "收款信息", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增收款信息")
     public AjaxResult add(@RequestBody SelfReceive selfReceive)
     {
         return toAjax(selfReceiveService.insertSelfReceive(selfReceive));
     }
 
     /**
-     * 修改收付款信息
+     * 修改收款信息
      */
     @RequiresPermissions("company:receive:edit")
-    @Log(title = "收付款信息", businessType = BusinessType.UPDATE)
+    @Log(title = "收款信息", businessType = BusinessType.UPDATE)
     @PutMapping
+    @ApiOperation("修改收款信息")
     public AjaxResult edit(@RequestBody SelfReceive selfReceive)
     {
         return toAjax(selfReceiveService.updateSelfReceive(selfReceive));
     }
 
     /**
-     * 删除收付款信息
+     * 删除收款信息
      */
     @RequiresPermissions("company:receive:remove")
-    @Log(title = "收付款信息", businessType = BusinessType.DELETE)
+    @Log(title = "收款信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{receiveIds}")
+    @ApiOperation("删除收款信息")
     public AjaxResult remove(@PathVariable String[] receiveIds)
     {
         return toAjax(selfReceiveService.deleteSelfReceiveByReceiveIds(receiveIds));

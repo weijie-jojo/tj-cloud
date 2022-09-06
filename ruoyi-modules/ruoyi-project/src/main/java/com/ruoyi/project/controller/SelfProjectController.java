@@ -91,6 +91,8 @@ public class SelfProjectController extends BaseController
         selfProject.setProjectAcceptanceStatus(null);
         selfProject.setProjectDutypaidStatus(null);
         selfProject.setProjectTicketStatus(null);
+        selfProject.setProjectReceiveStatus(null);
+        selfProject.setProjectPayStatus(null);
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         if (selfProject.getType()==1){//项目进度列表
             list1= list.stream().filter(s->s.getProjectStatus()==0).collect(Collectors.toList());
