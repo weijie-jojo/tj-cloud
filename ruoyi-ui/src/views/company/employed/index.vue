@@ -50,17 +50,18 @@
 
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-      <el-table-column label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
-      <el-table-column label="提交时间" align="center" width="120" prop="createTime">
+      <el-table-column fixed type="selection" width="55" align="center" />
+      <el-table-column fixed label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column fixed label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column fixed label="提交时间" align="center" width="120" prop="createTime">
         <template slot-scope="scope">
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
       
-      <el-table-column width="250" label="客户全名" align="center" prop="placeAliasName" />
-      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column fixed width="700" label="客户全名" align="center" prop="placeAliasName" />
+      <el-table-column label="业务经理" fixed align="center" prop="username" :show-overflow-tooltip="true" />
+     
       <el-table-column label="进度状态" align="center" prop="endStatus">
         <template slot-scope="scope">
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="primary"
@@ -94,17 +95,7 @@
             v-if="scope.row.infoStatus == '1'">完成</el-link>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="实名办理" align="center">
-        <template slot-scope="scope">
-          <el-link :underline="false" type="info"
-            v-if="scope.row.nameStatus == 0 || scope.row.infoStatus == 0 || scope.row.nameStatus == 2 || scope.row.infoStatus == 2">
-            未开始</el-link>
-          <el-link :underline="false" type="primary" @click="examine(scope.row.applyName, scope.row, 3)"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 0">待办理</el-link>
-          <el-link :underline="false" @click="finishCer(scope.row, scope.row.selfCode)" type="success"
-            v-if="scope.row.nameStatus == 1 && scope.row.infoStatus == 1 && scope.row.realnameStatus == 1">已完成</el-link>
-        </template>
-      </el-table-column> -->
+     
       <el-table-column label="工商办理" align="center">
         <template slot-scope="scope">
           <el-link :underline="false" type="info"
@@ -162,6 +153,7 @@
             异常</el-link>
         </template>
       </el-table-column>
+  
     </el-table>
 
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"

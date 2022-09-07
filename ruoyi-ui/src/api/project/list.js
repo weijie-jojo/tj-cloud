@@ -1,25 +1,127 @@
 import request from '@/utils/request'
 
-//获取项目类别
-export function list(query) {
+//获取出款列表
+export function payList(query) {
   return request({
-    url: 'project/project/list',
+    url: '/project/pay/getInfoByCode',
     method: 'get',
     params: query
   })
 }
-//获取流水号code
+//出款新增
+export function addPay(data) {
+  return request({
+    url: '/project/pay',
+    method: 'post',
+    data: data
+  })
+}
+//出款列表修改
+export function editPay(data) {
+  return request({
+    url: '/project/pay',
+    method: 'put',
+    data: data
+  })
+}
+
+//出款删除
+export function delPay(payIds) {
+  return request({
+    url: 'project/pay/'+payIds,
+    method: 'delete',
+ })
+}
+
+//获取项目收款详情计算已收账款
+export function finshReceiveList(query) {
+  return request({
+    url: 'project/receive/getInfoByCode2',
+    method: 'get',
+    params: query
+  })
+}
+
+
+//获取项目出款详情计算已出账款
+export function finshPayList(query) {
+  return request({
+    url: 'project/pay/getInfoByCode2',
+    method: 'get',
+    params: query
+  })
+}
+
+//获取收款列表
+export function receiveList(query) {
+  return request({
+    url: 'project/receive/getInfoByCode',
+    method: 'get',
+    params: query
+  })
+}
+
+//收款列表新增
+export function addReceive(data) {
+  return request({
+    url: 'project/receive',
+    method: 'post',
+    data: data
+  })
+}
+
+//收款列表修改
+export function editReceive(data) {
+  return request({
+    url: 'project/receive',
+    method: 'put',
+    data: data
+  })
+}
+
+//收款删除
+export function delReceive(payReceiveIds) {
+  return request({
+    url: 'project/receive/'+payReceiveIds,
+    method: 'delete',
+ })
+}
+//获取收款流水号code 
 export function getReceiveCode() {
   return request({
     url: '/project/receive/getCode',
     method: 'get',
-    
-  })
+   })
+}
+//获取出款流水号code 
+export function getPayCode() {
+  return request({
+    url: '/project/pay/getCode',
+    method: 'get',
+   })
 }
 //获取甲方列表
 export function getPuJialist(query) {
   return request({
     url: '/project/company/list',
+    method: 'get',
+    params: query
+  })
+}
+
+//获取乙方
+export function ownlist(query) {
+  return request({
+    url: 'project/employed/getByUserIndusty',
+    method: 'get',
+    params: query
+  })
+}
+
+//获取项目列表
+export function list(query) {
+  return request({
+    url: 'project/project/list',
     method: 'get',
     params: query
   })
@@ -33,14 +135,7 @@ export function detail(query) {
     params: query
   })
 }
-//获取乙方
-export function ownlist(query) {
-  return request({
-    url: 'project/employed/getByUserIndusty',
-    method: 'get',
-    params: query
-  })
-}
+
 //项目新增
 export function add(data) {
   return request({
@@ -124,4 +219,4 @@ export function getCount(query){
 }
 
 
-export default {getReceiveCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode , getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

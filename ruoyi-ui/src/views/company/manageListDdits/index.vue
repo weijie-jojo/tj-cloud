@@ -698,7 +698,11 @@
 
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="个体户注册服务费" :required="true">
+          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
+              <el-radio v-model="formData.isRegisterMoney" label="0">是</el-radio>
+              <el-radio v-model="formData.isRegisterMoney" label="1">否</el-radio>
+           </el-form-item>
+          <el-form-item v-if="formData.isRegisterMoney==0" label="个体户注册服务费" :required="true">
             <el-input style="width:87%" v-model="formData.registerMoney"
              :min="0"
               onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -913,6 +917,77 @@
         </el-col>
       </el-row>
 
+      <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
+            <el-col :span="9">
+              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-radio v-model="formData.isDisposable" label="0">开启</el-radio>
+              <el-radio v-model="formData.isDisposable" label="1">关闭</el-radio>
+            </el-form-item>
+            <el-row type="flex" justify="flex-end" v-if="formData.isDisposable==0">
+              <el-col :span="24">
+                <el-form-item label="费用" prop="disposableFee">
+                  <div>
+                    <el-radio @change="handleDis" v-model="formData.disposableFeeIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="handleDis" v-model="formData.disposableFeeIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="formData.disposableFeeIsmoney == 0" style="width:100%" 
+                      v-model="formData.disposableFee"  :min="0"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-else  style="width:100%" v-model="formData.disposableFee"
+                      @input="disposableIsmoney" @change="disposableIsmoney"  :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+                </el-form-item>
+              </el-col>
+
+            </el-row>
+            <el-form-item label="是否分润" prop="isDisposableShare" v-if="formData.isDisposable==0">
+              <el-radio v-model="formData.isDisposableShare" label="0">是</el-radio>
+              <el-radio v-model="formData.isDisposableShare" label="1">否</el-radio>
+            </el-form-item>
+            <el-row v-if="formData.isDisposableShare == 0" type="flex" justify="flex-end">
+              <el-col :span="24">
+                <el-form-item label="分润方式" prop="disposableShare">
+                  <div style="">
+                    <el-radio @change="isdisshare" v-model="formData.disposableShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="isdisshare" v-model="formData.disposableShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="formData.disposableShareIsmoney == 0" style="width:100%" 
+                      :min="0" v-model="formData.disposableShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-model="formData.disposableShare" v-else style="width:100%"
+                      @input="disShare" @change="disShare" :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+              </el-col>
+            </el-row>
+            </el-col>
+            <el-col :span="9">
+          
+            </el-col>
+
+      </el-row>
+
 
     
 
@@ -1092,6 +1167,18 @@ export default {
       places: [],
 
       formData: {
+
+        isDisposableShare:'1',
+        disposableShareIsmoney:'0',
+        disposableShare:'0',
+        disposableFeeIsmoney:'1',
+        disposableFee:'0',
+        isDisposable:'0',//是否一次性收取费用
+        isRegisterMoney:'0',//是否收取注册服务费  
+
+
+
+
         selfShareIsmoney:'0',
         isSelfShare:'1',
         selfShare:'0',
@@ -1147,6 +1234,27 @@ export default {
       accountName_options: [],
       mylist: '',
       rules: {
+        isDisposableShare:[{
+          required: true, trigger: 'bulr'   
+        }],
+        disposableShareIsmoney:[{
+          required: true
+        }],
+        disposableShare:[{
+          required: true,message: '一次性费用分润费不能为空'
+        }],
+        disposableFeeIsmoney:[{
+          required: true,message: '请选择一次性费用是否定额', trigger: 'change'   
+        }],
+        disposableFee:[{
+          required: true,message: '一次性费用不能为空', trigger: 'blur'   
+        }],
+         isDisposable:[{
+          required: true
+        }],
+        isRegisterMoney:[{
+          required: true, message: '请选择个体注册服务费是否开启', trigger: 'change'   
+        }],
          selfShareIsmoney:[{
            required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
         }],
@@ -1508,6 +1616,15 @@ export default {
     this.formData.isOrdinaryShare = JSON.stringify(this.formData.isOrdinaryShare);
     this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
 
+
+    this.formData.isDisposableShare=JSON.stringify(this.formData.isDisposableShare);
+    this.formData.disposableShareIsmoney=JSON.stringify(this.formData.disposableShareIsmoney);
+    this.formData.disposableShare=JSON.stringify(this.formData.disposableShare);
+    this.formData.disposableFeeIsmoney=JSON.stringify(this.formData.disposableFeeIsmoney);
+    this.formData.disposableFee=JSON.stringify(this.formData.disposableFee);
+    this.formData.isDisposable=JSON.stringify(this.formData.isDisposable);
+    this.formData.isRegisterMoney=JSON.stringify(this.formData.isRegisterMoney);
+
      if (this.formData.isPublicUser == '0') {
       this.formData.isPublicUser = '0';
     } else {
@@ -1559,6 +1676,45 @@ export default {
     this.nailist();
   },
   methods: {
+      //一次性分润
+      isdisshare(e){
+      if(e=='1'){
+      if (this.formData.disposableShareIsmoney == '1') {
+      if ( this.formData.disposableShare > 100) {
+          this.formData.disposableShare = '100';
+        }
+      }
+      }
+
+    },
+    //一次性分润
+    disShare(e){
+      if (this.formData.disposableShareIsmoney == '1') {
+      if ( e > 100) {
+          this.formData.disposableShare = '100';
+        }
+      }
+    },
+    
+    //一次性收取费用
+    disposableIsmoney(e) {
+      if (this.formData.disposableFeeIsmoney == '1') {
+        if (e > 100) {
+          this.formData.disposableFee = '100';
+        }
+      }
+    },
+    //一次性收取费用
+    handleDis(e){
+      if(e=='1'){
+        if (this.formData.disposableFeeIsmoney == '1') {
+        if (this.formData.disposableFee > 100) {
+          this.formData.disposableFee = '100';
+        }
+      }
+      }
+
+    },
      isSelfShares(e){
        if (this.formData.selfShareIsmoney == '1') {
         if (e > 100) {
@@ -1596,6 +1752,13 @@ export default {
        singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
+         this.formData.isDisposableShare='1';
+         this.formData.disposableShareIsmoney='0';
+         this.formData.disposableShare='0';
+         this.formData.disposableFeeIsmoney='1';
+         this.formData.disposableFee='0';
+         this.formData. isDisposable='0';//是否一次性收取费用
+         this.formData.isRegisterMoney='0';//是否收取注册服务费
       
          this.formData.selfShareIsmoney='0';
          this.formData.isSelfShare='1';
@@ -1743,6 +1906,16 @@ export default {
 
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
+
+
+            this.formData.isDisposableShare=JSON.stringify(this.unlist.isDisposableShare);
+            this.formData.disposableShareIsmoney=JSON.stringify(this.unlist.disposableShareIsmoney);
+            this.formData.disposableShare=JSON.stringify(this.unlist.disposableShare);
+            this.formData.disposableFeeIsmoney=JSON.stringify(this.unlist.disposableFeeIsmoney);
+         
+            this.formData.disposableFee=JSON.stringify(this.unlist.disposableFee);
+            this.formData.isDisposable=JSON.stringify(this.unlist.isDisposable);
+            this.formData.isRegisterMoney=JSON.stringify(this.unlist.isRegisterMoney);
 
 
 
@@ -2018,8 +2191,8 @@ export default {
             residence: this.formData.residence,
             contactPhone: this.formData.contactPhone,
             mail: this.formData.mail,
-            isSlider: this.formData.isSlider,
-            isSliderOrdinary:this.formData.isSliderOrdinary,
+            // isSlider: this.formData.isSlider,
+            // isSliderOrdinary:this.formData.isSliderOrdinary,
           };
           crudInfo.updateInfo(parms1).then(res => {
             if (res != undefined) {

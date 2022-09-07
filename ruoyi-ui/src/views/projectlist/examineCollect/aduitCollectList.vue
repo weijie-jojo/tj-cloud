@@ -15,20 +15,23 @@
                      </el-form-item>
                      <el-form-item class="comright" label="应收账款">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已收账款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        <el-input :readonly="true" v-model="publicList.receiveMoneys"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="未收账款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        <el-input :readonly="true" v-model="publicList.receiveRemainMoneys"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
@@ -44,6 +47,7 @@
                   
                     <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
@@ -53,21 +57,24 @@
                         <el-input  :readonly="true" v-model="publicList.selfName"></el-input>
                      </el-form-item>
                      <el-form-item class="comright" label="应出账款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        <el-input :readonly="true" v-model="publicList.payTotalMoneys"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已出账款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        <el-input :readonly="true" v-model="publicList.payMoneys"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="未出账款">
-                        <el-input :readonly="true" v-model="publicList.projectTotalAmount"
+                        <el-input :readonly="true" v-model="publicList.payRemainMoneys"
+                        :step="0.00001" :min="0"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                         >
                             <template slot="append">元</template>
@@ -101,6 +108,16 @@
                     size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
+            <el-col :span="1.5">
+                <el-button  type="danger" plain icon="el-icon-delete" size="mini"
+                :disabled="multiple" @click="handleDelete">删除</el-button>
+            
+            </el-col>
+            <el-col :span="1.5">
+                <el-button  type="danger" plain icon="el-icon-circle-close" size="mini"
+                 @click="handleClose">关闭</el-button>
+            
+            </el-col>
           
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -108,30 +125,29 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="流水号" align="center" prop="ticketTypeCode" :show-overflow-tooltip="true" />
-            <el-table-column label="转账时间" align="center" prop="ticketTime" width="180" /> 
-            <el-table-column label="转账账户" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
-            <el-table-column label="转账账号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
+            <el-table-column label="流水号" align="center" prop="receiveSysCode" :show-overflow-tooltip="true" />
+            <el-table-column label="转账时间" align="center" prop="receiveTime" width="180" /> 
+            <el-table-column label="转账账户" align="center" prop="receiveName" :show-overflow-tooltip="true" />
+            <el-table-column label="转账账号" align="center" prop="receiveAccount" :show-overflow-tooltip="true" />
             
-            <el-table-column label="转账金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true">
+            <el-table-column label="转账金额" align="center" prop="receiveMoney" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                    <div>{{ numberToCurrencyNo(scope.row.ticketAmount)}}</div>
+                    <div>{{ numberToCurrencyNo(scope.row.receiveMoney)}}</div>
                 </template>
             </el-table-column>    
             <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
-                    <!-- <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link> -->
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==1">正常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==0">审核中</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==2">未通过</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                    
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1" @click="detail(scope.row)">查看</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isCheck==1" @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isCheck==0" @click="aduit(scope.row)">审核</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isCheck==2" @click="handleUpdate(scope.row)">修改
                     </el-button>
                 </template>
             </el-table-column>
@@ -145,8 +161,7 @@
 <script>
 import { numberToCurrencyNo } from "@/utils/numberToCurrency";
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { list, del ,list2 } from "@/api/project/ticket"
-import { detail,edit } from "@/api/project/list"
+import {receiveList,detail,edit,delReceive,finshReceiveList,finshPayList } from "@/api/project/list"
 import { Decimal } from 'decimal.js'
 export default {
     name:'AduitCollectList',
@@ -256,60 +271,43 @@ export default {
         detail({
             projectCode: this.$cache.local.getJSON("projectCodeNew")
         }).then((response) => {
-            this.publicList = response.data[0];
-            if(this.publicList.projectPackageAmount==0){
-                this.publicList.projectRemainAmount=this.publicList.projectTotalAmount;
-            }
-            this.$cache.local.setJSON('publicTickets', this.publicList);
+            this.publicList = response.data;
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
                 projectCode: this.publicList.projectCode
             };
-            if (this.publicList.fileName.indexOf("[") != -1) {
-                this.publicList.fileName = JSON.parse(this.publicList.fileName);
-            }
-            
-            if (Array.isArray(this.publicList.fileName)) {
-             this.fileName=[];
-             this.fileNameradio = '2';
-                //如果是图片的话
-                for (let j in this.publicList.fileName) {
-                    this.fileName.push({
-                        name: this.publicList.fileName[j],
-                        url: this.baseImgPath + this.publicList.fileName[j]
-
-                    })
-                }
-
-            } else {
-                this.fileNameradio = '1';
-            }
             this.getList();
-            //this.ticketByCode();
+            this.getAllAcount();
         });
     },
     methods: {
+        //关闭
+        handleClose(){
+            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backTicket').backurl })
+        },
+        //查看
+        detail(row) {
+            this.$cache.local.setJSON("collectDetails", row);
+            this.$tab.openPage("收款审核查看", "/projectlist/auditCollectDetail")
+        },
+        //审核
         aduit(row){
-            this.$cache.local.setJSON("ticketDetails", row);
-            let obj={
-                backurl:'/projectlist/aduitCollectList',
-                name:'AduitCollectList'
-            };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/addCollect' });
+           this.$cache.local.setJSON("collectDetails", row);
+           this.$tab.closeOpenPage({ path: '/projectlist/aduitCollect' });
         },
        //关闭
         resetForms() {
             this.$tab.closeOpenPage({path: this.$cache.local.getJSON('backTicket').backurl});
         },
-          //计算已开和剩余金额
-        ticketByCode() {
-
-            list2({
+       //计算已收和已出账款
+       getAllAcount() {
+        finshReceiveList({
                 projectCode: this.publicList.projectCode
-            }).then(res => {
+         }).then(res => {
                 let arr = res;
+                console.log('receive',res);
+       
                 if (Array.isArray(arr) && arr.length > 0) {
                     this.publicList.projectPackageAmount = 0;
                     for (let i in arr) {
@@ -317,41 +315,46 @@ export default {
                             this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
                         }
                     }
-                    //如果存在发票 累计发票 加上发票金额 
-                   // this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
+                  
                     this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
                    
                 }
-                 let params={
-                        projectId:this.publicList.projectId,
-                        projectTotalAmount:this.publicList.projectTotalAmount,
-                        projectRemainAmount:this.publicList.projectRemainAmount,
-                        projectPackageAmount:this.publicList.projectPackageAmount,
-                 };
-                    edit(params);
+
+            finshPayList({
+                projectCode: this.publicList.projectCode
+            }).then(res=>{
+                console.log('pay',res);
+            });
+
+
+            
+
+
+
+                //  let params={
+                //         projectId:this.publicList.projectId,
+                //         projectTotalAmount:this.publicList.projectTotalAmount,
+                //         projectRemainAmount:this.publicList.projectRemainAmount,
+                //         projectPackageAmount:this.publicList.projectPackageAmount,
+                //  };
+                //  edit(params);
 
             }).catch(err => {
 
             });
         },
-        getfileNameS(){
-
-        },
         /** 查询列表 */
         getList() {
             this.loading = true;
-
-            list(this.queryParams).then((response) => {
+            receiveList(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
+            }).catch((error) => {
+               this.loading = false;
             });
         },
-        detail(row) {
-            this.$cache.local.setJSON("ticketDetails", row);
-            this.$tab.openPage("收款审核查看", "/projectlist/auditCollectDetail")
-          
-        },
+       
         
         /** 搜索按钮操作 */
         handleQuery() {
@@ -373,43 +376,46 @@ export default {
 
         // 多选框选中数据
         handleSelectionChange(selection) {
-            this.multipleSelection = selection.map((item) => item.ticketId);;
-            this.ids = selection.map((item) => item.selfId);
+            this.multipleSelection = selection.map((item) => item.receiveId);
+            this.ids = selection.map((item) => item.receiveId);
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
 
         /** 新增按钮操作 */
         handleAdd() {
-            this.$tab.closeOpenPage({path:'/projectlist/addCollect'});
+           this.$tab.closeOpenPage({path:'/projectlist/addCollect'});
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-          this.$cache.local.setJSON("ticketDetails", row);
-          this.$tab.closeOpenPage({path:"/projectlist/collectEdit"})
+            
+           this.$cache.local.setJSON("ticketDetails", row);
+           this.$tab.closeOpenPage({path:"/projectlist/collectEdit"})
         },
 
         /** 删除按钮操作 */
         handleDelete() {
-            if (confirm('你确定作废吗？')) {
-                del(this.multipleSelection).then((res) => {
-                    if (res != undefined) {
-                        if (res.code == 200) {
-                            this.$message({
-                                message: '作废成功',
-                                type: 'success',
-                            });
-                        } else {
-                            this.$message({
-                                message: res.msg,
-                                type: 'danger',
-                            });
-                        }
-                        this.getList();
-                       // this.ticketByCode();
-                    }
+            const projectIds = this.ids;
+            this.$modal
+                .confirm('是否确认删除该收款信息')
+                .then(function () {
+                    return delReceive(projectIds);
                 })
-            }
+                .then((res) => {
+                    if (res.code == 200) {
+                        this.getList();
+                        this.$modal.msgSuccess("删除成功");
+                    } else {
+                        this.$alert(res.msg, '提示', {
+                            confirmButtonText: '确定',
+                        });
+                        
+                    }
+
+                })
+                .catch(() => {
+
+                });
 
         },
 

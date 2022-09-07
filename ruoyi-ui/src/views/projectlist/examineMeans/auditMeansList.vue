@@ -181,7 +181,6 @@ export default {
         //验收详情
         find(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/auditAcceptanceList'
@@ -196,9 +195,8 @@ export default {
              url: '/projectlist/auditMeansList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
-           this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
-           this.$cache.local.setJSON("projectListNews", row);
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON("projectListNews", row);
            this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
         },
           handleClick(){

@@ -23,7 +23,11 @@
             <el-form-item label="联系人" prop="editPlaceLinkman">
             <el-input v-model="ruleForm.editPlaceLinkman" :readonly="confirmEditStatus" />
           </el-form-item>
-          <el-form-item label="个体户注册服务费" prop="editOrdinarySelfFee">
+          <el-form-item label="是否收取注册服务费" prop='editIsRegisterMoney'>
+              <el-radio :disabled="confirmEditStatus"  v-model="ruleForm.editIsRegisterMoney" label="0">是</el-radio>
+              <el-radio :disabled="confirmEditStatus"  v-model="ruleForm.editIsRegisterMoney" label="1">否</el-radio>
+            </el-form-item>
+          <el-form-item label="个体户注册服务费" prop="editOrdinarySelfFee" v-if="ruleForm.editIsRegisterMoney==0">
                 <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
                   @change="handleChange"  :min="0"  style="width:100%"
                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -33,7 +37,7 @@
                 </el-input>
               </el-form-item>
             
-               <el-form-item label="是否分润" prop='isSelfShare'>
+               <el-form-item label="是否分润" prop='isSelfShare' v-if="ruleForm.editIsRegisterMoney==0">
               <el-radio v-model="ruleForm.isSelfShare" label="0">是</el-radio>
               <el-radio v-model="ruleForm.isSelfShare" label="1">否</el-radio>
             </el-form-item>
@@ -97,13 +101,13 @@
        
          <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="增值税普通发票">
+          <el-form-item label="增值税普通发票" :required="true">
              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSliderOrdinary" label="0">开启</el-radio>
              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSliderOrdinary" label="1">关闭</el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="增值税专用发票">
+          <el-form-item label="增值税专用发票" :required="true">
              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSlider" label="0">开启</el-radio>
              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSlider" label="1">关闭</el-radio>
           </el-form-item>
@@ -301,12 +305,95 @@
            </el-col>
 
         </el-row>
+
+
+        <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="一次性收取费用" prop='editIsDisposable'>
+              <el-radio  :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposable" label="0">开启</el-radio>
+              <el-radio  :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposable" label="1">关闭</el-radio>
+            </el-form-item>
+            <el-row type="flex" justify="flex-end" v-if="ruleForm.editIsDisposable==0">
+              <el-col :span="24">
+                <el-form-item label="费用" prop="editDisposableFee">
+                  <div>
+                    <el-radio  :disabled="confirmEditStatus" @change="handleDis" v-model="ruleForm.editDisposableFeeIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio  :disabled="confirmEditStatus" @change="handleDis" v-model="ruleForm.editDisposableFeeIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input 
+                    :readonly="confirmEditStatus"
+                    v-if="ruleForm.editDisposableFeeIsmoney == 0" style="width:100%" 
+                      v-model="ruleForm.editDisposableFee"  :min="0"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input
+                    :readonly="confirmEditStatus"
+                    v-else  style="width:100%" v-model="ruleForm.editDisposableFee"
+                      @input="disposableIsmoney" @change="disposableIsmoney"  :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+                </el-form-item>
+              </el-col>
+
+            </el-row>
+            <el-form-item label="是否分润" prop="editIsDisposableShare" v-if="ruleForm.editIsDisposable==0">
+              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposableShare" label="0">是</el-radio>
+              <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposableShare" label="1">否</el-radio>
+            </el-form-item>
+            <el-row v-if="ruleForm.editIsDisposableShare == 0" type="flex" justify="flex-end">
+              <el-col :span="24">
+                <el-form-item label="分润方式" prop="editDisposableShare">
+                  <div style="">
+                    <el-radio :disabled="confirmEditStatus" @change="isdisshare" v-model="ruleForm.editDisposableShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio :disabled="confirmEditStatus" @change="isdisshare" v-model="ruleForm.editDisposableShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input 
+                    :disabled="confirmEditStatus"
+                    v-if="ruleForm.editDisposableShareIsmoney == 0" style="width:100%" 
+                      :min="0" v-model="ruleForm.editDisposableShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input 
+                    :disabled="confirmEditStatus"
+                    v-model="ruleForm.editDisposableShare" v-else style="width:100%"
+                      @input="disShare" @change="disShare" :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+              </el-col>
+            </el-row>
+            </el-col>
+            <el-col :span="9">
+          
+            </el-col>
+
+      </el-row>
+
+
+
          <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8">
 
         </el-col>
         <el-col :span="8" class="flexs">
-           <el-button type="danger" @click="closeS">关闭</el-button>
+           <el-button type="danger" @click="backAgos">关闭</el-button>
            <el-button type="primary" @click="confirmEdits" v-if="confirmEditStatus">编辑</el-button>
            <el-button type="primary" @click="confirmEdit"  v-else>提交</el-button>
          </el-col>
@@ -437,6 +524,7 @@ export default {
         status: '',
       },
       ruleForm: {
+        isRegisterMoney:'0',
         selfShareIsmoney:'0',
         isSelfShare:'1',
         selfShare:'0',
@@ -484,6 +572,14 @@ export default {
 
 
         //编辑参数
+        editDisposableFeeIsmoney:'1',
+        editIsDisposable:'0',
+        editDisposableFee:'0',
+        editIsRegisterMoney:'0',
+        editIsDisposableShare:'1',
+        editDisposableShareIsmoney:'0',
+        editDisposableShare:'0',
+        
         editPlaceAliasName:'',
         editOrdinaryProxyIsmoney: '0',
         editIsOrdinaryShare: '1',
@@ -493,7 +589,7 @@ export default {
         editSpecialShareIsmoney: '0',
         editIsSlider: '0',//专票滑块
         editIsSliderOrdinary: '0',
-
+        editIsRegisterMoney:'0',
 
         editIsSelfTax: '0',     //普票价税分离
         editIsSpecialSelfTax: '0',  //专票价税分离
@@ -698,6 +794,32 @@ export default {
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
+        
+        
+        editIsRegisterMoney: [
+          { message: '请选择是否开启个体户注册服务费', required: true, trigger: 'blur' }
+        ],
+        editDisposableFeeIsmoney: [
+          { message: '一次性费用是否定额', required: true, trigger: 'blur' }
+        ],
+        editIsDisposable: [
+          { message: '请选择是否开启一次性费用', required: true, trigger: 'blur' }
+        ],
+        editDisposableFee: [
+          { message: '一次性费用不能为空', required: true, trigger: 'blur' }
+        ],
+        
+
+        editIsDisposableShare:[{
+          required: true, trigger: 'bulr'   
+        }],
+        editDisposableShareIsmoney:[{
+          required: true
+        }],
+        editDisposableShare:[{
+          required: true,message: '一次性费用分润费不能为空'
+        }],
+        
         ordinarySelfFee: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
@@ -750,6 +872,7 @@ export default {
         this.ruleForm.editAgencyFeeId = res.agencyFeeId;
         this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
         this.ruleForm.editIsSpecialTax = res.isSpecialTax;
+      
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
         this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
@@ -758,6 +881,17 @@ export default {
         this.ruleForm.editOrdinaryShare = res.ordinaryShare;
         this.ruleForm.editOrdinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
         this.ruleForm.editOrdinaryTax = JSON.stringify(res.ordinaryTax);
+
+        this.ruleForm.editDisposableFeeIsmoney=JSON.stringify(res.disposableFeeIsmoney);
+        this.ruleForm.editIsDisposable=JSON.stringify(res.isDisposable);
+        this.ruleForm.editDisposableFee=res.disposableFee;
+        this.ruleForm.editIsRegisterMoney=JSON.stringify(res.isRegisterMoney);
+        this.ruleForm.editIsDisposableShare=JSON.stringify(res.isDisposableShare);
+        this.ruleForm.editDisposableShareIsmoney=JSON.stringify(res.disposableShareIsmoney);
+        this.ruleForm.editDisposableShare=res.disposableShare;
+       
+
+
         if (this.ruleForm.editIsOrdinaryTax == true) {
           this.ruleForm.editIsOrdinaryTax = "0"
         } else if (this.ruleForm.editIsOrdinaryTax == false) {
@@ -768,13 +902,7 @@ export default {
         } else if (this.ruleForm.editIsSpecialTax == false) {
           this.ruleForm.editIsSpecialTax = "1"
         }
-    // //获取登录用户
-    // getInfo().then(res => {
-    //   this.ruleForm.userName = res.user.userName;
-    //   this.ruleForm.editUserName = res.user.userName;
-    //   this.ruleForm.userId = res.user.userId;
-    //   console.log("getInfo", this.ruleForm.userName);
-    // })
+  
   },
 
   methods: {
@@ -787,11 +915,52 @@ export default {
      }
      this.ruleForm.editPlaceAliasName=this.ruleForm.editPlaceName+this.ruleForm.editPlaceAlias;
     },
-     closeS(){
+    backAgos(){
+        this.$tab.closeOpenPage({path:'/place/placeMgr'});
+    },
+    backAgo(){
         this.$tab.closeOpenPage({path:'/place/placeMgr'}).then(() => {
            this.$tab.refreshPage({path:'/place/placeMgr',name:'PlaceMgr'});
 
         })
+    },
+     //一次性分润
+     isdisshare(e){
+      if(e=='1'){
+      if (this.ruleForm.editDisposableShareIsmoney == '1') {
+      if ( this.ruleForm.editDisposableShare > 100) {
+          this.ruleForm.editDisposableShare = '100';
+        }
+      }
+      }
+
+    },
+    //一次性分润
+    disShare(e){
+      if (this.ruleForm.editDisposableShareIsmoney == '1') {
+      if ( e > 100) {
+          this.ruleForm.editDisposableShare = '100';
+        }
+      }
+    },
+     //一次性收取费用
+     disposableIsmoney(e) {
+      if (this.ruleForm.editDisposableFeeIsmoney == '1') {
+        if (e > 100) {
+          this.ruleForm.editDisposableFee = '100';
+        }
+      }
+    },
+    //一次性收取费用
+    handleDis(e){
+      if(e=='1'){
+        if (this.ruleForm.editDisposableFeeIsmoney == '1') {
+        if ( this.ruleForm.editDisposableFee > 100) {
+          this.ruleForm.editDisposableFee = '100';
+        }
+      }
+      }
+
     },
      selfShareIsmoneys(e){
        if (e == '1') {
@@ -838,71 +1007,8 @@ export default {
       }
     },
 
-    handlespecialShareIsmoney(e) {
-      if (this.ruleForm.specialShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.specialShare = '100';
-        }
-      }
-    },
-    handlespecialProxyIsmoney(e) {
-      if (this.ruleForm.specialProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.specialProxyFee = '100';
-        }
-      }
-    },
-    handleordinaryShareIsmoney(e) {
-      if (this.ruleForm.ordinaryShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.ordinaryShare = '100';
-        }
-      }
-    },
-    handleordinaryProxyFee(e) {
-
-      if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.ordinaryProxyFee = '100';
-        }
-      }
-    },
-    handPoxy(e) {
-      if (e == '1') {
-        if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-          if (this.ruleForm.ordinaryProxyFee > 100) {
-            this.ruleForm.ordinaryProxyFee = '100';
-          }
-        }
-      }
-    },
-    hanOrshare(e) {
-      if (e == '1') {
-        if (this.ruleForm.ordinaryShareIsmoney == '1') {
-          if (this.ruleForm.ordinaryShare > 100) {
-            this.ruleForm.ordinaryShare = '100';
-          }
-        }
-      }
-    },
-    handSpecial(e) {
-      if (e == '1') {
-        if (this.ruleForm.specialProxyIsmoney == '1') {
-          if (this.ruleForm.specialProxyFee > 100) {
-            this.ruleForm.specialProxyFee = '100';
-          }
-        }
-      }
-    },
-    handMoney(e) {
-      if (e == '1') {
-        if (this.ruleForm.specialShareIsmoney == '1') {
-          if (this.ruleForm.specialShare > 100) {
-            this.ruleForm.specialShare = '100';
-          }
-        }
-      }
-    },
+  
+    
     handPoxyS(e) {
       if (e == '1') {
         if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
@@ -952,65 +1058,65 @@ export default {
       this.$refs['form'].validate((valid) => {
        if (valid) {
 
-         if (this.ruleForm.selfShareIsmoney == '1') {
-          if (this.ruleForm.selfShare > 100) {
-          this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+      //    if (this.ruleForm.selfShareIsmoney == '1') {
+      //     if (this.ruleForm.selfShare > 100) {
+      //     this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
+      //             confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-          }
-        }
+      //             type: 'error'
+      //           });
+      //     }
+      //   }
          
 
 
 
-       if (this.ruleForm.editIsSlider == '0') {
-            if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-              if (this.ruleForm.editSpecialProxyFee > 100) {
-                this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+      //  if (this.ruleForm.editIsSlider == '0') {
+      //       if (this.ruleForm.editSpecialProxyIsmoney == '1') {
+      //         if (this.ruleForm.editSpecialProxyFee > 100) {
+      //           this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+      //             confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-                return;
-              }
-            }
-            if (this.ruleForm.editSpecialShareIsmoney == '1') {
-              if (this.ruleForm.editSpecialShare > 100) {
-                this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-                   confirmButtonText: '确定',
+      //             type: 'error'
+      //           });
+      //           return;
+      //         }
+      //       }
+      //       if (this.ruleForm.editSpecialShareIsmoney == '1') {
+      //         if (this.ruleForm.editSpecialShare > 100) {
+      //           this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+      //              confirmButtonText: '确定',
                  
-                   type: 'error'
-                });
-                return;
-              }
-            }
-          }
-          if (this.ruleForm.editIsSliderOrdinary == '0') {
-            if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
-              if (this.ruleForm.editOrdinaryShare > 100) {
-                this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+      //              type: 'error'
+      //           });
+      //           return;
+      //         }
+      //       }
+      //     }
+      //     if (this.ruleForm.editIsSliderOrdinary == '0') {
+      //       if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
+      //         if (this.ruleForm.editOrdinaryShare > 100) {
+      //           this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+      //             confirmButtonText: '确定',
                 
-                  type: 'error'
-                });
-                return;
-              }
-            }
+      //             type: 'error'
+      //           });
+      //           return;
+      //         }
+      //       }
 
 
-            if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-              if (this.ruleForm.editOrdinaryProxyFee > 100) {
-                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-                   confirmButtonText: '确定',
+      //       if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
+      //         if (this.ruleForm.editOrdinaryProxyFee > 100) {
+      //           this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+      //              confirmButtonText: '确定',
                 
-                   type: 'error'
-                });
-                return;
-              }
-            }
-          }
+      //              type: 'error'
+      //           });
+      //           return;
+      //         }
+      //       }
+      //     }
 
 
 
@@ -1071,11 +1177,17 @@ export default {
             isSpecialSelfTax: this.ruleForm.editIsSpecialSelfTax,
             isSlider: this.ruleForm.editIsSlider,
             isSliderOrdinary: this.ruleForm.editIsSliderOrdinary,
-
-
-               selfShareIsmoney: this.ruleForm.selfShareIsmoney,
-                isSelfShare: this.ruleForm.isSelfShare,
-                selfShare:this.ruleForm.selfShare
+            selfShareIsmoney: this.ruleForm.selfShareIsmoney,
+            isSelfShare: this.ruleForm.isSelfShare,
+            selfShare:this.ruleForm.selfShare,
+           
+            isRegisterMoney:this.ruleForm.editIsRegisterMoney,
+            disposableFeeIsmoney: this.ruleForm.editDisposableFeeIsmoney,
+            isDisposable: this.ruleForm.editIsDisposable,
+            disposableFee:this.ruleForm.editDisposableFee,
+            isDisposableShare:this.ruleForm.editIsDisposableShare,
+            disposableShareIsmoney:this.ruleForm.editDisposableShareIsmoney,
+            disposableShare:this.ruleForm.editDisposableShare,
           }
           crudPlace.editPlace(params).then((res) => {
             if (res.id == 0) {
@@ -1089,11 +1201,8 @@ export default {
                 type: 'warning',
               });
             }
-            this.closeS();
-            //this.editVisible = false;
-            //this.$tab.refreshPage();
-
-          })
+            this.backAgo();
+            })
         } else {
            this.$alert('请填写完整', '系统提示', {
               confirmButtonText: '确定',

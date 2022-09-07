@@ -22,7 +22,11 @@
           <el-form-item label="联系人" prop="placeLinkman">
             <el-input v-model="ruleForm.placeLinkman" :readonly="true" />
           </el-form-item>
-          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee">
+          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
+              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="0">是</el-radio>
+              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="1">否</el-radio>
+            </el-form-item>
+          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
             <el-input 
              disabled
              type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.01" :min="0"
@@ -32,7 +36,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-               <el-form-item label="是否分润" prop='isSelfShare'>
+               <el-form-item label="是否分润" prop='isSelfShare' v-if="ruleForm.isRegisterMoney==0">
               <el-radio disabled v-model="ruleForm.isSelfShare" label="0">是</el-radio>
               <el-radio disabled v-model="ruleForm.isSelfShare" label="1">否</el-radio>
             </el-form-item>
@@ -91,13 +95,13 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="增值税普通发票">
+          <el-form-item label="增值税普通发票" :required="true">
             <el-radio disabled v-model="ruleForm.isSliderOrdinary" label="0">开启</el-radio>
             <el-radio disabled v-model="ruleForm.isSliderOrdinary" label="1">关闭</el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="增值税专用发票">
+          <el-form-item label="增值税专用发票" :required="true">
             <el-radio disabled v-model="ruleForm.isSlider" label="0">开启</el-radio>
             <el-radio disabled v-model="ruleForm.isSlider" label="1">关闭</el-radio>
           </el-form-item>
@@ -270,11 +274,88 @@
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-radio disabled v-model="ruleForm.isDisposable" label="0">开启</el-radio>
+              <el-radio disabled v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
+            </el-form-item>
+            <el-row type="flex" justify="flex-end" v-if="ruleForm.isDisposable==0">
+              <el-col :span="24">
+                <el-form-item label="费用" prop="disposableFee">
+                  <div>
+                    <el-radio disabled  v-model="ruleForm.disposableFeeIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio disabled  v-model="ruleForm.disposableFeeIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input 
+                     disabled
+                    v-if="ruleForm.disposableFeeIsmoney == 0" style="width:100%" 
+                      v-model="ruleForm.disposableFee"  :min="0"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-else  style="width:100%" v-model="ruleForm.disposableFee"
+                      disabled
+                      :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+                </el-form-item>
+              </el-col>
+
+            </el-row>
+            <el-form-item label="是否分润" prop="isDisposableShare" v-if="ruleForm.isDisposable==0">
+              <el-radio disabled v-model="ruleForm.isDisposableShare" label="0">是</el-radio>
+              <el-radio disabled v-model="ruleForm.isDisposableShare" label="1">否</el-radio>
+            </el-form-item>
+            <el-row v-if="ruleForm.isDisposableShare == 0" type="flex" justify="flex-end">
+              <el-col :span="24">
+                <el-form-item label="分润方式" prop="disposableShare">
+                  <div style="">
+                    <el-radio disabled v-model="ruleForm.disposableShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio disabled v-model="ruleForm.disposableShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input
+                    disabled
+                    v-if="ruleForm.disposableShareIsmoney == 0" style="width:100%" 
+                      :min="0" v-model="ruleForm.disposableShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input 
+                    disabled
+                    v-model="ruleForm.disposableShare" v-else style="width:100%"
+                      :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+              </el-col>
+            </el-row>
+            </el-col>
+            <el-col :span="9">
+          
+            </el-col>
+
+      </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8">
 
         </el-col>
         <el-col :span="8" class="flexs">
-          <el-button type="danger" @click="closeS">关闭</el-button>
+          <el-button type="danger" @click="backAgo">关闭</el-button>
           
 
         </el-col>
@@ -389,6 +470,7 @@ export default {
         status: '',
       },
       ruleForm: {
+        isRegisterMoney:'0',
         selfShareIsmoney:'0',
         isSelfShare:'1',
         selfShare:'0',
@@ -650,6 +732,31 @@ export default {
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
+        isRegisterMoney:[
+        { message: '请选择是否开启个体户注册服务费', required: true, trigger: 'blur' }
+        ],
+
+        isDisposableShare:[{
+          required: true,message: '一次性费用分润费不能为空', trigger: 'bulr'   
+        }],
+        disposableShareIsmoney:[{
+          required: true
+        }],
+        disposableShare:[{
+          required: true,
+        }],
+
+        disposableFeeIsmoney:[{
+          required: true,message: '请选择一次性费用是否定额', trigger: 'change'   
+        }],
+        disposableFee:[{
+          required: true,message: '一次性费用不能为空', trigger: 'blur'   
+        }],
+
+       isDisposable:[{
+          required: true
+        }],
+
         ordinarySelfFee: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
@@ -712,7 +819,7 @@ export default {
         this.ruleForm.isSelfTax = JSON.stringify(res.isSelfTax);
         this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
 
-          this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
+        this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
         this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
 
 
@@ -724,6 +831,17 @@ export default {
 
         this.ruleForm.specialSelfFee = res.specialSelfFee;
         this.ruleForm.isSpecialTax = res.isSpecialTax;
+
+        
+        this.ruleForm.disposableFeeIsmoney=JSON.stringify(res.disposableFeeIsmoney);
+        this.ruleForm.isDisposable=JSON.stringify(res.isDisposable);
+        this.ruleForm.disposableFee=res. disposableFee;
+        this.ruleForm.isRegisterMoney=JSON.stringify(res.isRegisterMoney);
+        this.ruleForm.isDisposableShare=JSON.stringify(res.isDisposableShare);
+        this.ruleForm.disposableShareIsmoney=JSON.stringify(res.disposableShareIsmoney);
+        this.ruleForm.disposableShare=res.disposableShare;
+        
+        
         this.ruleForm.ordinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.ordinaryProxyFee = res.ordinaryProxyFee;
         //this.ruleForm.ordinaryProxyMoney = res.ordinaryProxyMoney;
@@ -757,11 +875,8 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    closeS(){
-        this.$tab.closeOpenPage({path:'/place/placeMgr'}).then(() => {
-           this.$tab.refreshPage({path:'/place/placeMgr',name:'PlaceMgr'});
-
-        })
+    backAgo(){
+        this.$tab.closeOpenPage({path:'/place/placeMgr'});
     },
     isSelfShares(e){
        if (this.ruleForm.selfShareIsmoney == '1') {

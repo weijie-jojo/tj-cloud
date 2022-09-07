@@ -75,17 +75,17 @@
         </el-form>
 
         <el-row :gutter="10" class="mb8">
-            <!-- <el-col :span="1.5">
-                <el-button v-if="publicList.projectRemainAmount > 0" type="primary" plain icon="el-icon-plus"
-                    size="mini" @click="handleAdd">新增
-                </el-button>
-            </el-col> -->
-            <!-- <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-edit" size="mini">修改</el-button>
+          
+            <el-col :span="1.5">
+                <el-button  type="danger" plain icon="el-icon-delete" size="mini"
+                :disabled="multiple" @click="handleDelete">删除</el-button>
+            
             </el-col>
-            <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-delete" size="mini">删除</el-button>
-            </el-col> -->
+            <el-col :span="1.5">
+                <el-button  type="danger" plain icon="el-icon-circle-close" size="mini"
+                 @click="handleClose">关闭</el-button>
+            
+            </el-col>
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -102,18 +102,18 @@
             </el-table-column>    
             <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==1">正常</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==0">审核中</el-link>
+                    <el-link :underline="false" type="success" v-if="scope.row.isCheck==2">未通过</el-link>
                   
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                    
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1 || scope.row.isDeleted==0" @click="detail(scope.row)">查看</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isCheck==1 " @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isCheck==0" @click="aduit(scope.row)">审核</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isCheck==2" @click="handleUpdate(scope.row)">修改
                     </el-button>
                 </template>
             </el-table-column>
@@ -127,8 +127,7 @@
 <script>
 import { numberToCurrencyNo } from "@/utils/numberToCurrency";
 import uploadSmall from '@/components/douploads/uploadSmall'
-import { list, del ,list2 } from "@/api/project/ticket"
-import { detail,edit } from "@/api/project/list"
+import { detail,edit,payList,delPay,finshReceiveList,finshPayList } from "@/api/project/list"
 import { Decimal } from 'decimal.js'
 export default {
     name:'AduitDisburseList',
@@ -238,54 +237,39 @@ export default {
         detail({
             projectCode: this.$cache.local.getJSON("projectCodeNew")
         }).then((response) => {
-            this.publicList = response.data[0];
-            if(this.publicList.projectPackageAmount==0){
-                this.publicList.projectRemainAmount=this.publicList.projectTotalAmount;
-            }
-            this.$cache.local.setJSON('publicTickets', this.publicList);
+            this.publicList = response.data;
+            
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
                 projectCode: this.publicList.projectCode
             };
-            if (this.publicList.fileName.indexOf("[") != -1) {
-                this.publicList.fileName = JSON.parse(this.publicList.fileName);
-            }
-            
-            if (Array.isArray(this.publicList.fileName)) {
-             this.fileName=[];
-             this.fileNameradio = '2';
-                //如果是图片的话
-                for (let j in this.publicList.fileName) {
-                    this.fileName.push({
-                        name: this.publicList.fileName[j],
-                        url: this.baseImgPath + this.publicList.fileName[j]
-
-                    })
-                }
-
-            } else {
-                this.fileNameradio = '1';
-            }
-            this.getList();
+             this.getList();
             //this.ticketByCode();
         });
     },
     methods: {
+       //关闭
+        handleClose(){
+          this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backTicket').backurl })
+        },
+         /** 修改按钮操作 */
+         handleUpdate(row) {
+          this.$cache.local.setJSON("ticketDetails", row);
+          this.$tab.closeOpenPage({path:"/projectlist/disburseEdit"});
+        },
+        //审核
         aduit(row){
             this.$cache.local.setJSON("ticketDetails", row);
-            let obj={
-                backurl:'/projectlist/ticketList',
-                name:'TicketList'
-            };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburse' });
         },
-       //关闭
-        resetForms() {
-            this.$tab.closeOpenPage({path: this.$cache.local.getJSON('backTicket').backurl});
+        //查看
+        detail(row) {
+            this.$cache.local.setJSON("ticketDetails", row);
+             this.$tab.openPage("出款查看", "/projectlist/auditDisburseDetail")
+          
         },
-          //计算已开和剩余金额
+       //计算已开和剩余金额
         ticketByCode() {
 
             list2({
@@ -316,24 +300,18 @@ export default {
 
             });
         },
-        getfileNameS(){
-
-        },
         /** 查询列表 */
         getList() {
             this.loading = true;
-
-            list(this.queryParams).then((response) => {
+            payList(this.queryParams).then((response) => {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
+            }).catch((error) => {
+               this.loading = false;
             });
         },
-        detail(row) {
-            this.$cache.local.setJSON("ticketDetails", row);
-            this.$tab.openPage("票据查看", "/projectlist/ticketDetail")
-          
-        },
+       
         
         /** 搜索按钮操作 */
         handleQuery() {
@@ -355,43 +333,36 @@ export default {
 
         // 多选框选中数据
         handleSelectionChange(selection) {
-            this.multipleSelection = selection.map((item) => item.ticketId);;
-            this.ids = selection.map((item) => item.selfId);
+            this.multipleSelection = selection.map((item) => item.payIds);;
+            this.ids = selection.map((item) => item.payIds);
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
 
-        /** 新增按钮操作 */
-        handleAdd() {
-            this.$tab.openPage('票据新增','/projectlist/ticketAdd')
-        },
-        /** 修改按钮操作 */
-        handleUpdate(row) {
-          this.$cache.local.setJSON("ticketDetails", row);
-          this.$tab.openPage("票据修改", "/projectlist/ticketEdit")
-        },
-
+      
         /** 删除按钮操作 */
         handleDelete() {
-            if (confirm('你确定作废吗？')) {
-                del(this.multipleSelection).then((res) => {
-                    if (res != undefined) {
-                        if (res.code == 200) {
-                            this.$message({
-                                message: '作废成功',
-                                type: 'success',
-                            });
-                        } else {
-                            this.$message({
-                                message: res.msg,
-                                type: 'danger',
-                            });
-                        }
-                        this.getList();
-                        this.ticketByCode();
-                    }
+            const projectIds = this.ids;
+            this.$modal
+                .confirm('是否确认删除该出款信息')
+                .then(function () {
+                    return delPay(projectIds);
                 })
-            }
+                .then((res) => {
+                    if (res.code == 200) {
+                        this.getList();
+                        this.$modal.msgSuccess("删除成功");
+                    } else {
+                        this.$alert(res.msg, '提示', {
+                            confirmButtonText: '确定',
+                        });
+                        
+                    }
+
+                })
+                .catch(() => {
+
+                });
 
         },
 

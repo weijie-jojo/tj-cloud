@@ -149,7 +149,9 @@
 
 
           </div>
-          <div :style="{ height: screenHeight * 0.05 + 'px' }">报销凭证影像</div>
+          <div :style="{ height: screenHeight * 0.05 + 'px' ,display:'flex',justifyContent:'space-between'}">报销凭证影像
+            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+          </div>
          
 
           <!-- <div :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
@@ -175,7 +177,9 @@
 
        
         <div v-for="(item, index) in imgArr2" :key="index">
-          <div :style="{ height: screenHeight * 0.05 + 'px' }">付款凭证影像</div>
+          <div :style="{ height: screenHeight * 0.05 + 'px',display:'flex',justifyContent:'space-between'}">付款凭证影像
+            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+          </div>
           <el-image :src="item.url" fill="scale-down"
             :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
 

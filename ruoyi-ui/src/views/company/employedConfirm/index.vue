@@ -31,14 +31,14 @@
     </el-row>
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="法人姓名" align="center" width="180" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
         <el-table-column label="提交时间" width="120" align="center" prop="createTime">
         <template slot-scope="scope">
              {{scope.row.createTime | filterTime}}
         </template>
       </el-table-column>
       
-      <el-table-column label="客户全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
+      <el-table-column label="客户全名" width="700" align="center" prop="placeAliasName"/>
      <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <el-table-column label="办理状态" align="center" prop="">
         <template slot-scope="scope">

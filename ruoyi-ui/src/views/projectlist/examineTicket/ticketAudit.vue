@@ -173,7 +173,7 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
+          
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/ticketAudit'
@@ -192,10 +192,9 @@ export default {
              url: '/projectlist/ticketAudit',
             };
             this.$cache.local.setJSON('Projectedit', obj);
-           this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
-           this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON("projectListNews", row);
+             this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
         },
          handleClick(){
             if(this.endStatus=='-1'){
