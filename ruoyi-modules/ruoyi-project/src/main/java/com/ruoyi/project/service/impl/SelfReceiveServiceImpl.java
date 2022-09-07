@@ -122,4 +122,16 @@ public class SelfReceiveServiceImpl implements ISelfReceiveService
     {
         return selfReceiveMapper.deleteSelfReceiveByReceiveId(receiveId);
     }
+
+    /*
+     *
+     * 回收
+     * */
+    @Override
+    public int deleteReceiveByCode(String receiveSysCode) {
+        Integer num1=selfReceiveMapper.recycle(receiveSysCode);
+        Integer num2=selfReceiveMapper.deleteReceiveByCode(receiveSysCode);
+        return num1+num2;
+    }
+
 }

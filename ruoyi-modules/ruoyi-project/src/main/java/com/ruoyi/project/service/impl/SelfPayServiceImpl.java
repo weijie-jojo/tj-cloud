@@ -43,6 +43,17 @@ public class SelfPayServiceImpl implements ISelfPayService
     }
 
     /**
+     * 获取付款信息详细信息(根据receiveSysCode)
+     *
+     * @param receiveSysCode
+     * @return
+     */
+    @Override
+    public List<SelfPay> selectPayByReceiveCode(String receiveSysCode) {
+        return selfPayMapper.selectPayByReceiveCode(receiveSysCode);
+    }
+
+    /**
      * 查询出款信息
      *
      * @param payId 出款信息主键
@@ -114,5 +125,16 @@ public class SelfPayServiceImpl implements ISelfPayService
     public int deleteSelfPayByPayId(String payId)
     {
         return selfPayMapper.deleteSelfPayByPayId(payId);
+    }
+
+    /*
+     *
+     * 回收
+     * */
+    @Override
+    public int deletePayByCode(String paySysCode) {
+        Integer num1=selfPayMapper.recycle(paySysCode);
+        Integer num2=selfPayMapper.deletePayByCode(paySysCode);
+        return num1+num2;
     }
 }

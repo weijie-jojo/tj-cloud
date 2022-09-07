@@ -7,8 +7,10 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.project.domain.SelfPay;
 import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
+import com.ruoyi.project.service.ISelfPayService;
 import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
@@ -16,9 +18,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
+import org.stringtemplate.v4.ST;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +40,9 @@ public class SelfReceiveController extends BaseController
     @Autowired
     private ISelfReceiveService selfReceiveService;
 
+    @Autowired
+    private ISelfPayService selfPayService;
+
     /**
      * 获取编号
      */
@@ -49,9 +56,9 @@ public class SelfReceiveController extends BaseController
         System.out.println("selfPayReceive=="+ selfReceive);
         String code="";
         if (selfReceive !=null){
-            code=  StringUtils.getCode("PRSYS", selfReceive.getReceiveSysCode(),"yyyyMMdd");
+            code=  StringUtils.getCode("RECEIVE", selfReceive.getReceiveSysCode(),"yyyyMMdd");
         }else {//没有数据时
-            code="PRSYS"+"-"+nowDate+"-"+"0001";
+            code="RECEIVE"+"-"+nowDate+"-"+"0001";
         }
         return code;
     };
@@ -159,12 +166,42 @@ public class SelfReceiveController extends BaseController
     /**
      * 删除收款信息
      */
-    @RequiresPermissions("company:receive:remove")
+//    @RequiresPermissions("company:receive:remove")
     @Log(title = "收款信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{receiveIds}")
     @ApiOperation("删除收款信息")
     public AjaxResult remove(@PathVariable String[] receiveIds)
     {
-        return toAjax(selfReceiveService.deleteSelfReceiveByReceiveIds(receiveIds));
+        Integer count = 0;//删除计数
+        Integer num2=0;
+        List<String> list=new ArrayList<>();//存储存在的出款信息
+        for (String receiveId:receiveIds){
+            String receiveSysCode= selfReceiveService.selectSelfReceiveByReceiveId(receiveId).getReceiveSysCode();
+            List<SelfPay> selfPays= selfPayService.selectPayByReceiveCode(receiveSysCode);
+            if (selfPays.size()>0){
+                System.out.println("存在出款信息，请先删除出款信息！");
+                list.add(receiveSysCode);
+                num2=1;
+            } else {
+                Integer num= selfReceiveService.deleteReceiveByCode(receiveSysCode);
+                count+=num;
+            }
+        };
+        System.out.println("count=="+count);
+        System.out.println("list=="+list);
+        if (count>=receiveIds.length*2){
+            return toAjax(200);
+        }else {
+            if (num2==1){
+                StringBuilder sb=new StringBuilder();
+                for (String str:list){
+                    sb.append(str+",");
+                }
+                return error(sb+"存在出款信息，请先删除出款信息！");
+            }else {
+                return error("删除失败");
+            }
+
+        }
     }
 }

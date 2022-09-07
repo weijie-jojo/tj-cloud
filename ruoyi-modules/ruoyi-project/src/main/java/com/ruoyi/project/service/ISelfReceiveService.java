@@ -81,4 +81,10 @@ public interface ISelfReceiveService
      * @return 结果
      */
     public int deleteSelfReceiveByReceiveId(String receiveId);
+
+    /**
+     * 回收
+     *
+     */
+    public int deleteReceiveByCode(String receiveSysCode);
 }

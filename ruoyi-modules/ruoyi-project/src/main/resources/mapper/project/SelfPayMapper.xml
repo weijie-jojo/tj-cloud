@@ -23,7 +23,7 @@
     </resultMap>
 
     <sql id="selectSelfPayVo">
-        select is_check,pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code from self_pay
+        select pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code,is_check from self_pay
     </sql>
 
     <select id="selectLast" resultMap="SelfPayResult">
@@ -124,4 +124,20 @@
             #{payId}
         </foreach>
     </delete>
+
+    <insert id="recycle" >
+        INSERT into self_pay_recycle
+        <include refid="selectSelfPayVo"/>
+        WHERE pay_sys_code=#{paySysCode}
+    </insert>
+
+    <delete id="deletePayByCode" parameterType="String">
+        delete from self_pay where pay_sys_code =#{paySysCode}
+    </delete>
+
+    <select id="selectPayByReceiveCode" parameterType="String" resultMap="SelfPayResult">
+        <include refid="selectSelfPayVo"/>
+        where  receive_sys_code = #{receiveSysCode}
+    </select>
+
 </mapper>

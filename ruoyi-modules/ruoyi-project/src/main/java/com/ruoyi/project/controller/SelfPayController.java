@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class SelfPayController extends BaseController
         System.out.println("selfPay=="+ selfPay);
         String code="";
         if (selfPay !=null){
-            code=  StringUtils.getCode("PRSYS", selfPay.getPaySysCode(),"yyyyMMdd");
+            code=  StringUtils.getCode("PAY", selfPay.getPaySysCode(),"yyyyMMdd");
         }else {//没有数据时
-            code="PRSYS"+"-"+nowDate+"-"+"0001";
+            code="PAY"+"-"+nowDate+"-"+"0001";
         }
         return code;
     };
@@ -153,6 +154,17 @@ public class SelfPayController extends BaseController
     @ApiOperation("删除出款信息")
     public AjaxResult remove(@PathVariable String[] payIds)
     {
-        return toAjax(selfPayService.deleteSelfPayByPayIds(payIds));
+        Integer count = 0;//删除计数
+        for (String payId:payIds){
+            String paySysCode= selfPayService.selectSelfPayByPayId(payId).getPaySysCode();
+            Integer num= selfPayService.deletePayByCode(paySysCode);
+            count+=num;
+        };
+        System.out.println("count=="+count);
+        if (count>=payIds.length*2){
+            return toAjax(200);
+        }else {
+            return error("删除失败");
+        }
     }
 }

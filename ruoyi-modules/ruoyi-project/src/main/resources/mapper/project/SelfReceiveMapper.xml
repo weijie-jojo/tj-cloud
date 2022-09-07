@@ -23,7 +23,7 @@
     </resultMap>
 
     <sql id="selectSelfReceiveVo">
-        select is_check,receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time from self_receive
+        select receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time,is_check from self_receive
     </sql>
 
     <sql id="selectSelfPayReceiveJoin">
@@ -138,14 +138,14 @@
         </foreach>
     </delete>
 
-<!--    <insert id="recycle" >-->
-<!--        INSERT into self_receive_recycle-->
-<!--        <include refid="selectSelfPayReceiveVo"/>-->
-<!--        WHERE pay_receive_sys_code=#{payReceiveSysCode}-->
-<!--    </insert>-->
+    <insert id="recycle" >
+        INSERT into self_receive_recycle
+        <include refid="selectSelfReceiveVo"/>
+        WHERE receive_sys_code=#{receiveSysCode}
+    </insert>
 
-<!--    <delete id="deleteProjectByCode" parameterType="String">-->
-<!--        delete from self_project where project_code =#{projectCode}-->
-<!--    </delete>-->
+    <delete id="deleteReceiveByCode" parameterType="String">
+        delete from self_receive where receive_sys_code =#{receiveSysCode}
+    </delete>
 
 </mapper>

@@ -28,6 +28,14 @@ public interface ISelfPayService
     public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
 
     /**
+     * 获取付款信息详细信息(根据receiveSysCode)
+     *
+     * @param receiveSysCode 出款信息主键
+     * @return 出款信息
+     */
+    public List<SelfPay> selectPayByReceiveCode(String receiveSysCode);
+
+    /**
      * 查询出款信息
      *
      * @param payId 出款信息主键
@@ -75,4 +83,10 @@ public interface ISelfPayService
      * @return 结果
      */
     public int deleteSelfPayByPayId(String payId);
+
+    /**
+     * 回收
+     *
+     */
+    public int deletePayByCode(String paySysCode);
 }

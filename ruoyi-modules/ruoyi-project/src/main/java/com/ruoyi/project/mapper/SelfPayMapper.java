@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfPay;
 import com.ruoyi.project.domain.SelfReceive;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,6 +28,15 @@ public interface SelfPayMapper
      * @return
      */
     public List<SelfPay> selectSelfPayByProjectCode(String projectCode);
+
+    /**
+     * 获取付款信息详细信息(根据receiveSysCode)
+     *
+     * @param receiveSysCode
+     * @return
+     */
+    public List<SelfPay> selectPayByReceiveCode(String receiveSysCode);
+
 
     /**
      * 查询出款信息
@@ -77,4 +87,11 @@ public interface SelfPayMapper
      * @return 结果
      */
     public int deleteSelfPayByPayIds(String[] payIds);
+
+    /*
+     * 回收
+     * */
+    int recycle(@Param("projectCode") String paySysCode);
+
+    int deletePayByCode(@Param("projectCode") String paySysCode);
 }

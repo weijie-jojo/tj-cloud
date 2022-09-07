@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.vo.SelfPayReceiveVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -82,4 +83,11 @@ public interface SelfReceiveMapper
      * @return 结果
      */
     public int deleteSelfReceiveByReceiveIds(String[] receiveIds);
+
+    /*
+     * 回收
+     * */
+    int recycle(@Param("receiveSysCode") String receiveSysCode);
+
+    int deleteReceiveByCode(@Param("receiveSysCode") String receiveSysCode);
 }
