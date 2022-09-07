@@ -22,7 +22,13 @@
           <el-form-item label="联系人" prop="placeLinkman">
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
-          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee">
+
+          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
+              <el-radio v-model="ruleForm.isRegisterMoney" label="0">是</el-radio>
+              <el-radio v-model="ruleForm.isRegisterMoney" label="1">否</el-radio>
+            </el-form-item>
+
+          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
             <el-input
              v-model="ruleForm.ordinarySelfFee" @change="handleChange"  :min="0"
               style="width:100%"
@@ -33,7 +39,7 @@
             </el-input>
           </el-form-item>
 
-         <el-form-item label="是否分润" prop='isSelfShare'>
+         <el-form-item label="是否分润" prop='isSelfShare' v-if="ruleForm.isRegisterMoney==0">
               <el-radio v-model="ruleForm.isSelfShare" label="0">是</el-radio>
               <el-radio v-model="ruleForm.isSelfShare" label="1">否</el-radio>
             </el-form-item>
@@ -91,13 +97,13 @@
 
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="增值税普通发票">
+          <el-form-item label="增值税普通发票" :required="true">
             <el-radio v-model="ruleForm.isSliderOrdinary" label="0">开启</el-radio>
             <el-radio v-model="ruleForm.isSliderOrdinary" label="1">关闭</el-radio>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="增值税专用发票">
+          <el-form-item label="增值税专用发票" :required="true">
             <el-radio v-model="ruleForm.isSlider" label="0">开启</el-radio>
             <el-radio v-model="ruleForm.isSlider" label="1">关闭</el-radio>
           </el-form-item>
@@ -279,11 +285,83 @@
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
+            <el-col :span="9">
+              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-radio v-model="ruleForm.isDisposable" label="0">开启</el-radio>
+              <el-radio v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
+            </el-form-item>
+            <el-row type="flex" justify="flex-end" v-if="ruleForm.isDisposable==0">
+              <el-col :span="24">
+                <el-form-item label="费用" prop="disposableFee">
+                  <div>
+                    <el-radio @change="handleDis" v-model="ruleForm.disposableFeeIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="handleDis" v-model="ruleForm.disposableFeeIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="ruleForm.disposableFeeIsmoney == 0" style="width:100%" 
+                      v-model="ruleForm.disposableFee"  :min="0"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-else  style="width:100%" v-model="ruleForm.disposableFee"
+                      @input="disposableIsmoney" @change="disposableIsmoney"  :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+                </el-form-item>
+              </el-col>
+
+            </el-row>
+            <el-form-item label="是否分润" prop="isDisposableShare" v-if="ruleForm.isDisposable==0">
+              <el-radio v-model="ruleForm.isDisposableShare" label="0">是</el-radio>
+              <el-radio v-model="ruleForm.isDisposableShare" label="1">否</el-radio>
+            </el-form-item>
+            <el-row v-if="ruleForm.isDisposableShare == 0" type="flex" justify="flex-end">
+              <el-col :span="24">
+                <el-form-item label="分润方式" prop="disposableShare">
+                  <div style="">
+                    <el-radio @change="isdisshare" v-model="ruleForm.disposableShareIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio @change="isdisshare" v-model="ruleForm.disposableShareIsmoney" label="1">按百分比收取</el-radio>
+
+                    <el-input v-if="ruleForm.disposableShareIsmoney == 0" style="width:100%" 
+                      :min="0" v-model="ruleForm.disposableShare"
+                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">元</template>
+                    </el-input>
+                    <el-input v-model="ruleForm.disposableShare" v-else style="width:100%"
+                      @input="disShare" @change="disShare" :step="0.01" :min="0"
+                      :max="100"
+                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+                      >
+                      <template slot="append">%</template>
+                    </el-input>
+                  </div>
+
+                </el-form-item>
+              </el-col>
+            </el-row>
+            </el-col>
+            <el-col :span="9">
+          
+            </el-col>
+
+      </el-row>
+
+    
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8">
 
         </el-col>
         <el-col :span="8" class="flexs">
-          <el-button type="danger" @click="closeS">关闭</el-button>
+          <el-button type="danger" @click="backAgos">关闭</el-button>
           <el-button type="primary" @click="submitForm">提交</el-button>
 
         </el-col>
@@ -399,6 +477,13 @@ export default {
         status: '',
       },
       ruleForm: {
+        isDisposableShare:'1',
+        disposableShareIsmoney:'0',
+        disposableShare:'0',
+        disposableFeeIsmoney:'1',
+        disposableFee:'0',
+        isDisposable:'0',//是否一次性收取费用
+        isRegisterMoney:'0',//是否收取注册服务费
         selfShareIsmoney:'0',
         isSelfShare:'1',
         selfShare:'0',
@@ -541,6 +626,31 @@ export default {
         },
       ],
       rules: {
+        isDisposableShare:[{
+          required: true, trigger: 'bulr'   
+        }],
+        disposableShareIsmoney:[{
+          required: true
+        }],
+        disposableShare:[{
+          required: true,message: '一次性费用分润费不能为空'
+        }],
+        disposableFeeIsmoney:[{
+          required: true,message: '请选择一次性费用是否定额', trigger: 'change'   
+        }],
+        disposableFee:[{
+          required: true,message: '一次性费用不能为空', trigger: 'blur'   
+        }],
+
+
+        isDisposable:[{
+          required: true
+        }],
+        isRegisterMoney:[{
+          required: true, message: '请选择个体注册服务费是否开启', trigger: 'change'   
+        }],
+
+
         selfShareIsmoney:[{
            required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
         }],
@@ -694,7 +804,7 @@ export default {
 
   mounted() {
     
-    this.getAllUser();
+    //this.getAllUser();
     this.getPlaceCode();
     //获取登录用户
     getInfo().then(res => {
@@ -707,6 +817,7 @@ export default {
   },
 
   methods: {
+    //实时输入获取客户全名
     placeNews(){
      if(this.ruleForm.placeName==null){
       this.ruleForm.placeName='';
@@ -719,29 +830,59 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    closeS(){
-      
-        this.$tab.closeOpenPage({path:'/place/placeMgr'}).then(() => {
+    //返回上一页不刷新
+    backAgos(){
+       this.$tab.closeOpenPage({path:'/place/placeMgr'});
+     },
+    //返回上一页刷新
+    backAgo(){
+       this.$tab.closeOpenPage({path:'/place/placeMgr'}).then(() => {
            this.$tab.refreshPage({path:'/place/placeMgr',name:'PlaceMgr'});
 
         })
       
     },
-    handlespecialShareIsmoneyS(e) {
-      if (this.ruleForm.editSpecialShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editSpecialShare = '100';
+    //一次性分润
+    isdisshare(e){
+      if(e=='1'){
+      if (this.ruleForm.disposableShareIsmoney == '1') {
+      if ( this.ruleForm.disposableShare > 100) {
+          this.ruleForm.disposableShare = '100';
+        }
+      }
+      }
+
+    },
+    //一次性分润
+    disShare(e){
+      if (this.ruleForm.disposableShareIsmoney == '1') {
+      if ( e > 100) {
+          this.ruleForm.disposableShare = '100';
         }
       }
     },
-    handlespecialProxyIsmoneyS(e) {
-      if (this.ruleForm.editSpecialProxyIsmoney == '1') {
+    
+    //一次性收取费用
+    disposableIsmoney(e) {
+      if (this.ruleForm.disposableFeeIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editSpecialProxyFee = '100';
+          this.ruleForm.disposableFee = '100';
         }
       }
     },
-    isSelfShares(e){
+    //一次性收取费用
+    handleDis(e){
+      if(e=='1'){
+        if (this.ruleForm.disposableFeeIsmoney == '1') {
+        if (this.ruleForm.disposableFee > 100) {
+          this.ruleForm.disposableFee = '100';
+        }
+      }
+      }
+
+    },
+   
+   isSelfShares(e){
        if (this.ruleForm.selfShareIsmoney == '1') {
         if (e > 100) {
           this.ruleForm.selfShare = '100';
@@ -757,25 +898,7 @@ export default {
         }
       }
     },
-    handleordinaryShareIsmoneyS(e) {
-      if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editOrdinaryShare = '100';
-        }
-      }
-    },
-    handleordinaryProxyFeeS(e) {
-      console.log(e);
-      this.$forceUpdate();  //强制刷新
-
-      if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editOrdinaryProxyFee = '100';
-        }
-      }
-    },
-
-    handlespecialShareIsmoney(e) {
+   handlespecialShareIsmoney(e) {
       if (this.ruleForm.specialShareIsmoney == '1') {
         if (e > 100) {
           this.ruleForm.specialShare = '100';
@@ -797,8 +920,6 @@ export default {
       }
     },
     handleordinaryProxyFee(e) {
-      console.log(e);
-       this.$forceUpdate();  //强制刷新
       if (this.ruleForm.ordinaryProxyIsmoney == '1') {
         if (e > 100) {
           this.ruleForm.ordinaryProxyFee = '100';
@@ -841,42 +962,8 @@ export default {
         }
       }
     },
-    handPoxyS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-          if (this.ruleForm.editOrdinaryProxyFee > 100) {
-            this.ruleForm.editOrdinaryProxyFee = '100';
-          }
-        }
-      }
-    },
-    hanOrshareS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
-          if (this.ruleForm.editOrdinaryShare > 100) {
-            this.ruleForm.editOrdinaryShare = '100';
-          }
-        }
-      }
-    },
-    handSpecialS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-          if (this.ruleForm.editSpecialProxyFee > 100) {
-            this.ruleForm.editSpecialProxyFee = '100';
-          }
-        }
-      }
-    },
-    handMoneyS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editSpecialShareIsmoney == '1') {
-          if (this.ruleForm.editSpecialShare > 100) {
-            this.ruleForm.editSpecialShare = '100';
-          }
-        }
-      }
-    },
+   
+   //获取客户code
     getPlaceCode() {
       crudPlace.getCode().then(res => {
         this.ruleForm.placeCode = res.message;
@@ -884,11 +971,16 @@ export default {
       })
     },
 
-  
-    
-    
-    // 表单重置
+   // 表单重置
     reset() {
+
+      this.ruleForm.isDisposableShare='1';
+      this.ruleForm.disposableShareIsmoney='0';
+      this.ruleForm.disposableShare='0';
+      this.ruleForm.disposableFeeIsmoney='1';
+      this.ruleForm.disposableFee='0';
+      this.ruleForm.isDisposable='0';
+      this.ruleForm.isRegisterMoney='0';
       this.ruleForm.selfShareIsmoney='0';
       this.ruleForm.isSelfShare='1';
       this.ruleForm.selfShare='0';
@@ -926,86 +1018,84 @@ export default {
       this.ruleForm.ordinaryProxyMoeny = '';
       this.ruleForm.isOrdinaryTax = '1';
     },
-   
-   
-    
-   
-   
-    
-    //获取所有用户
-    getAllUser() {
-      getAllUser().then(res => {
-        this.userLeaders = res;
+  
+    // //获取所有用户
+    // getAllUser() {
+    //   getAllUser().then(res => {
+    //     this.userLeaders = res;
 
-      })
-    },
+    //   })
+    // },
 
 
-    selectUser(value) {
-      this.ruleForm.userName = this.userLeaders.find((item) => item.userId == value).nickName;
-      this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
-    },
+    // selectUser(value) {
+    //   this.ruleForm.userName = this.userLeaders.find((item) => item.userId == value).nickName;
+    //   this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
+    // },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          if (this.ruleForm.selfShareIsmoney == '1') {
-          if (this.ruleForm.selfShare > 100) {
-          this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+        //   if (this.ruleForm.selfShareIsmoney == '1') {
+        //   if (this.ruleForm.selfShare > 100) {
+        //   this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
+        //           confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-          }
-        }
-          if (this.ruleForm.isSlider == '0') {
-            if (this.ruleForm.specialShareIsmoney == '1') {
-              if (this.ruleForm.specialShare > 100) {
-                this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+        //           type: 'error'
+        //         });
+        //   }
+        // }
+        //   if (this.ruleForm.isSlider == '0') {
+        //     if (this.ruleForm.specialShareIsmoney == '1') {
+        //       if (this.ruleForm.specialShare > 100) {
+        //         this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
+        //           confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-                return;
-              }
-            }
-            if (this.ruleForm.specialProxyIsmoney == '1') {
-              if (this.ruleForm.specialProxyFee > 100) {
-                this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+        //           type: 'error'
+        //         });
+        //         return;
+        //       }
+        //     }
+        //     if (this.ruleForm.specialProxyIsmoney == '1') {
+        //       if (this.ruleForm.specialProxyFee > 100) {
+        //         this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
+        //           confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-                return;
-              }
-            }
+        //           type: 'error'
+        //         });
+        //         return;
+        //       }
+        //     }
 
-          }
+        //   }
 
-          if (this.ruleForm.isSliderOrdinary == '0') {
-            if (this.ruleForm.ordinaryShareIsmoney == '1') {
-              if (this.ruleForm.ordinaryShare > 100) {
-                this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+        //   if (this.ruleForm.isSliderOrdinary == '0') {
+        //     if (this.ruleForm.ordinaryShareIsmoney == '1') {
+        //       if (this.ruleForm.ordinaryShare > 100) {
+        //         this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
+        //           confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-                return;
-              }
-            }
+        //           type: 'error'
+        //         });
+        //         return;
+        //       }
+        //     }
 
 
-            if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-              if (this.ruleForm.ordinaryProxyFee > 100) {
-                this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-                  confirmButtonText: '确定',
+        //     if (this.ruleForm.ordinaryProxyIsmoney == '1') {
+        //       if (this.ruleForm.ordinaryProxyFee > 100) {
+        //         this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
+        //           confirmButtonText: '确定',
                  
-                  type: 'error'
-                });
-                return;
-              }
-            }
-          }
+        //           type: 'error'
+        //         });
+        //         return;
+        //       }
+        //     }
+        //   }
+
+
+          
 
 
 
@@ -1034,6 +1124,15 @@ export default {
               userName: this.ruleForm.userName,
             },
             businessAgencyFee: {
+              isDisposableShare:this.ruleForm.isDisposableShare,
+              disposableShareIsmoney:this.ruleForm.disposableShareIsmoney,
+              disposableShare:this.ruleForm.disposableShare,
+              disposableFeeIsmoney: this.ruleForm.disposableFeeIsmoney,
+              disposableFee: this.ruleForm.disposableFee,
+              isDisposable:this.ruleForm.isDisposable,
+              isRegisterMoney:this.ruleForm.isRegisterMoney,
+              
+              
               isSliderOrdinary: this.ruleForm.isSliderOrdinary,
               isSlider: this.ruleForm.isSlider,
               isSelfTax: this.ruleForm.isSelfTax,
@@ -1070,10 +1169,9 @@ export default {
               isSpecialShare: this.ruleForm.isSpecialShare,
               specialShareIsmoney: this.ruleForm.specialShareIsmoney,
 
-
-                selfShareIsmoney: this.ruleForm.selfShareIsmoney,
-                isSelfShare: this.ruleForm.isSelfShare,
-                selfShare:this.ruleForm.selfShare
+              selfShareIsmoney: this.ruleForm.selfShareIsmoney,
+              isSelfShare: this.ruleForm.isSelfShare,
+              selfShare:this.ruleForm.selfShare
 
 
 
@@ -1087,17 +1185,19 @@ export default {
                 message: res.message,
                 type: 'success',
               });
-               this.closeS();
+               this.backAgo();
             } else {
-              this.$message({
-                message: res.message,
-                type: 'warning',
-              });
+
+              this.getPlaceCode();
+              this.$alert(res.message, '系统提示', {
+              confirmButtonText: '确定',
+              
+              type: 'warning'
+           });
             }
            
            
-            //this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-            //this.$tab.refreshPage();
+           
 
           }).catch(err => {
              this.getPlaceCode();//重新在获取一遍编号（避免编号重复）

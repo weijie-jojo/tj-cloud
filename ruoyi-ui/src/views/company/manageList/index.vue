@@ -35,10 +35,10 @@
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="个体名称" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column label="个体名称" align="center" prop="selfName" width="300"/>
       <el-table-column label="法人名称" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
       
-      <el-table-column label="客户全名" align="center" prop="placeName" :show-overflow-tooltip="true" />
+      <el-table-column label="客户全名" width="700" align="center" prop="placeAliasName"/>
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
       <!-- <el-table-column label="状态" align="center" prop="isActive">
         <template slot-scope="scope">

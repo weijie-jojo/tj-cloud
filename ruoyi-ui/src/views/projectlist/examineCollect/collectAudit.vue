@@ -173,7 +173,6 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/collectAudit'
@@ -183,19 +182,14 @@ export default {
         },
         //完税修改
         edit(row,code){
-            let obj1={
+            let objList={
                 backurl:'/projectlist/collectAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
-             let obj = {
-             name: 'CollectAudit',
-             url: '/projectlist/collectAudit',
-            };
-            this.$cache.local.setJSON('Projectedit', obj);
-           this.$cache.local.setJSON('projectCodeNew', code);
-           this.$cache.local.setJSON('publicTickets', row);
-           this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
+            this.$cache.local.setJSON('backTicket',objList);
+            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON("projectListNews", row);
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
          handleClick(){
             if(this.endStatus=='-1'){
@@ -258,33 +252,25 @@ export default {
 
         },
         aduit(scope) {
-              let obj={
-                backurl:'/projectlist/collectAudit',
-                name:'CollectAudit'
-            };
-            let obj1={
+            let obj={
                 backurl:'/projectlist/collectAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
-            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('backTicket',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
         },
         //新增完税
         add(scope) {
-              let obj={
-                backurl:'/projectlist/collectAudit',
-                name:'CollectAudit'
-            };
-            let obj1={
+            let obj={
                 backurl:'/projectlist/collectAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
-            this.$cache.local.setJSON('addProjectBack',obj);
+            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('backTicket',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
+            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList'});
         },
 
         /** 搜索按钮操作 */

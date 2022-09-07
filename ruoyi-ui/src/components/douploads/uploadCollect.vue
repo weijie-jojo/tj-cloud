@@ -178,7 +178,12 @@ export default {
   },
    //获取已经保存数据库的值
     getSrcList(val) {
-      this.fileNames = val;
+      console.log(val);
+      if(Array.isArray(val)){
+        this.fileNames = val;
+      }else{
+        this.fileNames=[];
+      }
     },
     //关闭图片预览
     closeViewer() {

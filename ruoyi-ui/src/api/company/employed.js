@@ -95,6 +95,14 @@ export function getCount(query){
   })
 }
 
+export function getCounts(query){
+  return request({
+    url: '/company/employed/getCounts',
+    method: 'get',
+    params: query
+  })
+}
+
 
 // 查询个体商户列表
 export function joinList2(query) {
@@ -113,4 +121,4 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount}
+export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}

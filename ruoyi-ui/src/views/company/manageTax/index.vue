@@ -38,7 +38,7 @@
         </template>
       </el-table-column>
      
-      <el-table-column label="客户全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
+      <el-table-column label="客户全名" width="700" align="center" prop="placeAliasName" />
       <el-table-column label="业务经理" align="center" prop="username" :show-overflow-tooltip="true" />
        <el-table-column label="办理状态" align="center" prop="">
          <template slot-scope="scope">

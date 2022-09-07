@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { getCount } from "@/api/company/employed";
+import { getCounts } from "@/api/company/employed";
 import { getPlaceCount} from "@/api/place/place";
 import { getProjectCount} from "@/api/project/list";
 export default {
@@ -165,11 +165,8 @@ export default {
   },
   methods: {
     getCount(){
-      let  parms={
-        type:1,
-      }
-        getCount(parms).then(res=>{
-          this.employedTotal=res.total;
+      getCounts().then(res=>{
+          this.employedTotal=res;
         })
     },
     getPlaceCount(){

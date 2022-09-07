@@ -88,7 +88,7 @@
                     @click="handleDelete">作废</el-button>
             </el-col>
             <el-col :span="1.5"> 
-                <el-button type="danger"  icon="el-icon-circle-close" size="mini" @click="resetForms">关闭</el-button>
+                <el-button type="danger"  icon="el-icon-circle-close" size="mini" @click="handleClose">关闭</el-button>
             </el-col>
           
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -248,11 +248,10 @@ export default {
         detail({
             projectCode: this.$cache.local.getJSON("projectCodeNew")
         }).then((response) => {
-            this.publicList = response.data[0];
+            this.publicList = response.data;
             if(this.publicList.projectPackageAmount==0){
                 this.publicList.projectRemainAmount=this.publicList.projectTotalAmount;
             }
-            this.$cache.local.setJSON('publicTickets', this.publicList);
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
@@ -284,15 +283,10 @@ export default {
     methods: {
         aduit(row){
             this.$cache.local.setJSON("ticketDetails", row);
-            let obj={
-                backurl:'/projectlist/ticketList',
-                name:'TicketList'
-            };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
         },
        //关闭
-        resetForms() {
+       handleClose() {
             this.$tab.closeOpenPage({path: this.$cache.local.getJSON('backTicket').backurl});
         },
           //计算已开和剩余金额
@@ -337,6 +331,8 @@ export default {
                 this.projectList = response.rows;
                 this.total = response.total;
                 this.loading = false;
+            }).catch((error) => {
+               this.loading = false;
             });
         },
         detail(row) {
@@ -373,35 +369,38 @@ export default {
 
         /** 新增按钮操作 */
         handleAdd() {
-            this.$tab.openPage('票据新增','/projectlist/ticketAdd')
+            this.$tab.closeOpenPage({path:'/projectlist/ticketAdd'})
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
           this.$cache.local.setJSON("ticketDetails", row);
-          this.$tab.openPage("票据修改", "/projectlist/ticketEdit")
+          this.$tab.closeOpenPage({path: "/projectlist/ticketEdit"})
         },
 
         /** 删除按钮操作 */
         handleDelete() {
-            if (confirm('你确定作废吗？')) {
-                del(this.multipleSelection).then((res) => {
-                    if (res != undefined) {
-                        if (res.code == 200) {
-                            this.$message({
-                                message: '作废成功',
-                                type: 'success',
-                            });
-                        } else {
-                            this.$message({
-                                message: res.msg,
-                                type: 'danger',
-                            });
-                        }
+            this.$modal
+                .confirm('是否确认作废发票?')
+                .then(function () {
+                    return del(this.multipleSelection);
+                })
+                .then((res) => {
+                    if (res.code == 200) {
                         this.getList();
                         this.ticketByCode();
+                        this.$modal.msgSuccess("作废成功");
+                    } else {
+                        this.$alert(res.msg, '提示', {
+                            confirmButtonText: '确定',
+                        });
+                        
                     }
+
                 })
-            }
+                .catch(() => {
+
+                });
+           
 
         },
 

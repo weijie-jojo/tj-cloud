@@ -167,7 +167,6 @@ export default {
         },
         detail(row, code) {
             this.$cache.local.setJSON('projectCodeNew', code);
-            this.$cache.local.setJSON('publicTickets', row);
             this.$cache.local.setJSON("projectListNews", row);
              let obj={
                 backurl:'/projectlist/examineList'
