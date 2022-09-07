@@ -362,7 +362,6 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                 if (type == 1) {
-                      resmsg = '收款审核完成';
                       this.check('收款审核完成');
                     } else {
                       let parms = {
@@ -371,12 +370,11 @@ export default {
                       };
                       edit(parms);
                       this.check('收款审核不通过。'+'原因:'+this.remark);
-                      resmsg = '收款审核完成';
                     }
                     let obj = {
                       title: '收款审核审核',
                       backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
-                      resmsg: resmsg,
+                      resmsg: '收款审核完成',
                       backName:this.$cache.local.getJSON('aduitProjectBack').name
 
                     }

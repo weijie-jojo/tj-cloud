@@ -464,7 +464,7 @@ export default {
             detail({
                 projectCode: this.$cache.local.getJSON("publicTickets").projectCode
             }).then((response) => {
-                this.Father = response.data[0];
+                this.Father = response.data;
                 this.ticketByCode();
                 if (this.Father.fileName) {
                     if (this.Father.fileName.indexOf("[") != -1) {

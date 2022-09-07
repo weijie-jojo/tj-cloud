@@ -239,20 +239,15 @@ export default {
             if (res != undefined) {
               if (res.code === 200) {
                  this.$nextTick(function () {
-                 
-                    let resmsg = '';
-                    if (type == 1) {
-                      resmsg = '资料审核完成';
+                   if (type == 1) {
                       this.check('资料审核完成');
                     } else {
                       this.check('资料审核不通过。'+'原因:'+this.remark);
-                      resmsg = '资料审核完成';
                     }
-
-                   let obj = {
+                    let obj = {
                       title: '资料审核',
                       backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
-                      resmsg: resmsg,
+                      resmsg:'资料审核完成',
                       backName:this.$cache.local.getJSON('aduitProjectBack').name
 
                     }

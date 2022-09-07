@@ -195,7 +195,7 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 4)"
+            @click="examine(scope.row.userId, scope.row, 4,scope.row.projectCode)"
             v-if="
               scope.row.projectAcceptanceStatus == '-1' &&
               scope.row.projectContractStatus == '-1'
@@ -205,7 +205,7 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 4)"
+            @click="examine(scope.row.userId, scope.row, 4,scope.row.projectCode)"
             v-if="
               scope.row.projectAcceptanceStatus == '0' &&
               scope.row.projectContractStatus == '0'
@@ -246,14 +246,14 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 5)"
+            @click="examine(scope.row.userId, scope.row, 5, scope.row.projectCode)"
             v-if="scope.row.projectDutypaidStatus == '-1'"
             >办理中
           </el-link>
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 5)"
+            @click="examine(scope.row.userId, scope.row, 5, scope.row.projectCode)"
             v-if="scope.row.projectDutypaidStatus == '0'"
             >审核中
           </el-link>
@@ -284,7 +284,7 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 6)"
+            @click="examine(scope.row.userId, scope.row, 6, scope.row.projectCode)"
             v-if="scope.row.projectReceiveStatus == '0'"
             >收款中</el-link
           >
@@ -316,7 +316,7 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 7)"
+            @click="examine(scope.row.userId, scope.row, 7, scope.row.projectCode)"
             v-if="scope.row.projectPayStatus == '0'"
             >出款中</el-link
           >
@@ -348,7 +348,7 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 1)"
+            @click="examine(scope.row.userId, scope.row, 1, scope.row.projectCode)"
             v-if="scope.row.projectCheckStatus == '0'"
             >审核中</el-link
           >
@@ -699,6 +699,7 @@ export default {
                     backurl: "/projectlist/list",
                     name: "List",
                   };
+              
                   this.$cache.local.setJSON('iscollect', 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
                   this.$cache.local.setJSON("backTicket", obj);
@@ -715,6 +716,7 @@ export default {
                     backurl: "/projectlist/list",
                     name: "List",
                   };
+                
                   this.$cache.local.setJSON('iscollect', 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
                   this.$cache.local.setJSON("backTicket", obj);
