@@ -401,25 +401,39 @@ public class SelfProjectController extends BaseController
     public AjaxResult remove(@PathVariable String[] projectIds)
     {
         Integer count = 0;//删除的次数
+        Integer num3=0;
+        List<String> list=new ArrayList<>();//存储项目信息
         for (String projectId:projectIds){
             String projectCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
             List<SelfTicket> selfTickets= selfTicketService.selectSelfTicketByProjectCode(projectCode);
             List<SelfReceive> selfReceives =selfReceiveService.selectSelfReceiveByProjectCode(projectCode);
             if (selfTickets.size()>0){
                 System.out.println("存在发票不能删除！");
+                list.add(projectCode);
+                num3=1;
             } else if (selfReceives.size()>0){
                 System.out.println("存在收付款信息不能删除！");
+                list.add(projectCode);
+                num3=1;
             } else {
-                selfProjectService.deleteProjectByCode(projectCode);
-                selfProjectService.deleteCheckByCode(projectCode);
-                count+=1;
+                Integer num1 = selfProjectService.deleteProjectByCode(projectCode);
+                Integer num2 = selfProjectService.deleteCheckByCode(projectCode);
+                count+=(num1+num2);
             }
         };
         System.out.println("count=="+count);
-        if (count>0){
+        if (count>=projectIds.length*4){
             return toAjax(200);
         }else {
-            return error("存在发票或收付款信息不能删除！");
+            if (num3==1){
+                StringBuilder sb=new StringBuilder();
+                for (String str:list){
+                    sb.append(str+",");
+                }
+                return error(sb+"存在发票或收付款信息，请先删除出款信息！");
+            }else {
+                return error("删除失败");
+            }
         }
 
     }

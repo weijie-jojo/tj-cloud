@@ -145,13 +145,15 @@ public class SelfProjectServiceImpl implements ISelfProjectService
     * */
     @Override
     public int deleteProjectByCode(String selfCode) {
-        selfProjectMapper.recycle1(selfCode);
-        return selfProjectMapper.deleteProjectByCode(selfCode);
+        Integer num1 =selfProjectMapper.recycle1(selfCode);
+        Integer num2 = selfProjectMapper.deleteProjectByCode(selfCode);
+        return num1+num2;
     }
     @Override
     public int deleteCheckByCode(String selfCode) {
-        selfProjectMapper.recycle2(selfCode);
-        return selfProjectMapper.deleteCheckByCode(selfCode);
+        Integer num1 = selfProjectMapper.recycle2(selfCode);
+        Integer num2 = selfProjectMapper.deleteCheckByCode(selfCode);
+        return num1+num2;
     }
 
 }
