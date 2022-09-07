@@ -91,7 +91,7 @@ public interface SelfPayMapper
     /*
      * 回收
      * */
-    int recycle(@Param("projectCode") String paySysCode);
+    int recycle(@Param("paySysCode") String paySysCode);
 
-    int deletePayByCode(@Param("projectCode") String paySysCode);
+    int deletePayByCode(@Param("paySysCode") String paySysCode);
 }
