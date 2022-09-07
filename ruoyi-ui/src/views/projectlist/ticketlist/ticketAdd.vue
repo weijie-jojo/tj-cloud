@@ -490,7 +490,7 @@ export default {
                 if (response.data.length == 0) {
                     this.Father = this.$cache.local.getJSON("publicTickets");
                 } else {
-                    this.Father = response.data[0];
+                    this.Father = response.data;
                 }
                 this.projectRemainAmount=this.Father.projectRemainAmount;
                 if (this.Father.fileName) {

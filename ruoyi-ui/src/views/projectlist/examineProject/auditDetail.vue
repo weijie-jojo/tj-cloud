@@ -696,7 +696,7 @@ export default {
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
 
-                this.formData = response.data[0];
+                this.formData = response.data;
                 this.formData.selfShareIsmoney = JSON.stringify(this.formData.selfShareIsmoney);
                 this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
                 this.formData.selfShare = JSON.stringify(this.formData.selfShare);

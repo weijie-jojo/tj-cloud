@@ -542,7 +542,7 @@ export default {
                 projectCode: this.$cache.local.getJSON("projectCodeNew")
             }).then((response) => {
                this.formData.industryType='';
-               this.formData = response.data[0];
+               this.formData = response.data;
 
                this.$nextTick(function(){
                 this.selectTipType=this.$refs.selectTree.selected.label; 
