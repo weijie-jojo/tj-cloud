@@ -14,6 +14,7 @@ import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -135,7 +136,12 @@ public class SelfReceiveController extends BaseController
     @ApiOperation("新增收款信息")
     public AjaxResult add(@RequestBody SelfReceive selfReceive)
     {
-        return toAjax(selfReceiveService.insertSelfReceive(selfReceive));
+        try {
+            int num=selfReceiveService.insertSelfReceive(selfReceive);
+            return toAjax(num);
+        }catch (DuplicateKeyException ex){
+            return error("系统流水号重复，自动返回，请重新创建");
+        }
     }
 
     /**

@@ -44,7 +44,7 @@ public class SelfReceive extends BaseEntity
 
     /** 转账时间（收款信息） */
     @ApiModelProperty(value = "转账时间 收款信息")
-    private Date receiveTime;
+    private String receiveTime;
 
     /** 收款金额（收款信息） */
     @ApiModelProperty(value = "收款金额 收款信息")

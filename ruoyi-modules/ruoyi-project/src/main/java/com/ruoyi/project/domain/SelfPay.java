@@ -31,7 +31,7 @@ public class SelfPay extends BaseEntity
 
     /** 转账时间（出款信息） */
     @ApiModelProperty(value = "转账时间")
-    private Date payTime;
+    private String payTime;
 
     /** 出款金额（出款信息） */
     @ApiModelProperty(value = "出款金额")
