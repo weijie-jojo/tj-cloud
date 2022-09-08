@@ -347,7 +347,8 @@ export default {
         if (valid) {
          let params={
           payId:this.formData.payId,
-          isCheck:type
+          isCheck:type,
+          payRemark:this.remark,
          };
          
          editPay(params).then((res) => {
@@ -359,6 +360,7 @@ export default {
                       let parms = {
                         projectId: this.publicList.projectId,
                         projectPayStatus:2,
+                        payRemark:this.remark
                       };
                       edit(parms);
                       this.check('出款审核不通过。'+'原因:'+this.remark);

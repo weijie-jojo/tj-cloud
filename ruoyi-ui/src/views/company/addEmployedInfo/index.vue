@@ -1494,9 +1494,9 @@ export default {
   },
   data() {
     return {
-      fileNameNEW1:[],
-      fileNameNEW2:[],
-      fileNameNEW3:[],
+      fileNameNEW1: [],
+      fileNameNEW2: [],
+      fileNameNEW3: [],
       customerOptions: [
         {
           value: "0",
@@ -3112,6 +3112,7 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
+          this.$modal.loading("正在提交中，请稍后...");
           let parms = {
             selfCode: this.formData.selfCode,
             titleType: this.formData.titleType,
@@ -3154,14 +3155,58 @@ export default {
               }
             })
             .catch((error) => {
-              if(error=='Error: 不允许插入重复单据，自动返回，请重新创建'){
-                  this.getSelfCode();
-                  this.$alert("已重新获取个体户编码,请重新提交", "系统提示", {
+              if (error == "Error: 不允许插入重复单据，自动返回，请重新创建") {
+                this.$modal.closeLoading();
+                this.getSelfCode();
+                this.$alert("已重新获取个体户编码", "系统提示", {
                   confirmButtonText: "确定",
                   type: "success",
-                 });
+                  callback: (action) => {
+                    this.$modal.loading("重新提交中，请稍后...");
+                    let parms = {
+                      selfCode: this.formData.selfCode,
+                      titleType: this.formData.titleType,
+                      administrativeDivision:
+                        this.formData.administrativeDivision,
+                      industry: this.formData.industry,
+                      organizationalForm: this.formData.organizationalForm,
+                      administrativeRegion: this.formData.administrativeRegion,
+                      registrationAuthority:
+                        this.formData.registrationAuthority,
+                      random: this.formData.random,
+                      fontSize1: this.formData.fontSize1,
+                      fontSize2: this.formData.fontSize2,
+                      fontSize3: this.formData.fontSize3,
+                      fontSize4: this.formData.fontSize4,
+                      fontSize5: this.formData.fontSize5,
+                      poposedName1: this.formData.poposedName1,
+                      poposedName2: this.formData.poposedName2,
+                      poposedName3: this.formData.poposedName3,
+                      poposedName4: this.formData.poposedName4,
+                      poposedName5: this.formData.poposedName5,
+                      createBy: this.formData.userName,
+                      updateBy: this.formData.userName,
+                      nameStatus: 0,
+                    };
+
+                    crudReview.addReview(parms).then((res) => {
+                      if (res != undefined) {
+                        if (res.code === 200) {
+                          window.localStorage.setItem(
+                            "organizationalForm",
+                            JSON.stringify(this.formData.organizationalForm)
+                          );
+                          window.localStorage.setItem(
+                            "selfCode",
+                            JSON.stringify(this.formData.selfCode)
+                          );
+                          this.isok();
+                        }
+                      }
+                    });
+                  },
+                });
               }
-              
             });
         } else {
           this.$alert("请正确填写", "系统提示", {
@@ -3191,16 +3236,16 @@ export default {
         createBy: this.formData.userName,
         updateBy: this.formData.userName,
       };
-      if(Array.isArray(this.formData.fileName5)){
-         this.fileNameNEW1= JSON.stringify(this.formData.fileName5);
-       }
-       if(Array.isArray(this.formData.fileName6)){
-         this.fileNameNEW2= JSON.stringify(this.formData.fileName6);
-       }
-       if(Array.isArray(this.formData.fileName7)){
-         this.fileNameNEW3= JSON.stringify(this.formData.fileName7);
-       }
-       
+      if (Array.isArray(this.formData.fileName5)) {
+        this.fileNameNEW1 = JSON.stringify(this.formData.fileName5);
+      }
+      if (Array.isArray(this.formData.fileName6)) {
+        this.fileNameNEW2 = JSON.stringify(this.formData.fileName6);
+      }
+      if (Array.isArray(this.formData.fileName7)) {
+        this.fileNameNEW3 = JSON.stringify(this.formData.fileName7);
+      }
+
       let parms2 = {
         selfCode: this.formData.selfCode,
         userId: this.formData.userId,
@@ -3226,9 +3271,9 @@ export default {
         placeName: this.formData.placeName,
         placeAliasName: this.formData.placeAliasName,
         username: this.formData.userName,
-        fileName5: fileNameNEW1,
-        fileName6: fileNameNEW2,
-        fileName7: fileNameNEW3,
+        fileName5: this.fileNameNEW1,
+        fileName6: this.fileNameNEW2,
+        fileName7: this.fileNameNEW3,
         publicDepositBank1: this.formData.publicDepositBank1,
         publicAccountNumber1: this.formData.publicAccountNumber1,
         createBy: this.formData.userName,
@@ -3342,6 +3387,7 @@ export default {
             selfType: "1",
           };
           crudEmployed.check(parms).then((res) => {
+            this.$modal.closeLoading();
             if (res != undefined) {
               if (res.code === 200) {
                 this.$tab.closeOpenPage({ path: "/company/customer/success" });
