@@ -1,124 +1,199 @@
 <template>
   <div>
-    <el-form ref="elForm" :model="formData" size="medium" label-width="140px">
-      <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">项目信息</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>
+    <el-form
+      ref="elForm"
+      :model="formData"
+      :rules="rules"
+      size="medium"
+      label-width="140px"
+    >
+      <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-top: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">项目信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
 
-      <el-row type="flex" class="row-bg rowCss"  justify="space-around">
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="项目编号" :required="true">
-            <el-input v-model="formData.projectCode" :readonly="true"></el-input>
+            <el-input
+              v-model="publicList.projectCode"
+              :disabled="true"
+            ></el-input>
           </el-form-item>
 
           <el-form-item class="comright" label="项目名称" :required="true">
-            <el-input v-model="formData.projectName" :readonly="true"></el-input>
+            <el-input
+              v-model="publicList.projectName"
+              :disabled="true"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="应收账款" :required="true">
+            <el-input
+              :disabled="true"
+              v-model="publicList.projectTotalAmount"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="已收账款" :required="true">
+            <el-input
+              :disabled="true"
+              v-model="publicList.receiveMoneys"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="未收账款" :required="true">
+            <el-input
+              :disabled="true"
+              v-model="publicList.receiveRemainMoneys"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="9">
-
           <el-form-item class="comright" label="项目时间" :required="true">
-            <el-input v-model="formData.createTime" :readonly="true"></el-input>
+            <el-input v-model="publicList.createTime" disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
-            <el-input :readonly="true" type="number" style="width:100%" v-model="formData.projectTotalAmount" :step="0.00001" :min="0"
-             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            <el-input
+              :disabled="true"
+              type="number"
+              v-model="publicList.projectTotalAmount"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
             >
-              <template slot="append">
-                元
-              </template>
+              <template slot="append"> 元 </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="应出账款" :required="true">
+            <el-input
+              :disabled="true"
+              v-model="publicList.payTotalMoneys"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="已出账款" :required="true">
+            <el-input
+              :disabled="true"
+              v-model="publicList.payMoneys"
+              :step="0.00001"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="未出账款" :required="true">
+            <el-input
+              disabled
+              v-model="publicList.payRemainMoneys"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg " justify="space-around">
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">出款信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="甲方" :required="true">
-            <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
-          </el-form-item>
-
-          <!-- <el-form-item class="comright" label="项目完税资料" :required="true">
-                 <uploadSmall v-if="fileName.length>0" @getfileName="getfileNameS" :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetail"></uploadSmall>
-           </el-form-item> -->
-            </el-col>
-           <el-col :span="9">
-           <el-form-item class="comright" label="乙方" prop="projectOwner">
-            <el-input v-model="formData.selfName" :readonly="true"></el-input>
-          </el-form-item>
-
-
+          <div></div>
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg " style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">缴税信息</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>  
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="缴税凭证">
-                        <el-radio disabled  v-model="formData.isUpRate" label="0">有</el-radio>
-                        <el-radio disabled  v-model="formData.isUpRate" label="1">无</el-radio>
-                        <div v-show="formData.isUpRate==0">
-                            <uploadSmall ref="productImage2"   :fileName="isNone" :fileNameOld="fileNameN2"
-                            :isDetail="isDetail"></uploadSmall>
-                        </div>
-                       
-                    </el-form-item>
-                  
-                </el-col>
-                <el-col :span="9">
-                  
-                </el-col>
-              
-            </el-row>
-            <el-row type="flex" class="row-bg" style="margin-bottom:10px;margin-top: -10px;"  justify="space-around">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">完税信息</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="完税凭证">
-                        <el-radio disabled v-model="formData.isUpDutypaid"  label="0">有</el-radio>
-                        <el-radio disabled v-model="formData.isUpDutypaid"  label="1">无</el-radio>
-                        <div v-show="formData.isUpDutypaid==0" >
-                          <uploadSmall ref="productImage1"   :fileName="isNone" :fileNameOld="fileNameN1" :isDetail="isDetail"></uploadSmall>
-                        </div>
-                        
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                  
-                </el-col>
-            </el-row>
-
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
-
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="出账账户" prop="payName">
+            <el-input  :disabled="true" v-model="formData.payName"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="出账金额" prop="payMoney">
+            <el-input
+            :disabled="true"
+              v-model="formData.payMoney"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item
+            class="comright"
+            label="出账凭证"
+            prop="fileNamePay"
+          >
+            <uploadSmall
+              ref="receive"
+              :fileName="isNoneArray"
+              :fileNameOld="fileNameN"
+              :isDetail="isDetail"
+              :index="0"
+            ></uploadSmall>
+          </el-form-item>
+
         </el-col>
 
+        <el-col :span="9">
+          <el-form-item class="comright" label="出账时间" :required="true">
+            <el-input v-model="formData.payTime" disabled></el-input>
+          </el-form-item>
+
+          <el-form-item class="comright" label="出账账号" prop="payAccount">
+            <el-input v-model="formData.payAccount"  :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="财务流水号" prop="payCode">
+            <el-input v-model="formData.payCode"  :disabled="true"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
+
       <el-row type="flex" class="row-bg" justify="space-around">
+          <el-col :span="21">
+            <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+              <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
+           </el-form-item>
+        </el-col>
+
+      </el-row>   
+       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
@@ -131,10 +206,11 @@
         </el-col>
 
       </el-row>
-      <el-row type="flex" class="row-bg " justify="space-around">
-        <el-col :span="8"></el-col>
-        <el-col :span='8' class="flexs">
+      
 
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="8"></el-col>
+        <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
           <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">提交</el-button>
           <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
@@ -142,156 +218,176 @@
         <el-col :span="8"></el-col>
       </el-row>
     </el-form>
-   </div>
+  </div>
 </template>
 <script>
-import uploadSmall from '@/components/douploads/uploadSmall'
-import { edit,check } from "@/api/project/list"
-import { getInfo } from '@/api/login'
-
+import uploadSmall from "@/components/douploads/uploadCollect";
+import { check,detail,editPay,edit} from "@/api/project/list";
+import { getInfo } from "@/api/login";
 export default {
-  name:'AduitDisburse',
+  name: "AduitDisburse",
   components: { uploadSmall },
   data() {
     return {
-      fileNameN2:[],
-      fileNameN1:[],
-      projectStatusNew:0,
-      userinfo:{},
-      isokradioS: '1',
+      isokradioS:'1',
+      fileNameN:[],
+      isNoneArray:[],
+      index: 0,
+      remark:'',
+      publicList: {},
+      userinfo: {},
+      isDetail: "1",
       fileName: [],
-      isNone:[],
-      isDetail:'1',
-      remark: '',
-      formData: {},
+      
+      formData: {
+        
+      },
+      rules: {
+        
+        payCode: [
+          {
+            required: true,
+            message: "出账流水号不能为空",
+            trigger: "blur",
+          },
+        ],
+        payName: [
+          {
+            required: true,
+            message: "出账账户不能为空",
+            trigger: "blur",
+          },
+        ],
+        payMoney: [
+          {
+            required: true,
+            message: "出账金额不能为空",
+            trigger: "blur",
+          },
+        ],
+        payAccount: [
+          {
+            required: true,
+            message: "出账账号不能为空",
+            trigger: "blur",
+          },
+        ],
+        fileNamePay: [
+          {
+            required: true,
+            message: "出账凭证不能为空",
+            trigger: "change",
+          },
+        ],
+      },
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };
   },
   computed: {},
   mounted() {
-    this.formData = this.$cache.local.getJSON("projectListNews");
-    this.formData.fileName3=JSON.parse(this.formData.fileName3);
-    this.formData.fileName4=JSON.parse(this.formData.fileName4);
-    this.formData.isUpDutypaid=JSON.stringify(this.formData.isUpDutypaid);
-    this.formData.isUpRate=JSON.stringify(this.formData.isUpRate);
-    this.$nextTick(()=>{
-      this.$refs.productImage1.getSrcList(this.formData.fileName3);
-      this.$refs.productImage2.getSrcList(this.formData.fileName4);
-    })
-  
-    //this.fileName=[];
-    for(let i in this.formData.fileName3){
-      this.fileNameN1.push({
-        url:this.baseImgPath+this.formData.fileName3[i],
-        name:this.formData.fileName3[i]
-      })
-    }
-    for(let j in this.formData.fileName4){
-      this.fileNameN2.push({
-        url:this.baseImgPath+this.formData.fileName4[j],
-        name:this.formData.fileName4[j]
-      })
-    }
+    this.getCommonList();
+    this.formData=this.$cache.local.getJSON("collectDetails");
+    this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
+    this.$refs.receive.getSrcList(this.formData.fileNamePay);
+    for(let i in this.formData.fileNamePay){
+           this.fileNameN.push({
+            name:this.formData.fileNamePay[i],
+            url:this.baseImgPath+this.formData.fileNamePay[i]
+           })
+        }
   },
   methods: {
+    //获取公共数据
+    getCommonList(){
+        detail({
+         projectCode: this.$cache.local.getJSON("projectCodeNew")
+        }).then((response) => {
+         this.publicList = response.data;
+       });
+    },
+   //收款日志
     check(resmsg) {
-        getInfo().then(res => {
-            this.userinfo=res.user;
-             let parms = {
-              "checkReasult": resmsg,
-              "checkUser": this.userinfo.userName,
-              'phonenumber': this.userinfo.phonenumber,
-              "projectCode": this.formData.projectCode,
-              "projectType": "5",
-            };
-            check(parms).then(res => {
-                console.log('完税审核完成');
-            }).catch(error => {
-
-            });
+      getInfo().then((res) => {
+        this.userinfo = res.user;
+        let parms = {
+          checkReasult: resmsg,
+          checkUser: this.userinfo.userName,
+          phonenumber: this.userinfo.phonenumber,
+          projectCode: this.formData.projectCode,
+          projectType: "24",
+        };
+        check(parms)
+          .then((res) => {
+            console.log("审核出款成功!");
           })
-       
-       },
-    getfileNameS(){},
+          .catch((error) => {});
+      });
+    },
+   
+    //返回
+    resetForm() {
+      if(this.$cache.local.getJSON('iscollect')==0){
+         this.$tab.closeOpenPage({
+          path:'/projectlist/aduitCollectList'
+         })
+      }else{
+        this.$tab.closeOpenPage({
+        path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+      });
+      }
+      
+    },
+    handleChange(val) {
+      console.log(val);
+    },
+   
     submitForm(type) {
-      this.$refs['elForm'].validate(valid => {
+      this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
-          this.projectStatusNew=0;
-           if(this.formData.projectContractStatus==2 || this.formData.projectDutypaidStatus==2){
-                this.projectStatusNew=1;
-            }
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectDutypaidStatus: type,
-              projectStatus: this.projectStatusNew,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              taxRemark: this.remark,
-              projectDutypaidStatus: type,
-              projectStatus: 1,
-            };
-          }
-          edit(parms).then((res) => {
+         let params={
+          payId:this.formData.payId,
+          isCheck:type
+         };
+         
+         editPay(params).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$nextTick(function () {
-                  
-                    let resmsg = '';
-                    if (type == 1) {
-                      resmsg = '完税审核完成';
-                       this.check('完税审核完成');
+                if (type == 1) {
+                      this.check('出款审核完成');
                     } else {
-                      this.check('完税审核不通过。'+'原因:'+this.remark);
-                      resmsg = '完税审核完成';
+                      let parms = {
+                        projectId: this.publicList.projectId,
+                        projectPayStatus:2,
+                      };
+                      edit(parms);
+                      this.check('出款审核不通过。'+'原因:'+this.remark);
                     }
-
                     let obj = {
-                      title: '完税审核',
+                      title: '出款审核',
                       backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
-                      resmsg: resmsg,
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name,
+                      resmsg: '出款审核完成',
+                      backName:this.$cache.local.getJSON('aduitProjectBack').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
                     this.$tab.closeOpenPage({ path: "/projectlist/success" });
-                 
-                });
-
-              } else {
-                this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl});
-              }
-
-            }
+                  } 
+                }
           });
-
         } else {
-            this.$alert('请正确填写', '系统提示', {
-              confirmButtonText: '确定',
-             
-              type: 'warning'
-           });
-        }
-      })
+          this.$alert("请正确填写", "系统提示", {
+            confirmButtonText: "确定",
 
-    },
-    //返回
-    resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl })
-    },
-   
-    handleChange(val) {
-      console.log(val);
+            type: "warning",
+          });
+        }
+      });
     },
   },
 };
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+    <style rel="stylesheet/scss" lang="scss" scoped>
 .rowCss {
   margin-top: 10px;
 }
@@ -322,31 +418,27 @@ export default {
 
 .combottom {
   margin-bottom: 10px;
-
 }
 
 .flexs {
   display: flex;
   justify-content: center;
-
 }
 
 .bankno {
-
   letter-spacing: 2px;
-
   font-size: 20px;
-
   color: blue;
 }
-::v-deep .el-input.is-disabled .el-input__inner{
-   background-color: rgba(255, 255, 255, 1.5) !important;
-   color: black  !important;
-   border-color: rgba(135,206,250,0.7) !important;
+::v-deep .el-input.is-disabled .el-input__inner {
+    background-color: rgba(255, 255, 255, 1.5) !important;
+    color: black !important;
+    border-color: rgba(135, 206, 250, 0.7) !important;
 }
-::v-deep .el-input-group__append{
-   background-color: rgba(255, 255, 255, 1.5) !important;
-   color: black  !important;
-   border-color: rgba(135,206,250,0.7) !important;
+
+::v-deep .el-input-group__append {
+    background-color: rgba(255, 255, 255, 1.5) !important;
+    color: black !important;
+    border-color: rgba(135, 206, 250, 0.7) !important;
 }
 </style>
