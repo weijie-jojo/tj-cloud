@@ -46,10 +46,10 @@ public class ProjectCheckController extends BaseController
     @RequiresPermissions("company:check:list")
     @GetMapping("/list")
     @ApiOperation("查询审批进度列表")
-    public TableDataInfo list(ProjectCheck projectCheck)
+    public TableDataInfo list(ProjectCheck projectCheck,Integer[] projectTypes)
     {
         startPage();
-        List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck);
+        List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck,projectTypes);
         return getDataTable(list);
     }
 
@@ -60,9 +60,9 @@ public class ProjectCheckController extends BaseController
     @Log(title = "导出审批列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ApiOperation("导出审批列表")
-    public void export(HttpServletResponse response, ProjectCheck projectCheck)
+    public void export(HttpServletResponse response, ProjectCheck projectCheck,Integer[] projectChecks)
     {
-        List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck);
+        List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck,projectChecks);
         ExcelUtil<ProjectCheckVo> util = new ExcelUtil<ProjectCheckVo>(ProjectCheckVo.class);
         util.exportExcel(response, list, "个体户审批进度数据");
     }

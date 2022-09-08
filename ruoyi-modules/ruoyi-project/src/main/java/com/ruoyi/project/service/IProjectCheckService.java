@@ -26,7 +26,7 @@ public interface IProjectCheckService
      * @param projectCheck 个体户审批进度
      * @return 个体户审批进度集合
      */
-    public List<ProjectCheckVo> selectProjectCheckList(ProjectCheck projectCheck);
+    public List<ProjectCheckVo> selectProjectCheckList(ProjectCheck projectCheck,Integer[] projectTypes);
 
     /**
      * 新增个体户审批进度
