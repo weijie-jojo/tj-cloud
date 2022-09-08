@@ -199,6 +199,7 @@ import { list2,edit } from "@/api/project/ticket";
 import arrss from "@/api/project/list";
 import { detail, getcode, getinfoByUserId, ownlist, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
+import { Decimal } from 'decimal.js'
 export default {
     name: 'ExamTicket',
     components: {
@@ -206,6 +207,7 @@ export default {
     },
     data() {
         return {
+            projectStatusNew:'0',
             isokradioS: '1',
             fileNames: [],
             isDetail: '1',
@@ -449,20 +451,35 @@ export default {
                 if (valid) {
                     let parms;
                     this.ticketByCode();
+                   
+                   if(this.formData.projectReceiveStatus==1 && this.formData.projectPayStatus==1 && this.formData.projectDutypaidStatus==1 
+                    && this.formData.projectAcceptanceStatus==1 && this.formData.projectContractStatus==1 && this.formData.projectCheckStatus==1 ){
+                        this.projectStatusNew=2;
+                    }else if(
+                     this.formData.projectReceiveStatus==2 || this.formData.projectPayStatus==2 || this.formData.projectDutypaidStatus==2 
+                     || this.formData.projectAcceptanceStatus==2 || this.formData.projectCheckStatus==2 || this.formData.projectContractStatus==2
+                    ){
+                        this.projectStatusNew=1;
+                     }else{
+                        this.projectStatusNew=0;
+                     }
                     
                     if (type == 1) {
                     
                       this.formData.isDeleted=1;
-                      if (this.Father.projectRemainAmount == 0) {
+                      
+                      if (new Decimal(this.Father.projectRemainAmount).sub(new Decimal(this.formData.ticketAmount)) == 0) {
                         parms = {
                             projectId: this.Father.projectId,
                             projectTicketStatus: 1,
+                            projectStatus:this.projectStatusNew
 
                         };
                       } else {
                         parms = {
                             projectId: this.Father.projectId,
                             projectTicketStatus: 0,
+                            projectStatus:this.projectStatusNew
 
                         };
                        }
@@ -473,6 +490,7 @@ export default {
                             projectId: this.Father.projectId,
                             ticketRemark: this.remark,
                             projectTicketStatus: type,
+                            projectStatus:1,
                             
                         };
                     }

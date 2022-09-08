@@ -100,7 +100,7 @@ export default {
             open: false,
             // 查询参数
             queryParams: {
-                type:3,
+                type:7,
                 pageNum: 1,
                 pageSize: 10,
                 selfName: null,  //乙方

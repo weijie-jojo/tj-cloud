@@ -566,6 +566,7 @@ export default {
     },
     data() {
         return {
+            projectStatusNew:'0',
             selectTipType:'',
             isDetail:'1',
             isNone:[],
@@ -689,18 +690,36 @@ export default {
         // TODO 提交表单
         if (valid) {
           let parms;
+          this.projectStatusNew=0;
+          if(this.formData.projectDutypaidStatus == 1 &&
+                  this.formData.projectReceiveStatus == 1 &&
+                  this.formData.projectTicketStatus == 1 &&
+                  this.formData.projectAcceptanceStatus == 1 &&
+                  this.formData.projectContractStatus == 1 &&
+                  this.formData.projectPayStatus == 1 ){
+                  this.projectStatusNew=2;
+          }else if(
+                  this.formData.projectDutypaidStatus == 1 ||
+                  this.formData.projectReceiveStatus == 1 ||
+                  this.formData.projectTicketStatus == 1 ||
+                  this.formData.projectAcceptanceStatus == 1 ||
+                  this.formData.projectContractStatus == 1 ||
+                  this.formData.projectPayStatus == 1 
+          ){
+                  this.projectStatusNew=1;
+          }
           if (type == 1) {
            parms = {
               projectId: this.formData.projectId,
               projectCheckStatus:type,
-              projectStatus:0,
+              projectStatus:this.projectStatusNew,
             };
           } else {
             parms = {
               projectId: this.formData.projectId,
               checkContent: this.remark,
               projectCheckStatus:type,
-              projectStatus:1,
+              projectStatus:this.projectStatusNew,
             };
           }
            edit(parms).then((res) => {

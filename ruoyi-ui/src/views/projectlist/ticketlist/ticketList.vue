@@ -300,15 +300,27 @@ export default {
                     this.publicList.projectPackageAmount = 0;
                     for (let i in arr) {
                         if (arr[i].ticketAmount > 0 && arr[i].isDeleted==1) {
-                            this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
+                           this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
+                       
+                       if(this.publicList.projectReceiveStatus==1 && this.publicList.projectPayStatus==1 && this.publicList.projectDutypaidStatus==1 
+                         && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
+                             this.publicList.projectStatus=2;
+                        }else{
+                             this.publicList.projectStatus=0;
+                        }
+                       
+                       
+                        }else if(arr[i].isDeleted==2){
+                            this.publicList.projectStatus=1;
                         }
                     }
                     //如果存在发票 累计发票 加上发票金额 
-                   // this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(this.publicList.ticketAmount));
+                   
                     this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
                    
                 }
-                 let params={
+                let params={
+                        projectStatus:this.publicList.projectStatus,
                         projectId:this.publicList.projectId,
                         projectTotalAmount:this.publicList.projectTotalAmount,
                         projectRemainAmount:this.publicList.projectRemainAmount,

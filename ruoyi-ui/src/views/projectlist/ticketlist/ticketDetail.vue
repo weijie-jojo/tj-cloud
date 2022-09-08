@@ -159,6 +159,31 @@
             </el-row>
 
 
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="21">
+                    <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+                        <el-radio  :disabled="true" v-model="isokradioS" label="1"> 通过</el-radio>
+
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+                <el-col :span="21">
+                    <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+                        <div style="display: flex; align-items: center;justify-content: flex-start;">
+                            <el-radio  :disabled="true" v-model="isokradioS" label="2">不通过 </el-radio>
+                            <el-input type="textarea" placeholder="请输入不通过说明" v-model="formData.ticketRemark"
+                                :disabled="true"></el-input>
+                        </div>
+
+
+                    </el-form-item>
+                </el-col>
+
+            </el-row>
+
+
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
@@ -185,6 +210,7 @@ export default {
     },
     data() {
         return {
+            isokradioS:'0',
             fileNames:[],
             isDetail:'1',
             isNone:[],
@@ -390,6 +416,7 @@ export default {
         this.getRate();
         this.formData=this.$cache.local.getJSON("ticketDetails");
         this.formData.fileName = JSON.parse(this.formData.fileName);
+        this.isokradioS=JSON.stringify(this.formData.projectTicketStatus);
         this.fileName=[];
         for (let j in this.formData.fileName) {
                this.fileName.push({

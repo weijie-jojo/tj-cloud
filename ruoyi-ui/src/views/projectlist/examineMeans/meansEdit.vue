@@ -236,9 +236,17 @@ export default {
                     // project_remain_amount
                     this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
                     this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
-                    if (this.formData.projectContractStatus == 2 || this.formData.projectDutypaidStatus == 2) {
-                        this.projectStatusNew = 1;
-                    }
+                    
+                    if(this.formData.projectReceiveStatus==1 && this.formData.projectPayStatus==1 && this.formData.projectDutypaidStatus==1 
+                    && this.formData.projectTicketStatus==1 && this.formData.projectCheckStatus==1 ){
+                    this.projectStatusNew=2;
+                    }else if(
+                    this.formData.projectReceiveStatus==2 || this.formData.projectPayStatus==2 || this.formData.projectDutypaidStatus==2 
+                    || this.formData.projectTicketStatus==2 || this.formData.projectCheckStatus==2
+                    ){
+                        this.projectStatusNew=1;
+                     }
+
                     let parms = {
                         isUpAcceptance:this.formData.isUpAcceptance,
                         isUpContract:this.formData.isUpContract,

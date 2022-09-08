@@ -165,6 +165,7 @@ export default {
     this.formData.isUpRate=JSON.stringify(this.formData.isUpRate);
     this.$refs.productImage1.getSrcList(this.formData.fileName3);
     this.$refs.productImage2.getSrcList(this.formData.fileName4);
+    this.remark=this.formData.taxRemark;
     //this.fileName=[];
     for(let i in this.formData.fileName3){
       this.fileNameN1.push({

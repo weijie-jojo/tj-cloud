@@ -195,7 +195,9 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 4,scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 4, scope.row.projectCode)
+            "
             v-if="
               scope.row.projectAcceptanceStatus == '-1' &&
               scope.row.projectContractStatus == '-1'
@@ -205,7 +207,9 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 4,scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 4, scope.row.projectCode)
+            "
             v-if="
               scope.row.projectAcceptanceStatus == '0' &&
               scope.row.projectContractStatus == '0'
@@ -246,14 +250,18 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 5, scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 5, scope.row.projectCode)
+            "
             v-if="scope.row.projectDutypaidStatus == '-1'"
             >办理中
           </el-link>
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 5, scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 5, scope.row.projectCode)
+            "
             v-if="scope.row.projectDutypaidStatus == '0'"
             >审核中
           </el-link>
@@ -284,7 +292,9 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 6, scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 6, scope.row.projectCode)
+            "
             v-if="scope.row.projectReceiveStatus == '0'"
             >收款中</el-link
           >
@@ -316,7 +326,9 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 7, scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 7, scope.row.projectCode)
+            "
             v-if="scope.row.projectPayStatus == '0'"
             >出款中</el-link
           >
@@ -348,7 +360,9 @@
           <el-link
             :underline="false"
             type="primary"
-            @click="examine(scope.row.userId, scope.row, 1, scope.row.projectCode)"
+            @click="
+              examine(scope.row.userId, scope.row, 1, scope.row.projectCode)
+            "
             v-if="scope.row.projectCheckStatus == '0'"
             >审核中</el-link
           >
@@ -424,6 +438,13 @@
           :show-overflow-tooltip="true"
         />
       </el-table>
+      <pagination
+        v-show="totalCheck > 0"
+        :total="totalCheck"
+        :page.sync="queryParamsCheck.pageNum"
+        :limit.sync="queryParamsCheck.pageSize"
+        @pagination="getListCheck"
+      />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">关闭</el-button>
         <el-button type="primary" v-if="lookstatus" @click="findList"
@@ -448,6 +469,11 @@ export default {
   name: "List",
   data() {
     return {
+      queryParamsCheck: {
+        pageNum: 1,
+        pageSize: 10,
+        projectCode: "",
+      },
       filterList: [
         { text: "开票中", value: 0 },
         { text: "异常", value: 2 },
@@ -474,11 +500,11 @@ export default {
         { text: "异常", value: 2 },
         { text: "完成", value: 1 },
       ],
+      mylist: {},
+      errArrName: "",
       msgs: "",
       userinfo: {},
-      projectArr: [],
-      projectBrr: [],
-      projectCrr: [],
+
       allLabel: "全部",
       errLabel: "异常",
       loadingLabel: "审核中",
@@ -501,6 +527,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
+      totalCheck: 0,
       // 项目列表表格数据
       projectList: [],
       // 弹出层标题
@@ -699,8 +726,8 @@ export default {
                     backurl: "/projectlist/list",
                     name: "List",
                   };
-              
-                  this.$cache.local.setJSON('iscollect', 1);
+
+                  this.$cache.local.setJSON("iscollect", 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
                   this.$cache.local.setJSON("backTicket", obj);
 
@@ -716,8 +743,8 @@ export default {
                     backurl: "/projectlist/list",
                     name: "List",
                   };
-                
-                  this.$cache.local.setJSON('iscollect', 1);
+
+                  this.$cache.local.setJSON("iscollect", 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
                   this.$cache.local.setJSON("backTicket", obj);
                   this.$tab.openPage(
@@ -740,7 +767,7 @@ export default {
         backurl: "/projectlist/list",
         name: "List",
       };
-      
+
       this.$cache.local.setJSON("addProjectBack", obj);
       switch (this.types) {
         case 2:
@@ -764,7 +791,7 @@ export default {
         backurl: "/projectlist/list",
         name: "List",
       };
-      this.$cache.local.setJSON('iscollect', 1);
+      this.$cache.local.setJSON("iscollect", 1);
       this.$cache.local.setJSON("aduitProjectBack", obj);
       switch (this.types) {
         case 1:
@@ -784,7 +811,7 @@ export default {
         backurl: "/projectlist/list",
         name: "List",
       };
-      this.$cache.local.setJSON('iscollect', 1);
+      this.$cache.local.setJSON("iscollect", 1);
       this.$cache.local.setJSON("Projectedit", obj);
       this.$cache.local.setJSON("backTicket", obj);
       switch (this.types) {
@@ -801,10 +828,10 @@ export default {
           this.$tab.closeOpenPage({ path: "/projectlist/dutypaidsEdit" });
           break;
         case 6:
-          this.$tab.closeOpenPage({ path: "/projectlist/collectEdit" });
+          this.$tab.closeOpenPage({ path: "/projectlist/aduitCollectList" });
           break;
         case 7:
-          this.$tab.closeOpenPage({ path: "/projectlist/disburseEdit" });
+          this.$tab.closeOpenPage({ path: "/projectlist/aduitDisburseList" });
           break;
       }
     },
@@ -840,6 +867,30 @@ export default {
           break;
       }
     },
+    //获取对应日志分页数据
+    getListCheck() {
+      let types = this.mylist.type;
+      this.queryParamsCheck.projectTypeArr = null;
+      if (types == 1) {
+        this.queryParamsCheck.projectTypeArr = '1, 6, 10';
+      } else if (types == 2) {
+        this.queryParamsCheck.projectTypeArr = '7, 17, 18';
+      } else if (types == 4) {
+        this.queryParamsCheck.projectTypeArr = '12, 15, 4';
+      } else if (types == 5) {
+        this.queryParamsCheck.projectTypeArr = '16, 13, 5';
+      } else if (types == 6) {
+        this.queryParamsCheck.projectTypeArr = '19, 20, 21';
+      } else if (types == 7) {
+        this.queryParamsCheck.projectTypeArr = '22, 23, 24';
+      }
+      checkdetail(this.queryParamsCheck).then((res) => {
+        this.progressList = res.rows;
+        this.totalCheck = res.total;
+        this.title = this.mylist.title;
+        this.dialogVisible = true;
+      });
+    },
     //进度弹框
     progressNew(code, type) {
       this.lookstatus = false;
@@ -850,14 +901,14 @@ export default {
       } else {
         this.types = "";
       }
-      var parms = {
-        projectCode: code,
+      this.mylist = {
+        title: "进度跟踪",
+        type: 0,
       };
-      checkdetail(parms).then((res) => {
-        this.progressList = res.rows;
-        this.title = "进度跟踪";
-        this.dialogVisible = true;
-      });
+      this.queryParamsCheck.pageNum = 1;
+      this.queryParamsCheck.pageSize = 10;
+      this.queryParamsCheck.projectCode = code;
+      this.getListCheck();
     },
     //完成弹框
     projectFinish(code, row, type) {
@@ -874,9 +925,13 @@ export default {
       } else if (type == 3) {
         msg = "合同详情";
       } else if (type == 4) {
-        msg = "验收详情";
+        msg = "资料详情";
       } else if (type == 5) {
         msg = "完税详情";
+      } else if (type == 6) {
+        msg = "收款详情";
+      } else if (type == 6) {
+        msg = "出款详情";
       }
       this.types = type;
       this.checkdetail(code, type, msg);
@@ -884,6 +939,20 @@ export default {
     //异常弹框
     progressError(code, row, type) {
       this.types = type;
+      if (type == 1) {
+        this.errArrName = "异常原因:" + row.checkContent;
+      } else if (type == 2) {
+        this.errArrName = "异常原因:" + row.ticketRemark;
+      } else if (type == 3) {
+      } else if (type == 4) {
+        this.errArrName = "异常原因:" + row.checkRemark;
+      } else if (type == 5) {
+        this.errArrName = "异常原因:" + row.taxRemark;
+      } else if (type == 6) {
+        this.errArrName = "异常原因:" + row.receiveRemark;
+      } else if (type == 7) {
+        this.errArrName = "异常原因:" + row.payRemark;
+      }
       this.$cache.local.setJSON("projectCodeNew", code);
       this.$cache.local.setJSON("projectListNews", row);
       getLeaderByUserId({
@@ -914,9 +983,10 @@ export default {
                   },
                   "温馨提示"
                 ),
+                h("P", { style: "margin:20px 0 0 40px;" }, this.errArrName),
                 h(
                   "p",
-                  { style: "margin:40px 0 0 40px;height:80px" },
+                  { style: "margin:5px 0 0 40px;" },
                   "请等待" + userName + "(" + phonenumber + ")" + this.msgs
                 ),
               ]),
@@ -941,93 +1011,46 @@ export default {
     },
     //完成详情接口
     checkdetail(code, type, msg) {
-      this.projectArr = [];
-      this.projectBrr = [];
-      this.projectCrr = [];
       this.progressList = [];
 
       if (type == 1) {
         //项目审核
-        var parms = {
-          projectCode: code,
+
+        this.mylist = {
+          title: "项目审核进度跟踪",
+          type: 1,
         };
-        checkdetail(parms).then((res) => {
-          this.projectArr = res.rows;
-          let Arr = [];
-          for (let i in this.projectArr) {
-            if (
-              this.projectArr[i].projectType == 1 ||
-              this.projectArr[i].projectType == 6 ||
-              this.projectArr[i].projectType == 10
-            ) {
-              Arr.push(this.projectArr[i]);
-            }
-          }
-          this.progressList = Arr;
-          this.title = "项目审核进度跟踪";
-          this.dialogVisible = true;
-        });
       } else if (type == 2) {
-        //  msg = '票据详情';
+        this.mylist = {
+          title: "票据审核进度跟踪",
+          type: 2,
+        };
       } else if (type == 3) {
-        var parms = {
-          projectCode: code,
-        };
-        checkdetail(parms).then((res) => {
-          this.projectBrr = res.rows;
-          let Brr = [];
-          for (let i in this.projectBrr) {
-            if (
-              this.projectBrr[i].projectType == 14 ||
-              this.projectBrr[i].projectType == 11 ||
-              this.projectBrr[i].projectType == 3
-            ) {
-              Brr.push(this.projectBrr[i]);
-            }
-          }
-          this.progressList = Brr;
-          this.title = "合同审核进度跟踪";
-          this.dialogVisible = true;
-        });
       } else if (type == 4) {
-        var parms = {
-          projectCode: code,
+        this.mylist = {
+          title: "资料审核进度跟踪",
+          type: 4,
         };
-        checkdetail(parms).then((res) => {
-          this.projectCrr = res.rows;
-          let Crr = [];
-          for (let i in this.projectCrr) {
-            if (
-              this.projectCrr[i].projectType == 12 ||
-              this.projectCrr[i].projectType == 15 ||
-              this.projectCrr[i].projectType == 4
-            ) {
-              Crr.push(this.projectCrr[i]);
-            }
-          }
-          this.progressList = Crr;
-          this.title = "验收审核进度跟踪";
-          this.dialogVisible = true;
-        });
       } else if (type == 5) {
-        checkdetail(parms).then((res) => {
-          this.projectCrr = res.rows;
-          let Drr = [];
-          for (let i in this.projectCrr) {
-            if (
-              this.projectCrr[i].projectType == 16 ||
-              this.projectCrr[i].projectType == 13 ||
-              this.projectCrr[i].projectType == 5
-            ) {
-              Drr.push(this.projectCrr[i]);
-            }
-          }
-          this.progressList = Drr;
-          this.title = "完税审核进度跟踪";
-          this.dialogVisible = true;
-        });
+        this.mylist = {
+          title: "完税审核进度跟踪",
+          type: 5,
+        };
       } else if (type == 6) {
+        this.mylist = {
+          title: "收款审核进度跟踪",
+          type: 6,
+        };
+      } else if (type == 7) {
+        this.mylist = {
+          title: "出款审核进度跟踪",
+          type: 7,
+        };
       }
+      this.queryParamsCheck.pageNum = 1;
+      this.queryParamsCheck.pageSize = 10;
+      this.queryParamsCheck.projectCode = code;
+      this.getListCheck();
     },
     //返回当前时间
     returnTime(time2) {
@@ -1115,6 +1138,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map((item) => item.projectId);
+      console.log(this.ids);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
