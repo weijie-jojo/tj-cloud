@@ -1,5 +1,7 @@
 package com.ruoyi.project.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -9,15 +11,9 @@ import com.ruoyi.project.domain.vo.ProjectCheckVo;
 import com.ruoyi.project.service.IProjectCheckService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -46,8 +42,17 @@ public class ProjectCheckController extends BaseController
     @RequiresPermissions("company:check:list")
     @GetMapping("/list")
     @ApiOperation("查询审批进度列表")
-    public TableDataInfo list(ProjectCheck projectCheck,Integer[] projectTypes)
+    public TableDataInfo list(ProjectCheck projectCheck,  Long[] projectTypeArr)
     {
+
+        System.out.println("projectTypeArr=="+projectTypeArr);
+        List<Long> projectTypes= new ArrayList<>();
+        if (projectTypeArr==null){
+            projectTypes=null;
+        }else {
+            projectTypes= Arrays.asList(projectTypeArr);
+        }
+        System.out.println("projectTypes=="+projectTypes);
         startPage();
         List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck,projectTypes);
         return getDataTable(list);
@@ -60,7 +65,7 @@ public class ProjectCheckController extends BaseController
     @Log(title = "导出审批列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ApiOperation("导出审批列表")
-    public void export(HttpServletResponse response, ProjectCheck projectCheck,Integer[] projectChecks)
+    public void export(HttpServletResponse response, ProjectCheck projectCheck,List<Long> projectChecks)
     {
         List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck,projectChecks);
         ExcelUtil<ProjectCheckVo> util = new ExcelUtil<ProjectCheckVo>(ProjectCheckVo.class);

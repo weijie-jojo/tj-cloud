@@ -39,7 +39,7 @@ public class ProjectCheckServiceImpl implements IProjectCheckService
      * @return 个体户审批进度
      */
     @Override
-    public List<ProjectCheckVo> selectProjectCheckList(ProjectCheck projectCheck,Integer[] projectTypes)
+    public List<ProjectCheckVo> selectProjectCheckList(ProjectCheck projectCheck,List<Long> projectTypes)
     {
         return projectCheckMapper.selectProjectCheckList(projectCheck,projectTypes);
     }

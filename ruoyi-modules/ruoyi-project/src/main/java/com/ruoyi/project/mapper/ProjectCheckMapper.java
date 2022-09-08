@@ -27,7 +27,7 @@ public interface ProjectCheckMapper
      * @param projectCheck 个体户审批进度
      * @return 个体户审批进度集合
      */
-    public List<ProjectCheckVo> selectProjectCheckList(@Param("projectCheck")  ProjectCheck projectCheck,@Param("projectTypes")  Integer[] projectTypes);
+    public List<ProjectCheckVo> selectProjectCheckList(@Param("projectCheck")  ProjectCheck projectCheck,@Param("projectTypes")  List<Long> projectTypes);
 
     /**
      * 新增个体户审批进度

@@ -27,7 +27,7 @@
         <include refid="selectProjectCheckJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
             A.dict_type='project_type'
-            <if test=" projectTypes.length >0 ">
+            <if test=" projectTypes!=null ">
                 AND project_type in
                 <foreach collection="projectTypes" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
