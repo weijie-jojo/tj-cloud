@@ -355,7 +355,8 @@ export default {
         if (valid) {
          let params={
           receiveId:this.formData.receiveId,
-          isCheck:type
+          isCheck:type,
+          receiveRemark:this.remark,
          };
          
           editReceive(params).then((res) => {
@@ -367,6 +368,7 @@ export default {
                       let parms = {
                         projectId: this.publicList.projectId,
                         projectReceiveStatus:2,
+                        receiveRemark:this.remark
                       };
                       edit(parms);
                       this.check('收款审核不通过。'+'原因:'+this.remark);

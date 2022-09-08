@@ -336,7 +336,8 @@
           if (valid) {
            let params={
             receiveId:this.formData.receiveId,
-            isCheck:0
+            isCheck:0,
+            receiveRemark:'',
            };
            
             editReceive(params).then((res) => {

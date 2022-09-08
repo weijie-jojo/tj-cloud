@@ -198,7 +198,7 @@
             <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
               <div style="display: flex; align-items: center;justify-content: flex-start;">
                 <el-radio disabled v-model="isokradioS" label="2">不通过 </el-radio>
-                <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" disabled></el-input>
+                <el-input type="textarea" placeholder="请输入不通过说明" v-model="formData.receiveRemark" disabled></el-input>
               </div>
   
   
