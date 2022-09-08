@@ -98,6 +98,8 @@
         <result property="isDisposableShare"    column="is_disposable_share"    />
         <result property="disposableFee"    column="disposable_fee"    />
         <result property="disposableFeeIsmoney"    column="disposable_fee_ismoney"    />
+        <result property="receiveRemark"    column="receive_remark"    />
+        <result property="payRemark"    column="pay_remark"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -115,7 +117,7 @@
                is_special_share, is_slider, is_slider_ordinary, self_share, is_self_share, self_share_ismoney, special_self_fee,
                ordinary_self_money, project_rate_status,project_receive_status, project_pay_status,receive_moneys, receive_remain_moneys,
                pay_total_moneys, pay_moneys, pay_remain_moneys,is_register_money, is_disposable, disposable_share, disposable_share_ismoney,
-               is_disposable_share, disposable_fee, disposable_fee_ismoney
+               is_disposable_share, disposable_fee, disposable_fee_ismoney,receive_remark,pay_remark
         from self_project
     </sql>
 
@@ -140,7 +142,7 @@
                 t.is_self_share, t.self_share_ismoney, t.special_self_fee, t.ordinary_self_money, t.project_rate_status,
                 t.project_receive_status, t.project_pay_status,t.receive_moneys, t.receive_remain_moneys, t.pay_total_moneys,
                 t.pay_moneys, t.pay_remain_moneys,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney,
-                t.is_disposable_share, t.disposable_fee, t.disposable_fee_ismoney,
+                t.is_disposable_share, t.disposable_fee, t.disposable_fee_ismoney,t.receive_remark,t.pay_remark,
                 A.purch_id, A.purch_company, A.user_id, A.purch_company_taxid, A.purch_company_phone, A.purch_company_address,
                 A.bank_name, A.bank_code,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
@@ -266,6 +268,8 @@
             <if test="selfProject.isDisposableShare != null "> and is_disposable_share = #{selfProject.isDisposableShare}</if>
             <if test="selfProject.disposableFee != null "> and disposable_fee = #{selfProject.disposableFee}</if>
             <if test="selfProject.disposableFeeIsmoney != null "> and disposable_fee_ismoney = #{selfProject.disposableFeeIsmoney}</if>
+            <if test="selfProject.receiveRemark != null  and selfProject.receiveRemark != ''"> and receive_remark = #{selfProject.receiveRemark}</if>
+            <if test="selfProject.payRemark != null  and selfProject.payRemark != ''"> and pay_remark = #{selfProject.payRemark}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -375,6 +379,8 @@
             <if test="isDisposableShare != null">is_disposable_share,</if>
             <if test="disposableFee != null">disposable_fee,</if>
             <if test="disposableFeeIsmoney != null">disposable_fee_ismoney,</if>
+            <if test="receiveRemark != null">receive_remark,</if>
+            <if test="payRemark != null">pay_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -469,6 +475,8 @@
             <if test="isDisposableShare != null">#{isDisposableShare},</if>
             <if test="disposableFee != null">#{disposableFee},</if>
             <if test="disposableFeeIsmoney != null">#{disposableFeeIsmoney},</if>
+            <if test="receiveRemark != null">#{receiveRemark},</if>
+            <if test="payRemark != null">#{payRemark},</if>
         </trim>
     </insert>
 
@@ -567,6 +575,8 @@
             <if test="isDisposableShare != null">is_disposable_share = #{isDisposableShare},</if>
             <if test="disposableFee != null">disposable_fee = #{disposableFee},</if>
             <if test="disposableFeeIsmoney != null">disposable_fee_ismoney = #{disposableFeeIsmoney},</if>
+            <if test="receiveRemark != null">receive_remark = #{receiveRemark},</if>
+            <if test="payRemark != null">pay_remark = #{payRemark},</if>
         </trim>
         where project_id = #{projectId}
     </update>

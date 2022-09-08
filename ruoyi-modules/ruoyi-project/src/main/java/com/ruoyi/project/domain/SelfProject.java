@@ -394,4 +394,12 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value =  "一次性收取费用是否定额 1 百分比 0定额")
     private Long disposableFeeIsmoney;
 
+    /** 收款不通过备注 */
+    @ApiModelProperty(value = "收款不通过备注")
+    private String receiveRemark;
+
+    /** 出款不通过备注 */
+    @ApiModelProperty(value = "出款不通过备注")
+    private String payRemark;
+
 }
