@@ -177,6 +177,7 @@ export default {
             let obj={
                 backurl:'/projectlist/disburseAudit'
             };
+            this.$cache.local.setJSON('iscollect',0);
             this.$cache.local.setJSON('backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
@@ -186,11 +187,7 @@ export default {
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('backTicket',obj1);
-             let obj = {
-             name: 'DisburseAudit',
-             url: '/projectlist/disburseAudit',
-            };
-            this.$cache.local.setJSON('Projectedit', obj);
+            this.$cache.local.setJSON('iscollect',0);
             this.$cache.local.setJSON('projectCodeNew', code);
             this.$cache.local.setJSON("projectListNews", row);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
@@ -256,30 +253,23 @@ export default {
 
         },
         aduit(scope) {
-              let obj={
-                backurl:'/projectlist/disburseAudit',
-                name:'DisburseAudit'
-            };
             let obj1={
                 backurl:'/projectlist/disburseAudit'
             };
+            this.$cache.local.setJSON('iscollect',0);
             this.$cache.local.setJSON('backTicket',obj1);
-            this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
         //新增完税
         add(scope) {
-              let obj={
-                backurl:'/projectlist/disburseAudit',
-                name:'DisburseAudit'
-            };
+            
             let obj1={
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('backTicket',obj1);
-            this.$cache.local.setJSON('addProjectBack',obj);
+            this.$cache.local.setJSON('iscollect',0);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });

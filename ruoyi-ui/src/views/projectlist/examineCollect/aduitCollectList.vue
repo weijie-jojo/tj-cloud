@@ -471,9 +471,7 @@ export default {
         this.finshPayLists = res.data;
         let arr = this.finshReceiveLists;
         let brr = this.finshPayLists;
-
-        console.log("arr", arr);
-        console.log("brr", brr);
+        this.publicList.payTotalMoneys=this.publicList.projectTotalAmount;
         if (Array.isArray(arr) && arr.length > 0) {
           this.publicList.receiveMoneys = 0;
           for (let i in arr) {
@@ -500,7 +498,7 @@ export default {
             this.publicList.payTotalMoneys
           ).sub(new Decimal(this.publicList.payMoneys));
         }
-        console.log(this.publicList);
+           edit(this.publicList);
 
 
 

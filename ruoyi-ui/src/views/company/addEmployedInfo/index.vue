@@ -3154,11 +3154,14 @@ export default {
               }
             })
             .catch((error) => {
-              this.getSelfCode();
-              this.$alert("已重新获取个体户编码,请重新提交", "系统提示", {
-                confirmButtonText: "确定",
-                type: "success",
-              });
+              if(error=='Error: 不允许插入重复单据，自动返回，请重新创建'){
+                  this.getSelfCode();
+                  this.$alert("已重新获取个体户编码,请重新提交", "系统提示", {
+                  confirmButtonText: "确定",
+                  type: "success",
+                 });
+              }
+              
             });
         } else {
           this.$alert("请正确填写", "系统提示", {
