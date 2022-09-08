@@ -60,4 +60,8 @@ public class SelfPay extends BaseEntity
     /** 是否审核（0审核中 1完成 2异常） */
     @ApiModelProperty(value = "是否审核（0审核中 1完成 2异常）")
     private Long isCheck;
+
+    /** 出款不通过备注 */
+    @ApiModelProperty(value = "出款不通过备注")
+    private String payRemark;
 }

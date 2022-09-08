@@ -64,4 +64,8 @@ public class SelfReceive extends BaseEntity
     @ApiModelProperty(value = "是否审核（0审核中 1完成 2异常）")
     private Long isCheck;
 
+    /** 收款不通过备注 */
+    @ApiModelProperty(value = "收款不通过备注")
+    private String receiveRemark;
+
 }

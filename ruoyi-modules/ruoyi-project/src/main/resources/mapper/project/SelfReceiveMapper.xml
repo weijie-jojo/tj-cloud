@@ -20,15 +20,16 @@
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isCheck"    column="is_check"    />
+        <result property="receiveRemark"    column="receive_remark"    />
     </resultMap>
 
     <sql id="selectSelfReceiveVo">
-        select receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time,is_check from self_receive
+        select receive_id, project_code, receive_sys_code, receive_code, project_name, receive_name, receive_time, receive_money, receive_account, file_name_receive, create_by, update_by, create_time, update_time,is_check,receive_remark from self_receive
     </sql>
 
     <sql id="selectSelfPayReceiveJoin">
         select t.receive_id, t.project_code, t.receive_sys_code, t.receive_code, t.project_name, t.receive_name, t.receive_time, t.receive_money,
-               t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,t.is_check,
+               t.receive_account, t.file_name_receive, t.create_by, t.update_by, t.create_time, t.update_time,t.is_check,t.receive_remark,
                A.pay_name, A.pay_time, A.pay_money, A.pay_account, A.file_name_pay,A.create_by AS createByPay, A.update_by AS updateByPay,
                A.create_time AS createTimePay, A.update_time AS updateTimePay, A.pay_code, A.pay_sys_code,A.is_check AS checkPay
         FROM self_receive t  LEFT JOIN self_pay A ON t.receive_sys_code=A.receive_sys_code
@@ -57,6 +58,7 @@
             <if test="receiveAccount != null  and receiveAccount != ''"> and receive_account = #{receiveAccount}</if>
             <if test="fileNameReceive != null  and fileNameReceive != ''"> and file_name_receive = #{fileNameReceive}</if>
             <if test="isCheck != null "> and is_check = #{isCheck}</if>
+            <if test="receiveRemark != null  and receiveRemark != ''"> and receive_remark = #{receiveRemark}</if>
         </where>
     </select>
 
@@ -87,6 +89,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isCheck != null">is_check,</if>
+            <if test="receiveRemark != null">receive_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -103,6 +106,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isCheck != null">#{isCheck},</if>
+            <if test="receiveRemark != null">#{receiveRemark},</if>
         </trim>
     </insert>
 
@@ -123,6 +127,7 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="isCheck != null">is_check = #{isCheck},</if>
+            <if test="receiveRemark != null">receive_remark = #{receiveRemark},</if>
         </trim>
         where receive_id = #{receiveId}
     </update>
