@@ -40,8 +40,8 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
      * @return 个体商户集合
      */
     @Override
-    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr) {
-        return selfEmployedMapper.selectEmployedJoinCount(userIdArr);
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinCount(userIdArr, selfEmployedVo);
     }
 
     /**

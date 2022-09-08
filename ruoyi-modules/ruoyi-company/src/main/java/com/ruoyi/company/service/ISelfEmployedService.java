@@ -28,7 +28,7 @@ public interface ISelfEmployedService
      * @param userIdArr
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr);
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo);
     /**
      * 连表selfNameReview查询(完结）
      *

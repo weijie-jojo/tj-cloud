@@ -96,8 +96,8 @@ public class SelfProjectController extends BaseController
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         if (selfProject.getType()==1){//项目进度列表
             list1= list.stream().filter(s->s.getProjectStatus()==0).collect(Collectors.toList());
-            list2= list.stream().filter(s->s.getProjectStatus()==1).collect(Collectors.toList());
-            list3= list.stream().filter(s->s.getProjectStatus()==2).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectStatus()==2).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectStatus()==1).collect(Collectors.toList());
         }
         if (selfProject.getType()==2){//项目审核
             list1= list.stream().filter(s->s.getProjectCheckStatus()==0).collect(Collectors.toList());

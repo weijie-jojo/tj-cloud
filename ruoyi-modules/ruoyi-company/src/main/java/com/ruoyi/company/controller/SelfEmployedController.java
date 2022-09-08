@@ -173,7 +173,7 @@ public class SelfEmployedController extends BaseController
             }
         }
 
-        List<SelfEmployed> list = selfEmployedService.selectEmployedJoinCount(userIdArr);
+        List<SelfEmployed> list = selfEmployedService.selectEmployedJoinCount(userIdArr, selfEmployedVo);
 
         return list.size();
     }

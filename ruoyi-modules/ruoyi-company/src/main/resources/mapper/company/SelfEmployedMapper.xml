@@ -365,15 +365,17 @@
         </where>
     </select>
 
-    <select id="selectEmployedJoinCount"  resultMap="SelfEmployedResult">
-        <include refid="selectSelfEmployedVo"/>
+    <select id="selectEmployedJoinCount" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
+            D.dict_type="educational_level"
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
             </if>
+            <if test="selfEmployedVo.applyName != null "> and B.apply_name = #{selfEmployedVo.applyName}</if>
         </trim>
     </select>
 

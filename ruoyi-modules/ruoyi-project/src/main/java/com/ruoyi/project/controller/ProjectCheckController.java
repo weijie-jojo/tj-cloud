@@ -48,7 +48,7 @@ public class ProjectCheckController extends BaseController
     @ApiOperation("查询审批进度列表")
     public TableDataInfo list(ProjectCheck projectCheck)
     {
-//        startPage();
+        startPage();
         List<ProjectCheckVo> list = projectCheckService.selectProjectCheckList(projectCheck);
         return getDataTable(list);
     }
