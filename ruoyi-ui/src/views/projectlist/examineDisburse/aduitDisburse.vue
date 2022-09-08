@@ -224,11 +224,14 @@
 import uploadSmall from "@/components/douploads/uploadCollect";
 import { check,detail,editPay,edit} from "@/api/project/list";
 import { getInfo } from "@/api/login";
+import { Decimal } from 'decimal.js'
 export default {
   name: "AduitDisburse",
   components: { uploadSmall },
   data() {
     return {
+      parms:{},
+      projectStatusNew:'0',
       isokradioS:'1',
       fileNameN:[],
       isNoneArray:[],
@@ -328,7 +331,7 @@ export default {
     resetForm() {
       if(this.$cache.local.getJSON('iscollect')==0){
          this.$tab.closeOpenPage({
-          path:'/projectlist/aduitCollectList'
+          path:'/projectlist/aduitDisburseList'
          })
       }else{
         this.$tab.closeOpenPage({
@@ -354,15 +357,54 @@ export default {
          editPay(params).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                if (type == 1) {
+                
+                if (
+                  this.formData.projectDutypaidStatus == 1 &&
+                  this.formData.projectReceiveStatus == 1 &&
+                  this.formData.projectTicketStatus == 1 &&
+                  this.formData.projectAcceptanceStatus == 1 &&
+                  this.formData.projectContractStatus == 1 &&
+                  this.formData.projectCheckStatus == 1
+                ) {
+                  this.projectStatusNew = 2;
+                } else if (
+                  this.formData.projectDutypaidStatus == 2 ||
+                  this.formData.projectReceiveStatus == 2 ||
+                  this.formData.projectTicketStatus == 2 ||
+                  this.formData.projectAcceptanceStatus == 2||
+                  this.formData.projectCheckStatus == 2 ||
+                  this.formData.projectContractStatus == 2
+                ) {
+                  this.projectStatusNew = 1;
+                } else {
+                  this.projectStatusNew = 0;
+                }
+  
+               if (type == 1) {
                       this.check('出款审核完成');
+                      if (new Decimal(this.publicList.payRemainMoneys).sub(new Decimal(this.formData.payMoney)) == 0) {
+                       this.parms = {
+                            projectId: this.Father.projectId,
+                            projectPayStatus: 1,
+                            projectStatus:this.projectStatusNew
+
+                        };
+                      } else {
+                       this.parms = {
+                            projectId: this.publicList.projectId,
+                            projectPayStatus: 0,
+                            projectStatus:this.projectStatusNew
+
+                        };
+                       }
                     } else {
-                      let parms = {
+                      this.parms = {
                         projectId: this.publicList.projectId,
                         projectPayStatus:2,
-                        payRemark:this.remark
+                        payRemark:this.remark,
+                        projectStatus: 1,
                       };
-                      edit(parms);
+                      edit(this.parms);
                       this.check('出款审核不通过。'+'原因:'+this.remark);
                     }
                     let obj = {

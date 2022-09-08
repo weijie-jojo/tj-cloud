@@ -141,11 +141,14 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="转账账户" prop="receiveName">
-            <el-input  :disabled="true" v-model="formData.receiveName"></el-input>
+            <el-input
+              :disabled="true"
+              v-model="formData.receiveName"
+            ></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收账金额" prop="receiveMoney">
             <el-input
-            :disabled="true"
+              :disabled="true"
               v-model="formData.receiveMoney"
               :step="0.00001"
               :min="0"
@@ -168,7 +171,6 @@
               :index="0"
             ></uploadSmall>
           </el-form-item>
-
         </el-col>
 
         <el-col :span="9">
@@ -177,43 +179,68 @@
           </el-form-item>
 
           <el-form-item class="comright" label="转账账号" prop="receiveAccount">
-            <el-input v-model="formData.receiveAccount"  :disabled="true"></el-input>
+            <el-input
+              v-model="formData.receiveAccount"
+              :disabled="true"
+            ></el-input>
           </el-form-item>
           <el-form-item class="comright" label="财务流水号" prop="receiveCode">
-            <el-input v-model="formData.receiveCode"  :disabled="true"></el-input>
+            <el-input
+              v-model="formData.receiveCode"
+              :disabled="true"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
-          <el-col :span="21">
-            <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-              <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
-           </el-form-item>
-        </el-col>
-
-      </el-row>   
-       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
-            <div style="display: flex; align-items: center;justify-content: flex-start;">
-              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
-              <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradioS == 1"></el-input>
-            </div>
-
-
+          <el-form-item
+            class="comright"
+            style="padding-right: 4.2%; margin-left: -7%"
+          >
+            <el-radio v-model="isokradioS" label="1"> 通过</el-radio>
           </el-form-item>
         </el-col>
-
       </el-row>
-      
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="21">
+          <el-form-item
+            class="comright"
+            style="padding-right: 4.2%; margin-left: -7%"
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+              "
+            >
+              <el-radio v-model="isokradioS" label="2">不通过 </el-radio>
+              <el-input
+                type="textarea"
+                placeholder="请输入不通过说明"
+                v-model="remark"
+                :disabled="isokradioS == 1"
+              ></el-input>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
-          <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">提交</el-button>
-          <el-button v-else type="primary" @click="submitForm(1)">提交</el-button>
+          <el-button
+            v-if="isokradioS == 2"
+            type="primary"
+            @click="submitForm(2)"
+            >提交</el-button
+          >
+          <el-button v-else type="primary" @click="submitForm(1)"
+            >提交</el-button
+          >
         </el-col>
         <el-col :span="8"></el-col>
       </el-row>
@@ -222,23 +249,26 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check,detail,editReceive,edit} from "@/api/project/list";
+import { check, detail, editReceive, edit } from "@/api/project/list";
 import { getInfo } from "@/api/login";
+import { Decimal } from 'decimal.js'
 export default {
   name: "AduitCollect",
   components: { uploadSmall },
   data() {
     return {
-      isokradioS:'1',
-      fileNameN:[],
-      isNoneArray:[],
+      parms:{},
+      projectStatusNew: "0",
+      isokradioS: "1",
+      fileNameN: [],
+      isNoneArray: [],
       index: 0,
-      remark:'',
+      remark: "",
       publicList: {},
       userinfo: {},
       isDetail: "1",
       fileName: [],
-      
+
       formData: {
         isCheck: 0,
         fileNameReceive: [],
@@ -251,7 +281,6 @@ export default {
         receiveMoney: "0.00000", //收款金额 收款信息
       },
       rules: {
-        
         receiveCode: [
           {
             required: true,
@@ -294,26 +323,26 @@ export default {
   computed: {},
   mounted() {
     this.getCommonList();
-    this.formData=this.$cache.local.getJSON("collectDetails");
-    this.formData.fileNameReceive=JSON.parse(this.formData.fileNameReceive)
+    this.formData = this.$cache.local.getJSON("collectDetails");
+    this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
     this.$refs.receive.getSrcList(this.formData.fileNameReceive);
-    for(let i in this.formData.fileNameReceive){
-           this.fileNameN.push({
-            name:this.formData.fileNameReceive[i],
-            url:this.baseImgPath+this.formData.fileNameReceive[i]
-           })
-        }
+    for (let i in this.formData.fileNameReceive) {
+      this.fileNameN.push({
+        name: this.formData.fileNameReceive[i],
+        url: this.baseImgPath + this.formData.fileNameReceive[i],
+      });
+    }
   },
   methods: {
     //获取公共数据
-    getCommonList(){
-        detail({
-         projectCode: this.$cache.local.getJSON("projectCodeNew")
-        }).then((response) => {
-         this.publicList = response.data;
-       });
+    getCommonList() {
+      detail({
+        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+      }).then((response) => {
+        this.publicList = response.data;
+      });
     },
-   //收款日志
+    //收款日志
     check(resmsg) {
       getInfo().then((res) => {
         this.userinfo = res.user;
@@ -331,59 +360,100 @@ export default {
           .catch((error) => {});
       });
     },
-   
+
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('iscollect')==0){
-         this.$tab.closeOpenPage({
-          path:'/projectlist/aduitCollectList'
-         })
-      }else{
+      if (this.$cache.local.getJSON("iscollect") == 0) {
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("aduitProjectBack").backurl,
-      });
+          path: "/projectlist/aduitCollectList",
+        });
+      } else {
+        this.$tab.closeOpenPage({
+          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+        });
       }
-      
     },
     handleChange(val) {
       console.log(val);
     },
-   
+
     submitForm(type) {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-         let params={
-          receiveId:this.formData.receiveId,
-          isCheck:type,
-          receiveRemark:this.remark,
-         };
-         
+          let params = {
+            receiveId: this.formData.receiveId,
+            isCheck: type,
+            receiveRemark: this.remark,
+          };
+
           editReceive(params).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                if (type == 1) {
-                      this.check('收款审核完成');
-                    } else {
-                      let parms = {
-                        projectId: this.publicList.projectId,
-                        projectReceiveStatus:2,
-                        receiveRemark:this.remark
-                      };
-                      edit(parms);
-                      this.check('收款审核不通过。'+'原因:'+this.remark);
-                    }
-                    let obj = {
-                      title: '收款审核审核',
-                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
-                      resmsg: '收款审核完成',
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name
-
-                    }
-                    this.$cache.local.setJSON('successProject', obj);
-                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
-                  } 
+                
+                if (
+                  this.formData.projectDutypaidStatus == 1 &&
+                  this.formData.projectPayStatus == 1 &&
+                  this.formData.projectTicketStatus == 1 &&
+                  this.formData.projectAcceptanceStatus == 1 &&
+                  this.formData.projectContractStatus == 1 &&
+                  this.formData.projectCheckStatus == 1
+                ) {
+                  this.projectStatusNew = 2;
+                } else if (
+                  this.formData.projectDutypaidStatus == 2 ||
+                  this.formData.projectPayStatus == 2 ||
+                  this.formData.projectTicketStatus == 2 ||
+                  this.formData.projectAcceptanceStatus == 2 ||
+                  this.formData.projectCheckStatus == 2 ||
+                  this.formData.projectContractStatus == 2
+                ) {
+                  this.projectStatusNew = 1;
+                } else {
+                  this.projectStatusNew = 0;
                 }
+
+                if (type == 1) {
+                  this.check("收款审核完成");
+                  if (new Decimal(this.publicList.receiveRemainMoneys).sub(new Decimal(this.formData.receiveMoney)) == 0) {
+                       this.parms = {
+                            projectId: this.Father.projectId,
+                            projectReceiveStatus: 1,
+                            projectStatus:this.projectStatusNew
+
+                        };
+                      } else {
+                        this.parms = {
+                            projectId: this.publicList.projectId,
+                            projectReceiveStatus: 0,
+                            projectStatus:this.projectStatusNew
+
+                        };
+                       }
+                  
+                } else {
+                 this.parms = {
+                    projectId: this.publicList.projectId,
+                    projectReceiveStatus: 2,
+                    receiveRemark: this.remark,
+                    projectStatus: 1,
+                  };
+
+                  this.check("收款审核不通过。" + "原因:" + this.remark);
+                }
+                edit(this.parms);
+
+                let obj = {
+                  title: "收款审核审核",
+                  backUrl:
+                    this.$cache.local.getJSON("aduitProjectBack").backurl,
+                  resmsg: "收款审核完成",
+                  backName: this.$cache.local.getJSON("aduitProjectBack").name,
+                };
+                this.$cache.local.setJSON("successProject", obj);
+                this.$tab.closeOpenPage({ path: "/projectlist/success" });
+              }
+            }
           });
         } else {
           this.$alert("请正确填写", "系统提示", {
@@ -397,7 +467,7 @@ export default {
   },
 };
 </script>
-    <style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
 .rowCss {
   margin-top: 10px;
 }
@@ -441,14 +511,14 @@ export default {
   color: blue;
 }
 ::v-deep .el-input.is-disabled .el-input__inner {
-    background-color: rgba(255, 255, 255, 1.5) !important;
-    color: black !important;
-    border-color: rgba(135, 206, 250, 0.7) !important;
+  background-color: rgba(255, 255, 255, 1.5) !important;
+  color: black !important;
+  border-color: rgba(135, 206, 250, 0.7) !important;
 }
 
 ::v-deep .el-input-group__append {
-    background-color: rgba(255, 255, 255, 1.5) !important;
-    color: black !important;
-    border-color: rgba(135, 206, 250, 0.7) !important;
+  background-color: rgba(255, 255, 255, 1.5) !important;
+  color: black !important;
+  border-color: rgba(135, 206, 250, 0.7) !important;
 }
 </style>

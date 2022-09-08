@@ -130,7 +130,7 @@
   
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9" class="flexs">
-            <div class="bankno" style="width: 35%">收款信息</div>
+            <div class="bankno" style="width: 35%">出款信息</div>
             <div style="width: 50%; hegiht: 10px"></div>
           </el-col>
           <el-col :span="9">
@@ -140,13 +140,13 @@
   
         <el-row type="flex" class="row-bg rowCss" justify="space-around">
           <el-col :span="9">
-            <el-form-item class="comright" label="转账账户" prop="receiveName">
-              <el-input  :disabled="true" v-model="formData.receiveName"></el-input>
+            <el-form-item class="comright" label="出账账户" prop="payName">
+              <el-input   v-model="formData.payName"></el-input>
             </el-form-item>
-            <el-form-item class="comright" label="收账金额" prop="receiveMoney">
+            <el-form-item class="comright" label="出账金额" prop="payMoney">
               <el-input
-              :disabled="true"
-                v-model="formData.receiveMoney"
+             
+                v-model="formData.payMoney"
                 :step="0.00001"
                 :min="0"
                 onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -161,6 +161,7 @@
               prop="fileNamePay"
             >
               <uploadSmall
+                @getfileName="getPay"
                 ref="receive"
                 :fileName="isNoneArray"
                 :fileNameOld="fileNameN"
@@ -202,8 +203,9 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import { check,detail,editReceive,edit,finshReceiveList} from "@/api/project/list";
+  import { check,detail,editPay} from "@/api/project/list";
   import { getInfo } from "@/api/login";
+import { isArray } from "../../../utils/validate";
   export default {
     name: "DisburseEdit",
     components: { uploadSmall },
@@ -217,54 +219,46 @@
         remark:'',
         publicList: {},
         userinfo: {},
-        isDetail: "1",
+        isDetail: "0",
         fileName: [],
         
         formData: {
-          isCheck: 0,
-          fileNameReceive: [],
-          projectCode: "",
-          projectName: "",
-          receiveTime: "", //转账时间 收款信息
-          receiveSysCode: "", //流水号
-          receiveAccount: "", //转账账号 收款信息
-          receiveName: "", //转账账户 收款信息
-          receiveMoney: "0.00000", //收款金额 收款信息
+         
         },
         rules: {
           
-          receiveCode: [
+          payCode: [
             {
               required: true,
               message: "财务流水号不能为空",
               trigger: "blur",
             },
           ],
-          receiveName: [
+          payName: [
             {
               required: true,
-              message: "转账账户不能为空",
+              message: "出账账户不能为空",
               trigger: "blur",
             },
           ],
-          receiveMoney: [
+          payMoney: [
             {
               required: true,
-              message: "转账金额不能为空",
+              message: "出账金额不能为空",
               trigger: "blur",
             },
           ],
-          receiveAccount: [
+          payAccount: [
             {
               required: true,
-              message: "转账账号不能为空",
+              message: "出账账号不能为空",
               trigger: "blur",
             },
           ],
-          fileNameReceive: [
+          fileNamePay: [
             {
               required: true,
-              message: "转账凭证不能为空",
+              message: "出账凭证不能为空",
               trigger: "change",
             },
           ],
@@ -276,16 +270,20 @@
     mounted() {
       this.getCommonList();
       this.formData=this.$cache.local.getJSON("collectDetails");
-      this.formData.fileNameReceive=JSON.parse(this.formData.fileNameReceive)
-      this.$refs.receive.getSrcList(this.formData.fileNameReceive);
-      for(let i in this.formData.fileNameReceive){
+      this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
+      this.$refs.receive.getSrcList(this.formData.fileNamePay);
+      for(let i in this.formData.fileNamePay){
              this.fileNameN.push({
-              name:this.formData.fileNameReceive[i],
-              url:this.baseImgPath+this.formData.fileNameReceive[i]
+              name:this.formData.fileNamePay[i],
+              url:this.baseImgPath+this.formData.fileNamePay[i]
              })
           }
     },
     methods: {
+      getPay(data) {
+      this.formData.fileNamePay = data;
+      console.log(3333,data);
+      },
       //获取公共数据
       getCommonList(){
           detail({
@@ -303,11 +301,11 @@
             checkUser: this.userinfo.userName,
             phonenumber: this.userinfo.phonenumber,
             projectCode: this.formData.projectCode,
-            projectType: "20",
+            projectType: "23",
           };
           check(parms)
             .then((res) => {
-              console.log("修改收款成功!");
+              console.log("修改出款成功!");
             })
             .catch((error) => {});
         });
@@ -317,7 +315,7 @@
       resetForm() {
         if(this.$cache.local.getJSON('iscollect')==0){
            this.$tab.closeOpenPage({
-            path:'/projectlist/aduitCollectList'
+            path:'/projectlist/aduitDisburseList'
            })
         }else{
           this.$tab.closeOpenPage({
@@ -330,47 +328,24 @@
         console.log(val);
       },
      
-      submitForm(type) {
+      submitForm() {
         this.$refs["elForm"].validate((valid) => {
           // TODO 提交表单
           if (valid) {
-           let params={
-            receiveId:this.formData.receiveId,
-            isCheck:0,
-            receiveRemark:'',
-           };
-           
-            editReceive(params).then((res) => {
+           this.formData.payRemark='';
+           this.formData.isCheck=0;
+           if(isArray(this.formData.fileNamePay)){
+            this.formData.fileNamePay=JSON.stringify(this.formData.fileNamePay);
+           }
+            editPay(this.formData).then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
-                    finshReceiveList({
-                        projectCode: this.formData.projectCode,
-                    }).then((res)=>{
-                        let data=res.data;
-                        this.types=0;
-                         for(let i in data){
-                           if(data[i].receiveId==this.formData.receiveId){
-
-                           }else{
-                            if(data[i].isCheck==2){
-                               this.type=2;
-                                break;
-                            }
-
-                           }
-                         }
-
-                         let parms = {
-                          projectId: this.publicList.projectId,
-                          projectReceiveStatus:this.types,
-                        };
-                         edit(parms);
-                        this.check('修改收款完成')
-                        this.$modal.msgSuccess("修改收款成功");
+                     this.check('修改出款完成')
+                     this.$modal.msgSuccess("修改出款成功");
                      if(this.$cache.local.getJSON('iscollect')==0){
                         this.$tab.refreshPage({
-                         path:'/projectlist/aduitCollectList',
-                         name:'AduitCollectList'
+                         path:'/projectlist/aduitDisburseList',
+                         name:'AduitDisburseList'
                          })
                      }else{
                        this.$tab.refreshPage({
@@ -378,10 +353,6 @@
                            name: this.$cache.local.getJSON("Projectedit").name,
                           });
                      }
-                    })
-                      
-                      
-                      
                     } 
                   }
             });

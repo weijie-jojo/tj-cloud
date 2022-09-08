@@ -479,7 +479,15 @@ export default {
               this.publicList.receiveMoneys = new Decimal(
                 this.publicList.receiveMoneys
               ).add(new Decimal(arr[i].receiveMoney));
-            }
+              if(this.publicList.projectDutypaidStatus==1 && this.publicList.projectPayStatus==1 && this.publicList.projectDutypaidStatus==1 
+               && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
+                 this.publicList.projectStatus=2;
+               }else{
+                  this.publicList.projectStatus=0;
+                }
+            }else if(arr[i].isCheck==2){
+                  this.publicList.projectStatus=1;
+             }
           }
           this.publicList.receiveRemainMoneys = new Decimal(
             this.publicList.projectTotalAmount
@@ -492,6 +500,7 @@ export default {
               this.publicList.payMoneys = new Decimal(
                 this.publicList.payMoneys
               ).add(new Decimal(brr[j].payMoney));
+
             }
           }
           this.publicList.payRemainMoneys = new Decimal(

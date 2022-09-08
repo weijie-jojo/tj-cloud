@@ -483,6 +483,16 @@
                 this.publicList.payMoneys = new Decimal(
                   this.publicList.payMoneys
                 ).add(new Decimal(brr[j].payMoney));
+                
+                if(this.publicList.projectDutypaidStatus==1 && this.publicList.projectReceiveStatus==1 && this.publicList.projectDutypaidStatus==1 
+               && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
+                 this.publicList.projectStatus=2;
+               }else{
+                  this.publicList.projectStatus=0;
+                }
+              
+              }else if(brr[j].isCheck==2){
+                  this.publicList.projectStatus=1;
               }
             }
             this.publicList.payRemainMoneys = new Decimal(
@@ -490,11 +500,7 @@
             ).sub(new Decimal(this.publicList.payMoneys));
           }
           edit(this.publicList);
-  
-  
-  
-  
-        });
+         });
         }); 
         
         

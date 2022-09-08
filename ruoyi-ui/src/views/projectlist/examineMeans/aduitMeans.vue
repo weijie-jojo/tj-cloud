@@ -216,8 +216,14 @@ export default {
         if (valid) {
           let parms;
           this.projectStatusNew=0;
-          if(this.formData.projectContractStatus==2 || this.formData.projectDutypaidStatus==2){
-              this.projectStatusNew=1;
+          if(this.formData.projectReceiveStatus==1 && this.formData.projectPayStatus==1 && this.formData.projectDutypaidStatus==1 
+          && this.formData.projectTicketStatus==1 && this.formData.projectCheckStatus==1 ){
+              this.projectStatusNew=2;
+          }else if(
+            this.formData.projectReceiveStatus==2 || this.formData.projectPayStatus==2 || this.formData.projectDutypaidStatus==2 
+          || this.formData.projectTicketStatus==2 || this.formData.projectCheckStatus==2
+          ){
+            this.projectStatusNew=1;
           }
           if (type == 1) {
             parms = {
@@ -229,7 +235,7 @@ export default {
           } else {
             parms = {
               projectId: this.formData.projectId,
-              checkContent: this.remark,
+              checkRemark: this.remark,
               projectAcceptanceStatus:type,
               projectContractStatus:type,
               projectStatus:1,
