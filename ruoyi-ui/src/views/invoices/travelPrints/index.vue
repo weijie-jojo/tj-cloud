@@ -2,229 +2,701 @@
   <div class="app-container">
     <div>
       <el-row type="flex" class="row-bg" justify="end">
-        <el-col :span="6" style="display: flex;justify-content: flex-end;">
-        <el-button type="primary" v-print="'#printMe'">打印</el-button>
+        <el-col :span="6" style="display: flex; justify-content: flex-end">
+          <el-button type="primary" v-print="'#printMe'">打印</el-button>
         </el-col>
       </el-row>
 
       <el-form id="printMe">
-        <div :style="{height:screenHeight*0.5+'px'}">
-          <!-- <div class="reimtitle" style="text-align:center;position: relative;">
-            <span>费用报销单</span>
-            <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
-               ruleForm.expenseCode  }}</span>
+        <div :style="{ height: screenHeight * 0.5 + 'px' }">
+          <div class="reimtitle" style="text-align: center; position: relative">
+            <span>差旅费报销单</span>
+            <span
+              style="
+                font-size: 15px;
+                letter-spacing: 0px;
+                position: absolute;
+                right: 0;
+                top: 10px;
+              "
+              >差旅报销单号:{{ ruleForm.travelExpenseCode }}</span
+            >
           </div>
           <el-row>
             <el-col :span="12">
-
-              <div class="combold" style="margin-bottom:5px">部门:{{  ruleForm.deptName  }}</div>
+              <div class="combold" style="margin-bottom: 5px">
+                职别:{{ ruleForm.job}}
+              </div>
             </el-col>
             <el-col :span="12">
               <div>
-
-                <div style="display:flex; justify-content: flex-end;margin-bottom:5px">
-
-                  <span class="combold">报销日期:{{  ruleForm.createTime  }}</span>
-
+                <div
+                  style="
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-bottom: 5px;
+                  "
+                >
+                  <span class="combold"
+                    >报销日期:{{ ruleForm.createTime }}</span
+                  >
                 </div>
               </div>
-
             </el-col>
-
           </el-row>
           <el-row>
-            <el-col :span="6">
-              <div class="comborder" style="border-top:1px solid #333;border-left:1px solid #333">报销项目</div>
-              <div class="comborder1 flexs" :style="[c1]" style="border-left:1px solid #333">{{  ruleForm.item1Desc  }}
-              </div>
-              <div class="comborder1 flexs" :style="[c2]" style="border-left:1px solid #333">{{  ruleForm.item2Desc  }}
-              </div>
-              <div class="comborder1 flexs" :style="[c3]" style="border-left:1px solid #333">{{  ruleForm.item3Desc  }}
-              </div>
-              <div class="comborder1 flexs" :style="[c4]" style="border-left:1px solid #333">{{  ruleForm.item4Desc  }}
-              </div>
-              <div class="comborder1 flexs" :style="[c5]" style="border-left:1px solid #333">{{  ruleForm.item5Desc  }}
+            <el-col :span="2">
+              <div class="comborder flexs" :style="[c1]">姓名</div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder flexs" :style="[c1]">
+                {{ ruleForm.nickName }}
               </div>
             </el-col>
             <el-col :span="2">
-              <div class="comborder">张数</div>
-              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.accessoryNum1  }}</div>
-              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.accessoryNum2  }}</div>
-              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.accessoryNum3  }}</div>
-              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.accessoryNum4  }}</div>
-              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.accessoryNum5  }}</div>
-            </el-col>
-            <el-col :span="4">
-              <div class="comborder">金额</div>
-              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.item1Money  }}</div>
-              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.item2Money  }}</div>
-              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.item3Money  }}</div>
-              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.item4Money  }}</div>
-              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.item5Money  }}</div>
-            </el-col>
-            <el-col :span="12">
-              <div class="comborder">备注</div>
-              <div class="comborder1 flexs" :style="[c1]" id="remark1">{{  ruleForm.item1Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c2]" id="remark2">{{  ruleForm.item2Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c3]" id="remark3">{{  ruleForm.item3Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c4]" id="remark4">{{  ruleForm.item4Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c5]" id="remark5">{{  ruleForm.item5Remark  }}</div>
-            </el-col>
-
-          </el-row>
-          <el-row>
-            <el-col :span="6">
-              <div class="comborder1" style="border-right:0px solid #333">合计</div>
+              <div class="comborder flexs" :style="[c1]">同行人数</div>
             </el-col>
             <el-col :span="2">
-              <div class="comborder1">
-                {{  accessoryNum  }}张
+              <div class="comborder flexs" :style="[c1]">
+                {{ ruleForm.togetherNum }}
               </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder flexs" :style="[c1]">出差事由</div>
+            </el-col>
+            <el-col :span="14">
+              <div class="comborder flexs" id="remark1" :style="[c1]">
+                {{ ruleForm.reason }}
+              </div>
+            </el-col>
+            <!-- <el-col :span="3">
+              <div class="comborder flexs" :style="[c1]">出差地点</div>
+            </el-col> -->
+          </el-row>
+
+          <el-row>
+            <el-col :span="4">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
+                起讫时间
+              </div>
+
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                  >{{ ruleForm.travelDate1 }}</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                  >{{ ruleForm.travelDate2 }}</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                  >{{ ruleForm.travelDate3 }}</el-col
+                >
+              </el-row>
+             
             </el-col>
             <el-col :span="4">
-              <div class="comborder1" style="text-align:center">
-                {{  ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money + ruleForm.item4Money
-                + ruleForm.item5Money
+              <div class="comborder" style="height: 60px">起讫地点</div>
+              <div class="comborder" style="height: 50px">
+                {{ this.ruleForm.place1 }}
+              </div>
+              <div class="comborder" style="height: 50px">
+                {{ this.ruleForm.place2 }}
+              </div>
+              <div class="comborder" style="height: 50px">
+                {{ this.ruleForm.place3 }}
+              </div>
+              
+            </el-col>
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 30px; font-size: 10px">
+                交通费
+              </div>
+              <el-row style="width: 100%; height: 30px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 5px"
+                  >单据</el-col
+                >
 
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 10px"
+                  >金额</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum1}}
+              </el-col>
 
-                }}
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.traffic1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum2}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.traffic2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum3}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.traffic3 }}
+                </el-col>
+              </el-row>
+             
+            </el-col>
+
+            <el-col :span="4">
+              <div class="flexs borders" style="height: 30px; font-size: 10px">
+                住宿费
+              </div>
+              <el-row style="width: 100%; height: 30px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 5px"
+                  >单据</el-col
+                >
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 10px"
+                  >金额</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+              {{ruleForm.accessoryNum1}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.stay1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum2}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.stay2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum3}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.stay3 }}
+                </el-col>
+              </el-row>
+          
+            </el-col>
+
+            <el-col :span="4">
+              <div class="flexs borders" style="height: 30px; font-size: 10px">
+                差旅补助
+              </div>
+              <el-row style="width: 100%; height: 30px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 5px"
+                  >天数</el-col
+                >
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 10px"
+                  >金额</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days1 }}
+                </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.subsidy1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days2 }}
+                </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.subsidy2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days3 }}
+                </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.subsidy3 }}
+                </el-col>
+              </el-row>
+           
+            </el-col>
+
+            <el-col :span="4">
+              <div class="flexs borders" style="height: 30px; font-size: 10px">
+                其他
+              </div>
+              <el-row style="width: 100%; height: 30px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 5px"
+                  >单据</el-col
+                >
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 30px; font-size: 10px"
+                  >金额</el-col
+                >
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum1}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.other1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum2}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.other2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                {{ruleForm.accessoryNum3}}
+              </el-col>
+
+                <el-col
+                  :span="12"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.other3 }}
+                </el-col>
+              </el-row>
+             
+            </el-col>
+
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
+                小计
+              </div>
+
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney3 }}
+                </el-col>
+              </el-row>
+           
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <div class="comborder1 borders">各项费用合计</div>
+            </el-col>
+            <el-col :span="1">
+              <div class="comborder1 borders">
+                {{ accessoryNum }}
               </div>
             </el-col>
-            <el-col :span="12">
-              <div class="comborder1"></div>
+            <el-col :span="1">
+              <div class="comborder1 borders">
+                 {{totalTraffic}}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+
+                {{ accessoryNum }}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{totalStay}}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{totalDay}}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{totalSubsidy}}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{ accessoryNum }}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{totalOther}}
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div class="comborder1 borders">
+                {{ruleForm.totalAllMoney}}
+              </div>
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="12">
+              <div
+                class="comborder"
+                style="
+                  text-align: left;
+                  padding-left: 4px;
+                  letter-spacing: 4px;
+                  height: 40px;
+                "
+              >
+                总计(大写)人民币:<span>
+                  {{digitUppercase(ruleForm.totalAllMoney)}}  </span
+                >
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div
+                class="comborder"
+                style="
+                  text-align: left;
+                  padding-left: 4px;
+                  letter-spacing: 4px;
+                  height: 40px;
+                "
+              >
+                总计(小写)人民币:<span>
+                  {{ruleForm.totalAllMoney}}    </span
+                >
+              </div>
+            </el-col>
+          </el-row>
+          <el-row style="margin-top: 20px">
+            <el-col :span="6">
+              <div>总经理:{{ ruleForm.gmCheck }}</div>
+            </el-col>
+            <el-col :span="6">
+              <div>财务:{{ ruleForm.financeCheck }}</div>
+            </el-col>
+            <el-col :span="6">
+              <div>部门经理:{{ ruleForm.dmCheck }}</div>
+            </el-col>
+            <el-col :span="6">
+              <div>报销人:{{ ruleForm.nickName }}</div>
+            </el-col>
+          </el-row>
+        </div>
+
+        <div :style="{ height: screenHeight * 0.5 + 'px' }">
+          <el-row
+            class="row-bg"
+            :style="{
+              width: screenWidth + 'px',
+              height: screenHeight * 0.5 + 'px',
+              paddingTop: '15px',
+            }"
+          >
             <el-col :span="24">
-              <div class="comborder" style="text-align: left;padding-left: 4px; letter-spacing: 4px;">总计(大写)人民币:<span>
-                  {{  digitUppercase(ruleForm.item1Money + ruleForm.item2Money + ruleForm.item3Money +
-                  ruleForm.item4Money + ruleForm.item5Money)
-
-
-                  }}</span></div>
+              <span style="font-size: 20px; margin-bottom: 20px; color: blue"
+                >审批进度</span
+              >
+              <el-table
+                :data="checks"
+                style="margin-top: 20px"
+                :cell-style="{ border: '1px solid #333' }"
+                fit
+                :header-cell-style="{ border: '1px solid #333' }"
+                class="exporttable"
+              >
+                <el-table-column prop="checkDate" label="时间" width="180" />
+                <el-table-column prop="checkUser" label="人员" width="180" />
+                <el-table-column prop="checkReasult" label="结果" />
+              </el-table>
             </el-col>
           </el-row>
-          <el-row style="margin-top:20px;">
-            <el-col :span="6">
-              <div>总经理:{{  ruleForm.gmCheck  }}</div>
-            </el-col>
-            <el-col :span="6">
-              <div>财务:{{  ruleForm.financeCheck  }}</div>
-            </el-col>
-            <el-col :span="6">
-              <div>部门经理:{{  ruleForm.dmCheck  }}</div>
-            </el-col>
-            <el-col :span="6">
-              <div>报销人:{{  ruleForm.nickName  }}</div>
-            </el-col>
-          </el-row> -->
-          
         </div>
-        <div :style="{ height: screenHeight * 0.5 + 'px'}">
-          <el-row class="row-bg"  :style="{width: screenWidth + 'px',height:screenHeight*0.5+'px',paddingTop:'15px'}">
-          
-          <el-col :span="24">
-            <span style="font-size: 20px;margin-bottom: 20px;color: blue;">审批进度</span>
-            <el-table  :data="checks" style="margin-top: 20px;"
-            :cell-style="{border:'1px solid #333'}"
-                
-                fit
-                :header-cell-style="{border:'1px solid #333'}"
-                class="exporttable"
-            >
-              <el-table-column prop="checkDate" label="时间" width="180" />
-              <el-table-column prop="checkUser" label="人员" width="180" />
-              <el-table-column prop="checkReasult" label="结果" />
-            </el-table>
-          </el-col>
-        </el-row>
 
-        </div>
-      
         <!-- transform: rotate(90deg); -->
-          <!-- transform: rotate(90deg); -->
-        
-          <div v-for="(item, index) in imgArr" :key="index">
-          <div v-if="index > 0 &&  index%2 !==0" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
+        <!-- transform: rotate(90deg); -->
 
-
+        <div v-for="(item, index) in imgArr" :key="index">
+          <div v-if="index>0 && index %2 !==0"  :style="{
+              height: screenHeight * 0.01 + 'px',}">
           </div>
-          <div :style="{ height: screenHeight * 0.05 + 'px' ,display:'flex',justifyContent:'space-between'}">报销凭证影像
-            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+          <div
+            :style="{
+              height: screenHeight * 0.1 + 'px',
+              display: 'flex',
+              justifyContent: 'space-between'
+              ,alignItems: 'center'
+              ,paddingBottom:'10px'
+            }"
+          >
+            报销凭证影像
+            <span> 差旅报销单号:{{ ruleForm.travelExpenseCode }} </span>
           </div>
-         
 
           <!-- <div :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
 
           </div> -->
 
-
-
-
-          <el-image :src="item.url" fill="scale-down"
-            :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
-
-
+          <el-image
+            :src="item.url"
+            fill="scale-down"
+            :style="{
+              height: screenHeight * 0.4 + 'px',
+              width: screenWidth + 'px',
+            }"
+          ></el-image>
+          <div
+          v-if="imgArr.length == 1"
+          :style="{
+            height: screenHeight * 0.51 + 'px',
+            width: screenWidth + 'px',
+          }"
+        ></div>
         </div>
-        <div v-if="imgArr.length ==1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+        
+        <div
+          v-if="imgArr.length % 2 !== 1 && imgArr.length > 1"
+          :style="{
+            height: screenHeight * 0.51 + 'px',
+            width: screenWidth + 'px',
+          }"
+        ></div>
 
-        </div>
-        <div v-if="imgArr.length % 2 !== 0 && imgArr.length > 1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
-
-        </div>
-
-       
         <div v-for="(item, index) in imgArr2" :key="index">
-          <div :style="{ height: screenHeight * 0.05 + 'px',display:'flex',justifyContent:'space-between'}">付款凭证影像
-            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+          <div v-if="index>0 && index %2 !==0"  :style="{
+              height: screenHeight * 0.01 + 'px',}">
           </div>
-          <el-image :src="item.url" fill="scale-down"
-            :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
-
+          <div
+            :style="{
+              height: screenHeight * 0.05 + 'px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+              ,paddingBottom:'10px'
+            }"
+          >
+            付款凭证影像
+            <span> 差旅报销单号:{{ ruleForm.travelExpenseCode }} </span>
+          </div>
+          <el-image
+            :src="item.url"
+            fill="scale-down"
+            :style="{
+              height: screenHeight * 0.4 + 'px',
+              width: screenWidth + 'px',
+            }"
+          ></el-image>
+          <div v-if="imgArr2.length ==1"
+          :style="{ height: screenHeight * 0.51+ 'px', width: screenWidth + 'px' }">
 
         </div>
-        <div v-if="imgArr2.length ==1"
-          :style="{ height: screenHeight * 0.55+ 'px', width: screenWidth + 'px' }">
-
-        </div>
-        <div v-if="imgArr2.length % 2 !== 0 && imgArr2.length > 1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
-
         </div>
        
+        <div
+          v-if="imgArr2.length % 2 !== 1 && imgArr2.length > 1"
+          :style="{
+            height: screenHeight * 0.51 + 'px',
+            width: screenWidth + 'px',
+          }"
+        ></div>
       </el-form>
-
-
-
     </div>
-    <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="8"></el-col>
-                <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage" style="width:130px">关闭</el-button>
-
-                </el-col>
-                <el-col :span="8"></el-col>
-            </el-row>
+    <el-row type="flex" class="row-bg" justify="space-around">
+      <el-col :span="8"></el-col>
+      <el-col :span="8" class="flexs">
+        <el-button type="danger" @click="beforePage" style="width: 130px"
+          >关闭</el-button
+        >
+      </el-col>
+      <el-col :span="8"></el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { getAllCheck } from '@/api/invoices/checkInvoices'
-import { Decimal } from 'decimal.js'
+import { getAllCheck } from "@/api/invoices/checkInvoices";
+import { Decimal } from "decimal.js";
 export default {
-  
   components: {
     // pdf,
-
   },
   data() {
     return {
-      
+      totalTraffic:'',
+      totalStay:'',
+      totalDay:"",
+      totalSubsidy:'',
+      totalOther:'',
+      subTotalMoney1: "",
+      subTotalMoney2: "",
+      subTotalMoney3: "",
+      subTotalMoney4: "",
+      subTotalMoney5: "",
       screenWidth: 756, // 屏幕尺寸
       screenHeight: 1086, // 屏幕尺寸
-      clientHeight: '',
+      clientHeight: "",
       scalesNum: 0.4,
       c1: {},
       c2: {},
@@ -240,14 +712,13 @@ export default {
       ruleForm: {},
       checks: [],
       accessoryNum: 0,
-    }
-
+    };
   },
 
   mounted() {
-   
-
-    this.ruleForm = JSON.parse(window.localStorage.getItem('travelExpenses')).list[0];
+    this.ruleForm = JSON.parse(
+      window.localStorage.getItem("travelExpenses")
+    ).list[0];
     if (!this.ruleForm.accessoryNum1) {
       this.ruleForm.accessoryNum1 = 0;
     }
@@ -257,24 +728,78 @@ export default {
     if (!this.ruleForm.accessoryNum3) {
       this.ruleForm.accessoryNum3 = 0;
     }
-    if (!this.ruleForm.accessoryNum4) {
-      this.ruleForm.accessoryNum4 = 0;
-    }
-    if (!this.ruleForm.accessoryNum5) {
-      this.ruleForm.accessoryNum5 = 0;
-    }
-    let arr1 = new Decimal(this.ruleForm.accessoryNum1).add(new Decimal(this.ruleForm.accessoryNum2));
-    let arr2 = new Decimal(this.ruleForm.accessoryNum3).add(new Decimal(this.ruleForm.accessoryNum4));
-    let arr3 = new Decimal(arr1).add(new Decimal(arr2));
-    this.accessoryNum = arr3;
-
-    var expenses = JSON.parse(window.localStorage.getItem('travelExpenses')).list
-    var travelExpenseCode = expenses[0].travelExpenseCode;
     
-    getAllCheck({ invoiceCode: travelExpenseCode }).then(res => {
-      console.log('selectAllCheck==', res);
-      this.checks = res
-    })
+
+    if (!this.ruleForm.traffic1) {
+      this.ruleForm.traffic1 = 0;
+    }
+    if (!this.ruleForm.stay1) {
+      this.ruleForm.stay1 = 0;
+    }
+    if (!this.ruleForm.subsidy1) {
+      this.ruleForm.subsidy1 = 0;
+    }
+    if (!this.ruleForm.other1) {
+      this.ruleForm.other1 = 0;
+    }
+    this.subTotalMoney1 = new Decimal(this.ruleForm.traffic1)
+      .add(new Decimal(this.ruleForm.stay1))
+      .add(new Decimal(this.ruleForm.subsidy1))
+      .add(new Decimal(this.ruleForm.other1));
+
+    if (!this.ruleForm.traffic2) {
+      this.ruleForm.traffic2 = 0;
+    }
+    if (!this.ruleForm.stay2) {
+      this.ruleForm.stay2 = 0;
+    }
+    if (!this.ruleForm.subsidy2) {
+      this.ruleForm.subsidy2 = 0;
+    }
+    if (!this.ruleForm.other2) {
+      this.ruleForm.other2 = 0;
+    }
+    this.subTotalMoney2 = new Decimal(this.ruleForm.traffic2)
+      .add(new Decimal(this.ruleForm.stay2))
+      .add(new Decimal(this.ruleForm.subsidy2))
+      .add(new Decimal(this.ruleForm.other2));
+
+    if (!this.ruleForm.traffic3) {
+      this.ruleForm.traffic3 = 0;
+    }
+    if (!this.ruleForm.stay3) {
+      this.ruleForm.stay3 = 0;
+    }
+    if (!this.ruleForm.subsidy3) {
+      this.ruleForm.subsidy3 = 0;
+    }
+    if (!this.ruleForm.other3) {
+      this.ruleForm.other3 = 0;
+    }
+    this.subTotalMoney3 = new Decimal(this.ruleForm.traffic3)
+      .add(new Decimal(this.ruleForm.stay3))
+      .add(new Decimal(this.ruleForm.subsidy3))
+      .add(new Decimal(this.ruleForm.other3));
+  let arr1 = new Decimal(this.ruleForm.accessoryNum1).add(
+       new Decimal(this.ruleForm.accessoryNum2)
+  );
+ this.accessoryNum = new Decimal(arr1).add(new Decimal(this.ruleForm.accessoryNum3));
+  this.totalDay= this.ruleForm.days1*1+this.ruleForm.days2*1+this.ruleForm.days3*1;
+  this.totalTraffic=new Decimal(this.ruleForm.traffic1).add(new Decimal(this.ruleForm.traffic2)).add(new Decimal(this.ruleForm.traffic3));
+  this.totalStay=new Decimal(this.ruleForm.stay1).add(new Decimal(this.ruleForm.stay2)).add(new Decimal(this.ruleForm.stay3));
+  this.totalSubsidy=new Decimal(this.ruleForm.subsidy1).add(new Decimal(this.ruleForm.subsidy2)).add(new Decimal(this.ruleForm.subsidy3));
+  this.totalOther=new Decimal(this.ruleForm.other1).add(new Decimal(this.ruleForm.other2)).add(new Decimal(this.ruleForm.other3));
+ 
+
+    var expenses = JSON.parse(
+      window.localStorage.getItem("travelExpenses")
+    ).list;
+    var travelExpenseCode = expenses[0].travelExpenseCode;
+
+    getAllCheck({ invoiceCode: travelExpenseCode }).then((res) => {
+      console.log("selectAllCheck==", res);
+      this.checks = res;
+    });
     this.expenseImage = this.ruleForm.expenseImage;
     this.expenseImage2 = this.ruleForm.expenseImage2;
 
@@ -282,13 +807,11 @@ export default {
     this.imgArr2 = [];
     var imgArr = this.expenseImage.split(",");
     if (imgArr[0] == "") {
-
-
     } else {
       imgArr.map((item, index) => {
         if (item != null && item != "") {
-          var suffix = item.substring(item.lastIndexOf('.') + 1, item.length);
-          if (suffix == 'pdf') {
+          var suffix = item.substring(item.lastIndexOf(".") + 1, item.length);
+          if (suffix == "pdf") {
             // this.imgArr.push({
             //   url: pdf.createLoadingTask({ url: this.baseImgPath1 + item, CMapReaderFactory, cMapPacked: true }),
             //   suffix: suffix,
@@ -296,26 +819,24 @@ export default {
             this.imgArr.push({
               url: this.baseImgPath1 + item,
               suffix: suffix,
-            })
+            });
           } else {
             this.imgArr.push({
               url: this.baseImgPath + item,
               suffix: suffix,
-            })
+            });
           }
         }
-      })
+      });
     }
     console.log("imgArr==", this.imgArr);
     var imgArr2 = this.expenseImage2.split(",");
     if (imgArr2[0] == "") {
-
-
     } else {
       imgArr2.map((item, index) => {
         if (item != null && item != "") {
-          var suffix = item.substring(item.lastIndexOf('.') + 1, item.length);
-          if (suffix == 'pdf') {
+          var suffix = item.substring(item.lastIndexOf(".") + 1, item.length);
+          if (suffix == "pdf") {
             // this.imgArr2.push({
             //   url: pdf.createLoadingTask({ url: this.baseImgPath1 + item, CMapReaderFactory, cMapPacked: true }),
             //   suffix: suffix,
@@ -323,114 +844,109 @@ export default {
             this.imgArr2.push({
               url: this.baseImgPath1 + item,
               suffix: suffix,
-            })
+            });
           } else {
             this.imgArr2.push({
               url: this.baseImgPath + item,
               suffix: suffix,
-            })
+            });
           }
-
         }
-      })
-
+      });
     }
 
-
     this.getHeight();
-
   },
   methods: {
-  
-    
-   
-    beforePage(){
-      this.$tab.closeOpenPage({ path: '/invoices/showTravelExpense' });
+    beforePage() {
+      this.$tab.closeOpenPage({ path: "/invoices/showTravelExpense" });
     },
-    getImg(src){
-     var img_url =src
-     var img = new Image()
-     img.src=img_url
-     this.pictureHeight.height = Math.ceil(img.height/img.width * 460)+'px'
-   },
+
     getHeight() {
       this.$nextTick(() => {
-        console.log(document.getElementById('remark1').scrollHeight);
-        if (document.getElementById('remark1').scrollHeight !== 0) {
-          this.c1 = { 'height': document.getElementById('remark1').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark1').scrollHeight / 2 + 'px' };
-
+        if (document.getElementById("remark1").scrollHeight !== 0) {
+          this.c1 = {
+            height:
+              document.getElementById("remark1").scrollHeight * 2 + "px",
+            "line-height":
+              document.getElementById("remark1").scrollHeight / 2 + "px",
+          };
         } else {
-          this.c1 = { 'height': '40px' };
-
+          this.c1 = { height: "40px" };
         }
-        if (document.getElementById('remark2').scrollHeight !== 0) {
-          this.c2 = { 'height': document.getElementById('remark2').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark2').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
+        console.log(this.c1);
+        // if (document.getElementById('remark2').scrollHeight !== 0) {
+        //   this.c2 = { 'height': document.getElementById('remark2').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark2').scrollHeight / 2 + 'px' };
+        // } else {
+        //   this.c1 = { 'height': '40px' };
 
-        }
-        if (document.getElementById('remark3').scrollHeight !== 0) {
-          this.c3 = { 'height': document.getElementById('remark3').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark3').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
+        // }
+        // if (document.getElementById('remark3').scrollHeight !== 0) {
+        //   this.c3 = { 'height': document.getElementById('remark3').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark3').scrollHeight / 2 + 'px' };
+        // } else {
+        //   this.c1 = { 'height': '40px' };
 
-        }
-        if (document.getElementById('remark4').scrollHeight !== 0) {
-          this.c4 = { 'height': document.getElementById('remark4').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark4').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
+        // }
+        // if (document.getElementById('remark4').scrollHeight !== 0) {
+        //   this.c4 = { 'height': document.getElementById('remark4').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark4').scrollHeight / 2 + 'px' };
+        // } else {
+        //   this.c1 = { 'height': '40px' };
 
-        }
-        if (document.getElementById('remark5').scrollHeight !== 0) {
-          this.c5 = { 'height': document.getElementById('remark5').scrollHeight + 'px', 'line-height': document.getElementById('remark5').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
+        // }
+        // if (document.getElementById('remark5').scrollHeight !== 0) {
+        //   this.c5 = { 'height': document.getElementById('remark5').scrollHeight + 'px', 'line-height': document.getElementById('remark5').scrollHeight / 2 + 'px' };
+        // } else {
+        //   this.c1 = { 'height': '40px' };
 
-        }
-      })
+        // }
+      });
     },
-    back() {
-      this.$tab.closeOpenPage({ path: '/invoices/showExpense' });
-    },
+
     //转换大小写
     digitUppercase(n = 0) {
-      var fraction = ['角', '分'];
-      var digit = [
-        '零', '壹', '贰', '叁', '肆',
-        '伍', '陆', '柒', '捌', '玖'
-      ];
+      var fraction = ["角", "分"];
+      var digit = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
       var unit = [
-        ['元', '万', '亿'],
-        ['', '拾', '佰', '仟']
+        ["元", "万", "亿"],
+        ["", "拾", "佰", "仟"],
       ];
-      var head = n < 0 ? '欠' : '';
+      var head = n < 0 ? "欠" : "";
       n = Math.abs(n);
-      var s = '';
+      var s = "";
       for (var i = 0; i < fraction.length; i++) {
-        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+        s += (
+          digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]
+        ).replace(/零./, "");
       }
-      s = s || '整';
+      s = s || "整";
       n = Math.floor(n);
       for (var i = 0; i < unit[0].length && n > 0; i++) {
-        var p = '';
+        var p = "";
         for (var j = 0; j < unit[1].length && n > 0; j++) {
           p = digit[n % 10] + unit[1][j] + p;
           n = Math.floor(n / 10);
         }
-        s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+        s = p.replace(/(零.)*零$/, "").replace(/^$/, "零") + unit[0][i] + s;
       }
-      return head + s.replace(/(零.)*零元/, '元')
-        .replace(/(零.)+/g, '零')
-        .replace(/^整$/, '零元整');
+      return (
+        head +
+        s
+          .replace(/(零.)*零元/, "元")
+          .replace(/(零.)+/g, "零")
+          .replace(/^整$/, "零元整")
+      );
     },
     getnames(data) {
       console.log("parent");
-      console.log(data)
-    }
-  }
-}
+      console.log(data);
+    },
+  },
+};
 </script>
 <style scoped>
+.borders {
+  border: 1px solid #333;
+}
 .flexs {
   display: flex;
   align-items: center;
@@ -451,14 +967,20 @@ export default {
 }
 
 .comborder1 {
+  font-size: 10px;
   height: 40px;
-  line-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   border: 1px solid #333;
 }
 .comborder {
+  font-size: 10px;
   height: 60px;
-  line-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   border: 1px solid #333;
 }
@@ -486,20 +1008,19 @@ export default {
   background-color: #333;
 } */
 .exporttable {
-  border-color:  black;
-  }
+  border-color: black;
+}
 @media print {
   @page {
     size: auto;
     margin-left: 10mm;
     margin-right: 10mm;
   }
- 
 }
 .el-table--border:after,
 .el-table--group:after,
 .el-table:before {
-    /* background-color:1px solid black; */
-    border-bottom: 1px solid black;
+  /* background-color:1px solid black; */
+  border-bottom: 1px solid black;
 }
 </style>

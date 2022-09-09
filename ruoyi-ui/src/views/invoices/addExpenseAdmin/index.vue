@@ -1,9 +1,9 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" >
-           <el-form-item  id="title">
+           <!-- <el-form-item  id="title">
                 <span style="font-size:30px">报销单新增（管理员）</span>  
-            </el-form-item>
+            </el-form-item> -->
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
                 <el-col :span="9">
                     <el-form-item label="报销单号">
@@ -277,11 +277,11 @@
             </el-row>
            
              <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="5"></el-col>
-                <!-- <el-col :span='8' class="flexs"> -->
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
                 <el-button type="danger" @click="toReturn">关闭</el-button>
                 <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <!-- </el-col> -->
+                </el-col>
                 <el-col :span="8"></el-col>
             </el-row>
 
@@ -647,9 +647,9 @@
         // },
         //返回
         toReturn(){
-            this.$router.push({
-                 path: "/invoices/addInvoices"
-            })
+            this.$tab.closeOpenPage({
+                path:"/invoices/addInvoices"
+            });
         },
         //返回当前时间
         returnTime(time2){

@@ -502,9 +502,10 @@
             });
         },
         toReturn(){
-            this.$router.push({
-                 path: "/invoices/addInvoices"
-            })
+            this.$tab.closeOpenPage({
+                path:"/invoices/addInvoices"
+            });
+           
         },
         //返回当前时间
         returnTime(time2){

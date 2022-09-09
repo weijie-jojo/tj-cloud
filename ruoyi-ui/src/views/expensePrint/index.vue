@@ -144,45 +144,48 @@
         <!-- transform: rotate(90deg); -->
         
         <div v-for="(item, index) in imgArr" :key="index">
-          <div v-if="index > 0 &&  index%2 !==0" :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
-
-
+          <div v-if="index>0 && index %2 !==0"  :style="{
+              height: screenHeight * 0.01 + 'px',}">
           </div>
-          <div :style="{ height: screenHeight * 0.05 + 'px',display:'flex',justifyContent:'space-between' }">
+         <div :style="{ height: screenHeight * 0.1 + 'px',display:'flex',justifyContent:'space-between',alignItems: 'center',paddingBottom:'10px' }">
             报销凭证影像
             <span> 报销单号:{{ruleForm.expenseCode  }} </span>
           </div>
          
           <el-image :src="item.url" fill="scale-down"
             :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
-
-
-        </div>
-        <div v-if="imgArr.length ==1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+            <div v-if="imgArr.length ==1 "
+            :style="{ height: screenHeight * 0.51 + 'px', width: screenWidth + 'px' }">
 
         </div>
-        <div v-if="imgArr.length % 2 !== 0 && imgArr.length > 1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+     
 
         </div>
+        <div v-if="imgArr.length>1 && imgArr.length %2 !==0"  :style="{ height: screenHeight * 0.51 + 'px', width: screenWidth + 'px' }">
+
+        </div>
+       
+        
 
        
         <div v-for="(item, index) in imgArr2" :key="index">
-          <div :style="{ height: screenHeight * 0.05 + 'px',display:'flex',justifyContent:'space-between'  }">付款凭证影像
+          <div v-if="index>0 && index %2 !==0"  :style="{
+              height: screenHeight * 0.01 + 'px',}">
+          </div>
+          <div :style="{ height: screenHeight * 0.1 + 'px',display:'flex',justifyContent:'space-between',alignItems: 'center',paddingBottom:'10px'  }">付款凭证影像
             <span> 报销单号:{{ruleForm.expenseCode  }} </span>
           </div>
           <el-image :src="item.url" fill="scale-down"
             :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
+            <div v-if="imgArr2.length ==1"
+          :style="{ height: screenHeight * 0.51+ 'px', width: screenWidth + 'px' }">
 
+        </div>   
 
         </div>
-        <div v-if="imgArr2.length ==1"
-          :style="{ height: screenHeight * 0.55+ 'px', width: screenWidth + 'px' }">
-
-        </div>
-        <div v-if="imgArr2.length % 2 !== 0 && imgArr2.length > 1"
-          :style="{ height: screenHeight * 0.55 + 'px', width: screenWidth + 'px' }">
+        
+        <div v-if="imgArr2.length>1 && imgArr2.length %2 !==1" 
+          :style="{ height: screenHeight * 0.51 + 'px', width: screenWidth + 'px' }">
 
         </div>
 
@@ -259,7 +262,8 @@ export default {
     let arr1 = new Decimal(this.ruleForm.accessoryNum1).add(new Decimal(this.ruleForm.accessoryNum2));
     let arr2 = new Decimal(this.ruleForm.accessoryNum3).add(new Decimal(this.ruleForm.accessoryNum4));
     let arr3 = new Decimal(arr1).add(new Decimal(arr2));
-    this.accessoryNum = arr3;
+    let arr4=  new Decimal(arr3).add(new Decimal(this.ruleForm.accessoryNum5));
+    this.accessoryNum = arr4;
 
     var expenses = JSON.parse(window.localStorage.getItem('expenses')).list
     var expenseCode = expenses[0].expenseCode;

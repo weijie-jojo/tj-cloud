@@ -5,16 +5,16 @@
             :model="ruleForm" 
             :rules="rules" 
             label-width="110px" >
-            <el-form-item id="title" >
-                <span style="font-size:30px">差旅费报销单审核</span>                  
+            <el-row>
+          <el-col :span="12">
+            <el-form-item class="comright" label="差旅报销单单号">
+              <span>{{ ruleForm.travelExpenseCode }}</span>
             </el-form-item>
-            <el-row >
-                <el-col :span="4">
-                    <el-form-item label="差旅报销单单号" >
-                        <span >{{ruleForm.travelExpenseCode}}</span>                  
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5">
+           </el-col>
+           </el-row>
+            <el-row  type="flex" justify="center">
+                
+                <el-col :span="6">
                     <el-form-item label="报销日期"  prop="expenseDate" >  
                         <el-date-picker
                             disabled
@@ -25,7 +25,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="姓名"  prop="expenseName" class="css1">
                              <el-input  
@@ -37,7 +37,7 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="职别"  prop="job" class="css2">
                             <el-input 
@@ -49,25 +49,31 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="同行人数" prop="togetherNum"  >
-                            <el-input-number 
+                            <el-input
+                                type="number"
                                 disabled
                                 v-model="ruleForm.togetherNum" 
-                                :precision="0" 
+                                
                                 :step="1" 
                                 :min="0" 
                                 :max="1000" 
-                                style="width:100px"
-                            ></el-input-number>
-                            <span style="margin-left:10px">人</span>  
+                               
+                            >
+                            <template slot="append">
+                              人
+                            </template>
+                          
+                          </el-input>
+                           
                         </el-form-item>
                     </div>
                 </el-col>
             </el-row>
             <el-row style="margin-top:20px">
-                <el-col :span="21">
+                <el-col :span="24">
                     <el-form-item label="出差事由"  prop="reason">
                             <el-input
                             disabled
@@ -79,259 +85,320 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="起讫时间" style="margin-left:10px;margin-top:20px">
-            </el-form-item>    
-            <el-form-item   prop="travelDate1" >
-                <el-input  
-                    v-model="ruleForm.travelDate1" 
-                    disabled
-                    class="travelDate"
-                ></el-input> 
-            </el-form-item>
-            <el-form-item >
-                <el-input  
-                    v-model="ruleForm.travelDate2" 
-                    disabled
-                    class="travelDate"
-                ></el-input> 
-            </el-form-item>
-            <el-form-item  >
-                <el-input  
-                    v-model="ruleForm.travelDate3" 
-                    disabled
-                    class="travelDate"
-                ></el-input>
-            </el-form-item>
-            
-            <el-form-item label="起讫地点" style="margin-left:200px;margin-top:-350px">
-            </el-form-item>   
-            <el-form-item  prop="place1" class="placeCss">
-                <el-input  
-                    class="placeCss2"
-                    disabled
-                    v-model="ruleForm.place1" 
-                    placeholder="请输入起讫地点" 
-                ></el-input>
-            </el-form-item>
-            <el-form-item   class="placeCss">
-                <el-input  
-                    disabled
-                     class="placeCss2"
-                    v-model="ruleForm.place2" 
-                    placeholder="请输入起讫地点" 
-                ></el-input>
-            </el-form-item>
-            <el-form-item   class="placeCss">
-                <el-input  
-                    disabled
-                     class="placeCss2"
-                    v-model="ruleForm.place3" 
-                    placeholder="请输入起讫地点" 
-                ></el-input>
-            </el-form-item>
-              
-            <el-form-item label="出行方式" style="margin-left:360px;margin-top:-350px">
-            </el-form-item> 
-            <el-form-item  prop="travelWay1" class="travelWayCss">
-                <el-input 
-                    disabled
-                    class="travelWayCss2"
-                    v-model="ruleForm.travelWay1"
-                    placeholder="请输入出行方式" 
-                ></el-input>
-            </el-form-item>
-            <el-form-item   class="travelWayCss">
-                <el-input 
-                    disabled
-                    class="travelWayCss2"
-                    v-model="ruleForm.travelWay2" 
-                    placeholder="请输入出行方式" 
-                ></el-input>
-            </el-form-item>
-            <el-form-item   class="travelWayCss">
-                <el-input  
-                    disabled
-                    class="travelWayCss2"
-                    v-model="ruleForm.travelWay3" 
-                    placeholder="请输入出行方式" 
-                ></el-input>
-            </el-form-item>
-
-            <el-form-item label="天数" style="margin-left:490px;margin-top:-350px">
-            </el-form-item> 
-            <el-form-item  prop="days1" class="daysCss">
-                <el-input-number 
-                    disabled
-                    v-model="ruleForm.days1" 
-                    :precision="0" 
-                    :step="1" :min="1" 
-                    :max="1000" 
-                    style="width:100px"
-                ></el-input-number>
-                <span style="margin-left:10px">天</span>
-            </el-form-item>
-             <el-form-item  class="daysCss">
-                <el-input-number 
-                    disabled
-                    v-model="ruleForm.days2" 
-                    :precision="0" 
-                    :step="1" :min="1" 
-                    :max="1000" 
-                    style="width:100px"
-                ></el-input-number>
-                <span style="margin-left:10px">天</span>
-            </el-form-item>
-             <el-form-item   class="daysCss">
-                <el-input-number 
-                    disabled
-                    v-model="ruleForm.days3" 
-                    :precision="0" 
-                    :step="1" :min="1" 
-                    :max="1000" 
-                    style="width:100px"
-                ></el-input-number>
-                <span style="margin-left:10px">天</span>
-            </el-form-item>
-            <el-form-item label="交通费" style="margin-left:670px;margin-top:-350px">
-            </el-form-item> 
-            <el-form-item prop="traffic1" class="trafficCss">
-                <el-input-number 
-                    v-model="ruleForm.traffic1" 
-                    :precision="2" 
-                    :step="0.1" :min="0" 
-                    class="numberInput" 
-                    disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="trafficCss">
-                <el-input-number 
-                    v-model="ruleForm.traffic2" 
-                    :precision="2" 
-                    :step="0.1" :min="0" 
-                     class="numberInput" 
-                     disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="trafficCss" >
-                <el-input-number 
-                    v-model="ruleForm.traffic3" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                    class="numberInput" 
-                    disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-            <el-form-item label="住宿费" style="margin-left:860px;margin-top:-350px">
-            </el-form-item> 
-            <el-form-item prop="stay1"  class="stayCss">
-                <el-input-number 
-                    v-model="ruleForm.stay1" 
-                    :precision="2" 
-                    :step="0.1" :min="0" 
-                    class="numberInput" 
-                    disabled 
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="stayCss">
-                <el-input-number 
-                    v-model="ruleForm.stay2" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                   class="numberInput" 
-                   disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="stayCss" >
-                <el-input-number 
-                    v-model="ruleForm.stay3" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                   class="numberInput" 
-                   disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-            <el-form-item label="差旅补助" style="margin-left:1060px;margin-top:-350px">
-            </el-form-item> 
-            <el-form-item prop="subsidy1" class="subsidyCss">
-                <el-input-number 
-                    v-model="ruleForm.subsidy1" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                    class="numberInput" 
-                    disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="subsidyCss">
-                <el-input-number 
-                    v-model="ruleForm.subsidy2" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                    class="numberInput" 
-                    disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="subsidyCss" >
-                <el-input-number 
-                    v-model="ruleForm.subsidy3" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                     class="numberInput" 
-                     disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-            <el-form-item label="其他" style="margin-left:1230px;margin-top:-350px">
-            </el-form-item>
-            <el-form-item  class="otherCss">
-                <el-input-number 
-                    v-model="ruleForm.other1" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                     class="numberInput" 
-                     disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="otherCss">
-                <el-input-number 
-                    v-model="ruleForm.other2" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                    class="numberInput" 
-                    disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item>
-             <el-form-item  class="otherCss" >
-                <el-input-number 
-                    v-model="ruleForm.other3" 
-                    :precision="2" 
-                    :step="0.1" :min="0"  
-                     class="numberInput" 
-                     disabled
-                ></el-input-number>
-                <div class="yuan">元</div>
-            </el-form-item> 
-            <el-form-item label="小计" style="margin-left:1370px;margin-top:-350px">
-            </el-form-item>
-            <el-form-item  class="subtotal">
-                {{subTotalMoney1}}
-            </el-form-item>
-            <el-form-item  class="subtotal">
-                {{subTotalMoney2}}
-
-            </el-form-item>
-            <el-form-item  class="subtotal">
-                {{subTotalMoney3}}
-            </el-form-item>
+            <el-row>
+        <el-col :span="8">
+          <el-form-item label="差旅信息1"> </el-form-item>
+          <el-form-item label="起讫时间" prop="travelDate1">
+            <el-date-picker
+            disabled
+            style="width:100%"
+              v-model="ruleForm.travelDate1"
+              type="daterange"
+              align="right"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="起讫地点" prop="place1">
+            <el-input
+            disabled
+              v-model="ruleForm.place1"
+              placeholder="请输入起讫地点"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="出行方式">
+            <el-input
+            disabled
+              v-model="ruleForm.travelWay1"
+              placeholder="请输入出行方式"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="天数">
+            <el-input
+              type="number"
+              v-model="ruleForm.days1"
+              :step="1"
+              :min="0"
+              :max="1000"
+              style="width: 100%"
+              disabled
+            >
+              <template slot="append">天</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="单据">
+            <el-input
+              type="number"
+              v-model="ruleForm.accessoryNum1"
+              :step="1"
+              :min="0"
+              style="width: 100%"
+              disabled
+            >
+              <template slot="append">张</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="交通费">
+            <el-input
+              type="number"
+              v-model="ruleForm.traffic1"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="住宿费">
+            <el-input
+              type="number"
+              v-model="ruleForm.stay1"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="差旅补助">
+            <el-input
+              type="number"
+              v-model="ruleForm.subsidy1"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="其他">
+            <el-input
+              type="number"
+              v-model="ruleForm.other1"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="小计">
+            <el-input disabled v-model="subTotalMoney1">
+              <template slot="append"> 元 </template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="差旅信息2"> </el-form-item>
+          <el-form-item label="起讫时间">
+            <el-date-picker
+            disabled
+              style="width:100%"
+              v-model="ruleForm.travelDate2"
+              type="daterange"
+              align="right"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="起讫地点">
+            <el-input
+            disabled
+              v-model="ruleForm.place2"
+              placeholder="请输入起讫地点"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="出行方式">
+            <el-input
+            disabled
+              v-model="ruleForm.travelWay2"
+              placeholder="请输入出行方式"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="天数">
+            <el-input
+              type="number"
+              v-model="ruleForm.days2"
+              :step="1"
+              :min="0"
+              :max="1000"
+              style="width: 100%"
+              disabled
+            >
+              <template slot="append">天</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="单据">
+            <el-input
+              type="number"
+              v-model="ruleForm.accessoryNum2"
+              :step="1"
+              :min="0"
+              style="width: 100%"
+              disabled
+            >
+              <template slot="append">张</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="交通费">
+            <el-input
+              type="number"
+              v-model="ruleForm.traffic2"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="住宿费">
+            <el-input
+              type="number"
+              v-model="ruleForm.stay2"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="差旅补助">
+            <el-input
+              type="number"
+              v-model="ruleForm.subsidy2"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="其他">
+            <el-input
+              type="number"
+              v-model="ruleForm.other2"
+              :step="0.1"
+              :min="0"
+              disabled
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="小计">
+            <el-input disabled v-model="subTotalMoney2">
+              <template slot="append"> 元 </template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="差旅信息3"> </el-form-item>
+          <el-form-item label="起讫时间">
+            <el-date-picker
+            disabled
+            style="width:100%"
+              v-model="ruleForm.travelDate3"
+              type="daterange"
+              align="right"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="起讫地点">
+            <el-input
+            disabled
+              v-model="ruleForm.place3"
+              placeholder="请输入起讫地点"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="出行方式">
+            <el-input
+            disabled
+              v-model="ruleForm.travelWay3"
+              placeholder="请输入出行方式"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="天数">
+            <el-input
+            disabled
+              type="number"
+              v-model="ruleForm.days3"
+              :step="1"
+              :min="0"
+              :max="1000"
+              style="width: 100%"
+            >
+              <template slot="append">天</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="单据">
+            <el-input
+            disabled
+              type="number"
+              v-model="ruleForm.accessoryNum3"
+              :step="1"
+              :min="0"
+              style="width: 100%"
+            >
+              <template slot="append">张</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="交通费">
+            <el-input
+            disabled
+              type="number"
+              v-model="ruleForm.traffic3"
+              :step="0.1"
+              :min="0"
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="住宿费">
+            <el-input
+            disabled
+              type="number"
+              v-model="ruleForm.stay3"
+              :step="0.1"
+              :min="0"
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="差旅补助">
+            <el-input
+            disabled
+              type="number"
+              v-model="ruleForm.subsidy3"
+              :step="0.1"
+              :min="0"
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="其他">
+            <el-input
+               disabled
+              type="number"
+              v-model="ruleForm.other3"
+              :step="0.1"
+              :min="0"
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="小计">
+            <el-input 
+            disabled
+            v-model="subTotalMoney3">
+              <template slot="append"> 元 </template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+        
             <el-row style="margin-top:20px">
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
@@ -349,7 +416,7 @@
                     <el-form-item label="收款人："  >
                         <el-input 
                             v-model="ruleForm.userGetid" 
-                            style="width:200px"
+                          
                             disabled
                         ></el-input>
                     </el-form-item>
@@ -358,7 +425,7 @@
                     <el-form-item label="收款帐号：" >
                         <el-input 
                             v-model="ruleForm.bankcardGetid" 
-                            style="width:200px"
+                           
                             disabled
                         ></el-input>
                     </el-form-item>
@@ -367,7 +434,7 @@
                     <el-form-item label="收款开户行：" >
                         <el-input 
                             v-model="ruleForm.bankGetname" 
-                            style="width:200px"
+                           
                             disabled
                         ></el-input>
                     </el-form-item>
@@ -378,7 +445,7 @@
                    <el-form-item label="报销单位："  >
                         <el-input 
                             v-model="ruleForm.companyPayId" 
-                            style="width:200px"
+                           
                             disabled
                         ></el-input>
                         <!-- <el-select 
@@ -400,7 +467,7 @@
                    <el-form-item label="借款帐号：" >
                     <el-input 
                             v-model="ruleForm.bankPaycode" 
-                            style="width:200px"
+                           
                             disabled
                         ></el-input>
                     </el-form-item>
@@ -409,28 +476,26 @@
                    <el-form-item label="借款开户行：" >
                     <el-input 
                             v-model="ruleForm.bankPayname" 
-                            style="width:200px"
+                           
                             disabled
                         ></el-input>
                     </el-form-item>
                </el-col> 
             </el-row>   
-            <el-form-item v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
+            <div v-hasPermi="['invoices:expense:upload']" label="付款凭证影像：" >
                 <uploadInvoices @getfileName="getExpense" :fileName="isNone" :fileNameOld="isNone"
                     :isDetail="isDetails"></uploadInvoices>
-            </el-form-item>
+            </div>
              <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
-                <el-form-item  v-if="item.suffix=='pdf'">
+                <div  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="baseImgPath + item.url" :page="pageNum" :rotate="pageRotate" @progress="loadedRatio = $event"
-                        @page-loaded="pageLoaded($event)" @num-pages="pageTotalNum = $event" @error="pdfError($event)"
-                        @link-clicked="page = $event">
+                    <pdf :src="item.url">
                     </pdf>
-                </el-form-item>
-                <el-form-item  v-else>
+                </div>
+                <div  v-else>
                     <div class="imgTitle">报销凭证影像</div>
-                    <el-image :src="baseImgPath + item.url" ></el-image>
-                </el-form-item>
+                    <el-image :src="item.url" ></el-image>
+                </div>
             </div>
 
             <el-row style="margin-top:20px">
@@ -467,12 +532,14 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item style="margin-top:100px">
+            <el-row>
+                <el-col :span="24">
+            
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
                 <el-table
                     border
                     :data="checks"
-                    style="width: 65%"
+                    style="width: 100%"
                     >
                     <el-table-column
                         prop="checkDate"
@@ -486,7 +553,8 @@
                         prop="checkReasult"
                         label="结果"/>
                 </el-table>
-            </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item prop="isAgree">
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批"}}</div>
                 <el-radio 
@@ -504,19 +572,25 @@
                     :disabled="isDisabled"
                     v-model="rejectReasult" 
                     placeholder="请输入驳回原因" 
-                    style="margin-top:-20px;width:820px"
+                    style="margin-top:-20px;"
                 ></el-input>
             </el-form-item>
           
-            
-            <el-form-item id="btn">
-                <el-button @click="toReturn" style="width:80px">关闭</el-button>
-                <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;margin-left:80px">审核</el-button>
-            </el-form-item>
+            <el-row type="flex" class="row-bg " justify="space-around">
+                <el-col :span="8"></el-col>
+                <el-col :span='8' class="flexs">
+                  <el-button type="danger" @click="toReturn" style="width:80px">关闭</el-button>
+                <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;">审核</el-button>
+                </el-col>
+                <el-col :span="8"></el-col>
+            </el-row>
+           
         </el-form>
     </div>
 </template>
 <script>
+    import pdf from 'vue-pdf-signature'
+    import CMapReaderFactory from 'vue-pdf-signature/src/CMapReaderFactory.js'
     import uploadInvoices from '@/components/douploads/uploadInvoices'
     import {getAllCheck,addCheckInvoices} from '@/api/invoices/checkInvoices'
     import { getCardInfoBycompany } from '@/api/invoices/expense'
@@ -527,6 +601,7 @@
     export default {
     name: 'travelExpense',
       components: {
+        pdf,
         uploadInvoices
     },
     data() {
@@ -555,6 +630,9 @@
         payCompanys:[],//所有单位
         searchGetUsers:[],//所有收款用户信息
         ruleForm: {
+            accessoryNum1:'',
+            accessoryNum2:'',
+            accessoryNum3:'',
             deptId:'',//部门id
             travelExpenseCode:'',//报销单号
             expenseDate:'',//报销时间
@@ -676,7 +754,7 @@
         this.ruleForm.togetherNum=this.travelExpenses[0].togetherNum;
         this.ruleForm.reason=this.travelExpenses[0].reason;
        
-        this.ruleForm.travelDate1=this.travelExpenses[0].travelDate1;
+        this.ruleForm.travelDate1=this.travelExpenses[0].travelDate1.split("--");
         console.log("travelDate1==",this.ruleForm.travelDate1);
         this.ruleForm.place1=this.travelExpenses[0].place1;
         this.ruleForm.travelWay1=this.travelExpenses[0].travelWay1;
@@ -686,7 +764,7 @@
         this.ruleForm.subsidy1=this.travelExpenses[0].subsidy1;
         this.ruleForm.other1=this.travelExpenses[0].other1;
         
-        this.ruleForm.travelDate2=this.travelExpenses[0].travelDate2;
+        this.ruleForm.travelDate2=this.travelExpenses[0].travelDate2.split("--");
         this.ruleForm.place2=this.travelExpenses[0].place2;
         this.ruleForm.travelWay2=this.travelExpenses[0].travelWay2;
         this.ruleForm.days2=this.travelExpenses[0].days2;
@@ -695,7 +773,7 @@
         this.ruleForm.subsidy2=this.travelExpenses[0].subsidy2;
         this.ruleForm.other2=this.travelExpenses[0].other2;
 
-        this.ruleForm.travelDate3=this.travelExpenses[0].travelDate3;
+        this.ruleForm.travelDate3=this.travelExpenses[0].travelDate3.split("--");
         this.ruleForm.place3=this.travelExpenses[0].place3;
         this.ruleForm.travelWay3=this.travelExpenses[0].travelWay3;
         this.ruleForm.days3=this.travelExpenses[0].days3;
@@ -782,11 +860,19 @@
         } else {
             imgArr.map((item, index) => {
                 if (item != null && item != "") {
-                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length);               
-                    this.imgArr.push({
-                        url:  item,
+                    var suffix=item.substring(item.lastIndexOf('.')+1,item.length); 
+                    if(suffix=='pdf'){
+                        this.imgArr.push({
+                        url: pdf.createLoadingTask({ url: this.baseImgPath + item, CMapReaderFactory, cMapPacked: true }),
                         suffix: suffix,
                     })
+                    }else{
+                      this.imgArr.push({
+                        url:  this.baseImgPath+item,
+                        suffix:suffix,
+                    })
+                    }              
+                   
                 }
             })
         }
@@ -1052,9 +1138,10 @@
         
         //返回
         toReturn(){
-            this.$router.push({
-                 path: "/invoices/checkInvoices"
-            })
+            this.$tab.closeOpenPage({
+                path:"/invoices/checkInvoices"
+            });
+           
         }, 
         //返回当前时间
         returnTime(time2){
@@ -1180,4 +1267,20 @@
         margin-bottom:30px;
         font-size:20px;
     }
+    ::v-deep .el-input.is-disabled .el-input__inner {
+  background-color: rgba(255, 255, 255, 1.5) !important;
+  color: black !important;
+  border-color: rgba(135, 206, 250, 0.7) !important;
+}
+
+::v-deep .el-input-group__append {
+  background-color: rgba(255, 255, 255, 1.5) !important;
+  color: black !important;
+  border-color: rgba(135, 206, 250, 0.7) !important;
+}
+.flexs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>

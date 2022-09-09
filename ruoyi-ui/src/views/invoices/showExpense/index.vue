@@ -1,12 +1,11 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" id="printMe">
-            <el-form-item  id="title">
-                <span style="font-size:30px">报销单详情</span>  
-            </el-form-item>
+         
             <el-row type="flex" class="row-bg" justify="end">
-                <el-col :span="6" style="display: flex;justify-content: flex-end;">
-                    <el-button type="primary" @click="printme">打印预览</el-button>
+                <el-col :span="6" style="display: flex;justify-content: flex-end;align-items: center;">
+                    点击按钮进入打印预览进行打印
+                    <el-button type="primary" @click="printme" style="margin-left:10px">打印预览</el-button>
                     <!-- <el-button v-print="'#printMe'" type="primary">打印</el-button> -->
                 </el-col>
             </el-row>
