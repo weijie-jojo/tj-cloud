@@ -25,7 +25,8 @@
           <el-row>
             <el-col :span="12">
               <div class="combold" style="margin-bottom: 5px">
-                职别:{{ ruleForm.job}}
+                部门:{{ ruleForm.deptName}}
+                <!-- 职别:{{ ruleForm.job}} -->
               </div>
             </el-col>
             <el-col :span="12">
@@ -85,7 +86,7 @@
                   :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
-                  >{{ ruleForm.travelDate1 }}</el-col
+                  >{{ ruleForm.travelDate1=='--Invalid Date'? '':ruleForm.travelDate1}}</el-col
                 >
               </el-row>
               <el-row style="width: 100%; height: 50px">
@@ -93,7 +94,7 @@
                   :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
-                  >{{ ruleForm.travelDate2 }}</el-col
+                  >{{ ruleForm.travelDate2=='--Invalid Date'? '':ruleForm.travelDate2}}</el-col
                 >
               </el-row>
               <el-row style="width: 100%; height: 50px">
@@ -101,7 +102,7 @@
                   :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
-                  >{{ ruleForm.travelDate3 }}</el-col
+                  >{{ ruleForm.travelDate3=='--Invalid Date'? '':ruleForm.travelDate3}}</el-col
                 >
               </el-row>
              
@@ -119,166 +120,120 @@
               </div>
               
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <div class="flexs borders" style="height: 30px; font-size: 10px">
                 交通费
               </div>
               <el-row style="width: 100%; height: 30px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 5px"
-                  >单据</el-col
-                >
+               
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 30px; font-size: 10px"
                   >金额</el-col
                 >
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum1}}
-              </el-col>
+               
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.traffic1 }}
+                  {{ ruleForm.traffic1==0 ? '': ruleForm.traffic1  }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum2}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.traffic2 }}
+                  {{ ruleForm.traffic2==0 ? '': ruleForm.traffic2  }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum3}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.traffic3 }}
+                  {{ ruleForm.traffic3==0 ? '': ruleForm.traffic3   }}
                 </el-col>
               </el-row>
              
             </el-col>
 
-            <el-col :span="4">
+            <el-col :span="3">
               <div class="flexs borders" style="height: 30px; font-size: 10px">
                 住宿费
               </div>
               <el-row style="width: 100%; height: 30px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 5px"
-                  >单据</el-col
-                >
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 30px; font-size: 10px"
                   >金额</el-col
                 >
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-              {{ruleForm.accessoryNum1}}
-              </el-col>
+               
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.stay1 }}
+                  {{ ruleForm.stay1 ==0 ? '': ruleForm.stay1  }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum2}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.stay2 }}
+                  {{ ruleForm.stay2==0 ? '': ruleForm.stay2   }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum3}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.stay3 }}
+                  {{ ruleForm.stay3==0 ? '': ruleForm.stay3  }}
                 </el-col>
               </el-row>
           
             </el-col>
 
-            <el-col :span="4">
+            <el-col :span="3">
               <div class="flexs borders" style="height: 30px; font-size: 10px">
-                差旅补助
+                餐费
               </div>
               <el-row style="width: 100%; height: 30px">
                 <el-col
-                  :span="12"
+                  :span="8"
                   class="flexs borders"
                   style="height: 30px; font-size: 5px"
                   >天数</el-col
                 >
 
                 <el-col
-                  :span="12"
+                  :span="16"
                   class="flexs borders"
                   style="height: 30px; font-size: 10px"
                   >金额</el-col
@@ -286,134 +241,110 @@
               </el-row>
               <el-row style="width: 100%; height: 50px">
                 <el-col
-                  :span="12"
+                  :span="8"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.days1 }}
+                  {{ ruleForm.days1==0 ? '': ruleForm.days1  }}
                 </el-col>
 
                 <el-col
-                  :span="12"
+                  :span="16"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.subsidy1 }}
+                  {{ ruleForm.subsidy1==0 ? '': ruleForm.subsidy1  }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
                 <el-col
-                  :span="12"
+                  :span="8"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.days2 }}
+                  {{ ruleForm.days2 ==0 ? '': ruleForm.days2 }}
                 </el-col>
 
                 <el-col
-                  :span="12"
+                  :span="16"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.subsidy2 }}
+                  {{ ruleForm.subsidy2==0 ? '': ruleForm.subsidy2 }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
                 <el-col
-                  :span="12"
+                  :span="8"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.days3 }}
+                  {{ ruleForm.days3==0 ? '': ruleForm.days3 }}
                 </el-col>
 
                 <el-col
-                  :span="12"
+                  :span="16"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.subsidy3 }}
+                  {{ ruleForm.subsidy3==0 ? '': ruleForm.subsidy3 }}
                 </el-col>
               </el-row>
            
             </el-col>
 
-            <el-col :span="4">
+            <el-col :span="3">
               <div class="flexs borders" style="height: 30px; font-size: 10px">
                 其他
               </div>
               <el-row style="width: 100%; height: 30px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 5px"
-                  >单据</el-col
-                >
+               
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 30px; font-size: 10px"
                   >金额</el-col
                 >
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum1}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.other1 }}
+                  {{ ruleForm.other1==0 ? '': ruleForm.other1}}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum2}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.other2 }}
+                  {{ ruleForm.other2==0 ? '': ruleForm.other2 }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="12"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                {{ruleForm.accessoryNum3}}
-              </el-col>
+                
 
                 <el-col
-                  :span="12"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ ruleForm.other3 }}
+                  {{ ruleForm.other3 ==0 ? '': ruleForm.other3}}
                 </el-col>
               </el-row>
              
             </el-col>
-
             <el-col :span="2">
               <div class="flexs borders" style="height: 60px; font-size: 10px">
-                小计
+                单据
               </div>
 
               <el-row style="width: 100%; height: 50px">
@@ -422,7 +353,7 @@
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ subTotalMoney1 }}
+                  {{ ruleForm.accessoryNum1 ==0 ? '':ruleForm.accessoryNum1 }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
@@ -431,7 +362,7 @@
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ subTotalMoney2 }}
+                {{ ruleForm.accessoryNum2 ==0 ? '':ruleForm.accessoryNum2 }}
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
@@ -440,7 +371,42 @@
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
-                  {{ subTotalMoney3 }}
+                {{ ruleForm.accessoryNum3 ==0 ? '':ruleForm.accessoryNum3 }}
+                </el-col>
+              </el-row>
+           
+            </el-col>
+
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
+                合计
+              </div>
+
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney1 ==0 ? '':subTotalMoney1 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney2 ==0 ? '':subTotalMoney2 }}
+                </el-col>
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ subTotalMoney3 ==0 ? '':subTotalMoney3 }}
                 </el-col>
               </el-row>
            
@@ -451,50 +417,42 @@
             <el-col :span="8">
               <div class="comborder1 borders">各项费用合计</div>
             </el-col>
-            <el-col :span="1">
+           
+            <el-col :span="3">
               <div class="comborder1 borders">
-                {{ accessoryNum }}
+                 {{totalTraffic ==0 ? '':totalTraffic}}
+              </div>
+            </el-col>
+           
+            <el-col :span="3">
+              <div class="comborder1 borders">
+                {{totalStay==0 ? '':totalStay}}
               </div>
             </el-col>
             <el-col :span="1">
               <div class="comborder1 borders">
-                 {{totalTraffic}}
+                {{totalDay==0 ? '':totalDay}}
               </div>
             </el-col>
             <el-col :span="2">
               <div class="comborder1 borders">
-
-                {{ accessoryNum }}
+                {{totalSubsidy==0 ? '': totalSubsidy}}
+              </div>
+            </el-col>
+           
+            <el-col :span="3">
+              <div class="comborder1 borders">
+                {{totalOther==0 ? '': totalOther}}
               </div>
             </el-col>
             <el-col :span="2">
               <div class="comborder1 borders">
-                {{totalStay}}
+                {{accessoryNum==0 ? '': accessoryNum}}
               </div>
             </el-col>
             <el-col :span="2">
               <div class="comborder1 borders">
-                {{totalDay}}
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <div class="comborder1 borders">
-                {{totalSubsidy}}
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <div class="comborder1 borders">
-                {{ accessoryNum }}
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <div class="comborder1 borders">
-                {{totalOther}}
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <div class="comborder1 borders">
-                {{ruleForm.totalAllMoney}}
+                {{ruleForm.totalAllMoney==0 ? '': totalAllMoney}}
               </div>
             </el-col>
           </el-row>

@@ -9,7 +9,7 @@
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item label="报销日期" prop="expenseDate">
             <el-date-picker
               disabled
@@ -20,7 +20,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item label="姓名" prop="expenseId">
             <!-- <el-input
                             v-model="ruleForm.expenseName"
@@ -44,7 +44,16 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
+          <el-form-item label="部门">
+                         <el-select style="width:100%" v-model="ruleForm.dept" clearable placeholder="请选择部门">
+                            <el-option v-for="item in searchDepts" :key="item.deptId" :label="item.deptName"
+                                :value="item.deptName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+        </el-col>
+        <el-col :span="5">
           <div class="grid-content bg-purple">
             <el-form-item label="职别" prop="job">
               <el-input
@@ -55,7 +64,8 @@
             </el-form-item>
           </div>
         </el-col>
-        <el-col :span="6">
+        
+        <el-col :span="5">
           <div class="grid-content bg-purple">
             <el-form-item label="同行人数" prop="togetherNum">
               <el-input
@@ -491,7 +501,7 @@
 <script>
 import uploadInvoices from "@/components/douploads/uploadInvoices";
 import { addCheckInvoices } from "@/api/invoices/checkInvoices";
-import { getCardInfoBycompany, getPost } from "@/api/invoices/expense";
+import { getCardInfoBycompany, getPost,getDepts } from "@/api/invoices/expense";
 import { getAllCompany, getAllGetUser } from "@/api/invoices/borrow";
 import { getInfo } from "@/api/login";
 import { getAllUser, getUser } from "@/api/system/user";
@@ -504,6 +514,7 @@ export default {
   name: "travelExpense",
   data() {
     return {
+      accessoryNumTotal:'',
       users: [],
       isDetail: "0",
       isNone: [],
@@ -520,6 +531,7 @@ export default {
       payCompanys: [], //所有单位
       searchGetUsers: [], //所有收款用户信息
       ruleForm: {
+        dept:'',
         deptId: "", //部门id
         travelExpenseCode: "", //报销单号
         expenseDate: "", //报销时间
@@ -607,6 +619,7 @@ export default {
         place: [{ required: true, message: "请输入起讫地点", trigger: "blur" }],
         days: [{ required: true, message: "请输入住宿天数", trigger: "blur" }],
       },
+      searchDepts:[],
     };
   },
   mounted: function () {
@@ -628,8 +641,12 @@ export default {
     this.getAllCompany();
     this.getAllGetUser();
     this.getAllUser();
+    this.getAllDept();
   },
   computed: {
+    accessoryNumTotal: function () {
+        return this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1;
+    },
     subTotalMoney1: function () {
       if (!this.ruleForm.traffic1) {
         this.ruleForm.traffic1 = 0;
@@ -701,6 +718,13 @@ export default {
     },
   },
   methods: {
+      //初始化下拉部门信息
+      getAllDept() {
+            getDepts().then(res => {
+                console.log('getDepts==',res.list);
+                this.searchDepts = res.list
+            })
+        },
     getUserById(userId) {
       getUser(userId).then((res) => {
         console.log("users==", res.data);

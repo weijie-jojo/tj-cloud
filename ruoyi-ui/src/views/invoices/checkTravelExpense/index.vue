@@ -4,7 +4,7 @@
             ref="ruleForm" 
             :model="ruleForm" 
             :rules="rules" 
-            label-width="110px" >
+            label-width="auto" >
             <el-row>
           <el-col :span="12">
             <el-form-item class="comright" label="差旅报销单单号">
@@ -14,7 +14,7 @@
            </el-row>
             <el-row  type="flex" justify="center">
                 
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-form-item label="报销日期"  prop="expenseDate" >  
                         <el-date-picker
                             disabled
@@ -25,7 +25,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="姓名"  prop="expenseName" class="css1">
                              <el-input  
@@ -37,7 +37,15 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="4">
+                  <el-form-item label="部门">
+                      <el-input disabled v-model="ruleForm.deptName">
+
+                      </el-input>
+
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="职别"  prop="job" class="css2">
                             <el-input 
@@ -49,7 +57,7 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="同行人数" prop="togetherNum"  >
                             <el-input
@@ -161,7 +169,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy1"
@@ -183,7 +191,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input disabled v-model="subTotalMoney1">
               <template slot="append"> 元 </template>
             </el-input>
@@ -264,7 +272,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy2"
@@ -286,7 +294,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input disabled v-model="subTotalMoney2">
               <template slot="append"> 元 </template>
             </el-input>
@@ -367,7 +375,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
             disabled
               type="number"
@@ -389,7 +397,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input 
             disabled
             v-model="subTotalMoney3">
@@ -400,6 +408,11 @@
       </el-row>
         
             <el-row style="margin-top:20px">
+              <el-col :span="8" >
+                    <el-form-item  label="总计单据" >        
+                        {{accessoryNumTotal}}    
+                    </el-form-item>
+                </el-col>
                 <el-col :span="8" >
                     <el-form-item  label="总计金额(小写)" >        
                         {{ruleForm.totalAllMoney}}    
@@ -499,36 +512,34 @@
             </div>
 
             <el-row style="margin-top:20px">
-                <el-col :span="5">
-                    <el-form-item label="总经理"    >
+                <el-col :span="6">
+                    <el-form-item label="总经理">
                         <el-input  
                             v-model="ruleForm.gmCheck" 
-                            class="inputCss" 
+                           
                             disabled
                         ></el-input> 
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
-                     <el-form-item label="财务"    >
+                <el-col :span="6">
+                     <el-form-item label="财务">
                         <el-input  
                             v-model="ruleForm.financeCheck" 
-                            class="inputCss" 
                             disabled
                         ></el-input> 
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                      <el-form-item label="部门主管"   >
                         <el-input  
                             v-model="ruleForm.dmCheck" 
-                            class="inputCss" 
-                            disabled
+                             disabled
                         ></el-input> 
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-form-item label="报销人"   >
-                        <el-input  v-model="ruleForm.expenseName" placeholder="" class="inputCss" disabled></el-input> 
+                        <el-input  v-model="ruleForm.expenseName" placeholder="" disabled></el-input> 
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -553,17 +564,15 @@
                         prop="checkReasult"
                         label="结果"/>
                 </el-table>
-              </el-col>
-            </el-row>
-            <el-form-item prop="isAgree">
-                <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批"}}</div>
+              
+                <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue;">{{"审批"}}</div>
                 <el-radio 
                     v-model="ruleForm.isAgree" 
                     label="1" 
                     @change="isAgrees"
                     >同意</el-radio>
-                <br/>
-                <el-radio 
+                <div class="flexs">
+                  <el-radio 
                     v-model="ruleForm.isAgree" 
                     label="2" 
                     @change="isAgrees"
@@ -572,9 +581,15 @@
                     :disabled="isDisabled"
                     v-model="rejectReasult" 
                     placeholder="请输入驳回原因" 
-                    style="margin-top:-20px;"
+                    style="widhth:90%"
                 ></el-input>
-            </el-form-item>
+
+                </div>
+              
+            
+              </el-col>
+            </el-row>
+           
           
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
@@ -606,6 +621,7 @@
     },
     data() {
       return {
+        accessoryNumTotal:'',
         isDetail: '1',
         isDetails: '0',
         isNone: [],
@@ -630,6 +646,7 @@
         payCompanys:[],//所有单位
         searchGetUsers:[],//所有收款用户信息
         ruleForm: {
+            deptName:"",
             accessoryNum1:'',
             accessoryNum2:'',
             accessoryNum3:'',
@@ -648,7 +665,7 @@
             days1:'',//天数
             traffic1:'',//交通费
             stay1:'',//住宿费
-            subsidy1:'',//差旅补助
+            subsidy1:'',//餐费
             other1:'',//其他费用
 
             travelDate2:'',//起忆时间
@@ -657,7 +674,7 @@
             days2:'',//天数
             traffic2:'',//交通费
             stay2:'',//住宿费
-            subsidy2:'',//差旅补助
+            subsidy2:'',//餐费
             other2:'',//其他费用
 
             travelDate3:'',//起忆时间
@@ -666,7 +683,7 @@
             days3:'',//天数
             traffic3:'',//交通费
             stay3:'',//住宿费
-            subsidy3:'',//差旅补助
+            subsidy3:'',//餐费
             other3:'',//其他费用  
 
             userGetid:'',//收款单位/人id
@@ -781,6 +798,7 @@
         this.ruleForm.stay3=this.travelExpenses[0].stay3;
         this.ruleForm.subsidy3=this.travelExpenses[0].subsidy3;
         this.ruleForm.other3=this.travelExpenses[0].other3;
+        
 
         if(!this.ruleForm.traffic1){
                 this.ruleForm.traffic1=0;
@@ -822,8 +840,13 @@
             if(!this.ruleForm.other3){
                 this.ruleForm.other3=0;
             }
-          this.subTotalMoney3=new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
+
+        this.ruleForm.accessoryNum1 = this.travelExpenses[0].accessoryNum1;
+        this.ruleForm.accessoryNum2 = this.travelExpenses[0].accessoryNum2;
+        this.ruleForm.accessoryNum3 = this.travelExpenses[0].accessoryNum3;  
+        this.subTotalMoney3=new Decimal(this.ruleForm.traffic3).add(new Decimal(this.ruleForm.stay3)).add(new Decimal(this.ruleForm.subsidy3)).add(new Decimal(this.ruleForm.other3));
        
+        this.accessoryNumTotal=this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1;
         this.ruleForm.totalAllMoney=this.travelExpenses[0].totalAllMoney;
         this.ruleForm.paywayId=this.travelExpenses[0].label;
         this.ruleForm.payDate=this.travelExpenses[0].payDate;
@@ -836,6 +859,7 @@
         this.ruleForm.bankGetname=this.travelExpenses[0].bankGetname;
 
         this.ruleForm.deptId=this.travelExpenses[0].deptId;
+        this.ruleForm.deptName=this.travelExpenses[0].deptName;
 
         this.ruleForm.gm=JSON.parse(window.localStorage.getItem('travelExpenseCheckPerson'));
         this.ruleForm.finance=JSON.parse(window.localStorage.getItem('travelExpenseCheckPerson'));
