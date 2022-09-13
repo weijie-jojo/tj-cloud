@@ -283,7 +283,7 @@
             </div>
 
           <el-row type="flex" class="row-bg" style="margin-bottom: 20px;" justify="space-around">
-                <el-col :span="23">
+                <el-col :span="24">
                     <div style="font-size:20px;
                     margin-top:10px;
                     margin-bottom:20px;
@@ -293,18 +293,15 @@
                         <el-table-column prop="checkUser" label="人员" width="180" />
                         <el-table-column prop="checkReasult" label="结果" />
                     </el-table>
-                </el-col>
-            </el-row>
-
-           <el-form-item prop="isAgree">
+                 
                 <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批"}}</div>
                 <el-radio 
                     @change="isAgrees"
                     v-model="ruleForm.isAgree" 
                     label="1"
                     >同意</el-radio>
-                <br/>
-                <el-radio 
+                <div class="flexs" style="justify-content:flex-start">
+                    <el-radio 
                     @change="isAgrees"
                     v-model="ruleForm.isAgree" 
                     label="2"
@@ -313,14 +310,25 @@
                     :disabled="isDisabled"
                     v-model="rejectReasult" 
                     placeholder="请输入驳回原因" 
-                    style="margin-top:-20px;width:820px"
+                    style="width:99%"
                 ></el-input>
-            </el-form-item>
-            
-            <el-form-item id="btn">
-                <el-button @click="toReturn" style="width:80px">关闭</el-button>
-                <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;margin-left:80px">审核</el-button>
-            </el-form-item>
+
+                </div>
+              
+           
+                </el-col>
+            </el-row>
+
+        
+            <el-row type="flex">
+        <el-col :span="8"></el-col>
+        <el-col :span="8" class="flexs">
+            <el-button type="danger" @click="toReturn" style="width:80px">关闭</el-button>
+                <el-button type="primary" @click="checkInvoices('ruleForm')" style="width:80px;">审核</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+           
 
         </el-form>
     </div>

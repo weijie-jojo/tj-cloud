@@ -1,132 +1,124 @@
 <template>
     <div class="app-container">
-        <el-button 
-            v-print="'#printMe'" 
-            type="primary"
-            style="margin-left:1180px;margin-bottom: -50px;">打印</el-button> 
-
-        <el-form 
+      <el-form 
             ref="ruleForm" 
             :model="ruleForm" 
             :rules="rules" 
-            label-width="200px" 
+            label-width="auto" 
             id="printMe"
-            style="margin-left:-80px">
-
-            <el-form-item id="title" >
-                <span style="font-size:30px">借支单详情</span>                  
+            >
+          <el-row>
+          <el-col :span="12">
+            <el-form-item class="comright" label="借支单编号">
+              <span>{{ ruleForm.borrowCode }}</span>
             </el-form-item>
-
-            <el-form-item label="借支单编号" >
-                <span>{{ruleForm.borrowCode}}</span>                  
-            </el-form-item>
-
-            <el-form-item label="借款日期"   prop="borrowDate" class="middle2" >  
+           </el-col>
+           <el-col :span="12">
+            <div class="flexs" style=" justify-content: flex-end;">
+                点击按钮进入打印预览进行打印
+                <el-button 
+             @click="printme"
+            type="primary"
+            size="small"
+            style="width:100px;margin-left:10px">打印预览</el-button>
+            </div>
+            
+           </el-col>
+         </el-row>
+         <el-row>
+            <el-col :span="6">
+                <el-form-item label="借款日期"   prop="borrowDate">  
                 <el-date-picker
                     v-model="ruleForm.borrowDate"
                     type="date"
                     placeholder="选择日期"
-                    style="width:200px"
+                    style="width:100%"
                     disabled>
                 </el-date-picker>
             </el-form-item>
-
-            <el-form-item label="部门"  class="right2">
-                <el-input  v-model="ruleForm.deptName"  style="width:200px" disabled></el-input>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="部门">
+                <el-input  v-model="ruleForm.deptName"  disabled></el-input>
             </el-form-item>
-                 
-            <el-form-item label="借支人姓名"  >
-                <el-input  v-model="ruleForm.borrowName"  style="width:200px" disabled></el-input> 
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="借支人姓名"  >
+                <el-input  v-model="ruleForm.borrowName" disabled></el-input> 
             </el-form-item>
-
-            <el-form-item label="职务"    class="right2" >
-                <el-input  v-model="ruleForm.job"  style="width:200px" disabled></el-input> 
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="职务">
+                <el-input  v-model="ruleForm.job"  disabled></el-input> 
             </el-form-item>
-
-             <el-form-item label="借支事由"   prop="borrowDesc" class="left" >
+            </el-col>
+         </el-row>
+         <el-row>
+            <el-col :span="24">
+                <el-form-item label="借支事由"   prop="borrowDesc" >
                 <el-input
                     disabled
                     type="textarea"
                     :autosize="{ minRows: 8, maxRows: 20}"
                     placeholder="请输入借支事由"
                     v-model="ruleForm.borrowDesc"
-                    style="width:1120px">
+                    style="width:100%">
                 </el-input>
             </el-form-item>
-            <el-form-item  label="借款金额" prop="totalMoney" id="left" >
-                <el-input-number 
+            </el-col>
+         </el-row>
+         <el-row>
+            <el-col :span="8">
+                <el-form-item  label="借款金额" prop="totalMoney" id="left" >
+                <el-input
+                    type="number" 
                     disabled
                     v-model="ruleForm.totalMoney" 
                     :precision="2" 
                     :step="0.1" :min="0" 
-                    style="width:160px"  
-                ></el-input-number>
-                <span>元</span>
+                    style="width:100%"  
+                >
+             <template slot="append">元</template>
+            </el-input>
+                
             </el-form-item>
-            <el-form-item  label="人民币(大写)" class="middle2">                 
-                {{digitUppercase(ruleForm.totalMoney)}}      
-            </el-form-item>
-            
-            <el-form-item label="支付方式"  prop="paywayId" id="left">
-                <!-- <el-select 
-                    disabled
+            <el-form-item label="支付方式"  prop="paywayId" >
+              <el-input 
                     v-model="ruleForm.paywayId" 
-                    @change="selectPayWay"
-                    placeholder="请选择支付方式"  
-                    clearable  
-                    style=" width: 200PX;">
-                    <el-option 
-                        v-for="item in searchPayways" 
-                        :key="item.detailId" 
-                        :label="item.label" 
-                        :value="item.detailId"
-                    ></el-option>
-                </el-select> -->
-               <el-input 
-                    v-model="ruleForm.paywayId" 
-                    style="width:200px"
+                   
                     disabled
                 ></el-input>
             </el-form-item>
-
-            <el-form-item label="计划还款时间"   class="middle2" >  
+            </el-col>
+            <el-col :span="8">
+             <el-form-item  label="人民币(大写)" >                 
+                {{digitUppercase(ruleForm.totalMoney)}}      
+             </el-form-item>
+             <el-form-item label="计划还款时间">  
                 <el-date-picker
                     v-model="ruleForm.payDate"
                     disabled
                     type="date"
-                    style="width:200px">
+                    style="width:100%">
                 </el-date-picker>
             </el-form-item>
-
-            <el-form-item label="收款人"   class="left">
+            </el-col>
+         </el-row>
+         <el-row>
+            <el-col :span="8">
+                <el-form-item label="收款人" >
                  <el-input 
                     v-model="ruleForm.userGetid" 
-                    style="width:200px"
-                    disabled
+                   disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="收款账号"    class="middle2">
-                <el-input 
-                    v-model="ruleForm.bankcardGetid" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
-            </el-form-item>
-            <el-form-item label="收款开户行"  class="right2">
-                <el-input 
-                    v-model="ruleForm.bankGetname" 
-                    style="width:200px"
-                    disabled
-                ></el-input>
-            </el-form-item>
-
-             <el-form-item label="借款单位"  prop="companyPayId"  class="left">
+            <el-form-item label="借款单位"  prop="companyPayId">
                  <el-select 
                     disabled
                     v-model="ruleForm.companyPayId" 
                     placeholder="请选择付款单位" 
                     @change="getCarInfoByCompanyId"   
-                    style=" width: 200PX;">
+                    style=" width: 100%;">
                     <el-option 
                         v-for="item in payCompanys" 
                         :key="item.groupCode" 
@@ -135,34 +127,59 @@
                     > </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="借款账号"    class="middle2">
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="收款账号">
+                <el-input 
+                    v-model="ruleForm.bankcardGetid" 
+                   disabled
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="借款账号">
               <el-input 
                     v-model="ruleForm.bankPaycode" 
-                    style="width:200px"
                     disabled
                 ></el-input>
             </el-form-item>
-            <el-form-item label="借款开户行"   class="right2">
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="收款开户行">
+                <el-input 
+                    v-model="ruleForm.bankGetname" 
+                    disabled
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="借款开户行" >
                 <el-input 
                     v-model="ruleForm.bankPayname" 
-                    style="width:200px"
-                    disabled
+                   disabled
                 ></el-input>
             </el-form-item>
-
-            <el-form-item label="总经理"   class="left" >
-                <el-input  v-model="ruleForm.gmCheck" placeholder="" class="inputCss" disabled></el-input> 
+            </el-col>
+         </el-row>
+         <el-row>
+            <el-col :span="6">
+                <el-form-item label="总经理"  >
+                <el-input  v-model="ruleForm.gmCheck" placeholder=""  disabled></el-input> 
             </el-form-item>
-            <el-form-item label="财务"   class="middle" >
-                <el-input  v-model="ruleForm.financeCheck" placeholder="" class="inputCss" disabled></el-input> 
+            </el-col> 
+            <el-col :span="6">
+                <el-form-item label="财务"  >
+                <el-input  v-model="ruleForm.financeCheck" placeholder=""  disabled></el-input> 
             </el-form-item>
-            <el-form-item label="部门主管"   class="right" >
-                <el-input  v-model="ruleForm.dmCheck" placeholder="" class="inputCss"  disabled></el-input> 
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="部门主管"   >
+                <el-input  v-model="ruleForm.dmCheck" placeholder=""  disabled></el-input> 
             </el-form-item>
-            <el-form-item label="借款人"  class="right2" >
-                <el-input  v-model="ruleForm.borrowName" placeholder="" class="inputCss" disabled></el-input> 
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="借款人"  >
+                <el-input  v-model="ruleForm.borrowName" placeholder="" disabled></el-input> 
             </el-form-item>
-             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
+            </el-col>
+         </el-row>
+         <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
                 <el-form-item  v-if="item.suffix=='pdf'">
                     <div class="imgTitle">报销凭证影像</div>
                     <pdf ref="pdf" :src="item.url">
@@ -184,13 +201,14 @@
                     <el-image :src="item.url" ></el-image>
                 </el-form-item>
             </div>
-
-            <el-form-item >
-                <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
-                <el-table
+            <el-row>
+                <el-col :span="24">
+                    <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批进度"}}</div>
+                 
+                   <el-table
                     border
                     :data="checks"
-                    style="width: 65%"
+                    style="width: 100%"
                     >
                     <el-table-column
                         prop="checkDate"
@@ -204,8 +222,8 @@
                         prop="checkReasult"
                         label="结果"/>
                 </el-table>
-            </el-form-item>
-        
+            </el-col>
+            </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
@@ -799,6 +817,10 @@
         margin-left: 420px; 
         margin-top: 30px;
         margin-bottom: 30px;
+    }
+    .flexs{
+        display:flex;
+        justify-content: center;
     }
 
     

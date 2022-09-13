@@ -172,6 +172,12 @@
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">
+                
+                <el-col :span="8" >
+                    <el-form-item  label="合计单据" >        
+                        {{accessoryNumTotal}}    
+                    </el-form-item>
+                </el-col>
                 <el-col :span="8">
                     <el-form-item label="合计金额(小写)"  prop="money">
                         {{ totalMoney}}
@@ -210,7 +216,7 @@
                             v-model="ruleForm.userGetid" 
                             @change="getCardInfoBycompany"
                             placeholder="请选择收款单位"   
-                            style=" width: 210PX;"
+                            style=" width: 100%;"
                             :disabled="isDisabled">
                             <el-option 
                                 v-for="item in searchGetUsers" 
@@ -266,7 +272,7 @@
                     <el-form-item label="报销人："  >
                         <el-input
                             v-model="ruleForm.userGetid"
-                            class="inputCss"
+                           
                             placeholder=""
                             disabled
                         ></el-input>

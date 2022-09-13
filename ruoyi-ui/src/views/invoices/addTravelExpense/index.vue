@@ -21,7 +21,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-form-item label="姓名" prop="expenseName">
             <el-input
               v-model="ruleForm.expenseName"
@@ -29,6 +29,14 @@
               disabled
             ></el-input>
           </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item label="部门">
+            <el-input
+                v-model="ruleForm.dept"
+                disabled
+              ></el-input>
+            </el-form-item>
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
@@ -41,7 +49,7 @@
             </el-form-item>
           </div>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <div class="grid-content bg-purple">
             <el-form-item label="同行人数" prop="togetherNum">
               <el-input
@@ -141,7 +149,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy1"
@@ -161,7 +169,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input v-model="subTotalMoney1">
               <template slot="append"> 元 </template>
             </el-input>
@@ -236,7 +244,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy2"
@@ -256,7 +264,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input v-model="subTotalMoney2">
               <template slot="append"> 元 </template>
             </el-input>
@@ -331,7 +339,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy3"
@@ -351,7 +359,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input v-model="subTotalMoney3">
               <template slot="append"> 元 </template>
             </el-input>
@@ -359,6 +367,11 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 20px" type="flex">
+        <el-col :span="8" >
+                    <el-form-item  label="总计单据" >        
+                        {{accessoryNumTotal}}    
+                    </el-form-item>
+       </el-col>
         <el-col :span="8">
           <el-form-item label="总计金额(小写)">
             <el-input disabled v-model="totalMoney">
@@ -490,6 +503,7 @@ export default {
   name: "travelExpense",
   data() {
     return {
+      accessoryNumTotal:'',
       isDetail: "0",
       isNone: [],
       roles: [],
@@ -505,6 +519,8 @@ export default {
       payCompanys: [], //所有单位
       searchGetUsers: [], //所有收款用户信息
       ruleForm: {
+        dept:'',
+        deptName:"",
         deptId: "", //部门id
         travelExpenseCode: "", //报销单号
         expenseDate: "", //报销时间
@@ -520,7 +536,7 @@ export default {
         days1: "0", //天数
         traffic1: "0.00", //交通费
         stay1: "", //住宿费
-        subsidy1: "", //差旅补助
+        subsidy1: "", //餐费
         other1: "", //其他费用
         accessoryNum1: "0", //单据
 
@@ -530,7 +546,7 @@ export default {
         days2: "0", //天数
         traffic2: "0.00", //交通费
         stay2: "", //住宿费
-        subsidy2: "", //差旅补助
+        subsidy2: "", //餐费
         other2: "", //其他费用
         accessoryNum2: "0", //单据
 
@@ -540,7 +556,7 @@ export default {
         days3: "0", //天数
         traffic3: "0.00", //交通费
         stay3: "", //住宿费
-        subsidy3: "", //差旅补助
+        subsidy3: "", //餐费
         other3: "", //其他费用
         accessoryNum3: "0", //单据
 
@@ -596,6 +612,7 @@ export default {
       this.ruleForm.expenseName = res.user.nickName;
       this.ruleForm.expenseId = res.user.userId;
       this.ruleForm.deptId = res.user.deptId;
+      this.ruleForm.dept=res.user.dept.deptName;
       this.roles = res.user.roles;
       this.ruleForm.userGetid = res.user.id;
       //根据收款人id查询岗位
@@ -618,6 +635,9 @@ export default {
     // this.getAllGetUser();
   },
   computed: {
+    accessoryNumTotal: function () {
+        return this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1;
+    },
     subTotalMoney1: function () {
       if (!this.ruleForm.traffic1) {
         this.ruleForm.traffic1 = 0;
