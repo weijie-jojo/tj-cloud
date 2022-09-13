@@ -402,4 +402,7 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "出款不通过备注")
     private String payRemark;
 
+    /** 应收账款 */
+    @ApiModelProperty(value = "应收账款")
+    private BigDecimal receiveTotalMoneys;
 }
