@@ -16,6 +16,15 @@ export function getTravelExpense(params) {
     params
   })
 }
+//登录用户历史单据
+export function getTravelExpense2(params) {
+
+  return request({
+    url: 'invoices/travelExpense/getTravelExpense2',
+    method: 'get',
+    params
+  })
+}
 //所有的
 export function getAllTravelExpense(params) {
 
@@ -81,5 +90,5 @@ export function editTravelExpenseById(params) {
     params
   })
 }
-export default { editTravelExpenseById,getCode,addTravelExpense,getTravelExpense,editTravelExpense,getExpenseItem}
+export default { getTravelExpense2,editTravelExpenseById,getCode,addTravelExpense,getTravelExpense,editTravelExpense,getExpenseItem}
 

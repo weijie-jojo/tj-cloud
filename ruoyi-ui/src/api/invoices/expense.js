@@ -61,6 +61,15 @@ export function getExpenses(params) {
     params
   })
 }
+//登录用户历史单据
+export function getExpenses2(params) {
+
+  return request({
+    url: 'invoices/expense/getAllExpense2',
+    method: 'get',
+    params
+  })
+}
 //所有的
 export function getAllExpenses(params) {
 
@@ -145,5 +154,5 @@ export function getPost(userId) {
 
   })
 }
-export default {getLeaderByUserId,getUserByUserName, getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
+export default {getExpenses2,getLeaderByUserId,getUserByUserName, getPost,getCode,checkExpense,editExpense,getExpenses, getDepts,getAllPayway,getAllGetCompany,getCardInfoBycompany,getBankNameBycardId,addExpense}
 
