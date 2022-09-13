@@ -135,35 +135,6 @@ public class ProjectJoinTicketVo extends SelfProject {
     /** 渠道商全名 */
     @ApiModelProperty(value = "渠道商全名")
     private String placeAliasName;
-    
-    //self_purch_company
-    /** 采购方公司名（甲方） */
-    @ApiModelProperty(value = "采购方公司名 甲方")
-    private String purchCompany;
-
-    /** 业务员（登录用户id） */
-    @ApiModelProperty(value = "业务员 登录用户id")
-    private Long userId;
-
-    /** 甲方纳税人识别号 */
-    @ApiModelProperty(value = "甲方纳税人识别号")
-    private String purchCompanyTaxid;
-
-    /** 电话 */
-    @ApiModelProperty(value = "电话")
-    private String purchCompanyPhone;
-
-    /** 地址 */
-    @ApiModelProperty(value = "地址")
-    private String purchCompanyAddress;
-
-    /** 开户行 */
-    @ApiModelProperty(value = "开户行")
-    private String bankName;
-
-    /** 开户行帐号 */
-    @ApiModelProperty(value = "开户行帐号")
-    private String bankCode;
 
     //self_application_info
     /** 法人电话 */

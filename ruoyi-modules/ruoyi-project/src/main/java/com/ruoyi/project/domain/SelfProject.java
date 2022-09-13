@@ -405,4 +405,20 @@ public class SelfProject extends BaseEntity
     /** 应收账款 */
     @ApiModelProperty(value = "应收账款")
     private BigDecimal receiveTotalMoneys;
+
+    /** 电话  甲方 */
+    @ApiModelProperty(value = "电话  甲方")
+    private String purchCompanyPhone;
+
+    /** 地址  甲方 */
+    @ApiModelProperty(value = "地址  甲方")
+    private String purchCompanyAddress;
+
+    /** 开户行  甲方 */
+    @ApiModelProperty(value = "开户行  甲方")
+    private String bankName;
+
+    /** 开户行帐号  甲方 */
+    @ApiModelProperty(value = "开户行帐号  甲方")
+    private String bankCode;
 }
