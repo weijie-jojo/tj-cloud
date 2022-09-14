@@ -22,7 +22,7 @@ public interface SelfProjectMapper
      * @param projectCode 项目编号
      * @return 项目信息
      */
-    public List<ProjectJoinTicketVo>  selectProjectJoinTicketByCode(String projectCode);
+    public ProjectJoinTicketVo  selectProjectJoinTicketByCode(String projectCode);
 
     /**
      * 获取最后一条数据

@@ -101,6 +101,17 @@ public class AccountTravelExpenseHandler {
         dataDto.success(list,accountTravelExpenseIPage.getTotal());
         return dataDto;
     }
+    @GetMapping(value ="/getTravelExpense2")
+    @ApiOperation("查询所有差旅报销单信息(登录用户历史单据)")
+    public DataDto getTravelExpense2(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit){
+        accountTravelExpense.setCreateUser(SecurityUtils.getUserId());
+        accountTravelExpense.setStepType(2);
+        IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense(accountTravelExpense,timeQo,currentPage,limit);
+        List<AccountTravelExpenseVo> list=accountTravelExpenseIPage.getRecords();
+        DataDto<AccountTravelExpenseVo> dataDto = new DataDto<>();
+        dataDto.success(list,accountTravelExpenseIPage.getTotal());
+        return dataDto;
+    }
     @GetMapping(value ="/getAllTravelExpense")
     @ApiOperation("查询所有差旅报销单信息")
     public DataDto getAllTravelExpense(AccountTravelExpense accountTravelExpense,TimeQo timeQo, Integer currentPage, Integer limit){

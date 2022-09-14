@@ -12,4 +12,6 @@ public class AccountTravelExpenseVo extends AccountTravelExpense {
     private String userName;
     @ApiModelProperty(value = "用户表中的用户昵称")
     private String nickName;
+    @ApiModelProperty(value = "部门名")
+    private String deptName;
 }

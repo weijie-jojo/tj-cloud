@@ -34,6 +34,17 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     }
 
     /**
+     * 查询登录用户个体户数量
+     *
+     * @param userIdArr
+     * @return 个体商户集合
+     */
+    @Override
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo) {
+        return selfEmployedMapper.selectEmployedJoinCount(userIdArr, selfEmployedVo);
+    }
+
+    /**
      * 连表selfNameReview查询（完结）
      *
      * @param selfEmployedVo 个体商户

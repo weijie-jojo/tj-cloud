@@ -67,5 +67,9 @@ public class SelfTicket extends BaseEntity
     @ApiModelProperty(value = "是否删除")
     private String isDeleted;
 
+    /** 发票不通过备注 */
+    @ApiModelProperty(value = "发票不通过备注")
+    private String ticketRemark2;
+
 }
 

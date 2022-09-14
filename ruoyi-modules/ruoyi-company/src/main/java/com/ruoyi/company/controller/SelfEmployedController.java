@@ -135,6 +135,50 @@ public class SelfEmployedController extends BaseController
     }
 
     /**
+     * 查询登录用户个体户数量
+     */
+    @ApiOperation("查询登录用户个体户数量")
+//    @RequiresPermissions("company:employed:list")
+    @GetMapping("/getCounts")
+    public Integer selectEmployedJoinCounts(SelfEmployedVo selfEmployedVo)
+    {
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4){//部门主管
+                System.out.println("部门主管");
+//                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+//                    userIdArr.add(userVo.getUserId());
+//                }
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==11){//文员
+                System.out.println("文员");
+                userIdArr=null;
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
+            }
+        }
+
+        List<SelfEmployed> list = selfEmployedService.selectEmployedJoinCount(userIdArr, selfEmployedVo);
+
+        return list.size();
+    }
+
+    /**
      * 连表查询
      */
     @ApiOperation("连表查询")

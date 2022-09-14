@@ -146,14 +146,14 @@ public class BusinessPlaceController extends BaseController {
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
             System.out.println(111111111);
-            return dataDto.err("渠道全名重复");
+            return dataDto.err("客户全名重复");
         }else {
             try {
                 iBusinessPlaceService.addPlace(businessPlace);
                 iBusinessAgencyFeeService.add(businessAgencyFee);
                 return dataDto.success("添加成功");
             }catch (DuplicateKeyException duplicateKeyException){
-                return dataDto.err("渠道编号重复");
+                return dataDto.err("客户编号重复");
             }
         }
     };

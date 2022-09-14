@@ -93,7 +93,7 @@ public class SelfProject extends BaseEntity
     private Long projectStatus;
 
     /** 是否删除;1:删除,0:未删除 */
-    @ApiModelProperty(value = "是否删除;1:删除,0:未删除")
+    @ApiModelProperty(value = "0：作废 1：审核 完  2：审核中")
     private String isDeleted;
 
     /** 审核意见（驳回原因） */
@@ -338,4 +338,87 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "缴税状态 0否 1是")
     private Long projectRateStatus;
 
+    /** 0收款中 1完成 2异常 */
+    @ApiModelProperty(value = "0收款中 1完成 2异常")
+    private Long projectReceiveStatus;
+
+    /** 0出款中 1完成 2异常 */
+    @ApiModelProperty(value = "0出款中 1完成 2异常")
+    private Long projectPayStatus;
+
+    /** 已收账款 */
+    @ApiModelProperty(value = "已收账款")
+    private BigDecimal receiveMoneys;
+
+    /** 未收账款 */
+    @ApiModelProperty(value = "未收账款")
+    private BigDecimal receiveRemainMoneys;
+
+    /** 应出账款 */
+    @ApiModelProperty(value = "应出账款")
+    private BigDecimal payTotalMoneys;
+
+    /** 已出账款 */
+    @ApiModelProperty(value = "已出账款")
+    private BigDecimal payMoneys;
+
+    /** 未出账款 */
+    @ApiModelProperty(value = "未出账款")
+    private BigDecimal payRemainMoneys;
+
+    /** 是否收取注册服务费 */
+    @ApiModelProperty(value =  "是否收取注册服务费")
+    private Long isRegisterMoney;
+
+    /** 是否开启一次性收取费用 0是 1否 */
+    @ApiModelProperty(value =  "是否开启一次性收取费用 0是 1否")
+    private Long isDisposable;
+
+    /** 分润值(一次性收取费用) */
+    @ApiModelProperty(value =  "分润值(一次性收取费用)")
+    private BigDecimal disposableShare;
+
+    /** 分润方式是否定额 1 百分比 0定额(一次性收取费用) */
+    @ApiModelProperty(value =  "分润方式是否定额 1 百分比 0定额(一次性收取费用)")
+    private Long disposableShareIsmoney;
+
+    /** 是否开启分润 0是 1否(一次性收取费用) */
+    @ApiModelProperty(value =  "是否开启分润 0是 1否(一次性收取费用)")
+    private Long isDisposableShare;
+
+    /** 一次性收取费用值 */
+    @ApiModelProperty(value =  "一次性收取费用值")
+    private BigDecimal disposableFee;
+
+    /** 一次性收取费用是否定额 1 百分比 0定额 */
+    @ApiModelProperty(value =  "一次性收取费用是否定额 1 百分比 0定额")
+    private Long disposableFeeIsmoney;
+
+    /** 收款不通过备注 */
+    @ApiModelProperty(value = "收款不通过备注")
+    private String receiveRemark;
+
+    /** 出款不通过备注 */
+    @ApiModelProperty(value = "出款不通过备注")
+    private String payRemark;
+
+    /** 应收账款 */
+    @ApiModelProperty(value = "应收账款")
+    private BigDecimal receiveTotalMoneys;
+
+    /** 电话  甲方 */
+    @ApiModelProperty(value = "电话  甲方")
+    private String purchCompanyPhone;
+
+    /** 地址  甲方 */
+    @ApiModelProperty(value = "地址  甲方")
+    private String purchCompanyAddress;
+
+    /** 开户行  甲方 */
+    @ApiModelProperty(value = "开户行  甲方")
+    private String bankName;
+
+    /** 开户行帐号  甲方 */
+    @ApiModelProperty(value = "开户行帐号  甲方")
+    private String bankCode;
 }

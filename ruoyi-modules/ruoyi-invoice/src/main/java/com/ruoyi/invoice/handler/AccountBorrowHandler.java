@@ -104,6 +104,17 @@ public class AccountBorrowHandler {
         dataDto.success(list,sysBorrowVoIPage.getTotal());
         return dataDto;
     }
+    @GetMapping(value ="/getAllBorrow2")
+    @ApiOperation("查询所有借支单信息（登录用户历史单据）")
+    public DataDto getAllBorrow2(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
+        sysBorrowVo.setCreateUser(SecurityUtils.getUserId());
+        sysBorrowVo.setStepType(2);
+        IPage<AccountBorrowVo> sysBorrowVoIPage = accountBorrowService.getAllBorrow(sysBorrowVo,timeQo,currentPage,limit);
+        List<AccountBorrowVo> list=sysBorrowVoIPage.getRecords();
+        DataDto<AccountBorrowVo> dataDto = new DataDto<>();
+        dataDto.success(list,sysBorrowVoIPage.getTotal());
+        return dataDto;
+    }
     @GetMapping(value ="/getAllBorrows")
     @ApiOperation("查询所有借支单信息")
 //    @PreAuthorize("@el.check('getAllBorrow:list')")

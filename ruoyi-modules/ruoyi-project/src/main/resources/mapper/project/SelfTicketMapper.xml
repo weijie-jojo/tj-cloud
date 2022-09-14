@@ -21,10 +21,11 @@
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isDeleted"    column="is_deleted"    />
+        <result property="ticketRemark2"    column="ticket_remark2"    />
     </resultMap>
 
     <sql id="selectSelfTicketVo">
-        select is_deleted,ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time from self_ticket
+        select is_deleted,ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax, ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time,ticket_remark2 from self_ticket
     </sql>
 
     <select id="selectSelfTicketList" parameterType="com.ruoyi.project.domain.SelfTicket" resultMap="SelfTicketResult">
@@ -40,6 +41,7 @@
             <if test="ticketTime != null "> and ticket_time = #{ticketTime}</if>
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
             <if test="ticketTypeCode != null  and ticketTypeCode != ''"> and ticket_type_code = #{ticketTypeCode}</if>
+            <if test="ticketRemark2 != null  and ticketRemark2 != ''"> and ticket_remark2 = #{ticketRemark2}</if>
         </where>
     </select>
 
@@ -71,6 +73,7 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDeleted != null">is_deleted,</if>
+            <if test="ticketRemark2 != null">ticket_remark2,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -88,6 +91,7 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="ticketRemark2 != null">#{ticketRemark2},</if>
         </trim>
     </insert>
 
@@ -109,6 +113,7 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="ticketRemark2 != null">ticket_remark2 = #{ticketRemark2},</if>
         </trim>
         where ticket_id = #{ticketId}
     </update>

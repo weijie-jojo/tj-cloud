@@ -51,18 +51,59 @@
         <result property="businessStatus"    column="business_status"    />
         <result property="fileName1"    column="file_name1"    />
         <result property="fileName2"    column="file_name2"    />
+        <result property="fileName3"    column="file_name3"    />
+        <result property="fileName4"    column="file_name4"    />
+        <result property="fileName5"    column="file_name5"    />
         <result property="infoStatus"    column="info_status"    />
         <result property="taxStatus"    column="tax_status"    />
         <result property="bankStatus"    column="bank_status"    />
-        <result property="fileName3"    column="file_name3"    />
-        <result property="fileName4"    column="file_name4"    />
         <result property="endTime"    column="end_time"    />
         <result property="endStatus"    column="end_status"    />
         <result property="remarkInfo"    column="remark_info"    />
-        <result property="fileName5"    column="file_name5"    />
+        <result property="remarkName"    column="remark_name"    />
         <result property="businessTerm"    column="business_term"    />
         <result property="isActive"    column="is_active"    />
-        <result property="remarkName"    column="remark_name"    />
+        <result property="fileName6"    column="file_name6"    />
+        <result property="fileName7"    column="file_name7"    />
+        <result property="realnameStatus"    column="realname_status"    />
+        <result property="specialSelfFee"    column="special_self_fee"    />
+        <result property="ordinarySelfFee"    column="ordinary_self_fee"    />
+        <result property="specialSelfMoney"    column="special_self_money"    />
+        <result property="ordinarySelfMoney"    column="ordinary_self_money"    />
+        <result property="isSelfTax"    column="is_self_tax"    />
+        <result property="registerMoney"    column="register_money"    />
+        <result property="fileName8"    column="file_name8"    />
+        <result property="ordinaryTax"    column="ordinary_tax"    />
+        <result property="ordinarySpecialTax"    column="ordinary_special_tax"    />
+        <result property="ordinaryShare"    column="ordinary_share"    />
+        <result property="ordinaryShareMoney"    column="ordinary_share_money"    />
+        <result property="specialShare"    column="special_share"    />
+        <result property="specialShareMoney"    column="special_share_money"    />
+        <result property="isOrdinaryTax"    column="is_ordinary_tax"    />
+        <result property="isSpecialTax"    column="is_special_tax"    />
+        <result property="remarkRegister"    column="remark_register"    />
+        <result property="isSpecialSelfTax"    column="is_special_self_tax"    />
+        <result property="isSelfCount"    column="is_self_count"    />
+        <result property="ordinaryProxyIsmoney"    column="ordinary_proxy_ismoney"    />
+        <result property="specialProxyIsmoney"    column="special_proxy_ismoney"    />
+        <result property="ordinaryShareIsmoney"    column="ordinary_share_ismoney"    />
+        <result property="specialShareIsmoney"    column="special_share_ismoney"    />
+        <result property="isOrdinaryShare"    column="is_ordinary_share"    />
+        <result property="isSpecialShare"    column="is_special_share"    />
+        <result property="placeAliasName"    column="place_alias_name"    />
+        <result property="isSlider"    column="is_slider"    />
+        <result property="isSliderOrdinary"    column="is_slider_ordinary"    />
+        <result property="isPublicUser"    column="is_public_user"    />
+        <result property="selfShare"    column="self_share"    />
+        <result property="isSelfShare"    column="is_self_share"    />
+        <result property="selfShareIsmoney"    column="self_share_ismoney"    />
+        <result property="isRegisterMoney"    column="is_register_money"    />
+        <result property="isDisposable"    column="is_disposable"    />
+        <result property="disposableShare"    column="disposable_share"    />
+        <result property="disposableShareIsmoney"    column="disposable_share_ismoney"    />
+        <result property="isDisposableShare"    column="is_disposable_share"    />
+        <result property="disposableFee"    column="disposable_fee"    />
+        <result property="disposableFeeIsmoney"    column="disposable_fee_ismoney"    />
     </resultMap>
 
     <sql id="selectSelfEmployedJoin">
@@ -79,7 +120,8 @@
             t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax, t.remark_register,
             t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
             t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,t.self_share,t.is_self_share,
-            t.self_share_ismoney,
+            t.self_share_ismoney,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney, t.is_disposable_share,
+            t.disposable_fee, t.disposable_fee_ismoney,
             B.contact_phone,
             C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
             C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
@@ -91,7 +133,20 @@
     </sql>
 
     <sql id="selectSelfEmployedVo">
-        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num, password, status, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax, organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone, free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number, public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3, public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status, tax_status, bank_status, file_name3, file_name4, end_time, end_status, remark_info, file_name5, business_term, is_active, remark_name from self_employed
+        select self_id, self_code, place_code, user_id, tax_id, self_address, self_name, legal_person_name, id_card_num,
+               password, status, place_name, username, exp_status, maximum, register_time, industry_type, industry_tax,
+               organizational_form, number_employees, contribution_amount, city, county, electronic_commerce, free_trade_zone,
+               free_trade_area, property_right, nature_business, account_type, account_type2, private_deposit_bank, private_account_number,
+               public_deposit_bank_1, public_account_number_1, public_deposit_bank_2, public_account_number_2, account_name, public_deposit_bank_3,
+               public_account_number_3, create_by, update_by, create_time, update_time, business_status, file_name1, file_name2, info_status,
+               tax_status, bank_status, file_name3, file_name4, end_time, end_status, remark_info, file_name5, business_term, is_active,
+               remark_name, file_name6, file_name7, realname_status, special_self_fee, ordinary_self_fee, special_self_money, ordinary_self_money,
+               is_self_tax, register_money, file_name8, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,
+               special_share_money, is_ordinary_tax, is_special_tax, remark_register, is_special_self_tax, is_self_count, ordinary_proxy_ismoney,
+               special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
+               is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share,self_share_ismoney,is_register_money, is_disposable,
+               disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney
+        from self_employed
     </sql>
 
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.project.domain.SelfEmployed" resultMap="SelfEmployedResult">
@@ -138,18 +193,55 @@
             <if test="businessStatus != null "> and business_status = #{businessStatus}</if>
             <if test="fileName1 != null  and fileName1 != ''"> and file_name1 = #{fileName1}</if>
             <if test="fileName2 != null  and fileName2 != ''"> and file_name2 = #{fileName2}</if>
+            <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
+            <if test="fileName4 != null  and fileName4 != ''"> and file_name4 = #{fileName4}</if>
+            <if test="fileName5 != null  and fileName5 != ''"> and file_name5 = #{fileName5}</if>
             <if test="infoStatus != null "> and info_status = #{infoStatus}</if>
             <if test="taxStatus != null "> and tax_status = #{taxStatus}</if>
             <if test="bankStatus != null "> and bank_status = #{bankStatus}</if>
-            <if test="fileName3 != null  and fileName3 != ''"> and file_name3 = #{fileName3}</if>
-            <if test="fileName4 != null  and fileName4 != ''"> and file_name4 = #{fileName4}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
-            <if test="endStatus != null  and endStatus != ''"> and end_status = #{endStatus}</if>
-            <if test="remarkInfo != null  and remarkInfo != ''"> and remark_info = #{remarkInfo}</if>
-            <if test="fileName5 != null  and fileName5 != ''"> and file_name5 = #{fileName5}</if>
-            <if test="businessTerm != null  and businessTerm != ''"> and business_term = #{businessTerm}</if>
+            <if test="endStatus != null "> and end_status = #{endStatus}</if>
+            <if test="businessTerm != null "> and business_term = #{businessTerm}</if>
             <if test="isActive != null "> and is_active = #{isActive}</if>
-            <if test="remarkName != null  and remarkName != ''"> and remark_name like concat('%', #{remarkName}, '%')</if>
+            <if test="fileName6 != null  and fileName6 != ''"> and file_name6 = #{fileName6}</if>
+            <if test="fileName7 != null  and fileName7 != ''"> and file_name7 = #{fileName7}</if>
+            <if test="realnameStatus != null "> and realname_status = #{realnameStatus}</if>
+            <if test="specialSelfFee != null "> and special_self_fee = #{specialSelfFee}</if>
+            <if test="ordinarySelfFee != null "> and ordinary_self_fee = #{ordinarySelfFee}</if>
+            <if test="specialSelfMoney != null "> and special_self_money = #{specialSelfMoney}</if>
+            <if test="ordinarySelfMoney != null "> and ordinary_self_money = #{ordinarySelfMoney}</if>
+            <if test="isSelfTax != null "> and is_self_tax = #{isSelfTax}</if>
+            <if test="registerMoney != null "> and register_money = #{registerMoney}</if>
+            <if test="ordinaryTax != null "> and ordinary_tax = #{ordinaryTax}</if>
+            <if test="ordinarySpecialTax != null "> and ordinary_special_tax = #{ordinarySpecialTax}</if>
+            <if test="ordinaryShare != null "> and ordinary_share = #{ordinaryShare}</if>
+            <if test="ordinaryShareMoney != null "> and ordinary_share_money = #{ordinaryShareMoney}</if>
+            <if test="specialShare != null "> and special_share = #{specialShare}</if>
+            <if test="specialShareMoney != null "> and special_share_money = #{specialShareMoney}</if>
+            <if test="isOrdinaryTax != null "> and is_ordinary_tax = #{isOrdinaryTax}</if>
+            <if test="isSpecialTax != null "> and is_special_tax = #{isSpecialTax}</if>
+            <if test="remarkRegister != null  and remarkRegister != ''"> and remark_register = #{remarkRegister}</if>
+            <if test="isSpecialSelfTax != null "> and is_special_self_tax = #{isSpecialSelfTax}</if>
+            <if test="isSelfCount != null "> and is_self_count = #{isSelfCount}</if>
+            <if test="ordinaryProxyIsmoney != null "> and ordinary_proxy_ismoney = #{ordinaryProxyIsmoney}</if>
+            <if test="specialProxyIsmoney != null "> and special_proxy_ismoney = #{specialProxyIsmoney}</if>
+            <if test="ordinaryShareIsmoney != null "> and ordinary_share_ismoney = #{ordinaryShareIsmoney}</if>
+            <if test="specialShareIsmoney != null "> and special_share_ismoney = #{specialShareIsmoney}</if>
+            <if test="isOrdinaryShare != null "> and is_ordinary_share = #{isOrdinaryShare}</if>
+            <if test="isSpecialShare != null "> and is_special_share = #{isSpecialShare}</if>
+            <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
+            <if test="isSlider != null "> and is_slider = #{isSlider}</if>
+            <if test="isSliderOrdinary != null "> and is_slider_ordinary = #{isSliderOrdinary}</if>
+            <if test="isPublicUser != null "> and is_public_user = #{isPublicUser}</if>
+            <if test="isSelfShare != null "> and is_self_share = #{isSelfShare}</if>
+            <if test="selfShareIsmoney != null "> and self_share_ismoney = #{selfShareIsmoney}</if>
+            <if test="isRegisterMoney != null "> and is_register_money = #{isRegisterMoney}</if>
+            <if test="isDisposable != null "> and is_disposable = #{isDisposable}</if>
+            <if test="disposableShare != null "> and disposable_share = #{disposableShare}</if>
+            <if test="disposableShareIsmoney != null "> and disposable_share_ismoney = #{disposableShareIsmoney}</if>
+            <if test="isDisposableShare != null "> and is_disposable_share = #{isDisposableShare}</if>
+            <if test="disposableFee != null "> and disposable_fee = #{disposableFee}</if>
+            <if test="disposableFeeIsmoney != null "> and disposable_fee_ismoney = #{disposableFeeIsmoney}</if>
         </where>
     </select>
 
@@ -157,6 +249,7 @@
         <include refid="selectSelfEmployedVo"/>
         where self_id = #{selfId}
     </select>
+
     <select id="selectSelfEmployedByUser"  resultType="com.ruoyi.project.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
@@ -218,18 +311,59 @@
             <if test="businessStatus != null">business_status,</if>
             <if test="fileName1 != null">file_name1,</if>
             <if test="fileName2 != null">file_name2,</if>
+            <if test="fileName3 != null">file_name3,</if>
+            <if test="fileName4 != null">file_name4,</if>
+            <if test="fileName5 != null">file_name5,</if>
             <if test="infoStatus != null">info_status,</if>
             <if test="taxStatus != null">tax_status,</if>
             <if test="bankStatus != null">bank_status,</if>
-            <if test="fileName3 != null">file_name3,</if>
-            <if test="fileName4 != null">file_name4,</if>
             <if test="endTime != null">end_time,</if>
             <if test="endStatus != null">end_status,</if>
-            <if test="remarkInfo != null">remark_info,</if>
-            <if test="fileName5 != null">file_name5,</if>
             <if test="businessTerm != null">business_term,</if>
             <if test="isActive != null">is_active,</if>
+            <if test="remarkInfo != null">remark_info,</if>
             <if test="remarkName != null">remark_name,</if>
+            <if test="fileName6 != null">file_name6,</if>
+            <if test="fileName7 != null">file_name7,</if>
+            <if test="realnameStatus != null">realname_status,</if>
+            <if test="specialSelfFee != null">special_self_fee,</if>
+            <if test="ordinarySelfFee != null">ordinary_self_fee,</if>
+            <if test="specialSelfMoney != null">special_self_money,</if>
+            <if test="ordinarySelfMoney != null">ordinary_self_money,</if>
+            <if test="isSelfTax != null">is_self_tax,</if>
+            <if test="registerMoney != null">register_money,</if>
+            <if test="fileName8 != null">file_name8,</if>
+            <if test="ordinaryTax != null">ordinary_tax,</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax,</if>
+            <if test="ordinaryShare != null">ordinary_share,</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money,</if>
+            <if test="specialShare != null">special_share,</if>
+            <if test="specialShareMoney != null">special_share_money,</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax,</if>
+            <if test="isSpecialTax != null">is_special_tax,</if>
+            <if test="remarkRegister != null">remark_register,</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax,</if>
+            <if test="isSelfCount != null">is_self_count,</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney,</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney,</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney,</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney,</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share,</if>
+            <if test="isSpecialShare != null">is_special_share,</if>
+            <if test="placeAliasName != null">place_alias_name,</if>
+            <if test="isSlider != null">is_slider,</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary,</if>
+            <if test="isPublicUser != null">is_public_user,</if>
+            <if test="selfShare != null">self_share,</if>
+            <if test="isSelfShare != null">is_self_share,</if>
+            <if test="selfShareIsmoney != null">self_share_ismoney,</if>
+            <if test="isRegisterMoney != null">is_register_money,</if>
+            <if test="isDisposable != null">is_disposable,</if>
+            <if test="disposableShare != null">disposable_share,</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney,</if>
+            <if test="isDisposableShare != null">is_disposable_share,</if>
+            <if test="disposableFee != null">disposable_fee,</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -277,18 +411,59 @@
             <if test="businessStatus != null">#{businessStatus},</if>
             <if test="fileName1 != null">#{fileName1},</if>
             <if test="fileName2 != null">#{fileName2},</if>
+            <if test="fileName3 != null">#{fileName3},</if>
+            <if test="fileName4 != null">#{fileName4},</if>
+            <if test="fileName5 != null">#{fileName5},</if>
             <if test="infoStatus != null">#{infoStatus},</if>
             <if test="taxStatus != null">#{taxStatus},</if>
             <if test="bankStatus != null">#{bankStatus},</if>
-            <if test="fileName3 != null">#{fileName3},</if>
-            <if test="fileName4 != null">#{fileName4},</if>
             <if test="endTime != null">#{endTime},</if>
             <if test="endStatus != null">#{endStatus},</if>
-            <if test="remarkInfo != null">#{remarkInfo},</if>
-            <if test="fileName5 != null">#{fileName5},</if>
             <if test="businessTerm != null">#{businessTerm},</if>
             <if test="isActive != null">#{isActive},</if>
-            <if test="remarkName != null">#{remarkName},</if>
+            <if test="remarkInfo != null">#{remark_info},</if>
+            <if test="remarkName != null">#{remark_name},</if>
+            <if test="fileName6 != null">#{fileName6},</if>
+            <if test="fileName7 != null">#{fileName7},</if>
+            <if test="realnameStatus != null">#{realnameStatus},</if>
+            <if test="specialSelfFee != null">#{specialSelfFee},</if>
+            <if test="ordinarySelfFee != null">#{ordinarySelfFee},</if>
+            <if test="specialSelfMoney != null">#{specialSelfMoney},</if>
+            <if test="ordinarySelfMoney != null">#{ordinarySelfMoney},</if>
+            <if test="isSelfTax != null">#{isSelfTax},</if>
+            <if test="registerMoney != null">#{registerMoney},</if>
+            <if test="fileName8 != null">#{fileName8},</if>
+            <if test="ordinaryTax != null">#{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">#{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">#{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">#{ordinaryShareMoney},</if>
+            <if test="specialShare != null">#{specialShare},</if>
+            <if test="specialShareMoney != null">#{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">#{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">#{isSpecialTax},</if>
+            <if test="remarkRegister != null">#{remarkRegister},</if>
+            <if test="isSpecialSelfTax != null">#{isSpecialSelfTax},</if>
+            <if test="isSelfCount != null">#{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">#{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">#{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">#{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">#{specialShareIsmoney},</if>
+            <if test="isOrdinaryShare != null">#{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">#{isSpecialShare},</if>
+            <if test="placeAliasName != null">#{placeAliasName},</if>
+            <if test="isSlider != null">#{isSlider},</if>
+            <if test="isSliderOrdinary != null">#{isSliderOrdinary},</if>
+            <if test="isPublicUser != null">#{isPublicUser},</if>
+            <if test="selfShare != null">#{selfShare},</if>
+            <if test="isSelfShare != null">#{isSelfShare},</if>
+            <if test="selfShareIsmoney != null">#{selfShareIsmoney},</if>
+            <if test="isRegisterMoney != null">#{isRegisterMoney},</if>
+            <if test="isDisposable != null">#{isDisposable},</if>
+            <if test="disposableShare != null">#{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">#{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">#{isDisposableShare},</if>
+            <if test="disposableFee != null">#{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">#{disposableFeeIsmoney},</if>
         </trim>
     </insert>
 
@@ -340,18 +515,59 @@
             <if test="businessStatus != null">business_status = #{businessStatus},</if>
             <if test="fileName1 != null">file_name1 = #{fileName1},</if>
             <if test="fileName2 != null">file_name2 = #{fileName2},</if>
+            <if test="fileName3 != null">file_name3 = #{fileName3},</if>
+            <if test="fileName4 != null">file_name4 = #{fileName4},</if>
+            <if test="fileName5 != null">file_name5 = #{fileName5},</if>
             <if test="infoStatus != null">info_status = #{infoStatus},</if>
             <if test="taxStatus != null">tax_status = #{taxStatus},</if>
             <if test="bankStatus != null">bank_status = #{bankStatus},</if>
-            <if test="fileName3 != null">file_name3 = #{fileName3},</if>
-            <if test="fileName4 != null">file_name4 = #{fileName4},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="endStatus != null">end_status = #{endStatus},</if>
-            <if test="remarkInfo != null">remark_info = #{remarkInfo},</if>
-            <if test="fileName5 != null">file_name5 = #{fileName5},</if>
             <if test="businessTerm != null">business_term = #{businessTerm},</if>
             <if test="isActive != null">is_active = #{isActive},</if>
+            <if test="remarkInfo != null">remark_info = #{remarkInfo},</if>
             <if test="remarkName != null">remark_name = #{remarkName},</if>
+            <if test="fileName6 != null">file_name6 = #{fileName6},</if>
+            <if test="fileName7 != null">file_name7 = #{fileName7},</if>
+            <if test="realnameStatus != null">realname_status = #{realnameStatus},</if>
+            <if test="specialSelfFee != null">special_self_fee = #{specialSelfFee},</if>
+            <if test="ordinarySelfFee != null">ordinary_self_fee = #{ordinarySelfFee},</if>
+            <if test="specialSelfMoney != null">special_self_money = #{specialSelfMoney},</if>
+            <if test="ordinarySelfMoney != null">ordinary_self_money = #{ordinarySelfMoney},</if>
+            <if test="isSelfTax != null">is_self_tax = #{isSelfTax},</if>
+            <if test="registerMoney != null">register_money = #{registerMoney},</if>
+            <if test="fileName8 != null">file_name8 = #{fileName8},</if>
+            <if test="ordinaryTax != null">ordinary_tax = #{ordinaryTax},</if>
+            <if test="ordinarySpecialTax != null">ordinary_special_tax = #{ordinarySpecialTax},</if>
+            <if test="ordinaryShare != null">ordinary_share = #{ordinaryShare},</if>
+            <if test="ordinaryShareMoney != null">ordinary_share_money = #{ordinaryShareMoney},</if>
+            <if test="specialShare != null">special_share = #{specialShare},</if>
+            <if test="specialShareMoney != null">special_share_money = #{specialShareMoney},</if>
+            <if test="isOrdinaryTax != null">is_ordinary_tax = #{isOrdinaryTax},</if>
+            <if test="isSpecialTax != null">is_special_tax = #{isSpecialTax},</if>
+            <if test="remarkRegister != null">remark_register = #{remarkRegister},</if>
+            <if test="isSpecialSelfTax != null">is_special_self_tax = #{isSpecialSelfTax},</if>
+            <if test="isSelfCount != null">is_self_count = #{isSelfCount},</if>
+            <if test="ordinaryProxyIsmoney != null">ordinary_proxy_ismoney = #{ordinaryProxyIsmoney},</if>
+            <if test="specialProxyIsmoney != null">special_proxy_ismoney = #{specialProxyIsmoney},</if>
+            <if test="ordinaryShareIsmoney != null">ordinary_share_ismoney = #{ordinaryShareIsmoney},</if>
+            <if test="specialShareIsmoney != null">special_share_ismoney = #{specialShareIsmoney},</if>
+            <if test="isOrdinaryShare != null">is_ordinary_share = #{isOrdinaryShare},</if>
+            <if test="isSpecialShare != null">is_special_share = #{isSpecialShare},</if>
+            <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
+            <if test="isSlider != null">is_slider = #{isSlider},</if>
+            <if test="isSliderOrdinary != null">is_slider_ordinary = #{isSliderOrdinary},</if>
+            <if test="isPublicUser != null">is_public_user = #{isPublicUser},</if>
+            <if test="selfShare != null">self_share = #{selfShare},</if>
+            <if test="isSelfShare != null">is_self_share = #{isSelfShare},</if>
+            <if test="selfShareIsmoney != null">self_share_ismoney = #{selfShareIsmoney},</if>
+            <if test="isRegisterMoney != null">is_register_money = #{isRegisterMoney},</if>
+            <if test="isDisposable != null">is_disposable = #{isDisposable},</if>
+            <if test="disposableShare != null">disposable_share = #{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney = #{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">is_disposable_share = #{isDisposableShare},</if>
+            <if test="disposableFee != null">disposable_fee = #{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney = #{disposableFeeIsmoney},</if>
         </trim>
         where self_id = #{selfId}
     </update>

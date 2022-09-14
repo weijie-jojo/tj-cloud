@@ -97,6 +97,13 @@
         <result property="selfShare"    column="self_share"    />
         <result property="isSelfShare"    column="is_self_share"    />
         <result property="selfShareIsmoney"    column="self_share_ismoney"    />
+        <result property="isRegisterMoney"    column="is_register_money"    />
+        <result property="isDisposable"    column="is_disposable"    />
+        <result property="disposableShare"    column="disposable_share"    />
+        <result property="disposableShareIsmoney"    column="disposable_share_ismoney"    />
+        <result property="isDisposableShare"    column="is_disposable_share"    />
+        <result property="disposableFee"    column="disposable_fee"    />
+        <result property="disposableFeeIsmoney"    column="disposable_fee_ismoney"    />
     </resultMap>
 
     <sql id="selectSelfEmployedVo">
@@ -111,7 +118,8 @@
                is_self_tax, register_money, file_name8, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,
                special_share_money, is_ordinary_tax, is_special_tax, remark_register, is_special_self_tax, is_self_count, ordinary_proxy_ismoney,
                special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
-               is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share,self_share_ismoney
+               is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share,self_share_ismoney,is_register_money, is_disposable,
+               disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney
         from self_employed
     </sql>
     <sql id="selectSelfLegalPersonVo">
@@ -148,7 +156,8 @@
             t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax, t.remark_register,
             t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
             t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,t.self_share,t.is_self_share,
-            t.self_share_ismoney,
+            t.self_share_ismoney,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney, t.is_disposable_share,
+            t.disposable_fee, t.disposable_fee_ismoney,
 
             A.self_id, A.self_code, A.title_type, A.administrative_division, A.industry, A.organizational_form, A.administrative_region, A.random,
             A.registration_authority, A.font_size1, A.poposed_name1, A.font_size2, A.poposed_name2, A.font_size3, A.poposed_name3, A.font_size4,
@@ -223,6 +232,13 @@
             <if test="selfEmployedVo.isSliderOrdinary != null "> and t.is_slider_ordinary = #{selfEmployedVo.isSliderOrdinary}</if>
             <if test="selfEmployedVo.isSelfShare != null "> and t.is_self_share = #{selfEmployedVo.isSelfShare}</if>
             <if test="selfEmployedVo.selfShareIsmoney != null "> and t.self_share_ismoney = #{selfEmployedVo.selfShareIsmoney}</if>
+            <if test="selfEmployedVo.isRegisterMoney != null "> and t.is_register_money = #{selfEmployedVo.isRegisterMoney}</if>
+            <if test="selfEmployedVo.isDisposable != null "> and t.is_disposable = #{selfEmployedVo.isDisposable}</if>
+            <if test="selfEmployedVo.disposableShare != null "> and t.disposable_share = #{selfEmployedVo.disposableShare}</if>
+            <if test="selfEmployedVo.disposableShareIsmoney != null "> and t.disposable_share_ismoney = #{selfEmployedVo.disposableShareIsmoney}</if>
+            <if test="selfEmployedVo.isDisposableShare != null "> and t.is_disposable_share = #{selfEmployedVo.isDisposableShare}</if>
+            <if test="selfEmployedVo.disposableFee != null "> and t.disposable_fee = #{selfEmployedVo.disposableFee}</if>
+            <if test="selfEmployedVo.disposableFeeIsmoney != null "> and t.disposable_fee_ismoney = #{selfEmployedVo.disposableFeeIsmoney}</if>
         </trim>
         ORDER BY
         t.create_time DESC
@@ -339,7 +355,28 @@
             <if test="isPublicUser != null "> and is_public_user = #{isPublicUser}</if>
             <if test="isSelfShare != null "> and is_self_share = #{isSelfShare}</if>
             <if test="selfShareIsmoney != null "> and self_share_ismoney = #{selfShareIsmoney}</if>
+            <if test="isRegisterMoney != null "> and is_register_money = #{isRegisterMoney}</if>
+            <if test="isDisposable != null "> and is_disposable = #{isDisposable}</if>
+            <if test="disposableShare != null "> and disposable_share = #{disposableShare}</if>
+            <if test="disposableShareIsmoney != null "> and disposable_share_ismoney = #{disposableShareIsmoney}</if>
+            <if test="isDisposableShare != null "> and is_disposable_share = #{isDisposableShare}</if>
+            <if test="disposableFee != null "> and disposable_fee = #{disposableFee}</if>
+            <if test="disposableFeeIsmoney != null "> and disposable_fee_ismoney = #{disposableFeeIsmoney}</if>
         </where>
+    </select>
+
+    <select id="selectEmployedJoinCount" parameterType="com.ruoyi.company.domain.vo.SelfEmployedVo" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedJoin"/>
+        <trim prefix="where" prefixOverrides="and|or">
+            D.dict_type="educational_level"
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfEmployedVo.applyName != null "> and B.apply_name = #{selfEmployedVo.applyName}</if>
+        </trim>
     </select>
 
     <select id="selectSelfEmployedBySelfId" parameterType="String" resultMap="SelfEmployedResult">
@@ -441,6 +478,13 @@
             <if test="selfShare != null">self_share,</if>
             <if test="isSelfShare != null">is_self_share,</if>
             <if test="selfShareIsmoney != null">self_share_ismoney,</if>
+            <if test="isRegisterMoney != null">is_register_money,</if>
+            <if test="isDisposable != null">is_disposable,</if>
+            <if test="disposableShare != null">disposable_share,</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney,</if>
+            <if test="isDisposableShare != null">is_disposable_share,</if>
+            <if test="disposableFee != null">disposable_fee,</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -534,6 +578,13 @@
             <if test="selfShare != null">#{selfShare},</if>
             <if test="isSelfShare != null">#{isSelfShare},</if>
             <if test="selfShareIsmoney != null">#{selfShareIsmoney},</if>
+            <if test="isRegisterMoney != null">#{isRegisterMoney},</if>
+            <if test="isDisposable != null">#{isDisposable},</if>
+            <if test="disposableShare != null">#{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">#{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">#{isDisposableShare},</if>
+            <if test="disposableFee != null">#{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">#{disposableFeeIsmoney},</if>
         </trim>
     </insert>
 
@@ -631,6 +682,13 @@
             <if test="selfShare != null">self_share = #{selfShare},</if>
             <if test="isSelfShare != null">is_self_share = #{isSelfShare},</if>
             <if test="selfShareIsmoney != null">self_share_ismoney = #{selfShareIsmoney},</if>
+            <if test="isRegisterMoney != null">is_register_money = #{isRegisterMoney},</if>
+            <if test="isDisposable != null">is_disposable = #{isDisposable},</if>
+            <if test="disposableShare != null">disposable_share = #{disposableShare},</if>
+            <if test="disposableShareIsmoney != null">disposable_share_ismoney = #{disposableShareIsmoney},</if>
+            <if test="isDisposableShare != null">is_disposable_share = #{isDisposableShare},</if>
+            <if test="disposableFee != null">disposable_fee = #{disposableFee},</if>
+            <if test="disposableFeeIsmoney != null">disposable_fee_ismoney = #{disposableFeeIsmoney},</if>
         </trim>
         where self_id = #{selfId}
     </update>

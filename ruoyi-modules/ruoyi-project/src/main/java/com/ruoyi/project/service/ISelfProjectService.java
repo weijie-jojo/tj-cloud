@@ -18,7 +18,7 @@ public interface ISelfProjectService
      * @param projectCode 项目编号
      * @return 项目信息
      */
-    public List<ProjectJoinTicketVo> selectProjectJoinTicketByCode(String projectCode);
+    public ProjectJoinTicketVo selectProjectJoinTicketByCode(String projectCode);
     /**
      * 查询最后一条数据
      *

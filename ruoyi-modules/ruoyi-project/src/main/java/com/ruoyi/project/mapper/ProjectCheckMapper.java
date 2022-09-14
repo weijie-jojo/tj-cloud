@@ -3,6 +3,7 @@ package com.ruoyi.project.mapper;
 import java.util.List;
 import com.ruoyi.project.domain.ProjectCheck;
 import com.ruoyi.project.domain.vo.ProjectCheckVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 个体户审批进度Mapper接口
@@ -26,7 +27,7 @@ public interface ProjectCheckMapper
      * @param projectCheck 个体户审批进度
      * @return 个体户审批进度集合
      */
-    public List<ProjectCheckVo> selectProjectCheckList(ProjectCheck projectCheck);
+    public List<ProjectCheckVo> selectProjectCheckList(@Param("projectCheck")  ProjectCheck projectCheck,@Param("projectTypes")  List<Long> projectTypes);
 
     /**
      * 新增个体户审批进度
