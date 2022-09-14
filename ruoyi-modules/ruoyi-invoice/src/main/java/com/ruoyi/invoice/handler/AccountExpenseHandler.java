@@ -237,8 +237,8 @@ public class AccountExpenseHandler {
                 System.out.println("经理");
                 accountExpense.setInvoiceType(2);
             }
-            if(sysUserVo.getRoleId()==7){//财务主管显示所有打款状态的单据
-                System.out.println("财务主管");
+            if(sysUserVo.getRoleId()==7){//财务出纳显示所有打款状态的单据
+                System.out.println("财务出纳");
                 accountExpense.setInvoiceType(3);
             }
             if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){

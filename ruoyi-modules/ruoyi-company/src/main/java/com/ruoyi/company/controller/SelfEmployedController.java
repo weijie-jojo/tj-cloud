@@ -42,6 +42,19 @@ public class SelfEmployedController extends BaseController
     private ISelfEmployedService selfEmployedService;
     @Resource
     private  SysUserMapper sysUserMapper;
+
+
+    /**
+     * 获取所有用户
+     */
+    @ApiOperation("获取所有用户")
+    @GetMapping(value = "/getAllUser")
+    public AjaxResult getAllUser()
+    {
+        return AjaxResult.success(sysUserMapper.getAllUser());
+
+    }
+
     /**
      * 获取三个状态的数量
      */

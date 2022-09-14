@@ -3,6 +3,9 @@ package com.ruoyi.system.api.domain;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -23,59 +26,64 @@ public class SysUser extends BaseEntity
 
     /** 用户ID */
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
+    @ApiModelProperty(value = "用户序号")
     private Long userId;
-
-    /** 用户账号 */
-    @Excel(name = "银行卡名")
-    private String payCheck;
-
-    /** 用户账号 */
-    @Excel(name = "银行卡号")
-    private String payCheckBank;
 
     /** 部门ID */
     @Excel(name = "部门编号", type = Type.IMPORT)
+    @ApiModelProperty(value = "部门编号")
     private Long deptId;
 
     /** 用户账号 */
     @Excel(name = "登录名称")
+    @ApiModelProperty(value = "登录名称")
     private String userName;
 
     /** 用户昵称 */
     @Excel(name = "用户名称")
+    @ApiModelProperty(value = "用户名称")
     private String nickName;
 
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
+    @ApiModelProperty(value = "用户邮箱")
     private String email;
 
     /** 手机号码 */
     @Excel(name = "手机号码")
+    @ApiModelProperty(value = "手机号码")
     private String phonenumber;
 
     /** 用户性别 */
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
+    @ApiModelProperty(value = "用户性别")
     private String sex;
 
     /** 用户头像 */
+    @ApiModelProperty(value = "用户头像")
     private String avatar;
 
     /** 密码 */
+    @ApiModelProperty(value = "密码")
     private String password;
 
     /** 帐号状态（0正常 1停用） */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+    @ApiModelProperty(value = "帐号状态")
     private String status;
 
     /** 删除标志（0代表存在 2代表删除） */
+    @ApiModelProperty(value = "删除标志")
     private String delFlag;
 
     /** 最后登录IP */
     @Excel(name = "最后登录IP", type = Type.EXPORT)
+    @ApiModelProperty(value = "最后登录IP")
     private String loginIp;
 
     /** 最后登录时间 */
     @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
+    @ApiModelProperty(value = "最后登录时间")
     private Date loginDate;
 
     /** 部门对象 */
@@ -95,7 +103,33 @@ public class SysUser extends BaseEntity
     private Long[] postIds;
 
     /** 角色ID */
+    @ApiModelProperty(value = "角色ID")
     private Long roleId;
+
+    /** 工资银行卡号 */
+    @Excel(name = "工资银行卡号")
+    @ApiModelProperty(value = "工资银行卡号")
+    private String payCheck;
+
+    /** 工资卡开户银行 */
+    @Excel(name = "工资卡开户银行")
+    @ApiModelProperty(value = "工资卡开户银行")
+    private String payCheckBank;
+
+    /** 报销卡开户银行 */
+    @Excel(name = "报销卡开户银行")
+    @ApiModelProperty(value = "报销卡开户银行")
+    private String accountCardBank;
+
+    /** 报销银行卡号 */
+    @Excel(name = "报销银行卡号")
+    @ApiModelProperty(value = "报销银行卡号")
+    private String accountCard;
+
+    /** 身份证号码 */
+    @Excel(name = "身份证号码")
+    @ApiModelProperty(value = "身份证号码")
+    private String idNo;
 
     public SysUser()
     {
@@ -105,6 +139,30 @@ public class SysUser extends BaseEntity
     public SysUser(Long userId)
     {
         this.userId = userId;
+    }
+
+    public String getAccountCardBank() {
+        return accountCardBank;
+    }
+
+    public void setAccountCardBank(String accountCardBank) {
+        this.accountCardBank = accountCardBank;
+    }
+
+    public String getAccountCard() {
+        return accountCard;
+    }
+
+    public void setAccountCard(String accountCard) {
+        this.accountCard = accountCard;
+    }
+
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
     }
 
     public Long getUserId()

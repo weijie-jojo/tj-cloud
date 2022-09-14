@@ -129,7 +129,7 @@ public class AccountTravelExpenseHandler {
             if(sysUserVo.getRoleId()==5||sysUserVo.getRoleId()==6){//总经理或副总经理显示所有审核状态的（部门主管审核过的）
                 accountTravelExpense.setInvoiceType(2);
             }
-            if(sysUserVo.getRoleId()==7){//财务主管显示所有打款状态的单据
+            if(sysUserVo.getRoleId()==7){//财务出纳显示所有打款状态的单据
                 accountTravelExpense.setInvoiceType(3);
             }
             if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){

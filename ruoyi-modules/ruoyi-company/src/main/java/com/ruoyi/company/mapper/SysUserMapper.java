@@ -15,4 +15,6 @@ public interface SysUserMapper extends MPJBaseMapper<SysUser> {
     SysUserVo getDeptByUserId(@Param("userId") Long userId);
     @Select("SELECT user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, Employee_number, id_no, post_id, is_admin, pay_check, pay_check_bank, account_card_bank, pwd_reset_time FROM sys_user where dept_id=#{deptId}")
     List<SysUserVo> getUserByDeptId(@Param("deptId") Integer deptId);
+    @Select("SELECT user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, Employee_number, id_no, post_id, is_admin, pay_check, pay_check_bank, account_card_bank, pwd_reset_time FROM sys_user")
+    List<SysUserVo> getAllUser();
 }
