@@ -331,8 +331,8 @@
                 <el-option
                   v-for="(item, index) in applyNames"
                   :key="index"
-                  :label="item.username"
-                  :value="item.employeeNumber"
+                  :label="item.nickName"
+                  :value="item.userId"
                   :disabled="item.disabled"
                 ></el-option>
               </el-select>
@@ -1476,7 +1476,7 @@ var validateIdNumber = (rule, value, callback) => {
 
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudReview from "@/api/company/review";
-import crudInformation from "@/api/company/information";
+// import crudInformation from "@/api/company/information";
 import crudPerson from "@/api/company/person";
 import crudInfo from "@/api/company/info";
 import crudEmployed from "@/api/company/employed";
@@ -2803,12 +2803,13 @@ export default {
     },
     selectApplyName(value) {
       var applyName = this.applyNames.find(
-        (item) => item.employeeNumber == value
+        (item) => item.userId == value
       );
-      this.formData.applyPhone = applyName.phone;
+      console.log("applyName===",applyName);
+      this.formData.applyPhone = applyName.phonenumber;
       this.formData.applyIdNum = applyName.idNo;
       this.formData.applyId = applyName.userId;
-      this.employeeNumber = value;
+      this.employeeNumber = applyName.employeeNumber;
       this.getSelfCode();
     },
     getRate() {
@@ -2855,9 +2856,9 @@ export default {
       });
     },
     getApplyName() {
-      crudInformation.getAllUser().then((res) => {
-        console.log("getAllUser==",res);
-        let arr = res.rows;
+      crudEmployed.getAllUser().then((res) => {
+        console.log(" getAllUser==",res.data);
+        let arr = res.data;
         let brr = [];
         for (let i in arr) {
           if (arr[i].deptId == 20) {
