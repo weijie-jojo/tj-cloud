@@ -94,27 +94,6 @@ service.interceptors.response.use(res => {
     }
       return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (code === 500) {
-      console.log('code 500',msg);
-      // if(msg=='服务未找到'){
-
-      //   MessageBox.alert('系统完成更新,请重新登录', '系统提示', {
-      //     confirmButtonText: '确定',
-      //     type: 'error',
-      //     callback: action => {
-      //    //用来监听项目是否更新部署的
-      //    isRelogin.show = false;
-      //    store.dispatch('LogOut').then(() => {
-      //      location.href = '/index';
-      //    })
-      //    return;
-       
-      //    }
-      //  })
-      //  return;
-       
-      // }
-     
-     
       MessageBox.alert(msg, '系统提示', {
          confirmButtonText: '确定',
          type: 'error',
@@ -126,26 +105,6 @@ service.interceptors.response.use(res => {
       
       return Promise.reject(new Error(msg))
     } else if (code !== 200) {
-      console.log('(code !== 200',msg);
-      // if(msg=='服务未找到'){
-      // MessageBox.alert('系统完成更新,请重新登录', '系统提示', {
-      //     confirmButtonText: '确定',
-      //     type: 'error',
-      //     callback: action => {
-      //    //用来监听项目是否更新部署的
-      //    isRelogin.show = false;
-      //    store.dispatch('LogOut').then(() => {
-      //      location.href = '/index';
-      //    })
-      //    return;
-       
-      //    }
-      //  })
-      //  return;
-       
-      // }
-     
-     
       Notification.error({
         title: msg
       })

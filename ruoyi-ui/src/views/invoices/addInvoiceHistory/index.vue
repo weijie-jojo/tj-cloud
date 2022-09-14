@@ -43,10 +43,7 @@
             >查询</el-button>
           </div>
            <div class="firstDiv">
-            <el-button
-              type="primary"
-              @click="addExpense"
-            ><i class="el-icon-plus" /> 添加</el-button>
+            
             <el-button
               type="danger"
               @click="delExpense"
@@ -255,10 +252,7 @@
             >查询</el-button>
           </div>
            <div class="firstDiv">
-            <el-button
-              type="primary"
-              @click="addTravelExpense"
-            ><i class="el-icon-plus" /> 添加</el-button>
+            
             <el-button
               type="danger"
               @click="delTravelExpense"
@@ -447,10 +441,7 @@
             >查询</el-button>
           </div>
            <div class="firstDiv">
-            <el-button
-              type="primary"
-              @click="addBorrow"
-            ><i class="el-icon-plus" /> 添加</el-button>
+           
             <el-button
               type="danger"
               @click="delBorrow"
@@ -643,9 +634,9 @@
 import {getInfo} from '@/api/login'
 // import initDict,{getDicts} from '@/api/system/dict'
 import {addCheckInvoices,getAllCheck} from '@/api/invoices/checkInvoices'
-import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/borrow";
-import { editExpense,getExpenses,editExpenseType,getLeaderByUserId } from "@/api/invoices/expense";
-import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
+import {getBorrow, getBorrow2,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/borrow";
+import { editExpense,getExpenses,getExpenses2,editExpenseType,getLeaderByUserId } from "@/api/invoices/expense";
+import {getTravelExpense,getTravelExpense2,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
 export default {
   dicts: ['step_type'],
   // mixins: [initDict],
@@ -1198,7 +1189,7 @@ export default {
           invoiceType:this.search.expenseType,
           stepType:this.search.stepType,
         }
-        getExpenses(params).then(res => {
+        getExpenses2(params).then(res => {
             console.log("getAllExpense",res);
             this.allExpense = res.list;
             this.expenseCount = res.count;
@@ -1216,7 +1207,7 @@ export default {
           invoiceType:this.search.travelExpenseType,
           stepType:this.search.stepType,
         }
-        getTravelExpense(params).then(res => {
+        getTravelExpense2(params).then(res => {
             console.log("getAllTravelExpense",res);
             this.allTravelExpense = res.list;
             this.travelExpenseCount = res.count;
@@ -1234,7 +1225,7 @@ export default {
             invoiceType:this.search.borrowType,
             stepType:this.search.stepType,
         }
-        getBorrow(params).then(res => {
+        getBorrow2(params).then(res => {
            console.log("getAllBorrow",res);
             this.allBorrow = res.list;
             this.borrowCount = res.count;

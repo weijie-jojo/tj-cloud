@@ -85,7 +85,7 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="差旅信息1"> </el-form-item>
+          
           <el-form-item label="起讫时间" prop="travelDate1">
             <el-date-picker
               v-model="ruleForm.travelDate1"
@@ -178,7 +178,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="差旅信息2"> </el-form-item>
+          
           <el-form-item label="起讫时间">
             <el-date-picker
               v-model="ruleForm.travelDate2"
@@ -271,7 +271,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="差旅信息3"> </el-form-item>
+          
           <el-form-item label="起讫时间">
             <el-date-picker
               v-model="ruleForm.travelDate3"

@@ -40,6 +40,9 @@
 
       </div>
     </el-dialog>
+    <el-dialog title="上传格式须知" :visible.sync="viewVisible1" width="80%" center @close='closeDialog1 == false'>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -56,6 +59,7 @@ export default {
   },
   data() {
     return {
+      oks:false,
       showViewer: false,
       errOk: false,
       dialogVisible: false,
@@ -70,6 +74,7 @@ export default {
       //pdf预览
       url: '',
       viewVisible: false,
+      viewVisible1: false,
       pageNum: 1,
       pageTotalNum: 1,
       pageRotate: 0,
@@ -77,6 +82,7 @@ export default {
       loadedRatio: 0,
       curPageNum: 0,
       closeDialog: false,
+      closeDialog1: false,
       isDetails: this.$options.propsData.isDetail,
 
     }
@@ -109,6 +115,7 @@ export default {
     }
   },
   mounted() {
+   
     this.pdfIconChange();
   },
   methods: {
@@ -212,10 +219,15 @@ export default {
     },
 
     beforeAvatarUpload(file, fileList) {
-
+      if(!this.oks){
+        this.viewVisible1=true;
+        this.oks=true;
+        return false;
+      }
       const isLt2M = file.size / 1024 / 1024 < 5;
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
       const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
+      
       if (whiteList.indexOf(fileSuffix) === -1) {
         this.$alert('上传文件只能是 jpg,png,jpeg,pdf格式', '系统提示', {
           confirmButtonText: '确定',
@@ -233,12 +245,13 @@ export default {
 
         return false;
       }
+     
       return fileSuffix & isLt2M;
 
 
     },
     handlesuccess(file, fileList) {
-
+      this.oks=false;
       this.fileNames.push(file.obj);
       fileList.name = file.obj;
       if (fileList.name.substring(fileList.name.lastIndexOf('.') + 1) == 'pdf') {

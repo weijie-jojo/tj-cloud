@@ -396,8 +396,8 @@
             @click="detail(scope.row)"
             >详情</el-button
           >
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
-                    </el-button> -->
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

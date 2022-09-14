@@ -1,39 +1,40 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" id="printMe">
-         
+            <el-row>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单详情</el-col>
+          </el-row>  
             <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;align-items: center;">
-                    点击按钮进入打印预览进行打印
                     <el-button type="primary" @click="printme" style="margin-left:10px">打印预览</el-button>
-                    <!-- <el-button v-print="'#printMe'" type="primary">打印</el-button> -->
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销单号" :required="true">
-                        <el-input :readonly="true" v-model="ruleForm.expenseCode"></el-input>
-
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销部门" :required="true">
                         <el-input :readonly="true" v-model="ruleForm.deptName"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销日期" prop="expenseDate">
                         <el-date-picker disabled v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
                             style="width:100%">
                         </el-date-picker>
                     </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item label="报销单号" :required="true">
+                        <el-input :readonly="true" v-model="ruleForm.expenseCode"></el-input>
+
+                    </el-form-item>
+                   
 
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="7">
                     <el-form-item>
-                        <div>费用项目</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">费用项目</div>
                     </el-form-item>
                     <el-form-item>
                         <el-input v-model="ruleForm.item1desc" :readonly="true"></el-input>
@@ -53,7 +54,7 @@
                 </el-col>
                 <el-col :span="5">
                     <el-form-item>
-                        <div>附件</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">单据数量</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum1">
@@ -93,7 +94,7 @@
                 </el-col>
                 <el-col :span="7">
                     <el-form-item>
-                        <div>金额</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">金额</div>
                     </el-form-item>
                     <el-form-item>
                         <el-input type="number" :readonly="true" v-model="ruleForm.item1money">
@@ -139,7 +140,7 @@
                 </el-col>
                 <el-col :span="9">
                     <el-form-item>
-                        <div>备注</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">备注</div>
                     </el-form-item>
                     <el-form-item>
                         <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item1remark">
@@ -171,21 +172,25 @@
             </el-row>
 
             <el-row type="flex" class="row-bg" justify="space-around">
-              
-                <el-col :span="9">
-                    <el-form-item label="合计金额(小写)">
+                <el-col :span="8">
+                    <el-form-item label="总计单据数量">
+                        {{accessoryNum }}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item label="总计金额(小写)">
                         {{ ruleForm.totalMoney}}
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="9">
-                    <el-form-item label="合计金额(大写)">
+                <el-col :span="8">
+                    <el-form-item label="总计金额(大写)">
                         {{ digitUppercase(ruleForm.totalMoney)
                         }}
                     </el-form-item>
                 </el-col>
 
-                  <el-col :span="9"></el-col>
+                 
             </el-row>
             <el-form-item label="付款方式" prop="paywayId">
                 <el-radio-group disabled v-model="ruleForm.paywayId" style="width:100%">
@@ -281,7 +286,7 @@
             </el-row>
 
             <el-row type="flex" class="row-bg" style="margin-bottom: 20px;" justify="space-around">
-                <el-col :span="23">
+                <el-col :span="24">
                     <div style="font-size:20px;
                     margin-top:10px;
                     margin-bottom:20px;
@@ -294,34 +299,36 @@
                 </el-col>
 
             </el-row>
-
-             <div  class="demo-image__preview" v-for="(item, index) in imgArr" :key="index" >           
-                <el-form-item  v-if="item.suffix=='pdf'">
-                    <div class="imgTitle">报销凭证影像</div>
-                    <pdf ref="pdf" :src="item.url"
+           
+             <div style="margin-top:20px"  class="demo-image__preview"  v-for="(item, index) in imgArr" :key="index" >           
+                <div class="imgTitle" style="width:100%;display: flex;margin-bottom: 20px;"><div style="width:50%">报销凭证影像</div><div style="width:50%;text-align: right;">报销单号:{{ruleForm.expenseCode}}</div></div>
+                <div  v-if="item.suffix=='pdf'">
+                  <pdf ref="pdf" :src="item.url"
                         @link-clicked="page = $event">
                     </pdf>
-                </el-form-item>
-                <el-form-item  v-else>
-                    <div class="imgTitle">报销凭证影像</div>
+                </div>
+                <div  v-else>
                     <el-image :src="baseImgPath + item.url" ></el-image>
-                </el-form-item>
+                </div>
             </div>
-            <div  class="demo-image__preview" v-for="(item, index) in imgArr2" :key="index" >           
-                <el-form-item  v-if="item.suffix=='pdf'">
-                    <div class="imgTitle">付款凭证影像</div>
+        
+           
+                <div class="demo-image__preview"  v-for="(item, index) in imgArr2" :key="index" > 
+                    <div class="imgTitle" style="width:100%;display: flex;margin-bottom: 20px;"><div style="width:50%">付款凭证影像</div><div style="width:50%;text-align: right;">报销单号:{{ruleForm.expenseCode}}</div></div>
+                <div  v-if="item.suffix=='pdf'" >
                     <pdf ref="pdf" :src="item.url">
                     </pdf>
-                </el-form-item>
-                <el-form-item  v-else>
-                    <div class="imgTitle">付款凭证影像</div>
+                </div>
+                <div  v-else >
                     <el-image :src="baseImgPath + item.url" ></el-image>
-                </el-form-item>
+                </div>
             </div>
-            <el-row type="flex" class="row-bg " justify="space-around">
+            
+           
+            <el-row type="flex" class="row-bg " justify="space-around" style="marign-top:10px">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="beforePage" style="width:130px">关闭</el-button>
+                    <el-button type="danger" @click="beforePage" style="width:100px">关闭</el-button>
 
                 </el-col>
                 <el-col :span="8"></el-col>
@@ -344,6 +351,7 @@ export default {
     name: 'expense',
     data() {
         return {
+            accessoryNum:'',
              printObj: {
               
                 asyncUrl (reslove, vue) {
@@ -527,6 +535,7 @@ export default {
         this.ruleForm.accessoryNum3 = this.expenses[0].accessoryNum3;
         this.ruleForm.accessoryNum4 = this.expenses[0].accessoryNum4;
         this.ruleForm.accessoryNum5 = this.expenses[0].accessoryNum5;
+        this.accessoryNum= this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1+this.ruleForm.accessoryNum4*1+this.ruleForm.accessoryNum5*1;
         this.ruleForm.paywayRemark = this.expenses[0].paywayRemark;
         this.ruleForm.item1desc = this.expenses[0].item1Desc;
         this.ruleForm.item1money = this.expenses[0].item1Money;
@@ -979,9 +988,7 @@ export default {
     color: black;
 }
 .imgTitle{
-        margin-top:30px;
-        margin-left:600px;
-        margin-bottom:30px;
+       
         font-size:20px;
 }
 
