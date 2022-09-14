@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <div class="content">
-      <el-tabs type="border-card">
+    <div class="app-container" style="padding-top:5px">
+      <el-tabs>
         <!-- 报销单tab页面 -->
         <el-tab-pane :label="firstLabel">
           <div class="secondDiv">
@@ -57,7 +57,7 @@
           <el-table
             ref="multipleTable"
             :data="allExpense"
-            border
+            
             stripe
             class="customer-table"
             @selection-change="handleSelectionChange"
@@ -1655,7 +1655,7 @@ export default {
 }
 .secondDiv {
   height: 50px;
-  margin-top:20px;
+  // margin-top:20px;
   span {
     margin: 0 10px 0 10px;
   }
@@ -1669,7 +1669,7 @@ export default {
 }
 .pagination {
   float: right;
-  margin-top: 30px;
+  margin-top: 5px;
 }
 .custom-tree-node {
   display: flex;
@@ -1710,5 +1710,12 @@ export default {
 }
 .inputCss{
   width: 400px;
+}
+::v-deep .el-message-box__content {
+  height: 200px !important;
+}
+
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 </style>

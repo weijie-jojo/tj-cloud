@@ -183,7 +183,7 @@
                         {{ totalMoney}}
                     </el-form-item>
                     </el-col>
-                    <el-col :span="8"></el-col>
+                   
                     <el-col :span="8">
                         <el-form-item label="合计金额(大写)" >
                         {{digitUppercase(totalMoney)}}
