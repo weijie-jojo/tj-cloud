@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <div class="content">
-      <el-tabs type="border-card">
+    <div  class="app-container" style="padding-top:5px">
+      <el-tabs>
         <!-- 报销单tab页面 -->
         <el-tab-pane :label="firstLabel">
           <div class="secondDiv">
@@ -59,7 +59,7 @@
           <el-table
             ref="multipleTable"
             :data="allExpense"
-            border
+            
             stripe
             class="customer-table"
             @selection-change="handleSelectionChange"
@@ -249,7 +249,7 @@
           <el-table
             ref="multipleTable"
             :data="allTravelExpense"
-            border
+            
             stripe
             class="customer-table"
             @selection-change="handleSelectionChange2"
@@ -436,7 +436,7 @@
           <el-table
             ref="multipleTable"
             :data="allBorrow"
-            border
+            
             stripe
             class="customer-table"
             @selection-change="handleSelectionChange3"
@@ -1424,5 +1424,12 @@ export default {
 }
 .inputCss{
   width: 400px;
+}
+::v-deep .el-message-box__content {
+  height: 200px !important;
+}
+
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 </style>
