@@ -235,7 +235,7 @@ to {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/bgvip.gif");
+  background-image: url("../assets/images/vip.jpg");
   // background-image: url("../assets/images/login-background.jpg");
   //background-image: url("../assets/images/bg.jpg");
   background-size: 100% 100%;

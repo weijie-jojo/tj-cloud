@@ -191,6 +191,8 @@ export default {
     },
     //pdf图标优化
     pdfIconChange() {
+      this.$nextTick(()=>{
+        this.fileNameOlds=this.$refs.uploads.uploadFiles;
       if (this.fileNameOld.length > 0) {
         let arr = this.fileNameOlds;
 
@@ -200,11 +202,8 @@ export default {
           }
         }
         this.fileNameOlds = arr;
-      }else{
-         this.$nextTick(()=>{
-          this.fileNameOlds=this.$refs.uploads.uploadFiles;
-        })
       }
+    });
     },
     //pdf弹框
     pdfdetail(i) {
