@@ -37,20 +37,34 @@ module.exports = {
       // http://localhost:8080
       // http://36.133.2.179:8080
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://36.133.2.179:8080',
+        target: `http://36.133.2.179:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-     //打包就注释掉下面/eladmin 代码  本机 测试就不用
-      "/eladmin": {
-        target: 'http://36.133.2.179:8000',
-        changOrigin: true,
-        pathRewrite: {
-         "^/eladmin": ""
-        }
-      },
+      // '/pdf': {
+      //   target: 'http://36.133.2.179:8087/txt',
+      //   changOrigin: true,
+      //   pathRewrite: {
+      //       '^/pdf': ''
+      //   }
+      // },
+
+      // "/eladmin": {
+      //   target: 'http://localhost:8080',
+      //   changOrigin: true,
+      //   pathRewrite: {
+      //    "^/eladmin": "/file"
+      //   }
+      // },
+      // "/eladmin": {
+      //   target: 'http://36.133.2.179:8000',
+      //   changOrigin: true,
+      //   pathRewrite: {
+      //    "^/eladmin": ""
+      //   }
+      // },
 
     },
     disableHostCheck: true

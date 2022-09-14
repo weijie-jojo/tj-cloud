@@ -2855,7 +2855,8 @@ export default {
       });
     },
     getApplyName() {
-      crudInformation.getAllInformation().then((res) => {
+      crudInformation.getAllUser().then((res) => {
+        console.log("getAllUser==",res);
         let arr = res.rows;
         let brr = [];
         for (let i in arr) {

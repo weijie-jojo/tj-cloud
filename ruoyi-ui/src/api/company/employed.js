@@ -121,4 +121,12 @@ export function joinListEnd(query) {
     params: query
   })
 }
-export default {addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}
+
+// 查询个体商户列表
+export function getAllUser() {
+  return request({
+    url: '/company/employed/getAllUser',
+    method: 'get'
+  })
+}
+export default {getAllUser,addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}
