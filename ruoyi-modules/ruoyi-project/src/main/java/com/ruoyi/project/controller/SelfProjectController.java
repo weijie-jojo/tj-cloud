@@ -7,12 +7,14 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfTicket;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
 import com.ruoyi.project.service.ISelfProjectService;
+import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.service.ISelfTicketService;
 import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
@@ -44,6 +46,8 @@ public class SelfProjectController extends BaseController
     private ISelfTicketService selfTicketService;
     @Autowired
     private ISelfProjectService selfProjectService;
+    @Autowired
+    private ISelfReceiveService selfReceiveService;
     @Resource
     private SysUserMapper sysUserMapper;
     /**
@@ -86,23 +90,25 @@ public class SelfProjectController extends BaseController
         selfProject.setProjectContractStatus(null);
         selfProject.setProjectAcceptanceStatus(null);
         selfProject.setProjectDutypaidStatus(null);
+        selfProject.setProjectTicketStatus(null);
+        selfProject.setProjectReceiveStatus(null);
+        selfProject.setProjectPayStatus(null);
         List<SelfProject> list = selfProjectService.selectSelfProjectList(userIdArr,selfProject);
         if (selfProject.getType()==1){//项目进度列表
             list1= list.stream().filter(s->s.getProjectStatus()==0).collect(Collectors.toList());
-            list2= list.stream().filter(s->s.getProjectStatus()==1).collect(Collectors.toList());
-            list3= list.stream().filter(s->s.getProjectStatus()==2).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectStatus()==2).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectStatus()==1).collect(Collectors.toList());
         }
         if (selfProject.getType()==2){//项目审核
             list1= list.stream().filter(s->s.getProjectCheckStatus()==0).collect(Collectors.toList());
             list2= list.stream().filter(s->s.getProjectCheckStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectCheckStatus()==2).collect(Collectors.toList());
         }
-//        if (selfProject.getType()==3){//合同审核
-//            list1= list.stream().filter(s->s.getProjectContractStatus()==0).collect(Collectors.toList());
-//            list2= list.stream().filter(s->s.getProjectContractStatus()==1).collect(Collectors.toList());
-//            list3= list.stream().filter(s->s.getProjectContractStatus()==2).collect(Collectors.toList());
-//            list3= list.stream().filter(s->s.getProjectContractStatus()==-1).collect(Collectors.toList());
-//        }
+        if (selfProject.getType()==3){//发票审核
+            list1= list.stream().filter(s->s.getProjectTicketStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectTicketStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectTicketStatus()==2).collect(Collectors.toList());
+        }
         if (selfProject.getType()==4){//合同 验收审核
             list1= list.stream().filter(s->s.getProjectAcceptanceStatus()==0).collect(Collectors.toList());
             list2= list.stream().filter(s->s.getProjectAcceptanceStatus()==1).collect(Collectors.toList());
@@ -114,6 +120,16 @@ public class SelfProjectController extends BaseController
             list2= list.stream().filter(s->s.getProjectDutypaidStatus()==1).collect(Collectors.toList());
             list3= list.stream().filter(s->s.getProjectDutypaidStatus()==2).collect(Collectors.toList());
             list4= list.stream().filter(s->s.getProjectDutypaidStatus()==-1).collect(Collectors.toList());
+        }
+        if (selfProject.getType()==6){//收款审核
+            list1= list.stream().filter(s->s.getProjectReceiveStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectReceiveStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectReceiveStatus()==2).collect(Collectors.toList());
+        }
+        if (selfProject.getType()==7){//出款审核
+            list1= list.stream().filter(s->s.getProjectPayStatus()==0).collect(Collectors.toList());
+            list2= list.stream().filter(s->s.getProjectPayStatus()==1).collect(Collectors.toList());
+            list3= list.stream().filter(s->s.getProjectPayStatus()==2).collect(Collectors.toList());
         }
         HashMap<String, Integer> datasMap=new HashMap<String, Integer>();
         datasMap.put("unfinished", list1.size());
@@ -170,8 +186,9 @@ public class SelfProjectController extends BaseController
     @GetMapping(value = "/selectProjectJoinTicketByCode")
     public AjaxResult selectProjectJoinTicketByCode(String projectCode)
     {
-        List<ProjectJoinTicketVo> selfProjects=selfProjectService.selectProjectJoinTicketByCode(projectCode);
-        for (ProjectJoinTicketVo selfProject:selfProjects){
+        ProjectJoinTicketVo selfProject=selfProjectService.selectProjectJoinTicketByCode(projectCode);
+
+        if(selfProject!=null){
             selfProject.setTicketTax(selfProject.getTicketTax().movePointRight(2));
             if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
                 selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointRight(2));
@@ -189,7 +206,8 @@ public class SelfProjectController extends BaseController
                 selfProject.setSelfShare(selfProject.getSelfShare().movePointRight(2));
             }
         }
-        return AjaxResult.success(selfProjects);
+
+        return AjaxResult.success(selfProject);
     }
 
 
@@ -323,7 +341,8 @@ public class SelfProjectController extends BaseController
             int num=selfProjectService.insertSelfProject(selfProject);
             return toAjax(num);
         }catch (DuplicateKeyException ex){
-            return error("不允许插入重复项目，自动返回，请重新创建");
+//            return error("不允许插入重复项目，自动返回，请重新创建");
+            return null;
         }
 
     }
@@ -382,22 +401,39 @@ public class SelfProjectController extends BaseController
     public AjaxResult remove(@PathVariable String[] projectIds)
     {
         Integer count = 0;//删除的次数
+        Integer num3=0;
+        List<String> list=new ArrayList<>();//存储项目信息
         for (String projectId:projectIds){
             String projectCode= selfProjectService.selectSelfProjectByProjectId(projectId).getProjectCode();
             List<SelfTicket> selfTickets= selfTicketService.selectSelfTicketByProjectCode(projectCode);
+            List<SelfReceive> selfReceives =selfReceiveService.selectSelfReceiveByProjectCode(projectCode);
             if (selfTickets.size()>0){
                 System.out.println("存在发票不能删除！");
-            }else {
-                selfProjectService.deleteProjectByCode(projectCode);
-                selfProjectService.deleteCheckByCode(projectCode);
-                count+=1;
+                list.add(projectCode);
+                num3=1;
+            } else if (selfReceives.size()>0){
+                System.out.println("存在收付款信息不能删除！");
+                list.add(projectCode);
+                num3=1;
+            } else {
+                Integer num1 = selfProjectService.deleteProjectByCode(projectCode);
+                Integer num2 = selfProjectService.deleteCheckByCode(projectCode);
+                count+=(num1+num2);
             }
         };
         System.out.println("count=="+count);
-        if (count>0){
+        if (count>=projectIds.length*4){
             return toAjax(200);
         }else {
-            return error("存在发票不能删除！");
+            if (num3==1){
+                StringBuilder sb=new StringBuilder();
+                for (String str:list){
+                    sb.append(str+",");
+                }
+                return error(sb+"存在发票或收付款信息，请先删除出款信息！");
+            }else {
+                return error("删除失败");
+            }
         }
 
     }

@@ -46,6 +46,19 @@ public class SelfPurchCompanyController extends BaseController
     }
 
     /**
+     * 查询甲方信息列表（分页）
+     */
+    @RequiresPermissions("company:company:list")
+    @GetMapping("/list1")
+    @ApiOperation("查询甲方信息列表（分页）")
+    public TableDataInfo list1(SelfPurchCompany selfPurchCompany)
+    {
+        startPage();
+        List<SelfPurchCompany> list = selfPurchCompanyService.selectSelfPurchCompanyList(selfPurchCompany);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出甲方信息列表
      */
     @RequiresPermissions("company:company:export")

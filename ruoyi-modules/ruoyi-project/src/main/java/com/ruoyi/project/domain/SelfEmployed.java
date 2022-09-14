@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,7 +12,7 @@ import java.util.Date;
  * 个体商户对象 self_employed
  *
  * @author ruoyi
- * @date 2022-07-06
+ * @date 2022-06-22
  */
 @Data
 public class SelfEmployed extends BaseEntity
@@ -23,6 +21,29 @@ public class SelfEmployed extends BaseEntity
 
     /** 个体户id */
     private String selfId;
+
+    /** 是否激活 */
+    private Integer isActive;
+
+    /** 完结时间 */
+    @ApiModelProperty(value = "完结时间")
+    private String endTime;
+
+    /** 完结时间 */
+    @ApiModelProperty(value = "营业期限")
+    private String businessTerm;
+
+    /** 信息审核不通过原因 */
+    @ApiModelProperty(value = "信息审核不通过原因")
+    private String remarkInfo;
+
+    /** 信息审核不通过原因 */
+    @ApiModelProperty(value = "名称审核不通过原因")
+    private String remarkName;
+
+    /** 完结状态 */
+    @ApiModelProperty(value = "完结状态")
+    private Integer endStatus;
 
     /** 个体户编码 */
     @ApiModelProperty(value = "个体户编码")
@@ -137,6 +158,10 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value = "产权")
     private String propertyRight;
 
+    /** 行业 */
+    @ApiModelProperty(value = "行业")
+    private String industry;
+
     /** 经营范围 */
     @ApiModelProperty(value = "经营范围")
     private String natureBusiness;
@@ -197,6 +222,18 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value = "税务文件名")
     private String fileName2;
 
+    /** 工商文件名 */
+    @ApiModelProperty(value = "纳税委托协议")
+    private String fileName3;
+
+    /** 税务文件名 */
+    @ApiModelProperty(value = "三方协议签约凭证")
+    private String fileName4;
+
+    /** 身份证 */
+    @ApiModelProperty(value = "身份证")
+    private String fileName5;
+
     /** 信息名字审核是否通过 0未通过 1已通过 */
     @ApiModelProperty(value = "信息名字审核是否通过 0未通过 1已通过")
     private Long infoStatus;
@@ -209,42 +246,168 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value = "银行审核是否通过 0未通过 1已通过")
     private Long bankStatus;
 
-    /** 纳税委托协议 */
-    @ApiModelProperty(value = "纳税委托协议")
-    private String fileName3;
+    /** 工商实名 */
+    @ApiModelProperty(value = "工商实名")
+    private String fileName6;
 
-    /** 三方协议签约凭证 */
-    @ApiModelProperty(value = "三方协议签约凭证")
-    private String fileName4;
+    /** 税务实名 */
+    @ApiModelProperty(value = "税务实名")
+    private String fileName7;
 
-    /** 完结时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @ApiModelProperty(value = "完结时间")
-    private Date endTime;
+    /** 实名认证是否通过 0未通过 1已通过 */
+    @ApiModelProperty(value = "实名认证是否通过 0未通过 1已通过")
+    private Long realnameStatus;
 
-    /** 完结状态 0未完结 1已完结 */
-    @ApiModelProperty(value = "完结状态 0未完结 1已完结")
-    private String endStatus;
+    /** 专票个体户代办费 */
+    @ApiModelProperty(value = "专票个体户代办费")
+    private BigDecimal specialSelfFee;
 
-    /** 信息审核不通过原因 */
-    @ApiModelProperty(value = "信息审核不通过原因")
-    private String remarkInfo;
+    /** 普票个体户代办费 */
+    @ApiModelProperty(value = "普票个体户代办费")
+    private BigDecimal ordinarySelfFee;
 
-    /** 身份证 */
-    @ApiModelProperty(value = "身份证")
-    private String fileName5;
+    /** 专票个体户代办费(元） */
+    @ApiModelProperty(value = "专票个体户代办费(元）")
+    private BigDecimal specialSelfMoney;
 
-    /** 营业期限 */
-    @ApiModelProperty(value = "营业期限")
-    private String businessTerm;
+    /** 普票个体户代办费(元） */
+    @ApiModelProperty(value = "普票个体户代办费(元）")
+    private BigDecimal ordinarySelfMoney;
 
-    /** 状态 0休眠 1激活 2报警 */
-    @ApiModelProperty(value = "状态 0休眠 1激活 2报警")
-    private Long isActive;
+    /** 个体户服务费是否含税 */
+    @ApiModelProperty(value = "个体户服务费是否含税")
+    private Long isSelfTax;
 
-    /** 名称审核不通过原因 */
-    @ApiModelProperty(value = "名称审核不通过原因")
-    private String remarkName;
+    /** 注册服务费 1500 */
+    @ApiModelProperty(value = "注册服务费 1500")
+    private BigDecimal registerMoney;
 
+    /** 工商登记申请书pdf */
+    @ApiModelProperty(value = "工商登记申请书pdf")
+    private String fileName8;
+
+    /** 普票税率(增值税普通发票） */
+    @ApiModelProperty(value = "普票税率(增值税普通发票）")
+    private BigDecimal ordinaryTax;
+
+    /** 普票税率(增值税专用发票） */
+    @ApiModelProperty(value = "普票税率(增值税专用发票）")
+    private BigDecimal ordinarySpecialTax;
+
+    /** 分润方式(增值税普通发票）百分比 */
+    @ApiModelProperty(value = "分润方式(增值税普通发票）百分比")
+    private BigDecimal ordinaryShare;
+
+    /** 分润方式(增值税普通发票）定额 */
+    @ApiModelProperty(value = "分润方式(增值税普通发票）定额")
+    private Long ordinaryShareMoney;
+
+    /** 分润方式(增值税专用发票）百分比 */
+    @ApiModelProperty(value = "分润方式(增值税专用发票）百分比")
+    private BigDecimal specialShare;
+
+    /** 分润方式(增值税专用发票）定额 */
+    @ApiModelProperty(value = "分润方式(增值税专用发票）定额")
+    private Long specialShareMoney;
+
+    /** 普票价税分离（与服务费含税一样，是，否；默认选择否）*/
+    @ApiModelProperty(value = "普票价税分离 与服务费含税一样，是，否；默认选择否")
+    private Long isOrdinaryTax;
+
+    /** 专票价税分离（与服务费含税一样，是，否；默认选择否） */
+    @ApiModelProperty(value = "专票价税分离 与服务费含税一样，是，否；默认选择否")
+    private Long isSpecialTax;
+
+    /** 注册确认不通过原因 */
+    @ApiModelProperty(value = "注册确认不通过原因")
+    private String remarkRegister;
+
+    /** 个体户服务费是否含税(专票) */
+    @ApiModelProperty(value = "个体户服务费是否含税(专票)")
+    private Long isSpecialSelfTax;
+
+    /** 是否单独结算 */
+    @ApiModelProperty(value = "是否单独结算")
+    private Long isSelfCount;
+
+    /** 普票平台服务费是否定额 */
+    @ApiModelProperty(value = "普票平台服务费是否定额")
+    private Long ordinaryProxyIsmoney;
+
+    /** 专票平台服务费是否定额 */
+    @ApiModelProperty(value = "专票平台服务费是否定额")
+    private Long specialProxyIsmoney;
+
+    /** 普票分润方式是否定额 */
+    @ApiModelProperty(value = "普票分润方式是否定额")
+    private Long ordinaryShareIsmoney;
+
+    /** 专票分润方式是否定额 */
+    @ApiModelProperty(value = "专票分润方式是否定额")
+    private Long specialShareIsmoney;
+
+    /** 是否开启分润 0是 1否(普票) */
+    @ApiModelProperty(value = "是否开启分润 0是 1否(普票)")
+    private Long isOrdinaryShare;
+
+    /** 是否开启分润 0是 1否(专票) */
+    @ApiModelProperty(value = "是否开启分润 0是 1否(专票)")
+    private Long isSpecialShare;
+
+    /** 滑块0是 1否 */
+    @ApiModelProperty(value = "滑块0是 1否")
+    private Long isSlider;
+
+    /** 滑块0是 1否(普票) */
+    @ApiModelProperty(value = "滑块0是 1否(普票)")
+    private Long isSliderOrdinary;
+
+    /** 渠道商全名（名称+别名） */
+    @ApiModelProperty(value = "渠道商全名 名称+别名")
+    private String placeAliasName;
+
+    /** 对公一般户（0是 1否） */
+    @ApiModelProperty(value = "对公一般户 0 是,1 否")
+    private Long isPublicUser;
+
+    /** 分润方式(增值税普通发票) */
+    @ApiModelProperty(value = "分润方式(增值税普通发票)")
+    private BigDecimal selfShare;
+
+    /** 是否开启分润 0是 1否 */
+    @ApiModelProperty(value = "是否开启分润 0是 1否")
+    private Long isSelfShare;
+
+    /** 个体户注册费是否定额 1 百分比 0定额 */
+    @ApiModelProperty(value = "个体户注册费是否定额 1 百分比 0定额")
+    private Long selfShareIsmoney;
+
+    /** 是否收取注册服务费 */
+    @ApiModelProperty(value =  "是否收取注册服务费")
+    private Long isRegisterMoney;
+
+    /** 是否开启一次性收取费用 0是 1否 */
+    @ApiModelProperty(value =  "是否开启一次性收取费用 0是 1否")
+    private Long isDisposable;
+
+    /** 分润值(一次性收取费用) */
+    @ApiModelProperty(value =  "分润值(一次性收取费用)")
+    private BigDecimal disposableShare;
+
+    /** 分润方式是否定额 1 百分比 0定额(一次性收取费用) */
+    @ApiModelProperty(value =  "分润方式是否定额 1 百分比 0定额(一次性收取费用)")
+    private Long disposableShareIsmoney;
+
+    /** 是否开启分润 0是 1否(一次性收取费用) */
+    @ApiModelProperty(value =  "是否开启分润 0是 1否(一次性收取费用)")
+    private Long isDisposableShare;
+
+    /** 一次性收取费用值 */
+    @ApiModelProperty(value =  "一次性收取费用值")
+    private BigDecimal disposableFee;
+
+    /** 一次性收取费用是否定额 1 百分比 0定额 */
+    @ApiModelProperty(value =  "一次性收取费用是否定额 1 百分比 0定额")
+    private Long disposableFeeIsmoney;
 }
 

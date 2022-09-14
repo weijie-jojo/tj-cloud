@@ -23,17 +23,23 @@
             LEFT JOIN sys_dict_data A ON t.project_type=A.dict_value
     </sql>
 
-    <select id="selectProjectCheckList" parameterType="com.ruoyi.project.domain.ProjectCheck" resultType="com.ruoyi.project.domain.vo.ProjectCheckVo">
+    <select id="selectProjectCheckList"  resultType="com.ruoyi.project.domain.vo.ProjectCheckVo">
         <include refid="selectProjectCheckJoin"/>
-        <where>
+        <trim prefix="where" prefixOverrides="and|or">
             A.dict_type='project_type'
-            <if test="checkDate != null "> and check_date = #{checkDate}</if>
-            <if test="checkUser != null  and checkUser != ''"> and check_user = #{checkUser}</if>
-            <if test="checkReasult != null  and checkReasult != ''"> and check_reasult = #{checkReasult}</if>
-            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
-            <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
-            <if test="phonenumber != null  and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
-        </where>
+            <if test=" projectTypes!=null ">
+                AND project_type in
+                <foreach collection="projectTypes" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="projectCheck.checkDate != null "> and check_date = #{projectCheck.checkDate}</if>
+            <if test="projectCheck.checkUser != null  and projectCheck.checkUser != ''"> and check_user = #{projectCheck.checkUser}</if>
+            <if test="projectCheck.checkReasult != null  and projectCheck.checkReasult != ''"> and check_reasult = #{projectCheck.checkReasult}</if>
+            <if test="projectCheck.projectCode != null  and projectCheck.projectCode != ''"> and project_code = #{projectCheck.projectCode}</if>
+            <if test="projectCheck.projectType != null  and projectCheck.projectType != ''"> and project_type = #{projectCheck.projectType}</if>
+            <if test="projectCheck.phonenumber != null  and projectCheck.phonenumber != ''"> and phonenumber = #{projectCheck.phonenumber}</if>
+        </trim>
         order by check_date
     </select>
 

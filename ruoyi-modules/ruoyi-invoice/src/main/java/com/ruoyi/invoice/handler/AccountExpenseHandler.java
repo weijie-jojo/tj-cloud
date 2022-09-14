@@ -207,7 +207,17 @@ public class AccountExpenseHandler {
         dataDto.success(list,sysExpenseVoIPage.getTotal());
         return dataDto;
     }
-
+    @GetMapping(value ="/getAllExpense2")
+    @ApiOperation("查询所有报销单信息（登录用户历史单据）")
+    public DataDto selectAllExpense2(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit){
+        accountExpense.setCreateUser(SecurityUtils.getUserId());
+        accountExpense.setStepType(2);
+        IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseService.selectAllExpense(accountExpense,timeQo,currentPage,limit);
+        List<AccountExpenseVo> list=sysExpenseVoIPage.getRecords();
+        DataDto<AccountExpenseVo> dataDto = new DataDto<>();
+        dataDto.success(list,sysExpenseVoIPage.getTotal());
+        return dataDto;
+    }
     @GetMapping(value ="/getAllExpenses")
     @ApiOperation("查询所有报销单信息")
     public DataDto selectAllExpenses(AccountExpense accountExpense,TimeQo timeQo, Integer currentPage, Integer limit){
