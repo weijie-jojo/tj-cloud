@@ -195,8 +195,9 @@ public class AccountExpenseHandler {
     public DataDto selectAllExpense(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit){
         if(accountExpense.getExpenseCode()==null){//不是查看某条单据（查看登录用户的所有单据）
             accountExpense.setCreateUser(SecurityUtils.getUserId());
+            accountExpense.setStepType(1);//只显示未完成跟异常的
         }
-        IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseService.selectAllExpense(accountExpense,timeQo,currentPage,limit);
+        IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseService.selectAllExpense2(accountExpense,timeQo,currentPage,limit);
         List<AccountExpenseVo> list=sysExpenseVoIPage.getRecords();
 //        for (int i=0;i<list.size();i++){//把驳回的放在最前面
 //            if (list.get(i).getInvoiceType()==6){

@@ -17,4 +17,6 @@ public interface AccountTravelExpenseService {
     int editExpenseById(int id);
     List<AccountExpenseItem> getAllExpenseItem();
     List<AccountTravelExpense> selectMaxCode();
+    IPage<AccountTravelExpenseVo> getAllTravelExpense2(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit);
+
 }

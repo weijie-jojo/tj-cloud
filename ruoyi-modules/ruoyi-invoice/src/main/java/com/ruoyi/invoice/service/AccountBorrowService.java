@@ -14,4 +14,6 @@ public interface AccountBorrowService {
     IPage<AccountBorrowVo> getAllBorrow(AccountBorrow accountBorrow, TimeQo timeQo, Integer currentPage, Integer limit);
     int editBorrowById(int borrowId);
     List<AccountBorrow> selectMaxCode();
+    IPage<AccountBorrowVo> getAllBorrow2(AccountBorrow accountBorrow, TimeQo timeQo, Integer currentPage, Integer limit);
+
 }

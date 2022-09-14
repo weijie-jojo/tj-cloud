@@ -17,4 +17,6 @@ public interface AccountExpenseService {
     int editExpenseById(int expenseId);//逻辑删除（修改isdelete状态为1）
     int checkExpenseById(int expenseId);//逻辑删除（修改isdelete状态为1）
     IPage<AccountExpenseVo> selectAllExpense(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit);
+    IPage<AccountExpenseVo> selectAllExpense2(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit);
+
 }

@@ -89,8 +89,9 @@ public class AccountTravelExpenseHandler {
     public DataDto getTravelExpense(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit){
         if(accountTravelExpense.getTravelExpenseCode()==null){//不是查看某条单据（查看登录用户的所有单据）
             accountTravelExpense.setCreateUser(SecurityUtils.getUserId());
+            accountTravelExpense.setStepType(1);//只显示未完成跟异常的
         }
-        IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense(accountTravelExpense,timeQo,currentPage,limit);
+        IPage<AccountTravelExpenseVo> accountTravelExpenseIPage = accountTravelExpenseService.getAllTravelExpense2(accountTravelExpense,timeQo,currentPage,limit);
         List<AccountTravelExpenseVo> list=accountTravelExpenseIPage.getRecords();
 //        for (int i=0;i<list.size();i++){//把驳回的放在最前面
 //            if (list.get(i).getInvoiceType()==6){

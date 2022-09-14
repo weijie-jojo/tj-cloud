@@ -92,6 +92,7 @@ public class AccountBorrowHandler {
     public DataDto getAllBorrow(AccountBorrowVo sysBorrowVo, TimeQo timeQo, Integer currentPage, Integer limit){
         if(sysBorrowVo.getBorrowCode()==null){//不是查看某条单据（查看登录用户的所有单据）区分是根据code查看还是登陆用户的
             sysBorrowVo.setCreateUser(SecurityUtils.getUserId());
+            sysBorrowVo.setStepType(1);//只显示未完成跟异常的
         }
         IPage<AccountBorrowVo> sysBorrowVoIPage = accountBorrowService.getAllBorrow(sysBorrowVo,timeQo,currentPage,limit);
         List<AccountBorrowVo> list=sysBorrowVoIPage.getRecords();

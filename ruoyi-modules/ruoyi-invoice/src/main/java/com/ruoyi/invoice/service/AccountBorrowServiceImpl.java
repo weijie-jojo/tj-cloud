@@ -99,7 +99,41 @@ public class AccountBorrowServiceImpl implements AccountBorrowService {
                         .orderByDesc("t.borrow_id"));
         return sysTravelExpenseIPage;
     }
-
+    /*
+    * 当前单据用
+    * */
+    @Override
+    public IPage<AccountBorrowVo> getAllBorrow2(AccountBorrow accountBorrow, TimeQo timeQo, Integer currentPage, Integer limit) {
+        timeQo.setStartTime(JudgeNull.isNull(timeQo.getStartTime()));
+        timeQo.setEndTime(JudgeNull.isNull(timeQo.getEndTime()));
+        accountBorrow.setInvoiceType(JudgeNull.isNull(accountBorrow.getInvoiceType()));
+        accountBorrow.setDeptId(JudgeNull.isNull(accountBorrow.getDeptId()));
+        accountBorrow.setBorrowCode(JudgeNull.isNull(accountBorrow.getBorrowCode()));
+        accountBorrow.setStepType(JudgeNull.isNull(accountBorrow.getStepType()));
+        System.out.println("StepType=="+accountBorrow.getStepType());
+        Integer currentPages=JudgeNull.isNull(currentPage);
+        Integer limits=JudgeNull.isNull(limit);
+        IPage<AccountBorrowVo> sysTravelExpenseIPage = accountBorrowMapper.selectJoinPage(new Page<>(currentPages,limits), AccountBorrowVo.class,
+                new MPJQueryWrapper<AccountBorrow>()
+                        .selectAll(AccountBorrow.class)
+                        .select("A.dict_label")
+                        .select("B.user_name")
+                        .select("B.nick_name")
+                        .innerJoin("sys_dict_data A on t.invoice_type=A.dict_value")
+                        .innerJoin("sys_user B on t.create_user=B.user_id")
+                        .eq("t.is_deleted",0)
+                        .eq("A.dict_type","invoice_type")
+                        .in(accountBorrow.getStepType()!=null,"t.step_type",1,3)
+                        .eq(accountBorrow.getBorrowCode()!=null,"t.borrow_code", accountBorrow.getBorrowCode())
+                        .eq(accountBorrow.getDeptId()!=null,"t.dept_id", accountBorrow.getDeptId())
+                        .eq(accountBorrow.getCreateUser()!=null,"t.create_user", accountBorrow.getCreateUser())
+                        .eq(accountBorrow.getInvoiceType()!=null,"t.invoice_type", accountBorrow.getInvoiceType())
+                        .eq(accountBorrow.getStepType()!=null,"t.step_type",accountBorrow.getStepType())
+                        .ge(timeQo.getStartTime()!=null,"t.borrow_date",timeQo.getStartTime())
+                        .le(timeQo.getEndTime()!=null,"t.borrow_date",timeQo.getEndTime())
+                        .orderByDesc("t.borrow_id"));
+        return sysTravelExpenseIPage;
+    }
     /*
      *
      * 删除报销单（逻辑删除）

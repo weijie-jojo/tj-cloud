@@ -110,6 +110,40 @@ public class AccountTravelExpenseServiceImpl implements AccountTravelExpenseServ
         return sysTravelExpenseIPage;
     }
     /*
+     * 当前单据用
+     * */
+    @Override
+    public IPage<AccountTravelExpenseVo> getAllTravelExpense2(AccountTravelExpense accountTravelExpense, TimeQo timeQo, Integer currentPage, Integer limit) {
+        timeQo.setStartTime(JudgeNull.isNull(timeQo.getStartTime()));
+        timeQo.setEndTime(JudgeNull.isNull(timeQo.getEndTime()));
+        accountTravelExpense.setInvoiceType(JudgeNull.isNull(accountTravelExpense.getInvoiceType()));
+        accountTravelExpense.setDeptId(JudgeNull.isNull(accountTravelExpense.getDeptId()));
+        accountTravelExpense.setStepType(JudgeNull.isNull(accountTravelExpense.getStepType()));
+        Integer currentPages=JudgeNull.isNull(currentPage);
+        Integer limits=JudgeNull.isNull(limit);
+        IPage<AccountTravelExpenseVo> sysTravelExpenseIPage = accountTravelExpenseMapper.selectJoinPage(new Page<>(currentPages,limits), AccountTravelExpenseVo.class,
+                new MPJQueryWrapper<AccountTravelExpense>()
+                        .selectAll(AccountTravelExpense.class)
+                        .select("A.dict_label")
+                        .select("B.user_name")
+                        .select("B.nick_name")
+                        .select("C.dept_name")
+                        .leftJoin("sys_dict_data A on t.invoice_type=A.dict_value")
+                        .leftJoin("sys_user B on t.create_user=B.user_id")
+                        .leftJoin("sys_dept C on t.dept_id=C.dept_id")
+                        .eq("t.is_deleted",0)
+                        .eq("A.dict_type","invoice_type")
+                        .eq(accountTravelExpense.getTravelExpenseCode()!=null,"t.travel_expense_code", accountTravelExpense.getTravelExpenseCode())
+                        .eq(accountTravelExpense.getDeptId()!=null,"t.dept_id", accountTravelExpense.getDeptId())
+                        .eq(accountTravelExpense.getCreateUser()!=null,"t.create_user", accountTravelExpense.getCreateUser())
+                        .eq(accountTravelExpense.getInvoiceType()!=null,"t.invoice_type", accountTravelExpense.getInvoiceType())
+                        .in(accountTravelExpense.getStepType()!=null,"t.step_type",1,3)
+                        .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
+                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .orderByDesc("t.id"));
+        return sysTravelExpenseIPage;
+    }
+    /*
      * 撤回操作
      * */
     @Override

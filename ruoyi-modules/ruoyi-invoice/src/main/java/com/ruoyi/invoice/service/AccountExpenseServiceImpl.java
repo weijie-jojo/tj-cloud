@@ -159,5 +159,40 @@ public class AccountExpenseServiceImpl implements AccountExpenseService {
                         .orderByDesc("t.expense_id"));
         return sysExpenseVoIPage;
     }
-
+    /*
+     * 当前单据用
+     * */
+    @Override
+    public IPage<AccountExpenseVo> selectAllExpense2(AccountExpense accountExpense, TimeQo timeQo, Integer currentPage, Integer limit) {
+        accountExpense.setInvoiceType(JudgeNull.isNull(accountExpense.getInvoiceType()));
+        accountExpense.setDeptId(JudgeNull.isNull(accountExpense.getDeptId()));
+        accountExpense.setExpenseCode(JudgeNull.isNull(accountExpense.getExpenseCode()));
+        timeQo.setStartTime(JudgeNull.isNull(timeQo.getStartTime()));
+        timeQo.setEndTime(JudgeNull.isNull(timeQo.getEndTime()));
+        Integer currentPages=JudgeNull.isNull(currentPage);
+        Integer limits=JudgeNull.isNull(limit);
+        accountExpense.setStepType(JudgeNull.isNull(accountExpense.getStepType()));
+        System.out.println("getInvoiceType=="+accountExpense.getInvoiceType());
+        IPage<AccountExpenseVo> sysExpenseVoIPage = accountExpenseMapper.selectJoinPage(new Page(currentPages,limits),AccountExpenseVo.class,
+                new MPJQueryWrapper<AccountExpense>()
+                        .selectAll(AccountExpense.class)
+                        .select("A.dict_label")
+                        .select("B.user_name")
+                        .select("B.nick_name")
+                        .select("C.dept_name")
+                        .innerJoin("sys_dict_data A on t.invoice_type=A.dict_value")
+                        .innerJoin("sys_user B on t.create_user=B.user_id")
+                        .innerJoin("sys_dept C on t.dept_id=C.dept_id")
+                        .eq("t.is_deleted",0)
+                        .eq("A.dict_type","invoice_type")
+                        .in(accountExpense.getStepType()!=null,"t.step_type",1,3)
+                        .eq(accountExpense.getExpenseCode()!=null,"t.expense_code", accountExpense.getExpenseCode())
+                        .eq(accountExpense.getDeptId()!=null,"t.dept_id", accountExpense.getDeptId())
+                        .eq(accountExpense.getInvoiceType()!=null,"t.invoice_type", accountExpense.getInvoiceType())
+                        .eq(accountExpense.getCreateUser()!=null,"t.create_user", accountExpense.getCreateUser())
+                        .ge(timeQo.getStartTime()!=null,"t.create_time",timeQo.getStartTime())
+                        .le(timeQo.getEndTime()!=null,"t.create_time",timeQo.getEndTime())
+                        .orderByDesc("t.expense_id"));
+        return sysExpenseVoIPage;
+    }
 }
