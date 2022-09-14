@@ -6,7 +6,7 @@
             :rules="rules" 
             label-width="auto" >
           <el-row>
-               <el-col :span="24" style="margin-bottom: 20px;font-size:25px;text-align: center;font-weight: bold;">差旅报销单审核</el-col>
+               <el-col :span="24" style="margin-bottom: 20px;font-size:25px;text-align: center;font-weight: bold;">差旅报销单</el-col>
              </el-row>  
           <el-row  type="flex" justify="center">
             <el-col :span="6">
@@ -101,7 +101,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days1"
@@ -204,7 +204,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days2"
@@ -307,7 +307,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
             disabled
               type="number"
@@ -557,7 +557,7 @@
             </el-row>
            
           
-            <el-row type="flex" class="row-bg " justify="space-around" style="margin-top:10px">
+            <el-row type="flex" class="row-bg " justify="space-around" style="margin-top:20px">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
                   <el-button type="danger" @click="toReturn" style="width:80px">关闭</el-button>
@@ -589,7 +589,7 @@
       return {
         accessoryNumTotal:'',
         isDetail: '1',
-        isDetails: '0',
+        isDetails: '1',
         isNone: [],
         srcList:[],
         imgArr:[],
@@ -937,9 +937,9 @@
                                         type: 'success',
                                     });
                                 });
-                                this.$router.push({
-                                    path: "/invoices/checkInvoices"
-                                });
+                                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                                  this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                                })
                             }else{
                                 this.$message({
                                         message: "审核过了",
@@ -986,9 +986,9 @@
                                         type: 'success',
                                     });
                                 }) 
-                                this.$router.push({
-                                    path: "/invoices/checkInvoices"
-                                });
+                                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                                   this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                                 })
                             }else{
                                 this.$message({
                                         message: "审核过了",
@@ -1035,9 +1035,9 @@
                                         type: 'success',
                                     });
                                 }) 
-                                this.$router.push({
-                                    path: "/invoices/checkInvoices"
-                                });
+                                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                               this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                                })
                             }else{
                                 this.$message({
                                         message: "审核过了",

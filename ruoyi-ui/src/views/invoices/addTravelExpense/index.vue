@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row>
-            <el-col :span="24" style="margin-bottom: 20px;font-size:25px;text-align: center;font-weight: bold;">差旅报销单新增</el-col>
+            <el-col :span="24" style="margin-bottom: 20px;font-size:25px;text-align: center;font-weight: bold;">差旅报销单</el-col>
           </el-row>  
       <el-row>
         
@@ -89,7 +89,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days1"
@@ -101,7 +101,7 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum1"
@@ -143,7 +143,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="其他">
+          <el-form-item label="其它">
             <el-input
               type="number"
               v-model="ruleForm.other1"
@@ -153,7 +153,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="合计">
+          <el-form-item label="合计金额">
             <el-input v-model="subTotalMoney1">
               <template slot="append"> 元 </template>
             </el-input>
@@ -184,7 +184,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days2"
@@ -196,7 +196,7 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum2"
@@ -238,7 +238,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="其他">
+          <el-form-item label="其它">
             <el-input
               type="number"
               v-model="ruleForm.other2"
@@ -248,7 +248,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="合计">
+          <el-form-item label="合计金额">
             <el-input v-model="subTotalMoney2">
               <template slot="append"> 元 </template>
             </el-input>
@@ -279,7 +279,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days3"
@@ -291,7 +291,7 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum3"
@@ -363,9 +363,7 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <div></div>
-        </el-col>
+       
         <el-col :span="8">
           <el-form-item label="总计金额(大写)">
             {{ digitUppercase(totalMoney) + "元" }}
@@ -837,9 +835,9 @@ export default {
               });
             }
             this.$refs[formName].resetFields();
-            this.$router.push({
-              path: "/invoices/addInvoices",
-            });
+            this.$tab.closeOpenPage({path:"/invoices/addInvoices"}).then(() => {
+             this.$tab.refreshPage({ path: "/invoices/addInvoices", name: "AddInvoices" });     
+            })
           });
         } else {
           console.log("error submit!!");

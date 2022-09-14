@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" id="printMe">
             <el-row>
-            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单详情</el-col>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单</el-col>
           </el-row>  
             <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;align-items: center;">
@@ -174,8 +174,8 @@
 
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="8">
-                    <el-form-item label="总计单据数量">
-                        {{accessoryNum }}
+                    <el-form-item label="总计单据">
+                        {{accessoryNum }}张
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -632,7 +632,7 @@ export default {
           this.$tab.openPage("报销单打印预览",'/invoices/expensePrint');
         },
         beforePage() {
-            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('invoicesBackUrl').url });
         },
         //获取所有审批结果
         selectAllCheck() {

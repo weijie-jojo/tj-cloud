@@ -460,7 +460,7 @@
     },
     methods: {
         beforePage() {
-            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('invoicesBackUrl').url});
         },
        //审核
         checkInvoices(){

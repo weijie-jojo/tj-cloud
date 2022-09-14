@@ -651,9 +651,9 @@ export default {
             });
           });
           this.$refs[formName].resetFields();
-          this.$router.push({
-            path: "/invoices/addInvoices",
-          });
+          this.$tab.closeOpenPage({path:"/invoices/addInvoices"}).then(() => {
+             this.$tab.refreshPage({ path: "/invoices/addInvoices", name: "AddInvoices" });     
+            })
         } else {
           console.log("error submit!!");
           this.$message({
