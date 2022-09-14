@@ -6,7 +6,7 @@
             :rules="rules" 
             label-width="auto" >
           <el-row>
-            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单详情</el-col>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单</el-col>
           </el-row>  
          <el-row type="flex" justify="space-around" style="margin-bottom: 10px;">
           <el-col :span="12">
@@ -944,7 +944,7 @@
           this.$tab.openPage("差旅打印预览",'/invoices/travelPrints');
         },
           beforePage() {
-            this.$tab.closeOpenPage({ path: '/invoices/addInvoices' });
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('invoicesBackUrl').url  });
         },
         //获取所有审批结果
         selectAllCheck(){

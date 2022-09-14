@@ -5,9 +5,13 @@
       :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple 
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
       <el-button v-if="isDetails == 0" size="small" type="primary" style="width:80px;">点击上传</el-button>
-
+     
       <div v-if="isDetails == 0" slot="tip" class="el-upload__tip">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
     </el-upload>
+    <div v-if="isDetails == 0" style="position: absolute;left: 100px;
+    top: -15px;" :class="isDetail==0 ?'brrs':'arrs'">
+    <i class="el-icon-question" @click="uploadsCheck" ></i>
+   </div>
    
   
     
@@ -40,8 +44,21 @@
 
       </div>
     </el-dialog>
-    <el-dialog title="上传格式须知" :visible.sync="viewVisible1" width="80%" center @close='closeDialog1 == false'>
-
+    <el-dialog title="上传格式须知" :visible.sync="viewVisible1" width="60%" center @close='closeDialog1 == false'>
+           <div style="color:red;font-size:20px">
+            注意:如果上传凭证或影像为长图 ,请旋转90度,变为横图去上传,这样打印不会失真!!!
+           </div>
+           <el-row>
+            <el-col :span="8">
+              <el-image style="" :src="baseImgPath+oks1" fill="scale-down"></el-image>
+            </el-col>
+            <el-col :span="12" style="display:flex;justify-content:flex-end;position: relative;">
+              <el-image style="width:70px;height:70px;position:absolute;left:11px;top:20vh" :src="baseImgPath+oks2"></el-image>
+              <el-image  :src="baseImgPath+oks1" style="transform: rotate(90deg); " fill="scale-down"></el-image>
+            </el-col>
+           </el-row>
+           
+           
     </el-dialog>
   </div>
 </template>
@@ -59,6 +76,8 @@ export default {
   },
   data() {
     return {
+      oks1:'2022091405333b7989eb-57c7-4aff-b483-611b7c044448koo.jpg',
+      oks2:'2022091404410b00fef8-df2c-4a16-9a66-a462ef644a3d下载.jpg',  
       oks:false,
       showViewer: false,
       errOk: false,
@@ -119,6 +138,10 @@ export default {
     this.pdfIconChange();
   },
   methods: {
+    //上传格式须知
+    uploadsCheck(){
+        this.viewVisible1=true;
+    },
     // 导出错误详情
     async uploadAll() {
         this.$nextTick(()=>{
@@ -219,12 +242,6 @@ export default {
     },
 
     beforeAvatarUpload(file, fileList) {
-      if(!this.oks){
-        this.viewVisible1=true;
-        this.oks=true;
-       
-      }
-      
       const isLt2M = file.size / 1024 / 1024 < 5;
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
       const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
@@ -300,6 +317,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.imgok{
+  width: 100%;
+  height: 300px;
+}
+.imgok1{
+  width: 50%;
 }
 
 .upload-demo {

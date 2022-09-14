@@ -173,8 +173,7 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-view"
                   @click="toViewExpense(scope.row)"
                   >详情
                 </el-button>
@@ -361,8 +360,7 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-view"
                   @click="toViewTravelExpense(scope.row)"
                   >详情
                 </el-button>
@@ -566,8 +564,7 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-view"
                   @click="toViewBorrow(scope.row)"
                   >详情
                 </el-button>
@@ -610,6 +607,7 @@ import { getBorrow,editBorrowType,getAllBorrows} from "@/api/invoices/borrow";
 import { getAllUser,editExpense,editExpenseType,getExpenses,getAllExpenses,getLeaderByUserId } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,getAllTravelExpense } from "@/api/invoices/travelExpense";
 export default {
+  name:'ShowInvoices',
    dicts: ['invoice_type'],
   components: {},
   props: [],
@@ -1265,9 +1263,12 @@ export default {
           window.localStorage.setItem("borrows", JSON.stringify(this.borrows));
           window.localStorage.setItem("borrowRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("borrowCheckPerson", JSON.stringify(this.checkPerson));
-          this.$router.push({
-              path: "/invoices/showBorrow"
-          });
+          let obj={
+          url:'/invoices/showInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('借支单详情',"/invoices/showBorrow");
+         
         }) 
       },
     toViewExpense(data) {
@@ -1280,9 +1281,13 @@ export default {
           window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
           window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
-          this.$router.push({
-              path: "/invoices/showExpense"
-          });
+         
+          let obj={
+          url:'/invoices/showInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('费用报销单详情',"/invoices/showExpense");
+          
         }) 
       },
     toViewTravelExpense(data) {
@@ -1295,9 +1300,12 @@ export default {
           window.localStorage.setItem("travelExpenses", JSON.stringify(this.travelExpenses));
           window.localStorage.setItem("travelExpenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("travelExpenseCheckPerson", JSON.stringify(this.checkPerson));
-          this.$router.push({
-              path: "/invoices/showTravelExpense"
-          });
+          let obj={
+          url:'/invoices/showInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('差旅报销单详情',"/invoices/showTravelExpense");
+         
         }) 
       },
   }
@@ -1364,7 +1372,7 @@ export default {
 }
 .secondDiv {
   height: 50px;
-  margin-top:20px;
+
   span {
     margin: 0 10px 0 10px;
   }

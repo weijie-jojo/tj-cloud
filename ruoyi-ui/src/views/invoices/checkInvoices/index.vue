@@ -142,10 +142,10 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                  type="text"
+                  icon="el-icon-s-check"
                   @click="checkExpense(scope.row)"
-                  >操作
+                  >审核
                 </el-button>
               </template>
             </el-table-column>
@@ -321,10 +321,10 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                  type="text"
+                  icon="el-icon-s-check"
                   @click="checkTravelExpense(scope.row)"
-                  >操作
+                  >审核
                 </el-button>
               </template>
             </el-table-column>
@@ -510,10 +510,11 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button 
-                  type="primary" 
+                  type="text"
+                  icon="el-icon-s-check"
                   size="mini"
                   @click="checkBorrow(scope.row)"
-                  >操作
+                  >审核
                 </el-button>
               </template>
             </el-table-column>
@@ -554,6 +555,7 @@ import { getBorrow,getCheckBorrow,editBorrowType} from "@/api/invoices/borrow";
 import { editExpense,getExpenses,editExpenseType,getCheckExpense,getLeaderByUserId } from "@/api/invoices/expense";
 import { getTravelExpense,getCheckTravelExpense,editTravelExpenseType } from "@/api/invoices/travelExpense";
 export default {
+  name:'CheckInvoices',
   components: {},
   props: [],
   data() {
@@ -1213,9 +1215,8 @@ export default {
             window.localStorage.setItem("borrows", JSON.stringify(this.borrows));
             window.localStorage.setItem("borrowRoles", JSON.stringify(this.loginRoles));
             window.localStorage.setItem("borrowCheckPerson", JSON.stringify(this.checkPerson));
-            this.$router.push({
-              path: "/invoices/checkBorrow"
-            });
+            this.$tab.openPage('借支单审核',"/invoices/checkBorrow");
+           
         })
     },
     checkExpense(data){
@@ -1229,9 +1230,8 @@ export default {
             window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
             window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
             console.log("role111",JSON.stringify(this.loginRoles));
-            this.$router.push({
-              path: "/invoices/checkExpense"
-            });
+            this.$tab.openPage('费用报销单审核',"/invoices/checkExpense");
+           
         })
     },
     checkTravelExpense(data){
@@ -1244,9 +1244,8 @@ export default {
             window.localStorage.setItem("travelExpenses", JSON.stringify(this.travelExpenses));
             window.localStorage.setItem("travelExpenseRoles", JSON.stringify(this.loginRoles));
             window.localStorage.setItem("travelExpenseCheckPerson", JSON.stringify(this.checkPerson));
-            this.$router.push({
-              path: "/invoices/checkTravelExpense"
-            });
+            this.$tab.openPage('差旅报销单审核',"/invoices/checkTravelExpense");
+            
         })
     },
   }
@@ -1321,7 +1320,7 @@ export default {
 }
 .secondDiv {
   height: 50px;
-  margin-top:20px;
+
   span {
     margin: 0 10px 0 10px;
   }

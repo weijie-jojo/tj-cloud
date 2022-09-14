@@ -495,9 +495,9 @@ export default {
                     type: "success",
                   });
                 });
-                this.$router.push({
-                  path: "/invoices/checkInvoices",
-                });
+                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                   this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                })
               } else {
                 this.$message({
                   message: "审核过了",
@@ -550,9 +550,9 @@ export default {
                     type: "success",
                   });
                 });
-                this.$router.push({
-                  path: "/invoices/checkInvoices",
-                });
+                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                    this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                  })
               } else {
                 this.$message({
                   message: "审核过了",
@@ -610,9 +610,9 @@ export default {
                     type: "success",
                   });
                 });
-                this.$router.push({
-                  path: "/invoices/checkInvoices",
-                });
+                this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                     this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                  })
               } else {
                 this.$message({
                   message: "审核过了",

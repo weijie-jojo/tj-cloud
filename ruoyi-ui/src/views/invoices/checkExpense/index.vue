@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
             <el-row>
-            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单审核</el-col>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单</el-col>
           </el-row>  
             <!-- <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
@@ -659,9 +659,9 @@ export default {
                                 type: 'success',
                             });
                         });
-                        this.$router.push({
-                            path: "/invoices/checkInvoices"
-                        });
+                        this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                            this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                         })
                     } else {
                         this.$message({
                             message: "审核过了",
@@ -708,9 +708,9 @@ export default {
                                 type: 'success',
                             });
                         })
-                        this.$router.push({
-                            path: "/invoices/checkInvoices"
-                        });
+                        this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                            this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                         })
                     } else {
                         this.$message({
                             message: "审核过了",
@@ -757,9 +757,10 @@ export default {
                                 type: 'success',
                             });
                         })
-                        this.$router.push({
-                            path: "/invoices/checkInvoices"
-                        });
+                         this.$tab.closeOpenPage({path:"/invoices/checkInvoices"}).then(() => {
+                            this.$tab.refreshPage({ path: "/invoices/checkInvoices", name: "CheckInvoices" });     
+                         })
+                        
                     } else {
                         this.$message({
                             message: "审核过了",

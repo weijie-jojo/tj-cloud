@@ -45,12 +45,14 @@
            <div class="firstDiv">
             <el-button
               type="primary"
+              size="mini"
+              plain icon="el-icon-plus"
               @click="addExpense"
-            ><i class="el-icon-plus" /> 添加</el-button>
+            > 添加</el-button>
             <el-button
-              type="danger"
+            type="danger" plain icon="el-icon-delete" size="mini"
               @click="delExpense"
-            ><i class="el-icon-delete" /> 删除</el-button>
+            > 删除</el-button>
           </div>
           <el-table
             ref="multipleTable"
@@ -162,21 +164,22 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button
-                  type="primary"
-                  size="mini"
+                  size="mini" type="text" icon="el-icon-view"
                   @click="toViewExpense(scope.row)"
                 >详情</el-button>
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-edit"
                   @click="editExpense(scope.row)"
                   >编辑
                 </el-button>
-                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
+                <el-button disabled  
+                style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain  
+                size="mini" type="text" icon="el-icon-refresh"
+              
+                v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
                 v-if='scope.row.invoiceType<=3'
-                  type="primary" 
-                  size="mini"
+                 size="mini" type="text" icon="el-icon-refresh"
                   @click="rollback(scope.row)"
                   >撤回
                 </el-button>
@@ -257,12 +260,15 @@
            <div class="firstDiv">
             <el-button
               type="primary"
+              size="mini"
+              plain icon="el-icon-plus"
               @click="addTravelExpense"
-            ><i class="el-icon-plus" /> 添加</el-button>
+            >添加</el-button>
             <el-button
               type="danger"
+              plain icon="el-icon-delete" size="mini"
               @click="delTravelExpense"
-            ><i class="el-icon-delete" /> 删除</el-button>
+            >删除</el-button>
           </div>
           <el-table
             ref="multipleTable"
@@ -373,21 +379,19 @@
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button
-                  type="primary"
-                  size="mini"
+                size="mini" type="text" icon="el-icon-view"
                   @click="toViewTravelExpense(scope.row)"
                 >详情</el-button>
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-edit"
                   @click="editTravelExpense(scope.row)"
                   >编辑
                 </el-button>
-                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
+                <el-button style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain  
+                size="mini" type="text" icon="el-icon-refresh" disabled   v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
                 v-if='scope.row.invoiceType<=3'
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-refresh"
                   @click="rollback2(scope.row)"
                   >撤回
                 </el-button>
@@ -448,13 +452,16 @@
           </div>
            <div class="firstDiv">
             <el-button
+               size="mini"
+              plain icon="el-icon-plus"
               type="primary"
               @click="addBorrow"
-            ><i class="el-icon-plus" /> 添加</el-button>
+            >添加</el-button>
             <el-button
               type="danger"
               @click="delBorrow"
-            ><i class="el-icon-delete" /> 删除</el-button>
+              plain icon="el-icon-delete" size="mini"
+            >删除</el-button>
           </div>
           <el-table
             ref="multipleTable"
@@ -582,26 +589,25 @@
             <el-table-column label="操作" width="400" align="center">
               <template slot-scope="scope">
                 <el-button
-                  type="primary"
-                  size="mini"
+                size="mini" type="text" icon="el-icon-view"
                   @click="toViewBorrow(scope.row)"
                 >详情</el-button>
                 <el-button 
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-edit"
                   @click="editBorrow(scope.row)"
                   >编辑
                 </el-button>
                  <el-button  
-                    type="primary"
+                    type="text"
+                    icon="el-icon-coin"
                     size="mini"
                    @click="pz(scope.row)"
                 >还款凭证</el-button>
-                <el-button disabled  size="mini"  v-if='scope.row.invoiceType>3'>撤回</el-button>
+                <el-button style="color: #C0C4CC!important;border:0 !important;background-color:rgba(0,0,0,0) !important" plain  
+                size="mini" type="text" icon="el-icon-refresh" disabled  v-if='scope.row.invoiceType>3'>撤回</el-button>
                 <el-button 
                 v-if='scope.row.invoiceType<=3'
-                  type="primary" 
-                  size="mini"
+                size="mini" type="text" icon="el-icon-refresh"
                   @click="rollback3(scope.row)"
                   >撤回
                 </el-button>
@@ -648,6 +654,7 @@ import { getBorrow,editBorrowType,editBorrow,editBorrow2} from "@/api/invoices/b
 import { editExpense,getExpenses,editExpenseType,getLeaderByUserId } from "@/api/invoices/expense";
 import { getTravelExpense,editTravelExpenseType,editTravelExpense } from "@/api/invoices/travelExpense";
 export default {
+  name:'AddInvoices',
   dicts: ['step_type'],
   // mixins: [initDict],
   components: {},
@@ -1007,10 +1014,8 @@ export default {
         window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
         window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
         if(data.invoiceType==1){
-          this.$router.push({
-            path: "/invoices/editExpense"
-          });
-        }else{
+          this.$tab.closeOpenPage({path: "/invoices/editExpense"});
+         }else{
           this.$message({
             type:'warning',
             message:"只有发起状态能修改！"
@@ -1030,10 +1035,8 @@ export default {
           window.localStorage.setItem("borrowRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("borrowCheckPerson", JSON.stringify(this.checkPerson));
           if(data.invoiceType==1){
-            this.$router.push({
-              path: "/invoices/editBorrow"
-            });
-          }else{
+            this.$tab.closeOpenPage({path: "/invoices/editBorrow"});
+            }else{
             this.$message({
               type:'warning',
               message:"只有发起状态能修改！"
@@ -1052,9 +1055,7 @@ export default {
           window.localStorage.setItem("travelExpenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("travelExpenseCheckPerson", JSON.stringify(this.checkPerson));
           if(data.invoiceType==1){
-            this.$router.push({
-              path: "/invoices/editTravelExpense"
-            });
+           this.$tab.closeOpenPage({path: "/invoices/editTravelExpense"});
           }else{
             this.$message({
               type:'warning',
@@ -1503,9 +1504,11 @@ export default {
           window.localStorage.setItem("borrows", JSON.stringify(this.borrows));
           window.localStorage.setItem("borrowRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("borrowCheckPerson", JSON.stringify(this.checkPerson));
-          this.$router.push({
-              path: "/invoices/showBorrow"
-          });
+          let obj={
+          url:'/invoices/addInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('借支单详情',"/invoices/showBorrow");
         }) 
       },
     toViewExpense(data) {
@@ -1518,10 +1521,12 @@ export default {
           window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
           window.localStorage.setItem("expenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("expenseCheckPerson", JSON.stringify(this.checkPerson));
-          console.log("asa");
-          this.$router.push({
-              path: "/invoices/showExpense"
-          });
+        
+          let obj={
+          url:'/invoices/addInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('费用报销单详情',"/invoices/showExpense");
         }) 
       },
     toViewTravelExpense(data) {
@@ -1534,9 +1539,11 @@ export default {
           window.localStorage.setItem("travelExpenses", JSON.stringify(this.travelExpenses));
           window.localStorage.setItem("travelExpenseRoles", JSON.stringify(this.loginRoles));
           window.localStorage.setItem("travelExpenseCheckPerson", JSON.stringify(this.checkPerson));
-          this.$router.push({
-              path: "/invoices/showTravelExpense"
-          });
+          let obj={
+          url:'/invoices/addInvoices'
+         };
+         this.$cache.local.setJSON('invoicesBackUrl', obj);
+         this.$tab.openPage('差旅报销单详情',"/invoices/showTravelExpense");
         }) 
       },
       //返回当前时间
@@ -1641,7 +1648,7 @@ export default {
 }
 .firstDiv {
   height: 50px;
-  margin-top: 20px;
+  // margin-top: 20px;
   ::v-deep .el-button {
     margin: 0 10px 0 10px;
   }

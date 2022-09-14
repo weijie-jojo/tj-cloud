@@ -10,7 +10,7 @@
             text-align: center;
             font-weight: bold;
           "
-          >差旅报销单新增(管理员)</el-col
+          >差旅报销单</el-col
         >
       </el-row>
       <el-row> </el-row>
@@ -126,7 +126,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days1"
@@ -219,7 +219,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days2"
@@ -312,7 +312,7 @@
               placeholder="请输入出行方式"
             ></el-input>
           </el-form-item>
-          <el-form-item label="天数">
+          <el-form-item label="出差天数">
             <el-input
               type="number"
               v-model="ruleForm.days3"
@@ -903,9 +903,9 @@ export default {
               });
             }
             this.$refs[formName].resetFields();
-            this.$router.push({
-              path: "/invoices/addInvoices",
-            });
+            this.$tab.closeOpenPage({path:"/invoices/addInvoices"}).then(() => {
+             this.$tab.refreshPage({ path: "/invoices/addInvoices", name: "AddInvoices" });     
+            })
           });
         } else {
           console.log("error submit!!");
