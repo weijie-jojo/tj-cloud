@@ -622,7 +622,8 @@
         </el-tab-pane>
       </el-tabs>
       <!-- 进度提示 -->
-      <el-dialog :closeOnClickModal=false :closeOnPressEscape=false title="操作日志" :visible.sync="checkVisible"
+      <el-dialog :closeOnClickModal=false 
+      :closeOnPressEscape=false title="操作日志" :visible.sync="checkVisible"
           width="70%">
           <el-table :data="checks">
             <el-table-column label="操作步骤" align="center" prop="checkReasult" :show-overflow-tooltip="true" />

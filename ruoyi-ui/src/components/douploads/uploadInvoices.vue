@@ -222,8 +222,9 @@ export default {
       if(!this.oks){
         this.viewVisible1=true;
         this.oks=true;
-        return false;
+       
       }
+      
       const isLt2M = file.size / 1024 / 1024 < 5;
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
       const whiteList = ["jpg", "png", 'pdf', 'jpeg'];
@@ -251,7 +252,7 @@ export default {
 
     },
     handlesuccess(file, fileList) {
-      this.oks=false;
+      
       this.fileNames.push(file.obj);
       fileList.name = file.obj;
       if (fileList.name.substring(fileList.name.lastIndexOf('.') + 1) == 'pdf') {
