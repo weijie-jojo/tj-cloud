@@ -2,17 +2,21 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row>
-            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单新增</el-col>
+            <el-col :span="24" style="margin-bottom: 20px;font-size:25px;text-align: center;font-weight: bold;">差旅报销单新增</el-col>
           </el-row>  
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="报销单号">
-            <span>{{ ruleForm.travelExpenseCode }}</span>
-          </el-form-item>
-        </el-col>
+        
       </el-row>
 
       <el-row type="flex" justify="center">
+        <el-col :span="6">
+          <el-form-item label="部门">
+            <el-input
+                v-model="ruleForm.dept"
+                disabled
+              ></el-input>
+            </el-form-item>
+        </el-col>
         <el-col :span="6">
           <el-form-item label="报销日期" prop="expenseDate">
             <el-date-picker
@@ -24,35 +28,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item label="姓名" prop="expenseName">
-            <el-input
-              v-model="ruleForm.expenseName"
-              placeholder=""
-              disabled
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item label="部门">
-            <el-input
-                v-model="ruleForm.dept"
-                disabled
-              ></el-input>
-            </el-form-item>
-        </el-col>
         <el-col :span="6">
-          <div class="grid-content bg-purple">
-            <el-form-item label="职别" prop="job">
-              <el-input
-                v-model="ruleForm.job"
-                placeholder="请输入职别"
-                disabled
-              ></el-input>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="5">
           <div class="grid-content bg-purple">
             <el-form-item label="同行人数" prop="togetherNum">
               <el-input
@@ -68,8 +44,13 @@
             </el-form-item>
           </div>
         </el-col>
+        <el-col :span="6">
+          <el-form-item label="报销单号">
+            <el-input :readonly="true" v-model="ruleForm.travelExpenseCode"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
-      <el-row style="margin-top: 20px">
+      <el-row>
         <el-col :span="24">
           <el-form-item label="出差事由" prop="reason">
             <el-input
@@ -506,7 +487,6 @@ export default {
   name: "travelExpense",
   data() {
     return {
-      accessoryNumTotal:'',
       isDetail: "0",
       isNone: [],
       roles: [],

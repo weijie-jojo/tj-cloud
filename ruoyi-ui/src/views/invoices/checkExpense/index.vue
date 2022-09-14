@@ -1,38 +1,38 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
-           <el-form-item  id="title">
-             <span style="font-size:30px">报销单审核</span>  
-            </el-form-item>
-            <el-row type="flex" class="row-bg" justify="end">
+            <el-row>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单审核</el-col>
+          </el-row>  
+            <!-- <el-row type="flex" class="row-bg" justify="end">
                 <el-col :span="6" style="display: flex;justify-content: flex-end;">
                     <el-button v-print="'#printMe'" type="primary">打印</el-button>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销单号" :required="true">
-                        <el-input :readonly="true" v-model="ruleForm.expenseCode"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销部门" :required="true">
                         <el-input :readonly="true" v-model="ruleForm.deptName"></el-input>
                     </el-form-item>
+                    
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销日期" prop="expenseDate">
                         <el-date-picker disabled v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
                             style="width:100%">
                         </el-date-picker>
                     </el-form-item>
-
                 </el-col>
+                <el-col :span="8">
+                    <el-form-item label="报销单号" :required="true">
+                        <el-input :readonly="true" v-model="ruleForm.expenseCode"></el-input>
+                    </el-form-item>
+                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item>
-                        <div>费用项目</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">费用项目</div>
                     </el-form-item>
                     <el-form-item>
                         <el-input v-model="ruleForm.item1desc" :readonly="true"></el-input>
@@ -50,9 +50,9 @@
                         <el-input v-model="ruleForm.item5desc" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-form-item>
-                        <div>附件</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">单据数量</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input :readonly="true" type="number" v-model="ruleForm.accessoryNum1">
@@ -90,9 +90,9 @@
                         </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item>
-                        <div>金额</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">金额</div>
                     </el-form-item>
                     <el-form-item>
                         <el-input type="number" :readonly="true" v-model="ruleForm.item1money">
@@ -136,34 +136,34 @@
                     </el-form-item>
 
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="6">
                     <el-form-item>
-                        <div>备注</div>
+                        <div style="width:100%;text-align:center;font-weight: bold;">备注</div>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item1remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item1remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item1remark" placement="top">
+                           <el-input  v-model="ruleForm.item1remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item2remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item2remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item2remark" placement="top">
+                           <el-input  v-model="ruleForm.item2remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item3remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item3remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item3remark" placement="top">
+                           <el-input  v-model="ruleForm.item3remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item4remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item4remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item4remark" placement="top">
+                           <el-input  v-model="ruleForm.item4remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item5remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item5remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item5remark" placement="top">
+                           <el-input  v-model="ruleForm.item5remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -294,13 +294,13 @@
                         <el-table-column prop="checkReasult" label="结果" />
                     </el-table>
                  
-                <div style=" font-size:20px;margin-top:10px;margin-bottom:20px;color:blue">{{"审批"}}</div>
+                <div style=" font-size:20px;margin-top:10px;margin-bottom:10px;color:blue">{{"审批"}}</div>
                 <el-radio 
                     @change="isAgrees"
                     v-model="ruleForm.isAgree" 
                     label="1"
                     >同意</el-radio>
-                <div class="flexs" style="justify-content:flex-start">
+                <div class="flexs" style="justify-content:flex-start;margin-top: 10px;">
                     <el-radio 
                     @change="isAgrees"
                     v-model="ruleForm.isAgree" 

@@ -2,16 +2,37 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row>
-            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单新增</el-col>
-          </el-row>  
-      <el-row>
+        <el-col
+          :span="24"
+          style="
+            margin-bottom: 20px;
+            font-size: 25px;
+            text-align: center;
+            font-weight: bold;
+          "
+          >差旅报销单新增(管理员)</el-col
+        >
+      </el-row>
+      <el-row> </el-row>
+      <el-row type="flex" justify="center">
         <el-col :span="5">
-          <el-form-item label="报销单号">
-            <span>{{ ruleForm.travelExpenseCode }}</span>
+          <el-form-item label="部门">
+            <el-select
+              style="width: 100%"
+              v-model="ruleForm.dept"
+              clearable
+              placeholder="请选择部门"
+            >
+              <el-option
+                v-for="item in searchDepts"
+                :key="item.deptId"
+                :label="item.deptName"
+                :value="item.deptName"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row type="flex" justify="center">
         <el-col :span="5">
           <el-form-item label="报销日期" prop="expenseDate">
             <el-date-picker
@@ -23,12 +44,8 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <el-form-item label="姓名" prop="expenseId">
-            <!-- <el-input
-                            v-model="ruleForm.expenseName"
-                            placeholder=""
-                        ></el-input> -->
             <el-select
               style="width: 100%"
               v-model="ruleForm.expenseId"
@@ -47,27 +64,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item label="部门">
-                         <el-select style="width:100%" v-model="ruleForm.dept" clearable placeholder="请选择部门">
-                            <el-option v-for="item in searchDepts" :key="item.deptId" :label="item.deptName"
-                                :value="item.deptName">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <div class="grid-content bg-purple">
-            <el-form-item label="职别" prop="job">
-              <el-input
-                v-model="ruleForm.job"
-                placeholder="请输入职别"
-                disabled
-              ></el-input>
-            </el-form-item>
-          </div>
-        </el-col>
-        
+
         <el-col :span="5">
           <div class="grid-content bg-purple">
             <el-form-item label="同行人数" prop="togetherNum">
@@ -84,8 +81,13 @@
             </el-form-item>
           </div>
         </el-col>
+        <el-col :span="5">
+          <el-form-item label="报销单号">
+            <el-input :readonly="true" v-model="ruleForm.travelExpenseCode"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
-      <el-row style="margin-top: 20px">
+      <el-row>
         <el-col :span="24">
           <el-form-item label="出差事由" prop="reason">
             <el-input
@@ -101,9 +103,9 @@
 
       <el-row>
         <el-col :span="8">
-        <el-form-item label="起讫时间" prop="travelDate1">
+          <el-form-item label="起讫时间" prop="travelDate1">
             <el-date-picker
-            style="width:100%"
+              style="width: 100%"
               v-model="ruleForm.travelDate1"
               type="daterange"
               align="right"
@@ -136,13 +138,12 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum1"
               :step="1"
               :min="0"
-             
               style="width: 100%"
             >
               <template slot="append">张</template>
@@ -188,17 +189,16 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="合计">
+          <el-form-item label="合计金额">
             <el-input v-model="subTotalMoney1">
               <template slot="append"> 元 </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         
           <el-form-item label="起讫时间">
             <el-date-picker
-            style="width:100%"
+              style="width: 100%"
               v-model="ruleForm.travelDate2"
               type="daterange"
               align="right"
@@ -231,13 +231,12 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum2"
               :step="1"
               :min="0"
-             
               style="width: 100%"
             >
               <template slot="append">张</template>
@@ -283,17 +282,16 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="合计">
+          <el-form-item label="合计金额">
             <el-input v-model="subTotalMoney2">
               <template slot="append"> 元 </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         
           <el-form-item label="起讫时间">
             <el-date-picker
-            style="width:100%"
+              style="width: 100%"
               v-model="ruleForm.travelDate3"
               type="daterange"
               align="right"
@@ -326,13 +324,12 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="单据">
+          <el-form-item label="单据数量">
             <el-input
               type="number"
               v-model="ruleForm.accessoryNum3"
               :step="1"
               :min="0"
-              
               style="width: 100%"
             >
               <template slot="append">张</template>
@@ -385,12 +382,12 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px" type="flex">
-        <el-col :span="8" >
-         <el-form-item  label="总计单据" >        
-            {{accessoryNumTotal}}    
+      <el-row type="flex">
+        <el-col :span="8">
+          <el-form-item label="总计单据">
+            {{ accessoryNumTotal }}
           </el-form-item>
-       </el-col>
+        </el-col>
         <el-col :span="8">
           <el-form-item label="总计金额(小写)">
             <el-input disabled v-model="totalMoney">
@@ -398,14 +395,14 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8"></el-col>
+
         <el-col :span="8">
           <el-form-item label="总计金额(大写)">
             {{ digitUppercase(totalMoney) + "元" }}
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px">
+      <el-row>
         <el-col :span="8">
           <el-form-item label="收款人：">
             <el-select
@@ -508,7 +505,11 @@
 <script>
 import uploadInvoices from "@/components/douploads/uploadInvoices";
 import { addCheckInvoices } from "@/api/invoices/checkInvoices";
-import { getCardInfoBycompany, getPost,getDepts } from "@/api/invoices/expense";
+import {
+  getCardInfoBycompany,
+  getPost,
+  getDepts,
+} from "@/api/invoices/expense";
 import { getAllCompany, getAllGetUser } from "@/api/invoices/borrow";
 import { getInfo } from "@/api/login";
 import { getAllUser, getUser } from "@/api/system/user";
@@ -521,7 +522,6 @@ export default {
   name: "travelExpense",
   data() {
     return {
-      accessoryNumTotal:'',
       users: [],
       isDetail: "0",
       isNone: [],
@@ -538,7 +538,7 @@ export default {
       payCompanys: [], //所有单位
       searchGetUsers: [], //所有收款用户信息
       ruleForm: {
-        dept:'',
+        dept: "",
         deptId: "", //部门id
         travelExpenseCode: "", //报销单号
         expenseDate: "", //报销时间
@@ -626,7 +626,7 @@ export default {
         place: [{ required: true, message: "请输入起讫地点", trigger: "blur" }],
         days: [{ required: true, message: "请输入住宿天数", trigger: "blur" }],
       },
-      searchDepts:[],
+      searchDepts: [],
     };
   },
   mounted: function () {
@@ -652,7 +652,11 @@ export default {
   },
   computed: {
     accessoryNumTotal: function () {
-        return this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1;
+      return (
+        this.ruleForm.accessoryNum1 * 1 +
+        this.ruleForm.accessoryNum2 * 1 +
+        this.ruleForm.accessoryNum3 * 1
+      );
     },
     subTotalMoney1: function () {
       if (!this.ruleForm.traffic1) {
@@ -725,13 +729,13 @@ export default {
     },
   },
   methods: {
-      //初始化下拉部门信息
-      getAllDept() {
-            getDepts().then(res => {
-                console.log('getDepts==',res.list);
-                this.searchDepts = res.list
-            })
-        },
+    //初始化下拉部门信息
+    getAllDept() {
+      getDepts().then((res) => {
+        console.log("getDepts==", res.list);
+        this.searchDepts = res.list;
+      });
+    },
     getUserById(userId) {
       getUser(userId).then((res) => {
         console.log("users==", res.data);

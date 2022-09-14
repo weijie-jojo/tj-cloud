@@ -263,7 +263,7 @@
             <el-row type="flex" class="row-bg" justify="space-around">
                 <el-col :span="12">
                     <el-form-item label="报销凭证影像">
-                        <uploadInvoices v-if="imgArrOld.length >= 0" @getfileName="getExpense" :fileName="imgArr"
+                        <uploadInvoices  @getfileName="getExpense" :fileName="imgArrOld"
                         :fileNameOld="imgArrOld" :isDetail="isDetail"></uploadInvoices>
                     </el-form-item>
                 </el-col>
@@ -313,7 +313,7 @@
     name: 'expense',
     data() {
       return {
-        accessoryNum:'',
+        
         imgArrOld: [],
         isDetail:'0',
         isNone:[],
@@ -478,6 +478,7 @@
         },
         getExpense(data) {
             this.imgArr = data;
+            console.log(data);
         },
         // getThree(data){
         //    this.imgArr=data;

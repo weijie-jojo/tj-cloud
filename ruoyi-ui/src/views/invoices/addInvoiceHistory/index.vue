@@ -44,10 +44,10 @@
           </div>
            <div class="firstDiv">
             
-            <el-button
+            <!-- <el-button
               type="danger"
               @click="delExpense"
-            ><i class="el-icon-delete" /> 删除</el-button>
+            ><i class="el-icon-delete" /> 删除</el-button> -->
           </div>
           <el-table
             ref="multipleTable"
@@ -253,10 +253,10 @@
           </div>
            <div class="firstDiv">
             
-            <el-button
+            <!-- <el-button
               type="danger"
               @click="delTravelExpense"
-            ><i class="el-icon-delete" /> 删除</el-button>
+            ><i class="el-icon-delete" /> 删除</el-button> -->
           </div>
           <el-table
             ref="multipleTable"
@@ -442,10 +442,10 @@
           </div>
            <div class="firstDiv">
            
-            <el-button
+            <!-- <el-button
               type="danger"
               @click="delBorrow"
-            ><i class="el-icon-delete" /> 删除</el-button>
+            ><i class="el-icon-delete" /> 删除</el-button> -->
           </div>
           <el-table
             ref="multipleTable"

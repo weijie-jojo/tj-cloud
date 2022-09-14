@@ -8,7 +8,7 @@
           <el-row>
             <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单详情</el-col>
           </el-row>  
-         <el-row type="flex" justify="space-around">
+         <el-row type="flex" justify="space-around" style="margin-bottom: 10px;">
           <el-col :span="12">
            
            </el-col>
@@ -66,7 +66,7 @@
                 </el-col>
                 <el-col :span="6">
                      <el-form-item label="报销单号">
-                       <span>{{ ruleForm.travelExpenseCode }}</span>
+                      <el-input :readonly="true" v-model="ruleForm.travelExpenseCode"></el-input>
                      </el-form-item>
                 </el-col>
                 <!-- <el-col :span="5">

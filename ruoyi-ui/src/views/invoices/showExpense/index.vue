@@ -32,7 +32,7 @@
                 </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item>
                         <div style="width:100%;text-align:center;font-weight: bold;">费用项目</div>
                     </el-form-item>
@@ -52,7 +52,7 @@
                         <el-input v-model="ruleForm.item5desc" :readonly="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-form-item>
                         <div style="width:100%;text-align:center;font-weight: bold;">单据数量</div>
                     </el-form-item>
@@ -92,7 +92,7 @@
                         </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item>
                         <div style="width:100%;text-align:center;font-weight: bold;">金额</div>
                     </el-form-item>
@@ -138,34 +138,35 @@
                     </el-form-item>
 
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="6">
                     <el-form-item>
                         <div style="width:100%;text-align:center;font-weight: bold;">备注</div>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item1remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item1remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item1remark" placement="top">
+                           <el-input  v-model="ruleForm.item1remark"></el-input> 
+                        </el-tooltip>
+                        
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item2remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item2remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item2remark" placement="top">
+                           <el-input  v-model="ruleForm.item2remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item3remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item3remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item3remark" placement="top">
+                           <el-input  v-model="ruleForm.item3remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item4remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item4remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item4remark" placement="top">
+                           <el-input  v-model="ruleForm.item4remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                     <el-form-item>
-                        <el-popover placement="top-start" width="800px" trigger="hover" :content="ruleForm.item5remark">
-                            <el-button slot="reference" style="width:100%">{{ ruleForm.item5remark }}</el-button>
-                        </el-popover>
+                        <el-tooltip  effect="dark" :content="ruleForm.item5remark" placement="top">
+                           <el-input  v-model="ruleForm.item5remark"></el-input> 
+                        </el-tooltip>
                     </el-form-item>
                 </el-col>
 
