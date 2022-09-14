@@ -9,9 +9,9 @@
 
       <el-form id="printMe">
         <div :style="{ height: screenHeight * 0.5 + 'px' }">
-          <div class="reimtitle" style="text-align: center; position: relative">
+          <div class="reimtitle" style="text-align: center; position: relative;margin-bottom: 5px;">
             <span>差旅费报销单</span>
-            <span
+            <!-- <span
               style="
                 font-size: 15px;
                 letter-spacing: 0px;
@@ -20,16 +20,19 @@
                 top: 10px;
               "
               >差旅报销单号:{{ ruleForm.travelExpenseCode }}</span
-            >
+            > -->
           </div>
           <el-row>
-            <el-col :span="12">
-              <div class="combold" style="margin-bottom: 5px">
+            <el-col :span="8">
+              <div  style="margin-bottom: 5px">
                 部门:{{ ruleForm.deptName}}
-                <!-- 职别:{{ ruleForm.job}} -->
+              
               </div>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
+              报销单号:{{ ruleForm.travelExpenseCode }}
+            </el-col>
+            <el-col :span="8">
               <div>
                 <div
                   style="
@@ -38,7 +41,7 @@
                     margin-bottom: 5px;
                   "
                 >
-                  <span class="combold"
+                  <span 
                     >报销日期:{{ ruleForm.createTime }}</span
                   >
                 </div>
@@ -66,7 +69,7 @@
               <div class="comborder flexs" :style="[c1]">出差事由</div>
             </el-col>
             <el-col :span="14">
-              <div class="comborder flexs" id="remark1" :style="[c1]">
+              <div class="comborder flexs flexss" id="remark1" :style="[c1]">
                 {{ ruleForm.reason }}
               </div>
             </el-col>
@@ -120,20 +123,11 @@
               </div>
               
             </el-col>
-            <el-col :span="3">
-              <div class="flexs borders" style="height: 30px; font-size: 10px">
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
                 交通费
               </div>
-              <el-row style="width: 100%; height: 30px">
-               
-
-                <el-col
-                  :span="24"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 10px"
-                  >金额</el-col
-                >
-              </el-row>
+              
               <el-row style="width: 100%; height: 50px">
                
 
@@ -170,20 +164,11 @@
              
             </el-col>
 
-            <el-col :span="3">
-              <div class="flexs borders" style="height: 30px; font-size: 10px">
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
                 住宿费
               </div>
-              <el-row style="width: 100%; height: 30px">
-                
-
-                <el-col
-                  :span="24"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 10px"
-                  >金额</el-col
-                >
-              </el-row>
+              
               <el-row style="width: 100%; height: 50px">
                
 
@@ -220,36 +205,16 @@
           
             </el-col>
 
-            <el-col :span="3">
-              <div class="flexs borders" style="height: 30px; font-size: 10px">
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
                 餐费
               </div>
-              <el-row style="width: 100%; height: 30px">
-                <el-col
-                  :span="8"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 5px"
-                  >天数</el-col
-                >
-
-                <el-col
-                  :span="16"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 10px"
-                  >金额</el-col
-                >
-              </el-row>
+             
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="8"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                  {{ ruleForm.days1==0 ? '': ruleForm.days1  }}
-                </el-col>
+              
 
                 <el-col
-                  :span="16"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
@@ -257,16 +222,10 @@
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="8"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                  {{ ruleForm.days2 ==0 ? '': ruleForm.days2 }}
-                </el-col>
+                
 
                 <el-col
-                  :span="16"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
@@ -274,16 +233,10 @@
                 </el-col>
               </el-row>
               <el-row style="width: 100%; height: 50px">
-                <el-col
-                  :span="8"
-                  class="flexs borders"
-                  style="height: 50px; font-size: 10px"
-                >
-                  {{ ruleForm.days3==0 ? '': ruleForm.days3 }}
-                </el-col>
+               
 
                 <el-col
-                  :span="16"
+                  :span="24"
                   class="flexs borders"
                   style="height: 50px; font-size: 10px"
                 >
@@ -293,20 +246,11 @@
            
             </el-col>
 
-            <el-col :span="3">
-              <div class="flexs borders" style="height: 30px; font-size: 10px">
+            <el-col :span="2">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
                 其他
               </div>
-              <el-row style="width: 100%; height: 30px">
-               
-
-                <el-col
-                  :span="24"
-                  class="flexs borders"
-                  style="height: 30px; font-size: 10px"
-                  >金额</el-col
-                >
-              </el-row>
+              
               <el-row style="width: 100%; height: 50px">
                 
 
@@ -344,7 +288,46 @@
             </el-col>
             <el-col :span="2">
               <div class="flexs borders" style="height: 60px; font-size: 10px">
-                单据
+                出差天数
+              </div>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days1==0 ? '': ruleForm.days1  }}
+                </el-col>
+
+                
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days2==0 ? '': ruleForm.days2  }}
+                </el-col>
+
+                
+              </el-row>
+              <el-row style="width: 100%; height: 50px">
+                <el-col
+                  :span="24"
+                  class="flexs borders"
+                  style="height: 50px; font-size: 10px"
+                >
+                  {{ ruleForm.days3==0 ? '': ruleForm.days3  }}
+                </el-col>
+
+                
+              </el-row>
+              
+            </el-col>
+            <el-col :span="3">
+              <div class="flexs borders" style="height: 60px; font-size: 10px">
+                单据数量
               </div>
 
               <el-row style="width: 100%; height: 50px">
@@ -377,9 +360,9 @@
            
             </el-col>
 
-            <el-col :span="2">
+            <el-col :span="3">
               <div class="flexs borders" style="height: 60px; font-size: 10px">
-                合计
+                费用合计
               </div>
 
               <el-row style="width: 100%; height: 50px">
@@ -418,39 +401,40 @@
               <div class="comborder1 borders">各项费用合计</div>
             </el-col>
            
-            <el-col :span="3">
+            <el-col :span="2">
               <div class="comborder1 borders">
                  {{totalTraffic ==0 ? '':totalTraffic}}
               </div>
             </el-col>
            
-            <el-col :span="3">
+            <el-col :span="2">
               <div class="comborder1 borders">
                 {{totalStay==0 ? '':totalStay}}
               </div>
             </el-col>
-            <el-col :span="1">
-              <div class="comborder1 borders">
-                {{totalDay==0 ? '':totalDay}}
-              </div>
-            </el-col>
+            
             <el-col :span="2">
               <div class="comborder1 borders">
                 {{totalSubsidy==0 ? '': totalSubsidy}}
               </div>
             </el-col>
            
-            <el-col :span="3">
+            <el-col :span="2">
               <div class="comborder1 borders">
                 {{totalOther==0 ? '': totalOther}}
               </div>
             </el-col>
             <el-col :span="2">
               <div class="comborder1 borders">
+                {{totalDay==0 ? '':totalDay}}
+              </div>
+            </el-col>
+            <el-col :span="3">
+              <div class="comborder1 borders">
                 {{accessoryNum==0 ? '': accessoryNum}}
               </div>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <div class="comborder1 borders">
                 {{ruleForm.totalAllMoney==0 ? '': totalAllMoney}}
               </div>
@@ -550,7 +534,7 @@
             }"
           >
             报销凭证影像
-            <span> 差旅报销单号:{{ ruleForm.travelExpenseCode }} </span>
+            <span> 报销单号:{{ ruleForm.travelExpenseCode }} </span>
           </div>
 
           <!-- <div :style="{ height: screenHeight * 0.1 + 'px', width: screenWidth + 'px' }">
@@ -596,7 +580,7 @@
             }"
           >
             付款凭证影像
-            <span> 差旅报销单号:{{ ruleForm.travelExpenseCode }} </span>
+            <span> 报销单号:{{ ruleForm.travelExpenseCode }} </span>
           </div>
           <el-image
             :src="item.url"
@@ -827,7 +811,7 @@ export default {
             height:
               document.getElementById("remark1").scrollHeight * 2 + "px",
             "line-height":
-              document.getElementById("remark1").scrollHeight / 2 + "px",
+              document.getElementById("remark1").scrollHeight / 4 + "px",
           };
         } else {
           this.c1 = { height: "40px" };
@@ -904,6 +888,10 @@ export default {
 <style scoped>
 .borders {
   border: 1px solid #333;
+}
+.flexss{
+  align-items:flex-start  !important;
+  text-align: left !important;
 }
 .flexs {
   display: flex;

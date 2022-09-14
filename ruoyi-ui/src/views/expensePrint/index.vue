@@ -9,22 +9,25 @@
 
       <el-form id="printMe">
         <div :style="{ height: screenHeight * 0.5 + 'px' }">
-          <div class="reimtitle" style="text-align:center;position: relative;">
+          <div class="reimtitle" style="text-align:center;position: relative;margin-bottom: 5px;">
             <span>费用报销单</span>
-            <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
-               ruleForm.expenseCode  }}</span>
+            <!-- <span style="font-size:15px;letter-spacing:0px; position:absolute;right:0;top:10px">报销单号:{{
+               ruleForm.expenseCode  }}</span> -->
           </div>
           <el-row>
-            <el-col :span="12">
-
-              <div class="combold" style="margin-bottom:5px">部门:{{  ruleForm.deptName  }}</div>
+            <el-col :span="8">
+ 
+              <div style="margin-bottom:5px">部门:{{  ruleForm.deptName  }}</div>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
+              报销单号:{{ ruleForm.expenseCode  }}
+            </el-col>
+            <el-col :span="8">
               <div>
 
                 <div style="display:flex; justify-content: flex-end;margin-bottom:5px">
 
-                  <span class="combold">报销日期:{{  ruleForm.createTime  }}</span>
+                  <span>报销日期:{{  ruleForm.createTime  }}</span>
 
                 </div>
               </div>
@@ -47,28 +50,28 @@
               </div>
             </el-col>
             <el-col :span="2">
-              <div class="comborder">张数</div>
-              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.accessoryNum1  }}</div>
-              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.accessoryNum2  }}</div>
-              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.accessoryNum3  }}</div>
-              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.accessoryNum4  }}</div>
-              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.accessoryNum5  }}</div>
+              <div class="comborder">单据数量</div>
+              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.accessoryNum1==0?'': ruleForm.accessoryNum1}}</div>
+              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.accessoryNum2==0?'': ruleForm.accessoryNum2  }}</div>
+              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.accessoryNum3==0?'': ruleForm.accessoryNum3  }}</div>
+              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.accessoryNum4==0?'': ruleForm.accessoryNum4  }}</div>
+              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.accessoryNum5==0?'': ruleForm.accessoryNum5  }}</div>
             </el-col>
             <el-col :span="4">
               <div class="comborder">金额</div>
-              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.item1Money  }}</div>
-              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.item2Money  }}</div>
-              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.item3Money  }}</div>
-              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.item4Money  }}</div>
-              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.item5Money  }}</div>
+              <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.item1Money==0?'': ruleForm.item1Money  }}</div>
+              <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.item2Money==0?'': ruleForm.item2Money  }}</div>
+              <div class="comborder1 flexs" :style="[c3]">{{  ruleForm.item3Money==0?'': ruleForm.item3Money  }}</div>
+              <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.item4Money==0?'': ruleForm.item4Money  }}</div>
+              <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.item5Money==0?'': ruleForm.item5Money  }}</div>
             </el-col>
             <el-col :span="12">
               <div class="comborder">备注</div>
-              <div class="comborder1 flexs" :style="[c1]" id="remark1">{{  ruleForm.item1Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c2]" id="remark2">{{  ruleForm.item2Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c3]" id="remark3">{{  ruleForm.item3Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c4]" id="remark4">{{  ruleForm.item4Remark  }}</div>
-              <div class="comborder1 flexs" :style="[c5]" id="remark5">{{  ruleForm.item5Remark  }}</div>
+              <div class="comborder1 flexs flexsS" :style="[c1]" id="remark1">{{  ruleForm.item1Remark  }}</div>
+              <div class="comborder1 flexs flexsS" :style="[c2]" id="remark2">{{  ruleForm.item2Remark  }}</div>
+              <div class="comborder1 flexs flexsS" :style="[c3]" id="remark3">{{  ruleForm.item3Remark  }}</div>
+              <div class="comborder1 flexs flexsS" :style="[c4]" id="remark4">{{  ruleForm.item4Remark  }}</div>
+              <div class="comborder1 flexs flexsS" :style="[c5]" id="remark5">{{  ruleForm.item5Remark  }}</div>
             </el-col>
 
           </el-row>
@@ -78,16 +81,12 @@
             </el-col>
             <el-col :span="2">
               <div class="comborder1">
-                {{  accessoryNum  }}张
+                {{  accessoryNum==0?'': accessoryNum  }}张
               </div>
             </el-col>
             <el-col :span="4">
               <div class="comborder1" style="text-align:center">
-                {{  ruleForm.totalMoney
-
-
-
-                }}
+                {{  ruleForm.totalMoney}}
               </div>
             </el-col>
             <el-col :span="12">
@@ -459,7 +458,10 @@ export default {
 #remark1 {
   padding: 5px;
 }
-
+.flexsS{
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
 #remark2 {
   padding: 5px;
 }

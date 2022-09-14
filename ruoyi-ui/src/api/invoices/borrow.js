@@ -15,6 +15,14 @@ export function getBorrow(params) {
     params
   })
 }
+//登录用户历史单据
+export function getBorrow2(params) {
+  return request({
+    url: 'invoices/borrow/getAllBorrow2',
+    method: 'get',
+    params
+  })
+}
 //所有的
 export function getAllBorrows(params) {
   return request({
@@ -84,5 +92,5 @@ export function getAllGetUser() {
   })
 }
 
-export default {getCode,editBorrow,getBorrow,addBorrow,getAllGetUser}
+export default {getBorrow2,getCode,editBorrow,getBorrow,addBorrow,getAllGetUser}
 

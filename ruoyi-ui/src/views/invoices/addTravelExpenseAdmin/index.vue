@@ -2,8 +2,11 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">差旅报销单新增</el-col>
+          </el-row>  
+      <el-row>
         <el-col :span="5">
-          <el-form-item label="差旅报销单单号">
+          <el-form-item label="报销单号">
             <span>{{ ruleForm.travelExpenseCode }}</span>
           </el-form-item>
         </el-col>
@@ -98,8 +101,7 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="差旅信息1"> </el-form-item>
-          <el-form-item label="起讫时间" prop="travelDate1">
+        <el-form-item label="起讫时间" prop="travelDate1">
             <el-date-picker
             style="width:100%"
               v-model="ruleForm.travelDate1"
@@ -166,7 +168,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy1"
@@ -176,7 +178,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="其他">
+          <el-form-item label="其它">
             <el-input
               type="number"
               v-model="ruleForm.other1"
@@ -186,14 +188,14 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input v-model="subTotalMoney1">
               <template slot="append"> 元 </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="差旅信息2"> </el-form-item>
+         
           <el-form-item label="起讫时间">
             <el-date-picker
             style="width:100%"
@@ -261,7 +263,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy2"
@@ -271,7 +273,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="其他">
+          <el-form-item label="其它">
             <el-input
               type="number"
               v-model="ruleForm.other2"
@@ -281,14 +283,14 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计">
             <el-input v-model="subTotalMoney2">
               <template slot="append"> 元 </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="差旅信息3"> </el-form-item>
+         
           <el-form-item label="起讫时间">
             <el-date-picker
             style="width:100%"
@@ -356,7 +358,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="差旅补助">
+          <el-form-item label="餐费">
             <el-input
               type="number"
               v-model="ruleForm.subsidy3"
@@ -366,7 +368,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="其他">
+          <el-form-item label="其它">
             <el-input
               type="number"
               v-model="ruleForm.other3"
@@ -376,7 +378,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="小计">
+          <el-form-item label="合计金额">
             <el-input v-model="subTotalMoney3">
               <template slot="append"> 元 </template>
             </el-input>
@@ -384,6 +386,11 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 20px" type="flex">
+        <el-col :span="8" >
+         <el-form-item  label="总计单据" >        
+            {{accessoryNumTotal}}    
+          </el-form-item>
+       </el-col>
         <el-col :span="8">
           <el-form-item label="总计金额(小写)">
             <el-input disabled v-model="totalMoney">

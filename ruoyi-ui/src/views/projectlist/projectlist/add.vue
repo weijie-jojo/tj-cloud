@@ -2017,63 +2017,6 @@ export default {
         });
         return;
       }
-      // if (this.formData.isSelfCount < 2) {
-      //     if (this.formData.selfShareIsmoney == '1') {
-      //         if (this.formData.selfShare > 100) {
-      //             this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-      //                 type: 'error'
-      //             });
-      //         }
-      //     }
-      // }
-
-      // if (this.formData.isSlider == '0') {
-      //     if (this.formData.specialShareIsmoney == '1') {
-      //         if (this.formData.specialShare > 100) {
-      //             this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      //     if (this.formData.specialProxyIsmoney == '1') {
-      //         if (this.formData.specialSelfFee > 100) {
-      //             this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      // }
-
-      // if (this.formData.isSliderOrdinary == 0) {
-      //     if (this.formData.ordinaryShareIsmoney == '1') {
-      //         if (this.formData.ordinaryShare > 100) {
-      //             this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-
-      //     if (this.formData.ordinaryProxyIsmoney == '1') {
-      //         if (this.formData.ordinarySelfFee > 100) {
-      //             this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      // }
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
@@ -2087,25 +2030,53 @@ export default {
           this.formData.projectOwnerTaxid = this.owerTax;
           this.formData.projectRemainAmount = this.formData.projectTotalAmount; //新增可以用金额为总金额
           this.formData.projectPackageAmount = 0; //已用金额为0
-          addJia(this.formData);
+          //甲方数据
 
           add(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$nextTick(function () {
-                  let resmsg = "项目填写完成";
-                  this.check("项目填写完成");
-                  let obj = {
-                    title: "项目进度",
-                    backUrl: "/projectList/list",
-                    resmsg: resmsg,
-                    name: "List",
-                  };
-                  this.$cache.local.setJSON("successProject", obj);
-                  this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                let resmsg = "项目填写完成";
+                this.check("项目填写完成");
+                let obj = {
+                  title: "项目进度",
+                  backUrl: "/projectList/list",
+                  resmsg: resmsg,
+                  name: "List",
+                };
+                this.$cache.local.setJSON("successProject", obj);
+                this.$tab.closeOpenPage({ path: "/projectlist/success" });
+              }
+            }
+          });
+
+          let params1 = {
+            purchCompany: this.formData.purchCompany,
+          };
+          let params2 = {
+            purchCompanyTaxid: this.formData.purchCompanyTaxid,
+          };
+          getPuJialist(params1).then((res) => {
+            if (res != undefined) {
+              if (res.rows.length == 0) {
+                getPuJialist(params2).then((resok) => {
+                  if (resok != undefined) {
+                    if (resok.rows.length == 0) {
+                      let params = {
+                        bankCode: this.formData.bankCode,
+                        bankName: this.formData.bankName,
+                        createBy: this.userinfo.nickName,
+                        updateBy: this.userinfo.nickName,
+                        placeAliasName: this.formData.placeAliasName,
+                        purchCompany: this.formData.purchCompany,
+                        purchCompanyAddress: this.formData.purchCompanyAddress,
+                        purchCompanyPhone: this.formData.purchCompanyPhone,
+                        purchCompanyTaxid: this.formData.purchCompanyTaxid,
+                        userId: this.userinfo.userId,
+                      };
+                      addJia(params);
+                    }
+                  }
                 });
-              } else {
-                this.$modal.msgError(res.msg);
               }
             }
           });

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-        <h3 class="title">腾集系统</h3>
+        <h3 class="title Glow">腾集系统</h3>
         <el-form-item prop="username">
           <el-input  v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -141,7 +141,93 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@-webkit-keyframes Glow {
 
+from {
+
+    text-shadow: 0 0 10px #fff,
+
+                 0 0 20px #fff,
+
+                 0 0 30px #fff,
+
+                 0 0 40px #00a67c,
+
+                 0 0 70px #00a67c,
+
+                 0 0 80px #00a67c,
+
+                 0 0 100px #00a67c,
+
+                 0 0 150px #00a67c;
+
+}
+
+to {
+
+    text-shadow: 0 0 5px #fff,
+
+                 0 0 10px #fff,
+
+                 0 0 15px #fff,
+
+                 0 0 20px #00a67c,
+
+                 0 0 35px #00a67c,
+
+                 0 0 40px #00a67c,
+
+                 0 0 50px #00a67c,
+
+                 0 0 75px #00a67c;
+
+}
+
+}
+
+@keyframes Glow {
+
+from {
+
+    text-shadow: 0 0 10px #fff,
+
+                 0 0 20px #fff,
+
+                 0 0 30px #fff,
+
+                 0 0 40px #00a67c,
+
+                 0 0 70px #00a67c,
+
+                 0 0 80px #00a67c,
+
+                 0 0 100px #00a67c,
+
+                 0 0 150px #00a67c;
+
+}
+
+to {
+
+    text-shadow: 0 0 5px #fff,
+
+                 0 0 10px #fff,
+
+                 0 0 15px #fff,
+
+                 0 0 20px #00a67c,
+
+                 0 0 35px #00a67c,
+
+                 0 0 40px #00a67c,
+
+                 0 0 50px #00a67c,
+
+                 0 0 75px #00a67c;
+
+}
+
+}
 
 
 .login {
@@ -149,10 +235,10 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/night1.gif");
+  background-image: url("../assets/images/bg-back.jpg");
   // background-image: url("../assets/images/login-background.jpg");
   //background-image: url("../assets/images/bg.jpg");
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .title {
@@ -160,6 +246,8 @@ export default {
   margin: 0px auto 30px auto;
   text-align: center;
   color: #707070;
+  -webkit-transition: Glow 1.5s ease;
+  transition: Glow 1.5s ease;
 }
 
 .login-form {

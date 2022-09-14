@@ -1,39 +1,39 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto" >
-           <!-- <el-form-item  id="title">
-                <span style="font-size:30px">报销单新增（管理员）</span>  
-            </el-form-item> -->
+            <el-row>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;">费用报销单新增(管理员)</el-col>
+          </el-row>  
             <el-row type="flex" class="row-bg" style="margin-top:20px" justify="space-around">
-                <el-col :span="9">
-                    <el-form-item label="报销单号">
-                        <el-input disabled v-model="ruleForm.expenseCode"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销部门">
-                        <!-- <el-input disabled v-model="ruleForm.dept"></el-input> -->
-                         <el-select style="width:100%" v-model="ruleForm.dept" clearable placeholder="请选择部门">
+                        <el-select style="width:100%" v-model="ruleForm.dept" clearable placeholder="请选择部门">
                             <el-option v-for="item in searchDepts" :key="item.deptId" :label="item.deptName"
                                 :value="item.deptName">
                             </el-option>
                         </el-select>
                     </el-form-item>
+                   
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-form-item label="报销日期" prop="expenseDate">
                         <el-date-picker v-model="ruleForm.expenseDate" type="date" placeholder="选择日期"
                             style="width:100%">
                         </el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item label="报销单号">
+                        <el-input disabled v-model="ruleForm.expenseCode"></el-input>
                     </el-form-item>
 
                 </el-col>
 
             </el-row>
              <el-row type="flex" class="row-bg" justify="space-around">
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item>
-                        <div>费用项目</div>
+                        <div  style="width:100%;text-align:center;font-weight: bold;">费用项目</div>
                     </el-form-item>
                     <el-form-item prop="item1desc" >
                         <el-select style="width:100%" v-model="ruleForm.item1desc" clearable placeholder="请选择">
@@ -75,9 +75,9 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                   <el-col :span="5">
+                   <el-col :span="6">
                     <el-form-item>
-                        <div>附件</div>
+                        <div  style="width:100%;text-align:center;font-weight: bold;">单据数量</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input  type="number" v-model="ruleForm.accessoryNum1">
@@ -115,9 +115,9 @@
                         </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="6">
                     <el-form-item >
-                        <div>金额</div>
+                        <div  style="width:100%;text-align:center;font-weight: bold;">金额</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input-number  v-model="ruleForm.item1money" :precision="2" :step="0.1" :min="0"
@@ -150,9 +150,9 @@
                         </el-input-number>
                     </el-form-item>
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="6">
                     <el-form-item  >
-                        <div>备注</div>
+                        <div  style="width:100%;text-align:center;font-weight: bold;">备注</div>
                     </el-form-item>
                     <el-form-item >
                         <el-input v-model="ruleForm.item1remark" placeholder="请输入备注" style="width:100%"></el-input>
@@ -174,8 +174,8 @@
             <el-row type="flex" class="row-bg" justify="space-around">
                 
                 <el-col :span="8" >
-                    <el-form-item  label="合计单据" >        
-                        {{accessoryNumTotal}}    
+                    <el-form-item  label="总计单据" >        
+                        {{accessoryNum}}    
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -313,6 +313,7 @@
     name: 'expense',
     data() {
       return {
+        accessoryNum:'',
         imgArrOld: [],
         isDetail:'0',
         isNone:[],
@@ -455,7 +456,10 @@
             that.height = document.documentElement.clientHeight - 180 + 'px;'
         }
     },
-    computed: {          
+    computed: {   
+        accessoryNum: function () {
+           return this.ruleForm.accessoryNum1*1+this.ruleForm.accessoryNum2*1+this.ruleForm.accessoryNum3*1+this.ruleForm.accessoryNum4*1+this.ruleForm.accessoryNum5*1;
+        },          
         totalMoney:function(){ 
             return this.ruleForm.item1money+this.ruleForm.item2money+this.ruleForm.item3money+this.ruleForm.item4money+this.ruleForm.item5money;
         }

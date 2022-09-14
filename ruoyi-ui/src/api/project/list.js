@@ -100,6 +100,14 @@ export function getPayCode() {
     method: 'get',
    })
 }
+//获取甲方列表分页
+export function getPurchPage(query){
+  return request({
+    url:'/project/company/list1',
+    method:'get',
+    params:query
+  })
+}
 //获取甲方列表
 export function getPuJialist(query) {
   return request({
@@ -219,4 +227,4 @@ export function getCount(query){
 }
 
 
-export default {payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
