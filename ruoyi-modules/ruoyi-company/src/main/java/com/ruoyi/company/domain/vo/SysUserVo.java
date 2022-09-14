@@ -11,4 +11,8 @@ public class SysUserVo {
     private String accountCardBank;
     private int roleId;
     private int deptId;
+    private String employeeNumber;
+    private String phonenumber;
+    private String idNo;
+
 }
