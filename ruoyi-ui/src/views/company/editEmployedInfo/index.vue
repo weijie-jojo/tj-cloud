@@ -682,7 +682,7 @@
           <el-col :span="9"></el-col>
        </el-row>
 
-       <el-row type="flex" class="row-bg " justify="space-around">
+       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
         <el-col :span="9">
             
             <el-form-item label="增值税专用发票" :required="true">
@@ -1700,8 +1700,8 @@ export default {
          this.formData.disposableShare='0';
          this.formData.disposableFeeIsmoney='1';
          this.formData.disposableFee='0';
-         this.formData. isDisposable='0';//是否一次性费用
-         this.formData.isRegisterMoney='0';//是否收取注册服务费
+         this.formData. isDisposable='1';//是否一次性费用
+         this.formData.isRegisterMoney='1';//是否收取注册服务费
 
 
          this.formData.selfShareIsmoney='0';
@@ -1720,8 +1720,8 @@ export default {
          this.formData.isSpecialShare = '1';
          this.formData.ordinarySpecialTax = '0.03';
          this.formData.ordinaryTax = '0';
-         this.formData.isSlider='0';
-         this.formData.isSliderOrdinary='0';
+         this.formData.isSlider='1';
+         this.formData.isSliderOrdinary='1';
          this.formData.isSpecialSelfTax = '1';
          this.formData.isSelfTax = '1';
          this.formData.isOrdinaryTax = '1';

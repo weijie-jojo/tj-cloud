@@ -698,11 +698,11 @@
 
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
-              <el-radio v-model="formData.isRegisterMoney" label="0">是</el-radio>
-              <el-radio v-model="formData.isRegisterMoney" label="1">否</el-radio>
+          <el-form-item label="个体注册服务费" prop='isRegisterMoney'>
+              <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
+              <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
            </el-form-item>
-          <el-form-item v-if="formData.isRegisterMoney==0" label="个体户注册服务费" :required="true">
+          <el-form-item v-if="formData.isRegisterMoney==0" label="服务费" :required="true">
             <el-input style="width:87%" v-model="formData.registerMoney"
              :min="0"
               onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -718,7 +718,7 @@
         </el-col>
 
       </el-row>
-      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+      <el-row v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0" type="flex" class="row-bg " justify="space-around">
            <el-col :span="9">
                 <el-form-item label="是否分润" prop='isSelfShare'>
               <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
@@ -841,7 +841,15 @@
         </el-col>
         <el-col :span="9">
                   
-          <el-form-item label="增值税专用发票" :required="true">
+         
+          
+        </el-col>
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.isSelfCount == 0" >
+        
+        <el-col :span="9">
+        <el-form-item label="增值税专用发票" :required="true">
             <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
             <el-radio  v-model="formData.isSlider" label="1">关闭</el-radio>
           </el-form-item>
@@ -913,8 +921,8 @@
               </div>
             </el-form-item>
             </div>
-          
-        </el-col>
+          </el-col>
+          <el-col :span="9"></el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
@@ -983,7 +991,17 @@
             </el-row>
             </el-col>
             <el-col :span="9">
-          
+              <el-form-item label="备注" v-if="formData.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
             </el-col>
 
       </el-row>
@@ -1025,7 +1043,6 @@ var validateIdNumber=(rule, value, callback)=>{
   }
 }
 import uploadSmall from '@/components/douploads/uploadSmall'
-import crudInformation from '@/api/company/information'
 import crudInfo from '@/api/company/info'
 import crudEmployed from '@/api/company/employed'
 import crudPerson from '@/api/company/person'
@@ -1752,13 +1769,14 @@ export default {
        singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
+        this.formData.disposableRemark='';
          this.formData.isDisposableShare='1';
          this.formData.disposableShareIsmoney='0';
          this.formData.disposableShare='0';
          this.formData.disposableFeeIsmoney='1';
          this.formData.disposableFee='0';
-         this.formData. isDisposable='0';//是否一次性费用
-         this.formData.isRegisterMoney='0';//是否收取注册服务费
+         this.formData. isDisposable='1';//是否一次性费用
+         this.formData.isRegisterMoney='1';//是否收取注册服务费
       
          this.formData.selfShareIsmoney='0';
          this.formData.isSelfShare='1';
@@ -1776,8 +1794,8 @@ export default {
          this.formData.isSpecialShare = '1';
          this.formData.ordinarySpecialTax = '0.03';
          this.formData.ordinaryTax = '0';
-         this.formData.isSlider='0';
-         this.formData.isSliderOrdinary='0';
+         this.formData.isSlider='1';
+         this.formData.isSliderOrdinary='1';
          this.formData.isSpecialSelfTax = '1';
          this.formData.isSelfTax = '1';
          this.formData.isOrdinaryTax = '1';
@@ -1907,7 +1925,7 @@ export default {
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
 
-
+            this.formData.disposableRemark=this.unlist.disposableRemark;
             this.formData.isDisposableShare=JSON.stringify(this.unlist.isDisposableShare);
             this.formData.disposableShareIsmoney=JSON.stringify(this.unlist.disposableShareIsmoney);
             this.formData.disposableShare=JSON.stringify(this.unlist.disposableShare);

@@ -1069,7 +1069,7 @@
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around" v-if="formData.isSelfCount==0">
         <el-col :span="9">
           <el-form-item label="增值税专用发票" :required="true">
             <el-radio disabled v-model="formData.isSlider" label="0"

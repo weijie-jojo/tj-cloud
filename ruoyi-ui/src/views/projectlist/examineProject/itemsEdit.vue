@@ -498,13 +498,13 @@
         justify="space-around"
       >
         <el-col :span="9">
-          <el-form-item label="是否收取注册服务费" prop="isRegisterMoney">
-            <el-radio v-model="formData.isRegisterMoney" label="0">是</el-radio>
-            <el-radio v-model="formData.isRegisterMoney" label="1">否</el-radio>
+          <el-form-item label="个体注册服务费" prop="isRegisterMoney">
+            <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
+            <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
           </el-form-item>
           <el-form-item
             v-if="formData.isRegisterMoney == 0"
-            label="个体户注册服务费"
+            label="服务费"
             prop="registerMoney"
           >
             <el-input
@@ -520,7 +520,7 @@
         <el-col :span="9"> </el-col>
       </el-row>
       <el-row
-        v-if="formData.isSelfCount == 0"
+        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0"
         type="flex"
         class="row-bg"
         justify="space-around"
@@ -715,6 +715,12 @@
             </el-form-item>
           </div>
         </el-col>
+        <el-col :span="9"></el-col>
+      </el-row>
+      <el-row   type="flex"
+        class="row-bg"
+        justify="space-around"
+        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2">
         <el-col :span="9">
           <el-form-item label="增值税专用发票" :required="true">
             <el-radio @change="ispublic" v-model="formData.isSlider" label="0"
@@ -839,6 +845,8 @@
             </el-form-item>
           </div>
         </el-col>
+        <el-col :span="9"></el-col>
+
       </el-row>
       <el-row
         type="flex"
@@ -965,7 +973,20 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="9"> </el-col>
+        <el-col :span="9"> 
+          <el-form-item label="备注" v-if="formData.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
+        
+        </el-col>
       </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
@@ -1051,6 +1072,7 @@ export default {
       placeCodeOptions: "", //渠道商
 
       formData: {
+        disposableRemark:'',
         isDisposableShare: "1",
         disposableShareIsmoney: "0",
         disposableShare: "0",
@@ -1274,13 +1296,14 @@ export default {
     //结算方式赋值
     singleOK() {
       if (this.formData.isSelfCount == 0 || this.formData.isSelfCount == 2) {
+        this.formData.disposableRemark='';
         this.formData.isDisposableShare = "1";
         this.formData.disposableShareIsmoney = "0";
         this.formData.disposableShare = "0";
         this.formData.disposableFeeIsmoney = "1";
         this.formData.disposableFee = "0";
-        this.formData.isDisposable = "0"; //是否一次性费用
-        this.formData.isRegisterMoney = "0"; //是否收取注册服务费
+        this.formData.isDisposable = "1"; //是否一次性费用
+        this.formData.isRegisterMoney = "1"; //是否收取注册服务费
 
         this.formData.selfShareIsmoney = "0";
         this.formData.isSelfShare = "1";
@@ -1488,7 +1511,7 @@ export default {
           this.unlist.ordinarySpecialTax
         );
         this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
-
+        this.formData.disposableRemark=this.unlist.disposableRemark;
         this.formData.isDisposableShare = JSON.stringify(
           this.unlist.isDisposableShare
         );
@@ -1507,13 +1530,7 @@ export default {
           this.unlist.isRegisterMoney
         );
 
-        this.formData.isDisposableShare=JSON.stringify(this.formData.isDisposableShare);
-        this.formData.disposableShareIsmoney=JSON.stringify(this.formData.disposableShareIsmoney);
-        this.formData.disposableShare=JSON.stringify(this.formData.disposableShare);
-        this.formData.disposableFeeIsmoney=JSON.stringify(this.formData.disposableFeeIsmoney);
-        this.formData.disposableFee=JSON.stringify(this.formData.disposableFee);
-        this.formData.isDisposable=JSON.stringify(this.formData.isDisposable);
-        this.formData.isRegisterMoney=JSON.stringify(this.formData.isRegisterMoney);
+       
 
         if (this.formData.isOrdinaryTax == 1) {
           this.formData.isOrdinaryTax = "1";
@@ -1649,6 +1666,19 @@ export default {
                 this.formData.registerMoney = this.unlist.ordinarySelfFee;
                 this.formData.specialShare = this.unlist.specialShare;
                 this.formData.ordinaryShare = this.unlist.ordinaryShare;
+
+
+                this.formData.disposableRemark=this.unlist.disposableRemark;
+                this.formData.isDisposableShare=JSON.stringify(this.unlist.isDisposableShare);
+                this.formData.disposableShareIsmoney=JSON.stringify(this.unlist.disposableShareIsmoney);
+                this.formData.disposableShare=JSON.stringify(this.unlist.disposableShare);
+                 this.formData.disposableFeeIsmoney=JSON.stringify(this.unlist.disposableFeeIsmoney);
+         
+                this.formData.disposableFee=JSON.stringify(this.unlist.disposableFee);
+                this.formData.isDisposable=JSON.stringify(this.unlist.isDisposable);
+                this.formData.isRegisterMoney=JSON.stringify(this.unlist.isRegisterMoney);
+
+
 
                 this.formData.selfShareIsmoney = JSON.stringify(
                   this.unlist.selfShareIsmoney
@@ -1916,64 +1946,6 @@ export default {
         });
         return;
       }
-      // if (this.formData.isSelfCount < 2) {
-      //     if (this.formData.selfShareIsmoney == '1') {
-      //         if (this.formData.selfShare > 100) {
-      //             this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-      //                 type: 'error'
-      //             });
-      //         }
-      //     }
-      // }
-
-      // if (this.formData.isSlider == '0') {
-      //     if (this.formData.specialShareIsmoney == '1') {
-      //         if (this.formData.specialShare > 100) {
-      //             this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      //     if (this.formData.specialProxyIsmoney == '1') {
-      //         if (this.formData.specialSelfFee > 100) {
-      //             this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      // }
-
-      // if (this.formData.isSliderOrdinary == 0) {
-      //     if (this.formData.ordinaryShareIsmoney == '1') {
-      //         if (this.formData.ordinaryShare > 100) {
-      //             this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-
-      //     if (this.formData.ordinaryProxyIsmoney == '1') {
-      //         if (this.formData.ordinarySelfFee > 100) {
-      //             this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-      //                 confirmButtonText: '确定',
-
-      //                 type: 'error'
-      //             });
-      //             return;
-      //         }
-      //     }
-      // }
-
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
