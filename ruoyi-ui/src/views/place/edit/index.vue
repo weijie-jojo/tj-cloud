@@ -309,7 +309,7 @@
 
         <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='editIsDisposable'>
+              <el-form-item label="一次性费用" prop='editIsDisposable'>
               <el-radio  :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposable" label="0">开启</el-radio>
               <el-radio  :disabled="confirmEditStatus" v-model="ruleForm.editIsDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -943,7 +943,7 @@ export default {
         }
       }
     },
-     //一次性收取费用
+     //一次性费用
      disposableIsmoney(e) {
       if (this.ruleForm.editDisposableFeeIsmoney == '1') {
         if (e > 100) {
@@ -951,7 +951,7 @@ export default {
         }
       }
     },
-    //一次性收取费用
+    //一次性费用
     handleDis(e){
       if(e=='1'){
         if (this.ruleForm.editDisposableFeeIsmoney == '1') {

@@ -847,7 +847,7 @@
           v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
         >
           <el-col :span="9">
-            <el-form-item label="一次性收取费用" prop="isDisposable">
+            <el-form-item label="一次性费用" prop="isDisposable">
               <el-radio v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -1056,7 +1056,7 @@
           disposableShare: "0",
           disposableFeeIsmoney: "1",
           disposableFee: "0",
-          isDisposable: "0", //是否一次性收取费用
+          isDisposable: "0", //是否一次性费用
           isRegisterMoney: "0", //是否收取注册服务费
         },
         projectTotalAmount: 0,
@@ -1279,7 +1279,7 @@
           this.formData.disposableShare = "0";
           this.formData.disposableFeeIsmoney = "1";
           this.formData.disposableFee = "0";
-          this.formData.isDisposable = "0"; //是否一次性收取费用
+          this.formData.isDisposable = "0"; //是否一次性费用
           this.formData.isRegisterMoney = "0"; //是否收取注册服务费
   
           this.formData.selfShareIsmoney = "0";
@@ -1333,7 +1333,7 @@
         }
       },
   
-      //一次性收取费用
+      //一次性费用
       disposableIsmoney(e) {
         if (this.formData.disposableFeeIsmoney == "1") {
           if (e > 100) {
@@ -1341,7 +1341,7 @@
           }
         }
       },
-      //一次性收取费用
+      //一次性费用
       handleDis(e) {
         if (e == "1") {
           if (this.formData.disposableFeeIsmoney == "1") {

@@ -275,7 +275,7 @@
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="ruleForm.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
             </el-form-item>

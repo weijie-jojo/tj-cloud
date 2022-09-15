@@ -12,8 +12,7 @@
           <el-form-item label="客户全名" :required="true">
                  <div style="display:flex;align-items:center">
               <el-input style="width:100%;margin-right:-25px" v-model="placeAliasName" :disabled="true" />
-              <el-tooltip style="position: relative;
-    left: 30px;font-size: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
+              <el-tooltip style="position: relative;left: 30px;font-size: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
                   <i class="header-icon el-icon-info"></i>
               </el-tooltip>
               </div>
@@ -23,9 +22,9 @@
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
 
-          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
-              <el-radio v-model="ruleForm.isRegisterMoney" label="0">是</el-radio>
-              <el-radio v-model="ruleForm.isRegisterMoney" label="1">否</el-radio>
+          <el-form-item label="注册服务费" prop='isRegisterMoney'>
+              <el-radio v-model="ruleForm.isRegisterMoney" label="0">开启</el-radio>
+              <el-radio v-model="ruleForm.isRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
 
           <el-form-item label="个体户注册服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
@@ -43,7 +42,7 @@
               <el-radio v-model="ruleForm.isSelfShare" label="0">是</el-radio>
               <el-radio v-model="ruleForm.isSelfShare" label="1">否</el-radio>
             </el-form-item>
-            <el-row v-if="ruleForm.isSelfShare == 0" type="flex" justify="flex-end">
+            <el-row v-if="ruleForm.isSelfShare == 0 && ruleForm.isRegisterMoney==0" type="flex" justify="flex-end">
               <el-col :span="24">
                 <el-form-item label="分润方式" prop="selfShare">
                   <div style="">
@@ -103,10 +102,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="增值税专用发票" :required="true">
-            <el-radio v-model="ruleForm.isSlider" label="0">开启</el-radio>
-            <el-radio v-model="ruleForm.isSlider" label="1">关闭</el-radio>
-          </el-form-item>
+          
         </el-col>
 
       </el-row>
@@ -198,6 +194,20 @@
 
           </div>
         </el-col>
+        <el-col :span="9"> </el-col>
+      </el-row>
+
+      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
+          <el-form-item label="增值税专用发票" :required="true">
+            <el-radio v-model="ruleForm.isSlider" label="0">开启</el-radio>
+            <el-radio v-model="ruleForm.isSlider" label="1">关闭</el-radio>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9"> </el-col>
+     </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        
         <el-col :span="9">
           <div v-if='ruleForm.isSlider == 0'>
             <el-row type="flex" justify="flex-end">
@@ -283,10 +293,18 @@
           </div>
 
         </el-col>
+        <el-col :span="9">
+          
+        </el-col>
       </el-row>
+
+
+
+
+
       <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio v-model="ruleForm.isDisposable" label="0">开启</el-radio>
               <el-radio v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -482,7 +500,7 @@ export default {
         disposableShare:'0',
         disposableFeeIsmoney:'1',
         disposableFee:'0',
-        isDisposable:'0',//是否一次性收取费用
+        isDisposable:'0',//是否一次性费用
         isRegisterMoney:'0',//是否收取注册服务费
         selfShareIsmoney:'0',
         isSelfShare:'1',
@@ -862,7 +880,7 @@ export default {
       }
     },
     
-    //一次性收取费用
+    //一次性费用
     disposableIsmoney(e) {
       if (this.ruleForm.disposableFeeIsmoney == '1') {
         if (e > 100) {
@@ -870,7 +888,7 @@ export default {
         }
       }
     },
-    //一次性收取费用
+    //一次性费用
     handleDis(e){
       if(e=='1'){
         if (this.ruleForm.disposableFeeIsmoney == '1') {
@@ -979,14 +997,14 @@ export default {
       this.ruleForm.disposableShare='0';
       this.ruleForm.disposableFeeIsmoney='1';
       this.ruleForm.disposableFee='0';
-      this.ruleForm.isDisposable='0';
-      this.ruleForm.isRegisterMoney='0';
+      this.ruleForm.isDisposable='1';
+      this.ruleForm.isRegisterMoney='1';
       this.ruleForm.selfShareIsmoney='0';
       this.ruleForm.isSelfShare='1';
       this.ruleForm.selfShare='0';
       this.ruleForm.customerType='0';
-      this.ruleForm.isSliderOrdinary = '0',
-      this.ruleForm.isSlider = '0';
+      this.ruleForm.isSliderOrdinary = '1',
+      this.ruleForm.isSlider = '1';
       this.ruleForm.isSelfTax = '1';   //普票价税分离
       this.ruleForm.isSpecialSelfTax = '1';  //专票价税分离
       this.ruleForm.ordinaryProxyIsmoney = '0';

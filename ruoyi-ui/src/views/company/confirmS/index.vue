@@ -753,7 +753,7 @@
 
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>

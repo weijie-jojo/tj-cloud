@@ -929,7 +929,7 @@
 
           <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -1041,6 +1041,7 @@ import uploadSmall from '@/components/douploads/uploadSmall'
 import crudPerson from '@/api/company/person'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
+import crudEmployed from '@/api/company/employed'
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 import { all } from "@/api/company/payTaxInfo";

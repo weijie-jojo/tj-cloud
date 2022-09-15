@@ -307,19 +307,19 @@
         </el-row>
          <el-row>
           <el-col :span="12">
-            <el-form-item label="工资银行卡" prop="payCheckBank">
+            <el-form-item label="工资银行卡">
               <el-input v-model="form.payCheckBank"  placeholder="请输入工资银行卡"></el-input>
             </el-form-item>
-            <el-form-item label="报销银行卡" prop="accountCardBank">
+            <el-form-item label="报销银行卡">
               <el-input v-model="form.accountCardBank"  placeholder="请输入报销银行卡"></el-input>
             </el-form-item>
             
           </el-col>
           <el-col :span="12">
-            <el-form-item label="工作卡开户银行" prop="payCheck">
+            <el-form-item label="工作卡开户银行">
               <el-input v-model="form.payCheck" placeholder="请输入工作卡开户银行"></el-input>
             </el-form-item>
-            <el-form-item label="报销卡开户银行" prop="accountCard">
+            <el-form-item label="报销卡开户银行">
               <el-input v-model="form.accountCard"  placeholder="请输入报销卡开户银行"></el-input>
             </el-form-item>
           </el-col>
