@@ -30,7 +30,7 @@
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
      
-      <el-table-column label="客户全名" width="700" align="center" prop="placeAliasName"/>
+      <el-table-column label="客户全名" width="500" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
       <el-table-column label="联系人" align="center" prop="placeLinkman" :show-overflow-tooltip="true" />
       <el-table-column label="联系方式" prop="placeTel" :show-overflow-tooltip="true" />
       <el-table-column form-item label="业务经理" prop="userName" :show-overflow-tooltip="true" />

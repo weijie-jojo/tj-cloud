@@ -11,9 +11,9 @@
           </el-form-item>
            <el-form-item label="客户全名" :required="true">
                  <div style="display:flex;align-items:center">
-              <el-input style="width:100%;margin-right:-15px" v-model="ruleForm.placeAliasName" :readonly="true" />
+              <el-input style="width:100%;margin-right:-25px" v-model="ruleForm.placeAliasName" :readonly="true" />
               <el-tooltip style="position: relative;
-    left: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
+    left: 30px;font-size:20px" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
                   <i class="header-icon el-icon-info"></i>
               </el-tooltip>
               </div>
@@ -275,7 +275,7 @@
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="ruleForm.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
             </el-form-item>

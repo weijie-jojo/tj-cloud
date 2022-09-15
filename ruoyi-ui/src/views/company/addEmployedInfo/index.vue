@@ -75,14 +75,14 @@
             <el-form-item label="行业" prop="industry">
               <div style="display: flex; align-items: center">
                 <el-input
-                  style="width: 100%; margin-right: -15px"
+                  style="width: 100%; margin-right: -25px"
                   v-model="formData.industry"
                   placeholder="请输入行业"
                   clearable
                 >
                 </el-input>
                 <el-tooltip
-                  style="position: relative; left: 20px"
+                  style="position: relative; left: 30px;font-size: 20px;"
                   class="item"
                   effect="dark"
                   content="个体工商户名称,例如福州市鼓楼区中山社区天天服装店，行业为服装"
@@ -543,7 +543,7 @@
           <el-col :span="21">
             <el-form-item label="经营范围" prop="natureBusiness">
               <el-input
-                maxlength="250"
+                maxlength="500"
                 show-word-limit
                 type="textarea"
                 :rows="2"
@@ -1306,7 +1306,7 @@
           v-if="formData.isSelfCount == 0"
         >
           <el-col :span="9">
-            <el-form-item label="一次性收取费用" prop="isDisposable">
+            <el-form-item label="一次性费用" prop="isDisposable">
               <el-radio v-model="formData.isDisposable" label="0"
                 >开启</el-radio
               >
@@ -1632,7 +1632,7 @@ export default {
         disposableShare: "0",
         disposableFeeIsmoney: "1",
         disposableFee: "0",
-        isDisposable: "0", //是否一次性收取费用
+        isDisposable: "0", //是否一次性费用
         isRegisterMoney: "0", //是否收取注册服务费
 
         isSliderOrdinary: "0", //普票滑块
@@ -2282,7 +2282,7 @@ export default {
       }
     },
 
-    //一次性收取费用
+    //一次性费用
     disposableIsmoney(e) {
       if (this.formData.disposableFeeIsmoney == "1") {
         if (e > 100) {
@@ -2290,7 +2290,7 @@ export default {
         }
       }
     },
-    //一次性收取费用
+    //一次性费用
     handleDis(e) {
       if (e == "1") {
         if (this.formData.disposableFeeIsmoney == "1") {
@@ -2679,7 +2679,7 @@ export default {
         this.formData.disposableShare = "0";
         this.formData.disposableFeeIsmoney = "1";
         this.formData.disposableFee = "0";
-        this.formData.isDisposable = "0"; //是否一次性收取费用
+        this.formData.isDisposable = "0"; //是否一次性费用
         this.formData.isRegisterMoney = "0"; //是否收取注册服务费
 
         this.formData.selfShareIsmoney = "0";
@@ -3317,7 +3317,7 @@ export default {
         disposableShare: this.formData.disposableShare,
         disposableFeeIsmoney: this.formData.disposableFeeIsmoney,
         disposableFee: this.formData.disposableFee,
-        isDisposable: this.formData.isDisposable, //是否一次性收取费用
+        isDisposable: this.formData.isDisposable, //是否一次性费用
         isRegisterMoney: this.formData.isRegisterMoney, //是否收取注册服务费
 
         businessStatus: 0,

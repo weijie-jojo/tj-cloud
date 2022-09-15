@@ -214,7 +214,7 @@
           <el-col :span="21">
             <el-form-item label="经营范围" prop="natureBusiness">
               <el-input type="textarea" 
-               maxlength="250"
+               maxlength="500"
                 show-word-limit
               :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
               </el-input>
@@ -769,7 +769,7 @@
 
        <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -876,7 +876,6 @@ var validateIdNumber=(rule, value, callback)=>{
   }
 }
 import uploadSmall from '@/components/douploads/uploadSmall'
-import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudInfo from '@/api/company/info'
 import crudEmployed from '@/api/company/employed'
@@ -1014,7 +1013,7 @@ export default {
         disposableShare:'0',
         disposableFeeIsmoney:'1',
         disposableFee:'0',
-        isDisposable:'0',//是否一次性收取费用
+        isDisposable:'0',//是否一次性费用
         isRegisterMoney:'0',//是否收取注册服务费  
 
 
@@ -1533,7 +1532,7 @@ export default {
       }
     },
     
-    //一次性收取费用
+    //一次性费用
     disposableIsmoney(e) {
       if (this.formData.disposableFeeIsmoney == '1') {
         if (e > 100) {
@@ -1541,7 +1540,7 @@ export default {
         }
       }
     },
-    //一次性收取费用
+    //一次性费用
     handleDis(e){
       if(e=='1'){
         if (this.formData.disposableFeeIsmoney == '1') {
@@ -1683,7 +1682,7 @@ export default {
          this.formData.disposableShare='0';
          this.formData.disposableFeeIsmoney='1';
          this.formData.disposableFee='0';
-         this.formData. isDisposable='0';//是否一次性收取费用
+         this.formData. isDisposable='0';//是否一次性费用
          this.formData.isRegisterMoney='0';//是否收取注册服务费
 
 
@@ -1941,7 +1940,7 @@ export default {
       })
     },
     getApplyName() {
-      crudInformation.getAllInformation().then(res => {
+      crudEmployed.getAllUser().then(res => {
         this.applyNames = res.rows;
         var employedInfo = this.$cache.local.getJSON('employedInfo');
         this.formData.applyName = parseInt(employedInfo.applyName);
@@ -2184,7 +2183,7 @@ export default {
             disposableShare:  this.formData.disposableShare,
             disposableFeeIsmoney: this.formData.disposableFeeIsmoney,
             disposableFee:this.formData.disposableFee,
-            isDisposable:  this.formData. isDisposable,//是否一次性收取费用
+            isDisposable:  this.formData. isDisposable,//是否一次性费用
             isRegisterMoney: this.formData.isRegisterMoney,//是否收取注册服务费
             
             

@@ -508,7 +508,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0 || formData.isSelfCount==2">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -671,7 +671,7 @@ export default {
                 disposableShare:'0',
                 disposableFeeIsmoney:'1',
                 disposableFee:'0',
-                isDisposable:'0',//是否一次性收取费用
+                isDisposable:'0',//是否一次性费用
                 isRegisterMoney:'0',//是否收取注册服务费  
                 placeName: '',
                 ticketTax: '',//发票税率

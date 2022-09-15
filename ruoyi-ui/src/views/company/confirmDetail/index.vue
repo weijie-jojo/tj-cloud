@@ -99,7 +99,7 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right:4%" label="经营范围" prop="natureBusiness">
-            <el-input maxlength="250" show-word-limit :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
+            <el-input maxlength="500" show-word-limit :readonly="true" type="textarea" :rows="2" placeholder="请输入经营范围"
               v-model="formData.natureBusiness">
             </el-input>
           </el-form-item>
@@ -731,7 +731,7 @@
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
             <el-col :span="9">
-              <el-form-item label="一次性收取费用" prop='isDisposable'>
+              <el-form-item label="一次性费用" prop='isDisposable'>
               <el-radio disabled v-model="formData.isDisposable" label="0">开启</el-radio>
               <el-radio disabled v-model="formData.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
