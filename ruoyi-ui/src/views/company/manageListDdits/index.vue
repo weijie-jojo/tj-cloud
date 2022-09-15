@@ -117,7 +117,7 @@
         <el-col :span="21">
           <el-form-item style="padding-right:4.3%" label="经营范围" prop="natureBusiness">
             <el-input
-             maxlength="250"
+             maxlength="500"
              show-word-limit
             type="textarea" :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
             </el-input>

@@ -214,7 +214,7 @@
           <el-col :span="21">
             <el-form-item label="经营范围" prop="natureBusiness">
               <el-input type="textarea" 
-               maxlength="250"
+               maxlength="500"
                 show-word-limit
               :rows="2" placeholder="请输入经营范围" v-model="formData.natureBusiness">
               </el-input>
@@ -876,7 +876,6 @@ var validateIdNumber=(rule, value, callback)=>{
   }
 }
 import uploadSmall from '@/components/douploads/uploadSmall'
-import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudInfo from '@/api/company/info'
 import crudEmployed from '@/api/company/employed'
@@ -1941,7 +1940,7 @@ export default {
       })
     },
     getApplyName() {
-      crudInformation.getAllInformation().then(res => {
+      crudEmployed.getAllUser().then(res => {
         this.applyNames = res.rows;
         var employedInfo = this.$cache.local.getJSON('employedInfo');
         this.formData.applyName = parseInt(employedInfo.applyName);

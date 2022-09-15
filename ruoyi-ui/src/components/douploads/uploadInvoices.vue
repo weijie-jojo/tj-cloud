@@ -9,8 +9,15 @@
       <div v-if="isDetails == 0" slot="tip" class="el-upload__tip">仅支持jpg/png/jpeg/pdf文件,且不超过10M</div>
     </el-upload>
     <div v-if="isDetails == 0" style="position: absolute;left: 100px;
-    top: -15px;" :class="isDetail==0 ?'brrs':'arrs'">
-    <i class="el-icon-question" @click="uploadsCheck" ></i>
+    top: -12px;" :class="isDetail==0 ?'brrs':'arrs'">
+     <el-tooltip  style="font-size: 20px;"
+                  class="item"
+                  effect="dark"
+                  content="点击图标,查看上传格式须知"
+                  placement="top-start" >
+       <i class="header-icon el-icon-info" @click="uploadsCheck"></i>
+                </el-tooltip>
+    
    </div>
    
   
@@ -44,19 +51,23 @@
 
       </div>
     </el-dialog>
-    <el-dialog title="上传格式须知" :visible.sync="viewVisible1" width="60%" center @close='closeDialog1 == false'>
+    <el-dialog title="影像图片上传要求" :visible.sync="viewVisible1" width="60%" center @close='closeDialog1 == false'>
            <div style="color:red;font-size:20px">
             注意:如果上传凭证或影像为长图 ,请旋转90度,变为横图去上传,这样打印不会失真!!!
            </div>
            <el-row>
-            <el-col :span="8">
+            <el-col :span="8" style="display:flex;justify-content:flex-end;position: relative;">
               <el-image style="" :src="baseImgPath+oks1" fill="scale-down"></el-image>
             </el-col>
             <el-col :span="12" style="display:flex;justify-content:flex-end;position: relative;">
-              <el-image style="width:70px;height:70px;position:absolute;left:11px;top:20vh" :src="baseImgPath+oks2"></el-image>
+              <!-- <el-image style="width:70px;height:70px;position:absolute;left:11px;top:20vh" :src="baseImgPath+oks2"></el-image> -->
               <el-image  :src="baseImgPath+oks1" style="transform: rotate(90deg); " fill="scale-down"></el-image>
             </el-col>
            </el-row>
+           <div style="display:flex;justify-content:center;position: relative;">
+            <el-button size="mini"  type="danger" @click='closeAdd'>关闭</el-button>
+           </div>
+           
            
            
     </el-dialog>
@@ -138,6 +149,9 @@ export default {
     this.pdfIconChange();
   },
   methods: {
+    closeAdd(){
+       this.viewVisible1=false;
+    },
     //上传格式须知
     uploadsCheck(){
         this.viewVisible1=true;

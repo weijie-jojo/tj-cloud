@@ -11,9 +11,9 @@
           </el-form-item>
           <el-form-item label="客户全名" :required="true">
                  <div style="display:flex;align-items:center">
-              <el-input style="width:100%;margin-right:-15px" v-model="placeAliasName" :disabled="true" />
+              <el-input style="width:100%;margin-right:-25px" v-model="placeAliasName" :disabled="true" />
               <el-tooltip style="position: relative;
-    left: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
+    left: 30px;font-size: 20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
                   <i class="header-icon el-icon-info"></i>
               </el-tooltip>
               </div>

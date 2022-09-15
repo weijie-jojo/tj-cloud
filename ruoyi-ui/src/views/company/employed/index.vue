@@ -50,19 +50,19 @@
 
 
     <el-table v-loading="loading" :data="employedList" @selection-change="handleSelectionChange">
-      <el-table-column fixed type="selection" width="55" align="center" />
-      <el-table-column fixed label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
-      <el-table-column fixed label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
-      <el-table-column fixed label="提交时间" align="center" width="120" prop="createTime">
+      <el-table-column  type="selection" width="55" align="center" />
+      <el-table-column  label="法人姓名" align="center" prop="legalPersonName" :show-overflow-tooltip="true" />
+      <el-table-column  label="个体名称" width="250" align="center" prop="selfName" :show-overflow-tooltip="true" />
+      <el-table-column  label="提交时间" align="center" width="120" prop="createTime">
         <template slot-scope="scope">
           {{ scope.row.createTime | filterTime }}
         </template>
       </el-table-column>
       
-      <el-table-column fixed width="700" label="客户全名" align="center" prop="placeAliasName" />
+      <el-table-column  width="350" label="客户全名" align="center" prop="placeAliasName" :show-overflow-tooltip="true" />
       <el-table-column label="业务经理" fixed align="center" prop="username" :show-overflow-tooltip="true" />
      
-      <el-table-column label="进度状态" align="center" prop="endStatus">
+      <el-table-column  label="进度状态" align="center" prop="endStatus">
         <template slot-scope="scope">
           <el-link @click="progressNew(scope.row.selfCode)" :underline="false" type="primary"
             v-if="scope.row.endStatus == '0' && scope.row.nameStatus != 2 && scope.row.infoStatus != 2">办理中</el-link>

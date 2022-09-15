@@ -75,14 +75,14 @@
             <el-form-item label="行业" prop="industry">
               <div style="display: flex; align-items: center">
                 <el-input
-                  style="width: 100%; margin-right: -15px"
+                  style="width: 100%; margin-right: -25px"
                   v-model="formData.industry"
                   placeholder="请输入行业"
                   clearable
                 >
                 </el-input>
                 <el-tooltip
-                  style="position: relative; left: 20px"
+                  style="position: relative; left: 30px;font-size: 20px;"
                   class="item"
                   effect="dark"
                   content="个体工商户名称,例如福州市鼓楼区中山社区天天服装店，行业为服装"
@@ -543,7 +543,7 @@
           <el-col :span="21">
             <el-form-item label="经营范围" prop="natureBusiness">
               <el-input
-                maxlength="250"
+                maxlength="500"
                 show-word-limit
                 type="textarea"
                 :rows="2"
