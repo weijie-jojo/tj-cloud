@@ -779,6 +779,7 @@
   </div>
 </template>
 <script>
+import crudEmployed from '@/api/company/employed'
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudPerson from '@/api/company/person'
 import crudRate from '@/api/company/rate'

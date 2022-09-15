@@ -404,6 +404,7 @@
                 type="textarea"
                 :rows="2"
                 placeholder="请输入备注"
+                :disabled="confirmEditStatus"
                 v-model="ruleForm.disposableRemark"
               >
               </el-input>
