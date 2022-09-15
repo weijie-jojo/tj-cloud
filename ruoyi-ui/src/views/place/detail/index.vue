@@ -12,8 +12,7 @@
            <el-form-item label="客户全名" :required="true">
                  <div style="display:flex;align-items:center">
               <el-input style="width:100%;margin-right:-25px" v-model="ruleForm.placeAliasName" :readonly="true" />
-              <el-tooltip style="position: relative;
-    left: 30px;font-size:20px" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
+              <el-tooltip style="position: relative;left: 30px;font-size:20px;" class="item" effect="dark" content="客户名称由客户名称和客户别名组成" placement="top-start">
                   <i class="header-icon el-icon-info"></i>
               </el-tooltip>
               </div>
@@ -22,11 +21,11 @@
           <el-form-item label="联系人" prop="placeLinkman">
             <el-input v-model="ruleForm.placeLinkman" :readonly="true" />
           </el-form-item>
-          <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
-              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="0">是</el-radio>
-              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="1">否</el-radio>
+          <el-form-item label="个体户注册服务费" prop='isRegisterMoney'>
+              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="0">开启</el-radio>
+              <el-radio disabled v-model="ruleForm.isRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
-          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
+          <el-form-item label="服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
             <el-input 
              disabled
              type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.01" :min="0"
@@ -40,7 +39,7 @@
               <el-radio disabled v-model="ruleForm.isSelfShare" label="0">是</el-radio>
               <el-radio disabled v-model="ruleForm.isSelfShare" label="1">否</el-radio>
             </el-form-item>
-            <el-row v-if="ruleForm.isSelfShare == 0" type="flex" justify="flex-end">
+            <el-row v-if="ruleForm.isSelfShare == 0 && ruleForm.isRegisterMoney==0" type="flex" justify="flex-end">
               <el-col :span="24">
                 <el-form-item label="分润方式" prop="selfShareIsmoney">
                   <div style="">
@@ -101,10 +100,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item label="增值税专用发票" :required="true">
-            <el-radio disabled v-model="ruleForm.isSlider" label="0">开启</el-radio>
-            <el-radio disabled v-model="ruleForm.isSlider" label="1">关闭</el-radio>
-          </el-form-item>
+          
         </el-col>
 
       </el-row>
@@ -193,6 +189,27 @@
           </div>
         </el-col>
         <el-col :span="9">
+         
+
+        </el-col>
+      </el-row>
+
+      <el-row type="flex" class="row-bg " justify="space-around">
+        
+        <el-col :span="9">
+          <el-form-item label="增值税专用发票" :required="true">
+            <el-radio disabled v-model="ruleForm.isSlider" label="0">开启</el-radio>
+            <el-radio disabled v-model="ruleForm.isSlider" label="1">关闭</el-radio>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          
+        </el-col>
+
+      </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
+        
+        <el-col :span="9">
           <div v-if='ruleForm.isSlider == 0'>
             <el-row type="flex" justify="flex-end">
               <el-col :span="24">
@@ -272,7 +289,12 @@
           </div>
 
         </el-col>
+        <el-col :span="9">
+          
+        </el-col>
       </el-row>
+
+
       <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
               <el-form-item label="一次性费用" prop='isDisposable'>
@@ -346,6 +368,17 @@
             </el-row>
             </el-col>
             <el-col :span="9">
+              <el-form-item label="备注" v-if="ruleForm.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="ruleForm.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
           
             </el-col>
 
@@ -470,6 +503,7 @@ export default {
         status: '',
       },
       ruleForm: {
+        disposableRemark:'',
         isRegisterMoney:'0',
         selfShareIsmoney:'0',
         isSelfShare:'1',
@@ -832,7 +866,7 @@ export default {
         this.ruleForm.specialSelfFee = res.specialSelfFee;
         this.ruleForm.isSpecialTax = res.isSpecialTax;
 
-        
+        this.ruleForm.disposableRemark=res.disposableRemark;
         this.ruleForm.disposableFeeIsmoney=JSON.stringify(res.disposableFeeIsmoney);
         this.ruleForm.isDisposable=JSON.stringify(res.isDisposable);
         this.ruleForm.disposableFee=res. disposableFee;

@@ -853,9 +853,8 @@
 </template>
 <script>
 
-import { addEmployed, updateEmployed, check } from "@/api/company/employed";
+import {updateEmployed, check } from "@/api/company/employed";
 import uploadSmall from '@/components/douploads/uploadSmall'
-import crudInformation from '@/api/company/information'
 import crudPerson from '@/api/company/person'
 import crudRate from '@/api/company/rate'
 import crudPlace from '@/api/company/place'
@@ -1275,7 +1274,7 @@ export default {
 
     this.getLoginInfo();
     //申请人
-    //this.getApplyName();
+
     //联系人
     //this.getContactName();
     //个体户行业类型税率
@@ -1650,12 +1649,7 @@ export default {
         this.contactNames = res.rows;
       })
     },
-    getApplyName() {
-      crudInformation.getAllInformation().then(res => {
-        console.log("getApplyName", res.rows);
-        this.applyNames = res.rows;
-      })
-    },
+  
     handleClick(tab, event) {
       console.log(tab, event);
     },

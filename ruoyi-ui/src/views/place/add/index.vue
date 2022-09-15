@@ -22,12 +22,12 @@
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
 
-          <el-form-item label="注册服务费" prop='isRegisterMoney'>
+          <el-form-item label="个体户注册服务费" prop='isRegisterMoney'>
               <el-radio v-model="ruleForm.isRegisterMoney" label="0">开启</el-radio>
               <el-radio v-model="ruleForm.isRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
 
-          <el-form-item label="个体户注册服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
+          <el-form-item label="服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
             <el-input
              v-model="ruleForm.ordinarySelfFee" @change="handleChange"  :min="0"
               style="width:100%"
@@ -368,13 +368,20 @@
             </el-row>
             </el-col>
             <el-col :span="9">
-          
+              <el-form-item label="备注" v-if="ruleForm.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="ruleForm.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
             </el-col>
-
-      </el-row>
-
-    
-      <el-row type="flex" class="row-bg " justify="space-around">
+         </el-row>
+       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="8">
 
         </el-col>
@@ -495,6 +502,7 @@ export default {
         status: '',
       },
       ruleForm: {
+        disposableRemark:'',//备注
         isDisposableShare:'1',
         disposableShareIsmoney:'0',
         disposableShare:'0',
@@ -991,7 +999,7 @@ export default {
 
    // 表单重置
     reset() {
-
+      this.ruleForm.disposableRemark='';
       this.ruleForm.isDisposableShare='1';
       this.ruleForm.disposableShareIsmoney='0';
       this.ruleForm.disposableShare='0';
@@ -1036,87 +1044,10 @@ export default {
       this.ruleForm.ordinaryProxyMoeny = '';
       this.ruleForm.isOrdinaryTax = '1';
     },
-  
-    // //获取所有用户
-    // getAllUser() {
-    //   getAllUser().then(res => {
-    //     this.userLeaders = res;
-
-    //   })
-    // },
-
-
-    // selectUser(value) {
-    //   this.ruleForm.userName = this.userLeaders.find((item) => item.userId == value).nickName;
-    //   this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
-    // },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-        //   if (this.ruleForm.selfShareIsmoney == '1') {
-        //   if (this.ruleForm.selfShare > 100) {
-        //   this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-        //           confirmButtonText: '确定',
-                 
-        //           type: 'error'
-        //         });
-        //   }
-        // }
-        //   if (this.ruleForm.isSlider == '0') {
-        //     if (this.ruleForm.specialShareIsmoney == '1') {
-        //       if (this.ruleForm.specialShare > 100) {
-        //         this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-        //           confirmButtonText: '确定',
-                 
-        //           type: 'error'
-        //         });
-        //         return;
-        //       }
-        //     }
-        //     if (this.ruleForm.specialProxyIsmoney == '1') {
-        //       if (this.ruleForm.specialProxyFee > 100) {
-        //         this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-        //           confirmButtonText: '确定',
-                 
-        //           type: 'error'
-        //         });
-        //         return;
-        //       }
-        //     }
-
-        //   }
-
-        //   if (this.ruleForm.isSliderOrdinary == '0') {
-        //     if (this.ruleForm.ordinaryShareIsmoney == '1') {
-        //       if (this.ruleForm.ordinaryShare > 100) {
-        //         this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-        //           confirmButtonText: '确定',
-                 
-        //           type: 'error'
-        //         });
-        //         return;
-        //       }
-        //     }
-
-
-        //     if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-        //       if (this.ruleForm.ordinaryProxyFee > 100) {
-        //         this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-        //           confirmButtonText: '确定',
-                 
-        //           type: 'error'
-        //         });
-        //         return;
-        //       }
-        //     }
-        //   }
-
-
-          
-
-
-
           if (this.ruleForm.isOrdinaryTax == "0") {
             this.ruleForm.isOrdinaryTax = true;
           } else if (this.ruleForm.isOrdinaryTax == '1') {
@@ -1127,10 +1058,7 @@ export default {
           } else if (this.ruleForm.isSpecialTax == "1") {
             this.ruleForm.isSpecialTax = false;
           }
-
-
-
-          let data = {
+         let data = {
             businessPlace: {
               customerType:this.ruleForm.customerType,
               placeCode: this.ruleForm.placeCode,
@@ -1149,7 +1077,7 @@ export default {
               disposableFee: this.ruleForm.disposableFee,
               isDisposable:this.ruleForm.isDisposable,
               isRegisterMoney:this.ruleForm.isRegisterMoney,
-              
+              disposableRemark:this.ruleForm.disposableRemark,
               
               isSliderOrdinary: this.ruleForm.isSliderOrdinary,
               isSlider: this.ruleForm.isSlider,
