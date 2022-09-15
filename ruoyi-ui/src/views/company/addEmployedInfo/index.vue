@@ -867,37 +867,6 @@
             <div></div>
           </el-col>
         </el-row>
-
-        <!-- <el-row type="flex" class="row-bg" justify="space-around">
-          <el-col :span="9">
-            <el-form-item label="行业类型" prop="industryType">
-              <el-tooltip class="item" effect="dark" :content="selectTipType" placement="top-start">
-              <el-select class="main-select-tree" ref="selectTree" v-model="formData.industryType" style="width: 100%;">
-                <el-option v-for="item in formatData(industryTypes)" :key="item.value" :label="item.label"
-                  :value="item.value" style="display: none;" />
-                <el-tree class="main-select-el-tree" ref="selecteltree" :data="industryTypes" node-key="id"
-                  highlight-current :props="defaultProps" @node-click="handleNodeClick"
-                  :current-node-key="formData.industryType" :expand-on-click-node="expandOnClickNode">
-                  <span class="custom-tree-node" slot-scope="{ node, data  }" style="width:100%">
-                    <span style="float: left">{{ node.label }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 14px;padding-right:10px">{{ data.taxRates
-                    }}</span>
-                  </span>
-                </el-tree>
-              </el-select>
-              </el-tooltip>
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label="行业税率" :required="true">
-              <el-input v-model="industryTax" disabled>
-
-              </el-input>
-
-            </el-form-item>
-          </el-col>
-        </el-row> -->
-
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
             <el-form-item label="客户全名" prop="placeName">
@@ -954,16 +923,16 @@
           justify="space-around"
         >
           <el-col :span="9">
-            <el-form-item label="是否收取注册服务费" prop="isRegisterMoney">
+            <el-form-item label="个体注册服务费" prop="isRegisterMoney">
               <el-radio v-model="formData.isRegisterMoney" label="0"
-                >是</el-radio
+                >开启</el-radio
               >
               <el-radio v-model="formData.isRegisterMoney" label="1"
-                >否</el-radio
+                >关闭</el-radio
               >
             </el-form-item>
             <el-form-item
-              label="个体户注册服务费"
+              label="服务费"
               v-if="formData.isRegisterMoney == 0"
               prop="registerMoney"
             >
@@ -1174,6 +1143,20 @@
             </div>
           </el-col>
           <el-col :span="9">
+          </el-col>
+        </el-row>
+
+
+
+
+        <el-row
+          type="flex"
+          class="row-bg"
+          justify="space-around"
+          v-if="formData.isSelfCount == 0"
+        >
+         
+          <el-col :span="9">
             <el-form-item label="增值税专用发票" :required="true">
               <el-radio v-model="formData.isSlider" label="0">开启</el-radio>
               <el-radio v-model="formData.isSlider" label="1">关闭</el-radio>
@@ -1298,7 +1281,13 @@
               </el-form-item>
             </div>
           </el-col>
+          <el-col :span="9">
+           
+          </el-col>
         </el-row>
+        
+        
+        
         <el-row
           type="flex"
           class="row-bg"
@@ -1424,7 +1413,19 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="9"> </el-col>
+          <el-col :span="9">
+            <el-form-item label="备注" v-if="formData.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
+          </el-col>
         </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="8"></el-col>
@@ -1476,11 +1477,9 @@ var validateIdNumber = (rule, value, callback) => {
 
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudReview from "@/api/company/review";
-// import crudInformation from "@/api/company/information";
 import crudPerson from "@/api/company/person";
 import crudInfo from "@/api/company/info";
 import crudEmployed from "@/api/company/employed";
-import crudRate from "@/api/company/rate";
 import crudPlace from "@/api/company/place";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
@@ -1507,7 +1506,7 @@ export default {
           label: "直客",
         },
       ],
-      employeeNumber: "",
+     
       activeNameseg: "1",
       activeNamese: "1",
       optiond: [
@@ -1627,6 +1626,7 @@ export default {
       dialogVisible3: false,
       userinfo: {},
       formData: {
+        disposableRemark:'',
         isDisposableShare: "1",
         disposableShareIsmoney: "0",
         disposableShare: "0",
@@ -1744,9 +1744,6 @@ export default {
       industryTax: "", //行业税率展示用
       unlist: {},
       selectTipType: "",
-      //yecomfirm: true,
-      yecomfirms: false,
-
       IsSpecialTax: "0",
       fileName5: [],
       fileName6: [],
@@ -2241,8 +2238,6 @@ export default {
       },
       deep: true,
     },
-    // 'formData.industryType': 'selectIndustryType',
-
     "formData.contactName": {
       handler: function () {
         this.formData.legalPersonName = this.formData.contactName;
@@ -2250,17 +2245,14 @@ export default {
       deep: true,
     },
   },
-  created() {},
   mounted() {
-    // this.getSelfCode();
+    this.getSelfCode();
+   
     this.getLoginInfo();
     //申请人
     this.getApplyName();
     //联系人
     this.getContactName();
-    //个体户行业类型税率
-    // this.getRate();
-    //从上一个页面获取个体户编码
   },
   methods: {
     //一次性分润
@@ -2535,10 +2527,7 @@ export default {
           if (this.formData.fontSize4 == ".") {
             this.formData.fontSize4 = "";
           }
-          //console.log(this.formData.fontSize5);
-          // if(this.formData.fontSize5='.'){
-          //   this.formData.fontSize5='';
-          // }
+          
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
 
@@ -2556,9 +2545,8 @@ export default {
     placenew() {
       for (let i in this.places) {
         if (this.places[i].placeCode == this.formData.placeCode) {
-          this.formData.placeAliasName = this.places[i].placeAliasName;
-          // this.formData.placeCode = this.places[i].placeCode;
-          this.formData.placeName = this.places[i].placeName;
+           this.formData.placeAliasName = this.places[i].placeAliasName;
+           this.formData.placeName = this.places[i].placeName;
           crudPlace
             .selectFeeByCode({ placeCode: this.places[i].placeCode })
             .then((res) => {
@@ -2569,6 +2557,7 @@ export default {
               this.formData.registerMoney = this.unlist.ordinarySelfFee;
               this.formData.specialShare = this.unlist.specialShare;
               this.formData.ordinaryShare = this.unlist.ordinaryShare;
+              this.formData.disposableRemark=this.unlist.disposableRemark;//一次性费用备注
 
               this.formData.selfShareIsmoney = JSON.stringify(
                 this.unlist.selfShareIsmoney
@@ -2670,17 +2659,17 @@ export default {
         }
       }
     },
-
+    //客户下拉筛选获取客户结算信息
     singleOK() {
       if (this.formData.isSelfCount == 0) {
-        this.yecomfirms = true;
+        this.formData.disposableRemark='';
         this.formData.isDisposableShare = "1";
         this.formData.disposableShareIsmoney = "0";
         this.formData.disposableShare = "0";
         this.formData.disposableFeeIsmoney = "1";
         this.formData.disposableFee = "0";
-        this.formData.isDisposable = "0"; //是否一次性费用
-        this.formData.isRegisterMoney = "0"; //是否收取注册服务费
+        this.formData.isDisposable = "1"; //是否一次性费用
+        this.formData.isRegisterMoney = "1"; //是否收取注册服务费
 
         this.formData.selfShareIsmoney = "0";
         this.formData.isSelfShare = "1";
@@ -2698,14 +2687,14 @@ export default {
         this.formData.isSpecialShare = "1";
         this.formData.ordinarySpecialTax = "0.03";
         this.formData.ordinaryTax = "0";
-        this.formData.isSlider = "0";
-        this.formData.isSliderOrdinary = "0";
+        this.formData.isSlider = "1";
+        this.formData.isSliderOrdinary = "1";
         this.formData.isSpecialSelfTax = "1";
         this.formData.isSelfTax = "1";
         this.formData.isOrdinaryTax = "1";
         this.formData.isSpecialTax = "1";
       } else {
-        this.yecomfirms = false;
+        
         this.placenew();
       }
     },
@@ -2751,8 +2740,7 @@ export default {
           });
         }
       });
-      //this.actives = 4;
-    },
+   },
     /** 转换部门数据结构 */
     normalizer(node) {
       if (node.children && !node.children.length) {
@@ -2809,24 +2797,10 @@ export default {
       this.formData.applyPhone = applyName.phonenumber;
       this.formData.applyIdNum = applyName.idNo;
       this.formData.applyId = applyName.userId;
-      this.employeeNumber = applyName.employeeNumber;
-      this.getSelfCode();
+   
+     
     },
-    getRate() {
-      crudRate.getAllRate().then((res) => {
-        let tree = []; // 用来保存树状的数据形式
-        this.parseTree(res.rows, tree, 0);
-
-        // let arr = [{
-        //   id: "-1",
-        //   label: '请选择行业类型',
-        //   children: tree
-
-        // }];
-        this.industryTypes = tree;
-        this.industryTypeList = res.rows;
-      });
-    },
+    
     //把数据整成树状
     parseTree(industry, tree, pid) {
       for (var i = 0; i < industry.length; i++) {
@@ -2904,7 +2878,6 @@ export default {
     },
     resetInfo() {
       this.actives = 0;
-      // this.$refs['elForm'].resetFields()
     },
 
     nextBus() {
@@ -2944,7 +2917,7 @@ export default {
           });
         }
       });
-      //this.actives = 3;
+      
     },
     BackInfo() {
       this.actives = 1;
@@ -3029,19 +3002,7 @@ export default {
     //获取编号
     getSelfCode() {
       //获取员工编号
-      // getInfo().then(res => {
-      //   var userId = res.user.userId;
-      //   crudInformation.getInformation(userId).then(res => {
-      //     var employeeNumber = res.data.employeeNumber;
-      //     crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
-      //       this.formData.selfCode = res;
-
-      //     })
-      //   });
-      // })
-      crudReview
-        .getCode({ employeeNumber: this.employeeNumber })
-        .then((res) => {
+     crudReview.getCode().then((res) => {
           this.formData.selfCode = res;
         });
     },
@@ -3231,7 +3192,8 @@ export default {
 
         specialShare: this.formData.specialShare,
         ordinaryShare: this.formData.ordinaryShare,
-
+        
+        disposableRemark:this.formData.disposableRemark,
         ordinarySpecialTax: this.formData.ordinarySpecialTax,
         ordinaryTax: this.formData.ordinaryTax,
         isSlider: this.formData.isSlider,
