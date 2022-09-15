@@ -460,11 +460,11 @@
       </el-row>
       <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="是否收取注册服务费" :required="true">
-              <el-radio :disabled="true" v-model="formData.isRegisterMoney" label="0">是</el-radio>
-              <el-radio :disabled="true" v-model="formData.isRegisterMoney" label="1">否</el-radio>
+          <el-form-item label="个体注册服务费" :required="true">
+              <el-radio :disabled="true" v-model="formData.isRegisterMoney" label="0">开启</el-radio>
+              <el-radio :disabled="true" v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
            </el-form-item>
-          <el-form-item v-if="formData.isRegisterMoney==0" label="个体户注册服务费" :required="true">
+          <el-form-item v-if="formData.isRegisterMoney==0" label="服务费" :required="true">
             <el-input style="width:87%" v-model="formData.registerMoney" :disabled="true" type="number" :step="0.01"
               :min="0" oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
               <template slot="append">元</template>
@@ -477,7 +477,7 @@
         </el-col>
 
       </el-row>
-      <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+      <el-row v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0" type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="是否分润" prop='isSelfShare'>
             <el-radio disabled v-model="formData.isSelfShare" label="0">是</el-radio>
@@ -583,10 +583,10 @@
               </div>
             </el-form-item>
           </div>
-
-
-
-        </el-col>
+      </el-col>
+      <el-col :span="9"></el-col>  
+      </el-row>
+      <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
           <el-form-item label="增值税专用发票" :required="true">
             <el-radio disabled v-model="formData.isSlider" label="0">开启</el-radio>
@@ -656,9 +656,10 @@
 
 
         </el-col>
-
+        <el-col :span="9">
+           
+        </el-col>
       </el-row>
-
 
       <el-row type="flex" class="row-bg " justify="space-around" v-if="formData.isSelfCount == 0">
             <el-col :span="9">
@@ -734,7 +735,18 @@
             </el-row>
             </el-col>
             <el-col :span="9">
-          
+              <el-form-item label="备注" v-if="formData.isDisposable==0">
+                <el-input
+                :readonly="true"
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
             </el-col>
 
       </el-row>

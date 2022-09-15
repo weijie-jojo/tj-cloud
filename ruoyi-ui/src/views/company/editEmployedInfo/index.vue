@@ -531,11 +531,11 @@
         
         <el-row v-if="formData.isSelfCount==0" type="flex" class="row-bg " justify="space-around">
           <el-col :span="9">
-            <el-form-item label="是否收取注册服务费" prop='isRegisterMoney'>
-              <el-radio v-model="formData.isRegisterMoney" label="0">是</el-radio>
-              <el-radio v-model="formData.isRegisterMoney" label="1">否</el-radio>
+            <el-form-item label="个体户注册服务费" prop='isRegisterMoney'>
+              <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
+              <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
            </el-form-item>
-          <el-form-item  v-if="formData.isRegisterMoney==0" label="个体户注册服务费" prop="registerMoney" >
+          <el-form-item  v-if="formData.isRegisterMoney==0" label="服务费" prop="registerMoney" >
               <el-input v-model="formData.registerMoney"
                :min="0"
                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -552,7 +552,7 @@
 
         </el-row>
 
-         <el-row v-if="formData.isSelfCount == 0" type="flex" class="row-bg " justify="space-around">
+         <el-row v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0" type="flex" class="row-bg " justify="space-around">
            <el-col :span="9">
                 <el-form-item label="是否分润" prop='isSelfShare'>
               <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
@@ -679,7 +679,11 @@
               </div>
             
           </el-col>
-          <el-col :span="9">
+          <el-col :span="9"></el-col>
+       </el-row>
+
+       <el-row type="flex" class="row-bg " justify="space-around">
+        <el-col :span="9">
             
             <el-form-item label="增值税专用发票" :required="true">
             <el-radio  v-model="formData.isSlider" label="0">开启</el-radio>
@@ -764,6 +768,7 @@
             
           
           </el-col>
+          <el-col :span="9"></el-col>
        </el-row>
 
 
@@ -833,7 +838,18 @@
             </el-row>
             </el-col>
             <el-col :span="9">
-          
+              <el-form-item label="备注" v-if="formData.isDisposable==0">
+                <el-input
+               
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
             </el-col>
 
       </el-row>
@@ -1008,6 +1024,7 @@ export default {
       industryTax:'',
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       formData: {
+        disposableRemark:'',
         isDisposableShare:'1',
         disposableShareIsmoney:'0',
         disposableShare:'0',
@@ -1677,6 +1694,7 @@ export default {
      singleOK(e) {
 
       if (this.formData.isSelfCount == 0) {
+         this.formData.disposableRemark='';
          this.formData.isDisposableShare='1';
          this.formData.disposableShareIsmoney='0';
          this.formData.disposableShare='0';
@@ -1732,7 +1750,8 @@ export default {
             this.formData.isSpecialShare=JSON.stringify(this.unlist.isSpecialShare);
             this.formData.ordinarySpecialTax = JSON.stringify(this.unlist.ordinarySpecialTax);
             this.formData.ordinaryTax = JSON.stringify(this.unlist.ordinaryTax);
-
+            
+            this.formData.disposableRemark=this.unlist.disposableRemark;
 
             this.formData.isDisposableShare=JSON.stringify(this.unlist.isDisposableShare);
             this.formData.disposableShareIsmoney=JSON.stringify(this.unlist.disposableShareIsmoney);
@@ -2043,71 +2062,7 @@ export default {
     
 
     submitForm() {
-      //  if (this.formData.industryType == '-1') {
-      //   this.$modal.msgError("请选择行业类型");
-      //   return;
-      // }
-      //  if (!this.formData.industryTax) {
-      //    this.$modal.msgError("税率不能为空");
-      //    return;
-      // }
-
-      //   if (this.formData.isSlider == '0') {
-      //        if (this.formData.selfShareIsmoney == '1') {
-      //     if (this.formData.selfShare > 100) {
-      //        this.$alert('个体注册服务分润费按百分比不能大于100%', '系统提示', {
-      //             confirmButtonText: '确定',
-      //             type: 'error'
-      //           });
-      //        }
-      //     } 
-
-      //   if (this.formData.specialShareIsmoney == '1') {
-      //     if (this.formData.specialShare > 100) {
-      //       this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-      //             confirmButtonText: '确定',
-                
-      //             type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-      //   if (this.formData.specialProxyIsmoney == '1') {
-      //     if (this.formData.specialSelfFee > 100) {
-      //       this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-      //             confirmButtonText: '确定',
-                 
-      //             type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-      // }
-
-      // if(this.formData.isSliderOrdinary==0){
-      // if(this.formData.ordinaryShareIsmoney=='1'){
-      //       if( this.formData.ordinaryShare>100){
-      //          this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-      //             confirmButtonText: '确定',
-                  
-      //             type: 'error'
-      //       });
-      //           return;
-      //      }
-      //  }
-   
     
-      // if(this.formData.ordinaryProxyIsmoney=='1'){
-      //       if( this.formData.ordinaryProxyFee>100){
-      //           this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-      //             confirmButtonText: '确定',
-                
-      //             type: 'error'
-      //         });
-      //           return;
-      //      }
-      //    }
-      // }
     
       this.$refs['elForm'].validate(valid => {
         
@@ -2185,6 +2140,7 @@ export default {
             isOrdinaryShare:this.formData.isOrdinaryShare,//普票是否分润
             isSpecialShare:this.formData.isSpecialShare,//普票平台服务费是否定额
 
+            disposableRemark:this.formData.disposableRemark,
             isDisposableShare: this.formData.isDisposableShare,
             disposableShareIsmoney:  this.formData.disposableShareIsmoney,
             disposableShare:  this.formData.disposableShare,

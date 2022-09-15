@@ -1506,7 +1506,7 @@ export default {
           label: "直客",
         },
       ],
-      employeeNumber: "",
+     
       activeNameseg: "1",
       activeNamese: "1",
       optiond: [
@@ -2246,6 +2246,7 @@ export default {
     },
   },
   mounted() {
+    this.getSelfCode();
    
     this.getLoginInfo();
     //申请人
@@ -2796,8 +2797,8 @@ export default {
       this.formData.applyPhone = applyName.phonenumber;
       this.formData.applyIdNum = applyName.idNo;
       this.formData.applyId = applyName.userId;
-      this.employeeNumber = applyName.employeeNumber;
-      this.getSelfCode();
+   
+     
     },
     
     //把数据整成树状
@@ -3001,19 +3002,7 @@ export default {
     //获取编号
     getSelfCode() {
       //获取员工编号
-      // getInfo().then(res => {
-      //   var userId = res.user.userId;
-      //   crudInformation.getInformation(userId).then(res => {
-      //     var employeeNumber = res.data.employeeNumber;
-      //     crudReview.getCode({ employeeNumber: employeeNumber }).then(res => {
-      //       this.formData.selfCode = res;
-
-      //     })
-      //   });
-      // })
-      crudReview
-        .getCode({ employeeNumber: this.employeeNumber })
-        .then((res) => {
+     crudReview.getCode().then((res) => {
           this.formData.selfCode = res;
         });
     },
