@@ -1,15 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.validation.Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.SpringUtils;
@@ -22,13 +12,22 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.domain.SysUserPost;
 import com.ruoyi.system.domain.SysUserRole;
-import com.ruoyi.system.mapper.SysPostMapper;
-import com.ruoyi.system.mapper.SysRoleMapper;
-import com.ruoyi.system.mapper.SysUserMapper;
-import com.ruoyi.system.mapper.SysUserPostMapper;
-import com.ruoyi.system.mapper.SysUserRoleMapper;
+import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import javax.validation.Validator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户 业务层处理
@@ -60,6 +59,12 @@ public class SysUserServiceImpl implements ISysUserService
 
     @Autowired
     protected Validator validator;
+
+    /*根据userId查询角色*/
+    @Override
+    public List<SysUserRole>  selectRoleByUserId(Long userId){
+        return  userRoleMapper.selectRoleByUserId(userId);
+    };
 
     /**
      * 通过角色ID查询用户
@@ -96,10 +101,30 @@ public class SysUserServiceImpl implements ISysUserService
     {
         return userMapper.selectUserList(user);
     }
-
+    /**
+     * 根据条件分页查询用户列表(列表页用）
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectUserList2(List<Long> userIdArr, SysUser user)
+    {
+        return userMapper.selectUserList2(userIdArr,user);
+    }
     @Override
     public List<SysUser> selectAllUser2() {
         return userMapper.selectAllUser2();
+    }
+
+    /*
+    * 根据部门id获取用户集合
+    *
+    * */
+    @Override
+    public List<SysUser> selectUserByDeptId(Long deptId) {
+        return userMapper.selectUserByDeptId(deptId);
     }
 
     /**

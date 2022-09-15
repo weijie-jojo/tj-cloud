@@ -11,6 +11,8 @@ import com.ruoyi.system.domain.SysUserRole;
  */
 public interface SysUserRoleMapper
 {
+
+    public List<SysUserRole>  selectRoleByUserId(Long userId);
     /**
      * 通过用户ID删除用户和角色关联
      * 

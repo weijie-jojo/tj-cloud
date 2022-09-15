@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.domain.SysUserRole;
 
 /**
  * 用户 业务层
@@ -10,6 +11,9 @@ import com.ruoyi.system.api.domain.SysUser;
  */
 public interface ISysUserService
 {
+    /*根据userId查询角色*/
+    public List<SysUserRole>  selectRoleByUserId(Long userId);
+
     /**
      * 通过角色ID查询用户
      *
@@ -31,12 +35,26 @@ public interface ISysUserService
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUserList(SysUser user);
+
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUserList2(List<Long> userIdArr,SysUser user);
     /**
      * 查询所有用户(排除删除的)
      *
      * @return 用户信息集合信息
      */
     public List<SysUser> selectAllUser2();
+
+    /*
+     * 根据部门id获取用户集合
+     *
+     * */
+    public List<SysUser> selectUserByDeptId(Long deptId);
 
     /**
      * 根据条件分页查询已分配用户角色列表

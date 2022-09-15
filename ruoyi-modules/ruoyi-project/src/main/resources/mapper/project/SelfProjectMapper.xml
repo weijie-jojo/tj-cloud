@@ -105,6 +105,7 @@
         <result property="purchCompanyAddress"    column="purch_company_address"    />
         <result property="bankName"    column="bank_name"    />
         <result property="bankCode"    column="bank_code"    />
+        <result property="disposableRemark"    column="disposable_remark"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -123,7 +124,7 @@
                ordinary_self_money, project_rate_status,project_receive_status, project_pay_status,receive_moneys, receive_remain_moneys,
                pay_total_moneys, pay_moneys, pay_remain_moneys,is_register_money, is_disposable, disposable_share, disposable_share_ismoney,
                is_disposable_share, disposable_fee, disposable_fee_ismoney,receive_remark,pay_remark,receive_total_moneys,purch_company_phone,
-               purch_company_address, bank_name, bank_code
+               purch_company_address, bank_name, bank_code,disposable_remark
         from self_project
     </sql>
 
@@ -149,7 +150,7 @@
                 t.project_receive_status, t.project_pay_status,t.receive_moneys, t.receive_remain_moneys, t.pay_total_moneys,
                 t.pay_moneys, t.pay_remain_moneys,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney,
                 t.is_disposable_share, t.disposable_fee, t.disposable_fee_ismoney,t.receive_remark,t.pay_remark,t.receive_total_moneys,
-                t.purch_company_phone, t.purch_company_address, t.bank_name, t.bank_code,
+                t.purch_company_phone, t.purch_company_address, t.bank_name, t.bank_code,t.disposable_remark,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
                 B.private_deposit_bank, B.private_account_number,B.public_deposit_bank_1, B.public_account_number_1, B.public_deposit_bank_2,
                 B.public_account_number_2, B.account_name, B.public_deposit_bank_3,B.public_account_number_3,
@@ -279,6 +280,7 @@
             <if test="selfProject.purchCompanyAddress != null  and selfProject.purchCompanyAddress != ''"> and purch_company_address = #{selfProject.purchCompanyAddress}</if>
             <if test="selfProject.bankName != null  and selfProject.bankName != ''"> and bank_name like concat('%', #{selfProject.bankName}, '%')</if>
             <if test="selfProject.bankCode != null  and selfProject.bankCode != ''"> and bank_code = #{selfProject.bankCode}</if>
+            <if test="selfProject.disposableRemark != null  and selfProject.disposableRemark != ''"> and disposable_remark = #{selfProject.disposableRemark}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -395,6 +397,7 @@
             <if test="purchCompanyAddress != null">purch_company_address,</if>
             <if test="bankName != null">bank_name,</if>
             <if test="bankCode != null">bank_code,</if>
+            <if test="disposableRemark != null">disposable_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -496,6 +499,7 @@
             <if test="purchCompanyAddress != null">#{purchCompanyAddress},</if>
             <if test="bankName != null">#{bankName},</if>
             <if test="bankCode != null">#{bankCode},</if>
+            <if test="disposableRemark != null">#{disposableRemark},</if>
         </trim>
     </insert>
 
@@ -601,6 +605,7 @@
             <if test="purchCompanyAddress != null">purch_company_address = #{purchCompanyAddress},</if>
             <if test="bankName != null">bank_name = #{bankName},</if>
             <if test="bankCode != null">bank_code = #{bankCode},</if>
+            <if test="disposableRemark != null">disposable_remark = #{disposableRemark},</if>
         </trim>
         where project_id = #{projectId}
     </update>

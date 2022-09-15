@@ -104,6 +104,7 @@
         <result property="isDisposableShare"    column="is_disposable_share"    />
         <result property="disposableFee"    column="disposable_fee"    />
         <result property="disposableFeeIsmoney"    column="disposable_fee_ismoney"    />
+        <result property="disposableRemark"    column="disposable_remark"    />
     </resultMap>
 
     <sql id="selectSelfEmployedJoin">
@@ -121,7 +122,7 @@
             t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
             t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,t.self_share,t.is_self_share,
             t.self_share_ismoney,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney, t.is_disposable_share,
-            t.disposable_fee, t.disposable_fee_ismoney,
+            t.disposable_fee, t.disposable_fee_ismoney,t.disposable_remark,
             B.contact_phone,
             C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
             C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
@@ -145,7 +146,7 @@
                special_share_money, is_ordinary_tax, is_special_tax, remark_register, is_special_self_tax, is_self_count, ordinary_proxy_ismoney,
                special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
                is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share,self_share_ismoney,is_register_money, is_disposable,
-               disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney
+               disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney,disposable_remark
         from self_employed
     </sql>
 
@@ -242,6 +243,7 @@
             <if test="isDisposableShare != null "> and is_disposable_share = #{isDisposableShare}</if>
             <if test="disposableFee != null "> and disposable_fee = #{disposableFee}</if>
             <if test="disposableFeeIsmoney != null "> and disposable_fee_ismoney = #{disposableFeeIsmoney}</if>
+            <if test="disposableRemark != null  and disposableRemark != ''"> and disposable_remark = #{disposableRemark}</if>
         </where>
     </select>
 
@@ -364,6 +366,7 @@
             <if test="isDisposableShare != null">is_disposable_share,</if>
             <if test="disposableFee != null">disposable_fee,</if>
             <if test="disposableFeeIsmoney != null">disposable_fee_ismoney,</if>
+            <if test="disposableRemark != null">disposable_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="selfCode != null">#{selfCode},</if>
@@ -464,6 +467,7 @@
             <if test="isDisposableShare != null">#{isDisposableShare},</if>
             <if test="disposableFee != null">#{disposableFee},</if>
             <if test="disposableFeeIsmoney != null">#{disposableFeeIsmoney},</if>
+            <if test="disposableRemark != null">#{disposableRemark},</if>
         </trim>
     </insert>
 
@@ -568,6 +572,7 @@
             <if test="isDisposableShare != null">is_disposable_share = #{isDisposableShare},</if>
             <if test="disposableFee != null">disposable_fee = #{disposableFee},</if>
             <if test="disposableFeeIsmoney != null">disposable_fee_ismoney = #{disposableFeeIsmoney},</if>
+            <if test="disposableRemark != null">disposable_remark = #{disposableRemark},</if>
         </trim>
         where self_id = #{selfId}
     </update>

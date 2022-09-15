@@ -422,5 +422,9 @@ public class SelfEmployed extends BaseEntity
     @ApiModelProperty(value =  "一次性收取费用是否定额 1 百分比 0定额")
     private Long disposableFeeIsmoney;
 
+    /** 一次性收取费用备注 */
+    @ApiModelProperty(value = "一次性收取费用备注")
+    private String disposableRemark;
+
 }
 

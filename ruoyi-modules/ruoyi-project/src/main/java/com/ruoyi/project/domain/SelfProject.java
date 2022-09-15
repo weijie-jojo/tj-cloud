@@ -421,4 +421,8 @@ public class SelfProject extends BaseEntity
     /** 开户行帐号  甲方 */
     @ApiModelProperty(value = "开户行帐号  甲方")
     private String bankCode;
+
+    /** 一次性收取费用备注 */
+    @ApiModelProperty(value = "一次性收取费用备注")
+    private String disposableRemark;
 }

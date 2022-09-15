@@ -1,31 +1,6 @@
 package com.ruoyi.system.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
 import com.ruoyi.common.core.constant.CacheConstants;
-import com.ruoyi.common.redis.service.RedisService;
-import com.ruoyi.system.domain.EmployeeInformation;
-import com.ruoyi.system.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -35,12 +10,30 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -68,9 +61,6 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysConfigService configService;
-
-    @Autowired
-    private IEmployeeInformationService employeeInformationService;
 
     @Autowired
     private RedisService redisService;
@@ -108,8 +98,9 @@ public class SysUserController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(SysUser user)
     {
+        List<Long> userIdArr=this.getUserIdArr();
         startPage();
-        List<SysUser> list = userService.selectUserList(user);
+        List<SysUser> list = userService.selectUserList2(userIdArr,user);
         return getDataTable(list);
     }
     /**
@@ -128,7 +119,8 @@ public class SysUserController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user)
     {
-        List<SysUser> list = userService.selectUserList(user);
+        List<Long> userIdArr=this.getUserIdArr();
+        List<SysUser> list = userService.selectUserList2(userIdArr,user);
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         util.exportExcel(response, list, "用户数据");
     }
@@ -260,36 +252,6 @@ public class SysUserController extends BaseController
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-//        EmployeeInformation employeeInformation=new EmployeeInformation();
-//        employeeInformation.setUsername(user.getUserName());
-//        employeeInformation.setNickName(user.getNickName());
-//        employeeInformation.setDeptId(user.getDeptId());
-//        employeeInformation.setGender(user.getSex());
-//        employeeInformation.setPhone(user.getPhonenumber());
-//        employeeInformation.setEmail(user.getEmail());
-//        employeeInformation.setPayCheck(user.getPayCheck());
-//        employeeInformation.setPayCheckBank(user.getPayCheckBank());
-//        employeeInformation.setCreateBy(user.getCreateBy());
-//        employeeInformation.setUpdateBy(user.getUpdateBy());
-//        employeeInformation.setCreateTime(user.getCreateTime());
-//        employeeInformation.setUpdateTime(user.getUpdateTime());
-//        employeeInformation.setEnabled(1L);
-//        String lastStr= employeeInformationService.selectMaxCode().getEmployeeNumber();
-//        Integer lastNum= Integer.parseInt(lastStr.substring(lastStr.length()-4))+1;
-//        System.out.println("lastNum=="+lastNum);
-//        String employeeNumber="";
-//        if (lastNum<10){
-//            employeeNumber="TJXZ"+"000"+lastNum;
-//        }
-//        if (lastNum>=10&&lastNum<100){
-//            employeeNumber="TJXZ"+"00"+lastNum;
-//        }
-//        if (lastNum>=100&&lastNum<1000){
-//            employeeNumber="TJXZ"+"0"+lastNum;
-//        }
-//        employeeInformation.setEmployeeNumber(employeeNumber);
-//        System.out.println("employeeInformation=="+employeeInformation);
-//        employeeInformationService.insertEmployeeInformation(employeeInformation);
         Integer res=userService.insertUser(user);
         List<SysUser> list = userService.selectAllUser2();
         System.out.println("list=="+list);
@@ -400,4 +362,41 @@ public class SysUserController extends BaseController
         userService.insertUserAuth(userId, roleIds);
         return success();
     }
+
+    /*
+    * 获取用户id集合（查询过滤条件）
+    *
+    * */
+    public  List<Long> getUserIdArr(){
+        System.out.println("getUserId=="+SecurityUtils.getUserId());
+        //获取登录用户
+        SysUser sysUser = userService.selectUserById(SecurityUtils.getUserId());
+        //登录用户部门id
+        Long deptId= sysUser.getDeptId();
+        //根据部门id获取用户集合
+        List<SysUser> users= userService.selectUserByDeptId(deptId);
+        //查询登录用户所属角色
+        List<SysUserRole> roles= userService.selectRoleByUserId(SecurityUtils.getUserId());
+        //存储userId的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserRole role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||role.getRoleId()==8){//部门主管
+                System.out.println("部门主管");
+                for (SysUser user1:users){//登录用户所属部门的所有用户名
+                    userIdArr.add(user1.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
+            }
+        }
+        System.out.println("userIdArr=="+userIdArr);
+        return userIdArr;
+    }
+
 }
