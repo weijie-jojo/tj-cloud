@@ -962,8 +962,14 @@ export default {
     },
     getApplyName() {
       crudEmployed.getAllUser().then(res => {
-        console.log("getApplyName", res.rows);
-        this.applyNames = res.rows;
+        let arr = res.data;
+        let brr = [];
+        for (let i in arr) {
+          if (arr[i].deptId == 202) {
+            brr.push(arr[i]);
+          }
+        }
+        this.applyNames = brr;
       })
     },
     handleClick(tab, event) {

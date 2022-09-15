@@ -1347,13 +1347,6 @@ export default {
   computed: {},
   watch: {
     'formData.industryType': 'selectIndustryType',
-
-    // 'formData.contactName': {
-    //   handler: function () {
-    //     this.formData.legalPersonName = this.formData.contactName;
-    //   },
-    //   deep: true
-    // }
   },
   created() {
 
@@ -1362,7 +1355,6 @@ export default {
 
     this.getLoginInfo();
     //申请人
-   // this.getApplyName();
     //联系人
    // this.getContactName();
     //个体户行业类型税率

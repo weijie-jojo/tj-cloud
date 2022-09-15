@@ -1297,8 +1297,6 @@ export default {
   mounted() {
 
     this.getLoginInfo();
-    //申请人
-    //this.getApplyName();
     //联系人
     //this.getContactName();
     //个体户行业类型税率
@@ -1541,12 +1539,7 @@ export default {
       this.formData.industryTax = rate.taxRate;
       console.log("rate==", rate);
     },
-    selectApplyName(value) {
-      var applyName = this.applyNames.find((item) => item.userId == value);
-      this.formData.applyPhone = applyName.phone;
-      this.formData.applyIdNum = applyName.idNo;
-      console.log("applyName==", applyName);
-    },
+   
     getRate() {
       crudRate.getAllRate().then(res => {
         var employedInfo = this.$cache.local.getJSON('employedInfo');
@@ -1593,12 +1586,7 @@ export default {
         this.contactNames = res.rows;
       })
     },
-    getApplyName() {
-      crudInformation.getAllInformation().then(res => {
-        console.log("getApplyName", res.rows);
-        this.applyNames = res.rows;
-      })
-    },
+   
     handleClick(tab, event) {
       console.log(tab, event);
     },

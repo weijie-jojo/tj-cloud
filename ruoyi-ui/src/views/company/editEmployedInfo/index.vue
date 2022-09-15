@@ -1941,7 +1941,14 @@ export default {
     },
     getApplyName() {
       crudEmployed.getAllUser().then(res => {
-        this.applyNames = res.rows;
+        let arr = res.data;
+        let brr = [];
+        for (let i in arr) {
+          if (arr[i].deptId == 202) {
+            brr.push(arr[i]);
+          }
+        }
+        this.applyNames = brr;
         var employedInfo = this.$cache.local.getJSON('employedInfo');
         this.formData.applyName = parseInt(employedInfo.applyName);
       })

@@ -2861,7 +2861,7 @@ export default {
         let arr = res.data;
         let brr = [];
         for (let i in arr) {
-          if (arr[i].deptId == 20) {
+          if (arr[i].deptId == 202) {
             brr.push(arr[i]);
           }
         }
@@ -2951,71 +2951,6 @@ export default {
     },
 
     submitForm() {
-      // if (this.formData.industryType == '-1') {
-      //   this.$modal.msgError("请选择行业类型");
-      //   return;
-      // }
-      // if (!this.formData.industryTax) {
-      //   this.$modal.msgError("税率不能为空");
-      //   return;
-      // }
-
-      // if (this.formData.selfShareIsmoney == '1') {
-      //     if (this.formData.selfShare > 100) {
-      //       this.$alert('个体注册服务费分润按百分比不能大于100%', '系统提示', {
-      //         confirmButtonText: '确定',
-      //         type: 'error'
-      //       });
-      //     }
-      //   }
-
-      // if (this.formData.isSlider == '0') {
-      //     if (this.formData.specialShareIsmoney == '1') {
-      //     if (this.formData.specialShare > 100) {
-      //       this.$alert('专票分润费按百分比不能大于100%', '系统提示', {
-      //         confirmButtonText: '确定',
-
-      //         type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-      //   if (this.formData.specialProxyIsmoney == '1') {
-      //     if (this.formData.specialSelfFee > 100) {
-      //       this.$alert('专票服务费按百分比不能大于100%', '系统提示', {
-      //         confirmButtonText: '确定',
-
-      //         type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-      // }
-
-      // if (this.formData.isSliderOrdinary == 0) {
-      //   if (this.formData.ordinaryShareIsmoney == '1') {
-      //     if (this.formData.ordinaryShare > 100) {
-      //       this.$alert('普票分润费按百分比不能大于100%', '系统提示', {
-      //         confirmButtonText: '确定',
-
-      //         type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-
-      //   if (this.formData.ordinaryProxyIsmoney == '1') {
-      //     if (this.formData.ordinarySelfFee > 100) {
-      //       this.$alert('普票服务费按百分比不能大于100%', '系统提示', {
-      //         confirmButtonText: '确定',
-
-      //         type: 'error'
-      //       });
-      //       return;
-      //     }
-      //   }
-      // }
-
       this.$refs["elForm"].validate((valid) => {
         if (valid) {
           this.submitFormNameS(); //名称录入成功l
