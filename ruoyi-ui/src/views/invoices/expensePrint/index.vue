@@ -49,7 +49,7 @@
               <div class="comborder1 flexs" :style="[c5]" style="border-left:1px solid #333">{{  ruleForm.item5Desc  }}
               </div>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <div class="comborder">单据数量</div>
               <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.accessoryNum1==0?'': ruleForm.accessoryNum1}}</div>
               <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.accessoryNum2==0?'': ruleForm.accessoryNum2  }}</div>
@@ -57,7 +57,7 @@
               <div class="comborder1 flexs" :style="[c4]">{{  ruleForm.accessoryNum4==0?'': ruleForm.accessoryNum4  }}</div>
               <div class="comborder1 flexs" :style="[c5]">{{  ruleForm.accessoryNum5==0?'': ruleForm.accessoryNum5  }}</div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div class="comborder">金额</div>
               <div class="comborder1 flexs" :style="[c1]">{{  ruleForm.item1Money==0?'': ruleForm.item1Money  }}</div>
               <div class="comborder1 flexs" :style="[c2]">{{  ruleForm.item2Money==0?'': ruleForm.item2Money  }}</div>
@@ -79,12 +79,12 @@
             <el-col :span="6">
               <div class="comborder1" style="border-right:0px solid #333">合计</div>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <div class="comborder1">
                 {{  accessoryNum==0?'': accessoryNum  }}张
               </div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div class="comborder1" style="text-align:center">
                 {{  ruleForm.totalMoney}}
               </div>

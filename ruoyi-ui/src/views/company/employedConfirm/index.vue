@@ -159,7 +159,7 @@ export default {
       };
       this.$cache.local.setJSON('backurls', obj);
       this.$cache.local.setJSON("employedInfo", row);
-       this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
+       this.$tab.openPage("个体户注册确认修改", "/company/customer/regReviewDdit")
         
     },
     look(row) {
@@ -168,7 +168,7 @@ export default {
         };
       this.$cache.local.setJSON('backurls',obj);
       this.$cache.local.setJSON("employedInfo", row);
-      this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+      this.$tab.openPage("个体户注册确认查看", "/company/customer/RegReviewDetail")
      
     },
     detail(row) {
