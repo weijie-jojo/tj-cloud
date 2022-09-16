@@ -418,7 +418,7 @@
       </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -5%;">
             <el-radio v-model="isokradio" label="1"> 通过</el-radio>
 
           </el-form-item>
@@ -428,7 +428,7 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -7%;">
+          <el-form-item class="comright" style="padding-right: 4.2%;margin-left: -5%;">
             <div style="display: flex; align-items: center;justify-content: flex-start;">
               <el-radio v-model="isokradio" label="2">不通过 </el-radio>
               <el-input type="textarea" placeholder="请输入不通过说明" v-model="remark" :disabled="isokradio == 1"></el-input>

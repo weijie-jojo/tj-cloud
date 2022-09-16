@@ -21,8 +21,24 @@
           <el-form-item label="联系人" prop="placeLinkman">
             <el-input v-model="ruleForm.placeLinkman" />
           </el-form-item>
+          <el-row
+           type="flex"
+           class="row-bg"
+           style="margin-bottom: 20px"
+           justify="space-around"
+           >
+          <el-col :span="20" >
+            <div class="bankno">
+              个体注册服务费
+             </div>
+           
+          </el-col>
+          <el-col :span="4">
+            <div></div>
+          </el-col>
+        </el-row>
 
-          <el-form-item label="个体户注册服务费" prop='isRegisterMoney'>
+          <el-form-item label="状态" prop='isRegisterMoney'>
               <el-radio v-model="ruleForm.isRegisterMoney" label="0">开启</el-radio>
               <el-radio v-model="ruleForm.isRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
@@ -94,9 +110,26 @@
 
       </el-row>
 
+      <el-row
+           type="flex"
+           class="row-bg"
+           style="margin-bottom: 20px"
+           justify="space-around"
+           >
+          <el-col :span="8" >
+            <div class="bankno">
+              增值税普通发票
+             </div>
+           
+          </el-col>
+          <el-col :span="10">
+            <div></div>
+          </el-col>
+        </el-row>
+
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="增值税普通发票" :required="true">
+          <el-form-item label="状态" :required="true">
             <el-radio v-model="ruleForm.isSliderOrdinary" label="0">开启</el-radio>
             <el-radio v-model="ruleForm.isSliderOrdinary" label="1">关闭</el-radio>
           </el-form-item>
@@ -197,9 +230,26 @@
         <el-col :span="9"> </el-col>
       </el-row>
 
+      <el-row
+           type="flex"
+           class="row-bg"
+           style="margin-bottom: 20px"
+           justify="space-around"
+           >
+          <el-col :span="8" >
+            <div class="bankno">
+              增值税专用发票
+             </div>
+           
+          </el-col>
+          <el-col :span="10">
+            <div></div>
+          </el-col>
+        </el-row>
+
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item label="增值税专用发票" :required="true">
+          <el-form-item label="状态" :required="true">
             <el-radio v-model="ruleForm.isSlider" label="0">开启</el-radio>
             <el-radio v-model="ruleForm.isSlider" label="1">关闭</el-radio>
           </el-form-item>
@@ -299,12 +349,26 @@
       </el-row>
 
 
+      <el-row
+           type="flex"
+           class="row-bg"
+           style="margin-bottom: 20px"
+           justify="space-around"
+           >
+          <el-col :span="8" >
+            <div class="bankno">
+              一次性费用
+             </div>
+           
+          </el-col>
+          <el-col :span="10">
+            <div></div>
+          </el-col>
+        </el-row>
 
-
-
-      <el-row type="flex" class="row-bg " justify="space-around">
+        <el-row type="flex" class="row-bg " justify="space-around">
             <el-col :span="9">
-              <el-form-item label="一次性费用" prop='isDisposable'>
+              <el-form-item label="状态" prop='isDisposable'>
               <el-radio v-model="ruleForm.isDisposable" label="0">开启</el-radio>
               <el-radio v-model="ruleForm.isDisposable" label="1">关闭</el-radio>
             </el-form-item>
@@ -332,7 +396,19 @@
                     </el-input>
                   </div>
                 </el-form-item>
+                <el-form-item label="备注" v-if="ruleForm.isDisposable==0">
+                <el-input
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="ruleForm.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
               </el-col>
+              
 
             </el-row>
             <el-form-item label="是否分润" prop="isDisposableShare" v-if="ruleForm.isDisposable==0">
@@ -368,17 +444,7 @@
             </el-row>
             </el-col>
             <el-col :span="9">
-              <el-form-item label="备注" v-if="ruleForm.isDisposable==0">
-                <el-input
-                maxlength="50"
-                show-word-limit
-                type="textarea"
-                :rows="2"
-                placeholder="请输入备注"
-                v-model="ruleForm.disposableRemark"
-              >
-              </el-input>
-              </el-form-item>
+             
             </el-col>
          </el-row>
        <el-row type="flex" class="row-bg " justify="space-around">
@@ -1226,5 +1292,13 @@ export default {
   justify-content: center;
 
 }
+.bankno {
+  letter-spacing: 2px;
+
+  font-size: 20px;
+
+  color: blue;
+}
+
 </style>
 

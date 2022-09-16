@@ -490,12 +490,29 @@
       </el-row>
       <el-row
         v-if="formData.isSelfCount == 0"
+          type="flex"
+          class="row-bg"
+          style="margin-bottom: 20px"
+          justify="space-around"
+        >
+          <el-col :span="10" >
+            <div class="bankno">
+              个体注册服务费
+             </div>
+           
+          </el-col>
+          <el-col :span="9">
+            <div></div>
+          </el-col>
+        </el-row>
+      <el-row
+        v-if="formData.isSelfCount == 0"
         type="flex"
         class="row-bg"
         justify="space-around"
       >
         <el-col :span="9">
-          <el-form-item label="个体注册服务费" prop="isRegisterMoney">
+          <el-form-item label="状态" prop="isRegisterMoney">
             <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
             <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
           </el-form-item>
@@ -517,7 +534,7 @@
         <el-col :span="9"> </el-col>
       </el-row>
       <el-row
-        v-if="formData.isSelfCount == 0 && formData.registerMoney"
+        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0"
         type="flex"
         class="row-bg"
         justify="space-around"
@@ -583,13 +600,26 @@
       </el-row>
 
       <el-row
+        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+          type="flex"
+          class="row-bg"
+          style="margin-bottom: 20px"
+          justify="space-around"
+        >
+          <el-col :span="10">
+            <div class="bankno">增值税普通发票</div>
+           </el-col>
+          <el-col :span="9"> </el-col>
+        </el-row>
+
+      <el-row
         type="flex"
         class="row-bg"
         justify="space-around"
         v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
       >
         <el-col :span="9">
-          <el-form-item label="增值税普通发票" :required="true">
+          <el-form-item label="状态" :required="true">
             <el-radio
               @change="ispublic"
               v-model="formData.isSliderOrdinary"
@@ -717,6 +747,22 @@
       </el-row>
 
 
+
+      <el-row
+        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+          type="flex"
+          class="row-bg"
+          style="margin-bottom: 20px"
+          justify="space-around"
+        >
+          <el-col :span="10" >
+            <div class="bankno">增值税专用发票
+              </div>
+           </el-col>
+          <el-col :span="9"></el-col>
+        </el-row>
+
+
       <el-row
         type="flex"
         class="row-bg"
@@ -725,7 +771,7 @@
       >
      
         <el-col :span="9">
-          <el-form-item label="增值税专用发票" :required="true">
+          <el-form-item label="状态" :required="true">
             <el-radio @change="ispublic" v-model="formData.isSlider" label="0"
               >开启</el-radio
             >
@@ -853,7 +899,23 @@
         </el-col>
       </el-row>
 
-
+      <el-row
+        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+          type="flex"
+          class="row-bg"
+          style="margin-bottom: 20px"
+          justify="space-around"
+        >
+          <el-col :span="8" class="flexs">
+            <div class="bankno" style="width:60%;">
+               一次性费用
+             </div>
+             <div style="width:40%"></div>
+          </el-col>
+          <el-col :span="8">
+            <div></div>
+          </el-col>
+        </el-row>
 
 
       <el-row
@@ -863,7 +925,7 @@
         v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
       >
         <el-col :span="9">
-          <el-form-item label="一次性费用" prop="isDisposable">
+          <el-form-item label="状态" prop="isDisposable">
             <el-radio v-model="formData.isDisposable" label="0">开启</el-radio>
             <el-radio v-model="formData.isDisposable" label="1">关闭</el-radio>
           </el-form-item>
@@ -917,6 +979,18 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-form-item label="备注" v-if="formData.isDisposable==0 ">
+                <el-input
+                
+                maxlength="50"
+                show-word-limit
+                type="textarea"
+                :rows="2"
+                placeholder="请输入备注"
+                v-model="formData.disposableRemark"
+              >
+              </el-input>
+              </el-form-item>
           <el-form-item
             label="是否分润"
             prop="isDisposableShare"
@@ -981,20 +1055,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="9"> 
-          <el-form-item label="备注" v-if="formData.isDisposable==0">
-                <el-input
-                maxlength="50"
-                show-word-limit
-                type="textarea"
-                :rows="2"
-                placeholder="请输入备注"
-                v-model="formData.disposableRemark"
-              >
-              </el-input>
-              </el-form-item>
-        
-        </el-col>
+        <el-col :span="9"> </el-col>
       </el-row>
 
       <!-- <el-row type="flex" class="row-bg " justify="space-around">
@@ -1102,7 +1163,7 @@ export default {
         disposableShare: "0",
         disposableFeeIsmoney: "1",
         disposableFee: "0",
-        isDisposable: "0", //是否一次性费用
+        isDisposable: "1", //是否一次性费用
         isRegisterMoney: "0", //是否收取注册服务费
 
         purchCompanyAddress: "", //甲方地址

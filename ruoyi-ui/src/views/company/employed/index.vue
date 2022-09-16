@@ -502,7 +502,7 @@ export default {
                 break;
               case 7:
                 this.$cache.local.setJSON("employedInfo", scope);
-                this.$tab.openPage("个体户注册确认", "/company/customer/confirmS")
+                this.$tab.openPage("个体户注册确认查看", "/company/customer/RegReviewDetail")
                  break;
 
             }
@@ -771,9 +771,9 @@ export default {
 
           }).then(() => {
             if (this.errConfirmsMsg == '修改') {
-                 this.$tab.openPage("个体户注册确认修改", "/company/customer/manageListDdits")
+                 this.$tab.openPage("个体户注册确认修改", "/company/customer/regReviewDdit")
              } else {
-               this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+               this.$tab.openPage("个体户注册确认查看", "/company/customer/RegReviewDetail")
                 
             }
 
@@ -987,7 +987,7 @@ export default {
         backUrl: '/company/customer/employed',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$tab.openPage("个体户注册确认查看", "/company/customer/confirmS")
+      this.$tab.openPage("个体户注册确认查看", "/company/customer/RegReviewDetail")
       
 
     },
