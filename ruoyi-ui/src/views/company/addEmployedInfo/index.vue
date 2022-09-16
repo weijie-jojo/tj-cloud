@@ -2537,7 +2537,8 @@ export default {
         //   this.formData.fontSize5 = ".";
         //   this.$refs.fontSize5.focus();
         // }
-      } else {
+        fieldsToValidate = ["industry"];
+      } else { 
         fieldsToValidate = ["industry"];
       }
       Promise.all(
