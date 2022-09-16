@@ -63,41 +63,33 @@
              
             </el-col>
             <el-col :span="4">
-              <div class="comborder" style="border-top:1px solid #333;border-left:1px solid #333">借支人</div>
+              <div class="comborder" style="border-top:1px solid #333;border-left:1px solid #333">{{ruleForm.job}}</div>
             
               
             </el-col>
 
           </el-row>
           <el-row>
-            
+
           </el-row>
           <el-row>
-            <el-col :span="6">
-              <div class="comborder1" style="border-right:0px solid #333">合计</div>
-            </el-col>
-            <el-col :span="3">
-              <div class="comborder1">
-                {{  accessoryNum==0?'': accessoryNum  }}张
+            <el-col :span="4">
+              <div class="comborder" :style="[c2]">
+                借支用途
               </div>
             </el-col>
-            <el-col :span="3">
-              <div class="comborder1" style="text-align:center">
-                {{  ruleForm.totalMoney}}
+            <el-col :span="20">
+              <div class="comborder" id="remark1" :style="[c1]">
+                 {{ruleForm.borrowDesc}}
               </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="comborder1"></div>
             </el-col>
           </el-row>
+         
           <el-row>
             <el-col :span="24">
               <div class="comborder" style="text-align: left;padding-left: 4px; letter-spacing: 4px;">总计(大写)人民币:<span>
                   {{  digitUppercase(ruleForm.totalMoney)
-
-
-
-                  }}</span></div>
+               }}</span></div>
             </el-col>
           </el-row>
           <el-row style="margin-top:20px;">
@@ -145,7 +137,7 @@
           </div>
          <div :style="{ height: screenHeight * 0.1 + 'px',display:'flex',justifyContent:'space-between',alignItems: 'center',paddingBottom:'10px' }">
             报销凭证影像
-            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+            <span> 借支单编号:{{ruleForm.borrowCode  }} </span>
           </div>
          
           <el-image :src="item.url" fill="scale-down"
@@ -169,7 +161,7 @@
               height: screenHeight * 0.01 + 'px',}">
           </div>
           <div :style="{ height: screenHeight * 0.1 + 'px',display:'flex',justifyContent:'space-between',alignItems: 'center',paddingBottom:'10px'  }">付款凭证影像
-            <span> 报销单号:{{ruleForm.expenseCode  }} </span>
+            <span> 借支单编号:{{ruleForm.borrowCode  }} </span>
           </div>
           <el-image :src="item.url" fill="scale-down"
             :style="{ height: screenHeight * 0.4 + 'px', width: screenWidth + 'px' }"></el-image>
@@ -296,8 +288,6 @@ export default {
       })
 
     }
-
-
     this.getHeight();
 
   },
@@ -309,36 +299,16 @@ export default {
       this.$nextTick(() => {
         console.log(document.getElementById('remark1').scrollHeight);
         if (document.getElementById('remark1').scrollHeight !== 0) {
-          this.c1 = { 'height': document.getElementById('remark1').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark1').scrollHeight / 2 + 'px' };
+          this.c2 = { 'height': document.getElementById('remark1').scrollHeight * 4 + 'px', 'line-height': document.getElementById('remark1').scrollHeight *4 + 'px' };
+          this.c1 = { 'height': document.getElementById('remark1').scrollHeight * 4 + 'px', 'line-height': document.getElementById('remark1').scrollHeight / 2 + 'px','text-align':'left' };
 
         } else {
-          this.c1 = { 'height': '40px' };
+          this.c1 = { 'height': '40px','line-height':'40px' };
+          this.c2 = { 'height': '40px','line-height':'40px'  };
+       
 
         }
-        if (document.getElementById('remark2').scrollHeight !== 0) {
-          this.c2 = { 'height': document.getElementById('remark2').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark2').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
-
-        }
-        if (document.getElementById('remark3').scrollHeight !== 0) {
-          this.c3 = { 'height': document.getElementById('remark3').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark3').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
-
-        }
-        if (document.getElementById('remark4').scrollHeight !== 0) {
-          this.c4 = { 'height': document.getElementById('remark4').scrollHeight * 1.4 + 'px', 'line-height': document.getElementById('remark4').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
-
-        }
-        if (document.getElementById('remark5').scrollHeight !== 0) {
-          this.c5 = { 'height': document.getElementById('remark5').scrollHeight + 'px', 'line-height': document.getElementById('remark5').scrollHeight / 2 + 'px' };
-        } else {
-          this.c1 = { 'height': '40px' };
-
-        }
+       
       })
     },
     //设置表格行的样式
