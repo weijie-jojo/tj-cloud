@@ -2,6 +2,7 @@ package com.ruoyi.place.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
@@ -17,7 +18,7 @@ import com.ruoyi.place.mapper.SelfEmployedMapper;
 import com.ruoyi.place.mapper.SysUserMapper;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import com.ruoyi.place.service.IBusinessPlaceService;
-import com.ruoyi.place.util.StringUtils;
+
 import com.ruoyi.place.vo.PlaceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -249,12 +250,15 @@ public class BusinessPlaceController extends BaseController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(date);
         List<BusinessPlace> businessPlaces=iBusinessPlaceService.selectMaxCode();
+        String employeeNumber= sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getEmployeeNumber();
+        System.out.println("employeeNumber==="+employeeNumber);
         String code="";
         if (businessPlaces.size()>0){
-            code=  StringUtils.getCode("QD",businessPlaces.get(0).getPlaceCode(),"yyyyMMdd");
+            code=  StringUtils.getCode4("GTHYW",employeeNumber,businessPlaces.get(0).getPlaceCode());
         }else {//没有单据时
-            code="QD"+"-"+nowDate+"-"+"0001";
+            code="GTHYW"+employeeNumber+"0001";
         }
+        System.out.println("code==="+code);
         DataDto dataDto=new DataDto();
         return dataDto.success(code);
     };
