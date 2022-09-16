@@ -1,8 +1,13 @@
 package com.ruoyi.common.core.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.util.AntPathMatcher;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
@@ -527,4 +532,101 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         }
         return sb.toString();
     }
+
+    /**
+     * 自动生成编号（个体户用）
+     *
+     * @param prefix 前缀，往往是一串字符串
+     * @param oldCode 要查询的最后一条数据的编号
+     * @param middle 时间格式
+     * @return
+     */
+    public static String getCode(String prefix,String middle, String oldCode){
+        String code = "";
+        System.out.println("oldCode==:"+oldCode);
+        Long orser=Long.valueOf(oldCode.substring(oldCode.length()-5));
+        System.out.println("NEWCode=="+oldCode.substring(oldCode.length()-5));
+        orser++;
+        if (orser<10){
+            code=String.valueOf(prefix+middle+"0000"+orser);
+        }
+        if (orser>=10&&orser<100){
+            code=String.valueOf(prefix+middle+"000"+orser);
+        }
+        if (orser>=100&&orser<1000){
+            code=String.valueOf(prefix+middle+"00"+orser);
+        }
+        if (orser>=1000&&orser<10000){
+            code=String.valueOf(prefix+middle+"0"+orser);
+        }
+        return  code;
+    }
+
+    /**
+     * 自动生成编号(项目用)
+     *
+     * @param prefix 前缀，往往是一串字符串
+     * @param oldCode 要查询的最后一条数据的编号
+     * @param patten 时间格式
+     * @return
+     */
+    public static String getCode3(String prefix, String oldCode, String patten){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(patten);
+        String nowDate = sdf.format(date);
+        String code = "";
+        System.out.println("oldCode==:"+oldCode);
+        //获得第一个点的位置
+        int index = oldCode.indexOf("-");
+        System.out.println("获得第一个点的位置:"+index);
+        //根据第一个点的位置 获得第二个点的位置
+        index = oldCode.indexOf("-", index + 1);
+        System.out.println("根据第一个点的位置 获得第二个点的位置:"+index);
+        //根据第二个点的位置，截取 字符串。得到结果 result
+        String result = oldCode.substring(index + 1);
+        System.out.println("result=="+result);
+        if(oldCode.contains(nowDate)){
+            Long orser=Long.valueOf(result);
+            orser++;
+            if (orser<10){
+                code=String.valueOf(prefix+"-"+nowDate+"-000"+orser);
+            }
+            if (orser>=10&&orser<100){
+                code=String.valueOf(prefix+"-"+nowDate+"-00"+orser);
+            }
+            if (orser>=100&&orser<1000){
+                code=String.valueOf(prefix+"-"+nowDate+"-0"+orser);
+            }
+        }else {
+            code=prefix+"-"+nowDate+"-"+"0001";
+        }
+        return  code;
+    }
+
+    /**
+     * 自动生成编号(员工编号用)
+     *
+     * @param prefix 前缀，往往是一串字符串
+     * @param oldCode 要查询的最后一条数据的编号
+     * @return
+     */
+    public static String getCode2(String prefix,String middle, String oldCode){
+        String code = "";
+        System.out.println("oldCode==:"+oldCode);
+        String newCode= Pattern.compile("[^0-9]").matcher(oldCode).replaceAll("");
+        System.out.println("NEWCode=="+newCode);
+        Long orser=Long.valueOf(newCode);
+        orser++;
+        if (orser<10){
+            code=String.valueOf(prefix+middle+"000"+orser);
+        }
+        if (orser>=10&&orser<100){
+            code=String.valueOf(prefix+middle+"00"+orser);
+        }
+        if (orser>=100&&orser<1000){
+            code=String.valueOf(prefix+middle+"0"+orser);
+        }
+        return  code;
+    }
+
 }

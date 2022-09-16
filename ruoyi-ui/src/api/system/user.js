@@ -132,3 +132,11 @@ export function getAllUser() {
    method: 'get',
   })
   }
+  //获取员工编号
+export function getCode(data) {
+  return request({
+    url: '/system/user/getCode',
+    method: 'get',
+    params: data
+  })
+}

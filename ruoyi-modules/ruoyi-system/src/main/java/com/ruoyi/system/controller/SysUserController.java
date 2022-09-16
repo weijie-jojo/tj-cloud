@@ -363,6 +363,23 @@ public class SysUserController extends BaseController
         return success();
     }
 
+    /**
+     * 获取员工编号
+     */
+    @GetMapping("/getCode")
+    @ApiOperation("获取员工编号")
+    public AjaxResult getCode(String deptNick)
+    {
+       List<SysUser> sysUsers = userService.selectMaxCode();
+        String userCode="";
+        if (sysUsers.size()>0){
+            userCode=  StringUtils.getCode2("TJ",deptNick,sysUsers.get(0).getEmployeeNumber());
+        }else {//没有单据时
+            userCode="TJ"+deptNick+"0001";
+        }
+        return success(userCode);
+    }
+
     /*
     * 获取用户id集合（查询过滤条件）
     *

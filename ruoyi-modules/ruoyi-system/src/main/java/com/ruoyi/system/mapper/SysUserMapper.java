@@ -159,4 +159,11 @@ public interface SysUserMapper
      * @return 用户对象信息
      */
     List<SysUser> selectUserByRoleId(Long roleId);
+
+    /**
+     * 查询数据库里面最后一条数据
+     *
+     * @return 个体商户集合
+     */
+    public  List<SysUser> selectMaxCode();
 }

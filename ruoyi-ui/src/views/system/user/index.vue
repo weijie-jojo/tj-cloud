@@ -208,13 +208,19 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
+            <el-form-item label="员工编号" prop="employeeNumber">
+              <el-input v-model="form.employeeNumber"  disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item v-if="form.userId == undefined" label="登录名称" prop="userName">
               <el-input v-model="form.userName" placeholder="请输入登录名称" maxlength="30" />
             </el-form-item>
             <el-form-item v-else label="登录名称"  prop="userName">
               <el-input v-model="form.userName" :readonly="true"></el-input>
             </el-form-item>
-            
           </el-col>
           <el-col :span="12">
             <el-form-item label="用户名称" prop="nickName">
@@ -245,7 +251,12 @@
         <el-row>
           <el-col :span="12">
            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+              <treeselect 
+                v-model="form.deptId" 
+                :options="deptOptions" 
+                :show-count="true" 
+                @select="getDeptNick" 
+                placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -313,7 +324,6 @@
             <el-form-item label="报销银行卡">
               <el-input v-model="form.accountCardBank"  placeholder="请输入报销银行卡"></el-input>
             </el-form-item>
-            
           </el-col>
           <el-col :span="12">
             <el-form-item label="工作卡开户银行">
@@ -322,11 +332,6 @@
             <el-form-item label="报销卡开户银行">
               <el-input v-model="form.accountCard"  placeholder="请输入报销卡开户银行"></el-input>
             </el-form-item>
-          </el-col>
-        </el-row>
-         <el-row>
-          <el-col :span="24">
-           
           </el-col>
         </el-row>
         <el-row>
@@ -376,11 +381,12 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus } from "@/api/system/user";
+import { getCode,listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import { getcode } from "../../../api/project/list";
 
 export default {
   name: "User",
@@ -388,6 +394,7 @@ export default {
   components: { Treeselect },
   data() {
     return {
+      deptNick:undefined,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -419,7 +426,9 @@ export default {
       // 角色选项
       roleOptions: [],
       // 表单参数
-      form: {},
+      form: {
+        
+      },
       defaultProps: {
         children: "children",
         label: "label"
@@ -460,6 +469,9 @@ export default {
       ],
       // 表单校验
       rules: {
+        employeeNumber: [
+          { required: true, message: "员工编号不能为空", trigger: "blur" }
+        ],
         postIds:[{
           required: true, message: "请选择岗位", trigger: "change"
         }],
@@ -520,6 +532,16 @@ export default {
     });
   },
   methods: {
+
+    getDeptNick(value){
+      this.deptNick=value.deptNick;
+      console.log("deptNick==",this.deptNick);
+      getCode({deptNick:this.deptNick}).then(res=>{
+        this.form.employeeNumber= res.msg;
+        console.log("employeeNumber==",this.form.employeeNumber);
+      })
+    },
+    
     /** 查询用户列表 */
     getList() {
       this.loading = true;
@@ -565,6 +587,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
+        employeeNumber:undefined,
         accountCardBank:undefined,
         accountCard:undefined,
         idNo:undefined,

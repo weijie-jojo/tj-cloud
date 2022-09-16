@@ -60,6 +60,11 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     protected Validator validator;
 
+    @Override
+    public List<SysUser> selectMaxCode() {
+        return userMapper.selectMaxCode();
+    }
+
     /*根据userId查询角色*/
     @Override
     public List<SysUserRole>  selectRoleByUserId(Long userId){

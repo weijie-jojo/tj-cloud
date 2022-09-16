@@ -29,6 +29,11 @@ public class LoginUser implements Serializable
     private String username;
 
     /**
+     * 用户编号
+     */
+    private String employeeNumber;
+
+    /**
      * 登录时间
      */
     private Long loginTime;
@@ -141,6 +146,14 @@ public class LoginUser implements Serializable
     public SysUser getSysUser()
     {
         return sysUser;
+    }
+
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
     }
 
     public void setSysUser(SysUser sysUser)

@@ -11,6 +11,9 @@ import com.ruoyi.system.domain.SysUserRole;
  */
 public interface ISysUserService
 {
+
+    public  List<SysUser> selectMaxCode();
+
     /*根据userId查询角色*/
     public List<SysUserRole>  selectRoleByUserId(Long userId);
 

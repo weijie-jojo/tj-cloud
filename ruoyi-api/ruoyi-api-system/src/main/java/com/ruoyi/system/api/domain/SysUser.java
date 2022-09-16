@@ -131,9 +131,22 @@ public class SysUser extends BaseEntity
     @ApiModelProperty(value = "身份证号码")
     private String idNo;
 
+    /** 身份证号码 */
+    @Excel(name = "员工编号")
+    @ApiModelProperty(value = "员工编号")
+    private String employeeNumber;
+
     public SysUser()
     {
 
+    }
+
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
     }
 
     public SysUser(Long userId)
@@ -403,6 +416,7 @@ public class SysUser extends BaseEntity
             .append("dept", getDept())
             .append("payCheck", getPayCheck())
             .append("payCheckBank", getPayCheckBank())
+            .append("employeeNumber", getEmployeeNumber())
             .toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.ruoyi.project.controller;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
@@ -16,7 +17,7 @@ import com.ruoyi.project.mapper.SysUserMapper;
 import com.ruoyi.project.service.ISelfProjectService;
 import com.ruoyi.project.service.ISelfReceiveService;
 import com.ruoyi.project.service.ISelfTicketService;
-import com.ruoyi.project.util.StringUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -463,7 +464,7 @@ public class SelfProjectController extends BaseController
         System.out.println("selfProjects=="+selfProjects);
         String code="";
         if (selfProjects.size()>0){
-            code=  StringUtils.getCode(selfCode,selfProjects.get(0).getProjectCode(),"yyyyMMdd");
+            code=  StringUtils.getCode3(selfCode,selfProjects.get(0).getProjectCode(),"yyyyMMdd");
         }else {//没有单据时
             code=selfCode+"-"+nowDate+"-"+"0001";
         }

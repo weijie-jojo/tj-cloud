@@ -1,11 +1,16 @@
 package com.ruoyi.company.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.dto.DataDto;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
+import com.ruoyi.company.mapper.SysUserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +46,8 @@ public class SelfNameReviewController extends BaseController
 {
     @Autowired
     private ISelfNameReviewService selfNameReviewService;
-
+    @Autowired
+    private SysUserMapper sysUserMapper;
     /**
      * 根据编号查询
      */
@@ -62,25 +68,17 @@ public class SelfNameReviewController extends BaseController
      * */
     @ApiOperation("获取编号")
     @GetMapping("/getSelfCode")
-    public String getSelfCode(String employeeNumber) {
-        String selfCode = "";
+    public String getSelfCode() {
         List<SelfNameReview> selfNameReviews=selfNameReviewService.selectMaxCode();
-        System.out.println("selfEmployeds111=="+selfNameReviews);
-        if (selfNameReviews.size()>0) {
-            int num=Integer.parseInt(selfNameReviews.get(0).getSelfCode().substring(8))+1;
-            if (num<10){
-                selfCode=employeeNumber+"00000"+num;
-            }
-            if (num>=10&&num<100){
-                selfCode=employeeNumber+"0000"+num;
-            }
-            if (num>=100&&num<1000){
-                selfCode=employeeNumber+"000"+num;
-            }
+        String employeeNumber= sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getEmployeeNumber();
+        System.out.println("employeeNumber==="+employeeNumber);
+        String selfCode="";
+        if (selfNameReviews.size()>0){
+            selfCode=  StringUtils.getCode("GTHYW",employeeNumber,selfNameReviews.get(0).getSelfCode());
         }else {//没有单据时
-            selfCode=employeeNumber+"000001";
+            selfCode="GTHYW"+employeeNumber+"00001";
         }
-        System.out.println("selfCode=="+selfCode);
+        System.out.println("selfCode==="+selfCode);
         return  selfCode;
     }
 

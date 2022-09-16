@@ -100,16 +100,21 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="24" v-if="form.parentId !== 0">
+          <el-col :span="12" v-if="form.parentId !== 0">
             <el-form-item label="上级部门" prop="parentId">
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="部门名称" prop="deptName">
+              <el-input v-model="form.deptName" placeholder="请输入部门名称" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="部门名称" prop="deptName">
-              <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+            <el-form-item label="部门别名" prop="deptNick">
+              <el-input v-model="form.deptNick" placeholder="请输入部门别名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -199,6 +204,9 @@ export default {
         deptName: [
           { required: true, message: "部门名称不能为空", trigger: "blur" }
         ],
+        deptNick: [
+          { required: true, message: "部门别名不能为空", trigger: "blur" }
+        ],
         orderNum: [
           { required: true, message: "显示排序不能为空", trigger: "blur" }
         ],
@@ -253,6 +261,7 @@ export default {
         deptId: undefined,
         parentId: undefined,
         deptName: undefined,
+        deptNick: undefined,
         orderNum: undefined,
         leader: undefined,
         phone: undefined,
