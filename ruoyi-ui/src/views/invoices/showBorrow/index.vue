@@ -5,7 +5,7 @@
             :model="ruleForm" 
             :rules="rules" 
             label-width="auto" 
-            id="printMe"
+            
             >
           <el-row>
           <el-col :span="12">
@@ -15,7 +15,6 @@
            </el-col>
            <el-col :span="12">
             <div class="flexs" style=" justify-content: flex-end;">
-                点击按钮进入打印预览进行打印
                 <el-button 
              @click="printme"
             type="primary"
@@ -459,6 +458,11 @@
 
     },
     methods: {
+        printme(){
+           this.$tab.closeOpenPage({
+             path:'/invoices/borrowPrint'
+           });
+        },
         beforePage() {
             this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('invoicesBackUrl').url});
         },

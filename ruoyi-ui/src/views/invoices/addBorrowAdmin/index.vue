@@ -157,23 +157,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="借款账号" >
-        <el-input
-          v-model="ruleForm.bankPaycode"
-        
-          disabled
-        ></el-input>
-      </el-form-item>
-     
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="收款账号">
-        <el-input
-          v-model="ruleForm.bankcardGetid"
-         
-          disabled
-        ></el-input>
-      </el-form-item>
       <el-form-item label="借款单位" prop="companyPayId" >
         <el-select
           v-model="ruleForm.companyPayId"
@@ -190,6 +173,25 @@
           </el-option>
         </el-select>
       </el-form-item>
+     
+     
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="收款账号">
+        <el-input
+          v-model="ruleForm.bankcardGetid"
+         
+          disabled
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="借款账号" >
+        <el-input
+          v-model="ruleForm.bankPaycode"
+        
+          disabled
+        ></el-input>
+      </el-form-item>
+      
         </el-col>
         <el-col :span="8">
           <el-form-item label="收款开户行">
@@ -218,7 +220,7 @@
             type="primary"
             @click="submitForm('ruleForm')"
             style="width: 100px;"
-            >确认</el-button
+            >提交</el-button
           >
         </el-col>
         <el-col :span="8"></el-col>
@@ -522,7 +524,7 @@ export default {
         //根据收款人id查找收款银行卡信息
         getCardInfoBycompany(res.user.userId).then((res) => {
           console.log("getCardInfoBycompany==", res);
-          this.ruleForm.bankcardGetid = res.accountCard;
+          this.ruleForm.bankcardGetid = res.payCheck;
           this.ruleForm.bankGetname = res.accountCardBank;
           this.ruleForm.userGetid = res.nickName;
         });

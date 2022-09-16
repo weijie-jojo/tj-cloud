@@ -156,9 +156,13 @@ export default {
     onSubmit() {
       this.$refs["formbusiness"].validate((valid) => {
         if (valid) {
-         this.formbusiness.fileName1 = JSON.stringify(
-            this.formbusiness.fileName1
-          );
+
+          if(Array.isArray(this.formbusiness.fileName1)){
+            this.formbusiness.fileName1 = JSON.stringify( this.formbusiness.fileName1);
+          }
+        //  this.formbusiness.fileName1 = JSON.stringify(
+        //     this.formbusiness.fileName1
+        //   );
          updateEmployed(this.formbusiness)
             .then((res) => {
               if (res != undefined) {
