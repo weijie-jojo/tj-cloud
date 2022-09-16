@@ -2224,19 +2224,19 @@ export default {
           },
         ],
         fontSize1: [
-          { min: 3, message: "字号一不能少于3个字符", trigger: "blur" },
+          // { min: 3, message: "字号一不能少于3个字符", trigger: "blur" },
         ],
         fontSize2: [
-          { min: 3, message: "字号二不能少于3个字符", trigger: "blur" },
+          // { min: 3, message: "字号二不能少于3个字符", trigger: "blur" },
         ],
         fontSize3: [
-          { min: 3, message: "字号三不能少于3个字符", trigger: "blur" },
+          // { min: 3, message: "字号三不能少于3个字符", trigger: "blur" },
         ],
         fontSize4: [
-          { min: 3, message: "字号四不能少于3个字符", trigger: "blur" },
+          // { min: 3, message: "字号四不能少于3个字符", trigger: "blur" },
         ],
         fontSize5: [
-          { min: 3, message: "字号五不能少于3个字符", trigger: "blur" },
+          // { min: 3, message: "字号五不能少于3个字符", trigger: "blur" },
         ],
       },
 
@@ -2507,36 +2507,36 @@ export default {
     submitFormName() {
       let fieldsToValidate;
       if (!this.isDisable) {
-        fieldsToValidate = [
-          "industry",
-          "fontSize1",
-          "fontSize2",
-          "fontSize3",
-          "fontSize4",
-          "fontSize5",
-        ];
+        // fieldsToValidate = [
+        //   "industry",
+        //   "fontSize1",
+        //   "fontSize2",
+        //   "fontSize3",
+        //   "fontSize4",
+        //   "fontSize5",
+        // ];
 
-        if (!this.formData.fontSize1) {
-          this.formData.fontSize1 = ".";
-          this.$refs.fontSize1.focus();
-        }
-        if (!this.formData.fontSize2) {
-          this.formData.fontSize2 = ".";
-          this.$refs.fontSize2.focus();
-        }
-        if (!this.formData.fontSize3) {
-          this.formData.fontSize3 = ".";
-          this.$refs.fontSize3.focus();
-        }
-        if (!this.formData.fontSize4) {
-          this.formData.fontSize4 = ".";
-          this.$refs.fontSize4.focus();
-        }
+        // if (!this.formData.fontSize1) {
+        //   this.formData.fontSize1 = ".";
+        //   this.$refs.fontSize1.focus();
+        // }
+        // if (!this.formData.fontSize2) {
+        //   this.formData.fontSize2 = ".";
+        //   this.$refs.fontSize2.focus();
+        // }
+        // if (!this.formData.fontSize3) {
+        //   this.formData.fontSize3 = ".";
+        //   this.$refs.fontSize3.focus();
+        // }
+        // if (!this.formData.fontSize4) {
+        //   this.formData.fontSize4 = ".";
+        //   this.$refs.fontSize4.focus();
+        // }
 
-        if (!this.formData.fontSize5) {
-          this.formData.fontSize5 = ".";
-          this.$refs.fontSize5.focus();
-        }
+        // if (!this.formData.fontSize5) {
+        //   this.formData.fontSize5 = ".";
+        //   this.$refs.fontSize5.focus();
+        // }
       } else {
         fieldsToValidate = ["industry"];
       }
@@ -2560,30 +2560,30 @@ export default {
         if (valid) {
           this.actives = 1;
         } else {
-          if (this.formData.fontSize1 == ".") {
-            this.formData.fontSize1 = "";
-          }
-          if (this.formData.fontSize2 == ".") {
-            this.formData.fontSize2 = "";
-          }
-          if (this.formData.fontSize3 == ".") {
-            this.formData.fontSize3 = "";
-          }
-          if (this.formData.fontSize4 == ".") {
-            this.formData.fontSize4 = "";
-          }
+          // if (this.formData.fontSize1 == ".") {
+          //   this.formData.fontSize1 = "";
+          // }
+          // if (this.formData.fontSize2 == ".") {
+          //   this.formData.fontSize2 = "";
+          // }
+          // if (this.formData.fontSize3 == ".") {
+          //   this.formData.fontSize3 = "";
+          // }
+          // if (this.formData.fontSize4 == ".") {
+          //   this.formData.fontSize4 = "";
+          // }
           
-          this.$alert("请正确填写", "系统提示", {
-            confirmButtonText: "确定",
+          // this.$alert("请正确填写", "系统提示", {
+          //   confirmButtonText: "确定",
 
-            type: "warning",
-          });
-          let that = this;
-          setTimeout(function () {
-            if ((that.formData.fontSize5 = ".")) {
-              that.formData.fontSize5 = "";
-            }
-          }, 1000);
+          //   type: "warning",
+          // });
+          // let that = this;
+          // setTimeout(function () {
+          //   if ((that.formData.fontSize5 = ".")) {
+          //     that.formData.fontSize5 = "";
+          //   }
+          // }, 1000);
         }
       });
     },

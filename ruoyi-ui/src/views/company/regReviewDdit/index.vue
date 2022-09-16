@@ -2700,14 +2700,30 @@ export default {
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
           };
+          if (Array.isArray(this.formData.fileName1)) {
+            this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
+          }
+          if (Array.isArray(this.formData.fileName2)) {
+            this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+          }
+          if (Array.isArray(this.formData.fileName3)) {
+            this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
+           }
+           if (Array.isArray(this.formData.fileName4)) {
+            this.formData.fileName4 = JSON.stringify(this.formData.fileName4);
+          }
+          if (Array.isArray(this.formData.fileName5)) {
+            this.formData.fileName5 = JSON.stringify(this.formData.fileName5);
+          }
+          if (Array.isArray(this.formData.fileName6)) {
+            this.formData.fileName6 = JSON.stringify(this.formData.fileName6);
+           }
+          if (Array.isArray(this.formData.fileName7)) {
+            this.formData.fileName7 = JSON.stringify(this.formData.fileName7);
+          }
+        
 
-          this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
-          this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
-          this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
-          this.formData.fileName4 = JSON.stringify(this.formData.fileName4);
-          this.formData.fileName5 = JSON.stringify(this.formData.fileName5);
-          this.formData.fileName6 = JSON.stringify(this.formData.fileName6);
-          this.formData.fileName7 = JSON.stringify(this.formData.fileName7);
+        
 
           let parms3 = {
             legalPersonId: this.formData.legalPersonId,

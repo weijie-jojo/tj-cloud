@@ -67,6 +67,7 @@ import { Decimal } from 'decimal.js'
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
 import { addEmployed, updateEmployed, check } from "@/api/company/employed";
+import { isArray } from '../../../utils/validate'
 export default {
   name:'AddTax',
    components: {
@@ -131,12 +132,10 @@ export default {
   watch: {
     'formtax.industryType': 'selectIndustryType',
   },
-  created() {
-   
-  },
+ 
  
   mounted() {
-     let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("employednewlist");
     this.formtax.selfId = list.selfId;
     this.formtax.selfName = list.selfName;
     this.formtax.legalPersonName = list.legalPersonName;
@@ -263,7 +262,10 @@ export default {
     onSubmit() {
      this.$refs["formtax"].validate((valid) => {
         if (valid) {
-          this.formtax.fileName2 = JSON.stringify(this.formtax.fileName2);
+          if(Array.isArray(this.formtax.fileName2)){
+            this.formtax.fileName2 = JSON.stringify(this.formtax.fileName2);
+          }
+          
           updateEmployed(this.formtax)
             .then((res) => {
               if (res != undefined) {

@@ -1218,6 +1218,9 @@ export default {
   props: [],
   data() {
     return {
+      fileNameNEW1: [],
+      fileNameNEW2: [],
+      fileNameNEW3: [],
       isrkone: [],
       selectTipType: "请选中行业类型",
       userinfo: {},
@@ -2565,7 +2568,7 @@ export default {
     submitForm() {
       this.$refs["elForm"].validate((valid) => {
         if (valid) {
-          let parms1 = {
+         let parms1 = {
             id: this.formData.id,
             selfCode: this.formData.selfCode,
             oneselfApply: this.formData.oneselfApply,
@@ -2579,6 +2582,16 @@ export default {
             contactDocumentType: this.formData.contactDocumentType,
             contactIdNum: this.formData.contactIdNum,
           };
+
+          if (Array.isArray(this.formData.fileName5)) {
+            this.fileNameNEW1 = JSON.stringify(this.formData.fileName5);
+          }
+        if (Array.isArray(this.formData.fileName6)) {
+            this.fileNameNEW2 = JSON.stringify(this.formData.fileName6);
+          }
+         if (Array.isArray(this.formData.fileName7)) {
+            this.fileNameNEW3 = JSON.stringify(this.formData.fileName7);
+           }
           let parms2 = {
             selfId: this.formData.selfId,
             selfCode: this.formData.selfCode,
@@ -2603,9 +2616,9 @@ export default {
             placeName: this.formData.placeName,
             placeAliasName: this.formData.placeAliasName,
             username: this.formData.userName,
-            fileName5: JSON.stringify(this.formData.fileName5),
-            fileName6: JSON.stringify(this.formData.fileName6),
-            fileName7: JSON.stringify(this.formData.fileName7),
+            fileName5: this.fileNameNEW1,
+            fileName6: this.fileNameNEW2,
+            fileName7: this.fileNameNEW3,
             publicDepositBank1: this.formData.publicDepositBank1,
             publicAccountNumber1: this.formData.publicAccountNumber1,
 
