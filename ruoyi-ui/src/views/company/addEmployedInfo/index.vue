@@ -2584,6 +2584,11 @@ export default {
           //     that.formData.fontSize5 = "";
           //   }
           // }, 1000);
+           this.$alert("请正确填写", "系统提示", {
+            confirmButtonText: "确定",
+
+            type: "warning",
+          });
         }
       });
     },
