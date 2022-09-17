@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2022-06-17
  */
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/person/tc")
 @Api(tags = "个体商户法人")
 public class SelfLegalPersonTcController extends BaseController
 {

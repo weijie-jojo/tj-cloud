@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2022-06-17
  */
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/info/tc")
 @Api(tags = "个体户注册申请信息")
 public class SelfApplicationInfoTcController extends BaseController
 {

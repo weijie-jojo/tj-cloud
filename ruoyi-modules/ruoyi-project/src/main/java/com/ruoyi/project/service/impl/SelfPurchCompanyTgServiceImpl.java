@@ -1,8 +1,8 @@
 package com.ruoyi.project.service.impl;
 
 import com.ruoyi.project.domain.SelfPurchCompany;
-import com.ruoyi.project.mapper.SelfPurchCompanyMapper;
-import com.ruoyi.project.service.ISelfPurchCompanyService;
+import com.ruoyi.project.mapper.SelfPurchCompanyTgMapper;
+import com.ruoyi.project.service.ISelfPurchCompanyTgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ import java.util.List;
  * @date 2022-09-01
  */
 @Service
-public class SelfPurchCompanyTgServiceImpl implements ISelfPurchCompanyService
+public class SelfPurchCompanyTgServiceImpl implements ISelfPurchCompanyTgService
 {
     @Autowired
-    private SelfPurchCompanyMapper selfPurchCompanyMapper;
+    private SelfPurchCompanyTgMapper selfPurchCompanyMapper;
 
     /**
      * 查询甲方信息

@@ -8,7 +8,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.project.domain.SelfPurchCompany;
-import com.ruoyi.project.service.ISelfPurchCompanyService;
+import com.ruoyi.project.service.ISelfPurchCompanyTgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ import java.util.List;
  * @date 2022-09-01
  */
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/company/tg")
 @Api(tags = "甲方信息表")
 public class SelfPurchCompanyTgController extends BaseController
 {
     @Autowired
-    private ISelfPurchCompanyService selfPurchCompanyService;
+    private ISelfPurchCompanyTgService selfPurchCompanyService;
 
     /**
      * 查询甲方信息列表

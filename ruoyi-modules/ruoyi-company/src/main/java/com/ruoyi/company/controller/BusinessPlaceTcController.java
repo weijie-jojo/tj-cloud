@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2022-06-18
  */
 @RestController
-@RequestMapping("/place")
+@RequestMapping("/place/tc")
 @Api(tags = "平台渠道商")
 public class BusinessPlaceTcController extends BaseController
 {

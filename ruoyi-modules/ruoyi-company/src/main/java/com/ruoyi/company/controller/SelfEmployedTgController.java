@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @date 2022-06-14
  */
 @RestController
-@RequestMapping("/employed")
+@RequestMapping("/employed/tg")
 @Api(tags = "个体商户")
 public class SelfEmployedTgController extends BaseController
 {
