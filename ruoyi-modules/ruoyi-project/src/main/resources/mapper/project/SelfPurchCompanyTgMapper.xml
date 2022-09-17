@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.SelfPurchCompanyTgMapper">
+
+    <resultMap type="com.ruoyi.project.domain.SelfPurchCompany" id="SelfPurchCompanyResult">
+        <result property="purchId"    column="purch_id"    />
+        <result property="purchCompany"    column="purch_company"    />
+        <result property="userId"    column="user_id"    />
+        <result property="purchCompanyTaxid"    column="purch_company_taxid"    />
+        <result property="purchCompanyPhone"    column="purch_company_phone"    />
+        <result property="purchCompanyAddress"    column="purch_company_address"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="bankCode"    column="bank_code"    />
+        <result property="placeAliasName"    column="place_alias_name"    />
+    </resultMap>
+
+    <sql id="selectSelfPurchCompanyVo">
+        select purch_id, purch_company, user_id, purch_company_taxid, purch_company_phone, purch_company_address,
+               bank_name, bank_code, place_alias_name from self_purch_company_tg
+    </sql>
+
+    <select id="selectSelfPurchCompanyList" parameterType="com.ruoyi.project.domain.SelfPurchCompany" resultMap="SelfPurchCompanyResult">
+        <include refid="selectSelfPurchCompanyVo"/>
+        <where>
+            <if test="purchCompany != null  and purchCompany != ''"> and purch_company = #{purchCompany}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="purchCompanyTaxid != null  and purchCompanyTaxid != ''"> and purch_company_taxid = #{purchCompanyTaxid}</if>
+            <if test="purchCompanyPhone != null  and purchCompanyPhone != ''"> and purch_company_phone = #{purchCompanyPhone}</if>
+            <if test="purchCompanyAddress != null  and purchCompanyAddress != ''"> and purch_company_address = #{purchCompanyAddress}</if>
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="bankCode != null  and bankCode != ''"> and bank_code = #{bankCode}</if>
+            <if test="placeAliasName != null  and placeAliasName != ''"> and place_alias_name like concat('%', #{placeAliasName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectSelfPurchCompanyByPurchId" parameterType="String" resultMap="SelfPurchCompanyResult">
+        <include refid="selectSelfPurchCompanyVo"/>
+        where purch_id = #{purchId}
+    </select>
+
+    <insert id="insertSelfPurchCompany" parameterType="com.ruoyi.project.domain.SelfPurchCompany" useGeneratedKeys="true" keyProperty="purchId">
+        insert into self_purch_company_tg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="purchCompany != null">purch_company,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="purchCompanyTaxid != null">purch_company_taxid,</if>
+            <if test="purchCompanyPhone != null">purch_company_phone,</if>
+            <if test="purchCompanyAddress != null">purch_company_address,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="bankCode != null">bank_code,</if>
+            <if test="placeAliasName != null">place_alias_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="purchCompany != null">#{purchCompany},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="purchCompanyTaxid != null">#{purchCompanyTaxid},</if>
+            <if test="purchCompanyPhone != null">#{purchCompanyPhone},</if>
+            <if test="purchCompanyAddress != null">#{purchCompanyAddress},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="bankCode != null">#{bankCode},</if>
+            <if test="placeAliasName != null">#{placeAliasName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfPurchCompany" parameterType="com.ruoyi.project.domain.SelfPurchCompany">
+        update self_purch_company_tg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="purchCompany != null">purch_company = #{purchCompany},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="purchCompanyTaxid != null">purch_company_taxid = #{purchCompanyTaxid},</if>
+            <if test="purchCompanyPhone != null">purch_company_phone = #{purchCompanyPhone},</if>
+            <if test="purchCompanyAddress != null">purch_company_address = #{purchCompanyAddress},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="bankCode != null">bank_code = #{bankCode},</if>
+            <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
+        </trim>
+        where purch_id = #{purchId}
+    </update>
+
+    <delete id="deleteSelfPurchCompanyByPurchId" parameterType="String">
+        delete from self_purch_company_tg where purch_id = #{purchId}
+    </delete>
+
+    <delete id="deleteSelfPurchCompanyByPurchIds" parameterType="String">
+        delete from self_purch_company_tg where purch_id in
+        <foreach item="purchId" collection="array" open="(" separator="," close=")">
+            #{purchId}
+        </foreach>
+    </delete>
+</mapper>

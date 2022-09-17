@@ -7,6 +7,7 @@ import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-07
  */
 @RestController
-@RequiredArgsConstructor
-@Api(tags = "渠道商代理费管理")
 @RequestMapping("/agencyFee")
+@Api(tags = "渠道商代理费管理")
 public class BusinessAgencyFeeController {
-    private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
-    private final BusinessPlaceMapper businessPlaceMapper;
 
-    @GetMapping(value ="/selectFeeByCode")
+    @Autowired
+    private  IBusinessAgencyFeeService iBusinessAgencyFeeService;
+
+    @GetMapping("/selectFeeByCode")
     @ApiOperation("根据渠道商编号查询代理费详情")
     public BusinessAgencyFee selectFeeByCode(String placeCode){
         BusinessAgencyFee businessAgencyFee = iBusinessAgencyFeeService.selectFeeByCode(placeCode);

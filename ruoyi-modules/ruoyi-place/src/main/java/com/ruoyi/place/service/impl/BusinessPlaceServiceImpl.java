@@ -13,9 +13,9 @@ import com.ruoyi.place.mapper.BusinessPlaceMapper;
 import com.ruoyi.place.mapper.BusinessPlaceRecycleMapper;
 import com.ruoyi.place.service.IBusinessPlaceService;
 import com.ruoyi.place.vo.PlaceVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -29,13 +29,13 @@ import java.util.List;
 @Service
 public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
 
-    @Resource
+    @Autowired
     private BusinessPlaceMapper businessPlaceMapper;
-    @Resource
+    @Autowired
     private BusinessPlaceRecycleMapper businessPlaceRecycleMapper;
-    @Resource
+    @Autowired
     private BusinessAgencyFeeMapper businessAgencyFeeMapper;
-    @Resource
+    @Autowired
     private BusinessAgencyFeeRecycleMapper businessAgencyFeeRecycleMapper;
     @Override
     public List<BusinessPlace> selectByPage(List<Long> userIdArr,PlaceVo placeVo) {

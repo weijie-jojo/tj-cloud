@@ -5,6 +5,8 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.company.domain.PayTaxInfo;
 import com.ruoyi.company.service.IPayTaxInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/payTaxInfo")
+@Api(tags = "纳税账户")
 public class PayTaxInfoController extends BaseController {
     @Autowired
     private IPayTaxInfoService payTaxInfoService;
@@ -30,6 +33,7 @@ public class PayTaxInfoController extends BaseController {
      */
     @RequiresPermissions("company:payTaxInfo:list")
     @GetMapping("/list")
+    @ApiOperation("查询纳税账户（分页）")
     public TableDataInfo list(PayTaxInfo payTaxInfo)
     {
         startPage();
@@ -42,6 +46,7 @@ public class PayTaxInfoController extends BaseController {
      */
     @RequiresPermissions("company:payTaxInfo:list")
     @GetMapping("/all")
+    @ApiOperation("查询纳税账户（不分页）")
     public List<PayTaxInfo> all()
     {
         List<PayTaxInfo> list = payTaxInfoService.selectPayTaxInfoAll();

@@ -1,9 +1,7 @@
 package com.ruoyi.place.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessAgencyFeeRecycle;
-import com.ruoyi.place.entity.BusinessPlaceRecycle;
 import org.apache.ibatis.annotations.Param;
 
 /**

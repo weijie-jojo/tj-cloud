@@ -18,11 +18,10 @@ import com.ruoyi.place.mapper.SelfEmployedMapper;
 import com.ruoyi.place.mapper.SysUserMapper;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
 import com.ruoyi.place.service.IBusinessPlaceService;
-
 import com.ruoyi.place.vo.PlaceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,18 +41,22 @@ import java.util.Map;
  * @since 2022-06-03
  */
 @RestController
-@RequiredArgsConstructor //代替了resouse或者Autowrited
-@Api(tags = "平台渠道商管理")
 @RequestMapping("/place")
+@Api(tags = "平台渠道商管理")
 public class BusinessPlaceController extends BaseController {
 
-    private final IBusinessPlaceService iBusinessPlaceService;
-    private final BusinessPlaceMapper businessPlaceMapper;
-    private final IBusinessAgencyFeeService iBusinessAgencyFeeService;
-    private final SysUserMapper sysUserMapper;
-    private final SelfEmployedMapper selfEmployedMapper;
+    @Autowired
+    private  IBusinessPlaceService iBusinessPlaceService;
+    @Autowired
+    private  BusinessPlaceMapper businessPlaceMapper;
+    @Autowired
+    private  IBusinessAgencyFeeService iBusinessAgencyFeeService;
+    @Autowired
+    private  SysUserMapper sysUserMapper;
+    @Autowired
+    private  SelfEmployedMapper selfEmployedMapper;
 
-    @GetMapping(value ="/getCount")
+    @GetMapping("/getCount")
     @ApiOperation("获取登录用户的渠道数量")
     public Integer getCount(PlaceVo placeVo){
         //获取登录用户的部门id
@@ -127,17 +130,25 @@ public class BusinessPlaceController extends BaseController {
         BusinessAgencyFee businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFee.class);
         BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
 
-        if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
-            businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
+        if(businessAgencyFee.getOrdinaryShareIsmoney()!=null){
+            if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
+            }
         }
-        if (businessAgencyFee.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
-            businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointLeft(2));
+        if(businessAgencyFee.getSpecialShareIsmoney()!=null){
+            if (businessAgencyFee.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointLeft(2));
+            }
         }
-        if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-            businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+        if(businessAgencyFee.getOrdinaryProxyIsmoney()!=null){
+            if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+            }
         }
-        if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+        if(businessAgencyFee.getSpecialProxyIsmoney()!=null){
+            if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+            }
         }
 
         //插入渠道全名
@@ -146,7 +157,7 @@ public class BusinessPlaceController extends BaseController {
         List<BusinessPlace> businessPlaces= businessPlaceMapper.getByPlaceAliasName(businessPlace.getPlaceAliasName());
         DataDto dataDto = new DataDto();
         if(businessPlaces.size()>0){
-            System.out.println(111111111);
+            System.out.println("客户全名重复");
             return dataDto.err("客户全名重复");
         }else {
             try {
@@ -254,9 +265,9 @@ public class BusinessPlaceController extends BaseController {
         System.out.println("employeeNumber==="+employeeNumber);
         String code="";
         if (businessPlaces.size()>0){
-            code=  StringUtils.getCode4("GTHYW",employeeNumber,businessPlaces.get(0).getPlaceCode());
+            code=  StringUtils.getCode4("GTHKH",employeeNumber,businessPlaces.get(0).getPlaceCode());
         }else {//没有单据时
-            code="GTHYW"+employeeNumber+"0001";
+            code="GTHKH"+employeeNumber+"0001";
         }
         System.out.println("code==="+code);
         DataDto dataDto=new DataDto();

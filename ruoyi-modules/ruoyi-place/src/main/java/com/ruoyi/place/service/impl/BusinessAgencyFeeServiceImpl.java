@@ -5,10 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.mapper.BusinessAgencyFeeMapper;
 import com.ruoyi.place.service.IBusinessAgencyFeeService;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -21,7 +19,7 @@ import javax.annotation.Resource;
 @Service
 public class BusinessAgencyFeeServiceImpl extends ServiceImpl<BusinessAgencyFeeMapper, BusinessAgencyFee> implements IBusinessAgencyFeeService {
 
-    @Resource
+    @Autowired
     private BusinessAgencyFeeMapper businessAgencyFeeMapper;
     /*
     * 通过code查询明细

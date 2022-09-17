@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.company.mapper.SelfLegalPersonTcMapper">
+    
+    <resultMap type="com.ruoyi.company.domain.SelfLegalPerson" id="SelfLegalPersonResult">
+        <result property="legalPersonId"    column="legal_person_id"    />
+        <result property="selfCode"    column="self_code"    />
+        <result property="legalPersonName"    column="legal_person_name"    />
+        <result property="documentType"    column="document_type"    />
+        <result property="idCardNum"    column="id_card_num"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="eduation"    column="eduation"    />
+        <result property="telNum"    column="tel_num"    />
+        <result property="mail"    column="mail"    />
+        <result property="bank"    column="bank"    />
+        <result property="bankCard"    column="bank_card"    />
+        <result property="openingBank"    column="opening_bank"    />
+        <result property="receivingAddress"    column="receiving_address"    />
+        <result property="password"    column="password"    />
+        <result property="initial"    column="initial"    />
+        <result property="ending"    column="ending"    />
+        <result property="same"    column="same"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactIdNum"    column="contact_id_num"    />
+        <result property="contactTel"    column="contact_tel"    />
+        <result property="gender"    column="gender"    />
+        <result property="dateBirth"    column="date_birth"    />
+        <result property="nation"    column="nation"    />
+        <result property="residence"    column="residence"    />
+        <result property="personnelType"    column="personnel_type"    />
+        <result property="occupationalStatus"    column="occupational_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSelfLegalPersonVo">
+        select legal_person_id, self_code, legal_person_name, document_type, id_card_num, political_status, eduation,
+               tel_num, mail, bank, bank_card, opening_bank, receiving_address, password, initial, ending, same, contact_name,
+               contact_id_num, contact_tel, gender, date_birth, nation, residence, personnel_type, occupational_status,
+               create_by,update_by,create_time,update_time from self_legal_person_tc
+    </sql>
+
+    <select id="selectSelfLegalPerson"  resultMap="SelfLegalPersonResult">
+        <include refid="selectSelfLegalPersonVo"/>
+    </select>
+
+    <select id="selectSelfLegalPersonList" parameterType="com.ruoyi.company.domain.SelfLegalPerson" resultMap="SelfLegalPersonResult">
+        <include refid="selectSelfLegalPersonVo"/>
+        <where>  
+            <if test="selfCode != null  and selfCode != ''"> and self_code = #{selfCode}</if>
+            <if test="legalPersonName != null  and legalPersonName != ''"> and legal_person_name like concat('%', #{legalPersonName}, '%')</if>
+            <if test="documentType != null  and documentType != ''"> and document_type = #{documentType}</if>
+            <if test="idCardNum != null  and idCardNum != ''"> and id_card_num = #{idCardNum}</if>
+            <if test="politicalStatus != null  and politicalStatus != ''"> and political_status = #{politicalStatus}</if>
+            <if test="eduation != null  and eduation != ''"> and eduation = #{eduation}</if>
+            <if test="telNum != null  and telNum != ''"> and tel_num = #{telNum}</if>
+            <if test="mail != null  and mail != ''"> and mail = #{mail}</if>
+            <if test="bank != null  and bank != ''"> and bank = #{bank}</if>
+            <if test="bankCard != null  and bankCard != ''"> and bank_card = #{bankCard}</if>
+            <if test="openingBank != null  and openingBank != ''"> and opening_bank = #{openingBank}</if>
+            <if test="receivingAddress != null  and receivingAddress != ''"> and receiving_address = #{receivingAddress}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="initial != null "> and initial = #{initial}</if>
+            <if test="ending != null "> and ending = #{ending}</if>
+            <if test="same != null "> and same = #{same}</if>
+            <if test="contactName != null  and contactName != ''"> and contact_name like concat('%', #{contactName}, '%')</if>
+            <if test="contactIdNum != null  and contactIdNum != ''"> and contact_id_num = #{contactIdNum}</if>
+            <if test="contactTel != null  and contactTel != ''"> and contact_tel = #{contactTel}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="dateBirth != null "> and date_birth = #{dateBirth}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="residence != null  and residence != ''"> and residence = #{residence}</if>
+            <if test="personnelType != null  and personnelType != ''"> and personnel_type = #{personnelType}</if>
+            <if test="occupationalStatus != null  and occupationalStatus != ''"> and occupational_status = #{occupationalStatus}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
+            <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfLegalPersonByLegalPersonId" parameterType="Long" resultMap="SelfLegalPersonResult">
+        <include refid="selectSelfLegalPersonVo"/>
+        where legal_person_id = #{legalPersonId}
+    </select>
+        
+    <insert id="insertSelfLegalPerson" parameterType="com.ruoyi.company.domain.SelfLegalPerson" useGeneratedKeys="true" keyProperty="legalPersonId">
+        insert into self_legal_person_tc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="selfCode != null">self_code,</if>
+            <if test="legalPersonName != null">legal_person_name,</if>
+            <if test="documentType != null">document_type,</if>
+            <if test="idCardNum != null">id_card_num,</if>
+            <if test="politicalStatus != null">political_status,</if>
+            <if test="eduation != null">eduation,</if>
+            <if test="telNum != null">tel_num,</if>
+            <if test="mail != null">mail,</if>
+            <if test="bank != null">bank,</if>
+            <if test="bankCard != null and bankCard != ''">bank_card,</if>
+            <if test="openingBank != null">opening_bank,</if>
+            <if test="receivingAddress != null">receiving_address,</if>
+            <if test="password != null">password,</if>
+            <if test="initial != null">initial,</if>
+            <if test="ending != null">ending,</if>
+            <if test="same != null">same,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactIdNum != null">contact_id_num,</if>
+            <if test="contactTel != null">contact_tel,</if>
+            <if test="gender != null">gender,</if>
+            <if test="dateBirth != null">date_birth,</if>
+            <if test="nation != null">nation,</if>
+            <if test="residence != null">residence,</if>
+            <if test="personnelType != null">personnel_type,</if>
+            <if test="occupationalStatus != null">occupational_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="selfCode != null">#{selfCode},</if>
+            <if test="legalPersonName != null">#{legalPersonName},</if>
+            <if test="documentType != null">#{documentType},</if>
+            <if test="idCardNum != null">#{idCardNum},</if>
+            <if test="politicalStatus != null">#{politicalStatus},</if>
+            <if test="eduation != null">#{eduation},</if>
+            <if test="telNum != null">#{telNum},</if>
+            <if test="mail != null">#{mail},</if>
+            <if test="bank != null">#{bank},</if>
+            <if test="bankCard != null and bankCard != ''">#{bankCard},</if>
+            <if test="openingBank != null">#{openingBank},</if>
+            <if test="receivingAddress != null">#{receivingAddress},</if>
+            <if test="password != null">#{password},</if>
+            <if test="initial != null">#{initial},</if>
+            <if test="ending != null">#{ending},</if>
+            <if test="same != null">#{same},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactIdNum != null">#{contactIdNum},</if>
+            <if test="contactTel != null">#{contactTel},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="dateBirth != null">#{dateBirth},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="residence != null">#{residence},</if>
+            <if test="personnelType != null">#{personnelType},</if>
+            <if test="occupationalStatus != null">#{occupationalStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfLegalPerson" parameterType="com.ruoyi.company.domain.SelfLegalPerson">
+        update self_legal_person_tc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfCode != null">self_code = #{selfCode},</if>
+            <if test="legalPersonName != null">legal_person_name = #{legalPersonName},</if>
+            <if test="documentType != null">document_type = #{documentType},</if>
+            <if test="idCardNum != null">id_card_num = #{idCardNum},</if>
+            <if test="politicalStatus != null">political_status = #{politicalStatus},</if>
+            <if test="eduation != null">eduation = #{eduation},</if>
+            <if test="telNum != null">tel_num = #{telNum},</if>
+            <if test="mail != null">mail = #{mail},</if>
+            <if test="bank != null">bank = #{bank},</if>
+            <if test="bankCard != null and bankCard != ''">bank_card = #{bankCard},</if>
+            <if test="openingBank != null">opening_bank = #{openingBank},</if>
+            <if test="receivingAddress != null">receiving_address = #{receivingAddress},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="initial != null">initial = #{initial},</if>
+            <if test="ending != null">ending = #{ending},</if>
+            <if test="same != null">same = #{same},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactIdNum != null">contact_id_num = #{contactIdNum},</if>
+            <if test="contactTel != null">contact_tel = #{contactTel},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="dateBirth != null">date_birth = #{dateBirth},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="residence != null">residence = #{residence},</if>
+            <if test="personnelType != null">personnel_type = #{personnelType},</if>
+            <if test="occupationalStatus != null">occupational_status = #{occupationalStatus},</if>
+            <if test="createBy != null "> and create_by = #{createBy},</if>
+            <if test="updateBy != null "> and update_by = #{updateBy},</if>
+            <if test="createTime != null "> and create_time = #{createTime},</if>
+            <if test="updateTime != null "> and update_time = #{updateTime},</if>
+        </trim>
+        where legal_person_id = #{legalPersonId}
+    </update>
+
+    <delete id="deleteSelfLegalPersonByLegalPersonId" parameterType="Long">
+        delete from self_legal_person_tc where legal_person_id = #{legalPersonId}
+    </delete>
+
+    <delete id="deleteSelfLegalPersonByLegalPersonIds" parameterType="String">
+        delete from self_legal_person_tc where legal_person_id in
+        <foreach item="legalPersonId" collection="array" open="(" separator="," close=")">
+            #{legalPersonId}
+        </foreach>
+    </delete>
+</mapper>

@@ -34,7 +34,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/rate")
-@Api(tags = "个体户行型税率")
+@Api(tags = "个体户行业税率")
 public class SelfIndustryRateController extends BaseController
 {
     @Autowired
