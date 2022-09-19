@@ -115,10 +115,10 @@ export default {
     };
   },
   created() {
-    let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("tg-businesslist");
     this.formbusiness = list;
     this.fileNameN1=[];
-    this.fileName1 = JSON.parse(this.$cache.local.getJSON('employednewlist').fileName1);
+    this.fileName1 = JSON.parse(this.$cache.local.getJSON('tg-businesslist').fileName1);
     for (let k1 in this.fileName1) {
          this.fileNameN1.push({
           url:this.baseImgPath+this.fileName1[k1],

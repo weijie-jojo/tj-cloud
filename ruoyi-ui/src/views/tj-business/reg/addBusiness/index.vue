@@ -113,13 +113,10 @@ export default {
     };
   },
 
-
-  created() {
-    let list = this.$cache.local.getJSON("employednewlist");
+  mounted() {
+    let list = this.$cache.local.getJSON("tj-businesslist");
     this.formbusiness.selfId = list.selfId;
     this.formbusiness.legalPersonName = list.legalPersonName;
-  },
-  mounted() {
     this.getInfo();
   },
   methods: {
@@ -143,7 +140,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tj-businesslist").selfCode,
         "selfType": "5",
       }
       check(parms).then(res => {

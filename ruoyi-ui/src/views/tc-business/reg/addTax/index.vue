@@ -134,7 +134,7 @@ export default {
  
  
   mounted() {
-    let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("tc-taxlist");
     this.formtax.selfId = list.selfId;
     this.formtax.selfName = list.selfName;
     this.formtax.legalPersonName = list.legalPersonName;
@@ -248,7 +248,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tc-taxlist").selfCode,
         "selfType": "6",
       }
       check(parms).then(res => {

@@ -458,23 +458,23 @@ export default {
                 this.$tab.refreshPage({path:"/tg-business/reg/nameDetail",name:'NameDetail'})
                 break;
               case 2:
-                this.$cache.local.setJSON('employedInfo', scope);
+                this.$cache.local.setJSON('tg-infolist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/infoDetail",name:'InfoDetail'})
                  break;
               case 4:
-                 this.$cache.local.setJSON('employednewlist', scope);
+                 this.$cache.local.setJSON('tg-businesslist', scope);
                  this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
               break;
               case 5:
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tg-taxlist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/detailTax",name:'DetailTax'});
                  break;
               case 6:
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tg-banklist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/detailBank",name:'DetailBank'});
                 break;
               case 7:
-                this.$cache.local.setJSON("employedInfo", scope);
+                this.$cache.local.setJSON("tg-infolist", scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/regReviewDetail",name:'RegReviewDetail'});
                 break;
 
@@ -502,7 +502,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj1);
-                this.$cache.local.setJSON('employedInfo', scope);
+                this.$cache.local.setJSON('tg-infolist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/infoAduit",name:'InfoAduit'});
                
                 break;
@@ -516,7 +516,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj2);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tg-businesslist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBusiness",name:'AddBusiness'});
                 
                 break;
@@ -528,7 +528,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj3);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tg-taxlist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addTax",name:'AddTax'});
                 
                 break;
@@ -540,7 +540,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj4);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tg-banklist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBank",name:'AddBank'});
                 break;
                 case 7:
@@ -551,7 +551,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj5);
-                this.$cache.local.setJSON('employedInfo', scope);
+                this.$cache.local.setJSON('tg-infolist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});
                 break;
               }
@@ -568,7 +568,7 @@ export default {
     //注册确认完成
     finishConfirms(scope, selfCode) {
       this.checkConfirms(selfCode);
-      this.$cache.local.setJSON("employedInfo", scope);
+      this.$cache.local.setJSON("tg-infolist", scope);
     },
     //注册确认
     checkConfirms(arr) {
@@ -708,7 +708,7 @@ export default {
 
     //异常注册确认
     errConfirms(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
       let obj = {
         backUrl: '/tg-business/reg/employed',
         backName:'Employed',
@@ -828,7 +828,7 @@ export default {
     },
     //异常信息
     errInfo(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
@@ -915,7 +915,7 @@ export default {
     //信息审核 已完成
     finishInfo(scope, selfCode) {
       this.checkInfo(selfCode);
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
 
     },
 
@@ -931,13 +931,7 @@ export default {
       
     },
 
-    //办理实名 已完成
-    finishCer(scope, selfCode) {
-      this.checkCer(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('employedInfo', scope);
-
-    },
+   
 
     //注册确认详情
     confirmDetail() {
@@ -952,8 +946,8 @@ export default {
     //办理工商 已完成
     finishBus(scope, selfCode) {
       this.checkBus(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON("tg-businesslist", scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
 
     },
 
@@ -972,8 +966,8 @@ export default {
     //办理税务 已完成
     finishTax(scope, selfCode) {
       this.checkTax(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON("tg-taxlist", scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
 
     },
 
@@ -992,8 +986,8 @@ export default {
     finishBank(scope, selfCode) {
 
       this.checkBank(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('employedInfo', scope);
+      this.$cache.local.setJSON("tg-banklist", scope);
+      this.$cache.local.setJSON('tg-infolist', scope);
 
     },
 

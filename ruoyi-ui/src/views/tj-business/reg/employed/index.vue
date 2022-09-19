@@ -462,15 +462,15 @@ export default {
                 this.$tab.refreshPage({path:"/tj-business/reg/infoDetail",name:'InfoDetail'})
                  break;
               case 4:
-                 this.$cache.local.setJSON('employednewlist', scope);
+                 this.$cache.local.setJSON('tj-businesslist', scope);
                  this.$tab.refreshPage({path:"/tj-business/reg/detailBusiness",name:'DetailBusiness'})
               break;
               case 5:
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tj-taxlist', scope);
                 this.$tab.refreshPage({path:"/tj-business/reg/detailTax",name:'DetailTax'});
                  break;
               case 6:
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tj-banklist', scope);
                 this.$tab.refreshPage({path:"/tj-business/reg/detailBank",name:'DetailBank'});
                 break;
               case 7:
@@ -516,7 +516,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tj-resultBack', obj2);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tj-businesslist', scope);
                 this.$tab.refreshPage({path:"/tj-business/reg/addBusiness",name:'AddBusiness'});
                 
                 break;
@@ -528,7 +528,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tj-resultBack', obj3);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tj-taxlist', scope);
                 this.$tab.refreshPage({path:"/tj-business/reg/addTax",name:'AddTax'});
                 
                 break;
@@ -540,7 +540,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tj-resultBack', obj4);
-                this.$cache.local.setJSON('employednewlist', scope);
+                this.$cache.local.setJSON('tj-banklist', scope);
                 this.$tab.refreshPage({path:"/tj-business/reg/addBank",name:'AddBank'});
                 break;
                 case 7:
@@ -931,13 +931,7 @@ export default {
       
     },
 
-    //办理实名 已完成
-    finishCer(scope, selfCode) {
-      this.checkCer(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('tj-infolist', scope);
-
-    },
+   
 
     //注册确认详情
     confirmDetail() {
@@ -952,10 +946,8 @@ export default {
     //办理工商 已完成
     finishBus(scope, selfCode) {
       this.checkBus(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('tj-infolist', scope);
-
-    },
+      this.$cache.local.setJSON("tj-businesslist", scope);
+     },
 
     //工商详情
     busDetail() {
@@ -972,9 +964,7 @@ export default {
     //办理税务 已完成
     finishTax(scope, selfCode) {
       this.checkTax(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('tj-infolist', scope);
-
+      this.$cache.local.setJSON("tj-taxlist", scope);
     },
 
     //税务详情
@@ -990,11 +980,8 @@ export default {
 
     //办理银行 已完成
     finishBank(scope, selfCode) {
-
       this.checkBank(selfCode);
-      this.$cache.local.setJSON("employednewlist", scope);
-      this.$cache.local.setJSON('tj-infolist', scope);
-
+      this.$cache.local.setJSON("tj-banklist", scope);
     },
 
     //银行详情

@@ -1826,7 +1826,7 @@ export default {
     //申请人
     this.getApplyName();
     //从上一个页面获取信息
-    var employedInfo = this.$cache.local.getJSON("employedInfo");
+    var employedInfo = this.$cache.local.getJSON("tc-infolist");
     this.formData = employedInfo;
 
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
@@ -2410,7 +2410,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("employedInfo");
+        var employedInfo = this.$cache.local.getJSON("tc-infolist");
         this.formData.industryType = employedInfo.industryType;
 
         let tree = []; // 用来保存树状的数据形式
@@ -2463,25 +2463,25 @@ export default {
           }
         }
         this.applyNames = brr;
-        var employedInfo = this.$cache.local.getJSON("employedInfo");
+        var employedInfo = this.$cache.local.getJSON("tc-infolist");
         this.formData.applyName = parseInt(employedInfo.applyName);
       });
     },
     getElectronicCommerce() {
       this.electronicCommerces1 = this.electronicCommerces;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tc-infolist");
       this.formData.electronicCommerce = parseInt(
         employedInfo.electronicCommerce
       );
     },
     getAccountType() {
       this.accountTypes1 = this.accountTypes;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tc-infolist");
       this.formData.accountType = parseInt(employedInfo.accountType);
     },
     getGender() {
       this.genders1 = this.genders;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tc-infolist");
       this.formData.gender = parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {},

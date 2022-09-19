@@ -148,7 +148,7 @@ export default {
         backUrl: '/tc-business/reg/manageBusiness',
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$cache.local.setJSON('employednewlist', row);
+      this.$cache.local.setJSON('tc-businesslist', row);
       this.$tab.refreshPage({path:"/tc-business/reg/detailBusiness",name:'DetailBusiness'})
      },
       getCount(){
@@ -209,7 +209,7 @@ export default {
     },
     //工商管理
     business(row) {
-      this.$cache.local.setJSON('employednewlist', row);
+      this.$cache.local.setJSON('tc-businesslist', row);
       let obj = {
         title: '工商办理',
         backUrl: '/tc-business/reg/manageBusiness',
@@ -222,8 +222,7 @@ export default {
     },
     //工商表格
     businessTable(row) {
-      //  this.$cache.local.setJSON('employednewlist', row);
-      //  this.$tab.closeOpenPage({ path: "/company/customer/businessTable"});
+     
     },
 
   }

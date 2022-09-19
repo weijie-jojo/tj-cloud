@@ -1739,7 +1739,7 @@ export default {
     //个体户行业类型税率
     // this.getRate();
     //从上一个页面获取个体户编码
-    this.formData = this.$cache.local.getJSON("employedInfo");
+    this.formData = this.$cache.local.getJSON("tc-infolist");
     //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
@@ -1854,7 +1854,7 @@ export default {
     this.fileNameN3 = [];
 
     this.fileName5 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName5
+      this.$cache.local.getJSON("tc-infolist").fileName5
     );
     for (let k1 in this.fileName5) {
       this.fileNameN1.push({
@@ -1863,7 +1863,7 @@ export default {
       });
     }
     this.fileName6 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName6
+      this.$cache.local.getJSON("tc-infolist").fileName6
     );
     for (let k2 in this.fileName6) {
       this.fileNameN2.push({
@@ -1872,7 +1872,7 @@ export default {
       });
     }
     this.fileName7 = JSON.parse(
-      this.$cache.local.getJSON("employedInfo").fileName7
+      this.$cache.local.getJSON("tc-infolist").fileName7
     );
     for (let k3 in this.fileName7) {
       this.fileNameN3.push({
@@ -1968,7 +1968,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("employedInfo");
+        var employedInfo = this.$cache.local.getJSON("tc-infolist");
         this.formData.industryType = employedInfo.industryType;
 
         let tree = []; // 用来保存树状的数据形式

@@ -178,12 +178,12 @@ export default {
         backName: "ManageList",
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$cache.local.setJSON("employedInfo", row);
+      this.$cache.local.setJSON("tc-infolist", row);
       this.$tab.refreshPage({path:"/tc-business/reg/manageListDdit",name:'ManageListDdit'});
      
      },
     detail(scope) {
-      this.$cache.local.setJSON("employedInfo", scope);
+      this.$cache.local.setJSON("tc-infolist", scope);
       this.$tab.refreshPage({path:"/tc-business/reg/manageListDetail",name:'ManageListDetail'});
     },
    

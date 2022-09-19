@@ -148,7 +148,7 @@ export default {
           backUrl: '/tc-business/reg/manageBank',
          };
          this.$cache.local.setJSON('backurls', obj);
-         this.$cache.local.setJSON('employednewlist', row);
+         this.$cache.local.setJSON('tc-banklist', row);
          this.$tab.refreshPage({path:"/tc-business/reg/detailBank",name:'DetailBank'});
     },
     getCount(){
@@ -208,7 +208,7 @@ export default {
     
     
     bank(row){
-       this.$cache.local.setJSON('employednewlist', row);
+       this.$cache.local.setJSON('tc-banklist', row);
            let obj = {
             title: '银行办理',
             backUrl: '/tc-business/reg/manageBank',

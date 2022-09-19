@@ -832,18 +832,18 @@ export default {
     //从上一个页面获取个体户编码
 
 
-    this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData = this.$cache.local.getJSON('tg-infolist');
     //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName5);
     this.fileNameN1 = [];
     this.fileNameN2 = [];
     this.fileNameN3 = [];
 
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName5);
     for (let k1 in this.fileName5) {
       this.fileNameN1.push({
         url: this.baseImgPath + this.fileName5[k1],
@@ -851,14 +851,14 @@ export default {
       });
 
     }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
+    this.fileName6 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName6);
     for (let k2 in this.fileName6) {
       this.fileNameN2.push({
         url: this.baseImgPath + this.fileName6[k2],
         name: this.fileName6[k2],
       });
     }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
+    this.fileName7 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName7);
     for (let k3 in this.fileName7) {
       this.fileNameN3.push({
         url: this.baseImgPath + this.fileName7[k3],

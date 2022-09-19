@@ -47,7 +47,7 @@ export function list2(data){
 }
 export function del(ticketIds) {
   return request({
-    url: 'project/ticket/del/tc/'+ticketIds,
+    url: 'project/ticket/tc/del/'+ticketIds,
     method: 'put',
  })
 }
