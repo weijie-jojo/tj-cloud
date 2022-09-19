@@ -161,6 +161,15 @@ public interface SysUserMapper
     List<SysUser> selectUserByRoleId(Long roleId);
 
     /**
+     * 通过角色ID查询用户
+     *
+     * @params roleIdArr 角色ID集合
+     * @return 用户对象信息
+     */
+    List<SysUser> selectUserByRoles(@Param("roleIdArr") List<Long> roleIdArr);
+
+
+    /**
      * 查询数据库里面最后一条数据
      *
      * @return 个体商户集合

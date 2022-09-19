@@ -72,7 +72,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectUserByRoleId" parameterType="Long" resultMap="SysUserResult">
 		<include refid="selectUserVo"/>
-		where r.role_id = #{roleId}
+		where u.del_flag = '0' and r.role_id = #{roleId}
+	</select>
+
+	<select id="selectUserByRoles"  resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.del_flag = '0'
+		<if test="roleIdArr != null  and roleIdArr.size() >0 ">
+			AND r.role_id in
+			<foreach collection="roleIdArr" index="index" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
 	</select>
 
 	<select id="selectAllUser"  resultMap="SysUserResult">

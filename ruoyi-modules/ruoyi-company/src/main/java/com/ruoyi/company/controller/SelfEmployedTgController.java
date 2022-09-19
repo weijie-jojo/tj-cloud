@@ -15,6 +15,8 @@ import com.ruoyi.company.domain.vo.SysUserVo;
 import com.ruoyi.company.mapper.SysUserMapper;
 import com.ruoyi.company.service.ISelfEmployedService;
 import com.ruoyi.company.service.ISelfEmployedTgService;
+import com.ruoyi.system.api.RemoteUserService;
+import com.ruoyi.system.api.domain.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,8 @@ public class SelfEmployedTgController extends BaseController
     private ISelfEmployedTgService selfEmployedService;
     @Resource
     private  SysUserMapper sysUserMapper;
-
+    @Autowired
+    private RemoteUserService remoteUserService;
 
     /**
      * 获取所有用户
@@ -52,8 +55,12 @@ public class SelfEmployedTgController extends BaseController
     @GetMapping(value = "/getAllUser")
     public AjaxResult getAllUser()
     {
-        return AjaxResult.success(sysUserMapper.getAllUser());
-
+        List<Long> roleIdArr = new ArrayList<Long>();
+        roleIdArr.add(117L);
+        System.out.println("roleIdArr==="+roleIdArr);
+        List<SysUser> list=   remoteUserService.getUserByRoles(roleIdArr);
+        System.out.println("LoginUser==="+list);
+        return AjaxResult.success(list);
     }
 
     /**

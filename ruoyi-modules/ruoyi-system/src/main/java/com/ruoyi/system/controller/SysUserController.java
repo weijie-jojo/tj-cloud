@@ -114,6 +114,36 @@ public class SysUserController extends BaseController
         return list;
     }
 
+    /**
+     * 获取用户列表(排除删除的)
+     */
+    @GetMapping("/getAllUser")
+    public List<SysUser> getAllUser2()
+    {
+        List<SysUser> list = userService.selectAllUser2();
+        return list;
+    }
+
+    /**
+     * 根据角色集合获取用户列表
+     */
+    @GetMapping("/getUserByRoles")
+    public List<SysUser> getUserByRoles(@RequestParam("roleIdArr") List<Long> roleIdArr)
+    {
+        List<SysUser> list = userService.selectUserByRoles(roleIdArr);
+        return list;
+    }
+
+    /**
+     * 根据角色获取用户列表
+     */
+    @GetMapping("/getUserByRole/{roleId}")
+    public List<SysUser> getUserByRole(@PathVariable("roleId") Long roleId )
+    {
+        List<SysUser> list = userService.selectUserByRoleId(roleId);
+        return list;
+    }
+
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:user:export")
     @PostMapping("/export")
