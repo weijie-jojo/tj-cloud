@@ -310,7 +310,7 @@ export default {
   mounted() {
     this.getInfo();
    
-    let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("tg-banklist");
     this.formBank.selfId = list.selfId;
     this.formBank.selfName = list.selfName;
     this.formBank.legalPersonName = list.legalPersonName;
@@ -382,7 +382,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("employednewlist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tg-banklist").selfCode,
         "selfType": "7",
       }
       check(parms).then(res => {

@@ -298,7 +298,7 @@ export default {
     };
   },
   created() {
-    let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("tc-banklist");
     this.formBank = list;
     if (this.formBank.isPublicUser == 0) {
       this.formBank.isPublicUser = '0';
@@ -307,14 +307,14 @@ export default {
     }
     this.fileNameN1 = [];
     this.fileNameN2 = [];
-    this.fileName3 = JSON.parse(this.$cache.local.getJSON('employednewlist').fileName3);
+    this.fileName3 = JSON.parse(this.$cache.local.getJSON('tc-banklist').fileName3);
     for (let k1 in this.fileName3) {
       this.fileNameN1.push({
         url: this.baseImgPath + this.fileName3[k1],
         name: this.fileName3[k1],
       });
     }
-    this.fileName4 = JSON.parse(this.$cache.local.getJSON('employednewlist').fileName4);
+    this.fileName4 = JSON.parse(this.$cache.local.getJSON('tc-banklist').fileName4);
     for (let k2 in this.fileName4) {
 
       this.fileNameN2.push({

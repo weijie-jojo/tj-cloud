@@ -29,7 +29,7 @@ export function addEmployed(data) {
 // 获取工商表格
 export function getWord(data) {
   return request({
-    url: '/company/files/tc/getWord',
+    url: '/company/files/getWord',
     method: 'post',
     params: data
   })

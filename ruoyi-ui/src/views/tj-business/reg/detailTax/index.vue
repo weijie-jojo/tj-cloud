@@ -136,12 +136,12 @@ export default {
     };
   },
   mounted() {
-    let list = this.$cache.local.getJSON("employednewlist");
+    let list = this.$cache.local.getJSON("tj-taxlist");
     this.formtax = list;
     this.industryTax = new Decimal(this.formtax.industryTax).mul(new Decimal(100)) + '%';
     this.getRate();
     this.fileNameN1=[];
-    this.fileName2=JSON.parse(this.$cache.local.getJSON('employednewlist').fileName2);
+    this.fileName2=JSON.parse(this.$cache.local.getJSON('tj-taxlist').fileName2);
     for(let k1 in this.fileName2){
        this.fileNameN1.push({
           url:this.baseImgPath+this.fileName2[k1],
@@ -190,7 +190,7 @@ export default {
     },
      getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('employednewlist');
+        var employedInfo = this.$cache.local.getJSON('tj-taxlist');
         this.formtax.industryType = employedInfo.industryType;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);

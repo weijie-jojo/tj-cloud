@@ -1425,7 +1425,7 @@ export default {
 
 
 
-    this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData = this.$cache.local.getJSON('tc-infolist');
 
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
@@ -1921,8 +1921,8 @@ export default {
     selectAccountType(value) {
       if (value == 1) {
         this.formData.legalPersonName = this.formData.contactName;
-        this.formData.privateDepositBank = this.$cache.local.getJSON('employedInfo').privateDepositBank;
-        this.formData.privateAccountNumber = this.$cache.local.getJSON('employedInfo').privateAccountNumber;
+        this.formData.privateDepositBank = this.$cache.local.getJSON('tc-infolist').privateDepositBank;
+        this.formData.privateAccountNumber = this.$cache.local.getJSON('tc-infolist').privateAccountNumber;
         this.isPrivateBank = false;
       } else {
         this.isPrivateBank = true;
@@ -1949,7 +1949,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('employedInfo');
+        var employedInfo = this.$cache.local.getJSON('tc-infolist');
         this.formData.industryType = employedInfo.industryType;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);

@@ -20,7 +20,7 @@ export function getInfo(id) {
 // 新增个体户注册申请信息
 export function addInfo(data) {
   return request({
-    url: '/company/tc/info',
+    url: '/company/info/tc',
     method: 'post',
     data: data
   })
