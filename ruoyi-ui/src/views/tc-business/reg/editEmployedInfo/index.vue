@@ -2371,7 +2371,6 @@ export default {
     getLoginInfo() {
       getInfo().then((res) => {
         this.userinfo = res.user;
-        this.formData.userName = res.user.nickName;
         crudPlace
           .getPlaceByUserId({ userId: this.formData.userId })
           .then((res) => {
@@ -2615,7 +2614,7 @@ export default {
             placeCode: this.formData.placeCode,
             placeName: this.formData.placeName,
             placeAliasName: this.formData.placeAliasName,
-            username: this.formData.userName,
+          
             fileName5: this.fileNameNEW1,
             fileName6: this.fileNameNEW2,
             fileName7: this.fileNameNEW3,
