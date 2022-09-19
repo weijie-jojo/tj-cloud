@@ -22,7 +22,7 @@ public class RuoYiProjectApplication
     public static void main(String[] args)
     {
         SpringApplication.run(RuoYiProjectApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依项目管理启动成功111111   ლ(´ڡ`ლ)ﾞ  \n" +
+        System.out.println("(♥◠‿◠)ﾉﾞ  若依项目管理启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +
