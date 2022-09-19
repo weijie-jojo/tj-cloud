@@ -215,7 +215,7 @@ export default {
       this.$cache.local.setJSON('tc-infolist', row);
       let obj = {
         title: '信息审核',
-        backUrl: '/tc-business/reg//manageInfo',
+        backUrl: '/tc-business/reg/manageInfo',
         resmsg: '信息审核完成',
         backName: "ManageInfo",
       }
