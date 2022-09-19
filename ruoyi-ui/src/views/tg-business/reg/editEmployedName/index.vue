@@ -389,7 +389,7 @@ export default {
     getLoginInfo(){
       getInfo().then(res=>{  
         this.userinfo=res.user;
-        this.formData.userName=res.user.nickName;
+       
       })
     },
     getPoposedName(){
@@ -462,8 +462,6 @@ export default {
               poposedName3:this.formData.poposedName3,
               poposedName4:this.formData.poposedName4,
               poposedName5:this.formData.poposedName5,
-              createBy:this.formData.userName,
-              updateBy:this.formData.userName,
               nameStatus:0,
             
             };

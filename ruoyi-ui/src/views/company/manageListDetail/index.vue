@@ -1739,8 +1739,8 @@ export default {
     },
     getLoginInfo() {
       getInfo().then(res => {
-        this.formData.userName = res.user.nickName;
-        crudPlace.getPlaceByUserId({ userId: res.user.userId }).then(res => {
+        //this.formData.userName = res.user.nickName;
+        crudPlace.getPlaceByUserId({ userId:this.formData.userId }).then(res => {
           console.log("getPlaceByUserId==", res.data);
           this.places = res.data;
         })
