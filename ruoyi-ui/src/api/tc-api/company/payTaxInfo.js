@@ -4,7 +4,7 @@ import request from '@/utils/request'
 
 export function listInfo(query) {
   return request({
-    url: '/company/payTaxInfo/tc/list',
+    url: '/company/payTaxInfo/list',
     method: 'get',
     params: query
   })
@@ -14,7 +14,7 @@ export function listInfo(query) {
 
 export function getInfo(taxId) {
   return request({
-    url: '/company/payTaxInfo/tc/' + taxId,
+    url: '/company/payTaxInfo/' + taxId,
     method: 'get'
   })
 }
@@ -23,7 +23,7 @@ export function getInfo(taxId) {
 
 export function addInfo(data) {
   return request({
-    url: '/company/payTaxInfo/tc',
+    url: '/company/payTaxInfo',
     method: 'post',
     data: data
   })
@@ -33,7 +33,7 @@ export function addInfo(data) {
 
 export function updateInfo(data) {
   return request({
-    url: '/company/payTaxInfo/tc',
+    url: '/company/payTaxInfo',
     method: 'put',
     data: data
   })
@@ -43,7 +43,7 @@ export function updateInfo(data) {
 
 export function delInfo(taxId) {
   return request({
-    url: '/company/payTaxInfo/tc' + taxId,
+    url: '/company/payTaxInfo' + taxId,
     method: 'delete'
   })
 }
@@ -51,7 +51,7 @@ export function delInfo(taxId) {
 // 查询纳税账户
 export function all() {
   return request({
-    url: '/company/payTaxInfo/tc/all',
+    url: '/company/payTaxInfo/all',
     method: 'get',
   
   })

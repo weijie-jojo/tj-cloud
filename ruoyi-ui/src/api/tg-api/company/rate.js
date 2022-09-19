@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询个体户行业类型税率列表
 export function listRate(query) {
   return request({
-    url: '/company/rate/tg/list',
+    url: '/company/rate/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listRate(query) {
 // 查询个体户行业类型税率详细
 export function getRate(industryId) {
   return request({
-    url: '/company/rate/tg/' + industryId,
+    url: '/company/rate/' + industryId,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getRate(industryId) {
 // 新增个体户行业类型税率
 export function addRate(data) {
   return request({
-    url: '/company/rate/tg',
+    url: '/company/rate',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addRate(data) {
 // 修改个体户行业类型税率
 export function updateRate(data) {
   return request({
-    url: '/company/rate/tg',
+    url: '/company/rate',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateRate(data) {
 // 删除个体户行业类型税率
 export function delRate(industryId) {
   return request({
-    url: '/company/rate/tg/' + industryId,
+    url: '/company/rate/' + industryId,
     method: 'delete'
   })
 }
@@ -46,7 +46,7 @@ export function delRate(industryId) {
 // 查询个体户行业类型税率列表（不分页 查所有）
 export function getAllRate(query) {
   return request({
-    url: '/company/rate/tg/all',
+    url: '/company/rate/all',
     method: 'get',
     params: query
   })
