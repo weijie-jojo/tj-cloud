@@ -205,7 +205,6 @@
   import uploadSmall from "@/components/douploads/uploadCollect";
   import { check,detail,editPay} from "@/api/project/list";
   import { getInfo } from "@/api/login";
-import { isArray } from "../../../utils/validate";
   export default {
     name: "DisburseEdit",
     components: { uploadSmall },
@@ -334,7 +333,7 @@ import { isArray } from "../../../utils/validate";
           if (valid) {
            this.formData.payRemark='';
            this.formData.isCheck=0;
-           if(isArray(this.formData.fileNamePay)){
+           if(Array.isArray(this.formData.fileNamePay)){
             this.formData.fileNamePay=JSON.stringify(this.formData.fileNamePay);
            }
             editPay(this.formData).then((res) => {

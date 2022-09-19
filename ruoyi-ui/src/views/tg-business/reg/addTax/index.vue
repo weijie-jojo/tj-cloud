@@ -62,11 +62,11 @@
 </template>
 
 <script>
-import crudRate from '@/api/company/rate'
+import crudRate from '@/api/tg-api/company/rate'
 import { Decimal } from 'decimal.js'
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed, check } from "@/api/company/employed";
+import { addEmployed, updateEmployed, check } from "@/api/tg-api/company/employed";
 export default {
   name:'AddTax',
    components: {
@@ -232,8 +232,8 @@ export default {
     },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('successNew').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('successNew').backUrl,name:this.$cache.local.getJSON('successNew').backName});
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl,name:this.$cache.local.getJSON('tj-resultBack').backName});
      })
     },
     //获取个人信息
@@ -272,7 +272,7 @@ export default {
                   this.$nextTick(function () {
                     let resmsg = '税务办理完成';
                     this.check(resmsg);
-                    this.$tab.closeOpenPage({ path: "/company/customer/successNew" });
+                    this.$tab.closeOpenPage({ path: "/tg-business/reg/result" });
                    
                   });
                 } else {

@@ -587,6 +587,9 @@
     },
     data() {
       return {
+        subTotalMoney1:'',
+        subTotalMoney2:'',
+        subTotalMoney3:'',
         accessoryNumTotal:'',
         isDetail: '1',
         isDetails: '1',
