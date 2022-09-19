@@ -232,8 +232,8 @@ export default {
     },
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl,name:this.$cache.local.getJSON('tj-resultBack').backName});
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-resultBack').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tc-resultBack').backUrl,name:this.$cache.local.getJSON('tc-resultBack').backName});
      })
     },
     //获取个人信息

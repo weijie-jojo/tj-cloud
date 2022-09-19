@@ -62,7 +62,7 @@
                 <el-option
                   v-for="(item, index) in applyNames"
                   :key="index"
-                  :label="item.username"
+                  :label="item.nickName"
                   :value="item.userId"
                   :disabled="item.disabled"
                 ></el-option>
@@ -587,8 +587,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="客户经理">
-              <el-input v-model="formData.userName" disabled> </el-input>
+            <el-form-item label="客户经理" :required="true">
+              <el-input v-model="formData.username" disabled> </el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1826,7 +1826,7 @@ export default {
     //申请人
     this.getApplyName();
     //从上一个页面获取信息
-    var employedInfo = this.$cache.local.getJSON("employedInfo");
+    var employedInfo = this.$cache.local.getJSON("tj-infolist");
     this.formData = employedInfo;
 
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
@@ -2411,7 +2411,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("employedInfo");
+        var employedInfo = this.$cache.local.getJSON("tj-infolist");
         this.formData.industryType = employedInfo.industryType;
 
         let tree = []; // 用来保存树状的数据形式
@@ -2464,25 +2464,25 @@ export default {
           }
         }
         this.applyNames = brr;
-        var employedInfo = this.$cache.local.getJSON("employedInfo");
+        var employedInfo = this.$cache.local.getJSON("tj-infolist");
         this.formData.applyName = parseInt(employedInfo.applyName);
       });
     },
     getElectronicCommerce() {
       this.electronicCommerces1 = this.electronicCommerces;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tj-infolist");
       this.formData.electronicCommerce = parseInt(
         employedInfo.electronicCommerce
       );
     },
     getAccountType() {
       this.accountTypes1 = this.accountTypes;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tj-infolist");
       this.formData.accountType = parseInt(employedInfo.accountType);
     },
     getGender() {
       this.genders1 = this.genders;
-      var employedInfo = this.$cache.local.getJSON("employedInfo");
+      var employedInfo = this.$cache.local.getJSON("tj-infolist");
       this.formData.gender = parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {},

@@ -28,7 +28,7 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理">
+          <el-form-item class="comright" label="客户经理" :required="true">
             <el-input v-model="formData.username" :readonly="true" clearable>
             </el-input>
           </el-form-item>
@@ -227,7 +227,7 @@ export default {
         poposedName1: "",
         poposedName2: "",
         poposedName3: "",
-        userName: "",
+        username: "",
       },
       userinfo:{},
       checkDate: '',
@@ -284,7 +284,7 @@ export default {
   computed: {},
   created() { },
   mounted() {
-    this.formData = this.$cache.local.getJSON("employedName");
+    this.formData = this.$cache.local.getJSON("tj-namelist");
     if(this.formData.random=='true'){
       this.formData.random=true;
     }else{

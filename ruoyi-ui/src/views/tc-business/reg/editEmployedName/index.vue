@@ -291,7 +291,7 @@ export default {
         poposedName3:'',
         poposedName4: "",
         poposedName5: "",
-        userName:'',
+        username:'',
       },
       rules: {
         industry: [{
@@ -351,7 +351,7 @@ export default {
   
   mounted() {
     this.getLoginInfo();
-    var employedName=this.$cache.local.getJSON('tj-name');
+    var employedName=this.$cache.local.getJSON('tc-namelist');
     crudReview.getByCode({selfCode:employedName.selfCode}).then(res=>{
     this.formData=res;
      if(this.formData.random=='true'){
@@ -401,16 +401,16 @@ export default {
     isRandom(){
       if(!this.formData.random){
         this.isDisable=false;
-        this.formData.poposedName1=this.$cache.local.getJSON('employedName').poposedName1;
-        this.formData.poposedName2=this.$cache.local.getJSON('employedName').poposedName3;
-        this.formData.poposedName3=this.$cache.local.getJSON('employedName').poposedName3;
-        this.formData.poposedName4=this.$cache.local.getJSON('employedName').poposedName4;
-        this.formData.poposedName5=this.$cache.local.getJSON('employedName').poposedName5;
-        this.formData.fontSize1=this.$cache.local.getJSON('employedName').fontSize1;
-        this.formData.fontSize2=this.$cache.local.getJSON('employedName').fontSize2;
-        this.formData.fontSize3=this.$cache.local.getJSON('employedName').fontSize3;
-        this.formData.fontSize4=this.$cache.local.getJSON('employedName').fontSize4;
-        this.formData.fontSize5=this.$cache.local.getJSON('employedName').fontSize5;
+        this.formData.poposedName1=this.$cache.local.getJSON('tc-namelist').poposedName1;
+        this.formData.poposedName2=this.$cache.local.getJSON('tc-namelist').poposedName3;
+        this.formData.poposedName3=this.$cache.local.getJSON('tc-namelist').poposedName3;
+        this.formData.poposedName4=this.$cache.local.getJSON('tc-namelist').poposedName4;
+        this.formData.poposedName5=this.$cache.local.getJSON('tc-namelist').poposedName5;
+        this.formData.fontSize1=this.$cache.local.getJSON('tc-namelist').fontSize1;
+        this.formData.fontSize2=this.$cache.local.getJSON('tc-namelist').fontSize2;
+        this.formData.fontSize3=this.$cache.local.getJSON('tc-namelist').fontSize3;
+        this.formData.fontSize4=this.$cache.local.getJSON('tc-namelist').fontSize4;
+        this.formData.fontSize5=this.$cache.local.getJSON('tc-namelist').fontSize5;
       }else{
         this.isDisable=true
         this.formData.fontSize1="";
@@ -434,10 +434,10 @@ export default {
         // TODO 提交表单
         if (valid) {
            
-          if(this.$cache.local.getJSON('employedName').infoStatus==0 || this.$cache.local.getJSON('employedName').infoStatus==1){
+          if(this.$cache.local.getJSON('tc-namelist').infoStatus==0 || this.$cache.local.getJSON('tc-namelist').infoStatus==1){
             
              let parmsEmployed={
-              selfId:this.$cache.local.getJSON('employedName').selfId,
+              selfId:this.$cache.local.getJSON('tc-namelist').selfId,
               endStatus:0,
              }
               crudEmployed.updateEmployed(parmsEmployed);

@@ -181,7 +181,7 @@ export default {
          resmsg: '注册确认完成',
          backName:'EmployedConfirm'
       }
-     this.$cache.local.setJSON('tj-resultBack', obj);
+     this.$cache.local.setJSON('tc-resultBack', obj);
      this.$cache.local.setJSON("employedInfo", row);
     
      this.$tab.refreshPage({path:"/tc-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});

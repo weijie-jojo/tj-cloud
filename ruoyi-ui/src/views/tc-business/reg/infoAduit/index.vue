@@ -28,7 +28,7 @@
           <el-form-item class="comright" label="申请人姓名" prop="applyName">
             <el-select style="width:100%" disabled v-model="formData.applyName" placeholder="请选择申请人姓名" clearable
               filterable @change="selectApplyName">
-              <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.userId"
+              <el-option v-for="(item, index) in applyNames" :key="index" :label="item.nickName" :value="item.userId"
                 :disabled="item.disabled"></el-option>
             </el-select>
           </el-form-item>
@@ -274,8 +274,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -614,7 +614,7 @@ export default {
         privateDepositBank: '',
         privateAccountNumber: '',
         placeName: '',
-        userName: '',
+        username: '',
 
         //经营者
         personnelType: '待业人员',
@@ -746,7 +746,7 @@ export default {
           message: '请选择渠道商',
           trigger: 'change'
         }],
-        userName: [{
+        username: [{
           required: true,
           message: '请输入客户经理',
           trigger: 'blur'
@@ -1049,8 +1049,8 @@ export default {
 
     },
     closeForms() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl,name:this.$cache.local.getJSON('tj-resultBack').backName});
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-resultBack').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tc-resultBack').backUrl,name:this.$cache.local.getJSON('tc-resultBack').backName});
      })
     },
 

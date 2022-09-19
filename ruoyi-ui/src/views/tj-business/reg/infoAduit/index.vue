@@ -28,7 +28,7 @@
           <el-form-item class="comright" label="申请人姓名" prop="applyName">
             <el-select style="width:100%" disabled v-model="formData.applyName" placeholder="请选择申请人姓名" clearable
               filterable @change="selectApplyName">
-              <el-option v-for="(item, index) in applyNames" :key="index" :label="item.username" :value="item.userId"
+              <el-option v-for="(item, index) in applyNames" :key="index" :label="item.nickName" :value="item.userId"
                 :disabled="item.disabled"></el-option>
             </el-select>
           </el-form-item>
@@ -274,8 +274,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -614,7 +614,7 @@ export default {
         privateDepositBank: '',
         privateAccountNumber: '',
         placeName: '',
-        userName: '',
+        username: '',
 
         //经营者
         personnelType: '待业人员',
@@ -746,7 +746,7 @@ export default {
           message: '请选择渠道商',
           trigger: 'change'
         }],
-        userName: [{
+        username: [{
           required: true,
           message: '请输入客户经理',
           trigger: 'blur'
@@ -832,18 +832,18 @@ export default {
     //从上一个页面获取个体户编码
 
 
-    this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData = this.$cache.local.getJSON('tj-infolist');
     //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tj-infolist').fileName5);
     this.fileNameN1 = [];
     this.fileNameN2 = [];
     this.fileNameN3 = [];
 
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName5);
+    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tj-infolist').fileName5);
     for (let k1 in this.fileName5) {
       this.fileNameN1.push({
         url: this.baseImgPath + this.fileName5[k1],
@@ -851,14 +851,14 @@ export default {
       });
 
     }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName6);
+    this.fileName6 = JSON.parse(this.$cache.local.getJSON('tj-infolist').fileName6);
     for (let k2 in this.fileName6) {
       this.fileNameN2.push({
         url: this.baseImgPath + this.fileName6[k2],
         name: this.fileName6[k2],
       });
     }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('employedInfo').fileName7);
+    this.fileName7 = JSON.parse(this.$cache.local.getJSON('tj-infolist').fileName7);
     for (let k3 in this.fileName7) {
       this.fileNameN3.push({
         url: this.baseImgPath + this.fileName7[k3],

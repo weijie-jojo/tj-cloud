@@ -890,8 +890,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="客户经理">
-              <el-input v-model="formData.userName" disabled> </el-input>
+            <el-form-item label="客户经理"  :required="true">
+              <el-input v-model="formData.username" disabled> </el-input>
             </el-form-item>
           </el-col>
         </el-row>

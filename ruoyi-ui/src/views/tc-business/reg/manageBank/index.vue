@@ -215,7 +215,7 @@ export default {
             resmsg: '银行办理完成',
             backName: "ManageBank",
       }
-      this.$cache.local.setJSON('tj-resultBack', obj);
+      this.$cache.local.setJSON('tc-resultBack', obj);
       this.$tab.refreshPage({path:"/tc-business/reg/addBank",name:'AddBank'});
          
     },

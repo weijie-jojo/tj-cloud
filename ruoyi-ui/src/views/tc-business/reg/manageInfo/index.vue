@@ -219,7 +219,7 @@ export default {
         resmsg: '信息审核完成',
         backName: "ManageInfo",
       }
-      this.$cache.local.setJSON('tj-resultBack', obj);
+      this.$cache.local.setJSON('tc-resultBack', obj);
       this.$tab.refreshPage({path:"/tc-business/reg/infoAduit",name:'InfoAduit'});
               
      

@@ -454,7 +454,7 @@ export default {
 
             switch (type) {
               case 1:
-                this.$cache.local.setJSON('employedName', scope);
+                this.$cache.local.setJSON('tg-namelist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/nameDetail",name:'NameDetail'})
                 break;
               case 2:
@@ -489,8 +489,8 @@ export default {
                   resmsg: '名称审核完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj);
-                this.$cache.local.setJSON('employedName', scope);
+                this.$cache.local.setJSON('tg-resultBack', obj);
+                this.$cache.local.setJSON('tg-namelist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/nameAduit",name:'NameAduit'});
                
                  break;
@@ -501,7 +501,7 @@ export default {
                   resmsg: '信息审核完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj1);
+                this.$cache.local.setJSON('tg-resultBack', obj1);
                 this.$cache.local.setJSON('employedInfo', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/infoAduit",name:'InfoAduit'});
                
@@ -515,7 +515,7 @@ export default {
                   resmsg: '工商办理完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj2);
+                this.$cache.local.setJSON('tg-resultBack', obj2);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBusiness",name:'AddBusiness'});
                 
@@ -527,7 +527,7 @@ export default {
                   resmsg: '税务办理完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj3);
+                this.$cache.local.setJSON('tg-resultBack', obj3);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addTax",name:'AddTax'});
                 
@@ -539,7 +539,7 @@ export default {
                   resmsg: '银行办理完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj4);
+                this.$cache.local.setJSON('tg-resultBack', obj4);
                 this.$cache.local.setJSON('employednewlist', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBank",name:'AddBank'});
                 break;
@@ -550,7 +550,7 @@ export default {
                   resmsg: '注册确认完成',
                   backName:'Employed'
                 }
-                this.$cache.local.setJSON('tj-resultBack', obj5);
+                this.$cache.local.setJSON('tg-resultBack', obj5);
                 this.$cache.local.setJSON('employedInfo', scope);
                 this.$tab.refreshPage({path:"/tg-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});
                 break;
@@ -773,7 +773,7 @@ export default {
 
     //异常名称
     errName(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('employedName', scope);
+      this.$cache.local.setJSON('tg-namelist', scope);
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
@@ -898,7 +898,7 @@ export default {
     //名称审核 已完成
     finishName(scope, selfCode) {
       this.checkName(selfCode);
-      this.$cache.local.setJSON('employedName', scope);
+      this.$cache.local.setJSON('tg-namelist', scope);
 
     },
     //名称详情

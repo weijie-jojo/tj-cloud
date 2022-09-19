@@ -158,7 +158,7 @@ export default {
         backName: "EmployedConfirm",
       };
       this.$cache.local.setJSON('backurls', obj);
-      this.$cache.local.setJSON("employedInfo", row);
+      this.$cache.local.setJSON("tj-infolist", row);
       this.$tab.refreshPage({path:"/tj-business/reg/regReviewDdit",name:'RegReviewDdit'});
      
         
@@ -168,7 +168,7 @@ export default {
          backUrl:'/tj-business/reg/employedConfirm',
         };
       this.$cache.local.setJSON('backurls',obj);
-      this.$cache.local.setJSON("employedInfo", row);
+      this.$cache.local.setJSON("tj-infolist", row);
       this.$tab.refreshPage({path:"/tj-business/reg/regReviewDetail",name:'RegReviewDetail'});
      
      
@@ -182,7 +182,7 @@ export default {
          backName:'EmployedConfirm'
       }
      this.$cache.local.setJSON('tj-resultBack', obj);
-     this.$cache.local.setJSON("employedInfo", row);
+     this.$cache.local.setJSON("tj-infolist", row);
     
      this.$tab.refreshPage({path:"/tj-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});
       

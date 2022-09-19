@@ -763,8 +763,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true"> </el-input>
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true"> </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -1624,7 +1624,7 @@ export default {
         privateDepositBank: "",
         privateAccountNumber: "",
         placeName: "",
-        userName: "",
+        username: "",
 
         //经营者
         personnelType: "待业人员",
@@ -1866,7 +1866,7 @@ export default {
             trigger: "change",
           },
         ],
-        userName: [
+        username: [
           {
             required: true,
             message: "请输入客户经理",
@@ -2399,12 +2399,12 @@ export default {
     resetForm() {
       this.$tab
         .closeOpenPage({
-          path: this.$cache.local.getJSON("tj-resultBack").backUrl,
+          path: this.$cache.local.getJSON("tc-resultBack").backUrl,
         })
         .then(() => {
           this.$tab.refreshPage({
-            path: this.$cache.local.getJSON("tj-resultBack").backUrl,
-            name: this.$cache.local.getJSON("tj-resultBack").backName,
+            path: this.$cache.local.getJSON("tc-resultBack").backUrl,
+            name: this.$cache.local.getJSON("tc-resultBack").backName,
           });
         });
     },
