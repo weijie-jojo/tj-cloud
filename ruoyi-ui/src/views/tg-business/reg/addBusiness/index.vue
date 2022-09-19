@@ -127,8 +127,8 @@ export default {
      this.formbusiness.fileName1=data;
     },
     resetForm(){
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl}).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-resultBack').backUrl,name:this.$cache.local.getJSON('tj-resultBack').backName});
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-resultBack').backUrl}).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tg-resultBack').backUrl,name:this.$cache.local.getJSON('tg-resultBack').backName});
      })
     },
     //获取个人信息

@@ -47,7 +47,7 @@ export default {
   },
   created() { },
   mounted() {
-    this.obj = this.$cache.local.getJSON('tj-resultBack');
+    this.obj = this.$cache.local.getJSON('tg-resultBack');
     this.shenmsg = this.obj.resmsg;
     switch(this.shenmsg){
       case '名称审核完成':
@@ -76,8 +76,8 @@ export default {
 
     },
     submitForm() {
-      this.$tab.closeOpenPage({path:this.$cache.local.getJSON('tj-resultBack').backUrl}).then(() => {
-         this.$tab.refreshPage({path:this.$cache.local.getJSON('tj-resultBack').backUrl,name:this.$cache.local.getJSON('tj-resultBack').backName})
+      this.$tab.closeOpenPage({path:this.$cache.local.getJSON('tg-resultBack').backUrl}).then(() => {
+         this.$tab.refreshPage({path:this.$cache.local.getJSON('tg-resultBack').backUrl,name:this.$cache.local.getJSON('tg-resultBack').backName})
       })
     }
   }

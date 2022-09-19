@@ -536,8 +536,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -1124,7 +1124,7 @@ export default {
         privateAccountNumber: '',
         placeName: '',
         placeAliasName: '',
-        userName: '',
+        username: '',
 
         //经营者
         personnelType: '待业人员',
@@ -1331,7 +1331,7 @@ export default {
           message: '请选择客户全名',
           trigger: 'change'
         }],
-        userName: [{
+        username: [{
           required: true,
           message: '请输入客户经理',
           trigger: 'blur'
@@ -1425,7 +1425,7 @@ export default {
 
 
 
-    this.formData = this.$cache.local.getJSON('employedInfo');
+    this.formData = this.$cache.local.getJSON('tj-infolist');
 
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
@@ -1921,8 +1921,8 @@ export default {
     selectAccountType(value) {
       if (value == 1) {
         this.formData.legalPersonName = this.formData.contactName;
-        this.formData.privateDepositBank = this.$cache.local.getJSON('employedInfo').privateDepositBank;
-        this.formData.privateAccountNumber = this.$cache.local.getJSON('employedInfo').privateAccountNumber;
+        this.formData.privateDepositBank = this.$cache.local.getJSON('tj-infolist').privateDepositBank;
+        this.formData.privateAccountNumber = this.$cache.local.getJSON('tj-infolist').privateAccountNumber;
         this.isPrivateBank = false;
       } else {
         this.isPrivateBank = true;
@@ -1949,7 +1949,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('employedInfo');
+        var employedInfo = this.$cache.local.getJSON('tj-infolist');
         this.formData.industryType = employedInfo.industryType;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);

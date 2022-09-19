@@ -57,7 +57,7 @@
               <el-option
                 v-for="(item, index) in applyNames"
                 :key="index"
-                :label="item.username"
+                :label="item.nickName"
                 :value="item.userId"
                 :disabled="item.disabled"
               ></el-option>
@@ -599,8 +599,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true"> </el-input>
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true"> </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -1635,7 +1635,7 @@ export default {
             trigger: "change",
           },
         ],
-        userName: [
+        username: [
           {
             required: true,
             message: "请输入客户经理",

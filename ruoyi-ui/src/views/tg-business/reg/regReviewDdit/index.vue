@@ -796,8 +796,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true"> </el-input>
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true"> </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -1592,7 +1592,7 @@ export default {
         privateAccountNumber: "",
         placeName: "",
         placeAliasName: "",
-        userName: "",
+        username: "",
 
         //经营者
         personnelType: "待业人员",
@@ -1887,7 +1887,7 @@ export default {
             trigger: "change",
           },
         ],
-        userName: [
+        username: [
           {
             required: true,
             message: "请输入客户经理",

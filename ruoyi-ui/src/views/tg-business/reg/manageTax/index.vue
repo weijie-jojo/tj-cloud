@@ -215,7 +215,7 @@ export default {
             resmsg: '税务办理完成',
             backName: "ManageTax",
       }
-      this.$cache.local.setJSON('tj-resultBack', obj);
+      this.$cache.local.setJSON('tg-resultBack', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/addTax",name:'AddTax'});
      },
      }

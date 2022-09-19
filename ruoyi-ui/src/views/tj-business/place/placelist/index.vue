@@ -211,7 +211,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.$tab.openPage("客户新增", "/place/add")
+      this.$tab.refreshPage({path:'/tj-business/place/add',name:'Add'});
     },
     /** 修改按钮操作 */
     handleUpdate(item) {
@@ -221,7 +221,8 @@ export default {
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
       this.$modal.closeLoading();
       this.$cache.local.setJSON("placeItems",res);
-      this.$tab.openPage("客户编辑", "/place/edit")
+      this.$tab.refreshPage({path:'/tj-business/place/edit',name:'Edit'});
+      
       })
 
       
@@ -234,8 +235,8 @@ export default {
       agencyfee.selectFeeByCode({ placeCode: item.placeCode }).then(res => {
         this.$modal.closeLoading();
         this.$cache.local.setJSON("placeDetailItems",res);
-        this.$tab.openPage("客户详情", "/place/detail")
-     
+       
+        this.$tab.refreshPage({path:'/tj-business/place/detail',name:'Detail'});
      })
    },
     //修改状态

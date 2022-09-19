@@ -216,7 +216,7 @@ export default {
         resmsg: '工商办理完成',
         backName: "ManageBusiness",
       }
-      this.$cache.local.setJSON('tj-resultBack', obj);
+      this.$cache.local.setJSON('tc-resultBack', obj);
       this.$tab.refreshPage({path:"/tc-business/reg/addBusiness",name:'AddBusiness'});
      
     },

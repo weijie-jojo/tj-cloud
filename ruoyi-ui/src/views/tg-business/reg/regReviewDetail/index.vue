@@ -478,8 +478,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="客户经理" prop="userName">
-            <el-input v-model="formData.userName" :readonly="true">
+          <el-form-item class="comright" label="客户经理" prop="username">
+            <el-input v-model="formData.username" :readonly="true">
             </el-input>
           </el-form-item>
         </el-col>
@@ -1045,7 +1045,7 @@ export default {
         privateDepositBank: '',
         privateAccountNumber: '',
         placeName: '',
-        userName: '',
+        username: '',
 
         //经营者
         personnelType: '待业人员',
@@ -1210,7 +1210,7 @@ export default {
           message: '请选择客户全名',
           trigger: 'change'
         }],
-        userName: [{
+        username: [{
           required: true,
           message: '请输入客户经理',
           trigger: 'blur'
