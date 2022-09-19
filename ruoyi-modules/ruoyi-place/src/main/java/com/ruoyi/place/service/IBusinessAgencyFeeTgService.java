@@ -2,6 +2,7 @@ package com.ruoyi.place.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTg;
 
 /**
  * <p>
@@ -11,7 +12,7 @@ import com.ruoyi.place.entity.BusinessAgencyFee;
  * @author lcc
  * @since 2022-06-07
  */
-public interface IBusinessAgencyFeeTgService extends IService<BusinessAgencyFee> {
-   BusinessAgencyFee selectFeeByCode(String placeCode);
-   Integer add(BusinessAgencyFee businessAgencyFee);
+public interface IBusinessAgencyFeeTgService extends IService<BusinessAgencyFeeTg> {
+   BusinessAgencyFeeTg selectFeeByCode(String placeCode);
+   Integer add(BusinessAgencyFeeTg businessAgencyFee);
 }

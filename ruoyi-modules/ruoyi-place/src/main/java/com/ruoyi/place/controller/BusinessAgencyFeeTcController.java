@@ -2,11 +2,10 @@ package com.ruoyi.place.controller;
 
 
 import com.ruoyi.place.entity.BusinessAgencyFee;
-import com.ruoyi.place.mapper.BusinessPlaceTcMapper;
+import com.ruoyi.place.entity.BusinessAgencyFeeTc;
 import com.ruoyi.place.service.IBusinessAgencyFeeTcService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +29,8 @@ public class BusinessAgencyFeeTcController {
 
     @GetMapping("/selectFeeByCode")
     @ApiOperation("根据渠道商编号查询代理费详情")
-    public BusinessAgencyFee selectFeeByCode(String placeCode){
-        BusinessAgencyFee businessAgencyFee = iBusinessAgencyFeeService.selectFeeByCode(placeCode);
+    public BusinessAgencyFeeTc selectFeeByCode(String placeCode){
+        BusinessAgencyFeeTc businessAgencyFee = iBusinessAgencyFeeService.selectFeeByCode(placeCode);
 
         if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
             businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointRight(2));

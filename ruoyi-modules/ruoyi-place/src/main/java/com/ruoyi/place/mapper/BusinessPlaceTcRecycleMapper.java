@@ -1,7 +1,7 @@
 package com.ruoyi.place.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
-import com.ruoyi.place.entity.BusinessPlaceRecycle;
+import com.ruoyi.place.entity.BusinessPlaceTcRecycle;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author lcc
  * @since 2022-06-03
  */
-public interface BusinessPlaceTcRecycleMapper extends  MPJBaseMapper<BusinessPlaceRecycle>{
+public interface BusinessPlaceTcRecycleMapper extends  MPJBaseMapper<BusinessPlaceTcRecycle>{
 
     Integer recycle(@Param("placeCode") String placeCode);
 }

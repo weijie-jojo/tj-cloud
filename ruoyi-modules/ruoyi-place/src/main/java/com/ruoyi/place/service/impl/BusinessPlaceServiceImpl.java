@@ -89,9 +89,13 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
     }
     @Override
     public Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+        QueryWrapper<BusinessPlace> queryWrapper1=new QueryWrapper<>();
+        QueryWrapper<BusinessAgencyFee> queryWrapper2=new QueryWrapper<>();
+        queryWrapper1.eq("place_code",businessPlace.getPlaceCode());
+        queryWrapper2.eq("place_code",businessAgencyFee.getPlaceCode());
         System.out.println("businessAgencyFee"+businessAgencyFee);
-        Integer num1=businessAgencyFeeMapper.updateById(businessAgencyFee);
-        Integer num2=businessPlaceMapper.updateById(businessPlace);
+        Integer num1=businessAgencyFeeMapper.update(businessAgencyFee,queryWrapper2);
+        Integer num2=businessPlaceMapper.update(businessPlace,queryWrapper1);
         return  num1+num2;
     }
     /*

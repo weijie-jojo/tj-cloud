@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTc;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.BusinessPlaceTc;
 import com.ruoyi.place.mapper.BusinessAgencyFeeTcMapper;
 import com.ruoyi.place.mapper.BusinessAgencyFeeTcRecycleMapper;
 import com.ruoyi.place.mapper.BusinessPlaceTcMapper;
@@ -52,7 +54,7 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
     }
 
     @Override
-    public Integer addPlace(BusinessPlace businessPlace) {
+    public Integer addPlace(BusinessPlaceTc businessPlace) {
         businessPlace.setIsDelete(true);
         businessPlace.setPlaceStatus(0);
         return businessPlaceMapper.insert(businessPlace);
@@ -60,10 +62,10 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
 
     @Override
     public Integer delPlace(String placeCode) {
-        UpdateWrapper<BusinessPlace> updateWrapper=new UpdateWrapper<>();
+        UpdateWrapper<BusinessPlaceTc> updateWrapper=new UpdateWrapper<>();
         updateWrapper.eq("place_code",placeCode);
         updateWrapper.set("is_delete",false);
-        UpdateWrapper<BusinessAgencyFee> updateWrapper2=new UpdateWrapper<>();
+        UpdateWrapper<BusinessAgencyFeeTc> updateWrapper2=new UpdateWrapper<>();
         updateWrapper2.eq("place_code",placeCode);
         updateWrapper2.set("is_delete",false);
         Integer num1=businessAgencyFeeMapper.update(null,updateWrapper2);
@@ -79,8 +81,8 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
         businessPlaceRecycleMapper.recycle(placeCode);
         businessAgencyFeeRecycleMapper.recycle(placeCode);
         //再删除
-        QueryWrapper<BusinessPlace> queryWrapper1=new QueryWrapper<>();
-        QueryWrapper<BusinessAgencyFee> queryWrapper2=new QueryWrapper<>();
+        QueryWrapper<BusinessPlaceTc> queryWrapper1=new QueryWrapper<>();
+        QueryWrapper<BusinessAgencyFeeTc> queryWrapper2=new QueryWrapper<>();
         queryWrapper1.eq("place_code",placeCode);
         queryWrapper2.eq("place_code",placeCode);
         Integer num1=businessAgencyFeeMapper.delete(queryWrapper2);
@@ -88,10 +90,14 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
         return  num1+num2;
     }
     @Override
-    public Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+    public Integer editPlace(BusinessPlaceTc businessPlace, BusinessAgencyFeeTc businessAgencyFee) {
+        QueryWrapper<BusinessPlaceTc> queryWrapper1=new QueryWrapper<>();
+        QueryWrapper<BusinessAgencyFeeTc> queryWrapper2=new QueryWrapper<>();
+        queryWrapper1.eq("place_code",businessPlace.getPlaceCode());
+        queryWrapper2.eq("place_code",businessAgencyFee.getPlaceCode());
         System.out.println("businessAgencyFee"+businessAgencyFee);
-        Integer num1=businessAgencyFeeMapper.updateById(businessAgencyFee);
-        Integer num2=businessPlaceMapper.updateById(businessPlace);
+        Integer num1=businessAgencyFeeMapper.update(businessAgencyFee,queryWrapper2);
+        Integer num2=businessPlaceMapper.update(businessPlace,queryWrapper1);
         return  num1+num2;
     }
     /*
@@ -99,7 +105,7 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
     * 改变状态
     * */
     @Override
-    public Integer editPlace2(BusinessPlace businessPlace) {
+    public Integer editPlace2(BusinessPlaceTc businessPlace) {
         Integer num=businessPlaceMapper.updateById(businessPlace);
         return  num;
     }
@@ -108,10 +114,10 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
      *
      * */
     @Override
-    public List<BusinessPlace> selectMaxCode(){
-        IPage<BusinessPlace> iPage=new Page<>(1,1);
+    public List<BusinessPlaceTc> selectMaxCode(){
+        IPage<BusinessPlaceTc> iPage=new Page<>(1,1);
         return businessPlaceMapper.selectPage(iPage,
-                new QueryWrapper<BusinessPlace>()
+                new QueryWrapper<BusinessPlaceTc>()
                         .orderByDesc("place_id")).getRecords();
     }
 }

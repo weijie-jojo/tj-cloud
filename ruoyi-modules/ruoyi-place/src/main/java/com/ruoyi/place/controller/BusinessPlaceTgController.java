@@ -9,8 +9,9 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
-import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTg;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.BusinessPlaceTg;
 import com.ruoyi.place.entity.SelfEmployed;
 import com.ruoyi.place.entity.vo.SysUserVo;
 import com.ruoyi.place.mapper.BusinessPlaceTgMapper;
@@ -21,7 +22,6 @@ import com.ruoyi.place.service.IBusinessPlaceTgService;
 import com.ruoyi.place.vo.PlaceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.annotation.Validated;
@@ -127,8 +127,8 @@ public class BusinessPlaceTgController extends BaseController {
     @ApiOperation("新增渠道")
 //    @PreAuthorize("@el.check('place:add')")
     public DataDto addPlace(@Validated @RequestBody Map map){
-        BusinessAgencyFee businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFee.class);
-        BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
+        BusinessAgencyFeeTg businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFeeTg.class);
+        BusinessPlaceTg businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlaceTg.class);
 
         if(businessAgencyFee.getOrdinaryShareIsmoney()!=null){
             if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
@@ -210,7 +210,7 @@ public class BusinessPlaceTgController extends BaseController {
     @ApiOperation("修改渠道")
     @PutMapping("/editPlace")
     @Log(title = "修改渠道",businessType = BusinessType.UPDATE)
-    public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+    public DataDto editPlace(BusinessPlaceTg businessPlace, BusinessAgencyFeeTg businessAgencyFee) {
 
 //        BusinessAgencyFee businessAgencyFee1= iBusinessAgencyFeeService.selectFeeByCode(businessAgencyFee.getPlaceCode());
 
@@ -242,7 +242,7 @@ public class BusinessPlaceTgController extends BaseController {
     @ApiOperation("改变状态")
     @PutMapping("/editPlace2")
     @Log(title = "改变状态",businessType = BusinessType.UPDATE)
-    public DataDto editPlace2(BusinessPlace businessPlace) {
+    public DataDto editPlace2(BusinessPlaceTg businessPlace) {
         DataDto dataDto=new DataDto();
         int num=iBusinessPlaceTgService.editPlace2(businessPlace);
         if (num>0){
@@ -259,7 +259,7 @@ public class BusinessPlaceTgController extends BaseController {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(date);
-        List<BusinessPlace> businessPlaces=iBusinessPlaceTgService.selectMaxCode();
+        List<BusinessPlaceTg> businessPlaces=iBusinessPlaceTgService.selectMaxCode();
         String employeeNumber= sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getEmployeeNumber();
         System.out.println("employeeNumber==="+employeeNumber);
         String code="";

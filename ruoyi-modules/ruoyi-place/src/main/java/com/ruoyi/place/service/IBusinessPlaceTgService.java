@@ -1,7 +1,9 @@
 package com.ruoyi.place.service;
 
 import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTg;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.BusinessPlaceTg;
 import com.ruoyi.place.vo.PlaceVo;
 
 import java.util.List;
@@ -17,11 +19,11 @@ import java.util.List;
 
 public interface IBusinessPlaceTgService {
     List<BusinessPlace> selectByPage(List<Long> userIdArrs,PlaceVo placeVo);
-    Integer addPlace(BusinessPlace businessPlace);
+    Integer addPlace(BusinessPlaceTg businessPlace);
     Integer delPlace(String placeCode);
-    Integer editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee);
-    Integer editPlace2(BusinessPlace businessPlace);
-    List<BusinessPlace> selectMaxCode();
+    Integer editPlace(BusinessPlaceTg businessPlace, BusinessAgencyFeeTg businessAgencyFee);
+    Integer editPlace2(BusinessPlaceTg businessPlace);
+    List<BusinessPlaceTg> selectMaxCode();
     Integer delPlace2(String placeCode);
 
 }

@@ -1,7 +1,7 @@
 package com.ruoyi.place.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.place.entity.BusinessAgencyFeeRecycle;
+import com.ruoyi.place.entity.BusinessAgencyFeeTgRecycle;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author lcc
  * @since 2022-06-07
  */
-public interface BusinessAgencyFeeTgRecycleMapper extends BaseMapper<BusinessAgencyFeeRecycle> {
+public interface BusinessAgencyFeeTgRecycleMapper extends BaseMapper<BusinessAgencyFeeTgRecycle> {
 
     Integer recycle(@Param("placeCode") String placeCode);
 }

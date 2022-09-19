@@ -9,8 +9,9 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
-import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTc;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.BusinessPlaceTc;
 import com.ruoyi.place.entity.SelfEmployed;
 import com.ruoyi.place.entity.vo.SysUserVo;
 import com.ruoyi.place.mapper.BusinessPlaceTcMapper;
@@ -125,8 +126,8 @@ public class BusinessPlaceTcController extends BaseController {
     @ApiOperation("新增渠道")
 //    @PreAuthorize("@el.check('place:add')")
     public DataDto addPlace(@Validated @RequestBody Map map){
-        BusinessAgencyFee businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFee.class);
-        BusinessPlace businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlace.class);
+        BusinessAgencyFeeTc businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFeeTc.class);
+        BusinessPlaceTc businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlaceTc.class);
         if(businessAgencyFee.getOrdinaryShareIsmoney()!=null){
             if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
                 businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
@@ -208,7 +209,7 @@ public class BusinessPlaceTcController extends BaseController {
     @ApiOperation("修改渠道")
     @PutMapping("/editPlace")
     @Log(title = "修改渠道",businessType = BusinessType.UPDATE)
-    public DataDto editPlace(BusinessPlace businessPlace, BusinessAgencyFee businessAgencyFee) {
+    public DataDto editPlace(BusinessPlaceTc businessPlace, BusinessAgencyFeeTc businessAgencyFee) {
 
 //        BusinessAgencyFee businessAgencyFee1= iBusinessAgencyFeeService.selectFeeByCode(businessAgencyFee.getPlaceCode());
 
@@ -240,7 +241,7 @@ public class BusinessPlaceTcController extends BaseController {
     @ApiOperation("改变状态")
     @PutMapping("/editPlace2")
     @Log(title = "改变状态",businessType = BusinessType.UPDATE)
-    public DataDto editPlace2(BusinessPlace businessPlace) {
+    public DataDto editPlace2(BusinessPlaceTc businessPlace) {
         DataDto dataDto=new DataDto();
         int num=iBusinessPlaceTcService.editPlace2(businessPlace);
         if (num>0){
@@ -257,7 +258,7 @@ public class BusinessPlaceTcController extends BaseController {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(date);
-        List<BusinessPlace> businessPlaces=iBusinessPlaceTcService.selectMaxCode();
+        List<BusinessPlaceTc> businessPlaces=iBusinessPlaceTcService.selectMaxCode();
         String employeeNumber= sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getEmployeeNumber();
         System.out.println("employeeNumber==="+employeeNumber);
         String code="";

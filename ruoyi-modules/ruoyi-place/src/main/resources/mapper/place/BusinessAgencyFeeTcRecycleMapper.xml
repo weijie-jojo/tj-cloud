@@ -5,7 +5,7 @@
 <mapper namespace="com.ruoyi.place.mapper.BusinessAgencyFeeTcRecycleMapper">
 
     <sql id="selectBusinessAgencyFeeVo">
-        select agency_fee_id, place_code, special_invoice_6, special_invoice_13, special_self_fee, is_special_tax,
+        select agency_fee_id, place_code, special_invoice6, special_invoice13, special_self_fee, is_special_tax,
                ordinary_self_fee, ordinary_proxy_fee, is_ordinary_tax, is_delete, create_time, create_by, update_by,
                update_time, special_invoice6_money, special_invoice13_money, ordinary_proxy_money, special_proxy_fee,
                special_proxy_money, ordinary_tax, ordinary_special_tax, ordinary_share, ordinary_share_money, special_share,

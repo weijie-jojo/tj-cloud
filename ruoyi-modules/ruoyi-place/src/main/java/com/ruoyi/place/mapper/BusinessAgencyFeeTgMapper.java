@@ -1,7 +1,7 @@
 package com.ruoyi.place.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.place.entity.BusinessAgencyFee;
+import com.ruoyi.place.entity.BusinessAgencyFeeTg;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.ruoyi.place.entity.BusinessAgencyFee;
  * @author lcc
  * @since 2022-06-07
  */
-public interface BusinessAgencyFeeTgMapper extends BaseMapper<BusinessAgencyFee> {
+public interface BusinessAgencyFeeTgMapper extends BaseMapper<BusinessAgencyFeeTg> {
 
 }
