@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;

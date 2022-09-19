@@ -178,7 +178,7 @@
             LEFT JOIN self_name_review_tc A on t.self_code=A.self_code
             LEFT JOIN  self_application_info_tc B  on t.self_code=B.self_code
             LEFT JOIN  self_legal_person_tc C  on t.self_code=C.self_code
-            LEFT JOIN sys_dict_data_tc D on C.eduation=D.dict_value
+            LEFT JOIN sys_dict_data D on C.eduation=D.dict_value
     </sql>
 
     <select id="selectEmployedJoinReview"  resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
