@@ -65,12 +65,11 @@ public class BusinessPlaceTcController extends BaseController {
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
         //存储用户id的list集合
         List<Long> userIdArr=new ArrayList<>();
-//        String userIdStr= Joiner.on(",").join(userIdArr);
         //获取登录用户id获取用户角色信息
         List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         System.out.println("roles==="+roles);
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+            if (role.getRoleId()==120||role.getRoleId()==122){//行政跟业务部门主管获取他们部门的渠道信息
                 System.out.println("部门主管");
                 for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
                     userIdArr.add(userVo.getUserId());
@@ -98,12 +97,11 @@ public class BusinessPlaceTcController extends BaseController {
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
         //存储用户id的list集合
         List<Long> userIdArr=new ArrayList<>();
-//        String userIdStr= Joiner.on(",").join(userIdArr);
         //获取登录用户id获取用户角色信息
         List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         System.out.println("roles==="+roles);
         for (SysUserVo role:roles){
-            if (role.getRoleId()==10||role.getRoleId()==12){//行政跟业务部门主管获取他们部门的渠道信息
+            if (role.getRoleId()==120||role.getRoleId()==122){//行政跟业务部门主管获取他们部门的渠道信息
                 System.out.println("部门主管");
                 for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
                     userIdArr.add(userVo.getUserId());

@@ -241,8 +241,9 @@ public class AccountExpenseHandler {
                 System.out.println("财务出纳");
                 accountExpense.setInvoiceType(3);
             }
-            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
-                //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
+            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8
+            ||sysUserVo.getRoleId()==119||sysUserVo.getRoleId()==120||sysUserVo.getRoleId()==121||sysUserVo.getRoleId()==122){
+                //部门主管（行政主管 业务主管 软开主管 财务主管）显示他手下人员的单据（发起状态）
                 System.out.println("部门主管");
                 int deptId=sysUserService.getDeptByUserId(sysUserVo.getUserId()).getDeptId();
                 System.out.println("deptId"+deptId);

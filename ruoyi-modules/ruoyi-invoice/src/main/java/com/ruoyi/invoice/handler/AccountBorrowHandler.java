@@ -137,7 +137,8 @@ public class AccountBorrowHandler {
             if(sysUserVo.getRoleId()==7){//财务出纳显示所有打款状态的单据
                 sysBorrowVo.setInvoiceType(3);
             }
-            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8){
+            if(sysUserVo.getRoleId()==10||sysUserVo.getRoleId()==12||sysUserVo.getRoleId()==4||sysUserVo.getRoleId()==8
+                    ||sysUserVo.getRoleId()==119||sysUserVo.getRoleId()==120||sysUserVo.getRoleId()==121||sysUserVo.getRoleId()==122){
                 //部门主管（行政主管 业务主管 软开主管 会计）显示他手下人员的单据（发起状态）
                 int deptId=sysUserService.getDeptByUserId(sysUserVo.getUserId()).getDeptId();
                 sysBorrowVo.setInvoiceType(1);

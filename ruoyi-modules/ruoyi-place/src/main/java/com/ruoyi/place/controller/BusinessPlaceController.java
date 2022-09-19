@@ -65,7 +65,6 @@ public class BusinessPlaceController extends BaseController {
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
         //存储用户id的list集合
         List<Long> userIdArr=new ArrayList<>();
-//        String userIdStr= Joiner.on(",").join(userIdArr);
         //获取登录用户id获取用户角色信息
         List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         System.out.println("roles==="+roles);
@@ -98,7 +97,6 @@ public class BusinessPlaceController extends BaseController {
         List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
         //存储用户id的list集合
         List<Long> userIdArr=new ArrayList<>();
-//        String userIdStr= Joiner.on(",").join(userIdArr);
         //获取登录用户id获取用户角色信息
         List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
         System.out.println("roles==="+roles);
