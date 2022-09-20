@@ -226,7 +226,7 @@
             <el-form-item label="用户名称" prop="nickName">
               <el-input v-model="form.nickName" placeholder="请输入用户名称" maxlength="30" />
             </el-form-item>
-            
+
           </el-col>
         </el-row>
         <el-row>
@@ -245,23 +245,23 @@
                 >{{dict.label}}</el-radio>
               </el-radio-group>
             </el-form-item>
-           
+
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
            <el-form-item label="归属部门" prop="deptId">
-              <treeselect 
-                v-model="form.deptId" 
-                :options="deptOptions" 
-                :show-count="true" 
-                @select="getDeptNick" 
+              <treeselect
+                v-model="form.deptId"
+                :options="deptOptions"
+                :show-count="true"
+                @select="getDeptNick"
                 placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="岗位" prop="postIds">
-              <el-select style="width:100%" v-model="form.postIds" multiple placeholder="请选择岗位">
+              <el-select filterable style="width:100%" v-model="form.postIds" multiple placeholder="请选择岗位">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -278,7 +278,7 @@
             <el-form-item label="身份证号">
               <el-input v-model="form.idNo"  placeholder="请输入身份证号"></el-input>
             </el-form-item>
-            
+
           </el-col>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="phonenumber">
@@ -427,7 +427,7 @@ export default {
       roleOptions: [],
       // 表单参数
       form: {
-        
+
       },
       defaultProps: {
         children: "children",
@@ -541,7 +541,7 @@ export default {
         console.log("employeeNumber==",this.form.employeeNumber);
       })
     },
-    
+
     /** 查询用户列表 */
     getList() {
       this.loading = true;
