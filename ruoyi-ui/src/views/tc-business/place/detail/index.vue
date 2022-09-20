@@ -895,8 +895,8 @@ export default {
   },
 
   mounted() {
-      let item=this.$cache.local.getJSON("placeDetailItem");
-      let  res=this.$cache.local.getJSON("placeDetailItems");
+      let item=this.$cache.local.getJSON("tc-placeDetailItem");
+      let  res=this.$cache.local.getJSON("tc-placeDetailItems");
       this.ruleForm.customerType=JSON.stringify(item.customerType); 
       this.ruleForm.placeCode = item.placeCode;
       this.ruleForm.placeName = item.placeName;

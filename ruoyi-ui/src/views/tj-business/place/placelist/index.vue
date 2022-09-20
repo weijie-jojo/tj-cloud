@@ -216,11 +216,11 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(item) {
       var placeCode = item.placeCode;
-      this.$cache.local.setJSON("placeItem",item);
+      this.$cache.local.setJSON("tj-placeItem",item);
       this.$modal.loading("正在加载数据，请稍后...");
       agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
       this.$modal.closeLoading();
-      this.$cache.local.setJSON("placeItems",res);
+      this.$cache.local.setJSON("tj-placeItems",res);
       this.$tab.refreshPage({path:'/tj-business/place/edit',name:'Edit'});
       
       })
@@ -230,11 +230,11 @@ export default {
     //详情
     detail(item) {
      
-      this.$cache.local.setJSON("placeDetailItem",item);
+      this.$cache.local.setJSON("tj-placeDetailItem",item);
       this.$modal.loading("正在加载数据，请稍后...");
       agencyfee.selectFeeByCode({ placeCode: item.placeCode }).then(res => {
         this.$modal.closeLoading();
-        this.$cache.local.setJSON("placeDetailItems",res);
+        this.$cache.local.setJSON("tj-placeDetailItemss",res);
        
         this.$tab.refreshPage({path:'/tj-business/place/detail',name:'Detail'});
      })

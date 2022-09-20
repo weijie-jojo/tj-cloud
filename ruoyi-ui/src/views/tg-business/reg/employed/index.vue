@@ -417,7 +417,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       var msg = '审核';
       if (type < 3) {
         msg = '审核';
@@ -713,7 +713,7 @@ export default {
         backUrl: '/tg-business/reg/employed',
         backName:'Employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       getUser(applyName).then(res => {
         if (this.userinfo.userId == res.data.userId) {
           this.errConfirmsMsg = '修改';
@@ -777,7 +777,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       getUser(applyName).then(res => {
         if (this.userinfo.userId == res.data.userId) {
           this.errNameMsg = '修改';
@@ -832,7 +832,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       getUser(applyName).then(res => {
 
         if (this.userinfo.userId == res.data.userId) {
@@ -906,7 +906,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.nameVisible = false;
       this.$tab.refreshPage({path:"/tg-business/reg/nameDetail",name:'NameDetail'})
      
@@ -926,7 +926,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/infoDetail",name:'InfoDetail'})
       
     },
@@ -939,7 +939,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/regReviewDetail",name:'RegReviewDetail'})
     },
 
@@ -957,7 +957,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
       
 
@@ -977,7 +977,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/detailTax",name:'DetailTax'});
      
     },
@@ -997,7 +997,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/detailBank",name:'DetailBank'});
     
 

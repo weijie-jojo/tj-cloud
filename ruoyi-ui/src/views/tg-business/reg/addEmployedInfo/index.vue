@@ -2973,11 +2973,11 @@ export default {
     BackInfo() {
       this.actives = 1;
     },
-
+    //提交表单
     submitForm() {
       this.$refs["elForm"].validate((valid) => {
         if (valid) {
-          this.submitFormNameS(); //名称录入成功l
+          this.submitNameList(); //检验个体户编号是否重复 不重复就新增数据
         } else {
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
@@ -3057,7 +3057,7 @@ export default {
           this.formData.selfCode = res;
         });
     },
-    submitFormNameS() {
+    submitNameList() {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
@@ -3091,15 +3091,7 @@ export default {
             .then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {
-                  window.localStorage.setItem(
-                    "organizationalForm",
-                    JSON.stringify(this.formData.organizationalForm)
-                  );
-                  window.localStorage.setItem(
-                    "selfCode",
-                    JSON.stringify(this.formData.selfCode)
-                  );
-                  this.isok();
+                  this.submitReg();
                 }
               }
             })
@@ -3141,15 +3133,7 @@ export default {
                     crudReview.addReview(parms).then((res) => {
                       if (res != undefined) {
                         if (res.code === 200) {
-                          window.localStorage.setItem(
-                            "organizationalForm",
-                            JSON.stringify(this.formData.organizationalForm)
-                          );
-                          window.localStorage.setItem(
-                            "selfCode",
-                            JSON.stringify(this.formData.selfCode)
-                          );
-                          this.isok();
+                           this.submitReg();
                         }
                       }
                     });
@@ -3165,10 +3149,12 @@ export default {
         }
       });
     },
+    //关闭
     resetForm() {
       this.$tab.closeOpenPage({ path: "/tg-business/reg/employed" });
     },
-    isok() {
+    //提交注册
+    submitReg() {
       let parms1 = {
         selfCode: this.formData.selfCode,
 

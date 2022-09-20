@@ -132,7 +132,7 @@ export default {
     },
     //返回
     resetForm() {
-       this.$tab.closeOpenPage( { path: this.$cache.local.getJSON('backurls').backUrl });
+       this.$tab.closeOpenPage( { path: this.$cache.local.getJSON('tc-backurls').backUrl });
     },
     //返回
   },

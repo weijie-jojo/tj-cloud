@@ -2786,12 +2786,12 @@ export default {
           });
           this.$tab
             .closeOpenPage({
-              path: this.$cache.local.getJSON("backurls").backUrl,
+              path: this.$cache.local.getJSON("tj-backurls").backUrl,
             })
             .then(() => {
               this.$tab.refreshPage({
-                path: this.$cache.local.getJSON("backurls").backUrl,
-                name: this.$cache.local.getJSON("backurls").backName,
+                path: this.$cache.local.getJSON("tj-backurls").backUrl,
+                name: this.$cache.local.getJSON("tj-backurls").backName,
               });
             });
         } else {
@@ -2805,11 +2805,11 @@ export default {
     },
     resetForm() {
       this.$tab
-        .closeOpenPage({ path: this.$cache.local.getJSON("backurls").backUrl })
+        .closeOpenPage({ path: this.$cache.local.getJSON("tj-backurls").backUrl })
         .then(() => {
           this.$tab.refreshPage({
-            path: this.$cache.local.getJSON("backurls").backUrl,
-            name: this.$cache.local.getJSON("backurls").backName,
+            path: this.$cache.local.getJSON("tj-backurls").backUrl,
+            name: this.$cache.local.getJSON("tj-backurls").backName,
           });
         });
     },

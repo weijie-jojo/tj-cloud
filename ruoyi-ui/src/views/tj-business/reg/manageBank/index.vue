@@ -147,7 +147,7 @@ export default {
         let obj = {
           backUrl: '/tj-business/reg/manageBank',
          };
-         this.$cache.local.setJSON('backurls', obj);
+         this.$cache.local.setJSON('tj-backurls', obj);
          this.$cache.local.setJSON('tj-banklist', row);
          this.$tab.refreshPage({path:"/tj-business/reg/detailBank",name:'DetailBank'});
     },

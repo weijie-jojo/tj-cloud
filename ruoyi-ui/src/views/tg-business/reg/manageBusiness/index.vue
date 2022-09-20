@@ -147,7 +147,7 @@ export default {
       let obj = {
         backUrl: '/tg-business/reg/manageBusiness',
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tg-backurls', obj);
       this.$cache.local.setJSON('tg-businesslist', row);
       this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
      },

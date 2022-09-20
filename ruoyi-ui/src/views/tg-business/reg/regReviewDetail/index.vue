@@ -1583,7 +1583,7 @@ export default {
       this.activeName = 'second';
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-backurls').backUrl });
     },
     nailist() {
       all()

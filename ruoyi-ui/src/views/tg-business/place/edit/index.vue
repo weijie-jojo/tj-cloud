@@ -940,8 +940,8 @@ export default {
     };
   },
  mounted() {
-      let item=this.$cache.local.getJSON("placeItem");
-      let  res=this.$cache.local.getJSON("placeItems");
+      let item=this.$cache.local.getJSON("tg-placeItem");
+      let  res=this.$cache.local.getJSON("tg-placeItems");
       this.ruleForm.editPlaceId = item.placeId;
       this.ruleForm.editPlaceCode = item.placeCode;
       this.ruleForm.editPlaceName = item.placeName;

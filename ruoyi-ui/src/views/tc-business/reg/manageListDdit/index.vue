@@ -2093,8 +2093,8 @@ export default {
               }
             }
           });
-          this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName });
+          this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-backurls').backUrl }).then(() => {
+            this.$tab.refreshPage({ path: this.$cache.local.getJSON('tc-backurls').backUrl, name: this.$cache.local.getJSON('tc-backurls').backName });
           })
         } else {
             this.$alert('请正确填写', '系统提示', {
@@ -2106,8 +2106,8 @@ export default {
       })
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName })
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-backurls').backUrl }).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tc-backurls').backUrl, name: this.$cache.local.getJSON('tc-backurls').backName })
       });
     },
     nailist() {

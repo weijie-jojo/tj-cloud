@@ -151,7 +151,7 @@ export default {
         let obj={
          backUrl:'/tj-business/reg/manageName',
         };
-         this.$cache.local.setJSON('backurls', obj);
+         this.$cache.local.setJSON('tj-backurls', obj);
          this.$cache.local.setJSON('tj-namelist', row);
          this.$tab.refreshPage({path:"/tj-business/reg/nameDetail",name:'NameDetail'})
      },

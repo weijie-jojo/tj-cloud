@@ -177,7 +177,7 @@ export default {
         backUrl: '/tj-business/manageList',
         backName: "ManageList",
       };
-      this.$cache.local.setJSON('backurls', obj);
+      this.$cache.local.setJSON('tj-backurls', obj);
       this.$cache.local.setJSON("tj-infolist", row);
       this.$tab.refreshPage({path:"/tj-business/reg/manageListDdit",name:'ManageListDdit'});
      
