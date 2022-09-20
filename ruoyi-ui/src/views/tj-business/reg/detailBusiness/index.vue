@@ -40,6 +40,7 @@
 
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
+import {regDetail } from "@/api/company/employed";
 export default {
   name:'DetailBusiness',
   components: {
@@ -114,17 +115,30 @@ export default {
       },
     };
   },
-  created() {
-    let list = this.$cache.local.getJSON("tj-businesslist");
-    this.formbusiness = list;
-    this.fileNameN1=[];
-    this.fileName1 = JSON.parse(this.$cache.local.getJSON('tj-businesslist').fileName1);
-    for (let k1 in this.fileName1) {
-         this.fileNameN1.push({
-          url:this.baseImgPath+this.fileName1[k1],
-          name:this.fileName1[k1],
-        });
-     }
+  
+   mounted(){
+    this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tj-businesslist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formbusiness.selfId = list.selfId;
+          this.formbusiness.legalPersonName = list.legalPersonName;
+          this.formbusiness = list;
+             this.fileNameN1=[];
+             this.fileName1 = JSON.parse(list.fileName1);
+             for (let k1 in this.fileName1) {
+               this.fileNameN1.push({
+                  url:this.baseImgPath+this.fileName1[k1],
+                  name:this.fileName1[k1],
+              });
+             }
+         
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
+  
    },
     methods: {
     getfileNameS(){

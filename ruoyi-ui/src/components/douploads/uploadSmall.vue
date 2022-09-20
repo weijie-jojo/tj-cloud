@@ -2,8 +2,7 @@
   <div>
     <div style="position:relative;">
       <el-upload
-      
-      ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
+     ref="uploads" :disabled="isDetails == 1" class="upload-demo" action="/eladmin/api/files/doUpload"
       :on-success="handlesuccess" :on-preview="handlePreview" :on-remove="handleRemove" multiple 
       :file-list="fileNameOlds" list-type="picture" :before-upload="beforeAvatarUpload">
       <el-button v-if="isDetails == 0" size="small" type="primary" style="width:80px;">点击上传</el-button>
@@ -61,6 +60,7 @@ export default {
   },
   data() {
     return {
+      pdfisok:false,
       flag:0,
       showViewer: false,
       errOk: false,
@@ -109,12 +109,17 @@ export default {
     'fileNameOlds': {
       deep: true,  // 深度监听
       handler(newVal, oldVal) {
-       console.log(111,newVal); 
-       console.log(222,oldVal); 
+      //新增或者修改pdf初始化
+       if(newVal){
+        this.pdfIconChange();
+       } 
+    
       }
     }
   },
+  
   mounted() {
+    //详情pdf初始化
     this.pdfIconChange();
   },
   methods: {
@@ -184,20 +189,15 @@ export default {
     },
     //pdf图标优化
     pdfIconChange() {
-      this.$nextTick(()=>{
-        this.fileNameOlds=this.$refs.uploads.uploadFiles;
-      if (this.fileNameOld.length > 0) {
-        let arr = this.fileNameOlds;
-
-        for (let i in arr) {
-          if (arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'pdf') {
-            arr[i].url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
-          }
-        }
-        this.fileNameOlds = arr;
-      }
-    })
-    },
+     this.fileNameOlds.map((item) => {
+      if (item != null && item != "") {
+            var suffix=item.url.substring(item.url.lastIndexOf('.')+1,item.length);
+            if(suffix=='pdf'){
+              item.url= this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
+            }
+         }
+        })
+     },
     //pdf弹框
     pdfdetail(i) {
       this.titles = '正在预览' + i;

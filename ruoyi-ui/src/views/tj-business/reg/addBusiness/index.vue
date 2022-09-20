@@ -39,7 +39,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed, check } from "@/api/company/employed";
+import {updateEmployed, check,regDetail } from "@/api/company/employed";
 export default {
   name: "AddBusiness",
   components: {
@@ -114,11 +114,20 @@ export default {
   },
 
   mounted() {
-    let list = this.$cache.local.getJSON("tj-businesslist");
-    this.formbusiness.selfId = list.selfId;
-    this.formbusiness.legalPersonName = list.legalPersonName;
-    this.getInfo();
-  },
+   this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tj-businesslist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formbusiness.selfId = list.selfId;
+          this.formbusiness.legalPersonName = list.legalPersonName;
+          this.getInfo();
+         
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
+   },
   methods: {
     getfileNameS(data){
      this.formbusiness.fileName1=data;

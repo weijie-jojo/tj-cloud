@@ -215,27 +215,14 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(item) {
-      var placeCode = item.placeCode;
-      this.$cache.local.setJSON("tg-placeItem",item);
-      this.$modal.loading("正在加载数据，请稍后...");
-      agencyfee.selectFeeByCode({ placeCode: placeCode }).then(res => {
-      this.$modal.closeLoading();
-      this.$cache.local.setJSON("tg-placeItems",res);
+      this.$cache.local.setJSON("tg-placelist",item);
       this.$tab.refreshPage({path:'/tg-business/place/edit',name:'Edit'});
-      })
-
-      
-    },
+    s},
     //详情
     detail(item) {
+       this.$cache.local.setJSON("tg-placelist",item);
+       this.$tab.refreshPage({path:'/tg-business/place/detail',name:'Detail'});
      
-      this.$cache.local.setJSON("tg-placeDetailItem",item);
-      this.$modal.loading("正在加载数据，请稍后...");
-      agencyfee.selectFeeByCode({ placeCode: item.placeCode }).then(res => {
-        this.$modal.closeLoading();
-        this.$cache.local.setJSON("tg-placeDetailItems",res);
-        this.$tab.refreshPage({path:'/tg-business/place/detail',name:'Detail'});
-     })
    },
     //修改状态
     isDormancy(item, type) {

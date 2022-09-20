@@ -498,7 +498,7 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="工商实名" prop="fileName6">
+            <el-form-item label="工商实名" prop="fileName6" >
               <uploadSmall
                 ref="productImage6"
                 @getfileName="getfileName6"
@@ -510,7 +510,7 @@
           </el-col>
 
           <el-col :span="9">
-            <el-form-item label="税务实名" prop="fileName7">
+            <el-form-item label="税务实名" prop="fileName7" >
               <uploadSmall
                 ref="productImage7"
                 @getfileName="getfileName7"
@@ -524,8 +524,9 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item label="身份证扫描件" prop="fileName5">
+            <el-form-item label="身份证扫描件" prop="fileName5" >
               <uploadSmall
+                
                 ref="productImage5"
                 @getfileName="getfileName5"
                 :fileName="isrkone"
@@ -1218,6 +1219,7 @@ export default {
   props: [],
   data() {
     return {
+     
       fileNameNEW1: [],
       fileNameNEW2: [],
       fileNameNEW3: [],
@@ -1817,22 +1819,31 @@ export default {
   },
 
   mounted() {
-    this.getLoginInfo();
+  
 
     //联系人
     this.getContactName();
-    //个体户行业类型税率
-    //this.getRate();
+
     //申请人
     this.getApplyName();
-    //从上一个页面获取信息
-    var employedInfo = this.$cache.local.getJSON("tj-infolist");
-    this.formData = employedInfo;
+    this.getlist();
+   
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tj-infolist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;;
+    this.getLoginInfo();
 
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
     this.formData.fileName6 = JSON.parse(this.formData.fileName6);
     this.formData.fileName7 = JSON.parse(this.formData.fileName7);
-
+    
+    console.log(this.formData.fileName5);
+    console.log(this.$refs.productImage5);
+    
     this.$refs.productImage5.getSrcList(this.formData.fileName5);
     this.$refs.productImage6.getSrcList(this.formData.fileName6);
     this.$refs.productImage7.getSrcList(this.formData.fileName7);
@@ -1840,6 +1851,7 @@ export default {
     let arr = this.formData.fileName5;
     let brr = this.formData.fileName6;
     let crr = this.formData.fileName7;
+   
 
     for (let i in arr) {
       this.fileNameOld1.push({
@@ -1861,6 +1873,10 @@ export default {
         url: this.baseImgPath + crr[k],
       });
     }
+
+    
+
+    console.log(this.fileNameOld1);
 
     if (this.formData.accountType == 1) {
       //银行账号类型为私人时
@@ -1967,8 +1983,11 @@ export default {
     } else {
       this.formData.isSliderOrdinary = "1";
     }
-  },
-  methods: {
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     //一次性分润
     isdisshare(e) {
       if (e == "1") {
@@ -2411,7 +2430,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("tj-infolist");
+        var employedInfo = this.formData;
         this.formData.industryType = employedInfo.industryType;
 
         let tree = []; // 用来保存树状的数据形式
@@ -2464,25 +2483,25 @@ export default {
           }
         }
         this.applyNames = brr;
-        var employedInfo = this.$cache.local.getJSON("tj-infolist");
+        var employedInfo = this.formData;
         this.formData.applyName = parseInt(employedInfo.applyName);
       });
     },
     getElectronicCommerce() {
       this.electronicCommerces1 = this.electronicCommerces;
-      var employedInfo = this.$cache.local.getJSON("tj-infolist");
+      var employedInfo = this.formData;
       this.formData.electronicCommerce = parseInt(
         employedInfo.electronicCommerce
       );
     },
     getAccountType() {
       this.accountTypes1 = this.accountTypes;
-      var employedInfo = this.$cache.local.getJSON("tj-infolist");
+      var employedInfo =this.formData;
       this.formData.accountType = parseInt(employedInfo.accountType);
     },
     getGender() {
       this.genders1 = this.genders;
-      var employedInfo = this.$cache.local.getJSON("tj-infolist");
+      var employedInfo = this.formData;
       this.formData.gender = parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {},

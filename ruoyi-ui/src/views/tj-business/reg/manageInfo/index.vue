@@ -153,10 +153,10 @@ export default {
     detail(row) {
       let obj = {
         backUrl: '/tj-business/reg/manageInfo',
-        backName:'ManageInfo',s
+        backName:'ManageInfo',
       };
       this.$cache.local.setJSON('tj-backurls', obj);
-      this.$cache.local.setJSON('tj-infolist', row);
+      this.$cache.local.setJSON('tj-infolist', row.selfCode);
       this.$tab.refreshPage({path:"/tj-business/reg/infoDetail",name:'InfoDetail'})
       
     },
@@ -212,7 +212,7 @@ export default {
     },
 
     bank(row) {
-      this.$cache.local.setJSON('tj-infolist', row);
+      this.$cache.local.setJSON('tj-infolist', row.selfCode);
       let obj = {
         title: '信息审核',
         backUrl: '/tj-business/reg/manageInfo',

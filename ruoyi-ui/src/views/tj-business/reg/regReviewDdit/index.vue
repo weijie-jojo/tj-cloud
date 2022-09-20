@@ -1395,6 +1395,7 @@ var validateIdNumber = (rule, value, callback) => {
     }
   }
 };
+import {regDetail } from "@/api/company/employed";
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudInfo from "@/api/company/info";
 import crudEmployed from "@/api/company/employed";
@@ -1993,9 +1994,20 @@ export default {
   watch: {
     "formData.industryType": "selectIndustryType",
   },
-  created() {},
+ 
   mounted() {
-    this.formData = this.$cache.local.getJSON("tj-infolist");
+    this.getlist(); 
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    regDetail(this.$cache.local.getJSON("tj-confirmlist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
+    this.getLoginInfo();
+    //个体户行业类型税率
+    this.getRate();
+   
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
     this.formData.fileName3 = JSON.parse(this.formData.fileName3);
@@ -2061,10 +2073,7 @@ export default {
       });
     }
 
-    this.getLoginInfo();
-
-    //个体户行业类型税率
-    this.getRate();
+  
 
     this.industryTax =
       new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
@@ -2172,8 +2181,10 @@ export default {
     }
 
     this.nailist();
-  },
-  methods: {
+     }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     //一次性分润
     isdisshare(e) {
       if (e == "1") {
@@ -2551,9 +2562,9 @@ export default {
       if (value == 1) {
         this.formData.legalPersonName = this.formData.contactName;
         this.formData.privateDepositBank =
-          this.$cache.local.getJSON("tj-infolist").privateDepositBank;
+          this.formData.privateDepositBank;
         this.formData.privateAccountNumber =
-          this.$cache.local.getJSON("tj-infolist").privateAccountNumber;
+          this.formData.privateAccountNumber;
         this.isPrivateBank = false;
       } else {
         this.isPrivateBank = true;
@@ -2583,7 +2594,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("tj-infolist");
+        var employedInfo = this.formData;
         this.formData.industryType = employedInfo.industryType;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);

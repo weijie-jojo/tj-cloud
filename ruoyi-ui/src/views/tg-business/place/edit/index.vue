@@ -940,8 +940,15 @@ export default {
     };
   },
  mounted() {
-      let item=this.$cache.local.getJSON("tg-placeItem");
-      let  res=this.$cache.local.getJSON("tg-placeItems");
+   this.getlist();    
+ },
+
+  methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      agencyfee.selectFeeByCode({ placeCode: this.$cache.local.getJSON("tg-placelist").placeCode }).then(res => {
+      this.$modal.closeLoading();
+      let item=this.$cache.local.getJSON("tg-placelist");
       this.ruleForm.editPlaceId = item.placeId;
       this.ruleForm.editPlaceCode = item.placeCode;
       this.ruleForm.editPlaceName = item.placeName;
@@ -1000,10 +1007,14 @@ export default {
         } else if (this.ruleForm.editIsSpecialTax == false) {
           this.ruleForm.editIsSpecialTax = "1"
         }
-  
-  },
+     
+      
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+     },
 
-  methods: {
+
      placeNews(){
      if(this.ruleForm.editPlaceName==null){
       this.ruleForm.editPlaceName='';

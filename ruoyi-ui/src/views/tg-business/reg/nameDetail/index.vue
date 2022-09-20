@@ -283,7 +283,7 @@ export default {
 
   created() { },
   mounted() {
-    this.formData = this.$cache.local.getJSON("tj-namelist");
+    this.formData = this.$cache.local.getJSON("tg-namelist");
     if(this.formData.random=='true'){
       this.formData.random=true;
     }else{
