@@ -15,6 +15,14 @@ public interface ISelfEmployedTcService
 {
 
     /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    public SelfEmployedVo selectSelfEmployedBySelfCode(String selfCode);
+
+    /**
      * 连表selfNameReview查询
      *
      * @param selfEmployedVo 个体商户

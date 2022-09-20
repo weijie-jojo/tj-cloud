@@ -387,6 +387,11 @@
         where self_id = #{selfId}
     </select>
 
+    <select id="selectSelfEmployedBySelfCode" parameterType="String" resultType="com.ruoyi.company.domain.vo.SelfEmployedVo">
+        <include refid="selectSelfEmployedJoin"/>
+        where D.dict_type="educational_level" AND t.self_code = #{selfCode}
+    </select>
+
     <insert id="insertSelfEmployed" parameterType="com.ruoyi.company.domain.SelfEmployed" useGeneratedKeys="true" keyProperty="selfId">
         insert into self_employed_tg
         <trim prefix="(" suffix=")" suffixOverrides=",">

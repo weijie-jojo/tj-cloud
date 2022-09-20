@@ -15,6 +15,14 @@ import java.util.List;
 public interface SelfEmployedTcMapper
 {
     /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    public SelfEmployedVo selectSelfEmployedBySelfCode(String selfCode);
+
+    /**
      * 查询登录用户个体户数量
      *
      * @param userIdArr

@@ -45,6 +45,15 @@ public interface ISelfEmployedService
     public SelfEmployed selectSelfEmployedBySelfId(String selfId);
 
     /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    public SelfEmployedVo selectSelfEmployedBySelfCode(String selfCode);
+
+
+    /**
      * 查询个体商户列表
      * 
      * @param selfEmployed 个体商户

@@ -66,6 +66,16 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
     {
         return selfEmployedMapper.selectSelfEmployedBySelfId(selfId);
     }
+    /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    @Override
+    public SelfEmployedVo selectSelfEmployedBySelfCode(String selfCode) {
+        return selfEmployedMapper.selectSelfEmployedBySelfCode(selfCode);
+    }
 
     /**
      * 查询个体商户列表

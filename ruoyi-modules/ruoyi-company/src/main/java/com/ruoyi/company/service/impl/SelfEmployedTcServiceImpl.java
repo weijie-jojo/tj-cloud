@@ -31,7 +31,16 @@ public class SelfEmployedTcServiceImpl implements ISelfEmployedTcService
     public List<SelfEmployedVo> selectEmployedJoinReview(List<Long> userIdArr, SelfEmployedVo selfEmployedVo) {
         return selfEmployedMapper.selectEmployedJoinReview(userIdArr,selfEmployedVo);
     }
-
+    /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    @Override
+    public SelfEmployedVo selectSelfEmployedBySelfCode(String selfCode) {
+        return selfEmployedMapper.selectSelfEmployedBySelfCode(selfCode);
+    }
     /**
      * 查询登录用户个体户数量
      *

@@ -387,6 +387,36 @@ public class SelfEmployedTgController extends BaseController
     }
 
     /**
+     * 根据selfCode获取个体商户详细信息
+     */
+    @ApiOperation("根据selfCode获取个体商户详细信息")
+//    @RequiresPermissions("company:employed:query")
+    @GetMapping(value = "/getInfoByCode/{selfCode}")
+    public AjaxResult getInfoByCode(@PathVariable("selfCode") String selfCode)
+    {
+        SelfEmployed selfEmployed=  selfEmployedService.selectSelfEmployedBySelfCode(selfCode);
+        selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()/10000);
+
+        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointRight(2));
+        }
+        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointRight(2));
+        }
+        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointRight(2));
+        }
+        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointRight(2));
+        }
+        if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+            selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointRight(2));
+        }
+        return AjaxResult.success(selfEmployed);
+
+    }
+
+    /**
      * 新增个体商户
      */
     @ApiOperation("新增个体商户")
