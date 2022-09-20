@@ -283,7 +283,7 @@ export default {
 
   created() { },
   mounted() {
-    this.formData = this.$cache.local.getJSON("tj-namelist");
+    this.formData = this.$cache.local.getJSON("tg-namelist");
     if(this.formData.random=='true'){
       this.formData.random=true;
     }else{
@@ -299,7 +299,7 @@ export default {
  },
   methods: {
       resetForm(){
-      this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('backurls').backUrl});
+      this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tg-backurls').backUrl});
     },
   },
 };

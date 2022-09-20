@@ -281,18 +281,30 @@ export default {
       ],
     };
   },
-  computed: {},
-  created() { },
+  
   mounted() {
-    this.formData = this.$cache.local.getJSON("tj-namelist");
-    if(this.formData.random=='true'){
-      this.formData.random=true;
-    }else{
-      this.formData.random=false;
-    }
+    this.getlist();
     this.getLoginInfo();
   },
   methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      crudEmployed.regDetail(this.$cache.local.getJSON("tj-namelist")).then((res) => {
+        this.$modal.closeLoading();
+        this.formData = res.data;
+       
+        if (this.formData.random == "true") {
+          this.formData.random = true;
+         
+        } else {
+          this.formData.random = false;
+        }
+      
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     getLoginInfo() {
       getInfo().then((res) => {
         this.userinfo=res.user;

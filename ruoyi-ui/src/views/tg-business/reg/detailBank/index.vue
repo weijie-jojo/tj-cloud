@@ -364,7 +364,7 @@ export default {
       console.log(val);
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl });
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-backurls').backUrl });
     },
 
 

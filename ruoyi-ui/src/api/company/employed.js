@@ -1,5 +1,12 @@
 import request from '@/utils/request'
 
+//个体户详情
+export function regDetail(selfCode) {
+  return request({
+    url: '/company/employed/getInfoByCode/'+selfCode,
+    method: 'get',
+   })
+}
 // 查询个体商户列表
 export function listEmployed(query) {
   return request({
@@ -129,4 +136,4 @@ export function getAllUser() {
     method: 'get'
   })
 }
-export default {getAllUser,addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}
+export default {regDetail,getAllUser,addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}

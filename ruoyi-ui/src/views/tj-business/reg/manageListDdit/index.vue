@@ -1411,21 +1411,20 @@ export default {
   watch: {
     'formData.industryType': 'selectIndustryType',
   },
-  created() {
-
-  },
+  
   mounted() {
-
+    this.getlist();
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tj-findlist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
+   
     this.getLoginInfo();
-    //申请人
-    //联系人
-   // this.getContactName();
     //个体户行业类型税率
     this.getRate();
-
-
-
-    this.formData = this.$cache.local.getJSON('tj-infolist');
 
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
@@ -1584,8 +1583,11 @@ export default {
 
 
     this.nailist();
-  },
-  methods: {
+     }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
+
       //一次性分润
       isdisshare(e){
       if(e=='1'){
@@ -1921,8 +1923,8 @@ export default {
     selectAccountType(value) {
       if (value == 1) {
         this.formData.legalPersonName = this.formData.contactName;
-        this.formData.privateDepositBank = this.$cache.local.getJSON('tj-infolist').privateDepositBank;
-        this.formData.privateAccountNumber = this.$cache.local.getJSON('tj-infolist').privateAccountNumber;
+        this.formData.privateDepositBank = this.formData.privateDepositBank;
+        this.formData.privateAccountNumber = this.formData.privateAccountNumber;
         this.isPrivateBank = false;
       } else {
         this.isPrivateBank = true;
@@ -1949,8 +1951,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('tj-infolist');
-        this.formData.industryType = employedInfo.industryType;
+       
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
@@ -2093,8 +2094,8 @@ export default {
               }
             }
           });
-          this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-            this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName });
+          this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-backurls').backUrl }).then(() => {
+            this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-backurls').backUrl, name: this.$cache.local.getJSON('tj-backurls').backName });
           })
         } else {
             this.$alert('请正确填写', '系统提示', {
@@ -2106,8 +2107,8 @@ export default {
       })
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backurls').backUrl }).then(() => {
-        this.$tab.refreshPage({ path: this.$cache.local.getJSON('backurls').backUrl, name: this.$cache.local.getJSON('backurls').backName })
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-backurls').backUrl }).then(() => {
+        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-backurls').backUrl, name: this.$cache.local.getJSON('tj-backurls').backName })
       });
     },
     nailist() {

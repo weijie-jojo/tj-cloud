@@ -1731,157 +1731,167 @@ export default {
   },
   created() {},
   mounted() {
-    this.getLoginInfo();
+    
     //申请人
     this.getApplyName();
     //联.系人
     this.getContactName();
-    //个体户行业类型税率
-    // this.getRate();
-    //从上一个页面获取个体户编码
-    this.formData = this.$cache.local.getJSON("tj-infolist");
-    //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
-    this.formData.gender = parseInt(this.formData.gender);
-    this.formData.accountType = parseInt(this.formData.accountType);
-    this.formData.electronicCommerce = parseInt(
-      this.formData.electronicCommerce
-    );
-    this.formData.applyName = parseInt(this.formData.applyName);
-
-    if (this.formData.infoStatus == 1) {
-      this.isokradio = "1";
-    } else if (this.formData.infoStatus == 2) {
-      this.isokradio = "2";
-    } else if (this.formData.infoStatus == 0) {
-      this.isokradio = "0";
-    }
-
-    this.formData.selfShareIsmoney = JSON.stringify(
-      this.formData.selfShareIsmoney
-    );
-    this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
-    this.formData.selfShare = JSON.stringify(this.formData.selfShare);
-
-    this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-    this.formData.ordinarySpecialTax = JSON.stringify(
-      this.formData.ordinarySpecialTax
-    );
-    this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
-    this.formData.isSpecialSelfTax = JSON.stringify(
-      this.formData.isSpecialSelfTax
-    );
-    this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
-
-    this.formData.ordinaryProxyIsmoney = JSON.stringify(
-      this.formData.ordinaryProxyIsmoney
-    );
-    this.formData.specialProxyIsmoney = JSON.stringify(
-      this.formData.specialProxyIsmoney
-    );
-    this.formData.ordinaryShareIsmoney = JSON.stringify(
-      this.formData.ordinaryShareIsmoney
-    );
-    this.formData.specialShareIsmoney = JSON.stringify(
-      this.formData.specialShareIsmoney
-    );
-    this.formData.isOrdinaryShare = JSON.stringify(
-      this.formData.isOrdinaryShare
-    );
-    this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
-
-    this.formData.isDisposableShare = JSON.stringify(
-      this.formData.isDisposableShare
-    );
-    this.formData.disposableShareIsmoney = JSON.stringify(
-      this.formData.disposableShareIsmoney
-    );
-    this.formData.disposableShare = JSON.stringify(
-      this.formData.disposableShare
-    );
-    this.formData.disposableFeeIsmoney = JSON.stringify(
-      this.formData.disposableFeeIsmoney
-    );
-    this.formData.disposableFee = JSON.stringify(this.formData.disposableFee);
-    this.formData.isDisposable = JSON.stringify(this.formData.isDisposable);
-    this.formData.isRegisterMoney = JSON.stringify(
-      this.formData.isRegisterMoney
-    );
-
-    if (this.formData.isSlider == "0") {
-      this.formData.isSlider = "0";
-    } else {
-      this.formData.isSlider = "1";
-    }
-
-    if (this.formData.isSliderOrdinary == "0") {
-      this.formData.isSliderOrdinary = "0";
-    } else {
-      this.formData.isSliderOrdinary = "1";
-    }
-    if (this.formData.isOrdinaryTax == 1) {
-      this.formData.isOrdinaryTax = "1";
-    } else {
-      this.formData.isOrdinaryTax = "0";
-    }
-    if (this.formData.isSpecialTax == 1) {
-      this.formData.isSpecialTax = "1";
-    } else {
-      this.formData.isSpecialTax = "0";
-    }
-
-    if (this.formData.isSelfCount == "0") {
-      this.formData.isSelfCount = "0";
-    } else {
-      this.formData.isSelfCount = "1";
-    }
-
-    if (this.formData.isSelfTax == "0") {
-      this.formData.isSelfTax = "0";
-    } else {
-      this.formData.isSelfTax = "1";
-    }
-    if (this.formData.isSpecialSelfTax == "0") {
-      this.formData.isSpecialSelfTax = "0";
-    } else {
-      this.formData.isSpecialSelfTax = "1";
-    }
-
-    this.fileName5 = [];
-    this.fileName6 = [];
-    this.fileName7 = [];
-    this.fileNameN1 = [];
-    this.fileNameN2 = [];
-    this.fileNameN3 = [];
-
-    this.fileName5 = JSON.parse(
-      this.$cache.local.getJSON("tj-infolist").fileName5
-    );
-    for (let k1 in this.fileName5) {
-      this.fileNameN1.push({
-        url: this.baseImgPath + this.fileName5[k1],
-        name: this.fileName5[k1],
-      });
-    }
-    this.fileName6 = JSON.parse(
-      this.$cache.local.getJSON("tj-infolist").fileName6
-    );
-    for (let k2 in this.fileName6) {
-      this.fileNameN2.push({
-        url: this.baseImgPath + this.fileName6[k2],
-        name: this.fileName6[k2],
-      });
-    }
-    this.fileName7 = JSON.parse(
-      this.$cache.local.getJSON("tj-infolist").fileName7
-    );
-    for (let k3 in this.fileName7) {
-      this.fileNameN3.push({
-        url: this.baseImgPath + this.fileName7[k3],
-        name: this.fileName7[k3],
-      });
-    }
+    this.getlist();
   },
   methods: {
+    getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      crudEmployed
+        .regDetail(this.$cache.local.getJSON("tj-infolist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          this.formData = res.data;
+          this.getLoginInfo();
+
+          this.formData.gender = parseInt(this.formData.gender);
+          this.formData.accountType = parseInt(this.formData.accountType);
+          this.formData.electronicCommerce = parseInt(
+            this.formData.electronicCommerce
+          );
+          this.formData.applyName = parseInt(this.formData.applyName);
+
+          if (this.formData.infoStatus == 1) {
+            this.isokradio = "1";
+          } else if (this.formData.infoStatus == 2) {
+            this.isokradio = "2";
+          } else if (this.formData.infoStatus == 0) {
+            this.isokradio = "0";
+          }
+
+          this.formData.selfShareIsmoney = JSON.stringify(
+            this.formData.selfShareIsmoney
+          );
+          this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
+          this.formData.selfShare = JSON.stringify(this.formData.selfShare);
+
+          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+          this.formData.ordinarySpecialTax = JSON.stringify(
+            this.formData.ordinarySpecialTax
+          );
+          this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
+          this.formData.isSpecialSelfTax = JSON.stringify(
+            this.formData.isSpecialSelfTax
+          );
+          this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
+
+          this.formData.ordinaryProxyIsmoney = JSON.stringify(
+            this.formData.ordinaryProxyIsmoney
+          );
+          this.formData.specialProxyIsmoney = JSON.stringify(
+            this.formData.specialProxyIsmoney
+          );
+          this.formData.ordinaryShareIsmoney = JSON.stringify(
+            this.formData.ordinaryShareIsmoney
+          );
+          this.formData.specialShareIsmoney = JSON.stringify(
+            this.formData.specialShareIsmoney
+          );
+          this.formData.isOrdinaryShare = JSON.stringify(
+            this.formData.isOrdinaryShare
+          );
+          this.formData.isSpecialShare = JSON.stringify(
+            this.formData.isSpecialShare
+          );
+
+          this.formData.isDisposableShare = JSON.stringify(
+            this.formData.isDisposableShare
+          );
+          this.formData.disposableShareIsmoney = JSON.stringify(
+            this.formData.disposableShareIsmoney
+          );
+          this.formData.disposableShare = JSON.stringify(
+            this.formData.disposableShare
+          );
+          this.formData.disposableFeeIsmoney = JSON.stringify(
+            this.formData.disposableFeeIsmoney
+          );
+          this.formData.disposableFee = JSON.stringify(
+            this.formData.disposableFee
+          );
+          this.formData.isDisposable = JSON.stringify(
+            this.formData.isDisposable
+          );
+          this.formData.isRegisterMoney = JSON.stringify(
+            this.formData.isRegisterMoney
+          );
+
+          if (this.formData.isSlider == "0") {
+            this.formData.isSlider = "0";
+          } else {
+            this.formData.isSlider = "1";
+          }
+
+          if (this.formData.isSliderOrdinary == "0") {
+            this.formData.isSliderOrdinary = "0";
+          } else {
+            this.formData.isSliderOrdinary = "1";
+          }
+          if (this.formData.isOrdinaryTax == 1) {
+            this.formData.isOrdinaryTax = "1";
+          } else {
+            this.formData.isOrdinaryTax = "0";
+          }
+          if (this.formData.isSpecialTax == 1) {
+            this.formData.isSpecialTax = "1";
+          } else {
+            this.formData.isSpecialTax = "0";
+          }
+
+          if (this.formData.isSelfCount == "0") {
+            this.formData.isSelfCount = "0";
+          } else {
+            this.formData.isSelfCount = "1";
+          }
+
+          if (this.formData.isSelfTax == "0") {
+            this.formData.isSelfTax = "0";
+          } else {
+            this.formData.isSelfTax = "1";
+          }
+          if (this.formData.isSpecialSelfTax == "0") {
+            this.formData.isSpecialSelfTax = "0";
+          } else {
+            this.formData.isSpecialSelfTax = "1";
+          }
+
+          this.fileName5 = [];
+          this.fileName6 = [];
+          this.fileName7 = [];
+          this.fileNameN1 = [];
+          this.fileNameN2 = [];
+          this.fileNameN3 = [];
+
+          this.fileName5 = JSON.parse(this.formData.fileName5);
+          for (let k1 in this.fileName5) {
+            this.fileNameN1.push({
+              url: this.baseImgPath + this.fileName5[k1],
+              name: this.fileName5[k1],
+            });
+          }
+          this.fileName6 = JSON.parse(this.formData.fileName6);
+          for (let k2 in this.fileName6) {
+            this.fileNameN2.push({
+              url: this.baseImgPath + this.fileName6[k2],
+              name: this.fileName6[k2],
+            });
+          }
+          this.fileName7 = JSON.parse(this.formData.fileName7);
+          for (let k3 in this.fileName7) {
+            this.fileNameN3.push({
+              url: this.baseImgPath + this.fileName7[k3],
+              name: this.fileName7[k3],
+            });
+          }
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        });
+    },
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
@@ -1938,10 +1948,12 @@ export default {
     getfileNameS() {},
     getLoginInfo() {
       getInfo().then((res) => {
-        crudPlace.getPlaceByUserId({ userId: this.formData.userId }).then((res) => {
-          console.log("getPlaceByUserId==", res.data);
-          this.places = res.data;
-        });
+        crudPlace
+          .getPlaceByUserId({ userId: this.formData.userId })
+          .then((res) => {
+            console.log("getPlaceByUserId==", res.data);
+            this.places = res.data;
+          });
       });
     },
     selectAccountType(value) {
@@ -1966,23 +1978,7 @@ export default {
       this.formData.applyIdNum = applyName.idNo;
       console.log("applyName==", applyName);
     },
-    getRate() {
-      crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("tj-infolist");
-        this.formData.industryType = employedInfo.industryType;
 
-        let tree = []; // 用来保存树状的数据形式
-        this.parseTree(res.rows, tree, 0);
-        this.industryTypes = tree;
-        this.industryTypeList = res.rows;
-        //this.industryTypess=this.formatData(this.industryTypes);
-        //this.$refs.selectTree.blur();
-        this.$nextTick(function () {
-          this.selectTipType = this.$refs.selectTree.selected.label;
-        });
-        this.selectIndustryType();
-      });
-    },
     //把数据整成树状
     parseTree(industry, tree, pid) {
       for (var i = 0; i < industry.length; i++) {
@@ -2032,7 +2028,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("backurls").backUrl,
+        path: this.$cache.local.getJSON("tj-backurls").backUrl,
       });
     },
   },

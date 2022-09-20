@@ -143,11 +143,11 @@ export default {
       this.queryParams.pageNum=1;
       this.getList();
       },
-      detail(row){
+      detail(row){s
         let obj = {
           backUrl: '/tg-business/reg/manageTax',
          };
-         this.$cache.local.setJSON('backurls', obj);
+         this.$cache.local.setJSON('tg-backurls', obj);
          this.$cache.local.setJSON('tg-taxlist', row);
          this.$tab.refreshPage({path:"/tg-business/reg/detailTax",name:'DetailTax'});
       },

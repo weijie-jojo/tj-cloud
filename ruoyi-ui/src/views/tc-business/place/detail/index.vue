@@ -895,8 +895,16 @@ export default {
   },
 
   mounted() {
-      let item=this.$cache.local.getJSON("placeDetailItem");
-      let  res=this.$cache.local.getJSON("placeDetailItems");
+      this.getlist();
+   
+  },
+
+  methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      agencyfee.selectFeeByCode({ placeCode: this.$cache.local.getJSON("tc-placelist").placeCode }).then(res => {
+      this.$modal.closeLoading();
+      let item=this.$cache.local.getJSON("tc-placelist");  
       this.ruleForm.customerType=JSON.stringify(item.customerType); 
       this.ruleForm.placeCode = item.placeCode;
       this.ruleForm.placeName = item.placeName;
@@ -973,10 +981,10 @@ export default {
         } else if (this.ruleForm.isSpecialTax == false) {
           this.ruleForm.isSpecialTax = "1"
         }
-   
-  },
-
-  methods: {
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     handleChange(value) {
       console.log(value);
     },

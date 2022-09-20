@@ -151,24 +151,26 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
+    //注册确认修改
     edits(row) {
        let obj = {
         name:'注册确认',
         backUrl: '/tj-business/reg/employedConfirm',
         backName: "EmployedConfirm",
       };
-      this.$cache.local.setJSON('backurls', obj);
-      this.$cache.local.setJSON("tj-infolist", row);
+      this.$cache.local.setJSON('tj-backurls', obj);
+      this.$cache.local.setJSON("tj-confirmlist", row.selfCode);
       this.$tab.refreshPage({path:"/tj-business/reg/regReviewDdit",name:'RegReviewDdit'});
      
         
     },
+    //查看
     look(row) {
       let obj={
          backUrl:'/tj-business/reg/employedConfirm',
         };
-      this.$cache.local.setJSON('backurls',obj);
-      this.$cache.local.setJSON("tj-infolist", row);
+      this.$cache.local.setJSON('tj-backurls',obj);
+      this.$cache.local.setJSON("tj-confirmlist", row.selfCode);
       this.$tab.refreshPage({path:"/tj-business/reg/regReviewDetail",name:'RegReviewDetail'});
      
      
@@ -182,7 +184,7 @@ export default {
          backName:'EmployedConfirm'
       }
      this.$cache.local.setJSON('tj-resultBack', obj);
-     this.$cache.local.setJSON("tj-infolist", row);
+     this.$cache.local.setJSON("tj-confirmlist", row.selfCode);
     
      this.$tab.refreshPage({path:"/tj-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});
       

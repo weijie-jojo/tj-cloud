@@ -2032,7 +2032,7 @@ export default {
     },
     resetForm() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("backurls").backUrl,
+        path: this.$cache.local.getJSON("tg-backurls").backUrl,
       });
     },
   },
