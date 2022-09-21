@@ -1817,22 +1817,18 @@ export default {
   },
 
   mounted() {
-    this.getLoginInfo();
-
-    //联系人
-    this.getContactName();
-    //个体户行业类型税率
-    //this.getRate();
-    //申请人
-    this.getApplyName();
-    //从上一个页面获取信息
-    var employedInfo = this.$cache.local.getJSON("tc-infolist");
-    this.formData = employedInfo;
-
+    this.getlist();
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tg-infolist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
+   
     this.formData.fileName5 = JSON.parse(this.formData.fileName5);
     this.formData.fileName6 = JSON.parse(this.formData.fileName6);
     this.formData.fileName7 = JSON.parse(this.formData.fileName7);
-
     this.$refs.productImage5.getSrcList(this.formData.fileName5);
     this.$refs.productImage6.getSrcList(this.formData.fileName6);
     this.$refs.productImage7.getSrcList(this.formData.fileName7);
@@ -1840,6 +1836,7 @@ export default {
     let arr = this.formData.fileName5;
     let brr = this.formData.fileName6;
     let crr = this.formData.fileName7;
+   
 
     for (let i in arr) {
       this.fileNameOld1.push({
@@ -1862,6 +1859,10 @@ export default {
       });
     }
 
+    
+
+    console.log(this.fileNameOld1);
+
     if (this.formData.accountType == 1) {
       //银行账号类型为私人时
       this.formData.privateName = this.formData.legalPersonName;
@@ -1870,7 +1871,11 @@ export default {
     if (this.formData.accountType == 2) {
       this.isPrivateBank = true;
     }
-
+    //联系人
+    this.getContactName();
+    //申请人
+    this.getApplyName();
+    this.getLoginInfo();
     this.getElectronicCommerce();
     this.getAccountType();
     this.getGender();
@@ -1967,8 +1972,11 @@ export default {
     } else {
       this.formData.isSliderOrdinary = "1";
     }
-  },
-  methods: {
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     //一次性分润
     isdisshare(e) {
       if (e == "1") {
@@ -2408,23 +2416,7 @@ export default {
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
     },
-    getRate() {
-      crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("tc-infolist");
-        this.formData.industryType = employedInfo.industryType;
-
-        let tree = []; // 用来保存树状的数据形式
-        this.parseTree(res.rows, tree, 0);
-        this.industryTypes = tree;
-        this.industryTypeList = res.rows;
-        //this.industryTypess=this.formatData(this.industryTypes);
-        //this.$refs.selectTree.blur();
-        this.$nextTick(function () {
-          this.selectTipType = this.$refs.selectTree.selected.label;
-        });
-        this.selectIndustryType();
-      });
-    },
+   
     //把数据整成树状
     parseTree(industry, tree, pid) {
       for (var i = 0; i < industry.length; i++) {
@@ -2463,25 +2455,25 @@ export default {
           }
         }
         this.applyNames = brr;
-        var employedInfo = this.$cache.local.getJSON("tc-infolist");
+        var employedInfo = this.formData;
         this.formData.applyName = parseInt(employedInfo.applyName);
       });
     },
     getElectronicCommerce() {
       this.electronicCommerces1 = this.electronicCommerces;
-      var employedInfo = this.$cache.local.getJSON("tc-infolist");
+      var employedInfo = this.formData;
       this.formData.electronicCommerce = parseInt(
         employedInfo.electronicCommerce
       );
     },
     getAccountType() {
       this.accountTypes1 = this.accountTypes;
-      var employedInfo = this.$cache.local.getJSON("tc-infolist");
+      var employedInfo = this.formData;
       this.formData.accountType = parseInt(employedInfo.accountType);
     },
     getGender() {
       this.genders1 = this.genders;
-      var employedInfo = this.$cache.local.getJSON("tc-infolist");
+      var employedInfo = this.formData;
       this.formData.gender = parseInt(employedInfo.gender);
     },
     handleClick(tab, event) {},

@@ -66,7 +66,7 @@ import crudRate from '@/api/tg-api/company/rate'
 import { Decimal } from 'decimal.js'
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed, check } from "@/api/tg-api/company/employed";
+import { addEmployed, updateEmployed, check,regDetail } from "@/api/tg-api/company/employed";
 export default {
   name:'AddTax',
    components: {
@@ -134,13 +134,22 @@ export default {
  
  
   mounted() {
-    let list = this.$cache.local.getJSON("tg-taxlist");
-    this.formtax.selfId = list.selfId;
-    this.formtax.selfName = list.selfName;
-    this.formtax.legalPersonName = list.legalPersonName;
-    this.formtax.taxId = list.taxId;
-    this.getRate();
-    this.getInfo();
+    this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tg-taxlist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formtax.selfId = list.selfId;
+          this.formtax.selfName = list.selfName;
+          this.formtax.legalPersonName = list.legalPersonName;
+          this.formtax.taxId = list.taxId;
+          this.getRate();
+          this.getInfo();
+         
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
   },
 
   methods: {
@@ -248,7 +257,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("tg-taxlist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tg-taxlist"),
         "selfType": "6",
       }
       check(parms).then(res => {

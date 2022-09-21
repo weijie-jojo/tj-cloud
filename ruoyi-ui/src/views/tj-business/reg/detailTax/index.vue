@@ -201,8 +201,7 @@ export default {
     },
      getRate() {
       crudRate.getAllRate().then(res => {
-        // var employedInfo = this.formData;
-        // this.formtax.industryType = employedInfo.industryType;
+        
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;

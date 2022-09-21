@@ -1411,21 +1411,19 @@ export default {
   watch: {
     'formData.industryType': 'selectIndustryType',
   },
-  created() {
-
-  },
   mounted() {
-
+   this.getlist();
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tc-findlist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
+   
     this.getLoginInfo();
-    //申请人
-    //联系人
-   // this.getContactName();
     //个体户行业类型税率
     this.getRate();
-
-
-
-    this.formData = this.$cache.local.getJSON('tc-infolist');
 
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
@@ -1584,8 +1582,10 @@ export default {
 
 
     this.nailist();
-  },
-  methods: {
+     }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
       //一次性分润
       isdisshare(e){
       if(e=='1'){

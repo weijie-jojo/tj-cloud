@@ -464,7 +464,7 @@ export default {
         checkReasult: resmsg,
         checkUser: this.userinfo.userName,
         phonenumber: this.userinfo.phonenumber,
-        selfCode: this.$cache.local.getJSON("tj-banklist").selfCode,
+        selfCode: this.$cache.local.getJSON("tj-banklist"),
         selfType: "7",
       };
       check(parms)

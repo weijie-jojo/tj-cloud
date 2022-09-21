@@ -867,6 +867,7 @@
   </div>
 </template>
 <script>
+import { regDetail } from "@/api/tc-api/company/employed";
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudPerson from '@/api/tc-api/company/person'
 import crudRate from '@/api/tc-api/company/rate'
@@ -1281,182 +1282,212 @@ export default {
       deep: true
     }
   },
-  created() {
-
-  },
   mounted() {
-
-    this.getLoginInfo();
-    //联系人
-    //this.getContactName();
-    //个体户行业类型税率
-    this.getRate();
-
-
-
-    this.formData = this.$cache.local.getJSON('tc-infolist');
-    this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
-    this.formData.gender = parseInt(this.formData.gender);
-    this.formData.accountType = parseInt(this.formData.accountType);
-    this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
-    this.formData.applyName = parseInt(this.formData.applyName);
-
-
-
-
-    this.fileName1 = [];
-    this.fileName2 = [];
-    this.fileName3 = [];
-    this.fileName4 = [];
-    this.fileName5 = [];
-    this.fileName6 = [];
-    this.fileName7 = [];
-    this.fileNameN1 = [];
-    this.fileNameN2 = [];
-    this.fileNameN3 = [];
-    this.fileNameN4 = [];
-    this.fileNameN5 = [];
-    this.fileNameN6 = [];
-    this.fileNameN7 = [];
-
-
-    this.formData.selfShareIsmoney = JSON.stringify(this.formData.selfShareIsmoney);
-    this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
-    this.formData.selfShare = JSON.stringify(this.formData.selfShare);
-
-    this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-    this.formData.ordinarySpecialTax = JSON.stringify(this.formData.ordinarySpecialTax);
-    this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
-    this.formData.isSpecialSelfTax = JSON.stringify(this.formData.isSpecialSelfTax);
-    this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
-
-    this.formData.ordinaryProxyIsmoney = JSON.stringify(this.formData.ordinaryProxyIsmoney);
-    this.formData.specialProxyIsmoney = JSON.stringify(this.formData.specialProxyIsmoney);
-    this.formData.ordinaryShareIsmoney = JSON.stringify(this.formData.ordinaryShareIsmoney);
-    this.formData.specialShareIsmoney = JSON.stringify(this.formData.specialShareIsmoney);
-    this.formData.isOrdinaryShare = JSON.stringify(this.formData.isOrdinaryShare);
-    this.formData.isSpecialShare = JSON.stringify(this.formData.isSpecialShare);
-    
-    this.formData.isDisposableShare=JSON.stringify(this.formData.isDisposableShare);
-    this.formData.disposableShareIsmoney=JSON.stringify(this.formData.disposableShareIsmoney);
-    this.formData.disposableShare=JSON.stringify(this.formData.disposableShare);
-    this.formData.disposableFeeIsmoney=JSON.stringify(this.formData.disposableFeeIsmoney);
-    this.formData.disposableFee=JSON.stringify(this.formData.disposableFee);
-    this.formData.isDisposable=JSON.stringify(this.formData.isDisposable);
-    this.formData.isRegisterMoney=JSON.stringify(this.formData.isRegisterMoney);
-
-
-    if (this.formData.isPublicUser == '0') {
-      this.formData.isPublicUser = '0';
-    } else {
-      this.formData.isPublicUser = '1';
-    }
-    if (this.formData.isSlider == '0') {
-      this.formData.isSlider = '0';
-    } else {
-      this.formData.isSlider = '1';
-    }
-
-    if (this.formData.isSliderOrdinary == '0') {
-      this.formData.isSliderOrdinary = '0';
-    } else {
-      this.formData.isSliderOrdinary = '1';
-    }
-
-
-    if (this.formData.isOrdinaryTax == 1) {
-      this.formData.isOrdinaryTax = '1';
-    } else {
-      this.formData.isOrdinaryTax = '0';
-    }
-    if (this.formData.isSpecialTax == 1) {
-      this.formData.isSpecialTax = '1';
-    } else {
-      this.formData.isSpecialTax = '0';
-    }
-
-    if (this.formData.isSelfCount == '0') {
-      this.formData.isSelfCount = '0';
-    } else {
-      this.formData.isSelfCount = '1';
-    }
-
-    if (this.formData.isSelfTax == '0') {
-      this.formData.isSelfTax = '0';
-    } else {
-      this.formData.isSelfTax = '1';
-    }
-    if (this.formData.isSpecialSelfTax == '0') {
-      this.formData.isSpecialSelfTax = '0';
-    } else {
-      this.formData.isSpecialSelfTax = '1';
-    }
-
-
-
-    if (this.formData.endStatus == 1) {
-      this.isokradio = '1';
-    } else if (this.formData.endStatus == 2) {
-      this.isokradio = '2';
-    } else if (this.formData.endStatus == 0) {
-      this.isokradio = '0';
-    }
-
-    this.fileName1 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName1);
-    for (let k1 in this.fileName1) {
-      this.fileNameN1.push({
-        url: this.baseImgPath + this.fileName1[k1],
-        name: this.fileName1[k1],
-      });
-    }
-
-    this.fileName2 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName2);
-    for (let k2 in this.fileName2) {
-      this.fileNameN2.push({
-        url: this.baseImgPath + this.fileName2[k2],
-        name: this.fileName2[k2],
-      });
-    }
-    this.fileName3 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName3);
-    for (let k3 in this.fileName3) {
-      this.fileNameN3.push({
-        url: this.baseImgPath + this.fileName3[k3],
-        name: this.fileName3[k3],
-      });
-    }
-
-    this.fileName4 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName4);
-    for (let k4 in this.fileName4) {
-      this.fileNameN4.push({
-        url: this.baseImgPath + this.fileName4[k4],
-        name: this.fileName4[k4],
-      });
-    }
-
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName5);
-    for (let k5 in this.fileName5) {
-      this.fileNameN5.push({
-        url: this.baseImgPath + this.fileName5[k5],
-        name: this.fileName5[k5],
-      });
-    }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName6);
-    for (let k6 in this.fileName6) {
-      this.fileNameN6.push({
-        url: this.baseImgPath + this.fileName6[k6],
-        name: this.fileName6[k6],
-      });
-    }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName7);
-    for (let k7 in this.fileName7) {
-      this.fileNameN7.push({
-        url: this.baseImgPath + this.fileName7[k7],
-        name: this.fileName7[k7],
-      });
-    }
-    this.nailist();
+   this.getlist();
   },
   methods: {
+    getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tc-confirmlist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          this.formData = res.data;
+          this.getLoginInfo();
+          //个体户行业类型税率
+          this.getRate();
+          this.industryTax =
+            new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+          this.formData.gender = parseInt(this.formData.gender);
+          this.formData.accountType = parseInt(this.formData.accountType);
+          this.formData.electronicCommerce = parseInt(
+            this.formData.electronicCommerce
+          );
+          this.formData.applyName = parseInt(this.formData.applyName);
+
+          this.fileName1 = [];
+          this.fileName2 = [];
+          this.fileName3 = [];
+          this.fileName4 = [];
+          this.fileName5 = [];
+          this.fileName6 = [];
+          this.fileName7 = [];
+          this.fileNameN1 = [];
+          this.fileNameN2 = [];
+          this.fileNameN3 = [];
+          this.fileNameN4 = [];
+          this.fileNameN5 = [];
+          this.fileNameN6 = [];
+          this.fileNameN7 = [];
+
+          this.formData.selfShareIsmoney = JSON.stringify(
+            this.formData.selfShareIsmoney
+          );
+          this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
+          this.formData.selfShare = JSON.stringify(this.formData.selfShare);
+
+          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+          this.formData.ordinarySpecialTax = JSON.stringify(
+            this.formData.ordinarySpecialTax
+          );
+          this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
+          this.formData.isSpecialSelfTax = JSON.stringify(
+            this.formData.isSpecialSelfTax
+          );
+          this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
+
+          this.formData.ordinaryProxyIsmoney = JSON.stringify(
+            this.formData.ordinaryProxyIsmoney
+          );
+          this.formData.specialProxyIsmoney = JSON.stringify(
+            this.formData.specialProxyIsmoney
+          );
+          this.formData.ordinaryShareIsmoney = JSON.stringify(
+            this.formData.ordinaryShareIsmoney
+          );
+          this.formData.specialShareIsmoney = JSON.stringify(
+            this.formData.specialShareIsmoney
+          );
+          this.formData.isOrdinaryShare = JSON.stringify(
+            this.formData.isOrdinaryShare
+          );
+          this.formData.isSpecialShare = JSON.stringify(
+            this.formData.isSpecialShare
+          );
+
+          this.formData.isDisposableShare = JSON.stringify(
+            this.formData.isDisposableShare
+          );
+          this.formData.disposableShareIsmoney = JSON.stringify(
+            this.formData.disposableShareIsmoney
+          );
+          this.formData.disposableShare = JSON.stringify(
+            this.formData.disposableShare
+          );
+          this.formData.disposableFeeIsmoney = JSON.stringify(
+            this.formData.disposableFeeIsmoney
+          );
+          this.formData.disposableFee = JSON.stringify(
+            this.formData.disposableFee
+          );
+          this.formData.isDisposable = JSON.stringify(
+            this.formData.isDisposable
+          );
+          this.formData.isRegisterMoney = JSON.stringify(
+            this.formData.isRegisterMoney
+          );
+
+          if (this.formData.isPublicUser == "0") {
+            this.formData.isPublicUser = "0";
+          } else {
+            this.formData.isPublicUser = "1";
+          }
+          if (this.formData.isSlider == "0") {
+            this.formData.isSlider = "0";
+          } else {
+            this.formData.isSlider = "1";
+          }
+
+          if (this.formData.isSliderOrdinary == "0") {
+            this.formData.isSliderOrdinary = "0";
+          } else {
+            this.formData.isSliderOrdinary = "1";
+          }
+
+          if (this.formData.isOrdinaryTax == 1) {
+            this.formData.isOrdinaryTax = "1";
+          } else {
+            this.formData.isOrdinaryTax = "0";
+          }
+          if (this.formData.isSpecialTax == 1) {
+            this.formData.isSpecialTax = "1";
+          } else {
+            this.formData.isSpecialTax = "0";
+          }
+
+          if (this.formData.isSelfCount == "0") {
+            this.formData.isSelfCount = "0";
+          } else {
+            this.formData.isSelfCount = "1";
+          }
+
+          if (this.formData.isSelfTax == "0") {
+            this.formData.isSelfTax = "0";
+          } else {
+            this.formData.isSelfTax = "1";
+          }
+          if (this.formData.isSpecialSelfTax == "0") {
+            this.formData.isSpecialSelfTax = "0";
+          } else {
+            this.formData.isSpecialSelfTax = "1";
+          }
+
+          if (this.formData.endStatus == 1) {
+            this.isokradio = "1";
+          } else if (this.formData.endStatus == 2) {
+            this.isokradio = "2";
+          } else if (this.formData.endStatus == 0) {
+            this.isokradio = "0";
+          }
+
+          this.fileName1 = JSON.parse(this.formData.fileName1);
+          for (let k1 in this.fileName1) {
+            this.fileNameN1.push({
+              url: this.baseImgPath + this.fileName1[k1],
+              name: this.fileName1[k1],
+            });
+          }
+
+          this.fileName2 = JSON.parse(this.formData.fileName2);
+          for (let k2 in this.fileName2) {
+            this.fileNameN2.push({
+              url: this.baseImgPath + this.fileName2[k2],
+              name: this.fileName2[k2],
+            });
+          }
+          this.fileName3 = JSON.parse(this.formData.fileName3);
+          for (let k3 in this.fileName3) {
+            this.fileNameN3.push({
+              url: this.baseImgPath + this.fileName3[k3],
+              name: this.fileName3[k3],
+            });
+          }
+
+          this.fileName4 = JSON.parse(this.formData.fileName4);
+          for (let k4 in this.fileName4) {
+            this.fileNameN4.push({
+              url: this.baseImgPath + this.fileName4[k4],
+              name: this.fileName4[k4],
+            });
+          }
+
+          this.fileName5 = JSON.parse(this.formData.fileName5);
+          for (let k5 in this.fileName5) {
+            this.fileNameN5.push({
+              url: this.baseImgPath + this.fileName5[k5],
+              name: this.fileName5[k5],
+            });
+          }
+          this.fileName6 = JSON.parse(this.formData.fileName6);
+          for (let k6 in this.fileName6) {
+            this.fileNameN6.push({
+              url: this.baseImgPath + this.fileName6[k6],
+              name: this.fileName6[k6],
+            });
+          }
+          this.fileName7 = JSON.parse(this.formData.fileName7);
+          for (let k7 in this.fileName7) {
+            this.fileNameN7.push({
+              url: this.baseImgPath + this.fileName7[k7],
+              name: this.fileName7[k7],
+            });
+          }
+
+          this.nailist();
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        });
+    },
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();

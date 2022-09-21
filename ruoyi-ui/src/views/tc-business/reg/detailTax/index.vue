@@ -73,6 +73,7 @@
 import crudRate from '@/api/tc-api/company/rate'
 import { Decimal } from 'decimal.js'
 import uploadSmall from '@/components/douploads/uploadSmall'
+import {regDetail } from "@/api/tc-api/company/employed";
 export default {
   name:'DetailTax',
    components: {
@@ -136,18 +137,27 @@ export default {
     };
   },
   mounted() {
-    let list = this.$cache.local.getJSON("tc-taxlist");
-    this.formtax = list;
-    this.industryTax = new Decimal(this.formtax.industryTax).mul(new Decimal(100)) + '%';
-    this.getRate();
-    this.fileNameN1=[];
-    this.fileName2=JSON.parse(this.$cache.local.getJSON('tc-taxlist').fileName2);
-    for(let k1 in this.fileName2){
-       this.fileNameN1.push({
-          url:this.baseImgPath+this.fileName2[k1],
-          name:this.fileName2[k1],
-        });
-     } 
+    this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tc-taxlist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formtax = list;
+          this.getRate();
+          this.industryTax = new Decimal(this.formtax.industryTax).mul(new Decimal(100)) + '%';
+          this.fileNameN1=[];
+          this.fileName2=JSON.parse(list.fileName2);
+          for(let k1 in this.fileName2){
+            this.fileNameN1.push({
+                url:this.baseImgPath+this.fileName2[k1],
+                name:this.fileName2[k1],
+              });
+          } 
+              
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
   },
   methods: {
       handleNodeClick(node) {
@@ -190,8 +200,7 @@ export default {
     },
      getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('tc-taxlist');
-        this.formtax.industryType = employedInfo.industryType;
+      
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;

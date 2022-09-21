@@ -148,7 +148,7 @@ export default {
           backUrl: '/tc-business/reg/manageTax',
          };
          this.$cache.local.setJSON('tc-backurls', obj);
-         this.$cache.local.setJSON('tc-taxlist', row);
+         this.$cache.local.setJSON('tc-taxlist', row.selfCode);
          this.$tab.refreshPage({path:"/tc-business/reg/detailTax",name:'DetailTax'});
       },
       getCount(){
@@ -208,7 +208,7 @@ export default {
     //税务管理
     atx(row) {
       
-        this.$cache.local.setJSON('tc-taxlist', row);
+        this.$cache.local.setJSON('tc-taxlist', row.selfCode);
           let obj = {
             title: '税务办理',
             backUrl: '/tc-business/reg/manageTax',

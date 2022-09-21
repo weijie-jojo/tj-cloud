@@ -177,7 +177,7 @@
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
 import { all } from "@/api/tg-api/company/payTaxInfo";
-import { updateEmployed, check } from "@/api/tg-api/company/employed";
+import { updateEmployed, check,regDetail} from "@/api/tg-api/company/employed";
 
 export default {
   name: "AddBank",
@@ -308,17 +308,25 @@ export default {
     };
   },
   mounted() {
-    this.getInfo();
-   
-    let list = this.$cache.local.getJSON("tg-banklist");
-    this.formBank.selfId = list.selfId;
-    this.formBank.selfName = list.selfName;
-    this.formBank.legalPersonName = list.legalPersonName;
-    this.formBank.privateDepositBank =list.privateDepositBank;
-    this.formBank.privateAccountNumber = list.privateAccountNumber;
-    this.formBank.taxId = list.taxId;
-    this.accountType = list.accountType;
-    this.nailist();
+    this.$modal.loading("正在加载数据，请稍后...");
+    regDetail(this.$cache.local.getJSON("tg-banklist"))
+      .then((res) => {
+        this.$modal.closeLoading();
+        let list = res.data;
+
+        this.formBank.selfId = list.selfId;
+        this.formBank.selfName = list.selfName;
+        this.formBank.legalPersonName = list.legalPersonName;
+        this.formBank.privateDepositBank = list.privateDepositBank;
+        this.formBank.privateAccountNumber = list.privateAccountNumber;
+        this.formBank.taxId = list.taxId;
+        this.accountType = list.accountType;
+        this.getInfo();
+        this.nailist();
+      })
+      .catch((error) => {
+        this.$modal.closeLoading();
+      });
   },
  
  
@@ -382,7 +390,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("tg-banklist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tg-banklist"),
         "selfType": "7",
       }
       check(parms).then(res => {

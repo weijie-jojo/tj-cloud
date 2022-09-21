@@ -39,7 +39,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed, check } from "@/api/tc-api/company/employed";
+import { addEmployed, updateEmployed, check,regDetail } from "@/api/tc-api/company/employed";
 export default {
   name: "AddBusiness",
   components: {
@@ -112,15 +112,20 @@ export default {
       },
     };
   },
-
-
-  created() {
-    let list = this.$cache.local.getJSON("tc-businesslist");
-    this.formbusiness.selfId = list.selfId;
-    this.formbusiness.legalPersonName = list.legalPersonName;
-  },
   mounted() {
-    this.getInfo();
+    this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tc-businesslist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formbusiness.selfId = list.selfId;
+          this.formbusiness.legalPersonName = list.legalPersonName;
+          this.getInfo();
+         
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
   },
   methods: {
     getfileNameS(data){
@@ -143,7 +148,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("tc-businesslist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tc-businesslist"),
         "selfType": "5",
       }
       check(parms).then(res => {

@@ -28,7 +28,7 @@ export function editPay(data) {
 //出款删除
 export function delPay(payIds) {
   return request({
-    url: 'project/pay/'+payIds,
+    url: 'project/pay/tg/'+payIds,
     method: 'delete',
  })
 }
@@ -36,7 +36,7 @@ export function delPay(payIds) {
 //获取项目收款详情计算已收账款
 export function finshReceiveList(query) {
   return request({
-    url: 'project/receive/getInfoByCode2',
+    url: 'project/receive/tg/getInfoByCode2',
     method: 'get',
     params: query
   })
@@ -46,7 +46,7 @@ export function finshReceiveList(query) {
 //获取项目出款详情计算已出账款
 export function finshPayList(query) {
   return request({
-    url: 'project/pay/getInfoByCode2',
+    url: 'project/pay/tg/getInfoByCode2',
     method: 'get',
     params: query
   })
@@ -55,7 +55,7 @@ export function finshPayList(query) {
 //获取收款列表
 export function receiveList(query) {
   return request({
-    url: 'project/receive/getInfoByCode',
+    url: 'project/receive/tg/getInfoByCode',
     method: 'get',
     params: query
   })
@@ -64,7 +64,7 @@ export function receiveList(query) {
 //收款列表新增
 export function addReceive(data) {
   return request({
-    url: 'project/receive',
+    url: 'project/receive/tg',
     method: 'post',
     data: data
   })
@@ -73,7 +73,7 @@ export function addReceive(data) {
 //收款列表修改
 export function editReceive(data) {
   return request({
-    url: 'project/receive',
+    url: 'project/receive/tg',
     method: 'put',
     data: data
   })
@@ -82,28 +82,28 @@ export function editReceive(data) {
 //收款删除
 export function delReceive(payReceiveIds) {
   return request({
-    url: 'project/receive/'+payReceiveIds,
+    url: 'project/receive/tg/'+payReceiveIds,
     method: 'delete',
  })
 }
 //获取收款流水号code 
 export function getReceiveCode() {
   return request({
-    url: '/project/receive/getCode',
+    url: '/project/receive/tg/getCode',
     method: 'get',
    })
 }
 //获取出款流水号code 
 export function getPayCode() {
   return request({
-    url: '/project/pay/getCode',
+    url: '/project/pay/tg/getCode',
     method: 'get',
    })
 }
 //获取甲方列表分页
 export function getPurchPage(query){
   return request({
-    url:'/project/company/list1',
+    url:'/project/company/tg/list1',
     method:'get',
     params:query
   })
@@ -111,7 +111,7 @@ export function getPurchPage(query){
 //获取甲方列表
 export function getPuJialist(query) {
   return request({
-    url: '/project/company/list',
+    url: '/project/company/tg/list',
     method: 'get',
     params: query
   })
@@ -120,7 +120,7 @@ export function getPuJialist(query) {
 //获取乙方
 export function ownlist(query) {
   return request({
-    url: 'project/employed/getByUserIndusty',
+    url: 'project/employed/tg/getByUserIndusty',
     method: 'get',
     params: query
   })
@@ -129,7 +129,7 @@ export function ownlist(query) {
 //获取项目列表
 export function list(query) {
   return request({
-    url: 'project/project/list',
+    url: 'project/project/tg/list',
     method: 'get',
     params: query
   })
@@ -138,7 +138,7 @@ export function list(query) {
 //获取项目详情
 export function detail(query) {
   return request({
-    url: 'project/project/selectProjectJoinTicketByCode',
+    url: 'project/project/tg/selectProjectJoinTicketByCode',
     method: 'get',
     params: query
   })
@@ -147,7 +147,7 @@ export function detail(query) {
 //项目新增
 export function add(data) {
   return request({
-    url: 'project/project',
+    url: 'project/project/tg',
     method: 'post',
     data: data
   })
@@ -155,7 +155,7 @@ export function add(data) {
 //甲方新增
 export function addJia(data) {
   return request({
-    url: '/project/company',
+    url: '/project/company/tg',
     method: 'post',
     data: data
   })
@@ -163,7 +163,7 @@ export function addJia(data) {
 //获取项目编码
 export function getcode(query){
     return request({
-        url:'project/project/getCode',
+        url:'project/project/tg/getCode',
         method:'get',
         params:query   
     })
@@ -171,14 +171,14 @@ export function getcode(query){
 //项目删除
 export function del(projectIds) {
   return request({
-    url: 'project/project/'+projectIds,
+    url: 'project/project/tg/'+projectIds,
     method: 'delete',
  })
 }
 //项目修改
 export function edit(data) {
   return request({
-    url: 'project/project',
+    url: 'project/project/tg',
     method: 'put',
     data:data
   })
@@ -186,7 +186,7 @@ export function edit(data) {
 //获取项目各个审核列表标签 统计数量
 export function getProjectCount(query){
   return request({
-    url: 'project/project/getCount',
+    url: 'project/project/tg/getCount',
     method: 'get',
     params: query
   })
@@ -194,7 +194,7 @@ export function getProjectCount(query){
 //获取乙方
 export function getinfoByUserId(data){
   return request({
-    url:'project/place/getInfoByUserId',
+    url:'project/place/tg/getInfoByUserId',
     method:'get',
     params:data 
   })
@@ -203,7 +203,7 @@ export function getinfoByUserId(data){
 // 新增个体商户进度
 export function check(data) {
   return request({
-    url: '/project/check',
+    url: '/project/check/tg',
     method: 'post',
     data: data
   })
@@ -212,7 +212,7 @@ export function check(data) {
 // 查询个体商户进度
 export function checkdetail(query) {
   return request({
-    url: '/project/check/list',
+    url: '/project/check/tg/list',
     method: 'get',
     params: query
   })
@@ -220,7 +220,7 @@ export function checkdetail(query) {
 //获取票据标签页 统计数量
 export function getCount(query){
   return request({
-    url: '/project/project/getCount3',
+    url: '/project/project/tg/getCount3',
     method: 'get',
     params: query
   })

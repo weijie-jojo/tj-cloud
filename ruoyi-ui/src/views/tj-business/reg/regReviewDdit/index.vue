@@ -2638,62 +2638,6 @@ export default {
       this.activeName = "second";
     },
     submitForm() {
-      if (this.formData.isSlider == "0") {
-        if (this.formData.selfShareIsmoney == "1") {
-          if (this.formData.selfShare > 100) {
-            this.$alert("个体注册服务分润费按百分比不能大于100%", "系统提示", {
-              confirmButtonText: "确定",
-              type: "error",
-            });
-          }
-        }
-
-        if (this.formData.specialShareIsmoney == "1") {
-          if (this.formData.specialShare > 100) {
-            this.$alert("专票分润费按百分比不能大于100%", "系统提示", {
-              confirmButtonText: "确定",
-
-              type: "error",
-            });
-            return;
-          }
-        }
-        if (this.formData.specialProxyIsmoney == "1") {
-          if (this.formData.specialSelfFee > 100) {
-            this.$alert("专票服务费按百分比不能大于100%", "系统提示", {
-              confirmButtonText: "确定",
-
-              type: "error",
-            });
-            return;
-          }
-        }
-      }
-
-      if (this.formData.isSliderOrdinary == 0) {
-        if (this.formData.ordinaryShareIsmoney == "1") {
-          if (this.formData.ordinaryShare > 100) {
-            this.$alert("普票分润费按百分比不能大于100%", "系统提示", {
-              confirmButtonText: "确定",
-
-              type: "error",
-            });
-            return;
-          }
-        }
-
-        if (this.formData.ordinaryProxyIsmoney == "1") {
-          if (this.formData.ordinarySelfFee > 100) {
-            this.$alert("普票服务费按百分比不能大于100%", "系统提示", {
-              confirmButtonText: "确定",
-
-              type: "error",
-            });
-            return;
-          }
-        }
-      }
-
       this.$refs["elForm"].validate((valid) => {
         if (valid) {
           let parms1 = {

@@ -138,4 +138,4 @@ export function getAllUser() {
     method: 'get'
   })
 }
-export default {getAllUser,addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}
+export default {regDetail,getAllUser,addEmployed,updateEmployed,check,checkdetail,getLeaderByUserId,delEmployed,getWord,joinList2,joinList,getCount,getCounts}

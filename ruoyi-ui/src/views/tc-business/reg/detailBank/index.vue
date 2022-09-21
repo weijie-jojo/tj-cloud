@@ -172,6 +172,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { all } from "@/api/tc-api/company/payTaxInfo";
+import {  regDetail } from "@/api/tc-api/company/employed";
 export default {
   name:'DetailBank',
   components: {
@@ -297,33 +298,43 @@ export default {
       },
     };
   },
-  created() {
-    let list = this.$cache.local.getJSON("tc-banklist");
-    this.formBank = list;
-    if (this.formBank.isPublicUser == 0) {
-      this.formBank.isPublicUser = '0';
-    } else {
-      this.formBank.isPublicUser = '1';
-    }
-    this.fileNameN1 = [];
-    this.fileNameN2 = [];
-    this.fileName3 = JSON.parse(this.$cache.local.getJSON('tc-banklist').fileName3);
-    for (let k1 in this.fileName3) {
-      this.fileNameN1.push({
-        url: this.baseImgPath + this.fileName3[k1],
-        name: this.fileName3[k1],
-      });
-    }
-    this.fileName4 = JSON.parse(this.$cache.local.getJSON('tc-banklist').fileName4);
-    for (let k2 in this.fileName4) {
+  mounted() {
+    this.$modal.loading("正在加载数据，请稍后...");
+    regDetail(this.$cache.local.getJSON("tc-banklist"))
+      .then((res) => {
+        this.$modal.closeLoading();
+        let list = res.data;
 
-      this.fileNameN2.push({
-        url: this.baseImgPath + this.fileName4[k2],
-        name: this.fileName4[k2],
+        this.formBank = list;
+        if (this.formBank.isPublicUser == 0) {
+          this.formBank.isPublicUser = "0";
+        } else {
+          this.formBank.isPublicUser = "1";
+        }
+        this.fileNameN1 = [];
+        this.fileNameN2 = [];
+        this.fileName3 = JSON.parse(list.fileName3);
+        for (let k1 in this.fileName3) {
+          this.fileNameN1.push({
+            url: this.baseImgPath + this.fileName3[k1],
+            name: this.fileName3[k1],
+          });
+        }
+        this.fileName4 = JSON.parse(
+          list.fileName4
+        );
+        for (let k2 in this.fileName4) {
+          this.fileNameN2.push({
+            url: this.baseImgPath + this.fileName4[k2],
+            name: this.fileName4[k2],
+          });
+        }
+        this.accountType = list.accountType;
+        this.nailist();
+      })
+      .catch((error) => {
+        this.$modal.closeLoading();
       });
-    }
-    this.accountType = list.accountType;
-    this.nailist();
   },
   methods: {
     getfileNameS() {
