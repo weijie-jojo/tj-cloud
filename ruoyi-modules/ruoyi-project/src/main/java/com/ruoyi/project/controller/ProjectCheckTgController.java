@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2022-08-01
  */
 @RestController
-@RequestMapping("/check")
+@RequestMapping("/check/tg")
 @Api(tags = "项目审批进度（腾工）")
 public class ProjectCheckTgController extends BaseController
 {

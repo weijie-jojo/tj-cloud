@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @Api(tags = "渠道管理（腾工）")
-@RequestMapping("/place")
+@RequestMapping("/place/tg")
 public class BusinessPlaceTgController extends BaseController
 {
     @Autowired

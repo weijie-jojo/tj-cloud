@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @Api(tags = "个体户管理（腾工）")
-@RequestMapping("/employed")
+@RequestMapping("/employed/tg")
 public class SelfEmployedTgController extends BaseController
 {
     @Autowired
