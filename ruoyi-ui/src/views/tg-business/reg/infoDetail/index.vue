@@ -1729,18 +1729,23 @@ export default {
       deep: true,
     },
   },
-  created() {},
+ 
   mounted() {
-    this.getLoginInfo();
-    //申请人
+   
+    this.getlist();
+
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tg-infolist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
     this.getApplyName();
-    //联.系人
+    this.getLoginInfo();
     this.getContactName();
-    //个体户行业类型税率
-    // this.getRate();
-    //从上一个页面获取个体户编码
-    this.formData = this.$cache.local.getJSON("tg-infolist");
-    //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+   
+  
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(
@@ -1854,7 +1859,7 @@ export default {
     this.fileNameN3 = [];
 
     this.fileName5 = JSON.parse(
-      this.$cache.local.getJSON("tg-infolist").fileName5
+      this.formData.fileName5
     );
     for (let k1 in this.fileName5) {
       this.fileNameN1.push({
@@ -1863,7 +1868,7 @@ export default {
       });
     }
     this.fileName6 = JSON.parse(
-      this.$cache.local.getJSON("tg-infolist").fileName6
+      this.formData.fileName6
     );
     for (let k2 in this.fileName6) {
       this.fileNameN2.push({
@@ -1872,7 +1877,7 @@ export default {
       });
     }
     this.fileName7 = JSON.parse(
-      this.$cache.local.getJSON("tg-infolist").fileName7
+      this.formData.fileName7
     );
     for (let k3 in this.fileName7) {
       this.fileNameN3.push({
@@ -1880,8 +1885,11 @@ export default {
         name: this.fileName7[k3],
       });
     }
-  },
-  methods: {
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
     handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
@@ -1965,23 +1973,6 @@ export default {
       this.formData.applyPhone = applyName.phone;
       this.formData.applyIdNum = applyName.idNo;
       console.log("applyName==", applyName);
-    },
-    getRate() {
-      crudRate.getAllRate().then((res) => {
-        var employedInfo = this.$cache.local.getJSON("tg-infolist");
-        this.formData.industryType = employedInfo.industryType;
-
-        let tree = []; // 用来保存树状的数据形式
-        this.parseTree(res.rows, tree, 0);
-        this.industryTypes = tree;
-        this.industryTypeList = res.rows;
-        //this.industryTypess=this.formatData(this.industryTypes);
-        //this.$refs.selectTree.blur();
-        this.$nextTick(function () {
-          this.selectTipType = this.$refs.selectTree.selected.label;
-        });
-        this.selectIndustryType();
-      });
     },
     //把数据整成树状
     parseTree(industry, tree, pid) {

@@ -39,7 +39,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import { getInfo } from '@/api/login'
-import { addEmployed, updateEmployed, check } from "@/api/tg-api/company/employed";
+import { addEmployed, updateEmployed, check,regDetail } from "@/api/tg-api/company/employed";
 export default {
   name: "AddBusiness",
   components: {
@@ -113,15 +113,22 @@ export default {
     };
   },
 
-
-  created() {
-    let list = this.$cache.local.getJSON("tg-businesslist");
-    this.formbusiness.selfId = list.selfId;
-    this.formbusiness.legalPersonName = list.legalPersonName;
-  },
   mounted() {
-    this.getInfo();
-  },
+   this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tg-businesslist"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          let list = res.data;
+          this.formbusiness.selfId = list.selfId;
+          this.formbusiness.legalPersonName = list.legalPersonName;
+          this.getInfo();
+         
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        }); 
+   },
+  
   methods: {
     getfileNameS(data){
      this.formbusiness.fileName1=data;
@@ -143,7 +150,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("tg-businesslist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tg-businesslist"),
         "selfType": "5",
       }
       check(parms).then(res => {
@@ -160,9 +167,6 @@ export default {
           if(Array.isArray(this.formbusiness.fileName1)){
             this.formbusiness.fileName1 = JSON.stringify( this.formbusiness.fileName1);
           }
-        //  this.formbusiness.fileName1 = JSON.stringify(
-        //     this.formbusiness.fileName1
-        //   );
          updateEmployed(this.formbusiness)
             .then((res) => {
               if (res != undefined) {

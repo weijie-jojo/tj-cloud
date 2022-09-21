@@ -458,23 +458,23 @@ export default {
                 this.$tab.refreshPage({path:"/tg-business/reg/nameDetail",name:'NameDetail'})
                 break;
               case 2:
-                this.$cache.local.setJSON('tg-infolist', scope);
+                this.$cache.local.setJSON('tg-infolist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/infoDetail",name:'InfoDetail'})
                  break;
               case 4:
-                 this.$cache.local.setJSON('tg-businesslist', scope);
+                 this.$cache.local.setJSON('tg-businesslist', scope.selfCode);
                  this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
               break;
               case 5:
-                this.$cache.local.setJSON('tg-taxlist', scope);
+                this.$cache.local.setJSON('tg-taxlist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/detailTax",name:'DetailTax'});
                  break;
               case 6:
-                this.$cache.local.setJSON('tg-banklist', scope);
+                this.$cache.local.setJSON('tg-banklist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/detailBank",name:'DetailBank'});
                 break;
               case 7:
-                this.$cache.local.setJSON("tg-infolist", scope);
+                this.$cache.local.setJSON("tg-confirmlist", scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/regReviewDetail",name:'RegReviewDetail'});
                 break;
 
@@ -502,7 +502,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj1);
-                this.$cache.local.setJSON('tg-infolist', scope);
+                this.$cache.local.setJSON('tg-infolist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/infoAduit",name:'InfoAduit'});
                
                 break;
@@ -516,7 +516,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj2);
-                this.$cache.local.setJSON('tg-businesslist', scope);
+                this.$cache.local.setJSON('tg-businesslist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBusiness",name:'AddBusiness'});
                 
                 break;
@@ -528,7 +528,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj3);
-                this.$cache.local.setJSON('tg-taxlist', scope);
+                this.$cache.local.setJSON('tg-taxlist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/addTax",name:'AddTax'});
                 
                 break;
@@ -540,7 +540,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj4);
-                this.$cache.local.setJSON('tg-banklist', scope);
+                this.$cache.local.setJSON('tg-banklist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/addBank",name:'AddBank'});
                 break;
                 case 7:
@@ -551,7 +551,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tg-resultBack', obj5);
-                this.$cache.local.setJSON('tg-infolist', scope);
+                this.$cache.local.setJSON('tg-confirmlist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tg-business/reg/aduitRegConfirm",name:'AduitRegConfirm'});
                 break;
               }
@@ -568,7 +568,7 @@ export default {
     //注册确认完成
     finishConfirms(scope, selfCode) {
       this.checkConfirms(selfCode);
-      this.$cache.local.setJSON("tg-infolist", scope);
+      this.$cache.local.setJSON("tg-confirmlist", scope.selfCode);
     },
     //注册确认
     checkConfirms(arr) {
@@ -708,7 +708,7 @@ export default {
 
     //异常注册确认
     errConfirms(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('tg-infolist', scope);
+      this.$cache.local.setJSON('tg-confirmlist', scope.selfCode);
       let obj = {
         backUrl: '/tg-business/reg/employed',
         backName:'Employed',
@@ -828,7 +828,7 @@ export default {
     },
     //异常信息
     errInfo(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('tg-infolist', scope);
+      this.$cache.local.setJSON('tg-infolist', scope.selfCode);
       let obj = {
         backUrl: '/tg-business/reg/employed',
       };
@@ -915,7 +915,7 @@ export default {
     //信息审核 已完成
     finishInfo(scope, selfCode) {
       this.checkInfo(selfCode);
-      this.$cache.local.setJSON('tg-infolist', scope);
+      this.$cache.local.setJSON('tg-infolist', scope.selfCode);
 
     },
 
@@ -946,9 +946,7 @@ export default {
     //办理工商 已完成
     finishBus(scope, selfCode) {
       this.checkBus(selfCode);
-      this.$cache.local.setJSON("tg-businesslist", scope);
-      this.$cache.local.setJSON('tg-infolist', scope);
-
+      this.$cache.local.setJSON("tg-businesslist", scope.selfCode);
     },
 
     //工商详情
@@ -959,18 +957,12 @@ export default {
       };
       this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
-      
-
     },
-
     //办理税务 已完成
     finishTax(scope, selfCode) {
       this.checkTax(selfCode);
-      this.$cache.local.setJSON("tg-taxlist", scope);
-      this.$cache.local.setJSON('tg-infolist', scope);
-
+      this.$cache.local.setJSON("tg-taxlist", scope.selfCode);
     },
-
     //税务详情
     taxDetail() {
       this.taxVisible = false;
@@ -984,11 +976,8 @@ export default {
 
     //办理银行 已完成
     finishBank(scope, selfCode) {
-
       this.checkBank(selfCode);
-      this.$cache.local.setJSON("tg-banklist", scope);
-      this.$cache.local.setJSON('tg-infolist', scope);
-
+      this.$cache.local.setJSON("tg-banklist", scope.selfCode);
     },
 
     //银行详情

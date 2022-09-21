@@ -259,7 +259,7 @@ export default {
         "checkReasult": resmsg,
         "checkUser": this.userinfo.userName,
         'phonenumber': this.userinfo.phonenumber,
-        "selfCode": this.$cache.local.getJSON("tj-taxlist").selfCode,
+        "selfCode": this.$cache.local.getJSON("tj-taxlist"),
         "selfType": "6",
       }
       check(parms).then(res => {

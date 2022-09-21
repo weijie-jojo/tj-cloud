@@ -156,7 +156,7 @@ export default {
         backName:'ManageInfo',
       };
       this.$cache.local.setJSON('tc-backurls', obj);
-      this.$cache.local.setJSON('tc-infolist', row);
+      this.$cache.local.setJSON('tc-infolist', row.selfCode);
       this.$tab.refreshPage({path:"/tc-business/reg/infoDetail",name:'InfoDetail'})
       
     },
@@ -212,7 +212,7 @@ export default {
     },
 
     bank(row) {
-      this.$cache.local.setJSON('tc-infolist', row);
+      this.$cache.local.setJSON('tc-infolist', row.selfCode);
       let obj = {
         title: '信息审核',
         backUrl: '/tc-business/reg/manageInfo',

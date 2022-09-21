@@ -461,7 +461,6 @@ import uploadSmall from '@/components/douploads/uploadSmall'
 import {updateEmployed } from "@/api/tg-api/company/employed";
 import crudPerson from '@/api/tg-api/company/person'
 import crudEmployed from '@/api/tg-api/company/employed'
-import crudRate from '@/api/tg-api/company/rate'
 import crudPlace from '@/api/tg-api/company/place'
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
@@ -817,33 +816,36 @@ export default {
       deep: true
     }
   },
-  created() {
-
-  },
+ 
   mounted() {
+   this.getlist();
+  },
+  methods: {
 
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tg-infolist")).then((res) => {
+    this.$modal.closeLoading();
+    
     this.getLoginInfo();
     //申请人
     this.getApplyName();
     //联系人
     this.getContactName();
     //个体户行业类型税率
-    //this.getRate();
+    
     //从上一个页面获取个体户编码
-
-
-    this.formData = this.$cache.local.getJSON('tg-infolist');
-    //this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
+    this.formData = res.data;
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
     this.formData.electronicCommerce = parseInt(this.formData.electronicCommerce);
     this.formData.applyName = parseInt(this.formData.applyName);
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName5);
+ 
     this.fileNameN1 = [];
     this.fileNameN2 = [];
     this.fileNameN3 = [];
 
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName5);
+    this.fileName5 = JSON.parse(this.formData.fileName5);
     for (let k1 in this.fileName5) {
       this.fileNameN1.push({
         url: this.baseImgPath + this.fileName5[k1],
@@ -851,14 +853,14 @@ export default {
       });
 
     }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName6);
+    this.fileName6 = JSON.parse(this.formData.fileName6);
     for (let k2 in this.fileName6) {
       this.fileNameN2.push({
         url: this.baseImgPath + this.fileName6[k2],
         name: this.fileName6[k2],
       });
     }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('tg-infolist').fileName7);
+    this.fileName7 = JSON.parse(this.formData.fileName7);
     for (let k3 in this.fileName7) {
       this.fileNameN3.push({
         url: this.baseImgPath + this.fileName7[k3],
@@ -910,8 +912,14 @@ export default {
     }else{
           this.formData.isSpecialSelfTax='1';
     }
-  },
-  methods: {
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
+
+
+
     getfileNs(){
 
     },
@@ -947,12 +955,7 @@ export default {
       this.formData.applyIdNum = applyName.idNo;
       console.log("applyName==", applyName);
     },
-    getRate() {
-      crudRate.getAllRate().then(res => {
-        console.log("getAllRate", res.rows);
-        this.industryTypes = res.rows;
-      })
-    },
+    
     getContactName() {
       crudPerson.getAllPerson().then(res => {
         console.log("getContactName", res.rows);

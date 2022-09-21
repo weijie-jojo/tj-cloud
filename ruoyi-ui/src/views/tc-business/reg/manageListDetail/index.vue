@@ -1526,11 +1526,15 @@ export default {
       deep: true
     }
   },
-  created() {
-
-  },
   mounted() {
-
+     this.getlist();
+  },
+  methods: {
+    getlist(){
+    this.$modal.loading("正在加载数据，请稍后...");
+    crudEmployed.regDetail(this.$cache.local.getJSON("tc-findlist")).then((res) => {
+    this.$modal.closeLoading();
+    this.formData = res.data;
     this.getLoginInfo();
     //申请人
     this.getApplyName();
@@ -1538,10 +1542,6 @@ export default {
     this.getContactName();
     //个体户行业类型税率
     this.getRate();
-
-
-
-    this.formData = this.$cache.local.getJSON('tc-infolist');
     this.industryTax = new Decimal(this.formData.industryTax).mul(new Decimal(100)) + '%';
     this.formData.gender = parseInt(this.formData.gender);
     this.formData.accountType = parseInt(this.formData.accountType);
@@ -1636,7 +1636,7 @@ export default {
           this.formData.isSpecialSelfTax='1';
     }
 
-   this.fileName1 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName1);
+   this.fileName1 = JSON.parse(res.data.fileName1);
     for (let k1 in this.fileName1) {
       this.fileNameN1.push({
         url: this.baseImgPath + this.fileName1[k1],
@@ -1644,14 +1644,14 @@ export default {
       });
     }
 
-     this.fileName2 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName2);
+     this.fileName2 = JSON.parse(res.data.fileName2);
     for (let k2 in this.fileName2) {
       this.fileNameN2.push({
         url: this.baseImgPath + this.fileName2[k2],
         name: this.fileName2[k2],
       });
     }
-     this.fileName3 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName3);
+     this.fileName3 = JSON.parse(res.data.fileName3);
     for (let k3 in this.fileName3) {
       this.fileNameN3.push({
         url: this.baseImgPath + this.fileName3[k3],
@@ -1659,7 +1659,7 @@ export default {
       });
     }
 
-     this.fileName4 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName4);
+     this.fileName4 = JSON.parse(res.data.fileName4);
     for (let k4 in this.fileName4) {
       this.fileNameN4.push({
         url: this.baseImgPath + this.fileName4[k4],
@@ -1667,21 +1667,21 @@ export default {
       });
     }
 
-    this.fileName5 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName5);
+    this.fileName5 = JSON.parse(res.data.fileName5);
     for (let k5 in this.fileName5) {
       this.fileNameN5.push({
         url: this.baseImgPath + this.fileName5[k5],
         name: this.fileName5[k5],
       });
     }
-    this.fileName6 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName6);
+    this.fileName6 = JSON.parse(res.data.fileName6);
     for (let k6 in this.fileName6) {
       this.fileNameN6.push({
         url: this.baseImgPath + this.fileName6[k6],
         name: this.fileName6[k6],
       });
     }
-    this.fileName7 = JSON.parse(this.$cache.local.getJSON('tc-infolist').fileName7);
+    this.fileName7 = JSON.parse(res.data.fileName7);
     for (let k7 in this.fileName7) {
       this.fileNameN7.push({
         url: this.baseImgPath + this.fileName7[k7],
@@ -1689,8 +1689,11 @@ export default {
       });
     }
     this.nailist();
-  },
-  methods: {
+    
+     }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
      handleNodeClick(node) {
       this.formData.industryType = node.id;
       this.$refs.selectTree.blur();
