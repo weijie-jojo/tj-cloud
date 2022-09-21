@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/company/tc")
-@Api(tags = "甲方信息表")
+@Api(tags = "甲方信息表（腾创）")
 public class SelfPurchCompanyTcController extends BaseController
 {
     @Autowired

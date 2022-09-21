@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.BusinessPlaceTcMapper">
+
+    <resultMap type="com.ruoyi.project.domain.BusinessPlace" id="BusinessPlaceResult">
+        <result property="placeId"    column="place_id"    />
+        <result property="placeCode"    column="place_code"    />
+        <result property="placeName"    column="place_name"    />
+        <result property="placeAliasName"    column="place_alias_name"    />
+        <result property="placeType"    column="place_type"    />
+        <result property="placeLinkman"    column="place_linkman"    />
+        <result property="placeTel"    column="place_tel"    />
+        <result property="placeEmail"    column="place_email"    />
+        <result property="placeOpenBank"    column="place_open_bank"    />
+        <result property="placeBankAccount"    column="place_bank_account"    />
+        <result property="placeStarLevel"    column="place_star_level"    />
+        <result property="placeStatus"    column="place_status"    />
+        <result property="registTime"    column="regist_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectBusinessPlaceVo">
+        select place_id, place_code, place_name, place_alias_name, place_type, place_linkman,
+               place_tel, place_email, place_open_bank, place_bank_account, place_star_level,
+               place_status, regist_time, user_id, is_delete, remark, create_time, create_by,
+               update_by, update_time, user_name from business_place_tc
+    </sql>
+
+    <select id="selectBusinessPlaceList"  resultMap="BusinessPlaceResult">
+        <include refid="selectBusinessPlaceVo"/>
+        <trim prefix="where" prefixOverrides="and|or">
+            is_delete=1
+            <if test="businessPlace.placeCode != null  and businessPlace.placeCode != ''"> and place_code = #{businessPlace.placeCode}</if>
+            <if test="businessPlace.placeName != null  and businessPlace.placeName != ''"> and place_name like concat('%', #{businessPlace.placeName}, '%')</if>
+            <if test="businessPlace.placeAliasName != null  and businessPlace.placeAliasName != ''"> and place_alias_name like concat('%', #{businessPlace.placeAliasName}, '%')</if>
+            <if test="businessPlace.placeType != null "> and place_type = #{businessPlace.placeType}</if>
+            <if test="businessPlace.placeLinkman != null  and businessPlace.placeLinkman != ''"> and place_linkman = #{businessPlace.placeLinkman}</if>
+            <if test="businessPlace.placeTel != null  and businessPlace.placeTel != ''"> and place_tel = #{businessPlace.placeTel}</if>
+            <if test="businessPlace.placeEmail != null  and businessPlace.placeEmail != ''"> and place_email = #{businessPlace.placeEmail}</if>
+            <if test="businessPlace.placeOpenBank != null  and businessPlace.placeOpenBank != ''"> and place_open_bank = #{businessPlace.placeOpenBank}</if>
+            <if test="businessPlace.placeBankAccount != null  and businessPlace.placeBankAccount != ''"> and place_bank_account = #{businessPlace.placeBankAccount}</if>
+            <if test="businessPlace.placeStarLevel != null "> and place_star_level = #{businessPlace.placeStarLevel}</if>
+            <if test="businessPlace.placeStatus != null "> and place_status = #{businessPlace.placeStatus}</if>
+            <if test="businessPlace.registTime != null "> and regist_time = #{businessPlace.registTime}</if>
+            <if test="businessPlace.isDelete != null "> and is_delete = #{businessPlace.isDelete}</if>
+            <if test="businessPlace.userName != null  and businessPlace.userName != ''"> and user_name like concat('%', #{businessPlace.userName}, '%')</if>
+        </trim>
+    </select>
+
+    <select id="selectBusinessPlaceByPlaceId" parameterType="String" resultMap="BusinessPlaceResult">
+        <include refid="selectBusinessPlaceVo"/>
+        where place_id = #{placeId}
+    </select>
+
+    <select id="selectBusinessPlaceByUserId"  resultMap="BusinessPlaceResult">
+        <include refid="selectBusinessPlaceVo"/>
+        <trim prefix="where" prefixOverrides="and|or">
+            is_delete=1
+            <if test="userIdArr != null  and userIdArr.size() >0 ">
+                AND user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertBusinessPlace" parameterType="com.ruoyi.project.domain.BusinessPlace" useGeneratedKeys="true" keyProperty="placeId">
+        insert into business_place_tc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="placeCode != null">place_code,</if>
+            <if test="placeName != null">place_name,</if>
+            <if test="placeAliasName != null">place_alias_name,</if>
+            <if test="placeType != null">place_type,</if>
+            <if test="placeLinkman != null">place_linkman,</if>
+            <if test="placeTel != null">place_tel,</if>
+            <if test="placeEmail != null">place_email,</if>
+            <if test="placeOpenBank != null">place_open_bank,</if>
+            <if test="placeBankAccount != null">place_bank_account,</if>
+            <if test="placeStarLevel != null">place_star_level,</if>
+            <if test="placeStatus != null">place_status,</if>
+            <if test="registTime != null">regist_time,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userName != null">user_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="placeCode != null">#{placeCode},</if>
+            <if test="placeName != null">#{placeName},</if>
+            <if test="placeAliasName != null">#{placeAliasName},</if>
+            <if test="placeType != null">#{placeType},</if>
+            <if test="placeLinkman != null">#{placeLinkman},</if>
+            <if test="placeTel != null">#{placeTel},</if>
+            <if test="placeEmail != null">#{placeEmail},</if>
+            <if test="placeOpenBank != null">#{placeOpenBank},</if>
+            <if test="placeBankAccount != null">#{placeBankAccount},</if>
+            <if test="placeStarLevel != null">#{placeStarLevel},</if>
+            <if test="placeStatus != null">#{placeStatus},</if>
+            <if test="registTime != null">#{registTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userName != null">#{userName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBusinessPlace" parameterType="com.ruoyi.project.domain.BusinessPlace">
+        update business_place_tc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="placeCode != null">place_code = #{placeCode},</if>
+            <if test="placeName != null">place_name = #{placeName},</if>
+            <if test="placeAliasName != null">place_alias_name = #{placeAliasName},</if>
+            <if test="placeType != null">place_type = #{placeType},</if>
+            <if test="placeLinkman != null">place_linkman = #{placeLinkman},</if>
+            <if test="placeTel != null">place_tel = #{placeTel},</if>
+            <if test="placeEmail != null">place_email = #{placeEmail},</if>
+            <if test="placeOpenBank != null">place_open_bank = #{placeOpenBank},</if>
+            <if test="placeBankAccount != null">place_bank_account = #{placeBankAccount},</if>
+            <if test="placeStarLevel != null">place_star_level = #{placeStarLevel},</if>
+            <if test="placeStatus != null">place_status = #{placeStatus},</if>
+            <if test="registTime != null">regist_time = #{registTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where place_id = #{placeId}
+    </update>
+
+    <delete id="deleteBusinessPlaceByPlaceId" parameterType="String">
+        delete from business_place_tc where place_id = #{placeId}
+    </delete>
+
+    <delete id="deleteBusinessPlaceByPlaceIds" parameterType="String">
+        delete from business_place_tc where place_id in
+        <foreach item="placeId" collection="array" open="(" separator="," close=")">
+            #{placeId}
+        </foreach>
+    </delete>
+
+    <update id="deleteBusinessPlaceByPlaceId2" parameterType="String">
+        update business_place_tc
+        set is_delete=0
+        where place_id = #{placeId}
+    </update>
+
+    <update id="deleteBusinessPlaceByPlaceIds2" parameterType="String">
+        update business_place_tc
+        set is_delete=0
+        where place_id in
+        <foreach item="placeId" collection="array" open="(" separator="," close=")">
+            #{placeId}
+        </foreach>
+    </update>
+
+</mapper>

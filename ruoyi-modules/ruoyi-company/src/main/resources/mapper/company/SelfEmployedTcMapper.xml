@@ -705,27 +705,27 @@
     </update>
 
     <insert id="recycle1" >
-        INSERT into self_employed_recycle_tc
+        INSERT into self_employed_tc_recycle
         <include refid="selectSelfEmployedVo"/>
         WHERE self_code=#{selfCode}
     </insert>
     <insert id="recycle2" >
-        INSERT into self_name_review_recycle_tc
+        INSERT into self_name_review_tc_recycle
         <include refid="selectSelfNameReviewVo"/>
         WHERE self_code=#{selfCode}
     </insert>
     <insert id="recycle3" >
-        INSERT into self_application_info_recycle_tc
+        INSERT into self_application_info_tc_recycle
         <include refid="selectSelfApplicationInfoVo"/>
         WHERE self_code=#{selfCode}
     </insert>
     <insert id="recycle4" >
-        INSERT into self_legal_person_recycle_tc
+        INSERT into self_legal_person_tc_recycle
         <include refid="selectSelfLegalPersonVo"/>
         WHERE self_code=#{selfCode}
     </insert>
     <insert id="recycle5" >
-        INSERT into self_check_recycle_tc
+        INSERT into self_check_tc_recycle
         <include refid="selectSelfCheckVo"/>
         WHERE self_code=#{selfCode}
     </insert>

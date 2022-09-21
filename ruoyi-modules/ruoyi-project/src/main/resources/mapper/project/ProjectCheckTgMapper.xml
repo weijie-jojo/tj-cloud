@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectCheckTgMapper">
+
+    <resultMap type="com.ruoyi.project.domain.ProjectCheck" id="ProjectCheckResult">
+        <result property="id"    column="id"    />
+        <result property="checkDate"    column="check_date"    />
+        <result property="checkUser"    column="check_user"    />
+        <result property="checkReasult"    column="check_reasult"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="projectType"    column="project_type"    />
+        <result property="phonenumber"    column="phonenumber"    />
+    </resultMap>
+
+    <sql id="selectProjectCheckVo">
+        select id, check_date, check_user, check_reasult, project_code, project_type, phonenumber from project_check_tg
+    </sql>
+
+    <sql id="selectProjectCheckJoin">
+        select t.id, t.check_date, t.check_user, t.check_reasult, t.project_code, t.project_type, t.phonenumber ,A.dict_label
+            from project_check_tg t
+            LEFT JOIN sys_dict_data A ON t.project_type=A.dict_value
+    </sql>
+
+    <select id="selectProjectCheckList"  resultType="com.ruoyi.project.domain.vo.ProjectCheckVo">
+        <include refid="selectProjectCheckJoin"/>
+        <trim prefix="where" prefixOverrides="and|or">
+            A.dict_type='project_type'
+            <if test=" projectTypes!=null ">
+                AND project_type in
+                <foreach collection="projectTypes" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="projectCheck.checkDate != null "> and check_date = #{projectCheck.checkDate}</if>
+            <if test="projectCheck.checkUser != null  and projectCheck.checkUser != ''"> and check_user = #{projectCheck.checkUser}</if>
+            <if test="projectCheck.checkReasult != null  and projectCheck.checkReasult != ''"> and check_reasult = #{projectCheck.checkReasult}</if>
+            <if test="projectCheck.projectCode != null  and projectCheck.projectCode != ''"> and project_code = #{projectCheck.projectCode}</if>
+            <if test="projectCheck.projectType != null  and projectCheck.projectType != ''"> and project_type = #{projectCheck.projectType}</if>
+            <if test="projectCheck.phonenumber != null  and projectCheck.phonenumber != ''"> and phonenumber = #{projectCheck.phonenumber}</if>
+        </trim>
+        order by check_date
+    </select>
+
+    <select id="selectProjectCheckById" parameterType="Long" resultMap="ProjectCheckResult">
+        <include refid="selectProjectCheckVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectCheck" parameterType="com.ruoyi.project.domain.ProjectCheck" useGeneratedKeys="true" keyProperty="id">
+        insert into project_check_tg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="checkDate != null">check_date,</if>
+            <if test="checkUser != null">check_user,</if>
+            <if test="checkReasult != null">check_reasult,</if>
+            <if test="projectCode != null">project_code,</if>
+            <if test="projectType != null">project_type,</if>
+            <if test="phonenumber != null">phonenumber,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="checkDate != null">#{checkDate},</if>
+            <if test="checkUser != null">#{checkUser},</if>
+            <if test="checkReasult != null">#{checkReasult},</if>
+            <if test="projectCode != null">#{projectCode},</if>
+            <if test="projectType != null">#{projectType},</if>
+            <if test="phonenumber != null">#{phonenumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectCheck" parameterType="com.ruoyi.project.domain.ProjectCheck">
+        update project_check_tg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="checkDate != null">check_date = #{checkDate},</if>
+            <if test="checkUser != null">check_user = #{checkUser},</if>
+            <if test="checkReasult != null">check_reasult = #{checkReasult},</if>
+            <if test="projectCode != null">project_code = #{projectCode},</if>
+            <if test="projectType != null">project_type = #{projectType},</if>
+            <if test="phonenumber != null">phonenumber = #{phonenumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectCheckById" parameterType="Long">
+        delete from project_check_tg where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectCheckByIds" parameterType="String">
+        delete from project_check_tg where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

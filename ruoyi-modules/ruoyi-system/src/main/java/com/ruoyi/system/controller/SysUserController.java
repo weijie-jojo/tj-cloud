@@ -96,6 +96,7 @@ public class SysUserController extends BaseController
      */
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
+    @ApiOperation("根据不同用户角色权限获取用户列表(分页)")
     public TableDataInfo list(SysUser user)
     {
         List<Long> userIdArr=this.getUserIdArr();
@@ -108,6 +109,7 @@ public class SysUserController extends BaseController
      */
     @RequiresPermissions("system:user:list")
     @GetMapping()
+    @ApiOperation("获取用户列表（不分页）")
     public List<SysUser> getAllUser()
     {
         List<SysUser> list = userService.selectAllUser();
@@ -118,6 +120,7 @@ public class SysUserController extends BaseController
      * 获取用户列表(排除删除的)
      */
     @GetMapping("/getAllUser")
+    @ApiOperation("获取用户列表(排除删除的)")
     public List<SysUser> getAllUser2()
     {
         List<SysUser> list = userService.selectAllUser2();
@@ -128,6 +131,7 @@ public class SysUserController extends BaseController
      * 根据角色集合获取用户列表
      */
     @GetMapping("/getUserByRoles")
+    @ApiOperation("根据角色集合获取用户列表")
     public List<SysUser> getUserByRoles(@RequestParam("roleIdArr") List<Long> roleIdArr)
     {
         List<SysUser> list = userService.selectUserByRoles(roleIdArr);
@@ -138,6 +142,7 @@ public class SysUserController extends BaseController
      * 根据角色获取用户列表
      */
     @GetMapping("/getUserByRole/{roleId}")
+    @ApiOperation("根据角色获取用户列表")
     public List<SysUser> getUserByRole(@PathVariable("roleId") Long roleId )
     {
         List<SysUser> list = userService.selectUserByRoleId(roleId);
@@ -147,6 +152,7 @@ public class SysUserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:user:export")
     @PostMapping("/export")
+    @ApiOperation("获取用户列表")
     public void export(HttpServletResponse response, SysUser user)
     {
         List<Long> userIdArr=this.getUserIdArr();
@@ -158,6 +164,7 @@ public class SysUserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @RequiresPermissions("system:user:import")
     @PostMapping("/importData")
+    @ApiOperation("获取用户列表")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -168,6 +175,7 @@ public class SysUserController extends BaseController
     }
 
     @PostMapping("/importTemplate")
+    @ApiOperation("获取用户列表")
     public void importTemplate(HttpServletResponse response) throws IOException
     {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -179,6 +187,7 @@ public class SysUserController extends BaseController
      */
     @InnerAuth
     @GetMapping("/info/{username}")
+    @ApiOperation("获取当前用户信息")
     public R<LoginUser> info(@PathVariable("username") String username)
     {
         SysUser sysUser = userService.selectUserByUserName(username);
@@ -202,6 +211,7 @@ public class SysUserController extends BaseController
      */
     @InnerAuth
     @PostMapping("/register")
+    @ApiOperation("注册用户信息")
     public R<Boolean> register(@RequestBody SysUser sysUser)
     {
         String username = sysUser.getUserName();
@@ -222,6 +232,7 @@ public class SysUserController extends BaseController
      * @return 用户信息
      */
     @GetMapping("getInfo")
+    @ApiOperation("获取用户信息")
     public AjaxResult getInfo()
     {
         Long userId = SecurityUtils.getUserId();
@@ -241,6 +252,7 @@ public class SysUserController extends BaseController
      */
     @RequiresPermissions("system:user:query")
     @GetMapping(value = { "/", "/{userId}" })
+    @ApiOperation("根据用户编号获取详细信息")
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
         userService.checkUserDataScope(userId);
@@ -264,6 +276,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增用户")
     public AjaxResult add(@Validated @RequestBody SysUser user)
     {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUserName())))
@@ -295,6 +308,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
+    @ApiOperation("修改用户")
     public AjaxResult edit(@Validated @RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
@@ -323,6 +337,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
+    @ApiOperation("删除用户")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {
         if (ArrayUtils.contains(userIds, SecurityUtils.getUserId()))
@@ -342,6 +357,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
+    @ApiOperation("重置密码")
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
@@ -357,6 +373,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
+    @ApiOperation("状态修改")
     public AjaxResult changeStatus(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
@@ -370,6 +387,7 @@ public class SysUserController extends BaseController
      */
     @RequiresPermissions("system:user:query")
     @GetMapping("/authRole/{userId}")
+    @ApiOperation("根据用户编号获取授权角色")
     public AjaxResult authRole(@PathVariable("userId") Long userId)
     {
         AjaxResult ajax = AjaxResult.success();
@@ -386,6 +404,7 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
+    @ApiOperation("用户授权角色")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
     {
         userService.checkUserDataScope(userId);

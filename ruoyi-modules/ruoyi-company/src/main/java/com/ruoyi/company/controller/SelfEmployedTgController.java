@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/employed/tg")
-@Api(tags = "个体商户")
+@Api(tags = "个体商户（腾工）")
 public class SelfEmployedTgController extends BaseController
 {
     @Autowired

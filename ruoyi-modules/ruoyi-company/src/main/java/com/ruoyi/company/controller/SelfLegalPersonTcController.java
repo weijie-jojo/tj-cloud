@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/person/tc")
-@Api(tags = "个体商户法人")
+@Api(tags = "个体商户法人（腾创）")
 public class SelfLegalPersonTcController extends BaseController
 {
     @Autowired

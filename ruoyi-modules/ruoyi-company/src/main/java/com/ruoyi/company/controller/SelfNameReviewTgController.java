@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/review/tg")
-@Api(tags = "个体户名字审核腾创")
+@Api(tags = "个体户名字审核（腾工）")
 public class SelfNameReviewTgController extends BaseController
 {
     @Autowired

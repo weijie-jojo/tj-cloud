@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/check/tc")
-@Api(tags = "个体户审批进度")
+@Api(tags = "个体户审批进度（腾创）")
 public class SelfCheckTcController extends BaseController
 {
     @Autowired

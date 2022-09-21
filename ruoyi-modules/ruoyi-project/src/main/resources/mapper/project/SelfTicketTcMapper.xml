@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.SelfTicketTcMapper">
+
+    <resultMap type="com.ruoyi.project.domain.SelfTicket" id="SelfTicketResult">
+        <result property="ticketId"    column="ticket_id"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="ticketAmount"    column="ticket_amount"    />
+        <result property="ticketType"    column="ticket_type"    />
+        <result property="ticketContent"    column="ticket_content"    />
+        <result property="ticketRemark"    column="ticket_remark"    />
+        <result property="ticketTax"    column="ticket_tax"    />
+        <result property="ticketCode"    column="ticket_code"    />
+        <result property="ticketTime"    column="ticket_time"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="ticketTypeCode"    column="ticket_type_code"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="ticketRemark2"    column="ticket_remark2"    />
+    </resultMap>
+
+    <sql id="selectSelfTicketVo">
+        select is_deleted,ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark,
+               ticket_tax, ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time,
+               update_time,ticket_remark2 from self_ticket_tc
+    </sql>
+
+    <select id="selectSelfTicketList" parameterType="com.ruoyi.project.domain.SelfTicket" resultMap="SelfTicketResult">
+        <include refid="selectSelfTicketVo"/>
+        <where>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="ticketAmount != null "> and ticket_amount = #{ticketAmount}</if>
+            <if test="ticketType != null "> and ticket_type = #{ticketType}</if>
+            <if test="ticketContent != null  and ticketContent != ''"> and ticket_content = #{ticketContent}</if>
+            <if test="ticketRemark != null  and ticketRemark != ''"> and ticket_remark = #{ticketRemark}</if>
+            <if test="ticketTax != null "> and ticket_tax = #{ticketTax}</if>
+            <if test="ticketCode != null  and ticketCode != ''"> and ticket_code = #{ticketCode}</if>
+            <if test="ticketTime != null "> and ticket_time = #{ticketTime}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="ticketTypeCode != null  and ticketTypeCode != ''"> and ticket_type_code = #{ticketTypeCode}</if>
+            <if test="ticketRemark2 != null  and ticketRemark2 != ''"> and ticket_remark2 = #{ticketRemark2}</if>
+        </where>
+    </select>
+
+    <select id="selectSelfTicketByTicketId" parameterType="String" resultMap="SelfTicketResult">
+        <include refid="selectSelfTicketVo"/>
+        where  ticket_id = #{ticketId}
+    </select>
+
+    <select id="selectSelfTicketByProjectCode" parameterType="String" resultMap="SelfTicketResult">
+        <include refid="selectSelfTicketVo"/>
+        where  project_code = #{projectCode}
+    </select>
+
+    <insert id="insertSelfTicket" parameterType="com.ruoyi.project.domain.SelfTicket" useGeneratedKeys="true" keyProperty="ticketId">
+        insert into self_ticket_tc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code,</if>
+            <if test="ticketAmount != null">ticket_amount,</if>
+            <if test="ticketType != null">ticket_type,</if>
+            <if test="ticketContent != null">ticket_content,</if>
+            <if test="ticketRemark != null">ticket_remark,</if>
+            <if test="ticketTax != null">ticket_tax,</if>
+            <if test="ticketCode != null">ticket_code,</if>
+            <if test="ticketTime != null">ticket_time,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="ticketTypeCode != null">ticket_type_code,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="ticketRemark2 != null">ticket_remark2,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
+            <if test="ticketAmount != null">#{ticketAmount},</if>
+            <if test="ticketType != null">#{ticketType},</if>
+            <if test="ticketContent != null">#{ticketContent},</if>
+            <if test="ticketRemark != null">#{ticketRemark},</if>
+            <if test="ticketTax != null">#{ticketTax},</if>
+            <if test="ticketCode != null">#{ticketCode},</if>
+            <if test="ticketTime != null">#{ticketTime},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="ticketTypeCode != null">#{ticketTypeCode},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="ticketRemark2 != null">#{ticketRemark2},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelfTicket" parameterType="com.ruoyi.project.domain.SelfTicket">
+        update self_ticket_tc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectCode != null and projectCode != ''">project_code = #{projectCode},</if>
+            <if test="ticketAmount != null">ticket_amount = #{ticketAmount},</if>
+            <if test="ticketType != null">ticket_type = #{ticketType},</if>
+            <if test="ticketContent != null">ticket_content = #{ticketContent},</if>
+            <if test="ticketRemark != null">ticket_remark = #{ticketRemark},</if>
+            <if test="ticketTax != null">ticket_tax = #{ticketTax},</if>
+            <if test="ticketCode != null">ticket_code = #{ticketCode},</if>
+            <if test="ticketTime != null">ticket_time = #{ticketTime},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="ticketTypeCode != null">ticket_type_code = #{ticketTypeCode},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="ticketRemark2 != null">ticket_remark2 = #{ticketRemark2},</if>
+        </trim>
+        where ticket_id = #{ticketId}
+    </update>
+
+    <delete id="deleteSelfTicketByTicketId" parameterType="String">
+        delete from self_ticket_tc where ticket_id = #{ticketId}
+    </delete>
+
+    <delete id="deleteSelfTicketByTicketIds" parameterType="String">
+        delete from self_ticket_tc where ticket_id in
+        <foreach item="ticketId" collection="array" open="(" separator="," close=")">
+            #{ticketId}
+        </foreach>
+    </delete>
+
+    <update id="deleteSelfTicketByTicketId2" parameterType="String">
+        update self_ticket_tc
+        set is_deleted=0
+        where ticket_id = #{ticketId}
+    </update>
+
+    <update id="deleteSelfTicketByTicketIds2" parameterType="String">
+        update self_ticket_tc
+        set is_deleted=0
+        where ticket_id in
+        <foreach item="ticketId" collection="array" open="(" separator="," close=")">
+            #{ticketId}
+        </foreach>
+    </update>
+</mapper>

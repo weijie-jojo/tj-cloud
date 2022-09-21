@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/info/tg")
-@Api(tags = "个体户注册申请信息")
+@Api(tags = "个体户注册申请信息（腾工）")
 public class SelfApplicationInfoTgController extends BaseController
 {
     @Autowired
