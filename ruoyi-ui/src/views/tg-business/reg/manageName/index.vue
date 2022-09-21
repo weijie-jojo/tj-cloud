@@ -152,7 +152,7 @@ export default {
          backUrl:'/tg-business/reg/manageName',
         };
          this.$cache.local.setJSON('tg-backurls', obj);
-         this.$cache.local.setJSON('tg-namelist', row);
+         this.$cache.local.setJSON('tg-namelist', row.selfCode);
          this.$tab.refreshPage({path:"/tg-business/reg/nameDetail",name:'NameDetail'})
      },
       getCount(){
@@ -205,7 +205,7 @@ export default {
     },
 
     bank(row) {
-      this.$cache.local.setJSON('tg-namelist', row);
+      this.$cache.local.setJSON('tg-namelist', row.selfCode);
       let obj = {
             title: '名称审核',
             backUrl: '/tg-business/reg/manageName',

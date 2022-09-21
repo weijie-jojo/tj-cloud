@@ -132,7 +132,7 @@
             <!-- <el-input v-model="formBank.accountName"></el-input> -->
             <el-select disabled style="width:100%" @change="changeValue($event)" v-model="formBank.accountName"
               filterable placeholder="请选择">
-              <el-option v-for="item in accountName_options" :key="item.value" :label="item.value" :value="item.value">
+              <el-option v-for="(item,index) in accountName_options" :key="index" :label="item.value" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>

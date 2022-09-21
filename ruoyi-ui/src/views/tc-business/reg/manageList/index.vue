@@ -57,8 +57,8 @@
       </el-table-column> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="edits(scope.row)">修改</el-button>
+          <el-button size="mini" v-hasPermi="['reg:endlist:detail']"  type="text" icon="el-icon-s-custom" @click="detail(scope.row)">详情</el-button>
+          <el-button size="mini" v-hasPermi="['reg:endlist:edit']"    type="text" icon="el-icon-edit" @click="edits(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>

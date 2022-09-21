@@ -196,7 +196,7 @@
   </div>
 </template>
 <script>
-
+import { regDetail } from "@/api/tc-api/company/employed";
 export default {
   name:'NameDetail',
   components: {},
@@ -279,25 +279,33 @@ export default {
       ],
     };
   },
-  computed: {},
-
-  created() { },
-  mounted() {
-    this.formData = this.$cache.local.getJSON("tc-namelist");
-    if(this.formData.random=='true'){
-      this.formData.random=true;
-    }else{
-      this.formData.random=false;
-    }
-    if(this.formData.nameStatus==1){
-      this.isokradio='1';
-    }else if(this.formData.nameStatus==2){
-      this.isokradio='2';
-    }else if(this.formData.nameStatus==0){
-      this.isokradio='0';
-    }
+   mounted() {
+    this.getlist();
  },
   methods: {
+      //获取详情接口
+      getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      regDetail(this.$cache.local.getJSON("tc-namelist")).then((res) => {
+        this.$modal.closeLoading();
+        this.formData = res.data;
+        if (this.formData.random == "true") {
+          this.formData.random = true;
+        } else {
+          this.formData.random = false;
+        }
+        if (this.formData.nameStatus == 1) {
+          this.isokradio = "1";
+        } else if (this.formData.nameStatus == 2) {
+          this.isokradio = "2";
+        } else if (this.formData.nameStatus == 0) {
+          this.isokradio = "0";
+        }
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
       resetForm(){
       this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tc-backurls').backUrl});
     },

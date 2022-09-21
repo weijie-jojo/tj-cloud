@@ -92,8 +92,23 @@
          
         </el-col>
         <el-col :span="9">
-          <el-form-item label="业务经理" prop="editUserId" :required="true">
-            <el-input v-model="ruleForm.editUserName" :readonly="true"></el-input>
+          <el-form-item label="业务经理" prop="editUserName">
+            <!-- <el-input v-model="ruleForm.editUserName" :readonly="true"></el-input> -->
+            <el-select
+            :disabled="confirmEditStatus"
+              style="width: 100%"
+              v-model="ruleForm.editUserName"
+              filterable
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="(item,index) in leaderList"
+                :key="index"
+                :label="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
            <el-form-item label="客户别名" prop="editPlaceAlias">
             <el-input v-model="ruleForm.editPlaceAlias" :readonly="confirmEditStatus" @input="placeNews"  />
@@ -638,7 +653,7 @@ export default {
         placeName: '',
         placeLinkman: '',
         placeTel: '',
-        userId: 26,
+        userId: '',
         userName: '',
 
         specialShareMoney: '',
@@ -761,6 +776,8 @@ export default {
           label: '欠费',
         },
       ],
+      leaderList:[],
+      deptId:'',
       rules: {
         selfShareIsmoney:[{
            required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
@@ -876,10 +893,10 @@ export default {
 
 
 
-        userId: [
+        editUserName: [
           { required: true, message: '请选择业务经理', trigger: 'change' }
         ],
-
+        
 
 
         specialSelfFee: [
@@ -944,6 +961,27 @@ export default {
  },
 
   methods: {
+      //获取业务经理
+    getLeader(){
+      getAllUser().then((res)=>{
+      this.leaderList=[];
+      let list=res;
+      list.map((item)=>{
+       if(item.userId==this.ruleForm.editUserId){
+         return this.deptId=item.deptId;
+       }
+      });
+      list.map((item)=>{
+       if(item.deptId==this.deptId){
+             this.leaderList.push({
+               value:item.nickName,
+               label:item.nickName,
+              })
+          }
+      });
+      
+   })
+  },
     getlist(){
       this.$modal.loading("正在加载数据，请稍后...");
       agencyfee.selectFeeByCode({ placeCode: this.$cache.local.getJSON("tc-placelist").placeCode }).then(res => {
@@ -1007,6 +1045,7 @@ export default {
         } else if (this.ruleForm.editIsSpecialTax == false) {
           this.ruleForm.editIsSpecialTax = "1"
         }
+        this.getLeader();
      
       
       }).catch((error)=>{

@@ -267,6 +267,7 @@ export default {
   props: [],
   data() {
     return {
+      namelist:'',
       userinfo:{},
       isDisable:false,
       formData: {
@@ -350,21 +351,34 @@ export default {
   },
   
   mounted() {
+    this.getlist();
     this.getLoginInfo();
-    var employedName=this.$cache.local.getJSON('tc-namelist');
-    crudReview.getByCode({selfCode:employedName.selfCode}).then(res=>{
-    this.formData=res;
-     if(this.formData.random=='true'){
-      this.formData.random=true;
-      this.isRandom();
-     }else{
-       this.formData.random=false;
-     }
-   
-    })
-    
   },
   methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      crudEmployed.regDetail(this.$cache.local.getJSON("tc-namelist")).then((res) => {
+        this.$modal.closeLoading();
+        this.formData = res.data;
+        this.namelist=res.data;
+        if (this.formData.random == "true") {
+          this.formData.random = true;
+          this.isRandom();
+        } else {
+          this.formData.random = false;
+        }
+        if (this.formData.nameStatus == 1) {
+          this.isokradio = "1";
+        } else if (this.formData.nameStatus == 2) {
+          this.isokradio = "2";
+        } else if (this.formData.nameStatus == 0) {
+          this.isokradio = "0";
+        }
+       
+      }).catch((error)=>{
+        this.$modal.closeLoading();
+      })
+    },
      check(msg){
       let parms = {
             "checkReasult": msg,
@@ -401,16 +415,16 @@ export default {
     isRandom(){
       if(!this.formData.random){
         this.isDisable=false;
-        this.formData.poposedName1=this.$cache.local.getJSON('tc-namelist').poposedName1;
-        this.formData.poposedName2=this.$cache.local.getJSON('tc-namelist').poposedName3;
-        this.formData.poposedName3=this.$cache.local.getJSON('tc-namelist').poposedName3;
-        this.formData.poposedName4=this.$cache.local.getJSON('tc-namelist').poposedName4;
-        this.formData.poposedName5=this.$cache.local.getJSON('tc-namelist').poposedName5;
-        this.formData.fontSize1=this.$cache.local.getJSON('tc-namelist').fontSize1;
-        this.formData.fontSize2=this.$cache.local.getJSON('tc-namelist').fontSize2;
-        this.formData.fontSize3=this.$cache.local.getJSON('tc-namelist').fontSize3;
-        this.formData.fontSize4=this.$cache.local.getJSON('tc-namelist').fontSize4;
-        this.formData.fontSize5=this.$cache.local.getJSON('tc-namelist').fontSize5;
+        this.formData.poposedName1=this.namelist.poposedName1;
+        this.formData.poposedName2=this.namelist.poposedName3;
+        this.formData.poposedName3=this.namelist.poposedName3;
+        this.formData.poposedName4=this.namelist.poposedName4;
+        this.formData.poposedName5=this.namelist.poposedName5;
+        this.formData.fontSize1=this.namelist.fontSize1;
+        this.formData.fontSize2=this.namelist.fontSize2;
+        this.formData.fontSize3=this.namelist.fontSize3;
+        this.formData.fontSize4=this.namelist.fontSize4;
+        this.formData.fontSize5=this.namelist.fontSize5;
       }else{
         this.isDisable=true
         this.formData.fontSize1="";
@@ -434,10 +448,10 @@ export default {
         // TODO 提交表单
         if (valid) {
            
-          if(this.$cache.local.getJSON('tc-namelist').infoStatus==0 || this.$cache.local.getJSON('tc-namelist').infoStatus==1){
+          if(this.namelist.infoStatus==0 || this.namelist.infoStatus==1){
             
              let parmsEmployed={
-              selfId:this.$cache.local.getJSON('tc-namelist').selfId,
+              selfId:this.namelist.selfId,
               endStatus:0,
              }
               crudEmployed.updateEmployed(parmsEmployed);
