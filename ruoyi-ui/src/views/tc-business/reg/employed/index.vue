@@ -454,7 +454,7 @@ export default {
 
             switch (type) {
               case 1:
-                this.$cache.local.setJSON('tc-namelist', scope);
+                this.$cache.local.setJSON('tc-namelist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tc-business/reg/nameDetail",name:'NameDetail'})
                 break;
               case 2:
@@ -490,7 +490,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tc-resultBack', obj);
-                this.$cache.local.setJSON('tc-namelist', scope);
+                this.$cache.local.setJSON('tc-namelist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tc-business/reg/nameAduit",name:'NameAduit'});
                
                  break;
@@ -502,7 +502,7 @@ export default {
                   backName:'Employed'
                 }
                 this.$cache.local.setJSON('tc-resultBack', obj1);
-                this.$cache.local.setJSON('tc-infolist', scope);
+                this.$cache.local.setJSON('tc-infolist', scope.selfCode);
                 this.$tab.refreshPage({path:"/tc-business/reg/infoAduit",name:'InfoAduit'});
                
                 break;
@@ -773,7 +773,7 @@ export default {
 
     //异常名称
     errName(scope, selfCode, applyName) {
-      this.$cache.local.setJSON('tc-namelist', scope);
+      this.$cache.local.setJSON('tc-namelist', scope.selfCode);
       let obj = {
         backUrl: '/tc-business/reg/employed',
       };
@@ -898,7 +898,7 @@ export default {
     //名称审核 已完成
     finishName(scope, selfCode) {
       this.checkName(selfCode);
-      this.$cache.local.setJSON('tc-namelist', scope);
+      this.$cache.local.setJSON('tc-namelist', scope.selfCode);
 
     },
     //名称详情

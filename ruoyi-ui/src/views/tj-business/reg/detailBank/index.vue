@@ -224,8 +224,8 @@
               placeholder="请选择"
             >
               <el-option
-                v-for="item in accountName_options"
-                :key="item.value"
+                v-for="(item,index) in accountName_options"
+                :key="index"
                 :label="item.value"
                 :value="item.value"
               >
