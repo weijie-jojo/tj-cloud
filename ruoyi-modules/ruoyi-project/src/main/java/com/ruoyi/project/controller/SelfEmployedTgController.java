@@ -11,7 +11,7 @@ import com.ruoyi.project.domain.SelfEmployed;
 import com.ruoyi.project.domain.vo.SelfEmployedVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
-import com.ruoyi.project.service.ISelfEmployedService;
+import com.ruoyi.project.service.ISelfEmployedTgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import java.util.List;
 public class SelfEmployedTgController extends BaseController
 {
     @Autowired
-    private ISelfEmployedService selfEmployedService;
+    private ISelfEmployedTgService selfEmployedService;
 
     @Resource
     private SysUserMapper sysUserMapper;
