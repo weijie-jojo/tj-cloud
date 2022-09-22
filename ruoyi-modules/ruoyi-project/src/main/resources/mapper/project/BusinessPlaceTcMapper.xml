@@ -47,7 +47,7 @@
                A.self_share,A.is_self_share,A.self_share_ismoney,A.is_register_money, A.is_disposable, A.disposable_share, A.disposable_share_ismoney,
                A.is_disposable_share, A.disposable_fee, A.disposable_fee_ismoney,A.disposable_remark
         from business_place_tc t
-                 LEFT JOIN business_agency_fee_tc ON t.place_code=A.place_code
+                 LEFT JOIN business_agency_fee_tc A ON t.place_code=A.place_code
     </sql>
     <select id="selectBusinessPlaceList"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
@@ -76,7 +76,7 @@
     </select>
     <select id="selectBusinessPlaceByPlaceCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.BusinessPlaceVo">
         <include refid="selectBusinessPlaceJoin"/>
-        where place_code = #{placeCode}
+        where t.place_code = #{placeCode}
     </select>
     <select id="selectBusinessPlaceByUserId"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
