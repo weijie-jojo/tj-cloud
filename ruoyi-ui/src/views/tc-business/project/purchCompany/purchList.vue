@@ -252,7 +252,7 @@ export default {
     detail(scope) {
       console.log(scope);
       this.$cache.local.setJSON("projectListNews", scope);
-      this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+      this.$cache.local.setJSON("tc-project-code", scope.projectCode);
       this.$tab.openPage("项目查看", "/projectlist/detail");
     },
 

@@ -1084,8 +1084,8 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadSmall";
-  import { list2 } from "@/api/project/ticket";
-  import crudRate from "@/api/project/rate";
+  import { list2 } from "@/api/tg-api/project/ticket";
+  import crudRate from "@/api/tg-api/project/rate";
   import {
     detail,
     getcode,
@@ -1093,7 +1093,7 @@
     edit,
     ownlist,
     check,
-  } from "@/api/project/list";
+  } from "@/api/tg-api/project/list";
   import { getInfo } from "@/api/login";
   import { Decimal } from "decimal.js";
   import crudPlace from "@/api/company/place";
@@ -1629,11 +1629,13 @@
         return options;
       },
       getlist() {
+        this.$modal.loading("正在加载数据，请稍后...");
         detail({
-          projectCode: this.$cache.local.getJSON("projectCodeNew"),
+          projectCode: this.$cache.local.getJSON("tg-project-code"),
         }).then((response) => {
           this.formData.industryType = "";
           this.formData = response.data;
+          this.$modal.closeLoading();
           this.formData.selfShareIsmoney = JSON.stringify(
             this.formData.selfShareIsmoney
           );
@@ -1773,7 +1775,9 @@
           } else {
             this.projectStatus = 1;
           }
-        });
+        }).catch((error) => {
+        this.$modal.closeLoading();
+      });
       },
       //监听开票内容选择
       filenamer(e) {
@@ -1920,7 +1924,7 @@
       //返回
       resetForm() {
         this.$tab.closeOpenPage({
-          path: '/projectlist/list'
+          path: '/tg-business/project/list'
         });
       },
   
@@ -2119,8 +2123,8 @@
                         path: this.$cache.local.getJSON("Projectedit").url,
                       })
                       .then(() => {
-                        this.$tab.closeOpenPage({ path: "/projectlist/list" }).then(() => {
-                        this.$tab.refreshPage({path:'/projectlist/list' ,name:'list'});
+                        this.$tab.closeOpenPage({ path: "/tg-business/project/list" }).then(() => {
+                        this.$tab.refreshPage({path:'/tg-business/project/list' ,name:'list'});
                        })
                       });
                   });

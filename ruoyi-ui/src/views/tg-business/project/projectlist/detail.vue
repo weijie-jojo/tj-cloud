@@ -1062,8 +1062,7 @@
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudRate from "@/api/project/rate";
-import { getcode, getinfoByUserId, detail } from "@/api/project/list";
-import { getInfo } from "@/api/login";
+import { getcode, detail } from "@/api/tg-api/project/list";
 import { Decimal } from "decimal.js";
 
 //手机号验证
@@ -1478,11 +1477,12 @@ export default {
       });
     },
     getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.formData = response.data;
-
+        this.$modal.closeLoading(); 
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney
         );
@@ -1610,10 +1610,12 @@ export default {
         } else {
           this.projectStatus = 1;
         }
+      }).catch((error) => {
+        this.$modal.closeLoading();
       });
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/projectlist/list" });
+      this.$tab.closeOpenPage({ path: "/tg-business/project/list" });
     },
     getRate() {
       crudRate.getAllRate().then((res) => {

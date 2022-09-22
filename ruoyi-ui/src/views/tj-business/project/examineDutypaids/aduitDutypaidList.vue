@@ -178,12 +178,12 @@ export default {
     methods: {
           //完税查看
          find(row,code){
-           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('tj-project-code', code);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/aduitDutypaidList'
             };
-            this.$cache.local.setJSON('auditProjectBackDetail',obj);
+            this.$cache.local.setJSON('tj-backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaidDetail' });
         },
         //完税修改
@@ -193,7 +193,7 @@ export default {
              url: '/projectlist/aduitDutypaidList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tj-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
             this.$tab.closeOpenPage({ path: '/projectlist/dutypaidsEdit' });
         },
@@ -265,7 +265,7 @@ export default {
             };
             this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaid' });
         },
         //新增完税
@@ -276,7 +276,7 @@ export default {
             };
             this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/addDutypaid' });
         },
 

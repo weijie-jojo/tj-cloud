@@ -518,7 +518,7 @@ export default {
 
                                     }
                                     this.$cache.local.setJSON('successProject', obj);
-                                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                                    this.$tab.closeOpenPage({ path: "/tj-business/project/success" });
 
 
                                 });
@@ -701,7 +701,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketList' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/ticketList' });
         },
 
         //渠道商接口  记得修改 userid

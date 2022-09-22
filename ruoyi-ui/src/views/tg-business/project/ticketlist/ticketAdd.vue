@@ -170,8 +170,8 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list2, add } from "@/api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist,edit,check} from "@/api/project/list";
+import { list2, add } from "@/api/tg-api/project/ticket";
+import { detail, getcode, getinfoByUserId, ownlist,edit,check} from "@/api/tg-api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
@@ -208,7 +208,7 @@ export default {
 
             Father: [],
             formData: {
-                projectCode: this.$cache.local.getJSON("publicTickets").projectCode,//项目编号
+                projectCode: this.$cache.local.getJSON("tg-project-code"),//项目编号
                 ticketRemark: '',//发票备注
                 ticketTax: 3,//发票税率
                 ticketType: 0,  //发票类型
@@ -485,14 +485,10 @@ export default {
         },
         getlist() {
             detail({
-                projectCode: this.$cache.local.getJSON("publicTickets").projectCode
+                projectCode:this.$cache.local.getJSON("tg-project-code")
             }).then((response) => {
-                if (response.data.length == 0) {
-                    this.Father = this.$cache.local.getJSON("publicTickets");
-                } else {
-                    this.Father = response.data;
-                }
-                this.projectRemainAmount=this.Father.projectRemainAmount;
+                this.Father = response.data;
+                 this.projectRemainAmount=this.Father.projectRemainAmount;
                 if (this.Father.fileName) {
                    if(this.Father.fileName.indexOf("[") != -1 ){
                        this.Father.fileName = JSON.parse(this.Father.fileName);
@@ -604,7 +600,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketList' });
+            this.$tab.closeOpenPage({ path: '/tg-business/project/ticketList' });
         },
        
         //渠道商接口  记得修改 userid
@@ -691,14 +687,14 @@ export default {
                                  this.$nextTick(function () {
                                     this.check('票据新增');
                                      this.$modal.msgSuccess('票据新增成功');
-                                     this.$tab.closeOpenPage({ path: "/projectlist/ticketList" }).then(() => {
-                                     this.$tab.refreshPage({ path: '/projectlist/ticketList', name: 'TicketList' });
+                                     this.$tab.closeOpenPage({ path: "/tg-business/project/ticketList" }).then(() => {
+                                     this.$tab.refreshPage({ path: '/tg-business/project/ticketList', name: 'TicketList' });
                                     });
                                   
                                      });
                                 } else {
                                      this.$modal.msgError(res.msg);
-                                     this.$tab.closeOpenPage({ path: "/projectlist/ticketList" });
+                                     this.$tab.closeOpenPage({ path: "/tg-business/project/ticketList" });
                                 }
                        }
                     });

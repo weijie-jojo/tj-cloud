@@ -180,12 +180,12 @@ export default {
     methods: {
         //验收详情
         find(row,code){
-           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('tj-project-code', code);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/auditAcceptanceList'
             };
-            this.$cache.local.setJSON('auditProjectBackDetail',obj);
+            this.$cache.local.setJSON('tj-backTicket',obj);
            this.$tab.closeOpenPage({ path: '/projectlist/auditMeansDetail' })
         },
         //验收修改
@@ -195,7 +195,7 @@ export default {
              url: '/projectlist/auditMeansList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tj-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
            this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
         },
@@ -270,7 +270,7 @@ export default {
             };
             this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitMeans' });
         },
         //资料办理
@@ -281,7 +281,7 @@ export default {
             };
             this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/addMeans' });
         },
        /** 搜索按钮操作 */
@@ -322,7 +322,7 @@ export default {
         
         /** 修改按钮操作 */
         handleUpdate(row) {
-            this.$cache.local.setJSON("projectCodeNew", row.projectCode);
+            this.$cache.local.setJSON("tj-project-code", row.projectCode);
             this.$router.push("editList");
 
         },

@@ -394,7 +394,7 @@
     mounted() {
      
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tc-project-code"),
       }).then((response) => {
         this.publicList = response.data;
         this.queryParams = {
@@ -413,7 +413,7 @@
       //关闭
       handleClose() {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("backTicket").backurl,
+          path: this.$cache.local.getJSON("tc-backTicket").backurl,
         });
       },
       //查看
@@ -429,7 +429,7 @@
       //关闭
       resetForms() {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("backTicket").backurl,
+          path: this.$cache.local.getJSON("tc-backTicket").backurl,
         });
       },
       //获取该项目全部收款信息

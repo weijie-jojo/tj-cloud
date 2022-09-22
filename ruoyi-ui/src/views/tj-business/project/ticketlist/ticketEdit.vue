@@ -578,7 +578,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/ticketlist' });
         },
 
         //渠道商接口  记得修改 userid
@@ -656,15 +656,15 @@ export default {
                             if (res.code === 200) {
                                 this.$nextTick(function () {
                                     this.$modal.msgSuccess('票据修改成功');
-                                    this.$tab.closeOpenPage({ path: "/projectlist/ticketList" }).then(() => {
-                                        this.$tab.refreshPage({ path: '/projectlist/ticketList', name: 'TicketList' });
+                                    this.$tab.closeOpenPage({ path: "/tj-business/project/ticketList" }).then(() => {
+                                        this.$tab.refreshPage({ path: '/tj-business/project/ticketList', name: 'TicketList' });
                                     });
 
 
                                 });
                             } else {
                                 this.$modal.msgError(res.msg);
-                                this.$tab.closeOpenPage({ path: "/projectlist/ticketList" });
+                                this.$tab.closeOpenPage({ path: "/tj-business/project/ticketList" });
                             }
                         }
 

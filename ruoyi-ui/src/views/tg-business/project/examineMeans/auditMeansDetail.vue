@@ -194,7 +194,7 @@ export default {
 
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('auditProjectBackDetail').backurl })
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-backTicket').backurl })
         },
         handleChange(val) {
             console.log(val);

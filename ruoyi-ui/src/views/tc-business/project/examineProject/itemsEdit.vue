@@ -1617,7 +1617,7 @@ export default {
     },
     getlist() {
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tc-project-code"),
       }).then((response) => {
         this.formData.industryType = "";
         this.formData = response.data;

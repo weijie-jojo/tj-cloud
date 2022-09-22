@@ -943,7 +943,7 @@ import crudPlace from '@/api/tg-api/company/place'
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 import { all } from "@/api/tg-api/company/payTaxInfo";
-
+import { getAllUser } from '@/api/system/user';
 export default {
   name: 'ManageListDdit',
   components: {},
@@ -954,6 +954,8 @@ export default {
   props: [],
   data() {
     return {
+      leaderList:[],
+      deptId:'',
       selectTipType: '',
       defaultProps: {
         children: 'children',
@@ -1416,6 +1418,29 @@ mounted() {
   
   },
   methods: {
+     //获取业务经理
+     getLeader(){
+     
+     //  this.deptId=res[0].deptId;
+      getAllUser().then((res)=>{
+      this.leaderList=[];
+      let list=res;
+      list.map((item)=>{
+       if(item.userId==this.formData.userId){
+         return this.deptId=item.deptId;
+       }
+      });
+      list.map((item)=>{
+       if(item.deptId==this.deptId){
+             this.leaderList.push({
+               value:item.nickName,
+               label:item.nickName,
+              })
+          }
+      });
+      
+   })
+  },
     getlist(){
     this.$modal.loading("正在加载数据，请稍后...");
     crudEmployed.regDetail(this.$cache.local.getJSON("tg-findlist")).then((res) => {
@@ -1425,7 +1450,7 @@ mounted() {
     this.getLoginInfo();
     //个体户行业类型税率
     this.getRate();
-
+    this.getLeader();
     this.formData.fileName1 = JSON.parse(this.formData.fileName1);
     this.formData.fileName2 = JSON.parse(this.formData.fileName2);
     this.formData.fileName3 = JSON.parse(this.formData.fileName3);

@@ -693,7 +693,7 @@ export default {
         },
         getlist() {
             detail({
-                projectCode: this.$cache.local.getJSON("projectCodeNew")
+                projectCode: this.$cache.local.getJSON("tj-project-code")
             }).then((response) => {
 
                 this.formData = response.data;
@@ -799,7 +799,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('auditProjectBackDetail').backurl});
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('backTicket').backurl});
         },
         getRate() {
             crudRate.getAllRate().then(res => {

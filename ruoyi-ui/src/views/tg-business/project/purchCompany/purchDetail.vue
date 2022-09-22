@@ -1484,7 +1484,7 @@ export default {
     },
     getlist() {
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.formData = response.data;
 

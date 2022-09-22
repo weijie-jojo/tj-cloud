@@ -53,7 +53,7 @@ export default {
   watch: {},
   created() {},
   mounted() {
-    this.obj = this.$cache.local.getJSON("successProject");
+    this.obj = this.$cache.local.getJSON("tg-successProject");
     this.shenmsg = this.obj.resmsg;
     switch (this.shenmsg) {
       case "项目填写完成":
@@ -86,20 +86,20 @@ export default {
         if (this.$cache.local.getJSON("iscollect") == 0) {
           if(this.shenmsgs==1){
           this.$tab.refreshPage({
-            path: "/projectlist/ticketlist",
+            path: "/tg-business/project/ticketlist",
             name: "Ticketlist",
           });
          }
         
           if(this.shenmsgs==4){
           this.$tab.refreshPage({
-            path: "/projectlist/aduitCollectList",
+            path: "/tg-business/project/aduitCollectList",
             name: "AduitCollectList",
           });
          }
          if(this.shenmsgs==5){
           this.$tab.refreshPage({
-            path: "/projectlist/aduitDisburseList",
+            path: "/tg-business/project/aduitDisburseList",
             name: "AduitDisburseList",
           });
          }
@@ -108,24 +108,24 @@ export default {
         } else {
           this.$tab
             .closeOpenPage({
-              path: this.$cache.local.getJSON("successProject").backUrl,
+              path: this.$cache.local.getJSON("tg-successProject").backUrl,
             })
             .then(() => {
               this.$tab.refreshPage({
-                path: this.$cache.local.getJSON("successProject").backUrl,
-                name: this.$cache.local.getJSON("successProject").backName,
+                path: this.$cache.local.getJSON("tg-successProject").backUrl,
+                name: this.$cache.local.getJSON("tg-successProject").backName,
               });
             });
         }
       } else  {
         this.$tab
           .closeOpenPage({
-            path: this.$cache.local.getJSON("successProject").backUrl,
+            path: this.$cache.local.getJSON("tg-successProject").backUrl,
           })
           .then(() => {
             this.$tab.refreshPage({
-              path: this.$cache.local.getJSON("successProject").backUrl,
-              name: this.$cache.local.getJSON("successProject").backName,
+              path: this.$cache.local.getJSON("tg-successProject").backUrl,
+              name: this.$cache.local.getJSON("tg-successProject").backName,
             });
           });
       }
