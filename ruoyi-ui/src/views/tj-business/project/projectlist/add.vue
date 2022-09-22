@@ -488,119 +488,9 @@
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
+     
       <el-row
-        v-if="formData.isSelfCount == 0"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="10" >
-            <div class="bankno">
-              个体注册服务费
-             </div>
-           
-          </el-col>
-          <el-col :span="9">
-            <div></div>
-          </el-col>
-        </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="状态" prop="isRegisterMoney">
-            <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
-            <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
-          </el-form-item>
-          <el-form-item
-            v-if="formData.isRegisterMoney == 0"
-            label="服务费"
-            prop="registerMoney"
-          >
-            <el-input
-              v-model="formData.registerMoney"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="是否分润" prop="isSelfShare">
-            <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
-            <el-radio v-model="formData.isSelfShare" label="1">否</el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isSelfShare == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="分润方式" prop="selfShare">
-            <div style="">
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="0"
-                >按定额收取
-              </el-radio>
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="1"
-                >按百分比收取
-              </el-radio>
-
-              <el-input
-                v-if="formData.selfShareIsmoney == 0"
-                style="width: 100%"
-                :min="0"
-                v-model="formData.selfShare"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">元</template>
-              </el-input>
-              <el-input
-                v-model="formData.selfShare"
-                v-else
-                style="width: 100%"
-                @input="isSelfShares"
-                @change="isSelfShares"
-                :step="0.01"
-                :min="0"
-                :max="100"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">%</template>
-              </el-input>
-            </div>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-
-      <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -616,7 +506,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" :required="true">
@@ -749,7 +639,7 @@
 
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -767,7 +657,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
      
         <el-col :span="9">
@@ -900,7 +790,7 @@
       </el-row>
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -922,7 +812,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if=" formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" prop="isDisposable">
@@ -1505,6 +1395,7 @@ export default {
     this.gettoday();
     this.getRate();
     this.getinfoByUserId(); //渠道商
+    
   },
 
   methods: {
@@ -1957,6 +1848,7 @@ export default {
         this.userinfo = res.user;
         this.userId = res.user.userId;
         this.username = res.user.userName;
+        this.getOwn();
         this.formData.projectLeader = res.user.nickName;
         getinfoByUserId({ userId: this.userId }).then((res) => {
           this.placeCodeOptions = res.data;
@@ -2020,7 +1912,11 @@ export default {
         this.formData.projectTrade = this.$refs.selectTree.selected.label;
       });
       // this.formData.projectTrade = rate.industryName
-      ownlist({ username: this.username, industryType: industryType })
+   
+    },
+    //获取乙方
+    getOwn(){
+      ownlist({ username: this.username})
         .then((res) => {
           this.ownoptions = res;
         })
@@ -2140,7 +2036,7 @@ export default {
                   resmsg: resmsg,
                   name: "List",
                 };
-                this.$cache.local.setJSON("successProject", obj);
+                this.$cache.local.setJSON("tj-successProject", obj);
                 this.$tab.closeOpenPage({ path: "/tj-business/project/success" });
               }
             }

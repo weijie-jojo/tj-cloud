@@ -172,13 +172,13 @@ export default {
     methods: {
           //完税查看
          find(row,code){
-           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('tg-project-code', code);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('iscollect',0);
-            this.$cache.local.setJSON('backTicket',obj);
+            this.$cache.local.setJSON('tg-backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
         //完税修改
@@ -186,9 +186,9 @@ export default {
             let obj1={
                 backurl:'/projectlist/disburseAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tg-backTicket',obj1);
             this.$cache.local.setJSON('iscollect',0);
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tg-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
@@ -257,9 +257,9 @@ export default {
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('iscollect',0);
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tg-backTicket',obj1);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
         //新增完税
@@ -268,10 +268,10 @@ export default {
             let obj1={
                 backurl:'/projectlist/disburseAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tg-backTicket',obj1);
             this.$cache.local.setJSON('iscollect',0);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
 

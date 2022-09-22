@@ -402,7 +402,7 @@ export default {
     },
     getDetails(){
         detail({
-         projectCode: this.$cache.local.getJSON("projectCodeNew")
+         projectCode: this.$cache.local.getJSON("tc-project-code")
         }).then((response) => {
          this.publicList = response.data;
          this.formData.projectCode = this.publicList.projectCode;

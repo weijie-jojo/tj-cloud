@@ -291,7 +291,7 @@ export default {
     //获取公共数据
     getCommonList() {
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.publicList = response.data;
       });

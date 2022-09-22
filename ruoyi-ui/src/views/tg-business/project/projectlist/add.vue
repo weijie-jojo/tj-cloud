@@ -2140,7 +2140,7 @@ export default {
                   resmsg: resmsg,
                   name: "List",
                 };
-                this.$cache.local.setJSON("successProject", obj);
+                this.$cache.local.setJSON("tg-successProject", obj);
                 this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
               }
             }

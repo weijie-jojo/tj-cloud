@@ -183,7 +183,7 @@ export default {
   methods: {
     //返回
     resetForm() {
-      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('auditProjectBackDetail').backurl})
+      this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-backTicket').backurl})
     },
    
     handleChange(val) {

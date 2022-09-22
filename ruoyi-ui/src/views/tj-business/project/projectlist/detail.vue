@@ -464,133 +464,11 @@
       </el-row>
 
 
-      <el-row
-        v-if="formData.isSelfCount == 0"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="10" >
-            <div class="bankno">
-              个体注册服务费
-             </div>
-           
-          </el-col>
-          <el-col :span="9">
-            <div></div>
-          </el-col>
-        </el-row>
-      
-      
-      
-      <el-row
-        v-if="formData.isSelfCount == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="状态" :required="true">
-            <el-radio
-              :disabled="true"
-              v-model="formData.isRegisterMoney"
-              label="0"
-              >开启</el-radio
-            >
-            <el-radio
-              :disabled="true"
-              v-model="formData.isRegisterMoney"
-              label="1"
-              >关闭</el-radio
-            >
-          </el-form-item>
-          <el-form-item
-            v-if="formData.isRegisterMoney == 0"
-            label="服务费"
-            prop="registerMoney"
-          >
-            <el-input
-              disabled
-              v-model="formData.registerMoney"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="是否分润" prop="isSelfShare">
-            <el-radio disabled v-model="formData.isSelfShare" label="0"
-              >是</el-radio
-            >
-            <el-radio disabled v-model="formData.isSelfShare" label="1"
-              >否</el-radio
-            >
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isSelfShare == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="分润方式" prop="selfShare">
-            <div style="">
-              <el-radio disabled v-model="formData.selfShareIsmoney" label="0"
-                >按定额收取
-              </el-radio>
-              <el-radio disabled v-model="formData.selfShareIsmoney" label="1"
-                >按百分比收取
-              </el-radio>
 
-              <el-input
-                disabled
-                v-if="formData.selfShareIsmoney == 0"
-                style="width: 100%"
-                :min="0"
-                v-model="formData.selfShare"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">元</template>
-              </el-input>
-              <el-input
-                disabled
-                v-model="formData.selfShare"
-                v-else
-                style="width: 100%"
-                @input="isSelfShares"
-                :step="0.01"
-                :min="0"
-                :max="100"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">%</template>
-              </el-input>
-            </div>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
 
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -606,7 +484,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if=" formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" :required="true">
@@ -738,7 +616,7 @@
       </el-row>
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -755,7 +633,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" :required="true">
@@ -890,7 +768,7 @@
 
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -911,7 +789,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" prop="isDisposable">
@@ -1062,8 +940,7 @@
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudRate from "@/api/project/rate";
-import { getcode, getinfoByUserId, detail } from "@/api/project/list";
-import { getInfo } from "@/api/login";
+import { getcode, detail } from "@/api/project/list";
 import { Decimal } from "decimal.js";
 
 //手机号验证
@@ -1478,10 +1355,12 @@ export default {
       });
     },
     getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
       detail({
-        projectCode: this.$cache.local.getJSON("projectCodeNew"),
+        projectCode: this.$cache.local.getJSON("tj-project-code"),
       }).then((response) => {
         this.formData = response.data;
+        this.$modal.closeLoading();
 
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney
@@ -1610,10 +1489,12 @@ export default {
         } else {
           this.projectStatus = 1;
         }
+      }).catch((error) => {
+        this.$modal.closeLoading();
       });
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/projectlist/list" });
+      this.$tab.closeOpenPage({ path: "/tj-business/project/list" });
     },
     getRate() {
       crudRate.getAllRate().then((res) => {

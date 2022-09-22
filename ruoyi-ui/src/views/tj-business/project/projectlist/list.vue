@@ -394,7 +394,7 @@
             type="text"
             icon="el-icon-s-custom"
             @click="detail(scope.row)"
-            >详情</el-button
+            >查看</el-button
           >
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
           </el-button>
@@ -633,15 +633,13 @@ export default {
       this.getList();
     },
     examine(applyName, scope, type, code) {
-      this.$cache.local.setJSON("projectCodeNew", code);
-      this.$cache.local.setJSON("projectListNews", scope);
+      this.$cache.local.setJSON("tj-project-code", code);
+     
       var msg = "审核";
       if (type == 3) {
       } else if (type == 4) {
         if (
-          this.$cache.local.getJSON("projectListNews")
-            .projectAcceptanceStatus == -1 &&
-          this.$cache.local.getJSON("projectListNews").projectContractStatus ==
+          scope.projectAcceptanceStatus == -1 && scope.projectContractStatus ==
             -1
         ) {
           msg = "办理";
@@ -649,10 +647,7 @@ export default {
           msg = "审核";
         }
       } else if (type == 5) {
-        if (
-          this.$cache.local.getJSON("projectListNews").projectDutypaidStatus ==
-          -1
-        ) {
+        if ( scope.projectDutypaidStatus == -1) {
           msg = "办理";
         } else {
           msg = "审核";
@@ -714,13 +709,13 @@ export default {
                   this.aduit();
                 } else if (this.msgs == "开票") {
                   let obj = {
-                    backurl: "/tj-business/project/List",
+                    backurl: "/tj-business/project/list",
                   };
-                  this.$cache.local.setJSON("backTicket", obj);
+                  this.$cache.local.setJSON("tj-backTicket", obj);
                   this.$tab.openPage("票据列表", "/tj-business/project/ticketlist");
                 } else if (this.msgs == "收款") {
                   let obj = {
-                    backurl: "/tj-business/project/List",
+                    backurl: "/tj-business/project/list",
                   };
                   let objList = {
                     backurl: "/tj-business/project/list",
@@ -729,7 +724,7 @@ export default {
 
                   this.$cache.local.setJSON("iscollect", 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
-                  this.$cache.local.setJSON("backTicket", obj);
+                  this.$cache.local.setJSON("tj-backTicket", obj);
 
                   this.$tab.openPage(
                     "收款列表",
@@ -737,7 +732,7 @@ export default {
                   );
                 } else if (this.msgs == "出款") {
                   let obj = {
-                    backurl: "/tj-business/project/List",
+                    backurl: "/tj-business/project/list",
                   };
                   let objList = {
                     backurl: "/tj-business/project/list",
@@ -746,7 +741,7 @@ export default {
 
                   this.$cache.local.setJSON("iscollect", 1);
                   this.$cache.local.setJSON("addProjectBack", objList);
-                  this.$cache.local.setJSON("backTicket", obj);
+                  this.$cache.local.setJSON("tj-backTicket", obj);
                   this.$tab.openPage(
                     "出款列表",
                     "/tj-business/project/aduitDisburseList"
@@ -774,7 +769,7 @@ export default {
           let obj1 = {
             backurl: "/tj-business/project/list",
           };
-          this.$cache.local.setJSON("backTicket", obj1);
+          this.$cache.local.setJSON("tj-backTicket", obj1);
           this.$tab.closeOpenPage({ path: "/tj-business/project/ticketList" });
           break;
         case 4:
@@ -812,8 +807,7 @@ export default {
         name: "List",
       };
       this.$cache.local.setJSON("iscollect", 1);
-      this.$cache.local.setJSON("Projectedit", obj);
-      this.$cache.local.setJSON("backTicket", obj);
+      this.$cache.local.setJSON("tj-backTicket", obj);
       switch (this.types) {
         case 1:
           this.$tab.closeOpenPage({ path: "/tj-business/project/itemsEdit" });
@@ -841,8 +835,8 @@ export default {
       let obj = {
         backurl: "/tj-business/project/list",
       };
-      this.$cache.local.setJSON("backTicket", obj1);
-      this.$cache.local.setJSON("auditProjectBackDetail", obj);
+      this.$cache.local.setJSON("tj-backTicket", obj);
+     
       switch (this.types) {
         case 1:
           this.$tab.openPage("项目审核查看", "/tj-business/project/auditDetail");
@@ -912,9 +906,9 @@ export default {
     },
     //完成弹框
     projectFinish(code, row, type) {
-      this.$cache.local.setJSON("projectCodeNew", code);
+      this.$cache.local.setJSON("tj-project-code", code);
       this.$cache.local.setJSON("publicTickets", row);
-      this.$cache.local.setJSON("projectListNews", row);
+     
       this.lookstatus = true;
       this.editstatus = false;
       let msg = "";
@@ -953,8 +947,8 @@ export default {
       } else if (type == 7) {
         this.errArrName = "异常原因:" + row.payRemark;
       }
-      this.$cache.local.setJSON("projectCodeNew", code);
-      this.$cache.local.setJSON("projectListNews", row);
+      this.$cache.local.setJSON("tj-project-code", code);
+     
       getLeaderByUserId({
         userId: row.userId,
       })
@@ -997,6 +991,7 @@ export default {
             })
               .then(() => {
                 if (this.msgs == "查看") {
+                 
                   this.findList();
                 } else if (this.msgs == "修改") {
                   this.editList();
@@ -1106,8 +1101,8 @@ export default {
 
     detail(scope) {
       console.log(scope);
-      this.$cache.local.setJSON("projectListNews", scope);
-      this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+    
+      this.$cache.local.setJSON("tj-project-code", scope.projectCode);
       this.$tab.openPage("项目查看", "/tj-business/project/detail");
     },
 
@@ -1149,7 +1144,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("projectCodeNew", row.projectCode);
+      this.$cache.local.setJSON("tj-project-code", row.projectCode);
 
       this.$tab.openPage("项目修改", "/tj-business/project/edit");
     },

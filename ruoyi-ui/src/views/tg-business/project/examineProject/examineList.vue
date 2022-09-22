@@ -166,12 +166,12 @@ export default {
             }
         },
         detail(row, code) {
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tg-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
              let obj={
                 backurl:'/projectlist/examineList'
             };
-            this.$cache.local.setJSON('auditProjectBackDetail',obj);
+            this.$cache.local.setJSON('tg-backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/auditDetail' });
         },
         handleClick() {
@@ -235,7 +235,7 @@ export default {
         },
         audit(scope) {
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tg-project-code", scope.projectCode);
              let obj={
                 backurl:'/projectlist/examineList',
                 name:'ExamineList'
@@ -276,7 +276,7 @@ export default {
             this.multiple = !selection.length;
         },
         edit(row, code) {
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tg-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
              let obj={
              name:'ExamineList',

@@ -591,7 +591,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({path:'/projectlist/ticketlist'});
+            this.$tab.closeOpenPage({path:'/tc-business/project/ticketlist'});
         },
      
         //渠道商接口  记得修改 userid

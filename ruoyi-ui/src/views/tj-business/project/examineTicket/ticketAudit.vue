@@ -172,13 +172,13 @@ export default {
     methods: {
           //完税查看
          find(row,code){
-           this.$cache.local.setJSON('projectCodeNew', code);
+           this.$cache.local.setJSON('tj-project-code', code);
           
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
                 backurl:'/projectlist/ticketAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj);
+            this.$cache.local.setJSON('tj-backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
         },
         //完税修改
@@ -186,13 +186,13 @@ export default {
             let obj1={
                 backurl:'/projectlist/ticketAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tj-backTicket',obj1);
              let obj = {
              name: 'TicketAudit',
              url: '/projectlist/ticketAudit',
             };
             this.$cache.local.setJSON('Projectedit', obj);
-            this.$cache.local.setJSON('projectCodeNew', code);
+            this.$cache.local.setJSON('tj-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
              this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
         },
@@ -264,10 +264,10 @@ export default {
             let obj1={
                 backurl:'/projectlist/ticketAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tj-backTicket',obj1);
             this.$cache.local.setJSON('aduitProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
         },
         //新增完税
@@ -279,10 +279,10 @@ export default {
             let obj1={
                 backurl:'/projectlist/ticketAudit'
             };
-            this.$cache.local.setJSON('backTicket',obj1);
+            this.$cache.local.setJSON('tj-backTicket',obj1);
             this.$cache.local.setJSON('addProjectBack',obj);
             this.$cache.local.setJSON("projectListNews", scope);
-            this.$cache.local.setJSON("projectCodeNew", scope.projectCode);
+            this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/ticketlist' });
         },
 

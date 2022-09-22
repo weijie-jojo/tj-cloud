@@ -246,7 +246,7 @@ export default {
     // },
    mounted() {
         detail({
-            projectCode: this.$cache.local.getJSON("projectCodeNew")
+            projectCode: this.$cache.local.getJSON("tj-project-code")
         }).then((response) => {
             this.publicList = response.data;
             if(this.publicList.projectPackageAmount==0){
@@ -283,11 +283,11 @@ export default {
     methods: {
         aduit(row){
             this.$cache.local.setJSON("ticketDetails", row);
-            this.$tab.closeOpenPage({ path: '/projectlist/examTicket' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/examTicket' });
         },
        //关闭
        handleClose() {
-            this.$tab.closeOpenPage({path: this.$cache.local.getJSON('backTicket').backurl});
+            this.$tab.closeOpenPage({path: this.$cache.local.getJSON('tj-backTicket').backurl});
         },
           //计算已开和剩余金额
         ticketByCode() {
@@ -349,7 +349,7 @@ export default {
         },
         detail(row) {
             this.$cache.local.setJSON("ticketDetails", row);
-            this.$tab.openPage("票据查看", "/projectlist/ticketDetail")
+            this.$tab.openPage("票据查看", "/tj-business/project/ticketDetail")
           
         },
         
@@ -381,12 +381,12 @@ export default {
 
         /** 新增按钮操作 */
         handleAdd() {
-            this.$tab.closeOpenPage({path:'/projectlist/ticketAdd'})
+            this.$tab.closeOpenPage({path:'/tj-business/project/ticketAdd'})
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
           this.$cache.local.setJSON("ticketDetails", row);
-          this.$tab.closeOpenPage({path: "/projectlist/ticketEdit"})
+          this.$tab.closeOpenPage({path: "/tj-business/project/ticketEdit"})
         },
 
         /** 删除按钮操作 */
