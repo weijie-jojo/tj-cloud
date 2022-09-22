@@ -160,10 +160,10 @@
                 D.place_name,D.place_status,D.place_alias_name,
                 E.contact_phone
         from self_project_tg t
-                                    LEFT JOIN self_employed B ON t.project_owner = B.self_code
-                                    LEFT JOIN self_legal_person C  on t.project_owner=C.self_code
-                                    LEFT JOIN business_place D ON t.place_code = D.place_code
-                                    LEFT JOIN self_application_info E  on t.project_owner=E.self_code
+                                    LEFT JOIN self_employed_tg B ON t.project_owner = B.self_code
+                                    LEFT JOIN self_legal_person_tg C  on t.project_owner=C.self_code
+                                    LEFT JOIN business_place_tg D ON t.place_code = D.place_code
+                                    LEFT JOIN self_application_info_tg E  on t.project_owner=E.self_code
     </sql>
     <select id="selectProjectJoinTicketByCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.ProjectJoinTicketVo">
         <include refid="selectProjectJoinTicketByCodeVo"/>
