@@ -368,7 +368,7 @@ public class SelfProjectTgController extends BaseController
             BusinessPlaceVo businessPlace= businessPlaceService.selectBusinessPlaceByPlaceCode(selfProject.getPlaceCode());
             //个体注册服务费
             selfProject.setIsRegisterMoney(businessPlace.getIsRegisterMoney());
-            selfProject.setRegisterMoney(businessPlace.getOrdinarySelfFee());
+            selfProject.setRegisterMoney(businessPlace.getRegisterMoney());
             selfProject.setIsSelfShare(businessPlace.getIsSelfShare());
             selfProject.setSelfShareIsmoney(businessPlace.getSelfShareIsmoney());
             selfProject.setSelfShare(businessPlace.getSelfShare());
@@ -376,7 +376,7 @@ public class SelfProjectTgController extends BaseController
             selfProject.setIsSliderOrdinary(businessPlace.getIsSliderOrdinary());
             selfProject.setOrdinaryTax(businessPlace.getOrdinaryTax());
             selfProject.setOrdinaryProxyIsmoney(businessPlace.getOrdinaryProxyIsmoney());
-            selfProject.setOrdinarySelfFee(businessPlace.getOrdinaryProxyFee());
+            selfProject.setOrdinarySelfFee(businessPlace.getOrdinarySelfFee());
             selfProject.setIsSelfTax(businessPlace.getIsSelfTax());
             selfProject.setIsOrdinaryTax(businessPlace.getIsOrdinaryTax());
             selfProject.setIsOrdinaryShare(businessPlace.getIsOrdinaryShare());

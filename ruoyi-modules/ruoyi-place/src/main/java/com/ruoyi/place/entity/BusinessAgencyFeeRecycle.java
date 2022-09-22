@@ -69,7 +69,7 @@ public class BusinessAgencyFeeRecycle implements Serializable {
      * 普票代开收费
      */
     @ApiModelProperty(value = "普票代开收费")
-    private BigDecimal ordinaryProxyFee;
+    private BigDecimal registerMoney;
 
     /**
      * 是否含税-普票

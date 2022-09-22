@@ -140,7 +140,7 @@ public class BusinessPlaceController extends BaseController {
         }
         if(businessAgencyFee.getOrdinaryProxyIsmoney()!=null){
             if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-                businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+                businessAgencyFee.setOrdinarySelfFee(businessAgencyFee.getOrdinarySelfFee().movePointLeft(2));
             }
         }
         if(businessAgencyFee.getSpecialProxyIsmoney()!=null){
@@ -220,7 +220,7 @@ public class BusinessPlaceController extends BaseController {
             businessAgencyFee.setSpecialShare(businessAgencyFee.getSpecialShare().movePointLeft(2));
         }
         if (businessAgencyFee.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-            businessAgencyFee.setOrdinaryProxyFee(businessAgencyFee.getOrdinaryProxyFee().movePointLeft(2));
+            businessAgencyFee.setOrdinarySelfFee(businessAgencyFee.getOrdinarySelfFee().movePointLeft(2));
         }
         if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
             businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
