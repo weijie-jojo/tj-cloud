@@ -72,10 +72,10 @@ public class BusinessPlaceVo extends BusinessAgencyFee {
     @ApiModelProperty(value = "归属业务员")
     private Long userId;
 
-    /** 是否删除(1:正常 0:删除) */
-    @Excel(name = "是否删除(1:正常 0:删除)")
-    @ApiModelProperty(value = "是否删除(1:正常 0:删除)")
-    private Integer isDelete;
+//    /** 是否删除(1:正常 0:删除) */
+//    @Excel(name = "是否删除(1:正常 0:删除)")
+//    @ApiModelProperty(value = "是否删除(1:正常 0:删除)")
+//    private Integer isDelete;
 
     /** 业务经理名 */
     @Excel(name = "业务经理名")
