@@ -33,6 +33,21 @@
                place_email, place_open_bank, place_bank_account, place_star_level, place_status, regist_time,
                user_id, is_delete, remark, create_time, create_by, update_by, update_time, user_name from business_place_tg
     </sql>
+    <sql id="selectBusinessPlaceJoin">
+        select t.place_id, t.place_code, t.place_name, t.place_alias_name, t.place_type, t.place_linkman, t.place_tel, t.place_email,
+               t.place_open_bank, t.place_bank_account, t.place_star_level, t.place_status, t.regist_time, t.user_id, t.is_delete,
+               t.remark, t.create_time, t.create_by, t.update_by, t.update_time, t.user_name,
+               A.agency_fee_id, A.place_code, A.special_invoice6, A.special_invoice13, A.special_self_fee, A.is_special_tax,
+               A.ordinary_self_fee, A.ordinary_proxy_fee, A.is_ordinary_tax, A.is_delete, A.create_time, A.create_by, A.update_by,
+               A.update_time, A.special_invoice6_money, A.special_invoice13_money, A.ordinary_proxy_money, A.special_proxy_fee,
+               A.special_proxy_money, A.ordinary_tax, A.ordinary_special_tax, A.ordinary_share, A.ordinary_share_money, A.special_share,
+               A.special_share_money, A.is_self_tax, A.is_special_self_tax, A.ordinary_proxy_ismoney, A.special_proxy_ismoney,
+               A.ordinary_share_ismoney, A.special_share_ismoney, A.is_ordinary_share, A.is_special_share, A.is_slider, A.is_slider_ordinary,
+               A.self_share,A.is_self_share,A.self_share_ismoney,A.is_register_money, A.is_disposable, A.disposable_share, A.disposable_share_ismoney,
+               A.is_disposable_share, A.disposable_fee, A.disposable_fee_ismoney,A.disposable_remark
+        from business_place_tg t
+                 LEFT JOIN business_agency_fee_tg ON t.place_code=A.place_code
+    </sql>
 
     <select id="selectBusinessPlaceList"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
@@ -59,7 +74,10 @@
         <include refid="selectBusinessPlaceVo"/>
         where place_id = #{placeId}
     </select>
-
+    <select id="selectBusinessPlaceByPlaceCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.BusinessPlaceVo">
+        <include refid="selectBusinessPlaceJoin"/>
+        where place_code = #{placeCode}
+    </select>
     <select id="selectBusinessPlaceByUserId"  resultMap="BusinessPlaceResult">
         <include refid="selectBusinessPlaceVo"/>
         <trim prefix="where" prefixOverrides="and|or">

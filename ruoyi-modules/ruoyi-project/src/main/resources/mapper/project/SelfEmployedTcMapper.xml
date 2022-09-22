@@ -149,7 +149,31 @@
                disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney,disposable_remark
         from self_employed_tc
     </sql>
+    <sql id="selectSelfEmployedJoin">
+        select
+            t.self_id, t.self_code, t.place_code, t.user_id, t.tax_id, t.self_address, t.self_name, t.legal_person_name, t.id_card_num,
+            t.password, t.status, t.place_name, t.username, t.exp_status, t.maximum, t.register_time, t.industry_type, t.industry_tax,
+            t.organizational_form, t.number_employees, t.contribution_amount, t.city, t.county, t.electronic_commerce, t.free_trade_zone,
+            t.free_trade_area, t.property_right, t.nature_business, t.account_type, t.account_type2, t.private_deposit_bank, t.private_account_number,
+            t.public_deposit_bank_1, t.public_account_number_1, t.public_deposit_bank_2, t.public_account_number_2, t.account_name, t.public_deposit_bank_3,
+            t.public_account_number_3, t.create_by, t.update_by, t.create_time, t.update_time, t.business_status, t.file_name1, t.file_name2,
+            t.info_status, t.tax_status, t.bank_status, t.file_name3, t.file_name4, t.end_time, t.end_status, t.remark_info, t.file_name5,
+            t.business_term, t.is_active, t.remark_name, t.file_name6, t.file_name7, t.realname_status, t.special_self_fee, t.ordinary_self_fee,
+            t.special_self_money, t.ordinary_self_money, t.is_self_tax, t.register_money, t.file_name8, t.ordinary_tax, t.ordinary_special_tax,
+            t.ordinary_share, t.ordinary_share_money, t.special_share, t.special_share_money, t.is_ordinary_tax, t.is_special_tax, t.remark_register,
+            t.is_special_self_tax, t.is_self_count, t.ordinary_proxy_ismoney, t.special_proxy_ismoney, t.ordinary_share_ismoney, t.special_share_ismoney,
+            t.is_ordinary_share, t.is_special_share, t.place_alias_name, t.is_slider, t.is_slider_ordinary, t.is_public_user,t.self_share,t.is_self_share,
+            t.self_share_ismoney,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney, t.is_disposable_share,
+            t.disposable_fee, t.disposable_fee_ismoney,t.disposable_remark,
+            B.contact_phone,
+            C.legal_person_id, C.self_code, C.legal_person_name, C.document_type, C.id_card_num, C.political_status, C.eduation, tel_num, C.mail, C.bank,
+            C.bank_card, C.opening_bank, C.receiving_address, C.password, C.initial, C.ending, C.same, C.contact_name, C.contact_id_num, C.contact_tel,
+            C.gender, C.date_birth, C.nation, C.residence, C.personnel_type, C.occupational_status, C.create_by, C.update_by, C.create_time, C.update_time
 
+        from self_employed_tg t
+                 LEFT JOIN  self_application_info_tg B  on t.self_code=B.self_code
+                 LEFT JOIN  self_legal_person_tg C  on t.self_code=C.self_code
+    </sql>
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.project.domain.SelfEmployed" resultMap="SelfEmployedResult">
         <include refid="selectSelfEmployedVo"/>
         <where>
@@ -252,10 +276,14 @@
         where self_id = #{selfId}
     </select>
 
+    <select id="selectSelfEmployedBySelfCode" parameterType="String" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        where self_code = #{selfCode}
+    </select>
+
     <select id="selectSelfEmployedByUser"  resultType="com.ruoyi.project.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
-            t.industry_type= #{industryType}
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND t.user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">

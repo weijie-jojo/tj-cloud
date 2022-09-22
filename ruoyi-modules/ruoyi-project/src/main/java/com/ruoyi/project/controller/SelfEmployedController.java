@@ -54,10 +54,10 @@ public class SelfEmployedController extends BaseController
      * @param industryType
      * @return 个体商户集合
      */
-    @ApiOperation("查询个体商户列表(根据登录业务员跟行业类型)")
+    @ApiOperation("查询个体商户列表(根据登录业务员)")
 //    @RequiresPermissions("company:employed:query")
     @GetMapping("/getByUserIndusty")
-    public List<SelfEmployedVo> getByUserIndusty(String industryType)
+    public List<SelfEmployedVo> getByUserIndusty()
     {
         //获取登录用户的部门id
         Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
@@ -83,7 +83,7 @@ public class SelfEmployedController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//登录用户名
             }
         }
-        return selfEmployedService.selectSelfEmployedByUser(userIdArr,industryType);
+        return selfEmployedService.selectSelfEmployedByUser(userIdArr);
     }
 
     /**

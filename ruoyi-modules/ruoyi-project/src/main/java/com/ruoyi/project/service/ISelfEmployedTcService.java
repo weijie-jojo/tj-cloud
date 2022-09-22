@@ -19,7 +19,7 @@ public interface ISelfEmployedTcService
      * @param userIdArr,industryType
      * @return 个体商户集合
      */
-    public List<SelfEmployedVo> selectSelfEmployedByUser(List<Long> userIdArr, String industryType);
+    public List<SelfEmployedVo> selectSelfEmployedByUser(List<Long> userIdArr);
 
     /**
      * 查询个体商户
@@ -28,7 +28,13 @@ public interface ISelfEmployedTcService
      * @return 个体商户
      */
     public SelfEmployed selectSelfEmployedBySelfId(String selfId);
-
+    /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    public SelfEmployed selectSelfEmployedBySelfCode(String selfCode);
     /**
      * 查询个体商户列表
      *

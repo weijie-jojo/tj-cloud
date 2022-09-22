@@ -3,6 +3,7 @@ package com.ruoyi.project.service.impl;
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.BusinessPlace;
+import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.mapper.BusinessPlaceMapper;
 import com.ruoyi.project.service.IBusinessPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,17 @@ public class BusinessPlaceServiceImpl implements IBusinessPlaceService
     public BusinessPlace selectBusinessPlaceByPlaceId(String placeId)
     {
         return businessPlaceMapper.selectBusinessPlaceByPlaceId(placeId);
+    }
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    @Override
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode)
+    {
+        return businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeCode);
     }
     /**
      * 查询平台渠道商

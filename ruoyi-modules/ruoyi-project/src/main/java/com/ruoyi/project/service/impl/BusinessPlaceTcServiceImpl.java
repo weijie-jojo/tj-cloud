@@ -2,6 +2,7 @@ package com.ruoyi.project.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.project.domain.BusinessPlace;
+import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.mapper.BusinessPlaceTcMapper;
 import com.ruoyi.project.service.IBusinessPlaceTcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,17 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService
     public BusinessPlace selectBusinessPlaceByPlaceId(String placeId)
     {
         return businessPlaceMapper.selectBusinessPlaceByPlaceId(placeId);
+    }
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    @Override
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode)
+    {
+        return businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeCode);
     }
     /**
      * 查询平台渠道商

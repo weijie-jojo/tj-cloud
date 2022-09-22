@@ -1,6 +1,7 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.project.domain.BusinessPlace;
+import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,6 +29,14 @@ public interface BusinessPlaceTcMapper
      * @return 平台渠道商
      */
     public List<BusinessPlace> selectBusinessPlaceByUserId(@Param("userIdArr") List<Long> userIdArr);
+
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode);
 
     /**
      * 查询平台渠道商列表

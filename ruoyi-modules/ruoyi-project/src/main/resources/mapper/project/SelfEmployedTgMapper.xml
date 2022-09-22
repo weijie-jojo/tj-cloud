@@ -147,7 +147,7 @@
                special_proxy_ismoney, ordinary_share_ismoney, special_share_ismoney, is_ordinary_share, is_special_share, place_alias_name,
                is_slider, is_slider_ordinary, is_public_user,self_share,is_self_share,self_share_ismoney,is_register_money, is_disposable,
                disposable_share, disposable_share_ismoney, is_disposable_share, disposable_fee, disposable_fee_ismoney,disposable_remark
-        from self_employed
+        from self_employed_tg
     </sql>
 
     <select id="selectSelfEmployedList" parameterType="com.ruoyi.project.domain.SelfEmployed" resultMap="SelfEmployedResult">
@@ -252,10 +252,14 @@
         where self_id = #{selfId}
     </select>
 
+    <select id="selectSelfEmployedBySelfCode" parameterType="String" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        where self_code = #{selfCode}
+    </select>
+
     <select id="selectSelfEmployedByUser"  resultType="com.ruoyi.project.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
-            t.industry_type= #{industryType}
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND t.user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">

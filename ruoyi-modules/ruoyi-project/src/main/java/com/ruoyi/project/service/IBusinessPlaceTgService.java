@@ -1,6 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.BusinessPlace;
+import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 
 import java.util.List;
 
@@ -19,6 +20,14 @@ public interface IBusinessPlaceTgService
      * @return 平台渠道商
      */
     public BusinessPlace selectBusinessPlaceByPlaceId(String placeId);
+
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode);
 
     /**
      * 查询平台渠道商

@@ -252,10 +252,14 @@
         where self_id = #{selfId}
     </select>
 
+    <select id="selectSelfEmployedBySelfCode" parameterType="String" resultMap="SelfEmployedResult">
+        <include refid="selectSelfEmployedVo"/>
+        where self_code = #{selfCode}
+    </select>
+
     <select id="selectSelfEmployedByUser"  resultType="com.ruoyi.project.domain.vo.SelfEmployedVo">
         <include refid="selectSelfEmployedJoin"/>
         <trim prefix="where" prefixOverrides="and|or">
-            t.industry_type= #{industryType}
             <if test="userIdArr != null  and userIdArr.size() >0 ">
                 AND t.user_id in
                 <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">

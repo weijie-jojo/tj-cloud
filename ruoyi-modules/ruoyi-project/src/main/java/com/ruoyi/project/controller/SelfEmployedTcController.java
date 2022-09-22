@@ -74,7 +74,7 @@ public class SelfEmployedTcController extends BaseController
                 userIdArr.add(SecurityUtils.getUserId());//登录用户名
             }
         }
-        return selfEmployedService.selectSelfEmployedByUser(userIdArr,industryType);
+        return selfEmployedService.selectSelfEmployedByUser(userIdArr);
     }
 
     /**

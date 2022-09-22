@@ -29,8 +29,8 @@ public class SelfEmployedTgServiceImpl implements ISelfEmployedTgService
      * @return 个体商户集合
      */
     @Override
-    public List<SelfEmployedVo> selectSelfEmployedByUser(List<Long> userIdArr, String industryType) {
-        return selfEmployedMapper.selectSelfEmployedByUser(userIdArr,industryType);
+    public List<SelfEmployedVo> selectSelfEmployedByUser(List<Long> userIdArr) {
+        return selfEmployedMapper.selectSelfEmployedByUser(userIdArr);
     }
 
     /**
@@ -43,6 +43,18 @@ public class SelfEmployedTgServiceImpl implements ISelfEmployedTgService
     public SelfEmployed selectSelfEmployedBySelfId(String selfId)
     {
         return selfEmployedMapper.selectSelfEmployedBySelfId(selfId);
+    }
+
+    /**
+     * 查询个体商户
+     *
+     * @param selfCode 个体商户主键
+     * @return 个体商户
+     */
+    @Override
+    public SelfEmployed selectSelfEmployedBySelfCode(String selfCode)
+    {
+        return selfEmployedMapper.selectSelfEmployedBySelfCode(selfCode);
     }
 
     /**
