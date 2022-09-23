@@ -1326,7 +1326,7 @@ export default {
                   } else {
                     this.check("信息审核不通过。" + "原因:" + this.remark);
                   }
-                  this.$tab.closeOpenPage({ path: "/ti-business/reg/result" });
+                  this.$tab.closeOpenPage({ path: "/tj-business/reg/result" });
                 });
               } else {
                 this.$modal.msgError(res.msg);

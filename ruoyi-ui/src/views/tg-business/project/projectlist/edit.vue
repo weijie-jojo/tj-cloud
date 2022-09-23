@@ -66,7 +66,7 @@
             <el-form-item class="comright" label="客户全名">
               <el-select
                 filterable
-                @change="placeNew"
+            
                 style="width: 100%"
                 clearable
                 v-model="formData.placeCode"
@@ -208,15 +208,7 @@
                 :readonly="true"
               ></el-input>
             </el-form-item>
-  
-            <!-- <el-form-item class="comright" label="乙方状态">
-                          <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                              <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                  :value="item.value">
-                              </el-option>
-                          </el-select>
-                      </el-form-item> -->
-          </el-col>
+           </el-col>
   
           <el-col :span="9">
             <el-form-item class="comright" label="纳税人识别号">
@@ -244,7 +236,7 @@
         </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="9">
-            <el-form-item class="comright" label="行业类型" prop="industryType">
+            <el-form-item class="comright" label="行业类型">
               <el-tooltip
                 class="item"
                 effect="dark"
@@ -252,6 +244,7 @@
                 placement="top-start"
               >
                 <el-select
+                  disabled
                   class="main-select-tree"
                   ref="selectTree"
                   v-model="formData.industryType"
@@ -299,7 +292,7 @@
   
           <el-col :span="9">
             <el-form-item class="comright" label="行业税率">
-              <el-input disabled v-model="owerTaxfee"></el-input>
+              <el-input disabled v-model="industryTax"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1085,7 +1078,7 @@
   <script>
   import uploadSmall from "@/components/douploads/uploadSmall";
   import { list2 } from "@/api/tg-api/project/ticket";
-  import crudRate from "@/api/tg-api/project/rate";
+  import crudRate from "@/api/project/rate";
   import {
     detail,
     getcode,
@@ -1096,7 +1089,6 @@
   } from "@/api/tg-api/project/list";
   import { getInfo } from "@/api/login";
   import { Decimal } from "decimal.js";
-  import crudPlace from "@/api/company/place";
   //手机号验证
   var phoneVerify = (rule, value, callback) => {
     if (value) {
@@ -1116,6 +1108,7 @@
     },
     data() {
       return {
+        industryTax:'',
         selectTipType: "",
         isyuan: "",
         userinfo: {},
@@ -1127,8 +1120,6 @@
           label: "label",
         },
         expandOnClickNode: true,
-  
-        projectStatus: 1, //乙方状态
         username: "",
         userId: "",
         industryId: "",
@@ -1496,7 +1487,37 @@
           this.formData.isOrdinaryTax = "1";
           this.formData.isSpecialTax = "1";
         } else {
-          this.placeNew();
+          this.formData.disposableRemark=null;
+        this.formData.isDisposableShare = null;
+        this.formData.disposableShareIsmoney = null;
+        this.formData.disposableShare = null;
+        this.formData.disposableFeeIsmoney = null;
+        this.formData.disposableFee = null;
+        this.formData.isDisposable = null; //是否一次性费用
+        this.formData.isRegisterMoney = null; //是否收取注册服务费
+
+        this.formData.selfShareIsmoney = null;
+        this.formData.isSelfShare = null;
+        this.formData.selfShare = null;
+        this.formData.specialSelfFee = null;
+        this.formData.ordinarySelfFee = null;
+        this.formData.registerMoney = null;
+        this.formData.specialShare = null;
+        this.formData.ordinaryShare = null;
+        this.formData.ordinaryProxyIsmoney = null; //普票平台服务费是否定额
+        this.formData.specialProxyIsmoney = null; //专票平台服务费是否定额
+        this.formData.ordinaryShareIsmoney = null; //普票分润方式是否定额
+        this.formData.specialShareIsmoney = null; //专票分润方式是否定额
+        this.formData.isOrdinaryShare = null;
+        this.formData.isSpecialShare = null;
+        this.formData.ordinarySpecialTax = null;
+        this.formData.ordinaryTax = null;
+        this.formData.isSlider = null;
+        this.formData.isSliderOrdinary = null;
+        this.formData.isSpecialSelfTax = null;
+        this.formData.isSelfTax = null;
+        this.formData.isOrdinaryTax = null;
+        this.formData.isSpecialTax = null;
         }
       },
       //一次性分润
@@ -1635,6 +1656,12 @@
         }).then((response) => {
           this.formData.industryType = "";
           this.formData = response.data;
+
+          if(this.formData.industryTax){
+            this.industryTax =
+          new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+          }
+
           this.$modal.closeLoading();
           this.formData.selfShareIsmoney = JSON.stringify(
             this.formData.selfShareIsmoney
@@ -1770,11 +1797,7 @@
           } else {
             this.fileNameradio = "1";
           }
-          if (this.formData.isActive) {
-            this.projectStatus = parseInt(this.formData.isActive);
-          } else {
-            this.projectStatus = 1;
-          }
+         
         }).catch((error) => {
         this.$modal.closeLoading();
       });
@@ -1791,13 +1814,6 @@
         console.log(e);
         for (let i in this.ownoptions) {
           if (this.ownoptions[i].selfCode == e) {
-            console.log(this.ownoptions[i].isActive);
-            if (this.ownoptions[i].isActive) {
-              this.projectStatus = parseInt(this.ownoptions[i].isActive);
-            } else {
-              this.projectStatus = 1;
-            }
-  
             this.formData.residence = this.ownoptions[i].residence;
             this.formData.privateDepositBank =
               this.ownoptions[i].privateDepositBank;
@@ -1816,111 +1832,7 @@
           }
         }
       },
-      //监听渠道商状态
-      placeNew(e) {
-        console.log(e);
-        for (let i in this.placeCodeOptions) {
-          if (this.placeCodeOptions[i].placeCode == e) {
-            this.isokradio = JSON.stringify(this.placeCodeOptions[i].placeStatus);
-            crudPlace
-              .selectFeeByCode({ placeCode: this.placeCodeOptions[i].placeCode })
-              .then((res) => {
-                this.unlist = res;
-                if (this.formData.isSelfCount == 1) {
-                  this.formData.specialSelfFee = this.unlist.specialSelfFee;
-  
-                  this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
-                  this.formData.registerMoney = this.unlist.registerMoney;
-                  this.formData.specialShare = this.unlist.specialShare;
-                  this.formData.ordinaryShare = this.unlist.ordinaryShare;
-  
-                  this.formData.selfShareIsmoney = JSON.stringify(
-                    this.unlist.selfShareIsmoney
-                  );
-                  this.formData.isSelfShare = JSON.stringify(
-                    this.unlist.isSelfShare
-                  );
-                  this.formData.selfShare = JSON.stringify(this.unlist.selfShare);
-  
-                  this.formData.ordinaryProxyIsmoney = JSON.stringify(
-                    this.unlist.ordinaryProxyIsmoney
-                  ); //普票平台服务费是否定额
-                  this.formData.specialProxyIsmoney = JSON.stringify(
-                    this.unlist.specialProxyIsmoney
-                  ); //专票平台服务费是否定额
-                  this.formData.ordinaryShareIsmoney = JSON.stringify(
-                    this.unlist.ordinaryShareIsmoney
-                  ); //普票分润方式是否定额
-                  this.formData.specialShareIsmoney = JSON.stringify(
-                    this.unlist.specialShareIsmoney
-                  ); //专票分润方式是否定额
-                  this.formData.isOrdinaryShare = JSON.stringify(
-                    this.unlist.isOrdinaryShare
-                  );
-                  this.formData.isSpecialShare = JSON.stringify(
-                    this.unlist.isSpecialShare
-                  );
-  
-                  // this.formData.ordinarySpecialTax = JSON.stringify(
-                  //   this.unlist.ordinarySpecialTax
-                  // );
-                  // this.formData.ordinaryTax = JSON.stringify(
-                  //   this.unlist.ordinaryTax
-                  // );
-  
-                  if (this.unlist.isSlider == "0") {
-                    this.formData.isSlider = "0";
-                  } else {
-                    this.formData.isSlider = "1";
-                  }
-  
-                  if (this.unlist.isSliderOrdinary == "0") {
-                    this.formData.isSliderOrdinary = "0";
-                  } else {
-                    this.formData.isSliderOrdinary = "1";
-                  }
-  
-                  //含税专票
-                  if (this.unlist.isSpecialTax) {
-                    this.formData.isSpecialSelfTax = "0";
-                  } else {
-                    this.formData.isSpecialSelfTax = "1";
-                  }
-                  //普票含税
-                  if (this.unlist.isSelfTax) {
-                    this.formData.isSelfTax = "0";
-                  } else {
-                    this.formData.isSelfTax = "1";
-                  }
-  
-                  //普票价格分离
-                  if (this.unlist.isOrdinaryTax== "0") {
-                    this.formData.isOrdinaryTax = "0";
-                  } else {
-                    this.formData.isOrdinaryTax = "1";
-                  }
-                  //专票价格分离
-                  if (this.unlist.isSpecialSelfTax == "0") {
-                    this.formData.isSpecialTax = "0";
-                  } else {
-                    this.formData.isSpecialTax = "1";
-                  }
-                }
-  
-                this.$nextTick(() => {
-                  if (this.formData.ticketType == 0) {
-                    this.formData.isSlider = "1";
-                    this.formData.isSliderOrdinary = "0";
-                  } else {
-                    this.formData.isSlider = "0";
-                    this.formData.isSliderOrdinary = "1";
-                  }
-                });
-              });
-            return;
-          }
-        }
-      },
+      
       //返回
       resetForm() {
         this.$tab.closeOpenPage({
@@ -1933,15 +1845,7 @@
         getInfo().then((res) => {
           getinfoByUserId({ userId: this.formData.userId }).then((res) => {
             this.placeCodeOptions = res.data;
-            for (let i in this.placeCodeOptions) {
-              if (this.placeCodeOptions[i].placeCode == this.formData.placeCode) {
-                this.isokradio = JSON.stringify(
-                  this.placeCodeOptions[i].placeStatus
-                );
-              }
-            }
-            this.selectIndustryType();
-          });
+            });
         });
       },
       //获取税率
@@ -1977,45 +1881,7 @@
           }
         }
       },
-      //监听行业类型
-      selectIndustryType() {
-        var rate = this.industryTypeList.find(
-          (item) => item.industryId == this.formData.industryType
-        );
-        if (rate) {
-          this.industryId = rate.industryId; //行业类型id
-          if (rate.taxRate) {
-            this.owerTaxfee =
-              new Decimal(rate.taxRate).mul(new Decimal(100)) + "%";
-          } else {
-            this.owerTaxfee = "";
-          }
-          let industryType = rate.industryId;
-          this.$nextTick(function () {
-            this.formData.projectTrade = this.$refs.selectTree.selected.label;
-          });
-          //this.formData.projectTrade = rate.industryName;//所属行业
-          ownlist({
-            username: this.formData.projectLeader,
-            industryType: industryType,
-          })
-            .then((res) => {
-              this.ownoptions = res;
-              let data = this.ownoptions;
-              for (let i in data) {
-                if (data[i].selfName == this.formData.selfName) {
-                  this.natureBusiness = data[i].natureBusiness;
-                  //  this.formData.projectOwnerTaxid = '';
-                }
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          this.getRate();
-        }
-      },
+    
   
       //监听开票内容类型
       tickettaxvip(e) {
@@ -2109,9 +1975,7 @@
             if (this.fileNameradio == 2) {
               this.formData.fileName = JSON.stringify(this.formData.fileName);
             }
-           // this.formData.projectCheckStatus = 0;
-           // this.formData.projectStatus = 0;
-            this.ticketByCode();
+           this.ticketByCode();
             edit(this.formData).then((res) => {
               if (res != undefined) {
                 if (res.code === 200) {

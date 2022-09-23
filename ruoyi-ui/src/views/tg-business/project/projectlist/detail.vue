@@ -113,10 +113,6 @@
         </el-col>
 
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="客户状态" prop="isokradio">
-                        <el-input :readonly="true" v-if="isokradio == 0" value="正常"></el-input>
-                        <el-input :readonly="true" v-else value="冻结"></el-input>
-                    </el-form-item> -->
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input
               :readonly="true"
@@ -176,17 +172,9 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
+         </el-col>
 
-          <!-- <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
-        </el-col>
-
-        <el-col :span="9">
+         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input :readonly="true" v-model="formData.taxId"></el-input>
           </el-form-item>
@@ -1118,50 +1106,12 @@ export default {
       fileNameradio: "1", //开票类型
       natureBusiness: "", //经营范围
       tickettaxvipok: false,
-      placename: "",
-      isokradio: "1",
+      placename: "", 
       companyTax: "", //甲方纳税人识别号
       owerTax: "", //乙方纳税人识别号
       owntype: "", //乙方行业类型
       owerTaxfee: "", //乙方税率
-      projectStatus: 1,
-      formData: {
-        isDisposableShare: "1",
-        disposableShareIsmoney: "0",
-        disposableShare: "0",
-        disposableFeeIsmoney: "1",
-        disposableFee: "0",
-        isDisposable: "0", //是否一次性费用
-        isRegisterMoney: "0", //是否收取注册服务费
-        placeName: "",
-        ticketTax: "", //发票税率
-        ticketType: "", //发票类型
-        checkContent: "",
-        fileName: "",
-        placeCode: "",
-        projectAcceptanceStatus: "",
-        projectCheckStatus: "",
-        projectCode: "",
-        projectContractStatus: "",
-        projectDesc: "",
-        projectDutypaidStatus: "",
-        projectGrossMargin: 0,
-        projectGrossProfit: 0,
-        projectId: "",
-        projectLeader: "",
-        projectName: "",
-        projectNetProfit: 0,
-        projectOwner: "",
-        projectPackageAmount: 0,
-        projectStatus: 0,
-        projectTicketStatus: "",
-        projectTimeEnd: "",
-        projectTimeStart: "",
-        projectTotalAmount: 0,
-        projectTrade: "",
-        purchCompany: "",
-        remark: "",
-      },
+      formData: { },
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       options: [
         {
@@ -1579,11 +1529,9 @@ export default {
         } else {
           this.formData.isSliderOrdinary = "1";
         }
-
-        this.formData.industryTax =
-          new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
-        this.isokradio = JSON.stringify(this.formData.placeStatus);
-        this.formData.placeStatus = parseInt(this.formData.placeStatus);
+       if(this.formData.industyTax){
+          this.formData.industryTax =  new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+        }
         if (this.formData.fileName) {
           if (this.formData.fileName.indexOf("[") != -1) {
             this.formData.fileName = JSON.parse(this.formData.fileName);
@@ -1605,11 +1553,7 @@ export default {
         } else {
           this.fileNameradio = "1";
         }
-        if (this.formData.isActive) {
-          this.projectStatus = parseInt(this.formData.isActive);
-        } else {
-          this.projectStatus = 1;
-        }
+        
       }).catch((error) => {
         this.$modal.closeLoading();
       });
