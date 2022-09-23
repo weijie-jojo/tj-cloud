@@ -255,6 +255,7 @@
               placement="top-start"
             >
               <el-select
+               disabled
                 class="main-select-tree"
                 ref="selectTree"
                 v-model="formData.industryType"
@@ -488,119 +489,9 @@
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
+     
       <el-row
-        v-if="formData.isSelfCount == 0"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="10" >
-            <div class="bankno">
-              个体注册服务费
-             </div>
-           
-          </el-col>
-          <el-col :span="9">
-            <div></div>
-          </el-col>
-        </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="状态" prop="isRegisterMoney">
-            <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
-            <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
-          </el-form-item>
-          <el-form-item
-            v-if="formData.isRegisterMoney == 0"
-            label="服务费"
-            prop="registerMoney"
-          >
-            <el-input
-              v-model="formData.registerMoney"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="是否分润" prop="isSelfShare">
-            <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
-            <el-radio v-model="formData.isSelfShare" label="1">否</el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isSelfShare == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="分润方式" prop="selfShare">
-            <div style="">
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="0"
-                >按定额收取
-              </el-radio>
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="1"
-                >按百分比收取
-              </el-radio>
-
-              <el-input
-                v-if="formData.selfShareIsmoney == 0"
-                style="width: 100%"
-                :min="0"
-                v-model="formData.selfShare"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">元</template>
-              </el-input>
-              <el-input
-                v-model="formData.selfShare"
-                v-else
-                style="width: 100%"
-                @input="isSelfShares"
-                @change="isSelfShares"
-                :step="0.01"
-                :min="0"
-                :max="100"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">%</template>
-              </el-input>
-            </div>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-
-      <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -616,7 +507,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" :required="true">
@@ -749,7 +640,7 @@
 
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -767,7 +658,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
      
         <el-col :span="9">
@@ -900,7 +791,7 @@
       </el-row>
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -922,7 +813,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if=" formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" prop="isDisposable">
@@ -1497,14 +1388,15 @@ export default {
       },
     },
   },
-  watch: {
-    "formData.industryType": "selectIndustryType",
-  },
+  // watch: {
+  //   "formData.industryType": "selectIndustryType",
+  // },
   mounted() {
     this.getPuJialist();
     this.gettoday();
     this.getRate();
     this.getinfoByUserId(); //渠道商
+    
   },
 
   methods: {
@@ -1799,10 +1691,15 @@ export default {
           } else {
             this.projectStatus = 1;
           }
+          this.$nextTick(function () {
+            this.selectTipType = this.$refs.selectTree.selected.label;
+            this.formData.projectTrade = this.$refs.selectTree.selected.label;
+         });
+          this.formData.industryType= this.ownoptions[i].industryType;
           this.formData.selfName = this.ownoptions[i].selfName;
           this.natureBusiness = this.ownoptions[i].natureBusiness;
           this.owerTax = this.ownoptions[i].taxId;
-
+          this.owerTaxfee = new Decimal( this.ownoptions[i].industryTax).mul(new Decimal(100)) + "%";
           this.residence = this.ownoptions[i].residence;
           this.privateDepositBank = this.ownoptions[i].privateDepositBank;
           this.privateAccountNumber = this.ownoptions[i].privateAccountNumber;
@@ -1830,8 +1727,8 @@ export default {
               if (this.formData.isSelfCount == 1) {
                 this.formData.specialSelfFee = this.unlist.specialProxyFee;
 
-                this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-                this.formData.registerMoney = this.unlist.ordinarySelfFee;
+                this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
+                this.formData.registerMoney = this.unlist.registerMoney;
                 this.formData.specialShare = this.unlist.specialShare;
                 this.formData.ordinaryShare = this.unlist.ordinaryShare;
 
@@ -1912,14 +1809,14 @@ export default {
                   this.formData.isSpecialSelfTax = "1";
                 }
                 //普票含税
-                if (this.unlist.isOrdinaryTax) {
+                if (this.unlist.isSelfTax) {
                   this.formData.isSelfTax = "0";
                 } else {
                   this.formData.isSelfTax = "1";
                 }
 
                 //普票价格分离
-                if (this.unlist.isSelfTax == "0") {
+                if (this.unlist.isOrdinaryTax== "0") {
                   this.formData.isOrdinaryTax = "0";
                 } else {
                   this.formData.isOrdinaryTax = "1";
@@ -1957,6 +1854,7 @@ export default {
         this.userinfo = res.user;
         this.userId = res.user.userId;
         this.username = res.user.userName;
+        this.getOwn();
         this.formData.projectLeader = res.user.nickName;
         getinfoByUserId({ userId: this.userId }).then((res) => {
           this.placeCodeOptions = res.data;
@@ -1998,29 +1896,33 @@ export default {
       }
     },
     //监听乙方行业类型
-    selectIndustryType() {
-      this.formData.selfName = "";
-      this.natureBusiness = "";
-      this.owerTax = "";
-      this.formData.projectCode = "";
-      this.formData.projectOwner = "";
+    // selectIndustryType() {
+    //   this.formData.selfName = "";
+    //   this.natureBusiness = "";
+    //   this.owerTax = "";
+    //   this.formData.projectCode = "";
+    //   this.formData.projectOwner = "";
 
-      var rate = this.industryTypeList.find(
-        (item) => item.industryId == this.formData.industryType
-      );
-      this.industryId = rate.industryId; //行业类型id
-      if (rate.taxRate) {
-        this.owerTaxfee = new Decimal(rate.taxRate).mul(new Decimal(100)) + "%";
-      } else {
-        this.owerTaxfee = "";
-      }
+    //   var rate = this.industryTypeList.find(
+    //     (item) => item.industryId == this.formData.industryType
+    //   );
+    //   this.industryId = rate.industryId; //行业类型id
+    //   if (rate.taxRate) {
+    //     this.owerTaxfee = new Decimal(rate.taxRate).mul(new Decimal(100)) + "%";
+    //   } else {
+    //     this.owerTaxfee = "";
+    //   }
 
-      let industryType = rate.industryId;
-      this.$nextTick(function () {
-        this.formData.projectTrade = this.$refs.selectTree.selected.label;
-      });
-      // this.formData.projectTrade = rate.industryName
-      ownlist({ username: this.username, industryType: industryType })
+    //   let industryType = rate.industryId;
+    //   this.$nextTick(function () {
+    //     this.formData.projectTrade = this.$refs.selectTree.selected.label;
+    //   });
+   
+   
+    // },
+    //获取乙方
+    getOwn(){
+      ownlist({ username: this.username})
         .then((res) => {
           this.ownoptions = res;
         })
@@ -2140,7 +2042,7 @@ export default {
                   resmsg: resmsg,
                   name: "List",
                 };
-                this.$cache.local.setJSON("tc-successProject", obj);
+                this.$cache.local.setJSON("tj-successProject", obj);
                 this.$tab.closeOpenPage({ path: "/tc-business/project/success" });
               }
             }

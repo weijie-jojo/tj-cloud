@@ -255,6 +255,7 @@
               placement="top-start"
             >
               <el-select
+               disabled
                 class="main-select-tree"
                 ref="selectTree"
                 v-model="formData.industryType"
@@ -1387,9 +1388,9 @@ export default {
       },
     },
   },
-  watch: {
-    "formData.industryType": "selectIndustryType",
-  },
+  // watch: {
+  //   "formData.industryType": "selectIndustryType",
+  // },
   mounted() {
     this.getPuJialist();
     this.gettoday();
@@ -1690,10 +1691,15 @@ export default {
           } else {
             this.projectStatus = 1;
           }
+          this.$nextTick(function () {
+            this.selectTipType = this.$refs.selectTree.selected.label;
+            this.formData.projectTrade = this.$refs.selectTree.selected.label;
+         });
+          this.formData.industryType= this.ownoptions[i].industryType;
           this.formData.selfName = this.ownoptions[i].selfName;
           this.natureBusiness = this.ownoptions[i].natureBusiness;
           this.owerTax = this.ownoptions[i].taxId;
-
+          this.owerTaxfee = new Decimal( this.ownoptions[i].industryTax).mul(new Decimal(100)) + "%";
           this.residence = this.ownoptions[i].residence;
           this.privateDepositBank = this.ownoptions[i].privateDepositBank;
           this.privateAccountNumber = this.ownoptions[i].privateAccountNumber;
@@ -1721,8 +1727,8 @@ export default {
               if (this.formData.isSelfCount == 1) {
                 this.formData.specialSelfFee = this.unlist.specialProxyFee;
 
-                this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-                this.formData.registerMoney = this.unlist.ordinarySelfFee;
+                this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
+                this.formData.registerMoney = this.unlist.registerMoney;
                 this.formData.specialShare = this.unlist.specialShare;
                 this.formData.ordinaryShare = this.unlist.ordinaryShare;
 
@@ -1803,14 +1809,14 @@ export default {
                   this.formData.isSpecialSelfTax = "1";
                 }
                 //普票含税
-                if (this.unlist.isOrdinaryTax) {
+                if (this.unlist.isSelfTax) {
                   this.formData.isSelfTax = "0";
                 } else {
                   this.formData.isSelfTax = "1";
                 }
 
                 //普票价格分离
-                if (this.unlist.isSelfTax == "0") {
+                if (this.unlist.isOrdinaryTax== "0") {
                   this.formData.isOrdinaryTax = "0";
                 } else {
                   this.formData.isOrdinaryTax = "1";
@@ -1890,30 +1896,30 @@ export default {
       }
     },
     //监听乙方行业类型
-    selectIndustryType() {
-      this.formData.selfName = "";
-      this.natureBusiness = "";
-      this.owerTax = "";
-      this.formData.projectCode = "";
-      this.formData.projectOwner = "";
+    // selectIndustryType() {
+    //   this.formData.selfName = "";
+    //   this.natureBusiness = "";
+    //   this.owerTax = "";
+    //   this.formData.projectCode = "";
+    //   this.formData.projectOwner = "";
 
-      var rate = this.industryTypeList.find(
-        (item) => item.industryId == this.formData.industryType
-      );
-      this.industryId = rate.industryId; //行业类型id
-      if (rate.taxRate) {
-        this.owerTaxfee = new Decimal(rate.taxRate).mul(new Decimal(100)) + "%";
-      } else {
-        this.owerTaxfee = "";
-      }
+    //   var rate = this.industryTypeList.find(
+    //     (item) => item.industryId == this.formData.industryType
+    //   );
+    //   this.industryId = rate.industryId; //行业类型id
+    //   if (rate.taxRate) {
+    //     this.owerTaxfee = new Decimal(rate.taxRate).mul(new Decimal(100)) + "%";
+    //   } else {
+    //     this.owerTaxfee = "";
+    //   }
 
-      let industryType = rate.industryId;
-      this.$nextTick(function () {
-        this.formData.projectTrade = this.$refs.selectTree.selected.label;
-      });
-      // this.formData.projectTrade = rate.industryName
+    //   let industryType = rate.industryId;
+    //   this.$nextTick(function () {
+    //     this.formData.projectTrade = this.$refs.selectTree.selected.label;
+    //   });
    
-    },
+   
+    // },
     //获取乙方
     getOwn(){
       ownlist({ username: this.username})

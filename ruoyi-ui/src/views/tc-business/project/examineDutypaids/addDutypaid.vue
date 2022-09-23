@@ -189,7 +189,7 @@ export default {
        },
        //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('addProjectBack').backurl})
+         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('tc-addback').backurl})
        },
        handleChange(val) {
             console.log(val);
@@ -214,14 +214,14 @@ export default {
                                    this.$nextTick(function () {
                                      this.check('完税办理成功');
                                      this.$modal.msgSuccess('完税办理成功');
-                                     this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('addProjectBack').backurl }).then(()=>{
-                                        this.$tab.refreshPage({path:this.$cache.local.getJSON('addProjectBack').backurl,name:this.$cache.local.getJSON('addProjectBack').name});
+                                     this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tc-addback').backurl }).then(()=>{
+                                        this.$tab.refreshPage({path:this.$cache.local.getJSON('tc-addback').backurl,name:this.$cache.local.getJSON('tc-addback').name});
                                      })
                                    
                                     });
                                 } else {
                                     this.$modal.msgError(res.msg);
-                                    this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('addProjectBack').backurl});
+                                    this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tc-addback').backurl});
                                 }
                             }
                         

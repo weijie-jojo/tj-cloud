@@ -44,10 +44,10 @@
               <el-radio disabled v-model="ruleForm.isRegisterMoney" label="0">开启</el-radio>
               <el-radio disabled v-model="ruleForm.isRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
-          <el-form-item label="服务费" prop="ordinarySelfFee" v-if="ruleForm.isRegisterMoney==0">
+          <el-form-item label="服务费" prop="registerMoney" v-if="ruleForm.isRegisterMoney==0">
             <el-input 
              disabled
-             type="number" v-model="ruleForm.ordinarySelfFee" @change="handleChange" :step="0.01" :min="0"
+             type="number" v-model="ruleForm.registerMoney" @change="handleChange" :step="0.01" :min="0"
               style="width:100%"
               oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]' 
               >
@@ -159,19 +159,19 @@
 
             <el-row type="flex" justify="flex-end">
               <el-col :span="24">
-                <el-form-item label="普票服务费" prop="ordinaryProxyFee">
+                <el-form-item label="普票服务费" prop="ordinarySelfFee">
 
                   <div>
                     <el-radio disabled @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
                     <el-radio disabled @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input disabled v-if="ruleForm.ordinaryProxyIsmoney == 0" style="width:100%" type="number"
-                      v-model="ruleForm.ordinaryProxyFee" :step="0.01" :min="0"
+                      v-model="ruleForm.ordinarySelfFee" :step="0.01" :min="0"
                        oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                       >
                       <template slot="append">元</template>
                     </el-input>
-                    <el-input disabled v-else type="number" style="width:100%" v-model="ruleForm.ordinaryProxyFee"
+                    <el-input disabled v-else type="number" style="width:100%" v-model="ruleForm.ordinarySelfFee"
                       @input="handleordinaryProxyFee" @change="handleordinaryProxyFee" :step="0.01" :max="100"
                        oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                       >
@@ -182,16 +182,16 @@
               </el-col>
 
             </el-row>
-
-            <el-form-item label="服务费含税" prop="isOrdinaryTax">
+            <el-form-item label="服务费含税" prop="isSelfTax">
+              <el-radio disabled v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
+              <el-radio disabled v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
+            </el-form-item>
+            <el-form-item label="价税分离" prop="isOrdinaryTax">
               <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='0'>是</el-radio>
               <el-radio disabled v-model="ruleForm.isOrdinaryTax" label='1'>否</el-radio>
             </el-form-item>
 
-            <el-form-item label="价税分离" prop="isSelfTax">
-              <el-radio disabled v-model="ruleForm.isSelfTax" label='0'>是</el-radio>
-              <el-radio disabled v-model="ruleForm.isSelfTax" label='1'>否</el-radio>
-            </el-form-item>
+            
             <el-form-item label="是否分润" prop='isOrdinaryShare'>
               <el-radio disabled v-model="ruleForm.isOrdinaryShare" label="0">是</el-radio>
               <el-radio disabled v-model="ruleForm.isOrdinaryShare" label="1">否</el-radio>
@@ -500,9 +500,7 @@ var numCheck = (rule, value, callback) => {
 import crudPlace from "@/api/place/place";
 import agencyfee from "@/api/place/agencyfee";
 import { getAllUser } from '@/api/system/user';
-import { getInfo } from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
 export default {
   name: "Detail",
 
@@ -515,10 +513,10 @@ export default {
       editSpecialShare: '2',
       editOrdinaryShare: '2',
 
-      ordinaryProxyFee: '2',
+      registerMoney: '2',
       specialInvoice13: '2',
       specialInvoice6: '2',
-      specialProxyMoney: '2',
+      
       specialProxyFee: '2',
 
       specialShare: '2',
@@ -575,7 +573,7 @@ export default {
       },
       ruleForm: {
         disposableRemark:'',
-        isRegisterMoney:'0',
+        ordinarySelfFee:'0',
         selfShareIsmoney:'0',
         isSelfShare:'1',
         selfShare:'0',
@@ -595,12 +593,12 @@ export default {
         userId: 26,
         userName: '',
 
-        specialShareMoney: '',
+       
         specialShare: '',//专票分润
-        ordinaryShareMoney: '',
+      
         ordinaryShare: '',//普票分润
 
-        specialProxyMoney: 0,
+        
         specialProxyFee: 0,
 
         specialInvoice13Money: 0, //  专票 13 元
@@ -609,9 +607,9 @@ export default {
         specialInvoice13: 0,  //专票13 （%）
         specialSelfFee: 0,
         isSpecialTax: '1',//是否含税-专票
-        ordinaryProxyMoney: 0,//普票平台服务费(元）
-        ordinarySelfFee: 0,
-        ordinaryProxyFee: 0, //普票平台服务费(%）
+       
+        registerMoney: 0,
+        ordinarySelfFee: 0, //普票平台服务费(%）
         isOrdinaryTax: '1',//是否含税-普票
 
         ordinaryProxyIsmoney: '0',
@@ -781,7 +779,7 @@ export default {
         editOrdinarySpecialTax: [
           { required: true, message: '请选择专票税率', trigger: 'change' }
         ],
-        ordinaryProxyFee: [
+        ordinarySelfFee: [
           { required: true, message: '请输入普票服务费', trigger: 'blur' }
         ],
         editOrdinaryProxyFee: [
@@ -837,7 +835,7 @@ export default {
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
-        isRegisterMoney:[
+        ordinarySelfFee:[
         { message: '请选择是否开启个体户注册服务费', required: true, trigger: 'blur' }
         ],
 
@@ -862,7 +860,7 @@ export default {
           required: true
         }],
 
-        ordinarySelfFee: [
+        registerMoney: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
         editOrdinarySelfFee: [
@@ -903,18 +901,16 @@ export default {
       agencyfee.selectFeeByCode({ placeCode: this.$cache.local.getJSON("tj-placelist").placeCode }).then(res => {
       this.$modal.closeLoading();
       let item=this.$cache.local.getJSON("tj-placelist");  
-      this.ruleForm.customerType=JSON.stringify(item.customerType); 
-      this.ruleForm.placeCode = item.placeCode;
-      this.ruleForm.placeName = item.placeName;
-      this.ruleForm.placeAliasName=item.placeAliasName;
-      this.ruleForm.placeLinkman = item.placeLinkman;
-      this.ruleForm.placeTel = item.placeTel;
-      this.ruleForm.nickName = item.nickName;
-      this.ruleForm.placeStatus = item.placeStatus;
-      this.ruleForm.userName = item.userName;
-      this.ruleForm.placeAlias = item.placeAlias;
-      //this.ruleForm.value = item.value;
-
+        this.ruleForm.customerType=JSON.stringify(item.customerType); 
+        this.ruleForm.placeCode = item.placeCode;
+        this.ruleForm.placeName = item.placeName;
+        this.ruleForm.placeAliasName=item.placeAliasName;
+        this.ruleForm.placeLinkman = item.placeLinkman;
+        this.ruleForm.placeTel = item.placeTel;
+        this.ruleForm.nickName = item.nickName;
+        this.ruleForm.placeStatus = item.placeStatus;
+        this.ruleForm.userName = item.userName;
+        this.ruleForm.placeAlias = item.placeAlias;
         this.ruleForm.selfShareIsmoney=JSON.stringify(res.selfShareIsmoney);
         this.ruleForm.isSelfShare=JSON.stringify(res.isSelfShare);
         this.ruleForm.selfShare=JSON.stringify(res.selfShare);
@@ -926,44 +922,32 @@ export default {
         this.ruleForm.specialProxyIsmoney = JSON.stringify(res.specialProxyIsmoney);
         this.ruleForm.isSpecialShare = JSON.stringify(res.isSpecialShare);
         this.ruleForm.specialShareIsmoney = JSON.stringify(res.specialShareIsmoney);
-
         this.ruleForm.isSelfTax = JSON.stringify(res.isSelfTax);
         this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
-
         this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
         this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
-
-
-        //this.ruleForm.specialProxyMoney = res.specialProxyMoney;
         this.ruleForm.specialProxyFee = res.specialProxyFee;
-
-
-
-
         this.ruleForm.specialSelfFee = res.specialSelfFee;
         this.ruleForm.isSpecialTax = res.isSpecialTax;
-
         this.ruleForm.disposableRemark=res.disposableRemark;
         this.ruleForm.disposableFeeIsmoney=JSON.stringify(res.disposableFeeIsmoney);
         this.ruleForm.isDisposable=JSON.stringify(res.isDisposable);
-        this.ruleForm.disposableFee=res. disposableFee;
+        this.ruleForm.disposableFee=res.disposableFee;
         this.ruleForm.isRegisterMoney=JSON.stringify(res.isRegisterMoney);
+        this.ruleForm.ordinarySelfFee=JSON.stringify(res.ordinarySelfFee);
         this.ruleForm.isDisposableShare=JSON.stringify(res.isDisposableShare);
         this.ruleForm.disposableShareIsmoney=JSON.stringify(res.disposableShareIsmoney);
         this.ruleForm.disposableShare=res.disposableShare;
         
         
         this.ruleForm.ordinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.ordinaryProxyFee = res.ordinaryProxyFee;
-        //this.ruleForm.ordinaryProxyMoney = res.ordinaryProxyMoney;
-
+        this.ruleForm.registerMoney = res.registerMoney;
+       
         this.ruleForm.ordinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
         this.ruleForm.ordinaryTax = JSON.stringify(res.ordinaryTax);
-
         this.ruleForm.specialShare = res.specialShare;
-        // this.ruleForm.specialShareMoney=res.specialShareMoney;
         this.ruleForm.ordinaryShare = res.ordinaryShare;
-        //this.ruleForm.ordinaryShareMoney=res.ordinaryShareMoney;
+      
 
 
 
@@ -1059,15 +1043,15 @@ export default {
 
       if (this.ruleForm.ordinaryProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.ordinaryProxyFee = '100';
+          this.ruleForm.ordinarySelfFee = '100';
         }
       }
     },
     handPoxy(e) {
       if (e == '1') {
         if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-          if (this.ruleForm.ordinaryProxyFee > 100) {
-            this.ruleForm.ordinaryProxyFee = '100';
+          if (this.ruleForm.ordinarySelfFee > 100) {
+            this.ruleForm.ordinarySelfFee = '100';
           }
         }
       }
@@ -1175,8 +1159,8 @@ export default {
       this.ruleForm.specialInvoice13Money = '';
       this.ruleForm.specialSelfFee = null;
       this.ruleForm.isSpecialTax = '1';
-      this.ruleForm.ordinarySelfFee = null;
-      this.ruleForm.ordinaryProxyFee = '';
+      this.ruleForm.registerMoney = null;
+      this.ruleForm.registerMoney = '';
       this.ruleForm.ordinaryProxyMoeny = '';
       this.ruleForm.isOrdinaryTax = '1';
     },
@@ -1200,151 +1184,7 @@ export default {
       this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
     },
     /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          if (this.ruleForm.isSlider == '0') {
-            if (this.ruleForm.specialShareIsmoney == '1') {
-              if (this.ruleForm.specialShare > 100) {
-                this.$alert('专票分润费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
-                });
-                return;
-              }
-            }
-            if (this.ruleForm.specialProxyIsmoney == '1') {
-              if (this.ruleForm.specialProxyFee > 100) {
-                this.$alert('专票服务费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
-                });
-                return;
-              }
-            }
-
-          }
-
-          if (this.ruleForm.isSliderOrdinary == '0') {
-            if (this.ruleForm.ordinaryShareIsmoney == '1') {
-              if (this.ruleForm.ordinaryShare > 100) {
-                this.$alert('普票分润费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
-                });
-                return;
-              }
-            }
-
-
-            if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-              if (this.ruleForm.ordinaryProxyFee > 100) {
-                this.$alert('普票服务费按百分比不能大于100%', '提示', {
-                  confirmButtonText: '确定',
-                });
-                return;
-              }
-            }
-          }
-
-
-
-          if (this.ruleForm.isOrdinaryTax == "0") {
-            this.ruleForm.isOrdinaryTax = true;
-          } else if (this.ruleForm.isOrdinaryTax == '1') {
-            this.ruleForm.isOrdinaryTax = false;
-          }
-          if (this.ruleForm.isSpecialTax == "0") {
-            this.ruleForm.isSpecialTax = true;
-          } else if (this.ruleForm.isSpecialTax == "1") {
-            this.ruleForm.isSpecialTax = false;
-          }
-
-
-
-          let data = {
-            businessPlace: {
-              placeCode: this.ruleForm.placeCode,
-              placeName: this.ruleForm.placeName,
-              placeAlias: this.ruleForm.placeAlias,
-              placeLinkman: this.ruleForm.placeLinkman,
-              placeTel: this.ruleForm.placeTel,
-              userId: this.ruleForm.userId,
-              userName: this.ruleForm.userName,
-            },
-            businessAgencyFee: {
-              isSliderOrdinary: this.ruleForm.isSliderOrdinary,
-              isSlider: this.ruleForm.isSlider,
-              isSelfTax: this.ruleForm.isSelfTax,
-              isSpecialSelfTax: this.ruleForm.isSpecialSelfTax,
-              placeCode: this.ruleForm.placeCode,
-
-              // specialInvoice6Money: this.ruleForm.specialInvoice6Money,
-              // specialInvoice13Money: this.ruleForm.specialInvoice13Money,
-              // ordinaryProxyMoney: this.ruleForm.ordinaryProxyMoney,
-              ordinaryProxyFee: this.ruleForm.ordinaryProxyFee,
-              // specialProxyMoney: this.ruleForm.specialProxyMoney,
-              specialProxyFee: this.ruleForm.specialProxyFee,
-
-              // specialInvoice6: this.ruleForm.specialInvoice6,
-              // specialInvoice13: this.ruleForm.specialInvoice13,
-              specialSelfFee: this.ruleForm.specialSelfFee,
-              isSpecialTax: this.ruleForm.isSpecialTax,
-              ordinarySelfFee: this.ruleForm.ordinarySelfFee,
-
-              ordinaryTax: '0',
-              ordinarySpecialTax: '0.03',
-
-              specialShare: this.ruleForm.specialShare,
-              //specialShareMoney:this.ruleForm.specialShareMoney,
-              ordinaryShare: this.ruleForm.ordinaryShare,
-              //ordinaryShareMoney:this.ruleForm.ordinaryShareMoney,
-
-
-              isOrdinaryTax: this.ruleForm.isOrdinaryTax,
-              ordinaryProxyIsmoney: this.ruleForm.ordinaryProxyIsmoney,
-              isOrdinaryShare: this.ruleForm.isOrdinaryShare,
-              ordinaryShareIsmoney: this.ruleForm.ordinaryShareIsmoney,
-              specialProxyIsmoney: this.ruleForm.specialProxyIsmoney,
-              isSpecialShare: this.ruleForm.isSpecialShare,
-              specialShareIsmoney: this.ruleForm.specialShareIsmoney,
-
-
-
-
-
-            }
-          };
-          crudPlace.add(data).then(res => {
-            if (res.id == 0) {
-              this.$message({
-                message: res.message,
-                type: 'success',
-              });
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'warning',
-              });
-            }
-            this.closeS();
-           
-            //this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-            //this.$tab.refreshPage();
-
-          }).catch(err => {
-           
-            //this.getPlaceCode();//重新在获取一遍编号（避免编号重复）
-            // this.$tab.refreshPage();
-          });
-
-        }
-        else {
-          this.$message({
-            message: "请填写完整",
-            type: 'warning',
-          });
-          return false;
-        }
-      });
-    },
+   
    },
 };
 </script>

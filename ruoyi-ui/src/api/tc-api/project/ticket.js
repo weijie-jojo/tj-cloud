@@ -1,5 +1,11 @@
 import request from '@/utils/request'
-
+//获取票据详情接口
+export function getTicketDetail(ticketId){
+  return request({
+    url: '/project/ticket/tc/'+ticketId,
+    method: 'get',
+  })
+}
 export function list(query) {
   return request({
     url: 'project/ticket/tc/list',
@@ -70,4 +76,4 @@ export function getinfoByUserId(data){
 
 
 
-export default { list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}
+export default {getTicketDetail, list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}

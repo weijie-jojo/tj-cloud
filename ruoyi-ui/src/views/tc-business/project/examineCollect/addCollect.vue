@@ -569,7 +569,7 @@ export default {
          })
       }else{
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("addProjectBack").backurl,
+        path: this.$cache.local.getJSON("tc-addback").backurl,
       });
       }
       
@@ -620,8 +620,8 @@ export default {
                      })
                   }else{
                      that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("addProjectBack").backurl,
-                       name: that.$cache.local.getJSON("addProjectBack").name,
+                        path: that.$cache.local.getJSON("tc-addback").backurl,
+                       name: that.$cache.local.getJSON("tc-addback").name,
                        });
                   }
                   
