@@ -312,7 +312,7 @@
            })
         }else{
           this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+          path: this.$cache.local.getJSON("tc-aduitback").backurl,
         });
         }
         

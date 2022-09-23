@@ -792,7 +792,7 @@ export default {
         name: "List",
       };
       this.$cache.local.setJSON("tg-ifcollect", 1);
-      this.$cache.local.setJSON("aduitProjectBack", obj);
+      this.$cache.local.setJSON("tg-aduitback", obj);
       switch (this.types) {
         case 1:
           this.$tab.closeOpenPage({ path: "/tg-business/project/auditItems" });

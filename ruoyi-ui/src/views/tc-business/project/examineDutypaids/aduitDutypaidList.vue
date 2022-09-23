@@ -263,7 +263,7 @@ export default {
                 backurl:'/projectlist/aduitDutypaidList',
                 name:'AduitDutypaidList'
             };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$cache.local.setJSON('tc-aduitback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaid' });

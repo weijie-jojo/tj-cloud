@@ -252,9 +252,9 @@ export default {
                     }
                     let obj = {
                       title: '资料审核',
-                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
+                      backUrl: this.$cache.local.getJSON('tj-aduitback').backurl,
                       resmsg:'资料审核完成',
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name
+                      backName:this.$cache.local.getJSON('tj-aduitback').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -264,7 +264,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-aduitback').backurl });
               }
 
             }
@@ -282,7 +282,7 @@ export default {
    
       //返回
        resetForm(){
-         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('aduitProjectBack').backurl})
+         this.$tab.closeOpenPage({path:this.$cache.local.getJSON('tj-aduitback').backurl})
        },
     
         handleChange(val) {

@@ -1773,15 +1773,10 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('tg-infolist');
-        this.formData.industryType = employedInfo.industryType;
-        
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;
         this.industryTypeList = res.rows;
-        //this.industryTypess=this.formatData(this.industryTypes);
-        //this.$refs.selectTree.blur();
         this.$nextTick(function(){
              this.selectTipType=this.$refs.selectTree.selected.label; 
          });

@@ -1975,8 +1975,6 @@ mounted() {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
-        var employedInfo = this.$cache.local.getJSON('tg-infolist');
-        this.formData.industryType = employedInfo.industryType;
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;

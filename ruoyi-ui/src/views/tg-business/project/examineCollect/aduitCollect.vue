@@ -369,7 +369,7 @@ export default {
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+          path: this.$cache.local.getJSON("tg-aduitback").backurl,
         });
       }
     },
@@ -446,9 +446,9 @@ export default {
                 let obj = {
                   title: "收款审核审核",
                   backUrl:
-                    this.$cache.local.getJSON("aduitProjectBack").backurl,
+                    this.$cache.local.getJSON("tg-aduitback").backurl,
                   resmsg: "收款审核完成",
-                  backName: this.$cache.local.getJSON("aduitProjectBack").name,
+                  backName: this.$cache.local.getJSON("tg-aduitback").name,
                 };
                 this.$cache.local.setJSON("successProject", obj);
                 this.$tab.closeOpenPage({ path: "/projectlist/success" });

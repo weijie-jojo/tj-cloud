@@ -17,9 +17,10 @@
       </el-steps>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="8"></el-col>
-        <el-col :span="8" class="flexs">
+        <el-col :span="8" class="flexs" style="margin-top: 50px;">
           <div
             style="
+            
               text-align: center;
               font-size: 30px;
               color: rgb(41, 36, 33, 0.8);
@@ -135,16 +136,8 @@ export default {
 </script>
 
 <style>
-.flexsbg {
-  width: 100%;
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .flexs {
-  margin-top: 50px;
+  
   display: flex;
   justify-content: center;
 }

@@ -335,7 +335,7 @@ export default {
          })
       }else{
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+        path: this.$cache.local.getJSON("tc-aduitback").backurl,
       });
       }
       
@@ -409,9 +409,9 @@ export default {
                     }
                     let obj = {
                       title: '出款审核',
-                      backUrl: this.$cache.local.getJSON('aduitProjectBack').backurl,
+                      backUrl: this.$cache.local.getJSON('tc-aduitback').backurl,
                       resmsg: '出款审核完成',
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name
+                      backName:this.$cache.local.getJSON('tc-aduitback').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);

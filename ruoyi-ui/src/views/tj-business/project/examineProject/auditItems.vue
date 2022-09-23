@@ -738,9 +738,9 @@ export default {
 
                    let obj = {
                       title: '项目审核',
-                      backUrl:this.$cache.local.getJSON('aduitProjectBack').backurl,
+                      backUrl:this.$cache.local.getJSON('tj-aduitback').backurl,
                       resmsg: resmsg,
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name
+                      backName:this.$cache.local.getJSON('tj-aduitback').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -750,7 +750,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-aduitback').backurl });
               }
 
             }
@@ -904,7 +904,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('aduitProjectBack').backurl});
+            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tj-aduitback').backurl});
         },
 
         

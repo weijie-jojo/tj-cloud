@@ -787,7 +787,7 @@ export default {
         name: "List",
       };
       this.$cache.local.setJSON("tj-ifcollect", 1);
-      this.$cache.local.setJSON("aduitProjectBack", obj);
+      this.$cache.local.setJSON("tj-aduitback", obj);
       switch (this.types) {
         case 1:
           this.$tab.closeOpenPage({ path: "/tj-business/project/auditItems" });
