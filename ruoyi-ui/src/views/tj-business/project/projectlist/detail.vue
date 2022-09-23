@@ -1596,6 +1596,7 @@ export default {
 }
 
 .flexs {
+  margin-top:0px !important;
   display: flex;
   justify-content: center;
 }

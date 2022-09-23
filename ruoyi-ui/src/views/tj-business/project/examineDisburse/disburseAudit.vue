@@ -177,7 +177,7 @@ export default {
             let obj={
                 backurl:'/projectlist/disburseAudit'
             };
-            this.$cache.local.setJSON('iscollect',0);
+            this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON('tj-backTicket',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
         },
@@ -187,7 +187,7 @@ export default {
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('tj-backTicket',obj1);
-            this.$cache.local.setJSON('iscollect',0);
+            this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON('tj-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
@@ -256,7 +256,7 @@ export default {
             let obj1={
                 backurl:'/projectlist/disburseAudit'
             };
-            this.$cache.local.setJSON('iscollect',0);
+            this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON('tj-backTicket',obj1);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
@@ -269,7 +269,7 @@ export default {
                 backurl:'/projectlist/disburseAudit'
             };
             this.$cache.local.setJSON('tj-backTicket',obj1);
-            this.$cache.local.setJSON('iscollect',0);
+            this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });

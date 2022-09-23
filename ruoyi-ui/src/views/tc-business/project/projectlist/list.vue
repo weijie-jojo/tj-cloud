@@ -727,7 +727,7 @@ export default {
                     name: "List",
                   };
 
-                  this.$cache.local.setJSON("iscollect", 1);
+                  this.$cache.local.setJSON("tc-ifcollect", 1);
                   this.$cache.local.setJSON("tc-addback", objList);
                   this.$cache.local.setJSON("tc-backTicket", obj);
 
@@ -744,7 +744,7 @@ export default {
                     name: "List",
                   };
 
-                  this.$cache.local.setJSON("iscollect", 1);
+                  this.$cache.local.setJSON("tc-ifcollect", 1);
                   this.$cache.local.setJSON("tc-addback", objList);
                   this.$cache.local.setJSON("tc-backTicket", obj);
                   this.$tab.openPage(
@@ -791,7 +791,7 @@ export default {
         backurl: "/tc-business/project/list",
         name: "List",
       };
-      this.$cache.local.setJSON("iscollect", 1);
+      this.$cache.local.setJSON("tc-ifcollect", 1);
       this.$cache.local.setJSON("aduitProjectBack", obj);
       switch (this.types) {
         case 1:
@@ -811,7 +811,7 @@ export default {
         backurl: "/tc-business/project/list",
         name: "List",
       };
-      this.$cache.local.setJSON("iscollect", 1);
+      this.$cache.local.setJSON("tc-ifcollect", 1);
       this.$cache.local.setJSON("Projectedit", obj);
       this.$cache.local.setJSON("tc-backTicket", obj);
       switch (this.types) {

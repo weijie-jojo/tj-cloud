@@ -563,7 +563,7 @@ export default {
     },
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('iscollect')==0){
+      if(this.$cache.local.getJSON('tj-ifcollect')==0){
          this.$tab.closeOpenPage({
           path:'/projectlist/aduitCollectList'
          })
@@ -613,7 +613,7 @@ export default {
                   setTimeout(function() { 
                   that.$modal.closeLoading();
                   that.$modal.msgSuccess("新增收款成功");
-                  if(that.$cache.local.getJSON('iscollect')==0){
+                  if(that.$cache.local.getJSON('tj-ifcollect')==0){
                     that.$tab.refreshPage({
                       path:'/projectlist/aduitCollectList',
                       name:'AduitCollectList'

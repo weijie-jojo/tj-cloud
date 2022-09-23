@@ -186,7 +186,7 @@ export default {
                 backurl:'/projectlist/collectAudit'
             };
             this.$cache.local.setJSON('tg-backTicket',objList);
-            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('tg-ifcollect', 0);
             this.$cache.local.setJSON('tg-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
             this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
@@ -255,7 +255,7 @@ export default {
             let obj={
                 backurl:'/projectlist/collectAudit'
             };
-            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('tg-ifcollect', 0);
             this.$cache.local.setJSON('tg-backTicket',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
@@ -266,7 +266,7 @@ export default {
             let obj={
                 backurl:'/projectlist/collectAudit'
             };
-            this.$cache.local.setJSON('iscollect', 0);
+            this.$cache.local.setJSON('tg-ifcollect', 0);
             this.$cache.local.setJSON('tg-backTicket',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);

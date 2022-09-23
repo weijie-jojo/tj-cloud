@@ -279,18 +279,18 @@
             </el-row>
             <el-row type="flex" justify="flex-end">
               <el-col :span="24">
-                <el-form-item label="专票服务费" prop="specialProxyFee">
+                <el-form-item label="专票服务费" prop="specialSelfFee">
                   <div>
                     <el-radio disabled @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="0">按定额收取</el-radio>
                     <el-radio disabled @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input disabled v-if="ruleForm.specialProxyIsmoney == 0" style="width:100%" type="number"
-                      v-model="ruleForm.specialProxyFee" :step="0.01" :min="0"
+                      v-model="ruleForm.specialSelfFee" :step="0.01" :min="0"
                        oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                       >
                       <template slot="append">元</template>
                     </el-input>
-                    <el-input disabled v-else type="number" style="width:100%" v-model="ruleForm.specialProxyFee"
+                    <el-input disabled v-else type="number" style="width:100%" v-model="ruleForm.specialSelfFee"
                       @input="handlespecialProxyIsmoney" @change="handlespecialProxyIsmoney" :step="0.01" :min="0"
                       :max="100"
                        oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
@@ -497,28 +497,14 @@ var numCheck = (rule, value, callback) => {
     }
   }
 };
-import crudPlace from "@/api/tg-api/place/place";
 import agencyfee from "@/api/tg-api/place/agencyfee";
-import { getAllUser } from '@/api/system/user';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   name: "Detail",
-
-  data() {
+ data() {
     return {
-      editSpecialProxyFee: '2',
-      editOrdinaryProxyFee: '2',
-      editSpecialInvoice13: '2',
-      editSpecialInvoice6: '2',
-      editSpecialShare: '2',
-      editOrdinaryShare: '2',
-
       registerMoney: '2',
-      specialInvoice13: '2',
-      specialInvoice6: '2',
-      
-      specialProxyFee: '2',
-
+      specialSelfFee: '2',
       specialShare: '2',
       ordinaryShare: '2',
       radio: '1',
@@ -592,79 +578,19 @@ export default {
         placeTel: '',
         userId: 26,
         userName: '',
-
-       
         specialShare: '',//专票分润
-      
         ordinaryShare: '',//普票分润
-
-        
-        specialProxyFee: 0,
-
-        specialInvoice13Money: 0, //  专票 13 元
-        specialInvoice6Money: 0, //  专票6 元
-        specialInvoice6: 0,   //专票 6 （%）
-        specialInvoice13: 0,  //专票13 （%）
         specialSelfFee: 0,
         isSpecialTax: '1',//是否含税-专票
-       
         registerMoney: 0,
         ordinarySelfFee: 0, //普票平台服务费(%）
         isOrdinaryTax: '1',//是否含税-普票
-
         ordinaryProxyIsmoney: '0',
         isOrdinaryShare: '1',
         ordinaryShareIsmoney: '0',
         specialProxyIsmoney: '0',
         isSpecialShare: '1',
         specialShareIsmoney: '0',
-
-
-        //编辑参数
-
-        editOrdinaryProxyIsmoney: '0',
-        editIsOrdinaryShare: '1',
-        editOrdinaryShareIsmoney: '0',
-        editSpecialProxyIsmoney: '0',
-        editIsSpecialShare: '1',
-        editSpecialShareIsmoney: '0',
-        editIsSlider: '0',//专票滑块
-        editIsSliderOrdinary: '0',
-
-
-        editIsSelfTax: '0',     //普票价税分离
-        editIsSpecialSelfTax: '0',  //专票价税分离
-        editPlaceId: '',
-        editPlaceCode: '',
-        editPlaceName: '',
-        editPlaceAlias: '',//客户别名
-        editPlaceLinkman: '',
-        editPlaceTel: '',
-        editUserId: '',
-        editUserName: '',
-
-        editAgencyFeeId: '',
-        editSpecialInvoice6: '',
-        editSpecialInvoice13: '',
-        editSpecialInvoice6Money: '',
-        editSpecialInvoice13Money: '',
-        editSpecialSelfFee: '',
-        editIsSpecialTax: '',//是否含税-专票
-        editSpecialProxyMoney: '',
-        editSpecialProxyFee: '',
-
-        editOrdinaryTax: '',
-        editOrdinarySpecialTax: '',
-
-        editSpecialShareMoney: '',
-        editSpecialShare: '',//专票分润
-        editOrdinaryShareMoney: '',
-        editOrdinaryShare: '',//普票分润
-
-        editOrdinarySelfFee: '',
-        editOrdinaryProxyFee: '',
-        editOrdinaryProxyMoney: '',
-        editIsOrdinaryTax: '',//是否含税-普票
       },
       option: [
         {
@@ -718,40 +644,27 @@ export default {
         isSpecialShare: [{
           required: true, message: '请选择专票是否分润', trigger: 'change'
         }],
-        editIsSpecialShare: [{
-          required: true, message: '请选择专票是否分润', trigger: 'change'
-        }],
-        editIsOrdinaryShare: [{
-          required: true, message: '请选择普票是否分润', trigger: 'change'
-        }],
+       
         isOrdinaryShare: [{
           required: true, message: '请选择普票是否分润', trigger: 'change'
         }],
-        editSpecialShareIsmoney: [{
-          required: true, message: '请选择专票分润方式', trigger: 'change'
-        }],
+      
         specialShareIsmoney: [{
           required: true, message: '请选择专票分润方式', trigger: 'change'
         }],
         ordinaryShareIsmoney: [{
           required: true, message: '请选择普票分润方式', trigger: 'change'
         }],
-        editOrdinaryShareIsmoney: [{
-          required: true, message: '请选择普票分润方式', trigger: 'change'
-        }],
+       
         isSelfTax: [
           { required: true, message: '请选择普票价税分离', trigger: 'change' }
         ],
 
-        editIsSelfTax: [
-          { required: true, message: '请选择普票价税分离', trigger: 'change' }
-        ],
+       
         isSpecialSelfTax: [
           { required: true, message: '请选择专票价税分离', trigger: 'change' }
         ],
-        editIsSpecialSelfTax: [
-          { required: true, message: '请选择专票价税分离', trigger: 'change' }
-        ],
+        
         placeCode: [
           { required: true, message: '请输入编号', trigger: 'blur' }
         ],
@@ -773,64 +686,24 @@ export default {
         ordinarySpecialTax: [
           { required: true, message: '请选择专票税率', trigger: 'change' }
         ],
-        editOrdinaryTax: [
-          { required: true, message: '请选择普票税率', trigger: 'change' }
-        ],
-        editOrdinarySpecialTax: [
-          { required: true, message: '请选择专票税率', trigger: 'change' }
-        ],
+       
+       
         ordinarySelfFee: [
           { required: true, message: '请输入普票服务费', trigger: 'blur' }
         ],
-        editOrdinaryProxyFee: [
-          { required: true, message: '请输入普票服务费', trigger: 'blur' }
-        ],
+        
         ordinaryShare: [
           { required: true, message: '请输入普票分润费', trigger: 'blur' }
         ],
-        editOrdinaryShare: [
-          { required: true, message: '请输入普票分润费', trigger: 'blur' }
-        ],
-        specialProxyFee: [
+        specialSelfFee: [
           { required: true, message: '请输入专票服务费', trigger: 'blur' }
         ],
-        editSpecialProxyFee: [
-          { required: true, message: '请输入专票服务费', trigger: 'blur' }
-        ],
+       
         specialShare: [
           { required: true, message: '请输入专票分润费', trigger: 'blur' }
         ],
-        editSpecialShare: [
-          { required: true, message: '请输入专票分润费', trigger: 'blur' }
-        ],
-
-
-        editPlaceAlias: [
-          { required: true, message: '请输入客户别名', trigger: 'blur' }
-        ],
-        editPlaceName: [
-          { required: true, message: '请输入客户名', trigger: 'blur' }
-        ],
-        editPlaceLinkman: [
-          { required: true, message: '请输入联系人', trigger: 'blur' }
-        ],
-        editPlaceTel: [
-          { validator: contactPhone, required: true, trigger: 'blur' }
-        ],
-
-
-
         userId: [
           { required: true, message: '请选择业务经理', trigger: 'change' }
-        ],
-
-
-
-        specialSelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
-        ],
-        editSpecialSelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
         ],
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
@@ -859,14 +732,9 @@ export default {
        isDisposable:[{
           required: true
         }],
-
-        registerMoney: [
+       registerMoney: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
-        editOrdinarySelfFee: [
-          { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
-        ],
-
         isOrdinaryTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
@@ -926,7 +794,6 @@ export default {
         this.ruleForm.isSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
         this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
         this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
-        this.ruleForm.specialProxyFee = res.specialProxyFee;
         this.ruleForm.specialSelfFee = res.specialSelfFee;
         this.ruleForm.isSpecialTax = res.isSpecialTax;
         this.ruleForm.disposableRemark=res.disposableRemark;
@@ -973,219 +840,8 @@ export default {
     backAgo(){
         this.$tab.closeOpenPage({path:'/tg-business/place/placelist'});
     },
-    isSelfShares(e){
-       if (this.ruleForm.selfShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.selfShare = '100';
-        }
-      }
-    },
-    selfShareIsmoneys(e){
-       if (e == '1') {
-        if (this.ruleForm.selfShareIsmoney == '1') {
-          if (this.ruleForm.selfShare > 100) {
-            this.ruleForm.selfShare = '100';
-          }
-        }
-      }
-    },
-    handlespecialShareIsmoneyS(e) {
-      if (this.ruleForm.editSpecialShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editSpecialShare = '100';
-        }
-      }
-    },
-    handlespecialProxyIsmoneyS(e) {
-      if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editSpecialProxyFee = '100';
-        }
-      }
-    },
-    handleordinaryShareIsmoneyS(e) {
-      if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editOrdinaryShare = '100';
-        }
-      }
-    },
-    handleordinaryProxyFeeS(e) {
-      if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.editOrdinaryProxyFee = '100';
-        }
-      }
-    },
-
-    handlespecialShareIsmoney(e) {
-      if (this.ruleForm.specialShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.specialShare = '100';
-        }
-      }
-    },
-    handlespecialProxyIsmoney(e) {
-      if (this.ruleForm.specialProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.specialProxyFee = '100';
-        }
-      }
-    },
-    handleordinaryShareIsmoney(e) {
-      if (this.ruleForm.ordinaryShareIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.ordinaryShare = '100';
-        }
-      }
-    },
-    handleordinaryProxyFee(e) {
-
-      if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-        if (e > 100) {
-          this.ruleForm.ordinarySelfFee = '100';
-        }
-      }
-    },
-    handPoxy(e) {
-      if (e == '1') {
-        if (this.ruleForm.ordinaryProxyIsmoney == '1') {
-          if (this.ruleForm.ordinarySelfFee > 100) {
-            this.ruleForm.ordinarySelfFee = '100';
-          }
-        }
-      }
-    },
-    hanOrshare(e) {
-      if (e == '1') {
-        if (this.ruleForm.ordinaryShareIsmoney == '1') {
-          if (this.ruleForm.ordinaryShare > 100) {
-            this.ruleForm.ordinaryShare = '100';
-          }
-        }
-      }
-    },
-    handSpecial(e) {
-      if (e == '1') {
-        if (this.ruleForm.specialProxyIsmoney == '1') {
-          if (this.ruleForm.specialProxyFee > 100) {
-            this.ruleForm.specialProxyFee = '100';
-          }
-        }
-      }
-    },
-    handMoney(e) {
-      if (e == '1') {
-        if (this.ruleForm.specialShareIsmoney == '1') {
-          if (this.ruleForm.specialShare > 100) {
-            this.ruleForm.specialShare = '100';
-          }
-        }
-      }
-    },
-    handPoxyS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-          if (this.ruleForm.editOrdinaryProxyFee > 100) {
-            this.ruleForm.editOrdinaryProxyFee = '100';
-          }
-        }
-      }
-    },
-    hanOrshareS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editOrdinaryShareIsmoney == '1') {
-          if (this.ruleForm.editOrdinaryShare > 100) {
-            this.ruleForm.editOrdinaryShare = '100';
-          }
-        }
-      }
-    },
-    handSpecialS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-          if (this.ruleForm.editSpecialProxyFee > 100) {
-            this.ruleForm.editSpecialProxyFee = '100';
-          }
-        }
-      }
-    },
-    handMoneyS(e) {
-      if (e == '1') {
-        if (this.ruleForm.editSpecialShareIsmoney == '1') {
-          if (this.ruleForm.editSpecialShare > 100) {
-            this.ruleForm.editSpecialShare = '100';
-          }
-        }
-      }
-    },
-    getPlaceCode() {
-      crudPlace.getCode().then(res => {
-        this.ruleForm.placeCode = res.message;
-        console.log("placeCode", this.ruleForm.placeCode);
-      })
-    },
-
-  
     
-    
-    // 表单重置
-    reset() {
-      this.ruleForm.isSliderOrdinary = '0',
-      this.ruleForm.isSlider = '0';
-      this.ruleForm.isSelfTax = '1';   //普票价税分离
-      this.ruleForm.isSpecialSelfTax = '1';  //专票价税分离
-      this.ruleForm.ordinaryProxyIsmoney = '0';
-      this.ruleForm.isOrdinaryShare = '1';
-      this.ruleForm.ordinaryShareIsmoney = '0'
-      this.ruleForm.specialProxyIsmoney = '0'
-      this.ruleForm.isSpecialShare = '1';
-      this.ruleForm.specialShareIsmoney = '0';
-
-
-
-
-      this.ruleForm.placeName = null;
-      this.ruleForm.placeAlias = null;//客户别名
-      this.ruleForm.placeLinkman = null;
-      this.ruleForm.placeTel = null;
-      this.ruleForm.userId = null;
-      this.ruleForm.userName = null;
-      this.ruleForm.ordinarySpecialTax = '0.03';
-      this.ruleForm.ordinaryTax = '0';
-      this.ruleForm.specialInvoice6 = '';
-      this.ruleForm.specialInvoice13 = '';
-      this.ruleForm.specialInvoice6Money = '';
-      this.ruleForm.specialInvoice13Money = '';
-      this.ruleForm.specialSelfFee = null;
-      this.ruleForm.isSpecialTax = '1';
-      this.ruleForm.registerMoney = null;
-      this.ruleForm.registerMoney = '';
-      this.ruleForm.ordinaryProxyMoeny = '';
-      this.ruleForm.isOrdinaryTax = '1';
     },
-   
-   
-    
-   
-   
-    
-    //获取所有用户
-    getAllUser() {
-      getAllUser().then(res => {
-        this.userLeaders = res;
-
-      })
-    },
-
-
-    selectUser(value) {
-      this.ruleForm.userName = this.userLeaders.find((item) => item.userId == value).nickName;
-      this.ruleForm.editUserName = this.userLeaders.find((item) => item.userId == value).nickName;
-    },
-    /** 提交按钮 */
-   
-   },
 };
 </script>
 <style lang="scss" scoped>

@@ -306,7 +306,7 @@
 
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="专票服务费" prop="editSpecialProxyFee">
+              <el-form-item label="专票服务费" prop="editSpecialSelfFee">
 
                 <div style="">
                   <el-radio @change="handSpecialS" :disabled="confirmEditStatus" v-model="ruleForm.editSpecialProxyIsmoney" label="0">按定额收取
@@ -315,7 +315,7 @@
                   </el-radio>
 
                   <el-input v-if="ruleForm.editSpecialProxyIsmoney == 0" style="width:100%"
-                    :readonly="confirmEditStatus"  v-model="ruleForm.editSpecialProxyFee" 
+                    :readonly="confirmEditStatus"  v-model="ruleForm.editSpecialSelfFee" 
                     :min="0"
                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
@@ -323,7 +323,7 @@
                     <template slot="append">元</template>
                   </el-input>
                   <el-input :readonly="confirmEditStatus" v-else  style="width:100%"
-                    v-model="ruleForm.editSpecialProxyFee"
+                    v-model="ruleForm.editSpecialSelfFee"
                     @input="handlespecialProxyIsmoneyS"
                     @change="handlespecialProxyIsmoneyS"  :min="0"
                     :max="100"
@@ -552,6 +552,7 @@ var numCheck = (rule, value, callback) => {
 import crudPlace from "@/api/tg-api/place/place";
 import agencyfee from "@/api/tg-api/place/agencyfee";
 import { getAllUser } from '@/api/system/user';
+
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
@@ -569,7 +570,7 @@ export default {
         label:'直客'
         }
       ],
-      editSpecialProxyFee: '2',
+      editSpecialSelfFee: '2',
       editRegisterMoney: '2',
       editSpecialInvoice13: '2',
       editSpecialInvoice6: '2',
@@ -664,11 +665,8 @@ export default {
         specialProxyMoney: 0,
         specialProxyFee: 0,
 
-        specialInvoice13Money: 0, //  专票 13 元
-        specialInvoice6Money: 0, //  专票6 元
-        specialInvoice6: 0,   //专票 6 （%）
-        specialInvoice13: 0,  //专票13 （%）
-        specialSelfFee: 0,
+  
+       
         isSpecialTax: '1',//是否含税-专票
         ordinaryProxyMoney: 0,//普票平台服务费(元）
         registerMoney: 0,
@@ -719,10 +717,10 @@ export default {
         editSpecialInvoice13: '',
         editSpecialInvoice6Money: '',
         editSpecialInvoice13Money: '',
-        editSpecialSelfFee: '',
+       
         editIsSpecialTax: '',//是否含税-专票
         editSpecialProxyMoney: '',
-        editSpecialProxyFee: '',
+        editSpecialSelfFee: '',
 
         editOrdinaryTax: '',
         editOrdinarySpecialTax: '',
@@ -867,7 +865,7 @@ export default {
         specialProxyFee: [
           { required: true, message: '请输入专票服务费', trigger: 'blur' }
         ],
-        editSpecialProxyFee: [
+        editSpecialSelfFee: [
           { required: true, message: '请输入专票服务费', trigger: 'blur' }
         ],
         specialShare: [
@@ -899,12 +897,8 @@ export default {
 
 
 
-        specialSelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
-        ],
-        editSpecialSelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
-        ],
+     
+      
         isSpecialTax: [
           { required: true, message: '请选择是否含税', trigger: 'change' }
         ],
@@ -1014,13 +1008,13 @@ export default {
         this.ruleForm.editIsSelfTax = JSON.stringify(res.isSelfTax),
         this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
         this.ruleForm.editAgencyFeeId = res.agencyFeeId;
-        this.ruleForm.editSpecialSelfFee = res.specialSelfFee;
+       
         this.ruleForm.editIsSpecialTax = res.isSpecialTax;
       
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.editRegisterMoney = res.registerMoney;
         this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
-        this.ruleForm.editSpecialProxyFee = res.specialProxyFee;
+        this.ruleForm.editSpecialSelfFee = res.specialProxyFee;
         this.ruleForm.editSpecialShare = res.specialShare;
         this.ruleForm.editOrdinaryShare = res.ordinaryShare;
         this.ruleForm.editOrdinarySpecialTax = JSON.stringify(res.ordinarySpecialTax);
@@ -1134,7 +1128,7 @@ export default {
     handlespecialProxyIsmoneyS(e) {
       if (this.ruleForm.editSpecialProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editSpecialProxyFee = '100';
+          this.ruleForm.editSpecialSelfFee = '100';
         }
       }
     },
@@ -1176,8 +1170,8 @@ export default {
     handSpecialS(e) {
       if (e == '1') {
         if (this.ruleForm.editSpecialProxyIsmoney == '1') {
-          if (this.ruleForm.editSpecialProxyFee > 100) {
-            this.ruleForm.editSpecialProxyFee = '100';
+          if (this.ruleForm.editSpecialSelfFee > 100) {
+            this.ruleForm.editSpecialSelfFee = '100';
           }
         }
       }
@@ -1234,25 +1228,21 @@ export default {
             specialProxyIsmoney: this.ruleForm.editSpecialProxyIsmoney,
             isSpecialShare: this.ruleForm.editIsSpecialShare,
             specialShareIsmoney: this.ruleForm.editSpecialShareIsmoney,
-
-            specialSelfFee: this.ruleForm.editSpecialSelfFee,
             isSpecialTax: this.ruleForm.editIsSpecialTax,
-
             registerMoney: this.ruleForm.editRegisterMoney,
-
-            //specialProxyMoney: this.ruleForm.editSpecialProxyMoney,
-            specialProxyFee: this.ruleForm.editSpecialProxyFee,
+            
+            specialSelfFee: this.ruleForm.editSpecialSelfFee,
 
             ordinarySelfFee: this.ruleForm.editOrdinarySelfFee,
-            //ordinaryProxyMoney: this.ruleForm.editOrdinaryProxyMoney, //服务费元
+            
 
             ordinaryTax: '0',
             ordinarySpecialTax: '0.03',
 
             specialShare: this.ruleForm.editSpecialShare,
-            // specialShareMoney:this.ruleForm.editSpecialShareMoney,
+         
             ordinaryShare: this.ruleForm.editOrdinaryShare,
-            //ordinaryShareMoney:this.ruleForm.editOrdinaryShareMoney,
+           
 
             isOrdinaryTax: this.ruleForm.editIsOrdinaryTax,
             isSelfTax: this.ruleForm.editIsSelfTax,

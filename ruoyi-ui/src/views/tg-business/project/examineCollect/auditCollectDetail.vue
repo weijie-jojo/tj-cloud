@@ -315,7 +315,7 @@
      
       //返回
       resetForm() {
-        if(this.$cache.local.getJSON('iscollect')==0){
+        if(this.$cache.local.getJSON('tg-ifcollect')==0){
            this.$tab.closeOpenPage({
             path:'/projectlist/aduitCollectList'
            })

@@ -2432,7 +2432,7 @@ export default {
                 this.unlist.isSpecialShare
               );
 
-              this.formData.specialSelfFee = this.unlist.specialProxyFee;
+              this.formData.specialSelfFee = this.unlist.specialSelfFee;
               this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
               this.formData.registerMoney = this.unlist.registerMoney;
               this.formData.specialShare = this.unlist.specialShare;

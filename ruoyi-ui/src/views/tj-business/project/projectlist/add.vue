@@ -1725,7 +1725,7 @@ export default {
             .then((res) => {
               this.unlist = res;
               if (this.formData.isSelfCount == 1) {
-                this.formData.specialSelfFee = this.unlist.specialProxyFee;
+                this.formData.specialSelfFee = this.unlist.specialSelfFee;
 
                 this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
                 this.formData.registerMoney = this.unlist.registerMoney;
@@ -1759,12 +1759,12 @@ export default {
                   this.unlist.isSpecialShare
                 );
 
-                this.formData.ordinarySpecialTax = JSON.stringify(
-                  this.unlist.ordinarySpecialTax
-                );
-                this.formData.ordinaryTax = JSON.stringify(
-                  this.unlist.ordinaryTax
-                );
+                // this.formData.ordinarySpecialTax = JSON.stringify(
+                //   this.unlist.ordinarySpecialTax
+                // );
+                // this.formData.ordinaryTax = JSON.stringify(
+                //   this.unlist.ordinaryTax
+                // );
 
                 this.formData.disposableRemark=this.unlist.disposableRemark;
 
