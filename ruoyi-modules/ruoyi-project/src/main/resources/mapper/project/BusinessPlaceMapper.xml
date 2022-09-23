@@ -36,7 +36,7 @@
                t.place_open_bank, t.place_bank_account, t.place_star_level, t.place_status, t.regist_time, t.user_id, t.is_delete,
                t.remark, t.create_time, t.create_by, t.update_by, t.update_time, t.user_name,
                A.agency_fee_id, A.place_code, A.special_invoice6, A.special_invoice13, A.special_self_fee, A.is_special_tax,
-               A.ordinary_self_fee, A.ordinary_proxy_fee, A.is_ordinary_tax, A.is_delete, A.create_time, A.create_by, A.update_by,
+               A.ordinary_self_fee, A.is_ordinary_tax, A.is_delete, A.create_time, A.create_by, A.update_by,
                A.update_time, A.special_invoice6_money, A.special_invoice13_money, A.ordinary_proxy_money, A.special_proxy_fee,
                A.special_proxy_money, A.ordinary_tax, A.ordinary_special_tax, A.ordinary_share, A.ordinary_share_money, A.special_share,
                A.special_share_money, A.is_self_tax, A.is_special_self_tax, A.ordinary_proxy_ismoney, A.special_proxy_ismoney,
