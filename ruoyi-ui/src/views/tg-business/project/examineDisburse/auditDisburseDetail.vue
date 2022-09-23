@@ -220,7 +220,7 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import {detail} from "@/api/project/list";
+  import {detail} from "@/api/tg-api/project/list";
   export default {
     name: "AuditDisburseDetail",
     components: { uploadSmall },
@@ -312,7 +312,7 @@
            })
         }else{
           this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+          path: this.$cache.local.getJSON("tg-aduitback").backurl,
         });
         }
         

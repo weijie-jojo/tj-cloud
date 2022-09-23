@@ -87,17 +87,19 @@ export function delReceive(payReceiveIds) {
  })
 }
 //获取收款流水号code 
-export function getReceiveCode() {
+export function getReceiveCode(query) {
   return request({
     url: '/project/receive/getCode',
     method: 'get',
+    params: query
    })
 }
 //获取出款流水号code 
-export function getPayCode() {
+export function getPayCode(query) {
   return request({
     url: '/project/pay/getCode',
     method: 'get',
+    params: query
    })
 }
 //获取甲方列表分页

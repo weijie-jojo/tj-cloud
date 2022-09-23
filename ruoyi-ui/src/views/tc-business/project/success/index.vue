@@ -135,14 +135,6 @@ export default {
 </script>
 
 <style>
-.flexsbg {
-  width: 100%;
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .flexs {
   margin-top: 50px;
   display: flex;

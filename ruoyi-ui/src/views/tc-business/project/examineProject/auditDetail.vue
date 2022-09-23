@@ -547,7 +547,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { getcode, getinfoByUserId, detail } from "@/api/project/list";
+import { getcode, getinfoByUserId, detail } from "@/api/tc-api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {

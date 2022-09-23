@@ -75,7 +75,7 @@
 
 <script>
 import moment from 'moment'
-import { list, del, getCount } from "@/api/project/list";
+import { list, del, getCount } from "@/api/tc-api/project/list";
 export default {
     name: 'ExamineList',
     data() {
@@ -240,7 +240,7 @@ export default {
                 backurl:'/projectlist/examineList',
                 name:'ExamineList'
             };
-            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$cache.local.setJSON('tc-aduitback',obj);
             this.$tab.closeOpenPage({ path: '/projectlist/auditItems' });
         },
         /** 搜索按钮操作 */

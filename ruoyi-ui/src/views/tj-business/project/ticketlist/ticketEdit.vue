@@ -369,9 +369,7 @@ export default {
 
         };
     },
-    watch: {
-        'Father.industryType': 'selectIndustryType',
-    },
+   
     mounted() {
        this.getTicket();
     },
@@ -402,33 +400,7 @@ export default {
           this.$modal.closeLoading();
         });
     },
-        //监听行业类型
-        selectIndustryType() {
-            var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
-            if (rate) {
-                this.industryId = rate.industryId;  //行业类型id
-                this.owerTaxfee = rate.taxRate;
-                let industryType = rate.industryId;
-                ownlist({ username:this.formData.projectLeader, industryType: industryType }).then(res => {
-                    this.ownoptions = res;
-
-                    for (let i in this.ownoptions) {
-                        if (this.ownoptions[i].selfName == this.Father.selfName) {
-                            this.natureBusiness = this.ownoptions[i].natureBusiness;
-                            this.owerTax = this.ownoptions[i].taxId;
-                        }
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            } else {
-                this.getRate();
-
-
-            }
-
-
-        },
+      
         getfileNameS() {
 
         },

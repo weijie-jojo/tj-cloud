@@ -150,7 +150,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { edit, check } from "@/api/project/list";
+import { edit, check } from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "DutypaidsEdit",

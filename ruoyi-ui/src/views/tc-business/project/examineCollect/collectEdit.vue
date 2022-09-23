@@ -201,7 +201,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive } from "@/api/project/list";
+import { check, detail, editReceive } from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "AduitCollect",
@@ -323,7 +323,7 @@ export default {
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+          path: this.$cache.local.getJSON("tc-aduitback").backurl,
         });
       }
     },

@@ -556,7 +556,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { getcode, getinfoByUserId, detail,edit,check } from "@/api/project/list";
+import { getcode, getinfoByUserId, detail,edit,check } from "@/api/tc-api/project/list";
 import { getInfo } from '@/api/login'
 import { Decimal } from 'decimal.js'
 export default {
@@ -738,9 +738,9 @@ export default {
 
                    let obj = {
                       title: '项目审核',
-                      backUrl:this.$cache.local.getJSON('aduitProjectBack').backurl,
+                      backUrl:this.$cache.local.getJSON('tc-aduitback').backurl,
                       resmsg: resmsg,
-                      backName:this.$cache.local.getJSON('aduitProjectBack').name
+                      backName:this.$cache.local.getJSON('tc-aduitback').name
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
@@ -750,7 +750,7 @@ export default {
 
               } else {
                 this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('aduitProjectBack').backurl });
+                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-aduitback').backurl });
               }
 
             }
@@ -904,7 +904,7 @@ export default {
             });
         },
         resetForm() {
-            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('aduitProjectBack').backurl});
+            this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tc-aduitback').backurl});
         },
 
         

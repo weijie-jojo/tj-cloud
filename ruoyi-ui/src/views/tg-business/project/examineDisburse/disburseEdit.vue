@@ -203,7 +203,7 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import { check,detail,editPay} from "@/api/project/list";
+  import { check,detail,editPay} from "@/api/tg-api/project/list";
   import { getInfo } from "@/api/login";
   export default {
     name: "DisburseEdit",
@@ -318,7 +318,7 @@
            })
         }else{
           this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("aduitProjectBack").backurl,
+          path: this.$cache.local.getJSON("tg-aduitback").backurl,
         });
         }
         

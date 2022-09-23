@@ -369,7 +369,7 @@ export default {
   computed: {},
   mounted() {
     this.gettoday();
-    this.getReceiveCode();
+   
     this.getDetails();
    
    
@@ -407,6 +407,7 @@ export default {
          this.publicList = response.data;
          this.formData.projectCode = this.publicList.projectCode;
          this.formData.projectName = this.publicList.projectName;
+         this.getReceiveCode();
         
          this.disburseList[0].projectCode = this.publicList.projectCode;
          this.disburseList[0].projectName = this.publicList.projectName;
@@ -533,7 +534,7 @@ export default {
     },
     //获取收款流水号
     getReceiveCode() {
-      getReceiveCode().then((res) => {
+      getReceiveCode({projectCode: this.formData.projectCode}).then((res) => {
         this.disburseList[0].receiveSysCode=res;
         this.formData.receiveSysCode = res;
       });
@@ -543,7 +544,7 @@ export default {
       this.getArr1(index);
     },
      getArr1(index){
-       getPayCode().then((res) => {
+       getPayCode({projectCode: this.formData.projectCode }).then((res) => {
        this.getArr2(res,index);
        this.getArr3();
       

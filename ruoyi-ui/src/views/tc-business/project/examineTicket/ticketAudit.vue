@@ -70,7 +70,7 @@
 
 <script>
 import moment from 'moment'
-import { list, del,getCount } from "@/api/project/list";
+import { list, del,getCount } from "@/api/tc-api/project/list";
 export default {
     name:'TicketAudit',
     data() {
@@ -265,7 +265,7 @@ export default {
                 backurl:'/tc-business/project/ticketAudit'
             };
             this.$cache.local.setJSON('tc-backTicket',obj1);
-            this.$cache.local.setJSON('aduitProjectBack',obj);
+            this.$cache.local.setJSON('tc-aduitback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/ticketlist' });

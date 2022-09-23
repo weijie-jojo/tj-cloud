@@ -872,7 +872,7 @@
             <el-form-item label="客户全名" prop="placeName">
               <el-select
                 @visible-change="changeValue1($event)"
-                @change="placenew"
+               
                 style="width: 100%"
                 v-model="formData.placeCode"
                 placeholder="请选择客户全名"
@@ -2593,123 +2593,7 @@ export default {
         }
       });
     },
-    placenew() {
-      for (let i in this.places) {
-        if (this.places[i].placeCode == this.formData.placeCode) {
-           this.formData.placeAliasName = this.places[i].placeAliasName;
-           this.formData.placeName = this.places[i].placeName;
-          crudPlace
-            .selectFeeByCode({ placeCode: this.places[i].placeCode })
-            .then((res) => {
-              this.unlist = res;
-              this.formData.specialSelfFee = this.unlist.specialSelfFee;
-
-              this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
-              this.formData.registerMoney = this.unlist.registerMoney;
-              this.formData.specialShare = this.unlist.specialShare;
-              this.formData.ordinaryShare = this.unlist.ordinaryShare;
-              this.formData.disposableRemark=this.unlist.disposableRemark;//一次性费用备注
-
-              this.formData.selfShareIsmoney = JSON.stringify(
-                this.unlist.selfShareIsmoney
-              );
-              this.formData.isSelfShare = JSON.stringify(
-                this.unlist.isSelfShare
-              );
-              this.formData.selfShare = JSON.stringify(this.unlist.selfShare);
-
-              this.formData.ordinaryProxyIsmoney = JSON.stringify(
-                this.unlist.ordinaryProxyIsmoney
-              ); //普票平台服务费是否定额
-              this.formData.specialProxyIsmoney = JSON.stringify(
-                this.unlist.specialProxyIsmoney
-              ); //专票平台服务费是否定额
-              this.formData.ordinaryShareIsmoney = JSON.stringify(
-                this.unlist.ordinaryShareIsmoney
-              ); //普票分润方式是否定额
-              this.formData.specialShareIsmoney = JSON.stringify(
-                this.unlist.specialShareIsmoney
-              ); //专票分润方式是否定额
-              this.formData.isOrdinaryShare = JSON.stringify(
-                this.unlist.isOrdinaryShare
-              );
-              this.formData.isSpecialShare = JSON.stringify(
-                this.unlist.isSpecialShare
-              );
-
-              this.formData.ordinarySpecialTax = JSON.stringify(
-                this.unlist.ordinarySpecialTax
-              );
-              this.formData.ordinaryTax = JSON.stringify(
-                this.unlist.ordinaryTax
-              );
-
-              this.formData.isDisposableShare = JSON.stringify(
-                this.unlist.isDisposableShare
-              );
-              this.formData.disposableShareIsmoney = JSON.stringify(
-                this.unlist.disposableShareIsmoney
-              );
-              this.formData.disposableShare = JSON.stringify(
-                this.unlist.disposableShare
-              );
-              this.formData.disposableFeeIsmoney = JSON.stringify(
-                this.unlist.disposableFeeIsmoney
-              );
-
-              this.formData.disposableFee = JSON.stringify(
-                this.unlist.disposableFee
-              );
-              this.formData.isDisposable = JSON.stringify(
-                this.unlist.isDisposable
-              );
-              this.formData.isRegisterMoney = JSON.stringify(
-                this.unlist.isRegisterMoney
-              );
-
-              if (this.unlist.isSlider == "0") {
-                this.formData.isSlider = "0";
-              } else {
-                this.formData.isSlider = "1";
-              }
-
-              if (this.unlist.isSliderOrdinary == "0") {
-                this.formData.isSliderOrdinary = "0";
-              } else {
-                this.formData.isSliderOrdinary = "1";
-              }
-
-              //含税专票
-              if (this.unlist.isSpecialTax) {
-                this.formData.isSpecialSelfTax = "0";
-              } else {
-                this.formData.isSpecialSelfTax = "1";
-              }
-              //普票含税
-              if (this.unlist.isSelfTax) {
-                this.formData.isSelfTax = "0";
-              } else {
-                this.formData.isSelfTax = "1";
-              }
-
-              //普票价格分离
-              if (this.unlist.isOrdinaryTax== "0") {
-                this.formData.isOrdinaryTax = "0";
-              } else {
-                this.formData.isOrdinaryTax = "1";
-              }
-              //专票价格分离
-              if (this.unlist.isSpecialSelfTax == "0") {
-                this.formData.isSpecialTax = "0";
-              } else {
-                this.formData.isSpecialTax = "1";
-              }
-            });
-
-          return;
-        }
-      }
-    },
+   
     //客户下拉筛选获取客户结算信息
     singleOK() {
       if (this.formData.isSelfCount == 0) {
@@ -2746,7 +2630,37 @@ export default {
         this.formData.isSpecialTax = "1";
       } else {
         
-        this.placenew();
+        this.formData.disposableRemark=null;
+        this.formData.isDisposableShare = null;
+        this.formData.disposableShareIsmoney = null;
+        this.formData.disposableShare = null;
+        this.formData.disposableFeeIsmoney = null;
+        this.formData.disposableFee = null;
+        this.formData.isDisposable = null; //是否一次性费用
+        this.formData.isRegisterMoney = null; //是否收取注册服务费
+
+        this.formData.selfShareIsmoney = null;
+        this.formData.isSelfShare = null;
+        this.formData.selfShare = null;
+        this.formData.specialSelfFee = null;
+        this.formData.ordinarySelfFee = null;
+        this.formData.registerMoney = null;
+        this.formData.specialShare = null;
+        this.formData.ordinaryShare = null;
+        this.formData.ordinaryProxyIsmoney = null; //普票平台服务费是否定额
+        this.formData.specialProxyIsmoney = null; //专票平台服务费是否定额
+        this.formData.ordinaryShareIsmoney = null; //普票分润方式是否定额
+        this.formData.specialShareIsmoney = null; //专票分润方式是否定额
+        this.formData.isOrdinaryShare = null;
+        this.formData.isSpecialShare = null;
+        this.formData.ordinarySpecialTax = null;
+        this.formData.ordinaryTax = null;
+        this.formData.isSlider = null;
+        this.formData.isSliderOrdinary = null;
+        this.formData.isSpecialSelfTax = null;
+        this.formData.isSelfTax = null;
+        this.formData.isOrdinaryTax = null;
+        this.formData.isSpecialTax = null;
       }
     },
     backBus() {

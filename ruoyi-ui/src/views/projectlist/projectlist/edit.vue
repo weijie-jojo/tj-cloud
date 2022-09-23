@@ -66,7 +66,7 @@
             <el-form-item class="comright" label="客户全名">
               <el-select
                 filterable
-                @change="placeNew"
+               
                 style="width: 100%"
                 clearable
                 v-model="formData.placeCode"

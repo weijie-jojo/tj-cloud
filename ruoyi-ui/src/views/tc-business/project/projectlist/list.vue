@@ -150,6 +150,41 @@
       </el-table-column>
 
       <el-table-column
+        label="项目审核"
+        align="center"
+        prop="projectCheckStatus"
+        :filters="filterList2"
+        :filter-method="filterHandler"
+      >
+        <template slot-scope="scope">
+          <el-link
+            :underline="false"
+            type="primary"
+            @click="
+              examine(scope.row.userId, scope.row, 1, scope.row.projectCode)
+            "
+            v-if="scope.row.projectCheckStatus == '0'"
+            >审核中</el-link
+          >
+
+          <el-link
+            :underline="false"
+            type="danger"
+            @click="progressError(scope.row.projectCode, scope.row, 1)"
+            v-if="scope.row.projectCheckStatus == '2'"
+            >异常</el-link
+          >
+          <el-link
+            :underline="false"
+            type="success"
+            @click="projectFinish(scope.row.projectCode, scope.row, 1)"
+            v-if="scope.row.projectCheckStatus == '1'"
+            >完成</el-link
+          >
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="项目票据"
         prop="projectTicketStatus"
         align="center"
@@ -349,40 +384,7 @@
           >
         </template>
       </el-table-column>
-      <el-table-column
-        label="项目审核"
-        align="center"
-        prop="projectCheckStatus"
-        :filters="filterList2"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <el-link
-            :underline="false"
-            type="primary"
-            @click="
-              examine(scope.row.userId, scope.row, 1, scope.row.projectCode)
-            "
-            v-if="scope.row.projectCheckStatus == '0'"
-            >审核中</el-link
-          >
-
-          <el-link
-            :underline="false"
-            type="danger"
-            @click="progressError(scope.row.projectCode, scope.row, 1)"
-            v-if="scope.row.projectCheckStatus == '2'"
-            >异常</el-link
-          >
-          <el-link
-            :underline="false"
-            type="success"
-            @click="projectFinish(scope.row.projectCode, scope.row, 1)"
-            v-if="scope.row.projectCheckStatus == '1'"
-            >完成</el-link
-          >
-        </template>
-      </el-table-column>
+    
       <el-table-column
         label="操作"
         align="center"
@@ -792,7 +794,7 @@ export default {
         name: "List",
       };
       this.$cache.local.setJSON("tc-ifcollect", 1);
-      this.$cache.local.setJSON("aduitProjectBack", obj);
+      this.$cache.local.setJSON("tc-aduitback", obj);
       switch (this.types) {
         case 1:
           this.$tab.closeOpenPage({ path: "/tc-business/project/auditItems" });
