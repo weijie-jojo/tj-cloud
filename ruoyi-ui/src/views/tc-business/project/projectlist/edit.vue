@@ -1642,10 +1642,10 @@
           this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
           this.formData.selfShare = JSON.stringify(this.formData.selfShare);
   
-          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-          this.formData.ordinarySpecialTax = JSON.stringify(
-            this.formData.ordinarySpecialTax
-          );
+          //this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+          // this.formData.ordinarySpecialTax = JSON.stringify(
+          //   this.formData.ordinarySpecialTax
+          // );
           this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
           this.formData.isSpecialSelfTax = JSON.stringify(
             this.formData.isSpecialSelfTax
@@ -1671,10 +1671,10 @@
             this.formData.isSpecialShare
           );
   
-          this.formData.ordinarySpecialTax = JSON.stringify(
-            this.formData.ordinarySpecialTax
-          );
-          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+          // this.formData.ordinarySpecialTax = JSON.stringify(
+          //   this.formData.ordinarySpecialTax
+          // );
+          // this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
          
          
           this.formData.isDisposableShare = JSON.stringify(
@@ -1827,7 +1827,7 @@
               .then((res) => {
                 this.unlist = res;
                 if (this.formData.isSelfCount == 1) {
-                  this.formData.specialSelfFee = this.unlist.specialProxyFee;
+                  this.formData.specialSelfFee = this.unlist.specialSelfFee;
   
                   this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
                   this.formData.registerMoney = this.unlist.registerMoney;
@@ -2120,7 +2120,7 @@
                     this.$modal.msgSuccess("项目修改完成");
                     this.$tab
                       .closeOpenPage({
-                        path: this.$cache.local.getJSON("Projectedit").url,
+                        path: this.$cache.local.getJSON("tc-backTicket").url,
                       })
                       .then(() => {
                         this.$tab.closeOpenPage({ path: "/tc-business/project/list" }).then(() => {
@@ -2171,6 +2171,7 @@
   }
   
   .flexs {
+    margin-top:0px !important;
     display: flex;
     justify-content: center;
   }

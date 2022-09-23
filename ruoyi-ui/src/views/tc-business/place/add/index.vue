@@ -276,19 +276,19 @@
             </el-row>
             <el-row type="flex" justify="flex-end">
               <el-col :span="24">
-                <el-form-item label="专票服务费" prop="specialProxyFee">
+                <el-form-item label="专票服务费" prop="specialSelfFee">
                   <div>
                     <el-radio @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="0">按定额收取</el-radio>
                     <el-radio @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input v-if="ruleForm.specialProxyIsmoney == 0" style="width:100%" 
-                      v-model="ruleForm.specialProxyFee"  :min="0"
+                      v-model="ruleForm.specialSelfFee"  :min="0"
                       onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                       oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
                       >
                       <template slot="append">元</template>
                     </el-input>
-                    <el-input v-else  style="width:100%" v-model="ruleForm.specialProxyFee"
+                    <el-input v-else  style="width:100%" v-model="ruleForm.specialSelfFee"
                       @input="handlespecialProxyIsmoney" @change="handlespecialProxyIsmoney"  :min="0"
                       :max="100"
                        onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -512,7 +512,7 @@ export default {
       specialInvoice13: '2',
       specialInvoice6: '2',
       specialProxyMoney: '2',
-      specialProxyFee: '2',
+      specialSelfFee: '2',
 
       specialShare: '2',
       ordinaryShare: '2',
@@ -600,7 +600,7 @@ export default {
         ordinaryShare: '',//普票分润
 
         specialProxyMoney: 0,
-        specialProxyFee: 0,
+       
 
         specialInvoice13Money: 0, //  专票 13 元
         specialInvoice6Money: 0, //  专票6 元
@@ -827,7 +827,7 @@ export default {
         editOrdinaryShare: [
           { required: true, message: '请输入普票分润费', trigger: 'blur' }
         ],
-        specialProxyFee: [
+        specialSelfFee: [
           { required: true, message: '请输入专票服务费', trigger: 'blur' }
         ],
         editSpecialProxyFee: [
@@ -862,9 +862,6 @@ export default {
 
 
 
-        specialSelfFee: [
-          { validator: numCheck, required: true, trigger: 'blur' }
-        ],
         editSpecialSelfFee: [
           { validator: numCheck, required: true, trigger: 'blur' }
         ],
@@ -998,7 +995,7 @@ export default {
     handlespecialProxyIsmoney(e) {
       if (this.ruleForm.specialProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.specialProxyFee = '100';
+          this.ruleForm.specialSelfFee = '100';
         }
       }
     },
@@ -1037,8 +1034,8 @@ export default {
     handSpecial(e) {
       if (e == '1') {
         if (this.ruleForm.specialProxyIsmoney == '1') {
-          if (this.ruleForm.specialProxyFee > 100) {
-            this.ruleForm.specialProxyFee = '100';
+          if (this.ruleForm.specialSelfFee > 100) {
+            this.ruleForm.specialSelfFee = '100';
           }
         }
       }
@@ -1149,28 +1146,16 @@ export default {
               isSpecialSelfTax: this.ruleForm.isSpecialSelfTax,
               placeCode: this.ruleForm.placeCode,
 
-              // specialInvoice6Money: this.ruleForm.specialInvoice6Money,
-              // specialInvoice13Money: this.ruleForm.specialInvoice13Money,
-              // ordinaryProxyMoney: this.ruleForm.ordinaryProxyMoney,
+             
               ordinarySelfFee: this.ruleForm.ordinarySelfFee,
-              // specialProxyMoney: this.ruleForm.specialProxyMoney,
-              specialProxyFee: this.ruleForm.specialProxyFee,
-
-              // specialInvoice6: this.ruleForm.specialInvoice6,
-              // specialInvoice13: this.ruleForm.specialInvoice13,
+             
               specialSelfFee: this.ruleForm.specialSelfFee,
-              isSpecialTax: this.ruleForm.isSpecialTax,
+               isSpecialTax: this.ruleForm.isSpecialTax,
               registerMoney: this.ruleForm.registerMoney,
-
               ordinaryTax: '0',
               ordinarySpecialTax: '0.03',
-
               specialShare: this.ruleForm.specialShare,
-              //specialShareMoney:this.ruleForm.specialShareMoney,
-              ordinaryShare: this.ruleForm.ordinaryShare,
-              //ordinaryShareMoney:this.ruleForm.ordinaryShareMoney,
-
-
+               ordinaryShare: this.ruleForm.ordinaryShare,
               isOrdinaryTax: this.ruleForm.isOrdinaryTax,
               ordinaryProxyIsmoney: this.ruleForm.ordinaryProxyIsmoney,
               isOrdinaryShare: this.ruleForm.isOrdinaryShare,

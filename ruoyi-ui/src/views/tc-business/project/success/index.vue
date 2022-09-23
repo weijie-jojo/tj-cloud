@@ -83,7 +83,7 @@ export default {
     resetForm() {},
     submitForm() {
       if (this.shenmsgs == 1 || this.shenmsgs == 4 || this.shenmsgs==5 ) {
-        if (this.$cache.local.getJSON("iscollect") == 0) {
+        if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
           if(this.shenmsgs==1){
           this.$tab.refreshPage({
             path: "/tc-business/project/ticketlist",

@@ -312,7 +312,7 @@
      
       //返回
       resetForm() {
-        if(this.$cache.local.getJSON('iscollect')==0){
+        if(this.$cache.local.getJSON('tc-ifcollect')==0){
            this.$tab.closeOpenPage({
             path:'/projectlist/aduitDisburseList'
            })
@@ -341,7 +341,7 @@
                 if (res.code === 200) {
                      this.check('修改出款完成')
                      this.$modal.msgSuccess("修改出款成功");
-                     if(this.$cache.local.getJSON('iscollect')==0){
+                     if(this.$cache.local.getJSON('tc-ifcollect')==0){
                         this.$tab.refreshPage({
                          path:'/projectlist/aduitDisburseList',
                          name:'AduitDisburseList'

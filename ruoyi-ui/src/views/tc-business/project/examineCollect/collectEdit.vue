@@ -317,7 +317,7 @@ export default {
 
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("iscollect") == 0) {
+      if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
         this.$tab.closeOpenPage({
           path: "/projectlist/aduitCollectList",
         });
@@ -348,7 +348,7 @@ export default {
               if (res.code === 200) {
                 this.check("修改收款完成");
                 this.$modal.msgSuccess("修改收款成功");
-                if (this.$cache.local.getJSON("iscollect") == 0) {
+                if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
                   this.$tab.refreshPage({
                     path: "/projectlist/aduitCollectList",
                     name: "AduitCollectList",
