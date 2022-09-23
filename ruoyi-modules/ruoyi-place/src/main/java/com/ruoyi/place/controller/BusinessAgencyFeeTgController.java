@@ -41,7 +41,7 @@ public class BusinessAgencyFeeTgController {
             businessAgencyFee.setOrdinarySelfFee(businessAgencyFee.getOrdinarySelfFee().movePointRight(2));
         }
         if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointRight(2));
+            businessAgencyFee.setSpecialSelfFee(businessAgencyFee.getSpecialSelfFee().movePointRight(2));
         }
 
         return businessAgencyFee;

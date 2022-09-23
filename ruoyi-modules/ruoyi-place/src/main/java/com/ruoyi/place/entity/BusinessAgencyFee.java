@@ -60,9 +60,9 @@ public class BusinessAgencyFee implements Serializable {
     private BigDecimal specialSelfFee;
 
     /**
-     * 是否含税-专票
+     * 专票价税分离（与服务费含税一样，是，否；默认选择否）
      */
-    @ApiModelProperty(value = "是否含税-专票")
+    @ApiModelProperty(value = "专票价税分离（与服务费含税一样，是，否；默认选择否）")
     private Boolean isSpecialTax;
 
     /**
@@ -78,9 +78,9 @@ public class BusinessAgencyFee implements Serializable {
     private BigDecimal registerMoney;
 
     /**
-     * 是否含税-普票
+     * 普票价税分离（与服务费含税一样，是，否；默认选择否）
      */
-    @ApiModelProperty(value = "是否含税-普票")
+    @ApiModelProperty(value = "普票价税分离（与服务费含税一样，是，否；默认选择否）")
     private Boolean isOrdinaryTax;
 
     /**
@@ -158,12 +158,12 @@ public class BusinessAgencyFee implements Serializable {
     @ApiModelProperty(value = "分润方式(增值税专用发票）定额")
     private Long specialShareMoney;
 
-    /** 价税分离(普票) 0 是 1否 */
-    @ApiModelProperty(value = "价税分离(普票) 0 是 1否")
+    /** 个体户服务费是否含税(普票) 0 是 1否 */
+    @ApiModelProperty(value = "个体户服务费是否含税(普票) 0 是 1否")
     private Long isSelfTax;
 
-    /** 价税分离(专票) 0 是 1否 */
-    @ApiModelProperty(value = "价税分离(专票) 0 是 1否")
+    /** 个体户服务费是否含税(专票) 0 是 1否 */
+    @ApiModelProperty(value = "个体户服务费是否含税(专票) 0 是 1否")
     private Long isSpecialSelfTax;
 
     /** 普票平台服务费是否定额 */

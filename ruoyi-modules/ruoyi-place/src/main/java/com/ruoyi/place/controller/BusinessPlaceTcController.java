@@ -145,7 +145,7 @@ public class BusinessPlaceTcController extends BaseController {
         }
         if(businessAgencyFee.getSpecialProxyIsmoney()!=null){
             if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-                businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+                businessAgencyFee.setSpecialSelfFee(businessAgencyFee.getSpecialSelfFee().movePointLeft(2));
             }
         }
 
@@ -223,7 +223,7 @@ public class BusinessPlaceTcController extends BaseController {
             businessAgencyFee.setOrdinarySelfFee(businessAgencyFee.getOrdinarySelfFee().movePointLeft(2));
         }
         if (businessAgencyFee.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            businessAgencyFee.setSpecialProxyFee(businessAgencyFee.getSpecialProxyFee().movePointLeft(2));
+            businessAgencyFee.setSpecialSelfFee(businessAgencyFee.getSpecialSelfFee().movePointLeft(2));
         }
         //渠道全名也要变更
         businessPlace.setPlaceAliasName(businessPlace.getPlaceName()+businessPlace.getPlaceAlias());
