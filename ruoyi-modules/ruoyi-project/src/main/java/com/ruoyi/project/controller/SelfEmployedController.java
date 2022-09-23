@@ -51,7 +51,6 @@ public class SelfEmployedController extends BaseController
     /**
      * 查询个体商户列表(根据登录业务员跟行业类型)
      *
-     * @param industryType
      * @return 个体商户集合
      */
     @ApiOperation("查询个体商户列表(根据登录业务员)")

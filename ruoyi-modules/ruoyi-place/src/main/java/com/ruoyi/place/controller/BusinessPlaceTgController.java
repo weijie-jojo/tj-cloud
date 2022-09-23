@@ -13,6 +13,7 @@ import com.ruoyi.place.entity.BusinessAgencyFeeTg;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.entity.BusinessPlaceTg;
 import com.ruoyi.place.entity.SelfEmployed;
+import com.ruoyi.place.entity.vo.BusinessPlaceVo;
 import com.ruoyi.place.entity.vo.SysUserVo;
 import com.ruoyi.place.mapper.BusinessPlaceTgMapper;
 import com.ruoyi.place.mapper.SelfEmployedTgMapper;
@@ -56,6 +57,12 @@ public class BusinessPlaceTgController extends BaseController {
     private  SysUserMapper sysUserMapper;
     @Autowired
     private  SelfEmployedTgMapper selfEmployedMapper;
+
+    @GetMapping("/getPlaceByCode")
+    @ApiOperation("根据placeVo查询渠道信息")
+    public BusinessPlaceVo getPlaceByCode(String placeVo){
+        return  businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeVo);
+    }
 
     @GetMapping(value ="/getCount")
     @ApiOperation("获取登录用户的渠道数量")

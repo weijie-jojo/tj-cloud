@@ -21,4 +21,9 @@ public class ServiceNameConstants
      * 文件服务的serviceid
      */
     public static final String FILE_SERVICE = "ruoyi-file";
+
+    /**
+     * place
+     */
+    public static final String PLACE_SERVICE = "ruoyi-place";
 }

@@ -8,11 +8,12 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.place.api.RemotePlaceService;
+import com.ruoyi.place.api.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.domain.SelfEmployed;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.SelfTicket;
-import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
@@ -53,7 +54,8 @@ public class SelfProjectController extends BaseController
     @Autowired
     private ISelfEmployedService selfEmployedService;
     @Autowired
-    private IBusinessPlaceService businessPlaceService;
+    private RemotePlaceService remotePlaceService;
+
     /**
      * 获取三个状态的数量
      */
@@ -328,6 +330,7 @@ public class SelfProjectController extends BaseController
         if(selfProject.getIsSelfCount()==0){//按个体结算
             System.out.println("按个体结算");
             SelfEmployed selfEmployed= selfEmployedService.selectSelfEmployedBySelfCode(selfProject.getProjectOwner());
+            System.out.println("getRegisterMoney"+selfEmployed.getRegisterMoney());
             //个体注册服务费
             selfProject.setIsRegisterMoney(selfEmployed.getIsRegisterMoney());
             selfProject.setRegisterMoney(selfEmployed.getRegisterMoney());
@@ -361,11 +364,12 @@ public class SelfProjectController extends BaseController
             selfProject.setDisposableRemark(selfEmployed.getDisposableRemark());
             selfProject.setIsDisposableShare(selfEmployed.getIsDisposableShare());
             selfProject.setDisposableShareIsmoney(selfEmployed.getDisposableShareIsmoney());
-            selfProject.setIsDisposableShare(selfEmployed.getIsDisposableShare());
+            selfProject.setDisposableShare(selfEmployed.getDisposableShare());
         }
         if(selfProject.getIsSelfCount()==1){//按客户结算
             System.out.println("按客户结算");
-            BusinessPlaceVo businessPlace= businessPlaceService.selectBusinessPlaceByPlaceCode(selfProject.getPlaceCode());
+            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCode(selfProject.getPlaceCode());
+            System.out.println("businessPlace=="+businessPlace);
             //个体注册服务费
             selfProject.setIsRegisterMoney(businessPlace.getIsRegisterMoney());
             selfProject.setRegisterMoney(businessPlace.getRegisterMoney());
@@ -399,7 +403,7 @@ public class SelfProjectController extends BaseController
             selfProject.setDisposableRemark(businessPlace.getDisposableRemark());
             selfProject.setIsDisposableShare(businessPlace.getIsDisposableShare());
             selfProject.setDisposableShareIsmoney(businessPlace.getDisposableShareIsmoney());
-            selfProject.setIsDisposableShare(businessPlace.getIsDisposableShare());
+            selfProject.setDisposableShare(businessPlace.getDisposableShare());
         }
         if(selfProject.getIsSelfCount()==2){//按项目结算
             System.out.println("按项目结算");

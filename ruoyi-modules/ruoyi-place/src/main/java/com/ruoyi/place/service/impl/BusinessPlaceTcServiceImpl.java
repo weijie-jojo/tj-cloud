@@ -9,6 +9,7 @@ import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessAgencyFeeTc;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.entity.BusinessPlaceTc;
+import com.ruoyi.place.entity.vo.BusinessPlaceVo;
 import com.ruoyi.place.mapper.BusinessAgencyFeeTcMapper;
 import com.ruoyi.place.mapper.BusinessAgencyFeeTcRecycleMapper;
 import com.ruoyi.place.mapper.BusinessPlaceTcMapper;
@@ -52,7 +53,17 @@ public class BusinessPlaceTcServiceImpl implements IBusinessPlaceTcService {
         String placeName=placeVo.getPlaceAliasName();
         return businessPlaceMapper.selectBusinessPlaceJoin(userIdArr,statusArr,placeName);
     }
-
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    @Override
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode)
+    {
+        return businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeCode);
+    }
     @Override
     public Integer addPlace(BusinessPlaceTc businessPlace) {
         businessPlace.setIsDelete(true);

@@ -15,6 +15,8 @@ import com.ruoyi.company.domain.vo.SysUserVo;
 import com.ruoyi.company.mapper.SysUserMapper;
 import com.ruoyi.company.service.ISelfEmployedService;
 import com.ruoyi.company.service.ISelfEmployedTgService;
+import com.ruoyi.place.api.RemotePlaceService;
+import com.ruoyi.place.api.domain.vo.BusinessPlaceVo;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import io.swagger.annotations.Api;
@@ -47,7 +49,8 @@ public class SelfEmployedTgController extends BaseController
     private  SysUserMapper sysUserMapper;
     @Autowired
     private RemoteUserService remoteUserService;
-
+    @Autowired
+    private RemotePlaceService remotePlaceService;
     /**
      * 获取所有用户
      */
@@ -426,23 +429,67 @@ public class SelfEmployedTgController extends BaseController
     public AjaxResult add(@RequestBody SelfEmployed selfEmployed)
     {
         selfEmployed.setEndStatus(0);
-        System.out.println("selfEmployed===111111"+selfEmployed);
-        if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
-            selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
-        }
-        if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
-            selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
-        }
-        if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
-            selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
-        }
-        if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
-            selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
-        }
-        if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
-            selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointLeft(2));
-        }
         selfEmployed.setContributionAmount(selfEmployed.getContributionAmount()*10000);
+
+        if(selfEmployed.getIsSelfCount()==0){//按个体结算
+            System.out.println("按个体结算");
+            if (selfEmployed.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
+                selfEmployed.setOrdinaryShare(selfEmployed.getOrdinaryShare().movePointLeft(2));
+            }
+            if (selfEmployed.getSpecialShareIsmoney()==1){//专票分润不定额按百分比算
+                selfEmployed.setSpecialShare(selfEmployed.getSpecialShare().movePointLeft(2));
+            }
+            if (selfEmployed.getOrdinaryProxyIsmoney()==1){//普票平台服务费不定额按百分比算
+                selfEmployed.setOrdinarySelfFee(selfEmployed.getOrdinarySelfFee().movePointLeft(2));
+            }
+            if (selfEmployed.getSpecialProxyIsmoney()==1){//专票平台服务费不定额按百分比算
+                selfEmployed.setSpecialSelfFee(selfEmployed.getSpecialSelfFee().movePointLeft(2));
+            }
+            if (selfEmployed.getSelfShareIsmoney()==1){//个体户注册费不定额按百分比算
+                selfEmployed.setSelfShare(selfEmployed.getSelfShare().movePointLeft(2));
+            }
+        }
+        if(selfEmployed.getIsSelfCount()==1){//按客户结算
+            System.out.println("按客户结算");
+            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCodeTg(selfEmployed.getPlaceCode());
+            System.out.println("businessPlace=="+businessPlace);
+            //个体注册服务费
+            selfEmployed.setIsRegisterMoney(businessPlace.getIsRegisterMoney());
+            selfEmployed.setRegisterMoney(businessPlace.getRegisterMoney());
+            selfEmployed.setIsSelfShare(businessPlace.getIsSelfShare());
+            selfEmployed.setSelfShareIsmoney(businessPlace.getSelfShareIsmoney());
+            selfEmployed.setSelfShare(businessPlace.getSelfShare());
+            //增值税普通发票
+            selfEmployed.setIsSliderOrdinary(businessPlace.getIsSliderOrdinary());
+            selfEmployed.setOrdinaryTax(businessPlace.getOrdinaryTax());
+            selfEmployed.setOrdinaryProxyIsmoney(businessPlace.getOrdinaryProxyIsmoney());
+            selfEmployed.setOrdinarySelfFee(businessPlace.getOrdinarySelfFee());
+            selfEmployed.setIsSelfTax(businessPlace.getIsSelfTax());
+            selfEmployed.setIsOrdinaryTax(businessPlace.getIsOrdinaryTax());
+            selfEmployed.setIsOrdinaryShare(businessPlace.getIsOrdinaryShare());
+            selfEmployed.setOrdinaryShareIsmoney(businessPlace.getOrdinaryShareIsmoney());
+            selfEmployed.setOrdinaryShare(businessPlace.getOrdinaryShare());
+            //增值税专用发票
+            selfEmployed.setIsSlider(businessPlace.getIsSlider());
+            selfEmployed.setOrdinarySpecialTax(businessPlace.getOrdinarySpecialTax());
+            selfEmployed.setSpecialProxyIsmoney(businessPlace.getSpecialProxyIsmoney());
+            selfEmployed.setSpecialSelfFee(businessPlace.getSpecialSelfFee());
+            selfEmployed.setIsSpecialSelfTax(businessPlace.getIsSpecialSelfTax());
+            selfEmployed.setIsSpecialTax(businessPlace.getIsSpecialTax());
+            selfEmployed.setIsSpecialShare(businessPlace.getIsSpecialShare());
+            selfEmployed.setSpecialShareIsmoney(businessPlace.getSpecialShareIsmoney());
+            selfEmployed.setSpecialShare(businessPlace.getSpecialShare());
+            //一次性费用
+            selfEmployed.setIsDisposable(businessPlace.getIsDisposable());
+            selfEmployed.setDisposableFeeIsmoney(businessPlace.getDisposableFeeIsmoney());
+            selfEmployed.setDisposableFee(businessPlace.getDisposableFee());
+            selfEmployed.setDisposableRemark(businessPlace.getDisposableRemark());
+            selfEmployed.setIsDisposableShare(businessPlace.getIsDisposableShare());
+            selfEmployed.setDisposableShareIsmoney(businessPlace.getDisposableShareIsmoney());
+            selfEmployed.setDisposableShare(businessPlace.getDisposableShare());
+        }
+
+
         try {
             return toAjax(selfEmployedService.insertSelfEmployed(selfEmployed));
         }catch (DuplicateKeyException ex){

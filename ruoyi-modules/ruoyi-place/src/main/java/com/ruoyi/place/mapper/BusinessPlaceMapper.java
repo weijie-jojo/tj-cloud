@@ -3,6 +3,7 @@ package com.ruoyi.place.mapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.entity.BusinessPlaceRecycle;
+import com.ruoyi.place.entity.vo.BusinessPlaceVo;
 import com.ruoyi.place.vo.PlaceVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -25,4 +26,13 @@ public interface BusinessPlaceMapper  extends  MPJBaseMapper<BusinessPlace>{
     List<BusinessPlace> selectBusinessPlaceJoin(@Param("userIdArr") List<Long> userIdArr,
                                                 @Param("statusArr") String[] statusArr,
                                                 @Param("placeName") String placeName);
+
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode);
+
 }

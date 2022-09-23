@@ -238,6 +238,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 渠道客户接口 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-api-place</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

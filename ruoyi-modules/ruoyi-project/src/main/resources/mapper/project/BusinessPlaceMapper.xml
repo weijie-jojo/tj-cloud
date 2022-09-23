@@ -42,7 +42,7 @@
                A.special_share_money, A.is_self_tax, A.is_special_self_tax, A.ordinary_proxy_ismoney, A.special_proxy_ismoney,
                A.ordinary_share_ismoney, A.special_share_ismoney, A.is_ordinary_share, A.is_special_share, A.is_slider, A.is_slider_ordinary,
                A.self_share,A.is_self_share,A.self_share_ismoney,A.is_register_money, A.is_disposable, A.disposable_share, A.disposable_share_ismoney,
-               A.is_disposable_share, A.disposable_fee, A.disposable_fee_ismoney,A.disposable_remark
+               A.is_disposable_share, A.disposable_fee, A.disposable_fee_ismoney,A.disposable_remark,A.register_money
         from business_place t
         LEFT JOIN business_agency_fee A ON t.place_code=A.place_code
     </sql>

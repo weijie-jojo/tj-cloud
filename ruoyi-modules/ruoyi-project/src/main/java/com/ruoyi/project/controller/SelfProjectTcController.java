@@ -8,11 +8,12 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.util.ListUtil;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.place.api.RemotePlaceService;
+import com.ruoyi.place.api.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.domain.SelfEmployed;
 import com.ruoyi.project.domain.SelfProject;
 import com.ruoyi.project.domain.SelfReceive;
 import com.ruoyi.project.domain.SelfTicket;
-import com.ruoyi.project.domain.vo.BusinessPlaceVo;
 import com.ruoyi.project.domain.vo.ProjectJoinTicketVo;
 import com.ruoyi.project.domain.vo.SysUserVo;
 import com.ruoyi.project.mapper.SysUserMapper;
@@ -53,7 +54,7 @@ public class SelfProjectTcController extends BaseController
     @Autowired
     private ISelfEmployedTcService selfEmployedService;
     @Autowired
-    private IBusinessPlaceTcService businessPlaceService;
+    private RemotePlaceService remotePlaceService;
     /**
      * 获取三个状态的数量
      */
@@ -365,7 +366,8 @@ public class SelfProjectTcController extends BaseController
         }
         if(selfProject.getIsSelfCount()==1){//按客户结算
             System.out.println("按客户结算");
-            BusinessPlaceVo businessPlace= businessPlaceService.selectBusinessPlaceByPlaceCode(selfProject.getPlaceCode());
+            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCodeTc(selfProject.getPlaceCode());
+            System.out.println("businessPlace=="+businessPlace);
             //个体注册服务费
             selfProject.setIsRegisterMoney(businessPlace.getIsRegisterMoney());
             selfProject.setRegisterMoney(businessPlace.getRegisterMoney());

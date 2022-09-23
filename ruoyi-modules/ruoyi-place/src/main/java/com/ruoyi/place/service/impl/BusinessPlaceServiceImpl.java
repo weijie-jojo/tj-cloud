@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessPlace;
+import com.ruoyi.place.entity.vo.BusinessPlaceVo;
 import com.ruoyi.place.mapper.BusinessAgencyFeeMapper;
 import com.ruoyi.place.mapper.BusinessAgencyFeeRecycleMapper;
 import com.ruoyi.place.mapper.BusinessPlaceMapper;
@@ -37,6 +38,19 @@ public class BusinessPlaceServiceImpl  implements IBusinessPlaceService {
     private BusinessAgencyFeeMapper businessAgencyFeeMapper;
     @Autowired
     private BusinessAgencyFeeRecycleMapper businessAgencyFeeRecycleMapper;
+
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    @Override
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode)
+    {
+        return businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeCode);
+    }
+
     @Override
     public List<BusinessPlace> selectByPage(List<Long> userIdArr,PlaceVo placeVo) {
         System.out.println("statusArr=="+placeVo.getStatus());

@@ -4,6 +4,7 @@ import com.ruoyi.place.entity.BusinessAgencyFee;
 import com.ruoyi.place.entity.BusinessAgencyFeeTc;
 import com.ruoyi.place.entity.BusinessPlace;
 import com.ruoyi.place.entity.BusinessPlaceTc;
+import com.ruoyi.place.entity.vo.BusinessPlaceVo;
 import com.ruoyi.place.vo.PlaceVo;
 
 import java.util.List;
@@ -25,5 +26,13 @@ public interface IBusinessPlaceTcService {
     Integer editPlace2(BusinessPlaceTc businessPlace);
     List<BusinessPlaceTc> selectMaxCode();
     Integer delPlace2(String placeCode);
+
+    /**
+     * 查询平台渠道商
+     *
+     * @param placeCode 平台渠道商主键
+     * @return 平台渠道商
+     */
+    public BusinessPlaceVo selectBusinessPlaceByPlaceCode(String placeCode);
 
 }

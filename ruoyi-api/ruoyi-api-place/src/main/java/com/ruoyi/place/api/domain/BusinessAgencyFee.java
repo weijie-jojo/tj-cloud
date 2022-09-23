@@ -1,14 +1,8 @@
-package com.ruoyi.place.entity;
+package com.ruoyi.place.api.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -60,9 +54,9 @@ public class BusinessAgencyFee implements Serializable {
     private BigDecimal specialSelfFee;
 
     /**
-     * 专票价税分离（与服务费含税一样，是，否；默认选择否）
+     * 个体户服务费是否含税-专票
      */
-    @ApiModelProperty(value = "专票价税分离（与服务费含税一样，是，否；默认选择否）")
+    @ApiModelProperty(value = "专票价税分离")
     private Long isSpecialTax;
 
     /**
@@ -78,9 +72,9 @@ public class BusinessAgencyFee implements Serializable {
     private BigDecimal registerMoney;
 
     /**
-     * 普票价税分离（与服务费含税一样，是，否；默认选择否）
+     * 个体户服务费是否含税-普票
      */
-    @ApiModelProperty(value = "普票价税分离（与服务费含税一样，是，否；默认选择否）")
+    @ApiModelProperty(value = "普票价税分离")
     private Long isOrdinaryTax;
 
     /**
