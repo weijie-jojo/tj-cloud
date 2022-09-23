@@ -115,7 +115,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                    
-                    <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==1" @click="detail(scope.row)">查看</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-s-custom"  @click="detail(scope.row)">查看</el-button>
                     <el-button size="mini" type="text" icon="el-icon-s-custom" v-if="scope.row.isDeleted==2" @click="aduit(scope.row)">审核</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.isDeleted==3" @click="handleUpdate(scope.row)">修改
                     </el-button>
@@ -282,7 +282,7 @@ export default {
     },
     methods: {
         aduit(row){
-            this.$cache.local.setJSON("ticketDetails", row);
+            this.$cache.local.setJSON("tj-ticketid",row.ticketId);
             this.$tab.closeOpenPage({ path: '/tj-business/project/examTicket' });
         },
        //关闭
@@ -348,9 +348,8 @@ export default {
             });
         },
         detail(row) {
-            this.$cache.local.setJSON("ticketDetails", row);
+            this.$cache.local.setJSON("tj-ticketid",row.ticketId);
             this.$tab.openPage("票据查看", "/tj-business/project/ticketDetail")
-          
         },
         
         /** 搜索按钮操作 */
@@ -385,7 +384,7 @@ export default {
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
-          this.$cache.local.setJSON("ticketDetails", row);
+          this.$cache.local.setJSON("tj-ticketid",row.ticketId);
           this.$tab.closeOpenPage({path: "/tj-business/project/ticketEdit"})
         },
 

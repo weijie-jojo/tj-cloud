@@ -42,8 +42,8 @@
               <el-radio :disabled="confirmEditStatus"  v-model="ruleForm.editIsRegisterMoney" label="0">开启</el-radio>
               <el-radio :disabled="confirmEditStatus"  v-model="ruleForm.editIsRegisterMoney" label="1">关闭</el-radio>
             </el-form-item>
-          <el-form-item label="服务费" prop="editOrdinarySelfFee" v-if="ruleForm.editIsRegisterMoney==0">
-                <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editOrdinarySelfFee"
+          <el-form-item label="服务费" prop="editRegisterMoney" v-if="ruleForm.editIsRegisterMoney==0">
+                <el-input  :readonly="confirmEditStatus" v-model="ruleForm.editRegisterMoney"
                   @change="handleChange"  :min="0"  style="width:100%"
                    onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                    oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
@@ -173,7 +173,7 @@
           </el-row>
           <el-row type="flex" justify="flex-end">
             <el-col :span="24">
-              <el-form-item label="普票服务费" prop="editOrdinaryProxyFee">
+              <el-form-item label="普票服务费" prop="editOrdinarySelfFee">
                 <div style="">
                   <el-radio @change="handPoxyS" :disabled="confirmEditStatus" v-model="ruleForm.editOrdinaryProxyIsmoney" label="0">按定额收取
                   </el-radio>
@@ -181,7 +181,7 @@
                   </el-radio>
 
                   <el-input v-if="ruleForm.editOrdinaryProxyIsmoney == 0" style="width:100%"
-                    :readonly="confirmEditStatus"  v-model="ruleForm.editOrdinaryProxyFee" 
+                    :readonly="confirmEditStatus"  v-model="ruleForm.editOrdinarySelfFee" 
                     :min="0"
                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
                      oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
@@ -189,7 +189,7 @@
                     <template slot="append">元</template>
                   </el-input>
                   <el-input :readonly="confirmEditStatus" v-else  style="width:100%"
-                    v-model="ruleForm.editOrdinaryProxyFee" 
+                    v-model="ruleForm.editOrdinarySelfFee" 
                     @input="handleordinaryProxyFeeS"
                     @change="handleordinaryProxyFeeS" :min="0" :max="100"
                      onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
@@ -202,14 +202,15 @@
             </el-col>
 
           </el-row>
-          <el-form-item label="服务费含税" prop="editIsOrdinaryTax">
-            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
-            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
-          </el-form-item>
-          <el-form-item label="价税分离" prop="editIsSelfTax">
+          <el-form-item label="服务费含税" prop="editIsSelfTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='1'>否</el-radio>
           </el-form-item>
+          <el-form-item label="价税分离" prop="editIsOrdinaryTax">
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
+          </el-form-item>
+          
           <el-form-item label="是否分润" prop="editIsOrdinaryShare">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryShare" label="0">是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryShare" label="1">否</el-radio>
@@ -551,7 +552,6 @@ var numCheck = (rule, value, callback) => {
 import crudPlace from "@/api/tg-api/place/place";
 import agencyfee from "@/api/tg-api/place/agencyfee";
 import { getAllUser } from '@/api/system/user';
-import { getInfo } from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
@@ -570,13 +570,13 @@ export default {
         }
       ],
       editSpecialProxyFee: '2',
-      editOrdinaryProxyFee: '2',
+      editRegisterMoney: '2',
       editSpecialInvoice13: '2',
       editSpecialInvoice6: '2',
       editSpecialShare: '2',
       editOrdinaryShare: '2',
 
-      ordinaryProxyFee: '2',
+      registerMoney: '2',
       specialInvoice13: '2',
       specialInvoice6: '2',
       specialProxyMoney: '2',
@@ -671,8 +671,8 @@ export default {
         specialSelfFee: 0,
         isSpecialTax: '1',//是否含税-专票
         ordinaryProxyMoney: 0,//普票平台服务费(元）
-        ordinarySelfFee: 0,
-        ordinaryProxyFee: 0, //普票平台服务费(%）
+        registerMoney: 0,
+        registerMoney: 0, //普票平台服务费(%）
         isOrdinaryTax: '1',//是否含税-普票
 
         ordinaryProxyIsmoney: '0',
@@ -733,10 +733,12 @@ export default {
         editOrdinaryShare: '',//普票分润
 
         editOrdinarySelfFee: '',
-        editOrdinaryProxyFee: '',
+        editRegisterMoney: '',
         editOrdinaryProxyMoney: '',
         editIsOrdinaryTax: '',//是否含税-普票
       },
+      leaderList:[],
+      deptId:'',
       option: [
         {
           value: '0',
@@ -776,8 +778,6 @@ export default {
           label: '欠费',
         },
       ],
-      leaderList:[],
-      deptId:'',
       rules: {
         selfShareIsmoney:[{
            required: true, message: '请选择个体注册服务费分润方式', trigger: 'change'   
@@ -852,10 +852,10 @@ export default {
         editOrdinarySpecialTax: [
           { required: true, message: '请选择专票税率', trigger: 'change' }
         ],
-        ordinaryProxyFee: [
+        registerMoney: [
           { required: true, message: '请输入普票服务费', trigger: 'blur' }
         ],
-        editOrdinaryProxyFee: [
+        editOrdinarySelfFee: [
           { required: true, message: '请输入普票服务费', trigger: 'blur' }
         ],
         ordinaryShare: [
@@ -934,10 +934,10 @@ export default {
           required: true,message: '一次性费用分润费不能为空'
         }],
         
-        ordinarySelfFee: [
+        registerMoney: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
-        editOrdinarySelfFee: [
+        editRegisterMoney: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }
         ],
 
@@ -957,32 +957,33 @@ export default {
     };
   },
  mounted() {
-   this.getlist();    
+     this.getlist();
  },
-
-  methods: {
-    //获取业务经理
-    getLeader(){
-     getAllUser().then((res)=>{
-      this.leaderList=[];
-      let list=res;
-      list.map((item)=>{
-       if(item.userId==this.ruleForm.editUserId){
-         return this.deptId=item.deptId;
-       }
-      });
-      list.map((item)=>{
-       if(item.deptId==this.deptId){
-             this.leaderList.push({
-               value:item.nickName,
-               label:item.nickName,
-              })
+ methods: {
+     //获取业务经理
+     getLeader(){
+     
+        //  this.deptId=res[0].deptId;
+         getAllUser().then((res)=>{
+         this.leaderList=[];
+         let list=res;
+         list.map((item)=>{
+          if(item.userId==this.ruleForm.editUserId){
+            return this.deptId=item.deptId;
           }
-      });
-      
-   })
-  },
-    getlist(){
+         });
+         list.map((item)=>{
+          if(item.deptId==this.deptId){
+                this.leaderList.push({
+                  value:item.nickName,
+                  label:item.nickName,
+                 })
+             }
+         });
+         
+      })
+     },
+     getlist(){
       this.$modal.loading("正在加载数据，请稍后...");
       agencyfee.selectFeeByCode({ placeCode: this.$cache.local.getJSON("tg-placelist").placeCode }).then(res => {
       this.$modal.closeLoading();
@@ -1017,7 +1018,7 @@ export default {
         this.ruleForm.editIsSpecialTax = res.isSpecialTax;
       
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
-        this.ruleForm.editOrdinaryProxyFee = res.ordinaryProxyFee;
+        this.ruleForm.editRegisterMoney = res.registerMoney;
         this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
         this.ruleForm.editSpecialProxyFee = res.specialProxyFee;
         this.ruleForm.editSpecialShare = res.specialShare;
@@ -1046,14 +1047,11 @@ export default {
           this.ruleForm.editIsSpecialTax = "1"
         }
         this.getLeader();
-     
       
       }).catch((error)=>{
         this.$modal.closeLoading();
       })
      },
-
-
      placeNews(){
      if(this.ruleForm.editPlaceName==null){
       this.ruleForm.editPlaceName='';
@@ -1150,7 +1148,7 @@ export default {
     handleordinaryProxyFeeS(e) {
       if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
         if (e > 100) {
-          this.ruleForm.editOrdinaryProxyFee = '100';
+          this.ruleForm.editOrdinarySelfFee = '100';
         }
       }
     },
@@ -1160,8 +1158,8 @@ export default {
     handPoxyS(e) {
       if (e == '1') {
         if (this.ruleForm.editOrdinaryProxyIsmoney == '1') {
-          if (this.ruleForm.editOrdinaryProxyFee > 100) {
-            this.ruleForm.editOrdinaryProxyFee = '100';
+          if (this.ruleForm.editOrdinarySelfFee > 100) {
+            this.ruleForm.editOrdinarySelfFee = '100';
           }
         }
       }
@@ -1240,12 +1238,12 @@ export default {
             specialSelfFee: this.ruleForm.editSpecialSelfFee,
             isSpecialTax: this.ruleForm.editIsSpecialTax,
 
-            ordinarySelfFee: this.ruleForm.editOrdinarySelfFee,
+            registerMoney: this.ruleForm.editRegisterMoney,
 
             //specialProxyMoney: this.ruleForm.editSpecialProxyMoney,
             specialProxyFee: this.ruleForm.editSpecialProxyFee,
 
-            ordinaryProxyFee: this.ruleForm.editOrdinaryProxyFee,
+            ordinarySelfFee: this.ruleForm.editOrdinarySelfFee,
             //ordinaryProxyMoney: this.ruleForm.editOrdinaryProxyMoney, //服务费元
 
             ordinaryTax: '0',

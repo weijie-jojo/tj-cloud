@@ -2604,8 +2604,8 @@ export default {
               this.unlist = res;
               this.formData.specialSelfFee = this.unlist.specialProxyFee;
 
-              this.formData.ordinarySelfFee = this.unlist.ordinaryProxyFee;
-              this.formData.registerMoney = this.unlist.ordinarySelfFee;
+              this.formData.ordinarySelfFee = this.unlist.ordinarySelfFee;
+              this.formData.registerMoney = this.unlist.registerMoney;
               this.formData.specialShare = this.unlist.specialShare;
               this.formData.ordinaryShare = this.unlist.ordinaryShare;
               this.formData.disposableRemark=this.unlist.disposableRemark;//一次性费用备注
@@ -2686,14 +2686,14 @@ export default {
                 this.formData.isSpecialSelfTax = "1";
               }
               //普票含税
-              if (this.unlist.isOrdinaryTax) {
+              if (this.unlist.isSelfTax) {
                 this.formData.isSelfTax = "0";
               } else {
                 this.formData.isSelfTax = "1";
               }
 
               //普票价格分离
-              if (this.unlist.isSelfTax == "0") {
+              if (this.unlist.isOrdinaryTax== "0") {
                 this.formData.isOrdinaryTax = "0";
               } else {
                 this.formData.isOrdinaryTax = "1";

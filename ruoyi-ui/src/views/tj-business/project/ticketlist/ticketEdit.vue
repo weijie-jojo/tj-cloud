@@ -147,7 +147,7 @@
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
                     <el-form-item class="comright" label="发票影像" prop="fileName">
-                        <uploadSmall ref="productImage" @getfileName="getfileNameSS"
+                        <uploadSmall ref="productImage" @getfileName="getfileNameData"
                             :fileName="isNone" :fileNameOld="fileName" :isDetail="isDetails"></uploadSmall>
                     </el-form-item>
                 </el-col>
@@ -171,7 +171,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list2, edit } from "@/api/project/ticket";
+import { list2, edit,getTicketDetail } from "@/api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/project/list";
 import arrss from "@/api/project/list";
 import { getInfo } from '@/api/login'
@@ -213,16 +213,6 @@ export default {
 
             Father: [],
             formData: {
-                projectCode: this.$cache.local.getJSON("publicTickets").projectCode,//项目编号
-                ticketRemark: '',//发票备注
-                ticketTax: 3,//发票税率
-                ticketType: 0,  //发票类型
-                ticketCode: '',//发票种类编号
-                ticketTypeCode: '',//发票编号
-                fileName: '',//开票内容
-                ticketAmount: '',//发票金额
-                ticketTime: '',  //发票时间
-                isDeleted: 1,
             },
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
             options: [
@@ -383,26 +373,35 @@ export default {
         'Father.industryType': 'selectIndustryType',
     },
     mounted() {
-        this.getlist();
-        this.getinfoByUserId();
-
-        this.gettoday();
-        this.getRate();
-        this.formData = this.$cache.local.getJSON("ticketDetails");
-        this.formData.fileName = JSON.parse(this.formData.fileName);
-        this.$refs.productImage.getSrcList(this.formData.fileName);
-        this.fileName = [];
-        let arr = this.formData.fileName;
-        for (let i in arr) {
-            this.fileName.push({
-                name: arr[i],
-                url: this.baseImgPath + arr[i]
-            })
-        }
+       this.getTicket();
     },
-
-
     methods: {
+        //获取票据详情
+    getTicket() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      getTicketDetail(this.$cache.local.getJSON("tj-ticketid"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          this.formData = res.data;
+          this.getlist();
+          this.getinfoByUserId();
+          this.getRate();
+          this.formData.fileName = JSON.parse(this.formData.fileName);
+          this.$refs.productImage.getSrcList(this.formData.fileName);
+         // this.fileName = [];
+          let arr = this.formData.fileName;
+            for (let i in arr) {
+                this.fileName.push({
+                    name: arr[i],
+                    url: this.baseImgPath + arr[i]
+                })
+            }
+            
+        })
+        .catch((err) => {
+          this.$modal.closeLoading();
+        });
+    },
         //监听行业类型
         selectIndustryType() {
             var rate = this.industryTypeList.find((item) => item.industryId == this.Father.industryType);
@@ -433,7 +432,7 @@ export default {
         getfileNameS() {
 
         },
-        getfileNameSS(data) {
+        getfileNameData(data) {
             this.formData.fileName = data;
             console.log(this.formData.fileName);
         },
@@ -462,7 +461,7 @@ export default {
         },
         getlist() {
             detail({
-                projectCode: this.$cache.local.getJSON("publicTickets").projectCode
+                projectCode: this.$cache.local.getJSON("tj-project-code")
             }).then((response) => {
                 this.Father = response.data;
                 this.ticketByCode();
@@ -615,23 +614,7 @@ export default {
                 return i;
             }
         },
-        gettoday() {
-            var date = new Date();//当前时间
-            var year = date.getFullYear() //年
-            var month = this.repair(date.getMonth() + 1);//月
-            var day = this.repair(date.getDate());//日
-
-            var hour = this.repair(date.getHours());//时
-            var minute = this.repair(date.getMinformData.fileNameutes());//分
-            var second = this.repair(date.getSeconds());//秒
-
-            //当前时间 
-            var curTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-
-            this.formData.ticketTime = curTime;
-
-        },
-        getcode(selfCode) {
+         getcode(selfCode) {
             getcode({ selfCode: selfCode }).then((res) => {
                 this.formData.projectCode = res;
             }).catch((errore) => {
