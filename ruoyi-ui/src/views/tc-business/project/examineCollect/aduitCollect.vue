@@ -249,7 +249,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive, edit } from "@/api/project/list";
+import { check, detail, editReceive, edit } from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from 'decimal.js'
 export default {

@@ -292,7 +292,7 @@ import {
   delReceive,
   finshReceiveList,
   finshPayList,
-} from "@/api/project/list";
+} from "@/api/tg-api/project/list";
 import { Decimal } from "decimal.js";
 export default {
   name: "AduitCollectList",

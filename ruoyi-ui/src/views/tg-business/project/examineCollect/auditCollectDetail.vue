@@ -220,8 +220,8 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import { check,detail} from "@/api/project/list";
-  import { getInfo } from "@/api/login";
+  import { check,detail} from "@/api/tg-api/project/list";
+
   export default {
     name: "AduitCollect",
     components: { uploadSmall },

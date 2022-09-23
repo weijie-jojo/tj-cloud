@@ -1071,7 +1071,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { list2 } from "@/api/project/ticket";
+import { list2 } from "@/api/tg-api/project/ticket";
 import crudRate from "@/api/project/rate";
 import {
   detail,
@@ -1080,10 +1080,10 @@ import {
   edit,
   ownlist,
   check,
-} from "@/api/project/list";
+} from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
-import crudPlace from "@/api/company/place";
+
 //手机号验证
 var phoneVerify = (rule, value, callback) => {
   if (value) {

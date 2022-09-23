@@ -220,7 +220,7 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import {detail} from "@/api/project/list";
+  import {detail} from "@/api/tc-api/project/list";
   export default {
     name: "AuditDisburseDetail",
     components: { uploadSmall },

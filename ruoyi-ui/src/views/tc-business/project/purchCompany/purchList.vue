@@ -106,7 +106,7 @@
 
 import moment from "moment";
 
-import { getPurchPage} from "@/api/project/list";
+import { getPurchPage} from "@/api/tc-api/project/list";
 
 export default {
   name: "PurchList",

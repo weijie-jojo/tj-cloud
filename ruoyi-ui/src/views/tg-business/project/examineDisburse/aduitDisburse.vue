@@ -222,7 +222,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check,detail,editPay,edit} from "@/api/project/list";
+import { check,detail,editPay,edit} from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from 'decimal.js'
 export default {

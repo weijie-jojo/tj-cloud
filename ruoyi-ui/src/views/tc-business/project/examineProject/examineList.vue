@@ -75,7 +75,7 @@
 
 <script>
 import moment from 'moment'
-import { list, del, getCount } from "@/api/project/list";
+import { list, del, getCount } from "@/api/tc-api/project/list";
 export default {
     name: 'ExamineList',
     data() {
