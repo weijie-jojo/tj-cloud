@@ -139,7 +139,7 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadFiles'
-
+import {detail} from "@/api/project/list";
 export default {
     name: 'AuditMeansDetail',
     components: { uploadSmall },
@@ -159,42 +159,51 @@ export default {
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
         };
     },
-    computed: {},
     mounted() {
-        this.formData = this.$cache.local.getJSON("projectListNews");
-       
-        this.remark = this.formData.checkRemark;
-        this.projectAcceptanceStatus = JSON.stringify(this.formData.projectAcceptanceStatus);
-        this.formData.fileName1 = JSON.parse(this.formData.fileName1);
-        this.formData.fileName2 = JSON.parse(this.formData.fileName2);
-        this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
-        this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
-        this.$refs.productImage1.getSrcList(this.formData.fileName1);
-        this.$refs.productImage2.getSrcList(this.formData.fileName2);
-        for (let j in this.formData.fileName1) {
-            this.fileNameN1.push({
-                name: this.formData.fileName1[j],
-                url: this.baseImgPath + this.formData.fileName1[j]
-            })
-        }
-
-
-        for (let i in this.formData.fileName2) {
-            this.fileNameN2.push({
-                name: this.formData.fileName2[i],
-                url: this.baseImgPath + this.formData.fileName2[i]
-            })
-        }
+       this.getlist();
     },
     methods: {
+        getlist() {
+        this.$modal.loading("正在加载数据，请稍后...");
+        detail({
+          projectCode: this.$cache.local.getJSON("tj-project-code"),
+        }).then((response) => {
+          this.formData.industryType = "";
+          this.formData = response.data;
+          this.remark = this.formData.checkRemark;
+          this.projectAcceptanceStatus = JSON.stringify(this.formData.projectAcceptanceStatus);
+          this.formData.fileName1 = JSON.parse(this.formData.fileName1);
+          this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+          this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
+          this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
+          this.$refs.productImage1.getSrcList(this.formData.fileName1);
+          this.$refs.productImage2.getSrcList(this.formData.fileName2);
+            for (let j in this.formData.fileName1) {
+                this.fileNameN1.push({
+                    name: this.formData.fileName1[j],
+                    url: this.baseImgPath + this.formData.fileName1[j]
+                })
+            }
 
+
+            for (let i in this.formData.fileName2) {
+                this.fileNameN2.push({
+                    name: this.formData.fileName2[i],
+                    url: this.baseImgPath + this.formData.fileName2[i]
+                })
+            }
+         
+        }).catch((error) => {
+        this.$modal.closeLoading();
+      });
+      },
         getfileNameS() {
 
         },
 
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-backTicket').backurl })
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-backMean').backurl })
         },
         handleChange(val) {
             console.log(val);

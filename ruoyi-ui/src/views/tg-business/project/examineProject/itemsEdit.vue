@@ -209,13 +209,7 @@
             ></el-input>
           </el-form-item>
 
-          <!-- <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
+         
         </el-col>
 
         <el-col :span="9">
@@ -1646,11 +1640,13 @@ export default {
       return options;
     },
     getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
       detail({
         projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.formData.industryType = "";
         this.formData = response.data;
+        this.$modal.closeLoading();
         
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney
@@ -1787,12 +1783,10 @@ export default {
         } else {
           this.fileNameradio = "1";
         }
-        if (this.formData.isActive) {
-          this.projectStatus = parseInt(this.formData.isActive);
-        } else {
-          this.projectStatus = 1;
-        }
-      });
+        
+      }).catch((err) => {
+          this.$modal.closeLoading();
+        });
     },
     //监听开票内容选择
     filenamer(e) {

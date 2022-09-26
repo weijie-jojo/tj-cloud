@@ -183,21 +183,21 @@ export default {
            this.$cache.local.setJSON('tc-project-code', code);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
-                backurl:'/projectlist/auditAcceptanceList'
+                backurl:'/tc-business/project/auditAcceptanceList'
             };
             this.$cache.local.setJSON('tc-backTicket',obj);
-           this.$tab.closeOpenPage({ path: '/projectlist/auditMeansDetail' })
+           this.$tab.closeOpenPage({ path: '/tc-business/project/auditMeansDetail' })
         },
         //验收修改
         edit(row,code){
              let obj = {
              name: 'AuditMeansList',
-             url: '/projectlist/auditMeansList',
+             url: '/tc-business/project/auditMeansList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
             this.$cache.local.setJSON('tc-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
+           this.$tab.closeOpenPage({ path: '/tc-business/project/meansEdit' })
         },
           handleClick(){
             if(this.endStatus=='-3'){
@@ -265,24 +265,24 @@ export default {
         //验收审核
         detail(scope) {
               let obj={
-                backurl:'/projectlist/auditMeansList',
+                backurl:'/tc-business/project/auditMeansList',
                 name:'AuditMeansList'
             };
             this.$cache.local.setJSON('tc-aduitback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitMeans' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/aduitMeans' });
         },
         //资料办理
         add(scope) {
              let obj={
-                backurl:'/projectlist/auditMeansList',
+                backurl:'/tc-business/project/auditMeansList',
                 name:'AuditMeansList'
             };
             this.$cache.local.setJSON('tc-addback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/addMeans' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/addMeans' });
         },
        /** 搜索按钮操作 */
         handleQuery() {

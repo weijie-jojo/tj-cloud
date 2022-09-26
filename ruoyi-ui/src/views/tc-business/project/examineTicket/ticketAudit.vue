@@ -173,9 +173,7 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('tc-project-code', code);
-          
-           this.$cache.local.setJSON("projectListNews", row);
-            let obj={
+           let obj={
                 backurl:'/tc-business/project/ticketAudit'
             };
             this.$cache.local.setJSON('tc-backTicket',obj);
@@ -193,7 +191,6 @@ export default {
             };
             this.$cache.local.setJSON('Projectedit', obj);
             this.$cache.local.setJSON('tc-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
              this.$tab.closeOpenPage({ path: '/tc-business/project/ticketlist' });
         },
          handleClick(){
@@ -266,7 +263,7 @@ export default {
             };
             this.$cache.local.setJSON('tc-backTicket',obj1);
             this.$cache.local.setJSON('tc-aduitback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+           
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/ticketlist' });
         },
@@ -281,7 +278,7 @@ export default {
             };
             this.$cache.local.setJSON('tc-backTicket',obj1);
             this.$cache.local.setJSON('tc-addback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+           
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/ticketlist' });
         },

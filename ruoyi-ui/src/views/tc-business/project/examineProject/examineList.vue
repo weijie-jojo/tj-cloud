@@ -167,12 +167,11 @@ export default {
         },
         detail(row, code) {
             this.$cache.local.setJSON('tc-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
-             let obj={
-                backurl:'/projectlist/examineList'
+            let obj={
+                backurl:'/tc-business/project/examineList'
             };
             this.$cache.local.setJSON('tc-backTicket',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/auditDetail' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/auditDetail' });
         },
         handleClick() {
             if (this.endStatus == '-1') {
@@ -234,14 +233,13 @@ export default {
             })
         },
         audit(scope) {
-            this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
              let obj={
-                backurl:'/projectlist/examineList',
+                backurl:'/tc-business/project/examineList',
                 name:'ExamineList'
             };
             this.$cache.local.setJSON('tc-aduitback',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/auditItems' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/auditItems' });
         },
         /** 搜索按钮操作 */
         handleQuery() {
@@ -277,13 +275,12 @@ export default {
         },
         edit(row, code) {
             this.$cache.local.setJSON('tc-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
-             let obj={
+            let obj={
              name:'ExamineList',
-             url:'/projectlist/examineList',
+             url:'/tc-business/project/examineList',
              };
             this.$cache.local.setJSON('Projectedit',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/itemsEdit' })
+            this.$tab.closeOpenPage({ path: '/tc-business/project/itemsEdit' })
         },
 
         /** 删除按钮操作 */

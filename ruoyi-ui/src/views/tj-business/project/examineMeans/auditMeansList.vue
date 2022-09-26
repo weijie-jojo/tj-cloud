@@ -181,23 +181,23 @@ export default {
         //验收详情
         find(row,code){
            this.$cache.local.setJSON('tj-project-code', code);
-           this.$cache.local.setJSON("projectListNews", row);
+          
             let obj={
-                backurl:'/projectlist/auditAcceptanceList'
+                backurl:'/tj-business/project/auditAcceptanceList'
             };
-            this.$cache.local.setJSON('tj-backTicket',obj);
-           this.$tab.closeOpenPage({ path: '/projectlist/auditMeansDetail' })
+            this.$cache.local.setJSON('tj-backMean',obj);
+           this.$tab.closeOpenPage({ path: '/tj-business/project/auditMeansDetail' })
         },
         //验收修改
         edit(row,code){
              let obj = {
              name: 'AuditMeansList',
-             url: '/projectlist/auditMeansList',
+             url: '/tj-business/project/auditMeansList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
             this.$cache.local.setJSON('tj-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
-           this.$tab.closeOpenPage({ path: '/projectlist/meansEdit' })
+           
+           this.$tab.closeOpenPage({ path: '/tj-business/project/meansEdit' })
         },
           handleClick(){
             if(this.endStatus=='-3'){
@@ -265,24 +265,24 @@ export default {
         //验收审核
         detail(scope) {
               let obj={
-                backurl:'/projectlist/auditMeansList',
+                backurl:'/tj-business/project/auditMeansList',
                 name:'AuditMeansList'
             };
             this.$cache.local.setJSON('tj-aduitback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+           
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitMeans' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/aduitMeans' });
         },
         //资料办理
         add(scope) {
              let obj={
-                backurl:'/projectlist/auditMeansList',
+                backurl:'/tj-business/project/auditMeansList',
                 name:'AuditMeansList'
             };
             this.$cache.local.setJSON('tj-addback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+           
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/addMeans' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/addMeans' });
         },
        /** 搜索按钮操作 */
         handleQuery() {

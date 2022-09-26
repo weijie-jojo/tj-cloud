@@ -1,5 +1,20 @@
 import request from '@/utils/request'
-
+//出款详情
+export function detailPay(payId) {
+  return request({
+    url: '/project/pay/tc/'+payId,
+    method: 'get',
+   
+  })
+}
+//收款详情
+export function detailCollect(receiveId) {
+  return request({
+    url: '/project/receive/tc/'+receiveId,
+    method: 'get',
+   
+  })
+}
 //获取出款列表
 export function payList(query) {
   return request({
@@ -230,4 +245,4 @@ export function getCount(query){
 }
 
 
-export default {getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {detailPay,detailCollect,getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

@@ -173,23 +173,25 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('tj-project-code', code);
-           this.$cache.local.setJSON("projectListNews", row);
+         
             let obj={
-                backurl:'/projectlist/collectAudit'
+                backurl:'/tj-business/project/collectAudit',
+                name:'CollectAudit',
             };
-            this.$cache.local.setJSON('tj-backTicket',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
+            this.$cache.local.setJSON('tj-aduitback',obj);
+            this.$tab.closeOpenPage({ path: '/tj-business/project/aduitCollectList' });
         },
         //完税修改
         edit(row,code){
             let objList={
-                backurl:'/projectlist/collectAudit'
+                backurl:'/tj-business/project/collectAudit',
+                name:'CollectAudit',
             };
-            this.$cache.local.setJSON('tj-backTicket',objList);
+            this.$cache.local.setJSON('tj-aduitback',objList);
             this.$cache.local.setJSON('tj-ifcollect', 0);
             this.$cache.local.setJSON('tj-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
+          
+            this.$tab.closeOpenPage({ path: '/tj-business/project/aduitCollectList' });
         },
          handleClick(){
             if(this.endStatus=='-1'){
@@ -253,24 +255,19 @@ export default {
         },
         aduit(scope) {
             let obj={
-                backurl:'/projectlist/collectAudit'
+                backurl:'/tj-business/project/collectAudit',
+                name:'CollectAudit',
             };
             this.$cache.local.setJSON('tj-ifcollect', 0);
-            this.$cache.local.setJSON('tj-backTicket',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+            this.$cache.local.setJSON('tj-aduitback',obj);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList' });
+            this.$tab.closeOpenPage({ path: '/tj-business/project/aduitCollectList' });
         },
         //新增完税
         add(scope) {
-            let obj={
-                backurl:'/projectlist/collectAudit'
-            };
             this.$cache.local.setJSON('tj-ifcollect', 0);
-            this.$cache.local.setJSON('tj-backTicket',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitCollectList'});
+            this.$tab.closeOpenPage({ path: '/tj-business/project/aduitCollectList'});
         },
 
         /** 搜索按钮操作 */

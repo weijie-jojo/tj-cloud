@@ -413,23 +413,23 @@
       //关闭
       handleClose() {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-backTicket").backurl,
+          path: this.$cache.local.getJSON("tj-aduitback").backurl,
         });
       },
       //查看
       detail(row) {
-        this.$cache.local.setJSON("collectDetails", row);
-        this.$tab.openPage("收款审核查看", "/projectlist/auditDisburseDetail");
+        this.$cache.local.setJSON("tj-payId", row);
+        this.$tab.openPage("收款审核查看", "/tj-business/project/auditDisburseDetail");
       },
       //审核
       aduit(row) {
-        this.$cache.local.setJSON("collectDetails", row);
-        this.$tab.closeOpenPage({ path: "/projectlist/aduitDisburse" });
+        this.$cache.local.setJSON("tj-payId", row);
+        this.$tab.closeOpenPage({ path: "/tj-business/project/aduitDisburse" });
       },
       //关闭
       resetForms() {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-backTicket").backurl,
+          path: this.$cache.local.getJSON("tj-aduitback").backurl,
         });
       },
       //获取该项目全部收款信息
@@ -549,7 +549,7 @@
       /** 修改按钮操作 */
       handleUpdate(row) {
         this.$cache.local.setJSON("ticketDetails", row);
-        this.$tab.closeOpenPage({ path: "/projectlist/disburseEdit" });
+        this.$tab.closeOpenPage({ path: "/tj-business/project/disburseEdit" });
       },
   
       /** 删除按钮操作 */

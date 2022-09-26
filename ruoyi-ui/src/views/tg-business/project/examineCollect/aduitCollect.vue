@@ -249,7 +249,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive, edit } from "@/api/tg-api/project/list";
+import { check, detail, editReceive, edit,detailCollect} from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from 'decimal.js'
 export default {
@@ -320,20 +320,30 @@ export default {
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };
   },
-  computed: {},
+  
   mounted() {
     this.getCommonList();
-    this.formData = this.$cache.local.getJSON("collectDetails");
-    this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
-    this.$refs.receive.getSrcList(this.formData.fileNameReceive);
-    for (let i in this.formData.fileNameReceive) {
-      this.fileNameN.push({
-        name: this.formData.fileNameReceive[i],
-        url: this.baseImgPath + this.formData.fileNameReceive[i],
-      });
-    }
+    this.getlist();
   },
   methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      detailCollect(this.$cache.local.getJSON("tg-collReceiveId")).then((response) => {
+      this.formData = response.data;
+      this.$modal.closeLoading();
+      this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
+      this.$refs.receive.getSrcList(this.formData.fileNameReceive);
+      for (let i in this.formData.fileNameReceive) {
+       this.fileNameN.push({
+         name: this.formData.fileNameReceive[i],
+         url: this.baseImgPath + this.formData.fileNameReceive[i],
+        });
+      }
+      
+    }).catch((err) => {
+          this.$modal.closeLoading();
+        });
+    },
     //获取公共数据
     getCommonList() {
       detail({
@@ -365,7 +375,7 @@ export default {
     resetForm() {
       if (this.$cache.local.getJSON("tg-ifcollect") == 0) {
         this.$tab.closeOpenPage({
-          path: "/projectlist/aduitCollectList",
+          path: "/tg-business/project/aduitCollectList",
         });
       } else {
         this.$tab.closeOpenPage({
@@ -445,13 +455,12 @@ export default {
 
                 let obj = {
                   title: "收款审核审核",
-                  backUrl:
-                    this.$cache.local.getJSON("tg-aduitback").backurl,
+                  backUrl: this.$cache.local.getJSON("tg-aduitback").backurl,
                   resmsg: "收款审核完成",
                   backName: this.$cache.local.getJSON("tg-aduitback").name,
                 };
-                this.$cache.local.setJSON("successProject", obj);
-                this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                this.$cache.local.setJSON("tg-successProject", obj);
+                this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
               }
             }
           });
