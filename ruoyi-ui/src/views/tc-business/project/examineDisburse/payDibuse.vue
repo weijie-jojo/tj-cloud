@@ -9,7 +9,7 @@
     >
      <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:20px">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 45%">收款信息</div>
+          <div class="bankno" style="width: 45%">出款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -19,10 +19,10 @@
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="收款账户" prop="receiveName">
-            <el-input v-model="formData.receiveName"></el-input>
+          <el-form-item class="comright" label="出款账户" prop="receiveName">
+            <el-input></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款时间" :required="true">
+          <el-form-item class="comright" label="出款时间" :required="true">
             <el-input v-model="formData.receiveTime" disabled></el-input>
           </el-form-item>
 
@@ -47,14 +47,14 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="收款账号" prop="receiveAccount">
-            <el-input v-model="formData.receiveAccount"></el-input>
+          <el-form-item class="comright" label="出款账号" prop="receiveAccount">
+            <el-input ></el-input>
           </el-form-item>
          
-          <el-form-item class="comright" label="收账金额" prop="receiveMoney">
+          <el-form-item class="comright" label="出款金额" prop="receiveMoney">
             <el-input
               
-              v-model="formData.receiveMoney"
+             
               @change="receiveSee"
               :step="0.00001"
               :min="0"
@@ -64,112 +64,16 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="付款账号">
+          <el-form-item class="comright" label="收款账号">
             <el-input></el-input>
           </el-form-item>
           
 
          
-          <!-- <el-form-item class="comright" label="财务流水号" prop="receiveCode">
-            <el-input v-model="formData.receiveCode"></el-input>
-          </el-form-item> -->
+         
         </el-col>
       </el-row>
-      <el-row
-        type="flex"
-        class="row-bg"
-        style="margin-bottom: 20px"
-        justify="space-around"
-      >
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 45%">出款信息</div>
-          <div style="width: 50%; hegiht: 10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
-    
-      <el-row
-        v-for="(item, index) in disburseList"
-        :key="index"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item class="comright" label="操作" :required="true">
-            <el-button
-              type="primary"
-              size="small"
-              style="width: 80px"
-              @click="adds"
-              >添加</el-button
-            >
-            <el-button
-              type="danger"
-              size="small"
-              style="width: 80px"
-              @click="dels(index)"
-              >删除</el-button
-            >
-          </el-form-item>
-          <el-form-item class="comright" label="出账账户" :required="true">
-            <el-input v-model="item.payName"></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="出账金额" :required="true">
-            <el-input
-             @change="paySee(index)"
-              v-model="item.payMoney"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="收款账户">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="出账凭证" :required="true">
-            <uploadSmall
-              :index="index"
-              @getIndex="getindexNew"
-              @getfileName="getPay"
-              :fileName="item.fileNamePay"
-              :fileNameOld="item.fileNamePay"
-              :isDetail="isDetail"
-            ></uploadSmall>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="9">
-          
-          <el-form-item class="comright" label="出账时间" :required="true" style="margin-top:40px">
-            <el-input v-model="item.payTime" :disabled="true"></el-input>
-          </el-form-item>
-          
-          <el-form-item class="comright" label="出账账号" :required="true">
-            <el-input v-model="item.payAccount"></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="收款账号">
-            <el-input></el-input>
-          </el-form-item>
-          <!-- <el-form-item class="comright" label="财务流水号" :required="true">
-            <el-input v-model="item.payCode"></el-input>
-          </el-form-item> -->
-          <!-- <el-form-item label="删除该项">
-            <el-button
-              type="danger"
-              size="small"
-              style="width: 80px"
-              @click="dels(index)"
-              >删除</el-button
-            >
-          </el-form-item> -->
-        </el-col>
-      </el-row>
+     
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="8"></el-col>
@@ -184,10 +88,10 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { getReceiveCode,getPayCode, check,detail,addReceive,addPay} from "@/api/project/list";
+import { getReceiveCode,getPayCode, check,detail,addReceive,addPay} from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
-  name: "AddCollect",
+  name: "PayDibuse",
   components: { uploadSmall },
   data() {
     return {
@@ -270,7 +174,7 @@ export default {
   mounted() {
     this.gettoday();
    
-    this.getDetails();
+   
    
    
   },
@@ -302,7 +206,7 @@ export default {
     },
     getDetails(){
         detail({
-         projectCode: this.$cache.local.getJSON("tj-project-code")
+         projectCode: this.$cache.local.getcSON("tc-project-code")
         }).then((response) => {
          this.publicList = response.data;
          this.formData.projectCode = this.publicList.projectCode;
@@ -464,13 +368,13 @@ export default {
     },
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tj-ifcollect')==0){
+      if(this.$cache.local.getcSON('tc-ifcollect')==0){
          this.$tab.closeOpenPage({
-          path:'/tj-business/project/aduitCollectList'
+          path:'/tc-business/project/aduitCollectList'
          })
       }else{
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tj-addback").backurl,
+        path: this.$cache.local.getcSON("tc-addback").backurl,
       });
       }
       
@@ -514,15 +418,15 @@ export default {
                   setTimeout(function() { 
                   that.$modal.closeLoading();
                   that.$modal.msgSuccess("新增收款成功");
-                  if(that.$cache.local.getJSON('tj-ifcollect')==0){
+                  if(that.$cache.local.getcSON('tc-ifcollect')==0){
                     that.$tab.refreshPage({
-                      path:'/tj-business/project/aduitCollectList',
+                      path:'/tc-business/project/aduitCollectList',
                       name:'AduitCollectList'
                      })
                   }else{
                      that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("tj-addback").backurl,
-                       name: that.$cache.local.getJSON("tj-addback").name,
+                        path: that.$cache.local.getcSON("tc-addback").backurl,
+                       name: that.$cache.local.getcSON("tc-addback").name,
                        });
                   }
                   

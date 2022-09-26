@@ -140,7 +140,7 @@ export default {
         type: 1,
         pageNum: 1,
         pageSize: 10,
-        purchCompany: null, //乙方
+        purchCompany: null, //销货单位（乙方）
        
       },
       projectTime: null,
@@ -269,7 +269,7 @@ export default {
         type: 1,
         pageNum: 1,
         pageSize: 10,
-        purchCompany: null, //乙方
+        purchCompany: null, //销货单位（乙方）
         
       };
       this.handleQuery();

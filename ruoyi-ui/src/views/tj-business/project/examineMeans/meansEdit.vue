@@ -40,7 +40,7 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="购货单位（甲方）" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                     <!-- <el-form-item class="comright" label="项目合同资料" :required="true">
@@ -54,7 +54,7 @@
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
+                    <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
                         <el-input v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
                     <!-- <el-form-item class="comright" label="项目验收资料" :required="true">
@@ -132,7 +132,7 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadFiles'
-import { edit, check } from "@/api/project/list";
+import { edit, check,detail } from "@/api/project/list";
 import { getInfo } from '@/api/login'
 export default {
     name: 'MeansEdit',
@@ -166,29 +166,40 @@ export default {
     },
     computed: {},
     mounted() {
-        this.formData = this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName1 = JSON.parse(this.formData.fileName1);
-        this.formData.fileName2 = JSON.parse(this.formData.fileName2);
-        this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
-        this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
-        this.$refs.productImage1.getSrcList(this.formData.fileName1);
-        this.$refs.productImage2.getSrcList(this.formData.fileName2);
-        for (let j in this.formData.fileName1) {
-            this.fileNameN1.push({
-                name: this.formData.fileName1[j],
-                url: this.baseImgPath + this.formData.fileName1[j]
-            })
-        }
-
-
-        for (let i in this.formData.fileName2) {
-            this.fileNameN2.push({
-                name: this.formData.fileName2[i],
-                url: this.baseImgPath + this.formData.fileName2[i]
-            })
-        }
+        this.getlist();
     },
     methods: {
+        getlist() {
+        this.$modal.loading("正在加载数据，请稍后...");
+        detail({
+          projectCode: this.$cache.local.getJSON("tj-project-code"),
+        }).then((response) => {
+            this.$modal.closeLoading();
+            this.formData = response.data;
+            this.formData.fileName1 = JSON.parse(this.formData.fileName1);
+            this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+            this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
+            this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
+            this.$refs.productImage1.getSrcList(this.formData.fileName1);
+            this.$refs.productImage2.getSrcList(this.formData.fileName2);
+            for (let j in this.formData.fileName1) {
+                this.fileNameN1.push({
+                    name: this.formData.fileName1[j],
+                    url: this.baseImgPath + this.formData.fileName1[j]
+                })
+            }
+
+
+            for (let i in this.formData.fileName2) {
+                this.fileNameN2.push({
+                    name: this.formData.fileName2[i],
+                    url: this.baseImgPath + this.formData.fileName2[i]
+                })
+            }
+         }).catch((error) => {
+        this.$modal.closeLoading();
+      });
+      },
         //合同
         getContractFile(data) {
             this.formData.fileName1 = data;
@@ -223,7 +234,7 @@ export default {
         },
         //返回
         resetForm() {
-            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url })
+            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-edit-project').url })
         },
         handleChange(val) {
             console.log(val);
@@ -254,6 +265,7 @@ export default {
                         fileName1: this.formData.fileName1,
                         fileName2: this.formData.fileName2,
                         projectAcceptanceStatus: 0,
+                        projectContractStatus:0,
                         projectStatus: this.projectStatusNew
                     };
                     edit(parms).then((res) => {
@@ -263,15 +275,15 @@ export default {
 
                                     this.check('资料修改完成');
                                     this.$modal.msgSuccess('资料修改完成');
-                                    this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url }).then(() => {
+                                    this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-edit-project').url }).then(() => {
                                         // 执行结束的逻辑 
-                                        this.$tab.refreshPage({ path: this.$cache.local.getJSON('Projectedit').url, name: this.$cache.local.getJSON('Projectedit').name })
+                                        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tj-edit-project').url, name: this.$cache.local.getJSON('tj-edit-project').name })
                                     })
 
                                 });
                             } else {
                                 this.$modal.msgError(res.msg);
-                                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('Projectedit').url });
+                                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tj-edit-project').url });
                             }
                         }
 

@@ -118,7 +118,7 @@ export function getPayCode(query) {
     params: query
    })
 }
-//获取甲方列表分页
+//获取购货单位（甲方）列表分页
 export function getPurchPage(query){
   return request({
     url:'/project/company/tc/list1',
@@ -126,7 +126,7 @@ export function getPurchPage(query){
     params:query
   })
 }
-//获取甲方列表
+//获取购货单位（甲方）列表
 export function getPuJialist(query) {
   return request({
     url: '/project/company/tc/list',
@@ -135,7 +135,7 @@ export function getPuJialist(query) {
   })
 }
 
-//获取乙方
+//获取销货单位（乙方）
 export function ownlist(query) {
   return request({
     url: 'project/employed/tc/getByUserIndusty',
@@ -170,7 +170,7 @@ export function add(data) {
     data: data
   })
 }
-//甲方新增
+//购货单位（甲方）新增
 export function addJia(data) {
   return request({
     url: '/project/company/tc',
@@ -209,7 +209,7 @@ export function getProjectCount(query){
     params: query
   })
 }
-//获取乙方
+//获取销货单位（乙方）
 export function getinfoByUserId(data){
   return request({
     url:'project/place/tc/getInfoByUserId',

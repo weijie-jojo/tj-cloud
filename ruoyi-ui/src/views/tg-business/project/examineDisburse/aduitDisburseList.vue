@@ -7,10 +7,19 @@
       v-show="showSearch"
       label-width="auto"
     >
+    <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px;margin-bottom: 5px;">
+      <el-col :span="9" class="flexs">
+        <div class="bankno" style="width: 30%">项目信息</div>
+        <div style="width: 50%; hegiht: 10px"></div>
+      </el-col>
+      <el-col :span="9">
+        <div></div>
+      </el-col>
+    </el-row>
       <el-row
         type="flex"
         class="row-bg rowCss combottom"
-        style="padding-top;:20px"
+       
         justify="space-around"
       >
         <el-col :span="9">
@@ -26,45 +35,13 @@
               v-model="publicList.projectName"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="甲方名称 ">
+          <el-form-item class="comright" label="购货单位（甲方）名称 ">
             <el-input
               :readonly="true"
               v-model="publicList.purchCompany"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="应收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.projectTotalAmount"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.receiveMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.receiveRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
+         
         </el-col>
 
         <el-col :span="9">
@@ -86,9 +63,23 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="乙方名称">
+          <el-form-item class="comright" label="销货单位（乙方）名称">
             <el-input :readonly="true" v-model="publicList.selfName"></el-input>
           </el-form-item>
+        
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px;margin-bottom: 5px;">
+      <el-col :span="9" class="flexs">
+        <div class="bankno" style="width: 30%">出款信息</div>
+        <div style="width: 50%; hegiht: 10px"></div>
+      </el-col>
+      <el-col :span="9">
+        <div></div>
+      </el-col>
+    </el-row>
+    <el-row type="flex" class="row-bg" justify="space-around">
+      <el-col :span="9"> 
           <el-form-item class="comright" label="应出账款">
             <el-input
               :readonly="true"
@@ -100,17 +91,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="已出账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.payMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
+        
           <el-form-item class="comright" label="未出账款">
             <el-input
               :readonly="true"
@@ -122,8 +103,27 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-        </el-col>
-      </el-row>
+     
+        
+      
+      
+      </el-col>
+
+      <el-col :span="9">
+        <el-form-item class="comright" label="已出账款">
+            <el-input
+              :readonly="true"
+              v-model="publicList.payMoneys"
+              :step="0.00001"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+      
+      </el-col>
+    </el-row>
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9"> </el-col>
@@ -169,11 +169,28 @@
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column
-        label="流水号"
+        label="出款流水号"
         align="center"
         prop="paySysCode"
         :show-overflow-tooltip="true"
       />
+      <el-table-column
+        label="出账时间"
+        align="center"
+        prop="payTime"
+        width="180"
+        :show-overflow-tooltip="true"
+      />
+      <el-table-column
+        label="出账金额"
+        align="center"
+        prop="payMoney"
+        :show-overflow-tooltip="true"
+      >
+        <template slot-scope="scope">
+          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
+        </template>
+      </el-table-column>
       <el-table-column
         label="出账账户"
         align="center"
@@ -187,25 +204,19 @@
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="出账时间"
+        label="收款账户"
         align="center"
-        prop="payTime"
-        width="180"
-      />
-    
-
-      <el-table-column
-        label="出账金额"
-        align="center"
-        prop="payMoney"
+       
         :show-overflow-tooltip="true"
-      >
-        <template slot-scope="scope">
-          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
-        </template>
-      </el-table-column>
+      />
       <el-table-column
-        label="状态"
+        label="收款账号"
+        align="center"
+       
+        :show-overflow-tooltip="true"
+      />
+        <el-table-column
+        label="出款状态"
         align="center"
         :show-overflow-tooltip="true"
       >
@@ -236,6 +247,14 @@
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-s-custom"
+            v-if="scope.row.isCheck == 3"
+            @click="pay(scope.row)"
+            >付款</el-button
+          >
           <el-button
             size="mini"
             type="text"
@@ -394,7 +413,7 @@ export default {
   mounted() {
    
     detail({
-      projectCode: this.$cache.local.getJSON("tg-project-code"),
+      projectCode: this.$cache.local.getgSON("tg-project-code"),
     }).then((response) => {
       this.publicList = response.data;
       this.queryParams = {
@@ -413,23 +432,28 @@ export default {
     //关闭
     handleClose() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
+        path: this.$cache.local.getgSON("tg-aduitback").backurl,
       });
     },
+      //付款
+      pay(row) {
+        this.$cache.local.setJSON("tj-payId", row);
+        this.$tab.openPage("出款审核付款", "/tg-business/project/payDibuse");
+      },
     //查看
     detail(row) {
-      this.$cache.local.setJSON("tg-payId", row);
-      this.$tab.openPage("收款审核查看", "/tg-business/project/auditDisburseDetail");
+      this.$cache.local.setgSON("tg-payId", row);
+      this.$tab.openPage("出款审核查看", "/tg-business/project/auditDisburseDetail");
     },
     //审核
     aduit(row) {
-      this.$cache.local.setJSON("tg-payId", row);
+      this.$cache.local.setgSON("tg-payId", row);
       this.$tab.closeOpenPage({ path: "/tg-business/project/aduitDisburse" });
     },
     //关闭
     resetForms() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
+        path: this.$cache.local.getgSON("tg-aduitback").backurl,
       });
     },
     //获取该项目全部收款信息
@@ -548,7 +572,7 @@ export default {
    
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("ticketDetails", row);
+      this.$cache.local.setgSON("ticketDetails", row);
       this.$tab.closeOpenPage({ path: "/tg-business/project/disburseEdit" });
     },
 
@@ -581,4 +605,10 @@ export default {
   display: flex;
   justify-content: center;
 }
+.bankno {
+  letter-spacing: 2px;
+  font-size: 20px;
+  color: blue;
+}
+
 </style>

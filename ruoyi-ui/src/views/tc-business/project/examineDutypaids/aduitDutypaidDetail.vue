@@ -40,7 +40,7 @@
       </el-row>
       <el-row type="flex" class="row-bg " justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="甲方" :required="true">
+          <el-form-item class="comright" label="购货单位（甲方）" :required="true">
             <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
           </el-form-item>
 
@@ -49,7 +49,7 @@
            </el-form-item> -->
             </el-col>
            <el-col :span="9">
-           <el-form-item class="comright" label="乙方" prop="projectOwner">
+           <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
             <el-input v-model="formData.selfName" :readonly="true"></el-input>
           </el-form-item>
 
@@ -139,6 +139,7 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
+import {detail} from "@/api/tc-api/project/list"
 export default {
   name:'AduitDutypaidDetail',
   components: { uploadSmall },
@@ -158,29 +159,40 @@ export default {
   },
   computed: {},
   mounted() {
-    this.formData = this.$cache.local.getJSON("projectListNews");
-    this.formData.fileName3=JSON.parse(this.formData.fileName3);
-    this.formData.fileName4=JSON.parse(this.formData.fileName4);
-    this.formData.isUpDutypaid=JSON.stringify(this.formData.isUpDutypaid);
-    this.formData.isUpRate=JSON.stringify(this.formData.isUpRate);
-    this.$refs.productImage1.getSrcList(this.formData.fileName3);
-    this.$refs.productImage2.getSrcList(this.formData.fileName4);
-    this.remark=this.formData.taxRemark;
-    //this.fileName=[];
-    for(let i in this.formData.fileName3){
-      this.fileNameN1.push({
-        url:this.baseImgPath+this.formData.fileName3[i],
-        name:this.formData.fileName3[i]
-      })
-    }
-    for(let j in this.formData.fileName4){
-      this.fileNameN2.push({
-        url:this.baseImgPath+this.formData.fileName4[j],
-        name:this.formData.fileName4[j]
-      })
-    }
+    this.getlist();
   },
   methods: {
+    getlist() {
+        this.$modal.loading("正在加载数据，请稍后...");
+        detail({
+          projectCode: this.$cache.local.getJSON("tc-project-code"),
+        }).then((response) => {
+            this.$modal.closeLoading();
+            this.formData = response.data;
+            this.formData.fileName3=JSON.parse(this.formData.fileName3);
+            this.formData.fileName4=JSON.parse(this.formData.fileName4);
+            this.formData.isUpDutypaid=JSON.stringify(this.formData.isUpDutypaid);
+            this.formData.isUpRate=JSON.stringify(this.formData.isUpRate);
+            this.$refs.productImage1.getSrcList(this.formData.fileName3);
+            this.$refs.productImage2.getSrcList(this.formData.fileName4);
+            this.remark=this.formData.taxRemark;
+            //this.fileName=[];
+            for(let i in this.formData.fileName3){
+              this.fileNameN1.push({
+                url:this.baseImgPath+this.formData.fileName3[i],
+                name:this.formData.fileName3[i]
+              })
+            }
+            for(let j in this.formData.fileName4){
+              this.fileNameN2.push({
+                url:this.baseImgPath+this.formData.fileName4[j],
+                name:this.formData.fileName4[j]
+              })
+            }
+         }).catch((error) => {
+        this.$modal.closeLoading();
+      });
+      },
     //返回
     resetForm() {
       this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tc-backTicket').backurl})

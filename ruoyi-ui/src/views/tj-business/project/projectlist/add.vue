@@ -44,7 +44,19 @@
             label="项目时间"
             prop="projectTimeStart"
           >
-            <el-input v-model="formData.projectTimeStart" disabled></el-input>
+          <el-date-picker
+          style="width:100%"
+          v-model="formData.projectTimeStart"
+          value-format="yyyy-MM-dd"
+          :picker-options="pickerOptions"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :default-time="['00:00:00', '23:59:59']"
+          align="right"
+        >
+        </el-date-picker>
+            <!-- <el-input v-model="formData.projectTimeStart" disabled></el-input> -->
           </el-form-item>
           <el-form-item
             class="comright"
@@ -85,6 +97,10 @@
               </el-option>
             </el-select>
           </el-form-item>
+           <el-form-item label="项目款往来" :required="true">
+              <el-radio label="0">是</el-radio>
+              <el-radio label="1">否</el-radio>
+           </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -101,7 +117,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">甲方信息</div>
+          <div class="bankno" style="width: 35%">购货单位（甲方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -139,6 +155,10 @@
           <el-form-item class="comright" label="开户行">
             <el-input v-model="formData.bankName"></el-input>
           </el-form-item>
+          <el-form-item label="添加购方列表" :required="true">
+              <el-radio label="0">是</el-radio>
+              <el-radio label="1">否</el-radio>
+           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item
@@ -164,7 +184,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">乙方信息</div>
+          <div class="bankno" style="width: 35%">销货单位（乙方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -176,7 +196,7 @@
         <el-col :span="9">
           <el-form-item class="comright" label="名称" prop="projectOwner">
             <el-select
-              placeholder="请选择客户全名和行业类型,获取对应乙方"
+              placeholder="请选择销货单位（乙方）"
               filterable
               @change="ownnew"
               style="width: 100%"
@@ -214,13 +234,7 @@
               v-model="publicDepositBank1"
             ></el-input>
           </el-form-item>
-          <!-- <el-form-item class="comright" label="乙方状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
+        
         </el-col>
 
         <el-col :span="9">
@@ -303,6 +317,19 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户状态">
+                        <el-select style="width:100%" disabled clearable v-model="projectStatus">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+        </el-col>
+        <el-col :span="9"></el-col>
+      </el-row>
+   
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
           <el-form-item style="padding-right: 4%" label="经营范围">
@@ -984,7 +1011,7 @@ var phoneVerify = (rule, value, callback) => {
     var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
     if (!reg.test(value)) {
       callback(
-        new Error("甲方纳税人识别号,一律由15位、18或者20位码(字符型))组成")
+        new Error("购货单位（甲方）纳税人识别号,一律由15位、18或者20位码(字符型))组成")
       );
     }
     callback();
@@ -998,6 +1025,37 @@ export default {
   },
   data() {
     return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
       restaurants: [],
       state: "",
       timeout: null,
@@ -1020,7 +1078,7 @@ export default {
       },
       userinfo: {},
       expandOnClickNode: true,
-      projectStatus: 1, //乙方状态
+      projectStatus: 1, //销货单位（乙方）状态
       username: "",
       userId: "",
       industryId: "",
@@ -1035,10 +1093,10 @@ export default {
       tickettaxvipok: false,
       placename: "",
      
-      companyTax: "", //甲方纳税人识别号
-      owerTax: "", //乙方纳税人识别号
-      owntype: "", //乙方行业类型
-      owerTaxfee: "", //乙方税率
+      companyTax: "", //购货单位（甲方）纳税人识别号
+      owerTax: "", //销货单位（乙方）纳税人识别号
+      owntype: "", //销货单位（乙方）行业类型
+      owerTaxfee: "", //销货单位（乙方）税率
       placeCodeOptions: "", //渠道商
       formData: {
         disposableRemark:'',
@@ -1050,10 +1108,10 @@ export default {
         isDisposable: "1", //是否一次性费用
         isRegisterMoney: "0", //是否收取注册服务费
 
-        purchCompanyAddress: "", //甲方地址
-        purchCompanyPhone: "", //甲方电话
-        bankName: "", //甲方开户行
-        bankCode: "", //甲方开户账号
+        purchCompanyAddress: "", //购货单位（甲方）地址
+        purchCompanyPhone: "", //购货单位（甲方）电话
+        bankName: "", //购货单位（甲方）开户行
+        bankCode: "", //购货单位（甲方）开户账号
 
         isSliderOrdinary: "0", //普票滑块
         isSlider: "1", //专票滑块
@@ -1082,7 +1140,7 @@ export default {
 
         projectOwnerTaxid: "",
         projectDesc: "", //开票描述
-        purchCompanyTaxid: "", //甲方纳税人识别号
+        purchCompanyTaxid: "", //购货单位（甲方）纳税人识别号
         ticketTax: "", //发票税率
         ticketType: 0, //发票类型  0 普通 1 专用
         projectRemainAmount: "", //项目可以用金额
@@ -1134,11 +1192,11 @@ export default {
           label: "异常",
         },
       ],
-      //甲方
+      //购货单位（购货单位（甲方））
       purchCompanyOptions: [],
-      //乙方
+      //销货单位（乙方）
       ownoptions: [],
-      //乙方行业类型
+      //销货单位（乙方）行业类型
 
       ownindustry: [],
       //发票类型
@@ -1312,7 +1370,7 @@ export default {
         industryType: [
           {
             required: true,
-            message: "请选择乙方行业类型",
+            message: "请选择销货单位（乙方）行业类型",
             trigger: "change",
           },
         ],
@@ -1333,7 +1391,7 @@ export default {
         projectOwner: [
           {
             required: true,
-            message: "请选择乙方",
+            message: "请选择销货单位（乙方）",
             trigger: "change",
           },
         ],
@@ -1341,7 +1399,7 @@ export default {
         purchCompany: [
           {
             required: true,
-            message: "请选择甲方",
+            message: "请选择购货单位（甲方）",
             trigger: "change",
           },
         ],
@@ -1349,7 +1407,7 @@ export default {
         purchCompanyTaxid: [
           {
             required: true,
-            message: "请输入甲方纳税人识别号",
+            message: "请输入购货单位（甲方）纳税人识别号",
             trigger: "blur",
           },
           { validator: phoneVerify, trigger: "blur" },
@@ -1405,10 +1463,10 @@ export default {
     querySearchAsync(queryString, cb) {
       this.formData.purchCompanyTaxid = "";
       // this.formData.purchCompany = '';
-      this.formData.purchCompanyAddress = ""; //甲方地址
-      this.formData.purchCompanyPhone = ""; //甲方电话
-      this.formData.bankName = ""; //甲方开户行
-      this.formData.bankCode = ""; //甲方开户账号
+      this.formData.purchCompanyAddress = ""; //购货单位（甲方）地址
+      this.formData.purchCompanyPhone = ""; //购货单位（甲方）电话
+      this.formData.bankName = ""; //购货单位（甲方）开户行
+      this.formData.bankCode = ""; //购货单位（甲方）开户账号
       this.getPuJialist();
       var restaurants = this.restaurants;
       var results = queryString
@@ -1433,12 +1491,12 @@ export default {
       console.log(item);
       this.formData.purchCompanyTaxid = item.purchCompanyTaxid;
       this.formData.purchCompany = item.purchCompany;
-      this.formData.purchCompanyAddress = item.purchCompanyAddress; //甲方地址
-      this.formData.purchCompanyPhone = item.purchCompanyPhone; //甲方电话
-      this.formData.bankName = item.bankName; //甲方开户行
-      this.formData.bankCode = item.bankCode; //甲方开户账号
+      this.formData.purchCompanyAddress = item.purchCompanyAddress; //购货单位（甲方）地址
+      this.formData.purchCompanyPhone = item.purchCompanyPhone; //购货单位（甲方）电话
+      this.formData.bankName = item.bankName; //购货单位（甲方）开户行
+      this.formData.bankCode = item.bankCode; //购货单位（甲方）开户账号
     },
-    //甲方数据
+    //购货单位（甲方）数据
     getPuJialist() {
       let params = {
         purchCompany: this.formData.purchCompany,
@@ -1703,7 +1761,7 @@ export default {
         this.formData.fileName = "";
       }
     },
-    //监听乙方
+    //监听销货单位（乙方）
     ownnew(e) {
       console.log(e);
       for (let i in this.ownoptions) {
@@ -1788,7 +1846,7 @@ export default {
       }
     },
  
-    //获取乙方
+    //获取销货单位（乙方）
     getOwn(){
       ownlist({ username: this.username})
         .then((res) => {
@@ -1839,15 +1897,21 @@ export default {
         "-" +
         month +
         "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
+        day;
       // this.formData.createTime = curTime;
       this.formData.projectTimeStart = curTime;
+    },
+    getRealTime(){
+      var date = new Date(); //当前时间
+      var year = date.getFullYear(); //年
+      var month = this.repair(date.getMonth() + 1); //月
+      var day = this.repair(date.getDate()); //日
+      var hour = this.repair(date.getHours()); //时
+      var minute = this.repair(date.getMinutes()); //分
+      var second = this.repair(date.getSeconds()); //秒
+      //当前时间
+      
+     return   hour +":" +minute + ":" + second;
     },
     getcode(selfCode) {
       getcode({ selfCode: selfCode })
@@ -1876,6 +1940,7 @@ export default {
         .catch((error) => {});
     },
     onSubmit() {
+     s
       if (this.formData.projectTotalAmount < 1) {
         this.$alert("项目金额必须大于1", "系统提示", {
           confirmButtonText: "确定",
@@ -1897,7 +1962,9 @@ export default {
           this.formData.projectOwnerTaxid = this.owerTax;
           this.formData.projectRemainAmount = this.formData.projectTotalAmount; //新增可以用金额为总金额
           this.formData.projectPackageAmount = 0; //已用金额为0
-          //甲方数据
+          
+          this.formData.projectTimeStart=this.formData.projectTimeStart+" "+this.getRealTime();
+          //购货单位（甲方）数据
 
           add(this.formData).then((res) => {
             if (res != undefined) {

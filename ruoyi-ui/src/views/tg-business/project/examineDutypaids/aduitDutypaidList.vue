@@ -2,8 +2,8 @@
     <div class="app-container">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
             label-width="auto">
-            <el-form-item label="乙方">
-                <el-input v-model="queryParams.selfName" placeholder="请输入乙方" clearable
+            <el-form-item label="销货单位（乙方）">
+                <el-input v-model="queryParams.selfName" placeholder="请输入销货单位（乙方）" clearable
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
 
@@ -36,8 +36,8 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="乙方" align="center" prop="selfName" :show-overflow-tooltip="true" />
-            <el-table-column label="甲方" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
+            <el-table-column label="销货单位（乙方）" align="center" prop="selfName" :show-overflow-tooltip="true" />
+            <el-table-column label="购货单位（甲方）" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
              <el-table-column label="项目时间" align="center"  :show-overflow-tooltip="true">
               <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
@@ -108,7 +108,7 @@ export default {
                 type:5,
                 pageNum: 1,
                 pageSize: 10,
-                selfName: null,  //乙方
+                selfName: null,  //销货单位（乙方）
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 // projectCheckStatus: 1, //项目状态
@@ -179,7 +179,7 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('tg-project-code', code);
-           this.$cache.local.setJSON("projectListNews", row);
+           
             let obj={
                 backurl:'/tg-business/project/aduitDutypaidList'
             };
@@ -192,9 +192,9 @@ export default {
              name: 'AduitDutypaidList',
              url: '/tg-business/project/aduitDutypaidList',
             };
-            this.$cache.local.setJSON('Projectedit', obj);
+            this.$cache.local.setJSON('tg-edit-project', obj);
             this.$cache.local.setJSON('tg-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
+            
             this.$tab.closeOpenPage({ path: '/tg-business/project/dutypaidsEdit' });
         },
          handleClick(){
@@ -264,7 +264,7 @@ export default {
                 name:'AduitDutypaidList'
             };
             this.$cache.local.setJSON('tg-aduitback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+         
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDutypaid' });
         },
@@ -275,7 +275,7 @@ export default {
                 name:'AduitDutypaidList'
             };
             this.$cache.local.setJSON('tg-addback',obj);
-            this.$cache.local.setJSON("projectListNews", scope);
+          
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/addDutypaid' });
         },
@@ -296,7 +296,7 @@ export default {
                 type: 5,
                 pageNum: 1,
                 pageSize: 10,
-                selfName: null,  //乙方
+                selfName: null,  //销货单位（乙方）
                 projectTimeStart: null, //开始
                 projectTimeEnd: null,   //结束
                 // projectCheckStatus: 1, //项目状态

@@ -7,10 +7,19 @@
       v-show="showSearch"
       label-width="auto"
     >
+    <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 30%">项目信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
       <el-row
         type="flex"
         class="row-bg rowCss combottom"
-        style="padding-top;:20px"
+       
         justify="space-around"
       >
         <el-col :span="9">
@@ -26,45 +35,15 @@
               v-model="publicList.projectName"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="甲方名称 ">
+          <el-form-item class="comright" label="购货单位（甲方）名称 ">
             <el-input
               :readonly="true"
               v-model="publicList.purchCompany"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="应收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.projectTotalAmount"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.receiveMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未收账款">
-            <el-input
-              :readonly="true"
-              v-model="publicList.receiveRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
+          
+       
+        
         </el-col>
 
         <el-col :span="9">
@@ -86,13 +65,54 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="乙方名称">
+          <el-form-item class="comright" label="销货单位（乙方）名称">
             <el-input :readonly="true" v-model="publicList.selfName"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="应出账款">
+        
+       
+         
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px;margin-bottom:5px">
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 30%">收款信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+     
+  
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9"> 
+          <el-form-item class="comright" label="应收账款">
             <el-input
               :readonly="true"
-              v-model="publicList.payTotalMoneys"
+              v-model="publicList.projectTotalAmount"
+              :step="0.00001"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+            
+          </el-form-item>
+       
+          
+        
+        
+        </el-col>
+
+        <el-col :span="9"> </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+       <el-col :span="5">
+        <el-form-item class="comright" label="服务费税款">
+            <el-input
+              :readonly="true"
+            
               :step="0.00001"
               :min="0"
               oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
@@ -100,10 +120,12 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="已出账款">
+        </el-col>
+        <el-col :span="5">
+          <el-form-item class="comright" label="个税">
             <el-input
               :readonly="true"
-              v-model="publicList.payMoneys"
+             
               :step="0.00001"
               :min="0"
               oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
@@ -111,10 +133,12 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="未出账款">
+        </el-col>
+        <el-col :span="5">
+          <el-form-item class="comright" label="水利">
             <el-input
               :readonly="true"
-              v-model="publicList.payRemainMoneys"
+           
               :step="0.00001"
               :min="0"
               oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
@@ -124,11 +148,33 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9"> </el-col>
-
-        <el-col :span="9"> </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="已收账款">
+            <el-input
+              :readonly="true"
+              v-model="publicList.receiveMoneys"
+              :step="0.00001"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="未收账款">
+            <el-input
+              :readonly="true"
+              v-model="publicList.receiveRemainMoneys"
+              :step="0.00001"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -179,32 +225,19 @@
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column
-        label="流水号"
+        label="收款流水号"
         align="center"
         prop="receiveSysCode"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="转账时间"
+        label="收款时间"
         align="center"
         prop="receiveTime"
         width="180"
       />
       <el-table-column
-        label="转账账户"
-        align="center"
-        prop="receiveName"
-        :show-overflow-tooltip="true"
-      />
-      <el-table-column
-        label="转账账号"
-        align="center"
-        prop="receiveAccount"
-        :show-overflow-tooltip="true"
-      />
-
-      <el-table-column
-        label="转账金额"
+        label="收款金额"
         align="center"
         prop="receiveMoney"
         :show-overflow-tooltip="true"
@@ -214,7 +247,21 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="状态"
+        label="收款账户"
+        align="center"
+        prop="receiveName"
+        :show-overflow-tooltip="true"
+      />
+      <el-table-column
+        label="收款账号"
+        align="center"
+        prop="receiveAccount"
+        :show-overflow-tooltip="true"
+      />
+
+    
+      <el-table-column
+        label="收款状态"
         align="center"
         :show-overflow-tooltip="true"
       >
@@ -403,7 +450,7 @@ export default {
   mounted() {
    
     detail({
-      projectCode: this.$cache.local.getJSON("tc-project-code"),
+      projectCode: this.$cache.local.getcSON("tc-project-code"),
     }).then((response) => {
       this.publicList = response.data;
       this.queryParams = {
@@ -422,18 +469,18 @@ export default {
     //关闭
     handleClose() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tc-aduitback").backurl,
+        path: this.$cache.local.getcSON("tc-aduitback").backurl,
       });
     },
     //查看
     detail(row) {
-      this.$cache.local.setJSON("tc-collReceiveId", row.receiveId);
+      this.$cache.local.setcSON("tc-collReceiveId", row.receiveId);
       this.$tab.refreshPage({name:'AuditCollectDetail',path:"/tc-business/project/auditCollectDetail"});
     },
     //审核
     aduit(row) {
       console.log(row.receiveId);
-      this.$cache.local.setJSON("tc-collReceiveId", row.receiveId);
+      this.$cache.local.setcSON("tc-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tc-business/project/aduitCollect" });
     },
     
@@ -559,7 +606,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("ticketDetails", row);
+      this.$cache.local.setcSON("ticketDetails", row);
       this.$tab.closeOpenPage({ path: "/tc-business/project/collectEdit" });
     },
 
@@ -591,5 +638,10 @@ export default {
 .flexs {
   display: flex;
   justify-content: center;
+}
+.bankno {
+  letter-spacing: 2px;
+  font-size: 20px;
+  color: blue;
 }
 </style>

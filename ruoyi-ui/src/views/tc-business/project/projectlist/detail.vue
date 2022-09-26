@@ -81,7 +81,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">甲方信息</div>
+          <div class="bankno" style="width: 35%">购货单位（甲方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -137,7 +137,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">乙方信息</div>
+          <div class="bankno" style="width: 35%">销货单位（乙方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -1109,9 +1109,9 @@ export default {
       placename: "",
     
       companyTax: "", //甲方纳税人识别号
-      owerTax: "", //乙方纳税人识别号
-      owntype: "", //乙方行业类型
-      owerTaxfee: "", //乙方税率
+      owerTax: "", //销货单位（乙方）纳税人识别号
+      owntype: "", //销货单位（乙方）行业类型
+      owerTaxfee: "", //销货单位（乙方）税率
       
       formData: {
        },
@@ -1130,11 +1130,11 @@ export default {
           label: "异常",
         },
       ],
-      //甲方
+      //购货单位（甲方）
       purchCompanyOptions: [],
-      //乙方
+      //销货单位（乙方）
       ownoptions: [],
-      //乙方行业类型
+      //销货单位（乙方）行业类型
 
       ownindustry: [],
       //发票类型
@@ -1307,7 +1307,7 @@ export default {
         industryType: [
           {
             required: true,
-            message: "请选择乙方行业类型",
+            message: "请选择销货单位（乙方）行业类型",
             trigger: "change",
           },
         ],
@@ -1328,7 +1328,7 @@ export default {
         projectOwner: [
           {
             required: true,
-            message: "请选择乙方",
+            message: "请选择销货单位（乙方）",
             trigger: "change",
           },
         ],
