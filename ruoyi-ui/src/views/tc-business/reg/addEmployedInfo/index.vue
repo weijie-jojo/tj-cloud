@@ -872,7 +872,7 @@
             <el-form-item label="客户全名" prop="placeName">
               <el-select
                 @visible-change="changeValue1($event)"
-               
+                @change="placenew"
                 style="width: 100%"
                 v-model="formData.placeCode"
                 placeholder="请选择客户全名"
@@ -2300,6 +2300,14 @@ export default {
     this.getContactName();
   },
   methods: {
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
+           this.formData.placeAliasName = this.places[i].placeAliasName;
+           this.formData.placeName = this.places[i].placeName;
+        }
+      }
+    },
     //一次性分润
     isdisshare(e) {
       if (e == "1") {

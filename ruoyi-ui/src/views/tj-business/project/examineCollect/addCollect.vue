@@ -566,7 +566,7 @@ export default {
     resetForm() {
       if(this.$cache.local.getJSON('tj-ifcollect')==0){
          this.$tab.closeOpenPage({
-          path:'/projectlist/aduitCollectList'
+          path:'/tj-business/project/aduitCollectList'
          })
       }else{
         this.$tab.closeOpenPage({
@@ -616,7 +616,7 @@ export default {
                   that.$modal.msgSuccess("新增收款成功");
                   if(that.$cache.local.getJSON('tj-ifcollect')==0){
                     that.$tab.refreshPage({
-                      path:'/projectlist/aduitCollectList',
+                      path:'/tj-business/project/aduitCollectList',
                       name:'AduitCollectList'
                      })
                   }else{

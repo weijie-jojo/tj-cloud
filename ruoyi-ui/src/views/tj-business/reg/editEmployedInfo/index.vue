@@ -570,7 +570,7 @@
             <el-form-item label="客户全名" prop="placeName">
               <el-select
                 @visible-change="changeValue1($event)"
-                
+                @change="placenew"
                 style="width: 100%"
                 v-model="formData.placeCode"
                 placeholder="请选择客户全名"
@@ -1830,6 +1830,14 @@ export default {
    
   },
   methods: {
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
+           this.formData.placeAliasName = this.places[i].placeAliasName;
+           this.formData.placeName = this.places[i].placeName;
+        }
+      }
+    },
     getlist(){
     this.$modal.loading("正在加载数据，请稍后...");
     crudEmployed.regDetail(this.$cache.local.getJSON("tj-infolist")).then((res) => {

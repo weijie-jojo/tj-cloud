@@ -181,21 +181,21 @@ export default {
            this.$cache.local.setJSON('tc-project-code', code);
            this.$cache.local.setJSON("projectListNews", row);
             let obj={
-                backurl:'/projectlist/aduitDutypaidList'
+                backurl:'/tc-business/project/aduitDutypaidList'
             };
             this.$cache.local.setJSON('tc-backTicket',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaidDetail' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDutypaidDetail' });
         },
         //完税修改
         edit(row,code){
              let obj = {
              name: 'AduitDutypaidList',
-             url: '/projectlist/aduitDutypaidList',
+             url: '/tc-business/project/aduitDutypaidList',
             };
             this.$cache.local.setJSON('Projectedit', obj);
             this.$cache.local.setJSON('tc-project-code', code);
             this.$cache.local.setJSON("projectListNews", row);
-            this.$tab.closeOpenPage({ path: '/projectlist/dutypaidsEdit' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/dutypaidsEdit' });
         },
          handleClick(){
             if(this.endStatus=='-3'){
@@ -260,24 +260,24 @@ export default {
         },
         aduit(scope) {
               let obj={
-                backurl:'/projectlist/aduitDutypaidList',
+                backurl:'/tc-business/project/aduitDutypaidList',
                 name:'AduitDutypaidList'
             };
             this.$cache.local.setJSON('tc-aduitback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDutypaid' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDutypaid' });
         },
         //新增完税
         add(scope) {
               let obj={
-                backurl:'/projectlist/aduitDutypaidList',
+                backurl:'/tc-business/project/aduitDutypaidList',
                 name:'AduitDutypaidList'
             };
             this.$cache.local.setJSON('tc-addback',obj);
             this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/addDutypaid' });
+            this.$tab.closeOpenPage({ path: '/tc-business/project/addDutypaid' });
         },
 
         /** 搜索按钮操作 */

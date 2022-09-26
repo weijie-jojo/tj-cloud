@@ -203,7 +203,7 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import { check,detail,editPay} from "@/api/project/list";
+  import { check,detail,editPay,detailPay} from "@/api/project/list";
   import { getInfo } from "@/api/login";
   export default {
     name: "DisburseEdit",
@@ -268,20 +268,29 @@
     computed: {},
     mounted() {
       this.getCommonList();
-      this.formData=this.$cache.local.getJSON("collectDetails");
-      this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
-      this.$refs.receive.getSrcList(this.formData.fileNamePay);
-      for(let i in this.formData.fileNamePay){
-             this.fileNameN.push({
-              name:this.formData.fileNamePay[i],
-              url:this.baseImgPath+this.formData.fileNamePay[i]
-             })
-          }
+      this.getlist();
     },
     methods: {
+      getlist(){
+          this.$modal.loading("正在加载数据，请稍后...");
+          detailPay(this.$cache.local.getJSON("tj-payId")).then((response) => {
+          this.formData = response.data;
+          this.$modal.closeLoading();
+          this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
+          this.$refs.receive.getSrcList(this.formData.fileNamePay);
+          for(let i in this.formData.fileNamePay){
+                this.fileNameN.push({
+                  name:this.formData.fileNamePay[i],
+                  url:this.baseImgPath+this.formData.fileNamePay[i]
+                })
+              }
+          
+          }).catch((err) => {
+              this.$modal.closeLoading();
+            });
+    },
       getPay(data) {
-      this.formData.fileNamePay = data;
-      console.log(3333,data);
+         this.formData.fileNamePay = data;
       },
       //获取公共数据
       getCommonList(){
@@ -314,7 +323,7 @@
       resetForm() {
         if(this.$cache.local.getJSON('tj-ifcollect')==0){
            this.$tab.closeOpenPage({
-            path:'/projectlist/aduitDisburseList'
+            path:'/tj-business/project/aduitDisburseList'
            })
         }else{
           this.$tab.closeOpenPage({
@@ -343,7 +352,7 @@
                      this.$modal.msgSuccess("修改出款成功");
                      if(this.$cache.local.getJSON('tj-ifcollect')==0){
                         this.$tab.refreshPage({
-                         path:'/projectlist/aduitDisburseList',
+                         path:'/tj-business/project/aduitDisburseList',
                          name:'AduitDisburseList'
                          })
                      }else{

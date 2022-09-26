@@ -527,6 +527,7 @@
           <el-form-item class="comright" label="客户全名" prop="placeName">
             <el-select style="width:100%"
              @visible-change="changeValue1($event)"
+             @change="placenew"
             v-model="formData.placeCode" placeholder="请选择客户全名"
               clearable filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
@@ -1419,6 +1420,14 @@ mounted() {
   
   },
   methods: {
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
+           this.formData.placeAliasName = this.places[i].placeAliasName;
+           this.formData.placeName = this.places[i].placeName;
+        }
+      }
+    },
      //获取业务经理
      getLeader(){
      

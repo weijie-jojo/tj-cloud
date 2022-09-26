@@ -220,10 +220,9 @@
   </template>
   <script>
   import uploadSmall from "@/components/douploads/uploadCollect";
-  import { check,detail} from "@/api/project/list";
-  import { getInfo } from "@/api/login";
+  import {detail,detailCollect} from "@/api/project/list";
   export default {
-    name: "AduitCollect",
+    name: "AuditCollectDetail",
     components: { uploadSmall },
     data() {
       return {
@@ -289,20 +288,29 @@
         baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       };
     },
-    computed: {},
     mounted() {
       this.getCommonList();
-      this.formData=this.$cache.local.getJSON("collectDetails");
-      this.formData.fileNameReceive=JSON.parse(this.formData.fileNameReceive)
-      this.$refs.receive.getSrcList(this.formData.fileNameReceive);
-      for(let i in this.formData.fileNameReceive){
-             this.fileNameN.push({
-              name:this.formData.fileNameReceive[i],
-              url:this.baseImgPath+this.formData.fileNameReceive[i]
-             })
-          }
+      this.getlist();
     },
     methods: {
+      getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      detailCollect(this.$cache.local.getJSON("tj-collReceiveId")).then((response) => {
+      this.formData = response.data;
+      this.$modal.closeLoading();
+      this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
+      this.$refs.receive.getSrcList(this.formData.fileNameReceive);
+      for (let i in this.formData.fileNameReceive) {
+       this.fileNameN.push({
+         name: this.formData.fileNameReceive[i],
+         url: this.baseImgPath + this.formData.fileNameReceive[i],
+        });
+      }
+      
+    }).catch((err) => {
+          this.$modal.closeLoading();
+        });
+    },
       //获取公共数据
       getCommonList(){
           detail({
@@ -317,7 +325,7 @@
       resetForm() {
         if(this.$cache.local.getJSON('tj-ifcollect')==0){
            this.$tab.closeOpenPage({
-            path:'/projectlist/aduitCollectList'
+            path:'/tj-business/project/aduitCollectList'
            })
         }else{
           this.$tab.closeOpenPage({

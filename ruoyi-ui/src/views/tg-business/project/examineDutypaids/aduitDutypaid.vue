@@ -326,7 +326,7 @@ export default {
                       this.$cache.local.getJSON("tg-aduitback").name,
                   };
                   this.$cache.local.setJSON("successProject", obj);
-                  this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                  this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
                 });
               } else {
                 this.$modal.msgError(res.msg);

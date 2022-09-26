@@ -744,7 +744,7 @@ export default {
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
-                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                    this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
                  
                 });
 
@@ -799,11 +799,13 @@ export default {
            });
         },
         getlist() {
+            this.$modal.loading("正在加载数据，请稍后...");
             detail({
                 projectCode: this.$cache.local.getJSON("tg-project-code")
             }).then((response) => {
 
                 this.formData = response.data;
+                this.$modal.closeLoading();
                 this.formData.selfShareIsmoney = JSON.stringify(this.formData.selfShareIsmoney);
                 this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
                 this.formData.selfShare = JSON.stringify(this.formData.selfShare);
@@ -896,12 +898,10 @@ export default {
                 } else {
                     this.fileNameradio = '1';
                 }
-                if (this.formData.isActive) {
-                    this.projectStatus = parseInt(this.formData.isActive);
-                } else {
-                    this.projectStatus = 1;
-                }
-            });
+               
+            }).catch((err) => {
+          this.$modal.closeLoading();
+        });
         },
         resetForm() {
             this.$tab.closeOpenPage({ path:this.$cache.local.getJSON('tg-aduitback').backurl});

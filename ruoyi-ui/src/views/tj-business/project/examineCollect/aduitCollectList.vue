@@ -422,25 +422,21 @@ export default {
     //关闭
     handleClose() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tj-backTicket").backurl,
+        path: this.$cache.local.getJSON("tj-aduitback").backurl,
       });
     },
     //查看
     detail(row) {
-      this.$cache.local.setJSON("collectDetails", row);
-      this.$tab.openPage("收款审核查看", "/projectlist/auditCollectDetail");
+      this.$cache.local.setJSON("tj-collReceiveId", row.receiveId);
+      this.$tab.refreshPage({name:'AuditCollectDetail',path:"/tj-business/project/auditCollectDetail"});
     },
     //审核
     aduit(row) {
-      this.$cache.local.setJSON("collectDetails", row);
-      this.$tab.closeOpenPage({ path: "/projectlist/aduitCollect" });
+      console.log(row.receiveId);
+      this.$cache.local.setJSON("tj-collReceiveId", row.receiveId);
+      this.$tab.closeOpenPage({ path: "/tj-business/project/aduitCollect" });
     },
-    //关闭
-    resetForms() {
-      this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tj-backTicket").backurl,
-      });
-    },
+    
     //获取该项目全部收款信息
     getfinshRece() {
       finshReceiveList({
@@ -559,12 +555,12 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      this.$tab.closeOpenPage({ path: "/projectlist/addCollect" });
+      this.$tab.closeOpenPage({ path: "/tj-business/project/addCollect" });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.$cache.local.setJSON("ticketDetails", row);
-      this.$tab.closeOpenPage({ path: "/projectlist/collectEdit" });
+      this.$tab.closeOpenPage({ path: "/tj-business/project/collectEdit" });
     },
 
     /** 删除按钮操作 */

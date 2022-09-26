@@ -173,24 +173,22 @@ export default {
           //完税查看
          find(row,code){
            this.$cache.local.setJSON('tg-project-code', code);
-           this.$cache.local.setJSON("projectListNews", row);
             let obj={
-                backurl:'/projectlist/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-backTicket',obj);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
+            this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
         //完税修改
         edit(row,code){
             let obj1={
-                backurl:'/projectlist/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-backTicket',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-project-code', code);
-            this.$cache.local.setJSON("projectListNews", row);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
+            this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
          handleClick(){
             if(this.endStatus=='-1'){
@@ -222,12 +220,12 @@ export default {
             s = s < 10 ? "0" + s : s;
             return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + s;
         },
-               getCount() {
-      getCount(this.queryParams).then(res => {
-        this.errLabel = "异常(" + res.error + ")";
-        this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "出款中(" + res.unfinished + ")";
-        this.finishLabel = "完成(" + res.finished + ")";
+       getCount() {
+        getCount(this.queryParams).then(res => {
+            this.errLabel = "异常(" + res.error + ")";
+            this.allLabel = "全部(" + res.total + ")";
+            this.loadingLabel = "出款中(" + res.unfinished + ")";
+            this.finishLabel = "完成(" + res.finished + ")";
       });
     },
     
@@ -254,25 +252,23 @@ export default {
         },
         aduit(scope) {
             let obj1={
-                backurl:'/projectlist/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-backTicket',obj1);
-            this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
+            this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
         //新增完税
         add(scope) {
             
             let obj1={
-                backurl:'/projectlist/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-backTicket',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
-            this.$cache.local.setJSON("projectListNews", scope);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
-            this.$tab.closeOpenPage({ path: '/projectlist/aduitDisburseList' });
+            this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
 
         /** 搜索按钮操作 */

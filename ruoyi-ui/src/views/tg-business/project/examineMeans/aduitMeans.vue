@@ -258,7 +258,7 @@ export default {
 
                     }
                     this.$cache.local.setJSON('successProject', obj);
-                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                    this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
                 
                 });
 

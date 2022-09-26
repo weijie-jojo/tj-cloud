@@ -222,7 +222,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check,detail,editPay,edit} from "@/api/tc-api/project/list";
+import { check,detail,editPay,edit,detailPay} from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from 'decimal.js'
 export default {
@@ -289,17 +289,26 @@ export default {
   computed: {},
   mounted() {
     this.getCommonList();
-    this.formData=this.$cache.local.getJSON("collectDetails");
-    this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
-    this.$refs.receive.getSrcList(this.formData.fileNamePay);
-    for(let i in this.formData.fileNamePay){
-           this.fileNameN.push({
-            name:this.formData.fileNamePay[i],
-            url:this.baseImgPath+this.formData.fileNamePay[i]
-           })
-        }
+    this.getlist();
   },
   methods: {
+    getlist(){
+        this.$modal.loading("正在加载数据，请稍后...");
+        detailPay(this.$cache.local.getJSON("tc-payId")).then((response) => {
+        this.formData = response.data;
+        this.$modal.closeLoading();
+        this.formData.fileNamePay=JSON.parse(this.formData.fileNamePay)
+        this.$refs.receive.getSrcList(this.formData.fileNamePay);
+        for(let i in this.formData.fileNamePay){
+              this.fileNameN.push({
+                name:this.formData.fileNamePay[i],
+                url:this.baseImgPath+this.formData.fileNamePay[i]
+              })
+            }
+        }).catch((err) => {
+            this.$modal.closeLoading();
+        });
+    },
     //获取公共数据
     getCommonList(){
         detail({
@@ -331,7 +340,7 @@ export default {
     resetForm() {
       if(this.$cache.local.getJSON('tc-ifcollect')==0){
          this.$tab.closeOpenPage({
-          path:'/projectlist/aduitDisburseList'
+          path:'/tc-business/project/aduitDisburseList'
          })
       }else{
         this.$tab.closeOpenPage({
@@ -414,8 +423,8 @@ export default {
                       backName:this.$cache.local.getJSON('tc-aduitback').name
 
                     }
-                    this.$cache.local.setJSON('successProject', obj);
-                    this.$tab.closeOpenPage({ path: "/projectlist/success" });
+                    this.$cache.local.setJSON('tc-successProject', obj);
+                    this.$tab.closeOpenPage({ path: "/tc-business/project/success" });
                   } 
                 }
           });

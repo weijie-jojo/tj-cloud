@@ -1618,7 +1618,7 @@ export default {
       });
     },
     resetForm() {
-      this.$tab.closeOpenPage({ path: "/projectlist/list" });
+      this.$tab.closeOpenPage({ path: "/tg-business/project/list" });
     },
     getRate() {
       crudRate.getAllRate().then((res) => {

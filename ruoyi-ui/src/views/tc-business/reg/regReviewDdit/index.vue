@@ -779,7 +779,7 @@
             <el-select
               style="width: 100%"
               @visible-change="changeValue1($event)"
-             
+              @change="placenew"
               v-model="formData.placeCode"
               placeholder="请选择客户全名"
               clearable
@@ -1999,6 +1999,14 @@ export default {
    this.getlist();
   },
   methods: {
+    placenew() {
+      for (let i in this.places) {
+        if (this.places[i].placeCode == this.formData.placeCode) {
+           this.formData.placeAliasName = this.places[i].placeAliasName;
+           this.formData.placeName = this.places[i].placeName;
+        }
+      }
+    },
     getlist(){
     this.$modal.loading("正在加载数据，请稍后...");
     crudEmployed.regDetail(this.$cache.local.getJSON("tc-confirmlist")).then((res) => {

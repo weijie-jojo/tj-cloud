@@ -284,7 +284,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { getReceiveCode,getPayCode, check,detail,addReceive,addPay} from "@/api/tc-api/project/list";
+import { getReceiveCode,getPayCode, check,detail,addReceive,addPay} from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "AddCollect",
@@ -402,7 +402,7 @@ export default {
     },
     getDetails(){
         detail({
-         projectCode: this.$cache.local.getJSON("tc-project-code")
+         projectCode: this.$cache.local.getJSON("tg-project-code")
         }).then((response) => {
          this.publicList = response.data;
          this.formData.projectCode = this.publicList.projectCode;
@@ -564,13 +564,13 @@ export default {
     },
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tc-ifcollect')==0){
+      if(this.$cache.local.getJSON('tg-ifcollect')==0){
          this.$tab.closeOpenPage({
-          path:'/projectlist/aduitCollectList'
+          path:'/tg-business/project/aduitCollectList'
          })
       }else{
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tc-addback").backurl,
+        path: this.$cache.local.getJSON("tg-addback").backurl,
       });
       }
       
@@ -614,15 +614,15 @@ export default {
                   setTimeout(function() { 
                   that.$modal.closeLoading();
                   that.$modal.msgSuccess("新增收款成功");
-                  if(that.$cache.local.getJSON('tc-ifcollect')==0){
+                  if(that.$cache.local.getJSON('tg-ifcollect')==0){
                     that.$tab.refreshPage({
-                      path:'/projectlist/aduitCollectList',
+                      path:'/tg-business/project/aduitCollectList',
                       name:'AduitCollectList'
                      })
                   }else{
                      that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("tc-addback").backurl,
-                       name: that.$cache.local.getJSON("tc-addback").name,
+                        path: that.$cache.local.getJSON("tg-addback").backurl,
+                       name: that.$cache.local.getJSON("tg-addback").name,
                        });
                   }
                   

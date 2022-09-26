@@ -253,7 +253,7 @@ export default {
       console.log(scope);
       this.$cache.local.setJSON("projectListNews", scope);
       this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-      this.$tab.openPage("项目查看", "/projectlist/detail");
+      this.$tab.openPage("项目查看", "/tj-business/project/detail");
     },
 
     /** 搜索按钮操作 */

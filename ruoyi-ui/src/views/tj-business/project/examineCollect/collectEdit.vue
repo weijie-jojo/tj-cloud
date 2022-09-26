@@ -201,10 +201,10 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive } from "@/api/project/list";
+import { check, detail, editReceive,detailCollect } from "@/api/project/list";
 import { getInfo } from "@/api/login";
 export default {
-  name: "AduitCollect",
+  name: "CollectEdit",
   components: { uploadSmall },
   data() {
     return {
@@ -273,17 +273,27 @@ export default {
   computed: {},
   mounted() {
     this.getCommonList();
-    this.formData = this.$cache.local.getJSON("collectDetails");
-    this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
-    this.$refs.receive.getSrcList(this.formData.fileNameReceive);
-    for (let i in this.formData.fileNameReceive) {
-      this.fileNameN.push({
-        name: this.formData.fileNameReceive[i],
-        url: this.baseImgPath + this.formData.fileNameReceive[i],
-      });
-    }
+    this.getlist();
   },
   methods: {
+    getlist(){
+      this.$modal.loading("正在加载数据，请稍后...");
+      detailCollect(this.$cache.local.getJSON("tj-collReceiveId")).then((response) => {
+      this.formData = response.data;
+      this.$modal.closeLoading();
+      this.formData.fileNameReceive = JSON.parse(this.formData.fileNameReceive);
+      this.$refs.receive.getSrcList(this.formData.fileNameReceive);
+      for (let i in this.formData.fileNameReceive) {
+       this.fileNameN.push({
+         name: this.formData.fileNameReceive[i],
+         url: this.baseImgPath + this.formData.fileNameReceive[i],
+        });
+      }
+      
+    }).catch((err) => {
+          this.$modal.closeLoading();
+        });
+    },
     getReceive(data) {
       this.formData.fileNameReceive = data;
       console.log(3333, data);
@@ -319,7 +329,7 @@ export default {
     resetForm() {
       if (this.$cache.local.getJSON("tj-ifcollect") == 0) {
         this.$tab.closeOpenPage({
-          path: "/projectlist/aduitCollectList",
+          path: "/tj-business/project/aduitCollectList",
         });
       } else {
         this.$tab.closeOpenPage({
@@ -350,7 +360,7 @@ export default {
                 this.$modal.msgSuccess("修改收款成功");
                 if (this.$cache.local.getJSON("tj-ifcollect") == 0) {
                   this.$tab.refreshPage({
-                    path: "/projectlist/aduitCollectList",
+                    path: "/tj-business/project/aduitCollectList",
                     name: "AduitCollectList",
                   });
                 } else {
