@@ -1,5 +1,6 @@
 package com.ruoyi.project.controller;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -9,7 +10,6 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.project.domain.SelfPay;
 import com.ruoyi.project.service.ISelfPayTgService;
-import com.ruoyi.project.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +40,15 @@ public class SelfPayTgController extends BaseController
      */
     @GetMapping(value ="/getCode")
     @ApiOperation("获取编码")
-    public String getCode(){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String nowDate = sdf.format(date);
-        SelfPay selfPay =selfPayService.selectLast();
-        System.out.println("selfPay=="+ selfPay);
-        String code="";
-        if (selfPay !=null){
-            code=  StringUtils.getCode("TGPAY", selfPay.getPaySysCode(),"yyyyMMdd");
-        }else {//没有数据时
-            code="TGPAY"+"-"+nowDate+"-"+"0001";
+    public String getCode(String projectCode){
+        SelfPay selfPay=selfPayService.selectLast();
+        String payCode="";
+        if (selfPay==null){//没有单据时
+            payCode=projectCode+"-"+"02"+"-"+"00001";
+        }else {
+            payCode=  StringUtils.getCode5(projectCode,"02",selfPay.getPaySysCode());
         }
-        return code;
+        return  payCode;
     };
 
     /**

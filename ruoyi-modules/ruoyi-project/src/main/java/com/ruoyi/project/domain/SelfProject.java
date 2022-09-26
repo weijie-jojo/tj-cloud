@@ -425,4 +425,8 @@ public class SelfProject extends BaseEntity
     /** 一次性收取费用备注 */
     @ApiModelProperty(value = "一次性收取费用备注")
     private String disposableRemark;
+
+    /** 项目款是否往来 0否 1是 */
+    @ApiModelProperty(value = "项目款是否往来 0否 1是")
+    private Long isDealings;
 }

@@ -561,7 +561,34 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         }
         return  code;
     }
-
+    /**
+     * 自动生成编号（收付款用）
+     *
+     * @param prefix 前缀，往往是一串字符串
+     * @param oldCode 要查询的最后一条数据的编号
+     * @param middle 时间格式
+     * @return
+     */
+    public static String getCode5(String prefix,String middle, String oldCode){
+        String code = "";
+        System.out.println("oldCode==:"+oldCode);
+        Long orser=Long.valueOf(oldCode.substring(oldCode.length()-5));
+        System.out.println("NEWCode=="+oldCode.substring(oldCode.length()-5));
+        orser++;
+        if (orser<10){
+            code=String.valueOf(prefix+"-"+middle+"-"+"0000"+orser);
+        }
+        if (orser>=10&&orser<100){
+            code=String.valueOf(prefix+"-"+middle+"-"+"000"+orser);
+        }
+        if (orser>=100&&orser<1000){
+            code=String.valueOf(prefix+"-"+middle+"-"+"00"+orser);
+        }
+        if (orser>=1000&&orser<10000){
+            code=String.valueOf(prefix+"-"+middle+"-"+"0"+orser);
+        }
+        return  code;
+    }
     /**
      * 自动生成编号（客户用）
      *
