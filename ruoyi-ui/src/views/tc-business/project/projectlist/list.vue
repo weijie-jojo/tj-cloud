@@ -8,10 +8,10 @@
       v-show="showSearch"
       label-width="auto"
     >
-      <el-form-item label="乙方">
+      <el-form-item label="销货单位（乙方）">
         <el-input
           v-model="queryParams.selfName"
-          placeholder="请输入乙方"
+          placeholder="请输入销货单位（乙方）"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -90,13 +90,14 @@
       <el-table-column type="selection" width="55" align="center" />
 
       <el-table-column
-        label="甲方"
+        label="购货单位（甲方）"
         align="center"
         prop="purchCompany"
+        width="200"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="乙方"
+        label="销货单位（乙方）"
         align="center"
         prop="selfName"
         width="200"
@@ -541,7 +542,7 @@ export default {
         type: 1,
         pageNum: 1,
         pageSize: 10,
-        selfName: null, //乙方
+        selfName: null, //销货单位（乙方）
         projectTimeStart: null, //开始
         projectTimeEnd: null, //结束
         projectStatus: 0, //项目状态
@@ -814,7 +815,7 @@ export default {
         name: "List",
       };
       this.$cache.local.setJSON("tc-ifcollect", 1);
-      this.$cache.local.setJSON("Projectedit", obj);
+      this.$cache.local.setJSON("tc-edit-project", obj);
       this.$cache.local.setJSON("tc-backTicket", obj);
       switch (this.types) {
         case 1:
@@ -1126,7 +1127,7 @@ export default {
         type: 1,
         pageNum: 1,
         pageSize: 10,
-        selfName: null, //乙方
+        selfName: null, //销货单位（乙方）
         projectTimeStart: null, //开始
         projectTimeEnd: null, //结束
         projectStatus: 0, //项目状态

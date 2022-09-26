@@ -33,7 +33,7 @@
                 <el-col :span="9">
 
 
-                    <el-form-item class="comright" label="甲方">
+                    <el-form-item class="comright" label="购货单位（甲方）">
                         <!-- <el-select  clearable v-model="formData.purchCompany">
                           <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -53,7 +53,7 @@
 
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方">
+                    <el-form-item class="comright" label="销货单位（乙方）">
                         <el-input v-model="Father.selfName" :required="true" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
@@ -87,7 +87,7 @@
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="乙方纳税人识别号">
+                    <el-form-item class="comright" label="销货单位（乙方）纳税人识别号">
                         <el-input v-model="owerTax" :readonly="true"></el-input>
                     </el-form-item>
                     <el-form-item class="comright" label="剩余金额">
@@ -216,7 +216,7 @@ export default {
 
             issuedAmount: 0.00, //已开金额
             balance: 0.00,  //剩余金额
-            projectStatus: 1,//乙方状态
+            projectStatus: 1,//销货单位（乙方）状态
             username: '',
             userId: '',
             industryId: '',
@@ -232,9 +232,9 @@ export default {
             placename: '',
             isokradio: '2',
             companyTax: '',//甲方纳税人识别号
-            owerTax: '',//乙方纳税人识别号
-            owntype: '',//乙方行业类型
-            owerTaxfee: '',//乙方税率
+            owerTax: '',//销货单位（乙方）纳税人识别号
+            owntype: '',//销货单位（乙方）行业类型
+            owerTaxfee: '',//销货单位（乙方）税率
             userinfo: {},
             Father: [],
             formData: {
@@ -265,11 +265,11 @@ export default {
                     label: '异常'
                 },
             ],
-            //甲方
+            //购货单位（甲方）
             purchCompanyOptions: [],
-            //乙方
+            //销货单位（乙方）
             ownoptions: [],
-            //乙方行业类型
+            //销货单位（乙方）行业类型
 
             ownindustry: [],
             //发票类型
@@ -335,7 +335,7 @@ export default {
                 industryType: [
                     {
                         required: true,
-                        message: "请选择乙方行业类型",
+                        message: "请选择销货单位（乙方）行业类型",
                         trigger: "change",
                     },
                 ],
@@ -350,7 +350,7 @@ export default {
                 projectOwner: [
                     {
                         required: true,
-                        message: "请选择乙方",
+                        message: "请选择销货单位（乙方）",
                         trigger: "change",
                     },
                 ],
@@ -517,7 +517,7 @@ export default {
                                         backName: this.$cache.local.getJSON('tc-aduitback').name
 
                                     }
-                                    this.$cache.local.setJSON('successProject', obj);
+                                    this.$cache.local.setJSON('tc-successProject', obj);
                                     this.$tab.closeOpenPage({ path: "/tc-business/project/success" });
 
 
@@ -624,7 +624,7 @@ export default {
                 this.formData.fileName = '';
             }
         },
-        //监听乙方
+        //监听销货单位（乙方）
         ownnew(e) {
             console.log(e);
             for (let i in this.ownoptions) {

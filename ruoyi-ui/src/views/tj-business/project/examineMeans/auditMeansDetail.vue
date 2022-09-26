@@ -40,14 +40,14 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="购货单位（甲方）" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
 
                </el-col>
 
                 <el-col :span="9">
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
+                    <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
                         <el-input v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
                   
@@ -168,6 +168,7 @@ export default {
         detail({
           projectCode: this.$cache.local.getJSON("tj-project-code"),
         }).then((response) => {
+            this.$modal.closeLoading();
           this.formData.industryType = "";
           this.formData = response.data;
           this.remark = this.formData.checkRemark;

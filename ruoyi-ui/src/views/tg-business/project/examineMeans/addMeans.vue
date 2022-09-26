@@ -40,7 +40,7 @@
             </el-row>
             <el-row type="flex" class="row-bg " justify="space-around">
                 <el-col :span="9">
-                    <el-form-item class="comright" label="甲方" :required="true">
+                    <el-form-item class="comright" label="购货单位（甲方）" :required="true">
                         <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
                     </el-form-item>
                     
@@ -51,7 +51,7 @@
 
                 <el-col :span="9">
 
-                    <el-form-item class="comright" label="乙方" prop="projectOwner">
+                    <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
                         <el-input v-model="formData.selfName" :readonly="true"></el-input>
                     </el-form-item>
 
@@ -123,7 +123,7 @@
 </template>
 <script>
 import uploadSmall from '@/components/douploads/uploadFiles'
-import { edit, check } from "@/api/tg-api/project/list";
+import { edit, check,detail} from "@/api/tg-api/project/list";
 import { getInfo } from '@/api/login'
 export default {
     name: 'AddMeans',
@@ -152,15 +152,25 @@ export default {
             baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
         };
     },
-    computed: {},
     mounted() {
-        this.formData = this.$cache.local.getJSON("projectListNews");
-        this.formData.fileName2 = [];
-        this.formData.fileName1 = [];
-        this.formData.isUpContract='0';
-        this.formData.isUpAcceptance='0';
+        this.getlist();
     },
     methods: {
+        getlist() {
+        this.$modal.loading("正在加载数据，请稍后...");
+        detail({
+          projectCode: this.$cache.local.getJSON("tg-project-code"),
+        }).then((response) => {
+            this.$modal.closeLoading();
+          this.formData = response.data;
+          this.formData.fileName2 = [];
+          this.formData.fileName1 = [];
+          this.formData.isUpContract='0';
+          this.formData.isUpAcceptance='0';
+         }).catch((error) => {
+        this.$modal.closeLoading();
+      });
+      },
         check(resmsg) {
             getInfo().then(res => {
                 this.userinfo = res.user;

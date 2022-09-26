@@ -357,8 +357,8 @@
                          })
                      }else{
                        this.$tab.refreshPage({
-                           path: this.$cache.local.getJSON("Projectedit").backurl,
-                           name: this.$cache.local.getJSON("Projectedit").name,
+                           path: this.$cache.local.getJSON("tj-edit-project").backurl,
+                           name: this.$cache.local.getJSON("tj-edit-project").name,
                           });
                      }
                     } 

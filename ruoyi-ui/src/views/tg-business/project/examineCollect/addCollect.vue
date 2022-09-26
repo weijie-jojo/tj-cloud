@@ -5,16 +5,11 @@
       :model="formData"
       :rules="rules"
       size="medium"
-      label-width="140px"
+      label-width="auto"
     >
-      <el-row
-        type="flex"
-        class="row-bg"
-        style="margin-top: 20px"
-        justify="space-around"
-      >
+     <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:20px">
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">项目信息</div>
+          <div class="bankno" style="width: 45%">收款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -24,138 +19,17 @@
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="项目编号" :required="true">
-            <el-input
-              v-model="publicList.projectCode"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-
-          <el-form-item class="comright" label="项目名称" :required="true">
-            <el-input
-              v-model="publicList.projectName"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="应收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.projectTotalAmount"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.receiveMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.receiveRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="9">
-          <el-form-item class="comright" label="项目时间" :required="true">
-            <el-input v-model="publicList.createTime" disabled></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="项目金额" :required="true">
-            <el-input
-              :disabled="true"
-              type="number"
-              v-model="publicList.projectTotalAmount"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append"> 元 </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="应出账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.payTotalMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已出账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.payMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未出账款" :required="true">
-            <el-input
-              disabled
-              v-model="publicList.payRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">收款信息</div>
-          <div style="width: 50%; hegiht: 10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="转账账户" prop="receiveName">
+          <el-form-item class="comright" label="收款账户" prop="receiveName">
             <el-input v-model="formData.receiveName"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收账金额" prop="receiveMoney">
-            <el-input
-              
-              v-model="formData.receiveMoney"
-              @change="receiveSee"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
+          <el-form-item class="comright" label="收款时间" :required="true">
+            <el-input v-model="formData.receiveTime" disabled></el-input>
           </el-form-item>
+
+          <el-form-item class="comright" label="付款账户">
+            <el-input></el-input>
+          </el-form-item>
+       
           <el-form-item
             class="comright"
             label="转账凭证"
@@ -173,16 +47,32 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="转账时间" :required="true">
-            <el-input v-model="formData.receiveTime" disabled></el-input>
-          </el-form-item>
-
-          <el-form-item class="comright" label="转账账号" prop="receiveAccount">
+          <el-form-item class="comright" label="收款账号" prop="receiveAccount">
             <el-input v-model="formData.receiveAccount"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="财务流水号" prop="receiveCode">
-            <el-input v-model="formData.receiveCode"></el-input>
+         
+          <el-form-item class="comright" label="收账金额" prop="receiveMoney">
+            <el-input
+              
+              v-model="formData.receiveMoney"
+              @change="receiveSee"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
           </el-form-item>
+          <el-form-item class="comright" label="付款账号">
+            <el-input></el-input>
+          </el-form-item>
+          
+
+         
+          <!-- <el-form-item class="comright" label="财务流水号" prop="receiveCode">
+            <el-input v-model="formData.receiveCode"></el-input>
+          </el-form-item> -->
         </el-col>
       </el-row>
       <el-row
@@ -192,14 +82,21 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">出款信息</div>
+          <div class="bankno" style="width: 45%">出款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
           <div></div>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
+    
+      <el-row
+        v-for="(item, index) in disburseList"
+        :key="index"
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+      >
         <el-col :span="9">
           <el-form-item class="comright" label="操作" :required="true">
             <el-button
@@ -209,18 +106,14 @@
               @click="adds"
               >添加</el-button
             >
+            <el-button
+              type="danger"
+              size="small"
+              style="width: 80px"
+              @click="dels(index)"
+              >删除</el-button
+            >
           </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-for="(item, index) in disburseList"
-        :key="index"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
           <el-form-item class="comright" label="出账账户" :required="true">
             <el-input v-model="item.payName"></el-input>
           </el-form-item>
@@ -236,6 +129,9 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
+          <el-form-item class="comright" label="收款账户">
+            <el-input></el-input>
+          </el-form-item>
           <el-form-item class="comright" label="出账凭证" :required="true">
             <uploadSmall
               :index="index"
@@ -249,17 +145,21 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="出账时间" :required="true">
+          
+          <el-form-item class="comright" label="出账时间" :required="true" style="margin-top:40px">
             <el-input v-model="item.payTime" :disabled="true"></el-input>
           </el-form-item>
           
           <el-form-item class="comright" label="出账账号" :required="true">
             <el-input v-model="item.payAccount"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="财务流水号" :required="true">
-            <el-input v-model="item.payCode"></el-input>
+          <el-form-item class="comright" label="收款账号">
+            <el-input></el-input>
           </el-form-item>
-          <el-form-item label="删除该项">
+          <!-- <el-form-item class="comright" label="财务流水号" :required="true">
+            <el-input v-model="item.payCode"></el-input>
+          </el-form-item> -->
+          <!-- <el-form-item label="删除该项">
             <el-button
               type="danger"
               size="small"
@@ -267,7 +167,7 @@
               @click="dels(index)"
               >删除</el-button
             >
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
       </el-row>
 
@@ -402,7 +302,7 @@ export default {
     },
     getDetails(){
         detail({
-         projectCode: this.$cache.local.getJSON("tg-project-code")
+         projectCode: this.$cache.local.getgSON("tg-project-code")
         }).then((response) => {
          this.publicList = response.data;
          this.formData.projectCode = this.publicList.projectCode;
@@ -564,13 +464,13 @@ export default {
     },
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tg-ifcollect')==0){
+      if(this.$cache.local.getgSON('tg-ifcollect')==0){
          this.$tab.closeOpenPage({
           path:'/tg-business/project/aduitCollectList'
          })
       }else{
         this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-addback").backurl,
+        path: this.$cache.local.getgSON("tg-addback").backurl,
       });
       }
       
@@ -614,15 +514,15 @@ export default {
                   setTimeout(function() { 
                   that.$modal.closeLoading();
                   that.$modal.msgSuccess("新增收款成功");
-                  if(that.$cache.local.getJSON('tg-ifcollect')==0){
+                  if(that.$cache.local.getgSON('tg-ifcollect')==0){
                     that.$tab.refreshPage({
                       path:'/tg-business/project/aduitCollectList',
                       name:'AduitCollectList'
                      })
                   }else{
                      that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("tg-addback").backurl,
-                       name: that.$cache.local.getJSON("tg-addback").name,
+                        path: that.$cache.local.getgSON("tg-addback").backurl,
+                       name: that.$cache.local.getgSON("tg-addback").name,
                        });
                   }
                   

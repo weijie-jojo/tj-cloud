@@ -109,8 +109,9 @@ export default {
     'fileNameOlds': {
       deep: true,  // 深度监听
       handler(newVal, oldVal) {
-       console.log(111,newVal); 
-       console.log(222,oldVal); 
+        if(newVal){
+        this.pdfIconChange();
+       } 
       }
     }
   },
@@ -183,21 +184,18 @@ export default {
     },
     //pdf图标优化
     pdfIconChange() {
-      this.$nextTick(()=>{
-        this.fileNameOlds=this.$refs.uploads.uploadFiles;
-      if (this.fileNameOld.length > 0) {
-        let arr = this.fileNameOlds;
 
-        for (let i in arr) {
-          if (arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'pdf') {
-            arr[i].url = this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
-          }else if(arr[i].url.substring(arr[i].url.lastIndexOf('.') + 1) == 'zip'){
-            arr[i].url = this.baseImgPath + '2022090509414b4ec97f-4cb8-442e-a979-e5ce9ac27eaet01709f600470d50b78.png';
-          }
-        }
-        this.fileNameOlds = arr;
-      }
-    });
+      this.fileNameOlds.map((item) => {
+      if (item != null && item != "") {
+            var suffix=item.url.substring(item.url.lastIndexOf('.')+1,item.length);
+            if(suffix=='pdf'){
+              item.url= this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
+            }else  if(suffix=='zip'){
+              item.url= this.baseImgPath + '2022090509414b4ec97f-4cb8-442e-a979-e5ce9ac27eaet01709f600470d50b78.png';
+            }
+         }
+        })
+     
     },
     //pdf弹框
     pdfdetail(i) {

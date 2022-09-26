@@ -81,7 +81,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">甲方信息</div>
+          <div class="bankno" style="width: 35%">购货单位（甲方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -141,7 +141,7 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">乙方信息</div>
+          <div class="bankno" style="width: 35%">销货单位（乙方）</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
         <el-col :span="9">
@@ -177,7 +177,7 @@
             ></el-input>
           </el-form-item>
 
-          <!-- <el-form-item class="comright" label="乙方状态">
+          <!-- <el-form-item class="comright" label="销货单位（乙方）状态">
                         <el-select style="width:100%" disabled clearable v-model="projectStatus" placeholder="请选择项目状态">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value">
@@ -1077,7 +1077,7 @@ var phoneVerify = (rule, value, callback) => {
     var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
     if (!reg.test(value)) {
       callback(
-        new Error("甲方纳税人识别号,一律由15位、18或者20位码(字符型))组成")
+        new Error("购货单位（甲方）纳税人识别号,一律由15位、18或者20位码(字符型))组成")
       );
     }
     callback();
@@ -1126,10 +1126,10 @@ export default {
       tickettaxvipok: false,
       placename: "",
       isokradio: "1",
-      companyTax: "", //甲方纳税人识别号
-      owerTax: "", //乙方纳税人识别号
-      owntype: "", //乙方行业类型
-      owerTaxfee: "", //乙方税率
+      companyTax: "", //购货单位（甲方）纳税人识别号
+      owerTax: "", //销货单位（乙方）纳税人识别号
+      owntype: "", //销货单位（乙方）行业类型
+      owerTaxfee: "", //销货单位（乙方）税率
       projectStatus: 1,
       formData: {
         isDisposableShare: "1",
@@ -1183,11 +1183,11 @@ export default {
           label: "异常",
         },
       ],
-      //甲方
+      //购货单位（甲方）
       purchCompanyOptions: [],
-      //乙方
+      //销货单位（乙方）
       ownoptions: [],
-      //乙方行业类型
+      //销货单位（乙方）行业类型
 
       ownindustry: [],
       //发票类型
@@ -1360,7 +1360,7 @@ export default {
         industryType: [
           {
             required: true,
-            message: "请选择乙方行业类型",
+            message: "请选择销货单位（乙方）行业类型",
             trigger: "change",
           },
         ],
@@ -1381,7 +1381,7 @@ export default {
         projectOwner: [
           {
             required: true,
-            message: "请选择乙方",
+            message: "请选择销货单位（乙方）",
             trigger: "change",
           },
         ],
@@ -1389,7 +1389,7 @@ export default {
         purchCompany: [
           {
             required: true,
-            message: "请选择甲方",
+            message: "请选择购货单位（甲方）",
             trigger: "change",
           },
         ],
@@ -1397,7 +1397,7 @@ export default {
         purchCompanyTaxid: [
           {
             required: true,
-            message: "请输入甲方纳税人识别号",
+            message: "请输入购货单位（甲方）纳税人识别号",
             trigger: "blur",
           },
           { validator: phoneVerify, trigger: "blur" },

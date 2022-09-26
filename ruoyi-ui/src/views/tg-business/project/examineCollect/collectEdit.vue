@@ -365,8 +365,8 @@ export default {
                   });
                 } else {
                   this.$tab.refreshPage({
-                    path: this.$cache.local.getJSON("Projectedit").backurl,
-                    name: this.$cache.local.getJSON("Projectedit").name,
+                    path: this.$cache.local.getJSON("tg-edit-project").backurl,
+                    name: this.$cache.local.getJSON("tg-edit-project").name,
                   });
                 }
               }
