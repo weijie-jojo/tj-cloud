@@ -179,9 +179,7 @@
             <el-form-item class="comright" label="转账账号" prop="receiveAccount">
               <el-input v-model="formData.receiveAccount"  :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item class="comright" label="财务流水号" prop="receiveCode">
-              <el-input v-model="formData.receiveCode"  :disabled="true"></el-input>
-            </el-form-item>
+           
           </el-col>
         </el-row>
   

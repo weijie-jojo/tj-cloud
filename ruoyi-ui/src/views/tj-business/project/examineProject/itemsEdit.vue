@@ -80,15 +80,17 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="项目款往来" :required="true">
+            <el-radio  v-model="formData.isDealings" label="1"
+              >是</el-radio
+            >
+            <el-radio  v-model="formData.isDealings" label="0"
+              >否</el-radio
+            >
+          </el-form-item>
         </el-col>
 
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="客户状态" prop="isokradio">
-                        <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
-                        <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
-                        <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
-                    </el-form-item> -->
-
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
@@ -101,9 +103,9 @@
         style="margin-bottom: 20px"
         justify="space-around"
       >
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">购货单位（甲方）</div>
-          <div style="width: 50%; hegiht: 10px"></div>
+        <el-col :span="9">
+          <div class="bankno" >购货单位（甲方）</div>
+         
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -130,6 +132,10 @@
           <el-form-item class="comright" label="开户行">
             <el-input v-model="formData.bankName" :readonly="true"></el-input>
           </el-form-item>
+          <el-form-item label="添加购方列表" :required="true">
+              <el-radio disabled v-model="formData.isAddBuyer" label="1">是</el-radio>
+              <el-radio disabled v-model="formData.isAddBuyer" label="0">否</el-radio>
+           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item
@@ -159,9 +165,9 @@
         style="margin-bottom: 20px"
         justify="space-around"
       >
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">销货单位（乙方）</div>
-          <div style="width: 50%; hegiht: 10px"></div>
+        <el-col :span="9" >
+          <div class="bankno" >销货单位（乙方）</div>
+         
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -296,6 +302,18 @@
             <el-input disabled v-model="owerTaxfee"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户状态">
+                        <el-select style="width:100%" disabled clearable v-model="projectStatus">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+        </el-col>
+        <el-col :span="9"></el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
@@ -485,125 +503,16 @@
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
+   
+
       <el-row
-        v-if="formData.isSelfCount == 0"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
           justify="space-around"
         >
-          <el-col :span="10" >
-            <div class="bankno">
-              个体注册服务费
-             </div>
-           
-          </el-col>
           <el-col :span="9">
-            <div></div>
-          </el-col>
-        </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="状态" prop="isRegisterMoney">
-            <el-radio v-model="formData.isRegisterMoney" label="0">开启</el-radio>
-            <el-radio v-model="formData.isRegisterMoney" label="1">关闭</el-radio>
-          </el-form-item>
-          <el-form-item
-            v-if="formData.isRegisterMoney == 0"
-            label="服务费"
-            prop="registerMoney"
-          >
-            <el-input
-              v-model="formData.registerMoney"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isRegisterMoney==0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="是否分润" prop="isSelfShare">
-            <el-radio v-model="formData.isSelfShare" label="0">是</el-radio>
-            <el-radio v-model="formData.isSelfShare" label="1">否</el-radio>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-      <el-row
-        v-if="formData.isSelfCount == 0 && formData.isSelfShare == 0"
-        type="flex"
-        class="row-bg"
-        justify="space-around"
-      >
-        <el-col :span="9">
-          <el-form-item label="分润方式" prop="selfShare">
-            <div style="">
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="0"
-                >按定额收取
-              </el-radio>
-              <el-radio
-                @change="selfShareIsmoneys"
-                v-model="formData.selfShareIsmoney"
-                label="1"
-                >按百分比收取
-              </el-radio>
-
-              <el-input
-                v-if="formData.selfShareIsmoney == 0"
-                style="width: 100%"
-                :min="0"
-                v-model="formData.selfShare"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">元</template>
-              </el-input>
-              <el-input
-                v-model="formData.selfShare"
-                v-else
-                style="width: 100%"
-                @input="isSelfShares"
-                @change="isSelfShares"
-                :step="0.01"
-                :min="0"
-                :max="100"
-                onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-              >
-                <template slot="append">%</template>
-              </el-input>
-            </div>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9"> </el-col>
-      </el-row>
-
-      <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="10">
             <div class="bankno">增值税普通发票</div>
            </el-col>
           <el-col :span="9"> </el-col>
@@ -614,7 +523,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" :required="true">
@@ -745,13 +654,13 @@
 
 
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
           justify="space-around"
         >
-          <el-col :span="10" >
+          <el-col :span="9" >
             <div class="bankno">增值税专用发票
               </div>
            </el-col>
@@ -765,7 +674,7 @@
       <el-row   type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2">
+        v-if="formData.isSelfCount == 2">
         <el-col :span="9">
           <el-form-item label="增值税专用发票" :required="true">
             <el-radio @change="ispublic" v-model="formData.isSlider" label="0"
@@ -893,9 +802,8 @@
         <el-col :span="9"></el-col>
 
       </el-row>
-
       <el-row
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
           type="flex"
           class="row-bg"
           style="margin-bottom: 20px"
@@ -916,7 +824,7 @@
         type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 0 || formData.isSelfCount == 2"
+        v-if="formData.isSelfCount == 2"
       >
         <el-col :span="9">
           <el-form-item label="状态" prop="isDisposable">
@@ -1097,6 +1005,8 @@ export default {
   },
   data() {
     return {
+      isaddPurch:'1',
+      projectStatus:'1',
       selectTipType: "",
       isyuan: "",
       userinfo: {},
@@ -1647,7 +1557,21 @@ export default {
         this.formData.industryType = "";
         this.formData = response.data;
         this.$modal.closeLoading();
-        
+        if (this.formData.isAddBuyer == 1) {
+             this.formData.isAddBuyer = "1";
+        } else {
+            this.formData.isAddBuyer = "0";
+        }
+        if (this.formData.isDealings == 1) {
+            this.formData.isDealings = "1";
+          } else {
+            this.formData.isDealings = "0";
+          }
+          if (this.formData.isActive) {
+            this.projectStatus = parseInt(this.formData.isActive);
+          } else {
+            this.projectStatus = 1;
+          }
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney
         );

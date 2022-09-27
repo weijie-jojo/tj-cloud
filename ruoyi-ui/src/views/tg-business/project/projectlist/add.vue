@@ -98,8 +98,8 @@
             </el-select>
           </el-form-item>
            <el-form-item label="项目款往来" :required="true">
-              <el-radio label="0">是</el-radio>
-              <el-radio label="1">否</el-radio>
+              <el-radio v-model="formData.isDealings" label="1">是</el-radio>
+              <el-radio v-model="formData.isDealings" label="0">否</el-radio>
            </el-form-item>
         </el-col>
 
@@ -152,12 +152,13 @@
               :rows="1"
             ></el-input>
           </el-form-item>
+          
           <el-form-item class="comright" label="开户行">
             <el-input v-model="formData.bankName"></el-input>
           </el-form-item>
           <el-form-item label="添加购方列表" :required="true">
-              <el-radio label="0">是</el-radio>
-              <el-radio label="1">否</el-radio>
+              <el-radio v-model="formData.isAddBuyer" label="1">是</el-radio>
+              <el-radio v-model="formData.isAddBuyer" label="0">否</el-radio>
            </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -1098,7 +1099,10 @@ export default {
       owntype: "", //销货单位（乙方）行业类型
       owerTaxfee: "", //销货单位（乙方）税率
       placeCodeOptions: "", //渠道商
+      isaddPurch:'1',//添加甲方
       formData: {
+        isAddBuyer:'1',
+        isDealings:'1',//项目往来款
         disposableRemark:'',
         isDisposableShare: "1",
         disposableShareIsmoney: "0",
@@ -1940,7 +1944,7 @@ export default {
         .catch((error) => {});
     },
     onSubmit() {
-     s
+     
       if (this.formData.projectTotalAmount < 1) {
         this.$alert("项目金额必须大于1", "系统提示", {
           confirmButtonText: "确定",
@@ -1989,7 +1993,8 @@ export default {
           let params2 = {
             purchCompanyTaxid: this.formData.purchCompanyTaxid,
           };
-          getPuJialist(params1).then((res) => {
+          if(this.isaddPurch==1){
+            getPuJialist(params1).then((res) => {
             if (res != undefined) {
               if (res.rows.length == 0) {
                 getPuJialist(params2).then((resok) => {
@@ -2014,6 +2019,9 @@ export default {
               }
             }
           });
+
+          }
+          
         } else {
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",

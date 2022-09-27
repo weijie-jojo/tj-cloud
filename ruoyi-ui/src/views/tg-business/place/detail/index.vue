@@ -795,7 +795,7 @@ export default {
         this.ruleForm.ordinarySpecialTax = res.ordinarySpecialTax;//专票税率
         this.ruleForm.ordinaryTax = res.ordinaryTax; //普票税率
         this.ruleForm.specialSelfFee = res.specialSelfFee;
-        this.ruleForm.isSpecialTax = res.isSpecialTax;
+        
         this.ruleForm.disposableRemark=res.disposableRemark;
         this.ruleForm.disposableFeeIsmoney=JSON.stringify(res.disposableFeeIsmoney);
         this.ruleForm.isDisposable=JSON.stringify(res.isDisposable);
@@ -818,18 +818,10 @@ export default {
 
 
 
-
-        this.ruleForm.isOrdinaryTax = res.isOrdinaryTax;
-        if (this.ruleForm.isOrdinaryTax == true) {
-          this.ruleForm.isOrdinaryTax = "0"
-        } else if (this.ruleForm.isOrdinaryTax == false) {
-          this.ruleForm.isOrdinaryTax = "1"
-        }
-        if (this.ruleForm.isSpecialTax == true) {
-          this.ruleForm.isSpecialTax = "0"
-        } else if (this.ruleForm.isSpecialTax == false) {
-          this.ruleForm.isSpecialTax = "1"
-        }
+        this.ruleForm.isSpecialTax = JSON.stringify(res.isSpecialTax);
+        this.ruleForm.isOrdinaryTax = JSON.stringify(res.isOrdinaryTax);
+       
+        
       }).catch((error)=>{
         this.$modal.closeLoading();
       })

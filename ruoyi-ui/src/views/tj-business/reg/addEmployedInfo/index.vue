@@ -1671,23 +1671,23 @@ export default {
       dialogVisible3: false,
       userinfo: {},
       formData: {
-        disposableRemark:'',
-        isDisposableShare: "1",
-        disposableShareIsmoney: "0",
-        disposableShare: "0",
-        disposableFeeIsmoney: "1",
-        disposableFee: "0",
-        isDisposable: "0", //是否一次性费用
-        isRegisterMoney: "0", //是否收取注册服务费
+        disposableRemark:null,
+        isDisposableShare: null,
+        disposableShareIsmoney: null,
+        disposableShare: null,
+        disposableFeeIsmoney: null,
+        disposableFee: null,
+        isDisposable: null, //是否一次性费用
+        isRegisterMoney: null, //是否收取注册服务费
 
-        isSliderOrdinary: "0", //普票滑块
-        isSlider: "0", //专票滑块
-        ordinaryProxyIsmoney: "1", //普票平台服务费是否定额
-        specialProxyIsmoney: "1", //专票平台服务费是否定额
-        ordinaryShareIsmoney: "1", //普票分润方式是否定额
-        specialShareIsmoney: "1", //专票分润方式是否定额
-        isOrdinaryShare: "1",
-        isSpecialShare: "1",
+        isSliderOrdinary: null, //普票滑块
+        isSlider: null, //专票滑块
+        ordinaryProxyIsmoney: null, //普票平台服务费是否定额
+        specialProxyIsmoney: null, //专票平台服务费是否定额
+        ordinaryShareIsmoney: null, //普票分润方式是否定额
+        specialShareIsmoney: null, //专票分润方式是否定额
+        isOrdinaryShare: null,
+        isSpecialShare: null,
 
         specialShareMoney: "",
         specialShare: "",
@@ -1718,19 +1718,19 @@ export default {
 
         userName: "",
         //名称
-        selfShareIsmoney: "0",
-        isSelfShare: "1",
-        selfShare: "0",
-        isSpecialTax: "0",
-        isOrdinaryTax: "0",
-        specialSelfFee: 0, //专票个体户代办费(率)
-        specialSelfMoney: 0, //专票个体户代办费(元）
-        ordinarySelfFee: 0, //普票个体户代办费(率)
-        ordinarySelfMoney: 0, //普票个体户代办费(元）
-        isSelfTax: "0", //个体户服务费是否含税
-        isSpecialSelfTax: "0", //专票含税
+        selfShareIsmoney: null,
+        isSelfShare: null,
+        selfShare: null,
+        isSpecialTax: null,
+        isOrdinaryTax: null,
+        specialSelfFee: null, //专票个体户代办费(率)
+        specialSelfMoney: null, //专票个体户代办费(元）
+        ordinarySelfFee: null, //普票个体户代办费(率)
+        ordinarySelfMoney: null, //普票个体户代办费(元）
+        isSelfTax: null, //个体户服务费是否含税
+        isSpecialSelfTax: null, //专票含税
         isSelfCount: "1", //结算方式
-        registerMoney: "", //注册服务费
+        registerMoney: null, //注册服务费
         selfCode: "",
 
         //申请信息
