@@ -68,4 +68,16 @@ public class SelfReceive extends BaseEntity
     @ApiModelProperty(value = "收款不通过备注")
     private String receiveRemark;
 
+    /** 转账账户（付款信息） */
+    @ApiModelProperty(value = "转账账户 付款信息")
+    private String paymentName;
+
+    /** 转账帐号（付款信息） */
+    @ApiModelProperty(value = "转账帐号 付款信息")
+    private String paymentAccount;
+
+    /** 有无出款信息 */
+    @ApiModelProperty(value = "有无出款信息")
+    private Long havePayinfo;
+
 }

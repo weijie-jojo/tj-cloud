@@ -50,7 +50,7 @@ public class SelfEmployedTgServiceImpl implements ISelfEmployedTgService
      * @return 个体商户集合
      */
     @Override
-    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo) {
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr, SelfEmployedVo selfEmployedVo) {
         return selfEmployedMapper.selectEmployedJoinCount(userIdArr, selfEmployedVo);
     }
 

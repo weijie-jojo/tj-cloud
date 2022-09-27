@@ -59,6 +59,8 @@ public class SelfEmployedController extends BaseController
     {
         List<Long> roleIdArr = new ArrayList<Long>();
         roleIdArr.add(11L);
+        roleIdArr.add(118L);
+        roleIdArr.add(117L);
         System.out.println("roleIdArr==="+roleIdArr);
         List<SysUser> list=   remoteUserService.getUserByRoles(roleIdArr);
         System.out.println("LoginUser==="+list);

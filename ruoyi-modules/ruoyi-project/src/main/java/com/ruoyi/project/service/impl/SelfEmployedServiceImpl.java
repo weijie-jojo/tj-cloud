@@ -6,7 +6,6 @@ import com.ruoyi.project.domain.SelfEmployed;
 import com.ruoyi.project.domain.vo.SelfEmployedVo;
 import com.ruoyi.project.mapper.SelfEmployedMapper;
 import com.ruoyi.project.service.ISelfEmployedService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

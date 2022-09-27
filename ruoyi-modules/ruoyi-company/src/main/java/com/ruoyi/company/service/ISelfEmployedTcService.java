@@ -35,7 +35,7 @@ public interface ISelfEmployedTcService
      * @param userIdArr
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo);
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr, SelfEmployedVo selfEmployedVo);
     /**
      * 连表selfNameReview查询(完结）
      *

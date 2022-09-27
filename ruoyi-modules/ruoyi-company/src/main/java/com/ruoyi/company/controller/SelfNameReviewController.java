@@ -1,14 +1,10 @@
 package com.ruoyi.company.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.company.domain.SelfEmployed;
-import com.ruoyi.company.domain.dto.DataDto;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.mapper.SysUserMapper;
 import io.swagger.annotations.Api;

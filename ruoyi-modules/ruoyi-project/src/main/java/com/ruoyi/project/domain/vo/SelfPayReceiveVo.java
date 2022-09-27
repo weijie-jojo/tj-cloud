@@ -10,6 +10,23 @@ import java.util.Date;
 
 @Data
 public class SelfPayReceiveVo extends SelfReceive {
+
+    /** 出账账户（出款信息） */
+    @ApiModelProperty(value = "出账账户 付款信息")
+    private String paymentName;
+
+    /** 转账时间（出款信息） */
+    @ApiModelProperty(value = "转账时间 付款信息")
+    private Date paymentTime;
+
+    /** 出款金额（出款信息） */
+    @ApiModelProperty(value = "出款金额 付款信息")
+    private BigDecimal paymentMoney;
+
+    /** 出账帐号（出款信息） */
+    @ApiModelProperty(value = "出账帐号 付款信息")
+    private String paymentAccount;
+
     /** 出账账户（出款信息） */
     @ApiModelProperty(value = "出账账户 出款信息")
     private String payName;

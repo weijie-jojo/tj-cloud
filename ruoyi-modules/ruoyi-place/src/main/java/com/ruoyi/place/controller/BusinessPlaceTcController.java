@@ -58,9 +58,9 @@ public class BusinessPlaceTcController extends BaseController {
     @Autowired
     private  SelfEmployedTcMapper selfEmployedMapper;
 
-    @GetMapping("/getPlaceByCode")
+    @GetMapping("/getPlaceByCode/{placeCode}")
     @ApiOperation("根据placeVo查询渠道信息")
-    public BusinessPlaceVo getPlaceByCode(String placeVo){
+    public BusinessPlaceVo getPlaceByCode(@PathVariable("placeCode") String placeVo){
         return  businessPlaceMapper.selectBusinessPlaceByPlaceCode(placeVo);
     }
 

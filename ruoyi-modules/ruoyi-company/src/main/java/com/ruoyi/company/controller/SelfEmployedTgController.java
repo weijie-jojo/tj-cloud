@@ -13,7 +13,6 @@ import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
 import com.ruoyi.company.domain.vo.SysUserVo;
 import com.ruoyi.company.mapper.SysUserMapper;
-import com.ruoyi.company.service.ISelfEmployedService;
 import com.ruoyi.company.service.ISelfEmployedTgService;
 import com.ruoyi.place.api.RemotePlaceService;
 import com.ruoyi.place.api.domain.vo.BusinessPlaceVo;
@@ -59,6 +58,8 @@ public class SelfEmployedTgController extends BaseController
     public AjaxResult getAllUser()
     {
         List<Long> roleIdArr = new ArrayList<Long>();
+        roleIdArr.add(11L);
+        roleIdArr.add(118L);
         roleIdArr.add(117L);
         System.out.println("roleIdArr==="+roleIdArr);
         List<SysUser> list=   remoteUserService.getUserByRoles(roleIdArr);

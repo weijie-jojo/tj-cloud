@@ -429,4 +429,9 @@ public class SelfProject extends BaseEntity
     /** 项目款是否往来 0否 1是 */
     @ApiModelProperty(value = "项目款是否往来 0否 1是")
     private Long isDealings;
+
+    /** 是否增加购方列表 */
+    @ApiModelProperty(value = "是否增加购方列表")
+    private Long isAddBuyer;
+
 }

@@ -57,7 +57,7 @@ public class BusinessAgencyFeeTgRecycle implements Serializable {
      * 是否含税-专票
      */
     @ApiModelProperty(value = "是否含税-专票")
-    private Boolean isSpecialTax;
+    private Long isSpecialTax;
 
     /**
      * 普票个体户代办费
@@ -75,7 +75,7 @@ public class BusinessAgencyFeeTgRecycle implements Serializable {
      * 是否含税-普票
      */
     @ApiModelProperty(value = "是否含税-普票")
-    private Boolean isOrdinaryTax;
+    private Long isOrdinaryTax;
 
     /**
      * 是否删除(0:正常 1:删除)

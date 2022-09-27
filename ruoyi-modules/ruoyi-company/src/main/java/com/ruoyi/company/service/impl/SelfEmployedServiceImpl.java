@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ruoyi.company.domain.SelfEmployed;
 import com.ruoyi.company.domain.vo.SelfEmployedVo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.company.mapper.SelfEmployedMapper;
@@ -40,7 +39,7 @@ public class SelfEmployedServiceImpl implements ISelfEmployedService
      * @return 个体商户集合
      */
     @Override
-    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr,SelfEmployedVo selfEmployedVo) {
+    public List<SelfEmployed> selectEmployedJoinCount(List<Long> userIdArr, SelfEmployedVo selfEmployedVo) {
         return selfEmployedMapper.selectEmployedJoinCount(userIdArr, selfEmployedVo);
     }
 

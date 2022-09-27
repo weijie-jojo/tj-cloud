@@ -29,7 +29,7 @@ public interface SelfEmployedTgMapper
      * @param userIdArr
      * @return 个体商户集合
      */
-    public List<SelfEmployed> selectEmployedJoinCount(@Param("userIdArr") List<Long> userIdArr,@Param("selfEmployedVo") SelfEmployedVo selfEmployedVo);
+    public List<SelfEmployed> selectEmployedJoinCount(@Param("userIdArr") List<Long> userIdArr, @Param("selfEmployedVo") SelfEmployedVo selfEmployedVo);
 
 
     /**
