@@ -895,8 +895,8 @@ export default {
     this.getPlaceCode();
     //获取登录用户
     getInfo().then(res => {
-      this.ruleForm.userName = res.user.userName;
-      this.ruleForm.editUserName = res.user.userName;
+      this.ruleForm.userName = res.user.nickName;
+      this.ruleForm.editUserName = res.user.nickName;
       this.ruleForm.userId = res.user.userId;
       console.log("getInfo", this.ruleForm.userName);
     })
