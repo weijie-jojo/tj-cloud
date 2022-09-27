@@ -1729,7 +1729,7 @@ export default {
         ordinarySelfMoney: null, //普票个体户代办费(元）
         isSelfTax: null, //个体户服务费是否含税
         isSpecialSelfTax: null, //专票含税
-        isSelfCount: 1, //结算方式
+        isSelfCount: '1', //结算方式
         registerMoney: null, //注册服务费
         selfCode: "",
 
