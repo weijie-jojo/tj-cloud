@@ -1009,11 +1009,11 @@ export default {
         this.ruleForm.editIsSpecialSelfTax = JSON.stringify(res.isSpecialSelfTax),
         this.ruleForm.editAgencyFeeId = res.agencyFeeId;
        
-        this.ruleForm.editIsSpecialTax = res.isSpecialTax;
+        this.ruleForm.editIsSpecialTax = JSON.stringify(res.isSpecialTax);
       
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.editRegisterMoney = res.registerMoney;
-        this.ruleForm.editIsOrdinaryTax = res.isOrdinaryTax;
+        this.ruleForm.editIsOrdinaryTax = JSON.stringify(res.isOrdinaryTax);
         this.ruleForm.editSpecialSelfFee = res.specialProxyFee;
         this.ruleForm.editSpecialShare = res.specialShare;
         this.ruleForm.editOrdinaryShare = res.ordinaryShare;
@@ -1030,16 +1030,7 @@ export default {
        
 
 
-        if (this.ruleForm.editIsOrdinaryTax == true) {
-          this.ruleForm.editIsOrdinaryTax = "0"
-        } else if (this.ruleForm.editIsOrdinaryTax == false) {
-          this.ruleForm.editIsOrdinaryTax = "1"
-        }
-        if (this.ruleForm.editIsSpecialTax == true) {
-          this.ruleForm.editIsSpecialTax = "0"
-        } else if (this.ruleForm.editIsSpecialTax == false) {
-          this.ruleForm.editIsSpecialTax = "1"
-        }
+       
         this.getLeader();
       
       }).catch((error)=>{
@@ -1197,18 +1188,6 @@ export default {
     confirmEdit() {
       this.$refs['form'].validate((valid) => {
        if (valid) {
-         if (this.ruleForm.editIsOrdinaryTax == "0") {
-            this.ruleForm.editIsOrdinaryTax = true;
-          } else if (this.ruleForm.editIsOrdinaryTax == '1') {
-            this.ruleForm.editIsOrdinaryTax = false;
-          }
-          if (this.ruleForm.editIsSpecialTax == "0") {
-            this.ruleForm.editIsSpecialTax = true;
-          } else if (this.ruleForm.editIsSpecialTax == "1") {
-            this.ruleForm.editIsSpecialTax = false;
-          }
-
-
           let params = {
             agencyFeeId: this.ruleForm.editAgencyFeeId,
             placeId: this.ruleForm.editPlaceId,

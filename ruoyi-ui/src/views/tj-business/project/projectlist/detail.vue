@@ -43,6 +43,10 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
+          <el-form-item label="项目款往来" :required="true">
+              <el-radio disabled v-model="formData.isDealings" label="1">是</el-radio>
+              <el-radio disabled v-model="formData.isDealings" label="0">否</el-radio>
+           </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -110,6 +114,10 @@
           <el-form-item class="comright" label="开户行">
             <el-input v-model="formData.bankName" :readonly="true"></el-input>
           </el-form-item>
+          <el-form-item label="添加购方列表" :required="true">
+              <el-radio disabled v-model="formData.isAddBuyer" label="1">是</el-radio>
+              <el-radio disabled v-model="formData.isAddBuyer" label="0">否</el-radio>
+           </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -264,6 +272,18 @@
             ></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户状态">
+                        <el-select  style="width:100%" disabled clearable v-model="projectStatus">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+        </el-col>
+        <el-col :span="9"></el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
@@ -950,6 +970,7 @@ export default {
   },
   data() {
     return {
+      projectStatus:'1',
       selectTipType: "",
       isDetail: "1",
       isNone: [],
@@ -1312,6 +1333,16 @@ export default {
       }).then((response) => {
         this.formData = response.data;
         this.$modal.closeLoading();
+        if (this.formData.isActive) {
+          this.projectStatus = parseInt(this.formData.isActive);
+        } else {
+          this.projectStatus = 1;
+        }
+        if (this.formData.isAddBuyer == 1) {
+             this.formData.isAddBuyer = "1";
+        } else {
+            this.formData.isAddBuyer = "0";
+        }
 
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney
@@ -1367,7 +1398,11 @@ export default {
         this.formData.isRegisterMoney = JSON.stringify(
           this.formData.isRegisterMoney
         );
-
+        if(this.formData.isDealings==1){
+           this.formData.isDealings='1';
+        }else{
+          this.formData.isDealings='0'; 
+        }
         if (this.formData.isOrdinaryTax == 1) {
           this.formData.isOrdinaryTax = "1";
         } else {

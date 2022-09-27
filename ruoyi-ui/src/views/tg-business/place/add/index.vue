@@ -1109,16 +1109,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          if (this.ruleForm.isOrdinaryTax == "0") {
-            this.ruleForm.isOrdinaryTax = true;
-          } else if (this.ruleForm.isOrdinaryTax == '1') {
-            this.ruleForm.isOrdinaryTax = false;
-          }
-          if (this.ruleForm.isSpecialTax == "0") {
-            this.ruleForm.isSpecialTax = true;
-          } else if (this.ruleForm.isSpecialTax == "1") {
-            this.ruleForm.isSpecialTax = false;
-          }
+        
          let data = {
             businessPlace: {
               customerType:this.ruleForm.customerType,

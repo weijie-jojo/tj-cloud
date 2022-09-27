@@ -80,15 +80,13 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="项目款往来" :required="true">
+              <el-radio  v-model="formData.isDealings" label="1">是</el-radio>
+              <el-radio  v-model="formData.isDealings" label="0">否</el-radio>
+           </el-form-item>
           </el-col>
   
           <el-col :span="9">
-            <!-- <el-form-item class="comright" label="客户状态" prop="isokradio">
-                          <el-input disabled v-if="isokradio == 0" value="正常"></el-input>
-                          <el-input disabled v-if="isokradio == 1" value="欠费"></el-input>
-                          <el-input disabled v-if="isokradio == 2" value="冻结"></el-input>
-                      </el-form-item> -->
-  
             <el-form-item class="comright" label="业务经理">
               <el-input v-model="formData.projectLeader" disabled></el-input>
             </el-form-item>
@@ -130,6 +128,10 @@
             <el-form-item class="comright" label="开户行">
               <el-input v-model="formData.bankName" :readonly="true"></el-input>
             </el-form-item>
+            <el-form-item label="添加购方列表" :required="true">
+              <el-radio disabled v-model="formData.isAddBuyer" label="1">是</el-radio>
+              <el-radio disabled v-model="formData.isAddBuyer" label="0">否</el-radio>
+           </el-form-item>
           </el-col>
           <el-col :span="9">
             <el-form-item
@@ -296,6 +298,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="个体户状态">
+                        <el-select  style="width:100%" disabled clearable v-model="projectStatus">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+        </el-col>
+        <el-col :span="9"></el-col>
+      </el-row>
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="21">
             <el-form-item style="padding-right: 4%" label="经营范围">
@@ -996,6 +1010,7 @@
     },
     data() {
       return {
+        projectStatus:'1',
         industryTax:'',
         selectTipType: "",
         isyuan: "",
@@ -1331,7 +1346,7 @@
       },
       //结算方式赋值
       singleOK() {
-        if (this.formData.isSelfCount == 0 || this.formData.isSelfCount == 2) {
+        if (this.formData.isSelfCount == 2) {
           this.formData.disposableRemark='';
           this.formData.isDisposableShare = "1";
           this.formData.disposableShareIsmoney = "0";
@@ -1537,8 +1552,25 @@
         detail({
           projectCode: this.$cache.local.getJSON("tj-project-code"),
         }).then((response) => {
-          this.formData.industryType = "";
+          
           this.formData = response.data;
+          if (this.formData.isAddBuyer == 1) {
+             this.formData.isAddBuyer = "1";
+        } else {
+            this.formData.isAddBuyer = "0";
+        }
+          if (this.formData.isActive) {
+          this.projectStatus = parseInt(this.formData.isActive);
+        } else {
+          this.projectStatus = 1;
+        }
+
+        if(this.formData.isDealings==1){
+           this.formData.isDealings='1';
+        }else{
+          this.formData.isDealings='0'; 
+        }
+
           if(this.formData.industryTax){
             this.industryTax =
           new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";

@@ -89,6 +89,20 @@
           <div></div>
         </el-col>
       </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+       
+      >
+        <el-col :span="9">
+          <el-form-item label="状态">
+            <el-radio  label="1">有</el-radio>
+            <el-radio  label="0">无</el-radio>
+          </el-form-item>
+          </el-col>
+          <el-col :span="9"></el-col>
+          </el-row>
     
       <el-row
         v-for="(item, index) in disburseList"
