@@ -75,34 +75,6 @@ public class SelfEmployedTgController extends BaseController
     @GetMapping("/getCount")
     public HashMap<String, Integer> selectEmployedJoinCount(SelfEmployedVo selfEmployedVo)
     {
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //根据登录用户获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        //存储username的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==119||role.getRoleId()==121||role.getRoleId()==4){//部门主管
-                System.out.println("部门主管");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==117){//行政人员
-                System.out.println("行政人员");
-                userIdArr=null;
-                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
-            }
-        }
-
         List<SelfEmployedVo> list1= ListUtil.getInstance().getList1();
         List<SelfEmployedVo> list2= ListUtil.getInstance().getList2();
         List<SelfEmployedVo> list3= ListUtil.getInstance().getList3();
@@ -112,6 +84,7 @@ public class SelfEmployedTgController extends BaseController
         selfEmployedVo.setTaxStatus(null);
         selfEmployedVo.setBankStatus(null);
         selfEmployedVo.setEndStatus(null);
+        List<Long> userIdArr=getUserIdArr(selfEmployedVo);
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
         if (selfEmployedVo.getType()==1){//注册进度
             list1= list.stream().filter(s->s.getEndStatus()==0).collect(Collectors.toList());
@@ -161,34 +134,7 @@ public class SelfEmployedTgController extends BaseController
     @GetMapping("/getCounts")
     public Integer selectEmployedJoinCounts(SelfEmployedVo selfEmployedVo)
     {
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //根据登录用户获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        //存储username的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==119||role.getRoleId()==121||role.getRoleId()==4){//部门主管
-                System.out.println("部门主管");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==117){//行政人员
-                System.out.println("行政人员");
-                userIdArr=null;
-                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
-            }
-        }
-
+        List<Long> userIdArr=getUserIdArr(selfEmployedVo);
         List<SelfEmployed> list = selfEmployedService.selectEmployedJoinCount(userIdArr, selfEmployedVo);
 
         return list.size();
@@ -202,35 +148,7 @@ public class SelfEmployedTgController extends BaseController
     @GetMapping("/joinList")
     public TableDataInfo selectEmployedJoinReview(SelfEmployedVo selfEmployedVo)
     {
-//        selfEmployedVo.setOrdinaryShare();
-        System.out.println("getOrdinaryShare=="+selfEmployedVo.getOrdinaryShare());
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //根据登录用户获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        //存储username的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==119||role.getRoleId()==121||role.getRoleId()==4){//部门主管
-                System.out.println("部门主管");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==117){//行政人员
-                System.out.println("行政人员");
-                userIdArr=null;
-                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
-            }
-        }
+        List<Long> userIdArr=getUserIdArr(selfEmployedVo);
         startPage();
         System.out.println("getEndStatus=="+selfEmployedVo.getEndStatus());
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinReview(userIdArr,selfEmployedVo);
@@ -264,33 +182,7 @@ public class SelfEmployedTgController extends BaseController
     @GetMapping("/joinListEnd")
     public TableDataInfo selectEmployedJoinEnd(SelfEmployedVo selfEmployedVo)
     {
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //根据登录用户id获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        //存储username的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==119||role.getRoleId()==121||role.getRoleId()==4){//部门主管
-                System.out.println("部门主管");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else if (role.getRoleId()==117){//行政人员
-                System.out.println("行政人员");
-                userIdArr=null;
-                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
-            }
-        }
+        List<Long> userIdArr=getUserIdArr(selfEmployedVo);
         startPage();
         List<SelfEmployedVo> list = selfEmployedService.selectEmployedJoinEnd(userIdArr,selfEmployedVo);
         for (SelfEmployedVo selfEmployedVo1:list){
@@ -573,5 +465,45 @@ public class SelfEmployedTgController extends BaseController
         };
 
         return toAjax(200);
+    }
+
+    /*
+     * 获取用户id集合（查询过滤条件）
+     *
+     * */
+    public  List<Long> getUserIdArr(SelfEmployedVo selfEmployedVo){
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //根据登录用户获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        //存储username的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||
+                    role.getRoleId()==120||role.getRoleId()==122 ||role.getRoleId()==119||role.getRoleId()==121){//部门主管
+                System.out.println("部门主管");
+//                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户名
+//                    userIdArr.add(userVo.getUserId());
+//                }
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else if (role.getRoleId()==11||role.getRoleId()==117||role.getRoleId()==118){//行政人员
+                System.out.println("行政人员");
+                userIdArr=null;
+                selfEmployedVo.setApplyName(String.valueOf(SecurityUtils.getUserId()));
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//显示登录用户的
+            }
+        }
+        System.out.println("userIdArr=="+userIdArr);
+        return userIdArr;
     }
 }

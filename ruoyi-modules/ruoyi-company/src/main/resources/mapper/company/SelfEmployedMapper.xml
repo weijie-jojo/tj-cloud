@@ -434,9 +434,7 @@
             <if test="publicDepositBank3 != null">public_deposit_bank_3,</if>
             <if test="publicAccountNumber3 != null">public_account_number_3,</if>
             <if test="createBy != null">create_by,</if>
-            <if test="updateBy != null">update_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateTime != null">update_time,</if>
             <if test="businessStatus != null">business_status,</if>
             <if test="fileName1 != null">file_name1,</if>
             <if test="fileName2 != null">file_name2,</if>
@@ -535,9 +533,7 @@
             <if test="publicDepositBank3 != null">#{publicDepositBank3},</if>
             <if test="publicAccountNumber3 != null">#{publicAccountNumber3},</if>
             <if test="createBy != null">#{createBy},</if>
-            <if test="updateBy != null">#{updateBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateTime != null">#{updateTime},</if>
             <if test="businessStatus != null">#{businessStatus},</if>
             <if test="fileName1 != null">#{fileName1},</if>
             <if test="fileName2 != null">#{fileName2},</if>
@@ -639,9 +635,7 @@
             <if test="accountName != null">account_name = #{accountName},</if>
             <if test="publicDepositBank3 != null">public_deposit_bank_3 = #{publicDepositBank3},</if>
             <if test="publicAccountNumber3 != null">public_account_number_3 = #{publicAccountNumber3},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="businessStatus != null">business_status = #{businessStatus},</if>
             <if test="fileName1 != null">file_name1 = #{fileName1},</if>

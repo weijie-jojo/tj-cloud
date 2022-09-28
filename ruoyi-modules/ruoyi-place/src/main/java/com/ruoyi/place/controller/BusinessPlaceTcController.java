@@ -67,31 +67,7 @@ public class BusinessPlaceTcController extends BaseController {
     @GetMapping(value ="/getCount")
     @ApiOperation("获取登录用户的渠道数量")
     public Integer getCount(PlaceVo placeVo){
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //存储用户id的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        //获取登录用户id获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        System.out.println("roles==="+roles);
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==120||role.getRoleId()==122){//行政跟业务部门主管获取他们部门的渠道信息
-                System.out.println("部门主管");
-                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
-                    userIdArr.add(userVo.getUserId());
-                }
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
-            }
-        }
+        List<Long> userIdArr=getUserIdArr(placeVo);
         List<BusinessPlace> placeVos = iBusinessPlaceTcService.selectByPage(userIdArr,placeVo);
         return placeVos.size();
     };
@@ -99,31 +75,7 @@ public class BusinessPlaceTcController extends BaseController {
     @GetMapping(value ="/getByPage")
     @ApiOperation("分页条件查询")
     public TableDataInfo getByPage(PlaceVo placeVo){
-        //获取登录用户的部门id
-        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
-        //根据部门id获取用户集合
-        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
-        //存储用户id的list集合
-        List<Long> userIdArr=new ArrayList<>();
-        //获取登录用户id获取用户角色信息
-        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
-        System.out.println("roles==="+roles);
-        for (SysUserVo role:roles){
-            if (role.getRoleId()==120||role.getRoleId()==122){//行政跟业务部门主管获取他们部门的渠道信息
-                System.out.println("部门主管");
-                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
-                    userIdArr.add(userVo.getUserId());
-                }
-            }
-            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
-                System.out.println("总经理");
-                userIdArr=null;//显示所有
-            }
-            else {
-                System.out.println("其他人");
-                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
-            }
-        }
+        List<Long> userIdArr=getUserIdArr(placeVo);
         startPage();
         List<BusinessPlace> placeVos = iBusinessPlaceTcService.selectByPage(userIdArr,placeVo);
         return getDataTable(placeVos);
@@ -278,4 +230,39 @@ public class BusinessPlaceTcController extends BaseController {
         DataDto dataDto=new DataDto();
         return dataDto.success(code);
     };
+    /*
+     * 获取用户id集合（查询过滤条件）
+     *
+     * */
+    public  List<Long> getUserIdArr(PlaceVo placeVo){
+        //获取登录用户的部门id
+        Integer deptId=sysUserMapper.getDeptByUserId(SecurityUtils.getUserId()).getDeptId();
+        //根据部门id获取用户集合
+        List<SysUserVo> userVos=sysUserMapper.getUserByDeptId(deptId);
+        //存储用户id的list集合
+        List<Long> userIdArr=new ArrayList<>();
+        //获取登录用户id获取用户角色信息
+        List<SysUserVo> roles= sysUserMapper.getRoleByUserId(SecurityUtils.getUserId());
+        System.out.println("roles==="+roles);
+        for (SysUserVo role:roles){
+            if (role.getRoleId()==10||role.getRoleId()==12||role.getRoleId()==4||
+                    role.getRoleId()==120||role.getRoleId()==122 ||role.getRoleId()==119||role.getRoleId()==121){//行政跟业务部门主管获取他们部门的渠道信息
+                System.out.println("部门主管");
+                for (SysUserVo userVo:userVos){//登录用户所属部门的所有用户id
+                    userIdArr.add(userVo.getUserId());
+                }
+            }
+            else if (role.getRoleId()==1||role.getRoleId()==5||role.getRoleId()==6){//管理员及总经理 副总经理
+                System.out.println("总经理");
+                userIdArr=null;//显示所有
+            }
+            else {
+                System.out.println("其他人");
+                userIdArr.add(SecurityUtils.getUserId());//登录用户的id
+            }
+        }
+
+        System.out.println("userIdArr=="+userIdArr);
+        return userIdArr;
+    }
 }
