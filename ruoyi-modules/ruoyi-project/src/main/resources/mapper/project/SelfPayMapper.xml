@@ -27,6 +27,14 @@
         select pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account, file_name_pay, create_by, update_by, create_time, update_time,project_code, pay_code, pay_sys_code,is_check,pay_remark from self_pay
     </sql>
 
+    <sql id="selectSelfPayJoin">
+        select t.pay_id, t.receive_sys_code, t.pay_name, t.pay_time, t.pay_money, t.pay_account, t.file_name_pay, t.create_by,
+               t.update_by, t.create_time, t.update_time,t.project_code, t.pay_code, t.pay_sys_code,t.is_check,pay_remark,
+               A.project_name, A.receive_name, A.receive_time,A.receive_money, A.receive_account, A.file_name_receive
+        from self_pay t
+        join self_receive A ON t.receive_sys_code=A.receive_sys_code
+    </sql>
+
     <select id="selectLast" resultMap="SelfPayResult">
         <include refid="selectSelfPayVo"/>
         ORDER BY pay_id DESC LIMIT 0,1
@@ -49,14 +57,14 @@
         </where>
     </select>
 
-    <select id="selectSelfPayByPayId" parameterType="String" resultMap="SelfPayResult">
-        <include refid="selectSelfPayVo"/>
-        where pay_id = #{payId}
+    <select id="selectSelfPayByPayId" parameterType="String" resultType="com.ruoyi.project.domain.vo.SelfPayVo">
+        <include refid="selectSelfPayJoin"/>
+        where t.pay_id = #{payId}
     </select>
 
-    <select id="selectSelfPayByProjectCode" parameterType="String" resultMap="SelfPayResult">
-        <include refid="selectSelfPayVo"/>
-        where project_code = #{projectCode}
+    <select id="selectSelfPayByProjectCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.SelfPayVo">
+        <include refid="selectSelfPayJoin"/>
+        where t.project_code = #{projectCode}
     </select>
 
     <insert id="insertSelfPay" parameterType="com.ruoyi.project.domain.SelfPay" useGeneratedKeys="true" keyProperty="payId">
