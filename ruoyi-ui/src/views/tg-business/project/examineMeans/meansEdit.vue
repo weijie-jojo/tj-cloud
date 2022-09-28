@@ -266,7 +266,9 @@ export default {
                         fileName2: this.formData.fileName2,
                         projectAcceptanceStatus: 0,
                         projectContractStatus:0,
-                        projectStatus: this.projectStatusNew
+                        projectStatus: this.projectStatusNew,
+                        isSelfCount: this.formData.isSelfCount,
+                        projectCode: this.formData.projectCode,
                     };
                     edit(parms).then((res) => {
                         if (res != undefined) {

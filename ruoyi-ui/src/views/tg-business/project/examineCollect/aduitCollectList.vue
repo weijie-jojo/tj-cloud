@@ -450,7 +450,7 @@ export default {
   mounted() {
    
     detail({
-      projectCode: this.$cache.local.getgSON("tg-project-code"),
+      projectCode: this.$cache.local.getJSON("tg-project-code"),
     }).then((response) => {
       this.publicList = response.data;
       this.queryParams = {
@@ -469,18 +469,18 @@ export default {
     //关闭
     handleClose() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getgSON("tg-aduitback").backurl,
+        path: this.$cache.local.getJSON("tg-aduitback").backurl,
       });
     },
     //查看
     detail(row) {
-      this.$cache.local.setgSON("tg-collReceiveId", row.receiveId);
+      this.$cache.local.setJSON("tg-collReceiveId", row.receiveId);
       this.$tab.refreshPage({name:'AuditCollectDetail',path:"/tg-business/project/auditCollectDetail"});
     },
     //审核
     aduit(row) {
       console.log(row.receiveId);
-      this.$cache.local.setgSON("tg-collReceiveId", row.receiveId);
+      this.$cache.local.setJSON("tg-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/aduitCollect" });
     },
     
@@ -606,7 +606,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setgSON("ticketDetails", row);
+      this.$cache.local.setJSON("tg-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/collectEdit" });
     },
 

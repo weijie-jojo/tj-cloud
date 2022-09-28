@@ -1550,7 +1550,7 @@ export default {
     getlist() {
       this.$modal.loading("正在加载数据，请稍后...");
       detail({
-        projectCode: this.$cache.local.getcSON("tc-project-code"),
+        projectCode: this.$cache.local.getJSON("tc-project-code"),
       }).then((response) => {
         
         this.formData = response.data;
@@ -1914,7 +1914,7 @@ export default {
                   this.$modal.msgSuccess("项目修改完成");
                   this.$tab
                     .closeOpenPage({
-                      path: this.$cache.local.getcSON("tc-backTicket").backurl,
+                      path: this.$cache.local.getJSON("tc-backTicket").backurl,
                     })
                     .then(() => {
                       this.$tab.closeOpenPage({ path: "/tc-business/project/list" }).then(() => {

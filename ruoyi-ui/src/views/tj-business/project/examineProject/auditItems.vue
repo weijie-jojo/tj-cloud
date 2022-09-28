@@ -1146,6 +1146,8 @@ export default {
               projectId: this.formData.projectId,
               projectCheckStatus: type,
               projectStatus: this.projectStatusNew,
+              isSelfCount: this.formData.isSelfCount,
+              projectCode: this.formData.projectCode,
             };
           } else {
             parms = {
@@ -1153,6 +1155,8 @@ export default {
               checkContent: this.remark,
               projectCheckStatus: type,
               projectStatus: this.projectStatusNew,
+              isSelfCount: this.formData.isSelfCount,
+              projectCode: this.formData.projectCode,
             };
           }
           edit(parms).then((res) => {

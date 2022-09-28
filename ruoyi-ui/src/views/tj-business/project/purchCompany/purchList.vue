@@ -8,10 +8,10 @@
       v-show="showSearch"
       label-width="auto"
     >
-      <el-form-item label="名称">
+      <el-form-item label="购方单位(甲方)名称">
         <el-input
           v-model="queryParams.purchCompany"
-          placeholder="请输入名称"
+          placeholder="请输入购方单位(甲方)名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -42,7 +42,7 @@
       <el-table-column type="selection" width="55" align="center" />
 
       <el-table-column
-        label="名称"
+        label="购方单位(甲方)名称"
         align="center"
         prop="purchCompany"
         :show-overflow-tooltip="true"
@@ -83,7 +83,7 @@
             type="text"
             icon="el-icon-s-custom"
             @click="detail(scope.row)"
-            >详情</el-button
+            >查看</el-button
           >
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
                     </el-button>
@@ -248,12 +248,13 @@ export default {
           this.loading = false;
         });
     },
-
+    handleUpdate(scope){
+      this.$cache.local.setJSON("tj-purchId", scope.purchId);
+      this.$tab.refreshPage({path:"/tj-business/project/purchEdit",name:'PurchEdit'});
+    },
     detail(scope) {
-      console.log(scope);
-      this.$cache.local.setJSON("projectListNews", scope);
-      this.$cache.local.setJSON("tj-project-code", scope.projectCode);
-      this.$tab.openPage("项目查看", "/tj-business/project/detail");
+      this.$cache.local.setJSON("tj-purchId", scope.purchId);
+      this.$tab.refreshPage({path:"/tj-business/project/purchDetail",name:'PurchDetail'});
     },
 
     /** 搜索按钮操作 */

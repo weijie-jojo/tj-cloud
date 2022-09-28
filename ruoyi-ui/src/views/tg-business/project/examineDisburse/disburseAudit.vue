@@ -177,7 +177,7 @@ export default {
                 backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
-            this.$cache.local.setJSON('tg-backTicket',obj);
+            this.$cache.local.setJSON('tg-aduitback',obj);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
         //完税修改
@@ -185,7 +185,7 @@ export default {
             let obj1={
                 backurl:'/tg-business/project/disburseAudit'
             };
-            this.$cache.local.setJSON('tg-backTicket',obj1);
+            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-project-code', code);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
@@ -255,7 +255,7 @@ export default {
                 backurl:'/tg-business/project/disburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
-            this.$cache.local.setJSON('tg-backTicket',obj1);
+            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
@@ -265,7 +265,7 @@ export default {
             let obj1={
                 backurl:'/tg-business/project/disburseAudit'
             };
-            this.$cache.local.setJSON('tg-backTicket',obj1);
+            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });

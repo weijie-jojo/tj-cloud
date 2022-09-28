@@ -7,128 +7,7 @@
       size="medium"
       label-width="140px"
     >
-      <el-row
-        type="flex"
-        class="row-bg"
-        style="margin-top: 20px"
-        justify="space-around"
-      >
-        <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 35%">项目信息</div>
-          <div style="width: 50%; hegiht: 10px"></div>
-        </el-col>
-        <el-col :span="9">
-          <div></div>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg rowCss" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="项目编号" :required="true">
-            <el-input
-              v-model="publicList.projectCode"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-
-          <el-form-item class="comright" label="项目名称" :required="true">
-            <el-input
-              v-model="publicList.projectName"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="应收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.projectTotalAmount"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.receiveMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未收账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.receiveRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="9">
-          <el-form-item class="comright" label="项目时间" :required="true">
-            <el-input v-model="publicList.createTime" disabled></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="项目金额" :required="true">
-            <el-input
-              :disabled="true"
-              type="number"
-              v-model="publicList.projectTotalAmount"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append"> 元 </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="应出账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.payTotalMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="已出账款" :required="true">
-            <el-input
-              :disabled="true"
-              v-model="publicList.payMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="未出账款" :required="true">
-            <el-input
-              disabled
-              v-model="publicList.payRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:20px">
         <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 35%">出款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
@@ -155,6 +34,9 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
+          <el-form-item class="comright" label="收款账户" :required="true">
+            <el-input :readonly="true" v-model="formData.receiveName"></el-input>
+          </el-form-item>
           <el-form-item
             class="comright"
             label="出账凭证"
@@ -179,9 +61,10 @@
           <el-form-item class="comright" label="出账账号" prop="payAccount">
             <el-input v-model="formData.payAccount"  :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="财务流水号" prop="payCode">
-            <el-input v-model="formData.payCode"  :disabled="true"></el-input>
+          <el-form-item class="comright" label="收款账号" :required="true">
+            <el-input :readonly="true" v-model="formData.receiveAccount"></el-input>
           </el-form-item>
+          
         </el-col>
       </el-row>
 
@@ -368,21 +251,21 @@ export default {
               if (res.code === 200) {
                 
                 if (
-                  this.formData.projectDutypaidStatus == 1 &&
-                  this.formData.projectReceiveStatus == 1 &&
-                  this.formData.projectTicketStatus == 1 &&
-                  this.formData.projectAcceptanceStatus == 1 &&
-                  this.formData.projectContractStatus == 1 &&
-                  this.formData.projectCheckStatus == 1
+                  this.publicList.projectDutypaidStatus == 1 &&
+                  this.publicList.projectReceiveStatus == 1 &&
+                  this.publicList.projectTicketStatus == 1 &&
+                  this.publicList.projectAcceptanceStatus == 1 &&
+                  this.publicList.projectContractStatus == 1 &&
+                  this.publicList.projectCheckStatus == 1
                 ) {
                   this.projectStatusNew = 2;
                 } else if (
-                  this.formData.projectDutypaidStatus == 2 ||
-                  this.formData.projectReceiveStatus == 2 ||
-                  this.formData.projectTicketStatus == 2 ||
-                  this.formData.projectAcceptanceStatus == 2||
-                  this.formData.projectCheckStatus == 2 ||
-                  this.formData.projectContractStatus == 2
+                  this.publicList.projectDutypaidStatus == 2 ||
+                  this.publicList.projectReceiveStatus == 2 ||
+                  this.publicList.projectTicketStatus == 2 ||
+                  this.publicList.projectAcceptanceStatus == 2||
+                  this.publicList.projectCheckStatus == 2 ||
+                  this.publicList.projectContractStatus == 2
                 ) {
                   this.projectStatusNew = 1;
                 } else {
@@ -393,16 +276,20 @@ export default {
                       this.check('出款审核完成');
                       if (new Decimal(this.publicList.payRemainMoneys).sub(new Decimal(this.formData.payMoney)) == 0) {
                        this.parms = {
-                            projectId: this.Father.projectId,
+                            projectId: this.publicList.projectId,
                             projectPayStatus: 1,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                             projectCode: this.publicList.projectCode,
 
                         };
                       } else {
                        this.parms = {
                             projectId: this.publicList.projectId,
                             projectPayStatus: 0,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                            projectCode: this.publicList.projectCode,
 
                         };
                        }
@@ -412,6 +299,8 @@ export default {
                         projectPayStatus:2,
                         payRemark:this.remark,
                         projectStatus: 1,
+                        isSelfCount: this.publicList.isSelfCount,
+                        projectCode: this.publicList.projectCode,
                       };
                       edit(this.parms);
                       this.check('出款审核不通过。'+'原因:'+this.remark);

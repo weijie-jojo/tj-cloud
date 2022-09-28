@@ -541,6 +541,7 @@
             <!-- <el-input v-model="formData.username" :readonly="true">
             </el-input> -->
             <el-select
+              @change="usernew"
               style="width: 100%"
               v-model="formData.username"
               filterable
@@ -1155,6 +1156,9 @@ export default {
         idCard: '',
 
       },
+      selctUserRadio:0,
+      selectUserId:'',
+      allUserlist:[],
       userinfo: {},
       accountName_options: [],
       mylist: '',
@@ -1435,7 +1439,26 @@ export default {
     
   },
   methods: {
+    usernew(e){
+     this.places=[];
+     this.formData.placeCode='';
+     this.allUserlist.map((item)=>{
+       if(item.nickName==e){
+        this.selectUserId=item.userId;
+        this.selctUserRadio=1;
+        return;
+        
+       }
+      });
+   },
+    newUser(){
+      crudPlace.getPlaceByUserId({ userId:  this.selectUserId }).then(res => {
+          this.places = res.data;
+          
+        })
+    },
     placenew() {
+      
       for (let i in this.places) {
         if (this.places[i].placeCode == this.formData.placeCode) {
            this.formData.placeAliasName = this.places[i].placeAliasName;
@@ -1448,6 +1471,7 @@ export default {
      
      //  this.deptId=res[0].deptId;
       getAllUser().then((res)=>{
+      this.allUserlist=[];
       this.leaderList=[];
       let list=res;
       list.map((item)=>{
@@ -1461,6 +1485,7 @@ export default {
                value:item.nickName,
                label:item.nickName,
               })
+              this.allUserlist.push(item);
           }
       });
       
@@ -1687,8 +1712,10 @@ export default {
     //渠道商
      changeValue1(e){
       console.log(e);
-      if(e==true){
+      if(e==true && this.selctUserRadio==0){
          this.getLoginInfo();
+      }else if(e==true && this.selctUserRadio){
+        this.newUser();
       }
     },
     singleOK(e) {

@@ -1981,7 +1981,7 @@ export default {
                   resmsg: resmsg,
                   backName: "List",
                 };
-                this.$cache.local.setgSON("tg-successProject", obj);
+                this.$cache.local.setJSON("tg-successProject", obj);
                 this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
               }
             }

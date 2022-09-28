@@ -528,7 +528,7 @@
             <el-select style="width:100%"
              @visible-change="changeValue1($event)"
              @change="placenew"
-             v-model="formData.placeCode" placeholder="请选择客户全名"
+            v-model="formData.placeCode" placeholder="请选择客户全名"
               clearable filterable>
               <el-option v-for="(item, index) in places" :key="index" :label="item.placeAliasName"
                 :value="item.placeCode">
@@ -538,8 +538,23 @@
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="客户经理" prop="username">
-            <el-input v-model="formData.username" :readonly="true">
-            </el-input>
+            <!-- <el-input v-model="formData.username" :readonly="true">
+            </el-input> -->
+            <el-select
+              @change="usernew"
+              style="width: 100%"
+              v-model="formData.username"
+              filterable
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="(item,index) in leaderList"
+                :key="index"
+                :label="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -1141,6 +1156,9 @@ export default {
         idCard: '',
 
       },
+      selctUserRadio:0,
+      selectUserId:'',
+      allUserlist:[],
       userinfo: {},
       accountName_options: [],
       mylist: '',
@@ -1415,11 +1433,32 @@ export default {
   watch: {
     'formData.industryType': 'selectIndustryType',
   },
+  
   mounted() {
-   this.getlist();
+    this.getlist();
+    
   },
   methods: {
+    usernew(e){
+     this.places=[];
+     this.formData.placeCode='';
+     this.allUserlist.map((item)=>{
+       if(item.nickName==e){
+        this.selectUserId=item.userId;
+        this.selctUserRadio=1;
+        return;
+        
+       }
+      });
+   },
+    newUser(){
+      crudPlace.getPlaceByUserId({ userId:  this.selectUserId }).then(res => {
+          this.places = res.data;
+          
+        })
+    },
     placenew() {
+      
       for (let i in this.places) {
         if (this.places[i].placeCode == this.formData.placeCode) {
            this.formData.placeAliasName = this.places[i].placeAliasName;
@@ -1432,6 +1471,7 @@ export default {
      
      //  this.deptId=res[0].deptId;
       getAllUser().then((res)=>{
+      this.allUserlist=[];
       this.leaderList=[];
       let list=res;
       list.map((item)=>{
@@ -1445,6 +1485,7 @@ export default {
                value:item.nickName,
                label:item.nickName,
               })
+              this.allUserlist.push(item);
           }
       });
       
@@ -1456,6 +1497,7 @@ export default {
     this.$modal.closeLoading();
     this.formData = res.data;
     this.common=res.data;
+   
     this.getLoginInfo();
     //个体户行业类型税率
     this.getRate();
@@ -1621,6 +1663,7 @@ export default {
         this.$modal.closeLoading();
       })
     },
+
       //一次性分润
       isdisshare(e){
       if(e=='1'){
@@ -1669,8 +1712,10 @@ export default {
     //渠道商
      changeValue1(e){
       console.log(e);
-      if(e==true){
+      if(e==true && this.selctUserRadio==0){
          this.getLoginInfo();
+      }else if(e==true && this.selctUserRadio){
+        this.newUser();
       }
     },
     singleOK(e) {
@@ -1711,7 +1756,7 @@ export default {
 
       } else {
         
-        this.formData.disposableRemark=null;
+          this.formData.disposableRemark=null;
         this.formData.isDisposableShare = null;
         this.formData.disposableShareIsmoney = null;
         this.formData.disposableShare = null;
@@ -1858,7 +1903,7 @@ export default {
       });
       return options;
     },
-   
+    
     changeValue(res) {
       for (let i in this.mylist) {
 
@@ -1938,6 +1983,7 @@ export default {
     },
     getRate() {
       crudRate.getAllRate().then(res => {
+       
         let tree = []; // 用来保存树状的数据形式
         this.parseTree(res.rows, tree, 0);
         this.industryTypes = tree;

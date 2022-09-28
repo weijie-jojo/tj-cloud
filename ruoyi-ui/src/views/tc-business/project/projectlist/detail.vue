@@ -1329,7 +1329,7 @@ export default {
     getlist() {
       this.$modal.loading("正在加载数据，请稍后...");
       detail({
-        projectCode: this.$cache.local.getcSON("tc-project-code"),
+        projectCode: this.$cache.local.getJSON("tc-project-code"),
       }).then((response) => {
         this.formData = response.data;
         this.$modal.closeLoading();
