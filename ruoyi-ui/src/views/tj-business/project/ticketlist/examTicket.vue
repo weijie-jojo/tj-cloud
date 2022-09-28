@@ -195,7 +195,7 @@
 <script>
 import uploadSmall from '@/components/douploads/uploadSmall'
 import crudRate from '@/api/project/rate'
-import { list2,edit } from "@/api/project/ticket";
+import { list2,edit,getTicketDetail } from "@/api/project/ticket";
 import arrss from "@/api/project/list";
 import { detail, getcode, getinfoByUserId, ownlist, check } from "@/api/project/list";
 import { getInfo } from '@/api/login'
@@ -408,24 +408,34 @@ export default {
         'Father.industryType': 'selectIndustryType',
     },
     mounted() {
-        this.getlist();
-        this.getinfoByUserId();
-        this.ticketByCode();
-        this.gettoday();
-        this.getRate();
-        this.formData = this.$cache.local.getJSON("ticketDetails");
-        this.formData.fileName = JSON.parse(this.formData.fileName);
-        this.fileNames = [];
-        for (let j in this.formData.fileName) {
-            this.fileNames.push({
-                url: this.baseImgPath + this.formData.fileName[j],
-                name: this.formData.fileName[j]
-            })
-        }
+       this.getTicket();
     },
 
 
     methods: {
+        getTicket() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      getTicketDetail(this.$cache.local.getJSON("tj-ticketid"))
+        .then((res) => {
+          this.$modal.closeLoading();
+          this.formData = res.data;
+          this.getlist();
+          this.getinfoByUserId();
+          //this.ticketByCode();
+          this.getRate();
+          this.formData.fileName = JSON.parse(this.formData.fileName);
+          this.fileNames = [];
+            for (let j in this.formData.fileName) {
+                this.fileNames.push({
+                    url: this.baseImgPath + this.formData.fileName[j],
+                    name: this.formData.fileName[j]
+                })
+            }
+        })
+        .catch((err) => {
+          this.$modal.closeLoading();
+        });
+       },
         getfileNameS() {
 
         },
@@ -584,7 +594,7 @@ export default {
         },
         getlist() {
             detail({
-                projectCode: this.$cache.local.getJSON("publicTickets").projectCode
+                projectCode: this.$cache.local.getJSON("tj-project-code")
             }).then((response) => {
                 this.Father = response.data;
                 if (this.Father.fileName) {

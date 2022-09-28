@@ -606,7 +606,7 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setJSON("ticketDetails", row);
+      this.$cache.local.setJSON("tg-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/collectEdit" });
     },
 

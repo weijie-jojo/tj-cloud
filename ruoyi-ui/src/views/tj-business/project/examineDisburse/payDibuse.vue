@@ -94,8 +94,8 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import {detailPay,editPay} from "@/api/project/list";
-
+import {detailPay,editPay,check} from "@/api/project/list";
+import { getInfo } from "@/api/login";
 export default {
   name: "PayDibuse",
   components: { uploadSmall },
@@ -169,6 +169,24 @@ export default {
     
       return curTime;
     },
+     //收款日志
+     check(resmsg) {
+        getInfo().then((res) => {
+          this.userinfo = res.user;
+          let parms = {
+            checkReasult: resmsg,
+            checkUser: this.userinfo.userName,
+            phonenumber: this.userinfo.phonenumber,
+            projectCode: this.formData.projectCode,
+            projectType: "25",
+          };
+          check(parms)
+            .then((res) => {
+              console.log("修改出款成功!");
+            })
+            .catch((error) => {});
+        });
+      },
     gettoday() {
       var date = new Date(); //当前时间
       var year = date.getFullYear(); //年
@@ -230,6 +248,7 @@ export default {
                  this.$modal.loading("正在提交数据，请稍后...");
                   let that=this;
                   that.$modal.closeLoading();
+                  that.check('财务付款成功')
                   that.$modal.msgSuccess("新增付款成功");
                   that.$tab.refreshPage({
                       path:'/tj-business/project/aduitDisburseList',
