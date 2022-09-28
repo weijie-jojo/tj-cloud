@@ -152,7 +152,7 @@
             <el-form-item class="comright" label="收款账户" :required="true">
               <el-input disabled v-model="formData.receiveName"> </el-input>
             </el-form-item>
-            <el-form-item class="comright" label="出账凭证" :required="true">
+            <!-- <el-form-item class="comright" label="出账凭证" :required="true">
               <uploadSmall
                 :index="index"
                 @getIndex="getindexNew"
@@ -161,7 +161,7 @@
                 :fileNameOld="item.fileNamePay"
                 :isDetail="isDetail"
               ></uploadSmall>
-            </el-form-item>
+            </el-form-item> -->
           </el-col>
 
           <el-col :span="9">
@@ -216,6 +216,7 @@ export default {
       index: 0,
       disburseList: [
         {
+          isPay:'0',
           receiveSysCode: "",
           payTime: "",
           projectCode: "",
@@ -353,7 +354,7 @@ export default {
         receiveSysCode: this.formData.receiveSysCode,
         isCheck: 0,
         paySysCode: "",
-
+        isPay:'0',  
         projectCode: this.publicList.projectCode,
         projectName: this.publicList.projectName,
         payTime: this.getPayTime(),

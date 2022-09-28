@@ -36,7 +36,7 @@
       </el-col>
      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+    
     <el-button v-hasPermi="['company:employed:add1']" type="primary" plain icon="el-icon-plus" size="mini"
       @click="handleAdd">新增</el-button>
     <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini"

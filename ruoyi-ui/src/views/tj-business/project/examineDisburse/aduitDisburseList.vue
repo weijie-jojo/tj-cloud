@@ -206,13 +206,13 @@
         <el-table-column
           label="收款账户"
           align="center"
-         
+          prop="receiveName"
           :show-overflow-tooltip="true"
         />
         <el-table-column
           label="收款账号"
           align="center"
-         
+          prop="receiveAccount"
           :show-overflow-tooltip="true"
         />
           <el-table-column
@@ -248,10 +248,11 @@
         >
           <template slot-scope="scope">
             <el-button
+              v-hasPermi="['project:pay:pay']" 
               size="mini"
               type="text"
               icon="el-icon-s-custom"
-              v-if="scope.row.isCheck == 3"
+              v-if="scope.row.isPay==0"
               @click="pay(scope.row)"
               >付款</el-button
             >
@@ -435,21 +436,21 @@
           path: this.$cache.local.getJSON("tj-aduitback").backurl,
         });
       },
-        //付款
-        pay(row) {
-        this.$cache.local.setJSON("tj-payId", row);
-        this.$tab.openPage("出款审核查看", "/tj-business/project/payDibuse");
+       //付款
+    pay(row) {
+        this.$cache.local.setJSON("tj-payId", row.payId);
+        this.$tab.refreshPage({ path:"/tj-business/project/payDibuse",name:"PayDibuse"});
       },
-      //查看
-      detail(row) {
-        this.$cache.local.setJSON("tj-payId", row);
-        this.$tab.openPage("出款审核查看", "/tj-business/project/auditDisburseDetail");
-      },
-      //审核
-      aduit(row) {
-        this.$cache.local.setJSON("tj-payId", row);
-        this.$tab.closeOpenPage({ path: "/tj-business/project/aduitDisburse" });
-      },
+    //查看
+    detail(row) {
+      this.$cache.local.setJSON("tj-payId", row.payId);
+      this.$tab.refreshPage({path:"/tj-business/project/auditDisburseDetail",name:'AuditDisburseDetail'});
+    },
+    //审核
+    aduit(row) {
+      this.$cache.local.setJSON("tj-payId", row.payId);
+      this.$tab.refreshPage({ path: "/tj-business/project/aduitDisburse",name:'AduitDisburse' });
+    },
       //关闭
       resetForms() {
         this.$tab.closeOpenPage({
@@ -572,7 +573,7 @@
      
       /** 修改按钮操作 */
       handleUpdate(row) {
-        this.$cache.local.setJSON("ticketDetails", row);
+        this.$cache.local.setJSON("tj-payId", row.payId);
         this.$tab.closeOpenPage({ path: "/tj-business/project/disburseEdit" });
       },
   

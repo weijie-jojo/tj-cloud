@@ -248,12 +248,13 @@ export default {
           this.loading = false;
         });
     },
-
+    handleUpdate(scope){
+      this.$cache.local.setJSON("tc-purchId", scope.purchId);
+      this.$tab.refreshPage({path:"/tc-business/project/purchEdit",name:'PurchEdit'});
+    },
     detail(scope) {
-      console.log(scope);
-      this.$cache.local.setJSON("projectListNews", scope);
-      this.$cache.local.setJSON("tc-project-code", scope.projectCode);
-      this.$tab.openPage("项目查看", "/tc-business/project/detail");
+      this.$cache.local.setJSON("tc-purchId", scope.purchId); 
+      this.$tab.refreshPage({path:"/tc-business/project/purchDetail",name:'PurchDetail'});
     },
 
     /** 搜索按钮操作 */

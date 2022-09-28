@@ -1,7 +1,21 @@
 import request from '@/utils/request'
 
 
-
+//甲方详情
+export function detailPurch(purchId) {
+  return request({
+    url: '/project/company/'+purchId,
+    method: 'get',
+   })
+}
+//甲方修改
+export function editPurch(data) {
+  return request({
+    url: '/project/company',
+    method: 'put',
+    data: data
+   })
+}
 //出款详情
 export function detailPay(payId) {
   return request({
@@ -247,4 +261,4 @@ export function getCount(query){
 }
 
 
-export default {detailPay,detailCollect,getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {detailPurch,editPurch,detailPay,detailCollect,getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

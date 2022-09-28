@@ -206,13 +206,13 @@
       <el-table-column
         label="收款账户"
         align="center"
-       
+        prop="receiveName"
         :show-overflow-tooltip="true"
       />
       <el-table-column
         label="收款账号"
         align="center"
-       
+        prop="receiveAccount"
         :show-overflow-tooltip="true"
       />
         <el-table-column
@@ -248,10 +248,11 @@
       >
         <template slot-scope="scope">
           <el-button
+          v-hasPermi="['project:pay:pay']" 
             size="mini"
             type="text"
             icon="el-icon-s-custom"
-            v-if="scope.row.isCheck == 3"
+            v-if="scope.row.isPay==0"
             @click="pay(scope.row)"
             >付款</el-button
           >
@@ -413,7 +414,7 @@ export default {
   mounted() {
    
     detail({
-      projectCode: this.$cache.local.getgSON("tg-project-code"),
+      projectCode: this.$cache.local.getJSON("tg-project-code"),
     }).then((response) => {
       this.publicList = response.data;
       this.queryParams = {
@@ -432,28 +433,28 @@ export default {
     //关闭
     handleClose() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getgSON("tg-aduitback").backurl,
+        path: this.$cache.local.getJSON("tg-aduitback").backurl,
       });
     },
-      //付款
-      pay(row) {
-        this.$cache.local.setJSON("tj-payId", row);
-        this.$tab.openPage("出款审核付款", "/tg-business/project/payDibuse");
+     //付款
+     pay(row) {
+        this.$cache.local.setJSON("tg-payId", row.payId);
+        this.$tab.refreshPage({ path:"/tg-business/project/payDibuse",name:"PayDibuse"});
       },
     //查看
     detail(row) {
-      this.$cache.local.setgSON("tg-payId", row);
-      this.$tab.openPage("出款审核查看", "/tg-business/project/auditDisburseDetail");
+      this.$cache.local.setJSON("tg-payId", row.payId);
+      this.$tab.refreshPage({path:"/tg-business/project/auditDisburseDetail",name:'AuditDisburseDetail'});
     },
     //审核
     aduit(row) {
-      this.$cache.local.setgSON("tg-payId", row);
-      this.$tab.closeOpenPage({ path: "/tg-business/project/aduitDisburse" });
+      this.$cache.local.setJSON("tg-payId", row.payId);
+      this.$tab.refreshPage({ path: "/tg-business/project/aduitDisburse",name:'AduitDisburse' });
     },
     //关闭
     resetForms() {
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getgSON("tg-aduitback").backurl,
+        path: this.$cache.local.getJSON("tg-aduitback").backurl,
       });
     },
     //获取该项目全部收款信息
@@ -572,7 +573,7 @@ export default {
    
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$cache.local.setgSON("ticketDetails", row);
+      this.$cache.local.setJSON("tg-payId", row.payId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/disburseEdit" });
     },
 
