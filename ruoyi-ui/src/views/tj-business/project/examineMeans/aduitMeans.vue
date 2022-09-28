@@ -244,7 +244,9 @@ export default {
               projectId: this.formData.projectId,
               projectAcceptanceStatus:type,
               projectContractStatus:type,
-              projectStatus:this.projectStatusNew
+              projectStatus:this.projectStatusNew,
+              isSelfCount: this.formData.isSelfCount,
+              projectCode: this.formData.projectCode,
             };
           } else {
             parms = {
@@ -253,6 +255,8 @@ export default {
               projectAcceptanceStatus:type,
               projectContractStatus:type,
               projectStatus:1,
+              isSelfCount: this.formData.isSelfCount,
+              projectCode: this.formData.projectCode,
             };
           }
            edit(parms).then((res) => {

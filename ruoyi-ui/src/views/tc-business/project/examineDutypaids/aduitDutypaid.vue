@@ -327,6 +327,8 @@ export default {
               projectId: this.formData.projectId,
               projectDutypaidStatus: type,
               projectStatus: this.projectStatusNew,
+              isSelfCount: this.formData.isSelfCount,
+               projectCode: this.formData.projectCode,
             };
           } else {
             parms = {
@@ -334,6 +336,8 @@ export default {
               taxRemark: this.remark,
               projectDutypaidStatus: type,
               projectStatus: 1,
+              isSelfCount: this.formData.isSelfCount,
+               projectCode: this.formData.projectCode,
             };
           }
           edit(parms).then((res) => {

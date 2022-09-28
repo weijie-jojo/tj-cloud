@@ -217,7 +217,9 @@ export default {
                         projectDutypaidStatus:0,
                         projectId: this.formData.projectId,
                         fileName3: this.formData.fileName3,
-                        fileName4: this.formData.fileName4
+                        fileName4: this.formData.fileName4,
+                        isSelfCount: this.formData.isSelfCount,
+                        projectCode: this.formData.projectCode,
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {

@@ -284,21 +284,21 @@ export default {
               if (res.code === 200) {
                 
                 if (
-                  this.formData.projectDutypaidStatus == 1 &&
-                  this.formData.projectPayStatus == 1 &&
-                  this.formData.projectTicketStatus == 1 &&
-                  this.formData.projectAcceptanceStatus == 1 &&
-                  this.formData.projectContractStatus == 1 &&
-                  this.formData.projectCheckStatus == 1
+                  this.publicList.projectDutypaidStatus == 1 &&
+                  this.publicList.projectPayStatus == 1 &&
+                  this.publicList.projectTicketStatus == 1 &&
+                  this.publicList.projectAcceptanceStatus == 1 &&
+                  this.publicList.projectContractStatus == 1 &&
+                  this.publicList.projectCheckStatus == 1
                 ) {
                   this.projectStatusNew = 2;
                 } else if (
-                  this.formData.projectDutypaidStatus == 2 ||
-                  this.formData.projectPayStatus == 2 ||
-                  this.formData.projectTicketStatus == 2 ||
-                  this.formData.projectAcceptanceStatus == 2 ||
-                  this.formData.projectCheckStatus == 2 ||
-                  this.formData.projectContractStatus == 2
+                  this.publicList.projectDutypaidStatus == 2 ||
+                  this.publicList.projectPayStatus == 2 ||
+                  this.publicList.projectTicketStatus == 2 ||
+                  this.publicList.projectAcceptanceStatus == 2 ||
+                  this.publicList.projectCheckStatus == 2 ||
+                  this.publicList.projectContractStatus == 2
                 ) {
                   this.projectStatusNew = 1;
                 } else {
@@ -311,14 +311,18 @@ export default {
                        this.parms = {
                             projectId: this.Father.projectId,
                             projectReceiveStatus: 1,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                            projectCode: this.publicList.projectCode,
 
                         };
                       } else {
                         this.parms = {
                             projectId: this.publicList.projectId,
                             projectReceiveStatus: 0,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                            projectCode: this.publicList.projectCode,
 
                         };
                        }
@@ -329,6 +333,8 @@ export default {
                     projectReceiveStatus: 2,
                     receiveRemark: this.remark,
                     projectStatus: 1,
+                    isSelfCount: this.publicList.isSelfCount,
+                    projectCode: this.publicList.projectCode,
                   };
 
                   this.check("收款审核不通过。" + "原因:" + this.remark);

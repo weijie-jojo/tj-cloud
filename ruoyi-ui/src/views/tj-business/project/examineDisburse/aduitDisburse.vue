@@ -251,21 +251,21 @@ export default {
               if (res.code === 200) {
                 
                 if (
-                  this.formData.projectDutypaidStatus == 1 &&
-                  this.formData.projectReceiveStatus == 1 &&
-                  this.formData.projectTicketStatus == 1 &&
-                  this.formData.projectAcceptanceStatus == 1 &&
-                  this.formData.projectContractStatus == 1 &&
-                  this.formData.projectCheckStatus == 1
+                  this.publicList.projectDutypaidStatus == 1 &&
+                  this.publicList.projectReceiveStatus == 1 &&
+                  this.publicList.projectTicketStatus == 1 &&
+                  this.publicList.projectAcceptanceStatus == 1 &&
+                  this.publicList.projectContractStatus == 1 &&
+                  this.publicList.projectCheckStatus == 1
                 ) {
                   this.projectStatusNew = 2;
                 } else if (
-                  this.formData.projectDutypaidStatus == 2 ||
-                  this.formData.projectReceiveStatus == 2 ||
-                  this.formData.projectTicketStatus == 2 ||
-                  this.formData.projectAcceptanceStatus == 2||
-                  this.formData.projectCheckStatus == 2 ||
-                  this.formData.projectContractStatus == 2
+                  this.publicList.projectDutypaidStatus == 2 ||
+                  this.publicList.projectReceiveStatus == 2 ||
+                  this.publicList.projectTicketStatus == 2 ||
+                  this.publicList.projectAcceptanceStatus == 2||
+                  this.publicList.projectCheckStatus == 2 ||
+                  this.publicList.projectContractStatus == 2
                 ) {
                   this.projectStatusNew = 1;
                 } else {
@@ -276,16 +276,20 @@ export default {
                       this.check('出款审核完成');
                       if (new Decimal(this.publicList.payRemainMoneys).sub(new Decimal(this.formData.payMoney)) == 0) {
                        this.parms = {
-                            projectId: this.Father.projectId,
+                            projectId: this.publicList.projectId,
                             projectPayStatus: 1,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                            projectCode: this.publicList.projectCode,
 
                         };
                       } else {
                        this.parms = {
                             projectId: this.publicList.projectId,
                             projectPayStatus: 0,
-                            projectStatus:this.projectStatusNew
+                            projectStatus:this.projectStatusNew,
+                            isSelfCount: this.publicList.isSelfCount,
+                            projectCode: this.publicList.projectCode,
 
                         };
                        }
@@ -295,6 +299,8 @@ export default {
                         projectPayStatus:2,
                         payRemark:this.remark,
                         projectStatus: 1,
+                        isSelfCount: this.publicList.isSelfCount,
+                        projectCode: this.publicList.projectCode,
                       };
                       edit(this.parms);
                       this.check('出款审核不通过。'+'原因:'+this.remark);

@@ -321,11 +321,13 @@ export default {
                    
                 }
                 let params={
-                        projectStatus:this.publicList.projectStatus,
-                        projectId:this.publicList.projectId,
-                        projectTotalAmount:this.publicList.projectTotalAmount,
-                        projectRemainAmount:this.publicList.projectRemainAmount,
-                        projectPackageAmount:this.publicList.projectPackageAmount,
+                    isSelfCount: this.publicList.isSelfCount,
+                    projectCode: this.publicList.projectCode,
+                    projectStatus:this.publicList.projectStatus,
+                    projectId:this.publicList.projectId,
+                    projectTotalAmount:this.publicList.projectTotalAmount,
+                    projectRemainAmount:this.publicList.projectRemainAmount,
+                    projectPackageAmount:this.publicList.projectPackageAmount,
                  };
                     edit(params);
 

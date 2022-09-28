@@ -478,6 +478,8 @@ export default {
             ).sub(new Decimal(this.publicList.projectPackageAmount));
           }
           let params = {
+            isSelfCount: this.publicList.isSelfCount,
+            projectCode: this.publicList.projectCode,
             projectStatus: this.publicList.projectStatus,
             projectId: this.publicList.projectId,
             projectTotalAmount: this.publicList.projectTotalAmount,
