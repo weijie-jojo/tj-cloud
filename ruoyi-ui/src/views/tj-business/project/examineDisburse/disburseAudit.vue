@@ -52,7 +52,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="scope.row.projectPayStatus==0" type="text" icon="el-icon-circle-plus-outline"
-                        @click="add(scope.row)">出款</el-button>
+                        @click="add(scope.row)">出款列表</el-button>
                     <el-button size="mini" v-if="scope.row.projectPayStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectPayStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
@@ -174,18 +174,20 @@ export default {
          find(row,code){
            this.$cache.local.setJSON('tj-project-code', code);
             let obj={
-                backurl:'/tj-business/project/disburseAudit'
+                backurl:'/tj-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tj-ifcollect',0);
-            this.$cache.local.setJSON('tj-backTicket',obj);
+            this.$cache.local.setJSON('tj-aduitback',obj);
             this.$tab.closeOpenPage({ path: '/tj-business/project/aduitDisburseList' });
         },
         //完税修改
         edit(row,code){
             let obj1={
-                backurl:'/tj-business/project/disburseAudit'
+                backurl:'/tj-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
-            this.$cache.local.setJSON('tj-backTicket',obj1);
+            this.$cache.local.setJSON('tj-aduitback',obj1);
             this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON('tj-project-code', code);
             this.$tab.closeOpenPage({ path: '/tj-business/project/aduitDisburseList' });
@@ -252,10 +254,11 @@ export default {
         },
         aduit(scope) {
             let obj1={
-                backurl:'/tj-business/project/disburseAudit'
+                backurl:'/tj-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tj-ifcollect',0);
-            this.$cache.local.setJSON('tj-backTicket',obj1);
+            this.$cache.local.setJSON('tj-aduitback',obj1);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tj-business/project/aduitDisburseList' });
         },
@@ -263,9 +266,10 @@ export default {
         add(scope) {
             
             let obj1={
-                backurl:'/tj-business/project/disburseAudit'
+                backurl:'/tj-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
-            this.$cache.local.setJSON('tj-backTicket',obj1);
+            this.$cache.local.setJSON('tj-aduitback',obj1);
             this.$cache.local.setJSON('tj-ifcollect',0);
             this.$cache.local.setJSON("tj-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tj-business/project/aduitDisburseList' });

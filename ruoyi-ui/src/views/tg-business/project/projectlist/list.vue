@@ -8,10 +8,10 @@
       v-show="showSearch"
       label-width="auto"
     >
-      <el-form-item label="销货单位（乙方）">
+      <el-form-item label="销货单位">
         <el-input
           v-model="queryParams.selfName"
-          placeholder="请输入销货单位（乙方）"
+          placeholder="请输入销货单位"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -90,14 +90,14 @@
       <el-table-column type="selection" width="55" align="center" />
 
       <el-table-column
-        label="购货单位（甲方）"
+        label="购货单位"
         align="center"
         prop="purchCompany"
         width="200"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="销货单位（乙方）"
+        label="销货单位"
         align="center"
         prop="selfName"
         width="200"
@@ -145,7 +145,7 @@
             @click="progressNew(scope.row.projectCode, 0)"
             type="primary"
             v-if="scope.row.projectStatus == '0'"
-            >审核中</el-link
+            >办理中</el-link
           >
         </template>
       </el-table-column>
@@ -215,6 +215,74 @@
             :underline="false"
             type="success"
             v-if="scope.row.projectTicketStatus == '1'"
+            >完成</el-link
+          >
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="项目收款"
+        prop="projectReceiveStatus"
+        align="center"
+        :filters="filterList3"
+        :filter-method="filterHandler"
+      >
+        <template slot-scope="scope">
+          <el-link
+            :underline="false"
+            type="primary"
+            @click="
+              examine(scope.row.userId, scope.row, 6, scope.row.projectCode)
+            "
+            v-if="scope.row.projectReceiveStatus == '0'"
+            >收款中</el-link
+          >
+
+          <el-link
+            :underline="false"
+            type="danger"
+            @click="progressError(scope.row.projectCode, scope.row, 6)"
+            v-if="scope.row.projectReceiveStatus == '2'"
+            >异常</el-link
+          >
+          <el-link
+            :underline="false"
+            type="success"
+            @click="projectFinish(scope.row.projectCode, scope.row, 6)"
+            v-if="scope.row.projectReceiveStatus == '1'"
+            >完成</el-link
+          >
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="项目出款"
+        prop="projectPayStatus"
+        align="center"
+        :filters="filterList4"
+        :filter-method="filterHandler"
+      >
+        <template slot-scope="scope">
+          <el-link
+            :underline="false"
+            type="primary"
+            @click="
+              examine(scope.row.userId, scope.row, 7, scope.row.projectCode)
+            "
+            v-if="scope.row.projectPayStatus == '0'"
+            >出款中</el-link
+          >
+
+          <el-link
+            :underline="false"
+            type="danger"
+            @click="progressError(scope.row.projectCode, scope.row, 7)"
+            v-if="scope.row.projectPayStatus == '2'"
+            >异常</el-link
+          >
+          <el-link
+            :underline="false"
+            type="success"
+            @click="projectFinish(scope.row.projectCode, scope.row, 7)"
+            v-if="scope.row.projectPayStatus == '1'"
             >完成</el-link
           >
         </template>
@@ -316,74 +384,7 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        label="项目收款"
-        prop="projectReceiveStatus"
-        align="center"
-        :filters="filterList3"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <el-link
-            :underline="false"
-            type="primary"
-            @click="
-              examine(scope.row.userId, scope.row, 6, scope.row.projectCode)
-            "
-            v-if="scope.row.projectReceiveStatus == '0'"
-            >收款中</el-link
-          >
-
-          <el-link
-            :underline="false"
-            type="danger"
-            @click="progressError(scope.row.projectCode, scope.row, 6)"
-            v-if="scope.row.projectReceiveStatus == '2'"
-            >异常</el-link
-          >
-          <el-link
-            :underline="false"
-            type="success"
-            @click="projectFinish(scope.row.projectCode, scope.row, 6)"
-            v-if="scope.row.projectReceiveStatus == '1'"
-            >完成</el-link
-          >
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="项目出款"
-        prop="projectPayStatus"
-        align="center"
-        :filters="filterList4"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <el-link
-            :underline="false"
-            type="primary"
-            @click="
-              examine(scope.row.userId, scope.row, 7, scope.row.projectCode)
-            "
-            v-if="scope.row.projectPayStatus == '0'"
-            >出款中</el-link
-          >
-
-          <el-link
-            :underline="false"
-            type="danger"
-            @click="progressError(scope.row.projectCode, scope.row, 7)"
-            v-if="scope.row.projectPayStatus == '2'"
-            >异常</el-link
-          >
-          <el-link
-            :underline="false"
-            type="success"
-            @click="projectFinish(scope.row.projectCode, scope.row, 7)"
-            v-if="scope.row.projectPayStatus == '1'"
-            >完成</el-link
-          >
-        </template>
-      </el-table-column>
+    
      
       <el-table-column
         label="操作"
@@ -1079,7 +1080,7 @@ export default {
       getCount(this.queryParams).then((res) => {
         this.errLabel = "异常(" + res.error + ")";
         this.allLabel = "全部(" + res.total + ")";
-        this.loadingLabel = "审核中(" + res.unfinished + ")";
+        this.loadingLabel = "办理中(" + res.unfinished + ")";
         this.finishLabel = "完成(" + res.finished + ")";
       });
     },

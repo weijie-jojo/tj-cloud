@@ -174,18 +174,20 @@ export default {
          find(row,code){
            this.$cache.local.setJSON('tc-project-code', code);
             let obj={
-                backurl:'/tc-business/project/disburseAudit'
+                backurl:'/tc-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tc-ifcollect',0);
-            this.$cache.local.setJSON('tc-backTicket',obj);
+            this.$cache.local.setJSON('tc-aduitback',obj);
             this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDisburseList' });
         },
         //完税修改
         edit(row,code){
             let obj1={
-                backurl:'/tc-business/project/disburseAudit'
+                backurl:'/tc-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
-            this.$cache.local.setJSON('tc-backTicket',obj1);
+            this.$cache.local.setJSON('tc-aduitback',obj1);
             this.$cache.local.setJSON('tc-ifcollect',0);
             this.$cache.local.setJSON('tc-project-code', code);
             this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDisburseList' });
@@ -252,10 +254,11 @@ export default {
         },
         aduit(scope) {
             let obj1={
-                backurl:'/tc-business/project/disburseAudit'
+                backurl:'/tc-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tc-ifcollect',0);
-            this.$cache.local.setJSON('tc-backTicket',obj1);
+            this.$cache.local.setJSON('tc-aduitback',obj1);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDisburseList' });
         },
@@ -263,9 +266,10 @@ export default {
         add(scope) {
             
             let obj1={
-                backurl:'/tc-business/project/disburseAudit'
+                backurl:'/tc-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
-            this.$cache.local.setJSON('tc-backTicket',obj1);
+            this.$cache.local.setJSON('tc-aduitback',obj1);
             this.$cache.local.setJSON('tc-ifcollect',0);
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/aduitDisburseList' });

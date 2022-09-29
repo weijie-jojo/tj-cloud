@@ -174,7 +174,8 @@ export default {
          find(row,code){
            this.$cache.local.setJSON('tg-project-code', code);
             let obj={
-                backurl:'/tg-business/project/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-aduitback',obj);
@@ -183,7 +184,8 @@ export default {
         //完税修改
         edit(row,code){
             let obj1={
-                backurl:'/tg-business/project/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
@@ -252,7 +254,8 @@ export default {
         },
         aduit(scope) {
             let obj1={
-                backurl:'/tg-business/project/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-aduitback',obj1);
@@ -263,7 +266,8 @@ export default {
         add(scope) {
             
             let obj1={
-                backurl:'/tg-business/project/disburseAudit'
+                backurl:'/tg-business/project/disburseAudit',
+                name:'DisburseAudit'
             };
             this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
