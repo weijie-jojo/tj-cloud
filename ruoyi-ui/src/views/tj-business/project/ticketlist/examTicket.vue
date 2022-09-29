@@ -485,6 +485,7 @@ export default {
                             projectStatus:this.projectStatusNew,
                             isSelfCount: this.Father.isSelfCount,
                             projectCode: this.Father.projectCode,
+                            placeCode:this.Father.placeCode,
 
                         };
                       } else {
@@ -494,6 +495,7 @@ export default {
                             projectStatus:this.projectStatusNew,
                             isSelfCount: this.Father.isSelfCount,
                             projectCode: this.Father.projectCode,
+                            placeCode:this.Father.placeCode,
 
                         };
                        }
@@ -507,6 +509,7 @@ export default {
                             projectStatus:1,
                             isSelfCount: this.Father.isSelfCount,
                             projectCode: this.Father.projectCode,
+                            placeCode:this.Father.placeCode,
                             
                         };
                     }

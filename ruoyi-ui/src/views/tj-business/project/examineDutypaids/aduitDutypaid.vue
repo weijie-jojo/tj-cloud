@@ -329,6 +329,7 @@ export default {
               projectStatus: this.projectStatusNew,
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
+              placeCode:this.formData.placeCode,
             };
           } else {
             parms = {
@@ -338,6 +339,7 @@ export default {
               projectStatus: 1,
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
+              placeCode:this.formData.placeCode,
             };
           }
           edit(parms).then((res) => {

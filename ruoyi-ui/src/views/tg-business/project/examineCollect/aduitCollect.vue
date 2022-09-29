@@ -314,6 +314,7 @@ export default {
                             projectStatus:this.projectStatusNew,
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
+                            placeCode:this.publicList.placeCode,
 
                         };
                       } else {
@@ -323,6 +324,7 @@ export default {
                             projectStatus:this.projectStatusNew,
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
+                            placeCode:this.publicList.placeCode,
 
                         };
                        }
@@ -335,6 +337,7 @@ export default {
                     projectStatus: 1,
                     isSelfCount: this.publicList.isSelfCount,
                     projectCode: this.publicList.projectCode,
+                    placeCode:this.publicList.placeCode,
                   };
 
                   this.check("收款审核不通过。" + "原因:" + this.remark);
