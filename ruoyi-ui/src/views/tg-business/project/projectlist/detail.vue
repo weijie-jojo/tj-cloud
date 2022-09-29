@@ -935,7 +935,7 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>

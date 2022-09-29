@@ -175,11 +175,11 @@
                 </el-col>
 
             </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
+            <el-row type="flex" class="row-bg " justify="space-around" style="margin-bottom:20px">
                 <el-col :span="8"></el-col>
                 <el-col :span='8' class="flexs">
 
-                    <el-button type="danger" @click="resetForm">返回</el-button>
+                    <el-button type="danger" @click="resetForm">关闭</el-button>
                     <el-button v-if="isokradioS == 2" type="primary" @click="submitForm(2)">驳回</el-button>
                     <el-button v-else type="primary" @click="submitForm(1)">通过</el-button>
                 </el-col>

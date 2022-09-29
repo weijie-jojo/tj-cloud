@@ -143,7 +143,7 @@ export default {
       this.queryParams.pageNum=1;
       this.getList();
       },
-      detail(row){s
+      detail(row){
         let obj = {
           backUrl: '/tg-business/reg/manageTax',
          };
