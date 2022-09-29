@@ -2269,12 +2269,16 @@ export default {
               selfId: this.formData.selfId,
               endStatus: 1,
               endTime: curTime,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
             };
           } else {
             parms = {
               selfId: this.formData.selfId,
               remarkRegister: this.remark,
               endStatus: 2,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
             };
           }
 

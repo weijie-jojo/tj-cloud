@@ -379,12 +379,14 @@ export default {
             parms = {
               selfCode: this.formData.selfCode,
               nameStatus: type,
+              
             };
           } else {
             parms = {
               selfCode: this.formData.selfCode,
               nameStatus: type,
-              nameRemark: this.remark
+              nameRemark: this.remark,
+             
             };
           }
           updateReview(parms).then((res) => {
@@ -402,7 +404,9 @@ export default {
                       let parmsEmployed={
                         remarkName:this.remark,
                         selfId: this.formData.selfId,
-                        endStatus:2
+                        endStatus:2,
+                        isSelfCount:this.formData.isSelfCount,
+                        placeCode:this.formData.placeCode
                       };
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });

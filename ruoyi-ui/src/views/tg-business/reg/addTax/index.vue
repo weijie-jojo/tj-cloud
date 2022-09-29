@@ -143,6 +143,8 @@ export default {
           this.formtax.selfName = list.selfName;
           this.formtax.legalPersonName = list.legalPersonName;
           this.formtax.taxId = list.taxId;
+          this.formtax.isSelfCount=list.isSelfCount;
+          this.formtax.placeCode=list.placeCode;
           this.getRate();
           this.getInfo();
          

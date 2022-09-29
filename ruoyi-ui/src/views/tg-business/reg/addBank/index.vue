@@ -320,6 +320,8 @@ export default {
         this.formBank.privateDepositBank = list.privateDepositBank;
         this.formBank.privateAccountNumber = list.privateAccountNumber;
         this.formBank.taxId = list.taxId;
+        this.formBank.isSelfCount=list.isSelfCount;
+        this.formBank.placeCode=list.placeCode;
         this.accountType = list.accountType;
         this.getInfo();
         this.nailist();
