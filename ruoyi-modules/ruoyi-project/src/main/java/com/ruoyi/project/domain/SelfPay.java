@@ -64,4 +64,16 @@ public class SelfPay extends BaseEntity
     /** 出款不通过备注 */
     @ApiModelProperty(value = "出款不通过备注")
     private String payRemark;
+
+    /** 是否已付款 0未付款 1已付款 */
+    @ApiModelProperty(value = "是否已付款 0未付款 1已付款")
+    private Long isPay;
+
+    /** 付款账户 */
+    @ApiModelProperty(value = "付款账户")
+    private String paymentName;
+
+    /** 付款帐号 */
+    @ApiModelProperty(value = "付款帐号")
+    private String paymentAccount;
 }

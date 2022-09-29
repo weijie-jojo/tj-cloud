@@ -21,17 +21,22 @@
         <result property="paySysCode"    column="pay_sys_code"    />
         <result property="isCheck"    column="is_check"    />
         <result property="payRemark"    column="pay_remark"    />
+        <result property="isPay"    column="is_pay"    />
+        <result property="paymentName"    column="payment_name"    />
+        <result property="paymentAccount"    column="payment_account"    />
     </resultMap>
 
     <sql id="selectSelfPayVo">
         select pay_id, receive_sys_code, pay_name, pay_time, pay_money, pay_account,
                file_name_pay, create_by, update_by, create_time, update_time,project_code,
-               pay_code, pay_sys_code,is_check,pay_remark from self_pay_tc
+               pay_code, pay_sys_code,is_check,pay_remark,is_pay, payment_name, payment_account
+        from self_pay_tc
     </sql>
 
     <sql id="selectSelfPayJoin">
         select t.pay_id, t.receive_sys_code, t.pay_name, t.pay_time, t.pay_money, t.pay_account, t.file_name_pay, t.create_by,
                t.update_by, t.create_time, t.update_time,t.project_code, t.pay_code, t.pay_sys_code,t.is_check,pay_remark,
+               t.is_pay, t.payment_name, t.payment_account,
                A.project_name, A.receive_name, A.receive_time,A.receive_money, A.receive_account, A.file_name_receive
         from self_pay t
                  join self_receive A ON t.receive_sys_code=A.receive_sys_code
@@ -56,6 +61,9 @@
             <if test="paySysCode != null  and paySysCode != ''"> and pay_sys_code = #{paySysCode}</if>
             <if test="isCheck != null "> and is_check = #{isCheck}</if>
             <if test="payRemark != null  and payRemark != ''"> and pay_remark = #{payRemark}</if>
+            <if test="isPay != null "> and is_pay = #{isPay}</if>
+            <if test="paymentName != null  and paymentName != ''"> and payment_name like concat('%', #{paymentName}, '%')</if>
+            <if test="paymentAccount != null  and paymentAccount != ''"> and payment_account = #{paymentAccount}</if>
         </where>
     </select>
 
@@ -87,6 +95,9 @@
             <if test="paySysCode != null and paySysCode != ''">pay_sys_code,</if>
             <if test="isCheck != null">is_check,</if>
             <if test="payRemark != null">pay_remark,</if>
+            <if test="isPay != null">is_pay,</if>
+            <if test="paymentName != null">payment_name,</if>
+            <if test="paymentAccount != null">payment_account,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="receiveSysCode != null and receiveSysCode != ''">#{receiveSysCode},</if>
@@ -104,6 +115,9 @@
             <if test="paySysCode != null and paySysCode != ''">#{paySysCode},</if>
             <if test="isCheck != null">#{isCheck},</if>
             <if test="payRemark != null">#{payRemark},</if>
+            <if test="isPay != null">#{isPay},</if>
+            <if test="paymentName != null">#{paymentName},</if>
+            <if test="paymentAccount != null">#{paymentAccount},</if>
         </trim>
     </insert>
 
@@ -125,6 +139,9 @@
             <if test="paySysCode != null and paySysCode != ''">pay_sys_code = #{paySysCode},</if>
             <if test="isCheck != null">is_check = #{isCheck},</if>
             <if test="payRemark != null">pay_remark = #{payRemark},</if>
+            <if test="isPay != null">is_pay = #{isPay},</if>
+            <if test="paymentName != null">payment_name = #{paymentName},</if>
+            <if test="paymentAccount != null">payment_account = #{paymentAccount},</if>
         </trim>
         where pay_id = #{payId}
     </update>
