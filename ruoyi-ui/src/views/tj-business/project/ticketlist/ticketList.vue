@@ -321,6 +321,7 @@ export default {
                    
                 }
                 let params={
+                    placeCode:this.publicList.placeCode,
                     isSelfCount: this.publicList.isSelfCount,
                     projectCode: this.publicList.projectCode,
                     projectStatus:this.publicList.projectStatus,

@@ -219,7 +219,8 @@ export default {
                         isUpAcceptance:this.formData.isUpAcceptance,
                         isUpContract:this.formData.isUpContract,
                         isSelfCount: this.formData.isSelfCount,
-                         projectCode: this.formData.projectCode,
+                        projectCode: this.formData.projectCode,
+                        placeCode:this.formData.placeCode,
                     };
                     edit(parms).then((res) => {
                         if (res != undefined) {

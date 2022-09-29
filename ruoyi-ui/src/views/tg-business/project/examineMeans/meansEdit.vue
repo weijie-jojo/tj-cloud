@@ -269,6 +269,7 @@ export default {
                         projectStatus: this.projectStatusNew,
                         isSelfCount: this.formData.isSelfCount,
                         projectCode: this.formData.projectCode,
+                        placeCode:this.formData.placeCode,
                     };
                     edit(parms).then((res) => {
                         if (res != undefined) {

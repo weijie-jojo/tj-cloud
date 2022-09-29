@@ -220,6 +220,7 @@ export default {
                         fileName4: this.formData.fileName4,
                         isSelfCount: this.formData.isSelfCount,
                         projectCode: this.formData.projectCode,
+                        placeCode:this.formData.placeCode,
                     };
                     edit(parms).then((res) => {
                          if (res != undefined) {
