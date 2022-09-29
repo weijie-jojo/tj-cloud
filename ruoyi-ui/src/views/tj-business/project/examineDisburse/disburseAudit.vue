@@ -2,8 +2,8 @@
     <div class="app-container">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
             label-width="auto">
-            <el-form-item label="销货单位（乙方）">
-                <el-input v-model="queryParams.selfName" placeholder="请输入销货单位（乙方）" clearable
+            <el-form-item label="销货单位">
+                <el-input v-model="queryParams.selfName" placeholder="请输入销货单位" clearable
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
 
@@ -35,8 +35,8 @@
 
         <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="销货单位（乙方）" align="center" prop="selfName" :show-overflow-tooltip="true" />
-            <el-table-column label="购货单位（甲方）" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
+            <el-table-column label="销货单位" align="center" prop="selfName" :show-overflow-tooltip="true" />
+            <el-table-column label="购货单位" align="center" prop="purchCompany" :show-overflow-tooltip="true" />
             <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
              <el-table-column label="项目时间" align="center"  :show-overflow-tooltip="true">
               <template slot-scope="scope"> {{ scope.row.createTime | filterTime }}</template>
@@ -52,7 +52,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="scope.row.projectPayStatus==0" type="text" icon="el-icon-circle-plus-outline"
-                        @click="add(scope.row)">出款列表</el-button>
+                        @click="add(scope.row)">出款</el-button>
                     <el-button size="mini" v-if="scope.row.projectPayStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectPayStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
