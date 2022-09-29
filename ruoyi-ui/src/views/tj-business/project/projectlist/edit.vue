@@ -39,7 +39,17 @@
               label="项目时间"
               prop="projectTimeStart"
             >
-              <el-input v-model="formData.projectTimeStart" disabled></el-input>
+            <el-date-picker
+            style="width:100%"
+            disabled
+            v-model="formData.projectTimeStart"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+        >
+        </el-date-picker>
             </el-form-item>
             <el-form-item
               class="comright"

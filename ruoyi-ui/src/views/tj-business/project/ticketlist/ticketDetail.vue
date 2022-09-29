@@ -9,10 +9,19 @@
     >
       <el-row
         type="flex"
-        class="row-bg rowCss"
-        style="padding-top: 20px"
+        class="row-bg"
+        style="margin-top: 20px"
         justify="space-around"
       >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">项目信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="项目编号">
             <el-input v-model="Father.projectCode" :readonly="true"></el-input>
@@ -25,10 +34,17 @@
 
         <el-col :span="9">
           <el-form-item class="comright" label="项目时间">
-            <el-input
+            <el-date-picker
+              disabled
+              style="width: 100%"
               v-model="Father.projectTimeStart"
-              :readonly="true"
-            ></el-input>
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
           </el-form-item>
           <el-form-item class="comright" label="项目金额">
             <el-input
@@ -48,34 +64,6 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="购货单位（甲方）">
-            <!-- <el-select  clearable v-model="formData.purchCompany">
-                          <el-option v-for="item in purchCompanyOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                        </el-select> -->
-            <el-input v-model="Father.purchCompany" :readonly="true"></el-input>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="9">
-          <el-form-item class="comright" label="购货单位（甲方）纳税人识别号">
-            <el-input
-              :readonly="true"
-              v-model="Father.purchCompanyTaxid"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="9">
-          <el-form-item class="comright" label="销货单位（乙方）">
-            <el-input
-              v-model="Father.selfName"
-              :required="true"
-              :readonly="true"
-            ></el-input>
-          </el-form-item>
           <el-form-item class="comright" label="已开金额">
             <el-input
               :required="true"
@@ -89,6 +77,93 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
+        </el-col>
+
+        <el-col :span="9">
+          <el-form-item class="comright" label="剩余金额">
+            <el-input
+              :readonly="true"
+              type="number"
+              style="width: 100%"
+              v-model="Father.projectRemainAmount"
+              :step="0.01"
+              :min="0"
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">购货单位（甲方）</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="名称" :required="true">
+            <el-input disabled v-model="Father.purchCompany"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="纳税人识别号" :required="true">
+            <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">销货单位（乙方）</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="名称" :required="true">
+            <el-input v-model="Father.selfName" disabled></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item class="comright" label="纳税人识别号" :required="true">
+            <el-input disabled v-model="Father.projectOwnerTaxid"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">票据信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
           <el-form-item class="comright" label="发票类型" prop="ticketType">
             <el-select
               disabled
@@ -138,21 +213,6 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="销货单位（乙方）纳税人识别号">
-            <el-input v-model="owerTax" :readonly="true"></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="剩余金额">
-            <el-input
-              :readonly="true"
-              type="number"
-              style="width: 100%"
-              v-model="Father.projectRemainAmount"
-              :step="0.01"
-              :min="0"
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
           <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
             <el-input
               style="width: 86%"
@@ -298,7 +358,12 @@
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -350,7 +415,7 @@ export default {
 
       Father: [],
       formData: {
-        projectCode: '', //项目编号
+        projectCode: "", //项目编号
         ticketRemark: "", //发票备注
         ticketTax: 3, //发票税率
         ticketType: 0, //发票类型
@@ -698,7 +763,7 @@ export default {
     resetForm() {
       this.$tab.closeOpenPage({ path: "/tj-business/project/ticketlist" });
     },
-   //渠道商接口  记得修改 userid
+    //渠道商接口  记得修改 userid
     getinfoByUserId() {
       getInfo().then((res) => {
         getinfoByUserId({ userId: this.formData.userId }).then((res) => {

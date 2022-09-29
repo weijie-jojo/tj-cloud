@@ -162,8 +162,8 @@
                 <el-form-item label="普票服务费" prop="ordinarySelfFee">
 
                   <div>
-                    <el-radio disabled @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
-                    <el-radio disabled @change="handPoxy" v-model="ruleForm.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
+                    <el-radio disabled  v-model="ruleForm.ordinaryProxyIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio disabled  v-model="ruleForm.ordinaryProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input disabled v-if="ruleForm.ordinaryProxyIsmoney == 0" style="width:100%" type="number"
                       v-model="ruleForm.ordinarySelfFee" :step="0.01" :min="0"
@@ -281,8 +281,8 @@
               <el-col :span="24">
                 <el-form-item label="专票服务费" prop="specialSelfFee">
                   <div>
-                    <el-radio disabled @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="0">按定额收取</el-radio>
-                    <el-radio disabled @change="handSpecial" v-model="ruleForm.specialProxyIsmoney" label="1">按百分比收取</el-radio>
+                    <el-radio disabled  v-model="ruleForm.specialProxyIsmoney" label="0">按定额收取</el-radio>
+                    <el-radio disabled  v-model="ruleForm.specialProxyIsmoney" label="1">按百分比收取</el-radio>
 
                     <el-input disabled v-if="ruleForm.specialProxyIsmoney == 0" style="width:100%" type="number"
                       v-model="ruleForm.specialSelfFee" :step="0.01" :min="0"

@@ -52,7 +52,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" v-if="scope.row.projectReceiveStatus==0" type="text" icon="el-icon-circle-plus-outline"
-                        @click="add(scope.row)">收款</el-button>
+                        @click="add(scope.row)">收款列表</el-button>
                     <el-button size="mini" v-if="scope.row.projectReceiveStatus==1" type="text" icon="el-icon-view" @click="find(scope.row,scope.row.projectCode)">查看</el-button>
                     <el-button size="mini" v-if="scope.row.projectReceiveStatus==2" type="text" icon="el-icon-edit" @click="edit(scope.row,scope.row.projectCode)">修改
                     </el-button>
@@ -265,6 +265,11 @@ export default {
         },
         //新增完税
         add(scope) {
+            let obj={
+                backurl:'/tg-business/project/collectAudit',
+                name:'CollectAudit',
+            };
+            this.$cache.local.setJSON('tg-aduitback',obj);
             this.$cache.local.setJSON('tg-ifcollect', 0);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitCollectList'});

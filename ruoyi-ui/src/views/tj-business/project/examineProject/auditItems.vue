@@ -55,10 +55,17 @@
 
         <el-col :span="9">
           <el-form-item class="comright" label="项目时间" :required="true">
-            <el-input
-              v-model="formData.projectTimeStart"
-              :readonly="true"
-            ></el-input>
+            <el-date-picker
+            style="width:100%"
+            disabled
+            v-model="formData.projectTimeStart"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+        >
+        </el-date-picker>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
             <el-input
@@ -1148,7 +1155,7 @@ export default {
               projectStatus: this.projectStatusNew,
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
-              placeCode:this.formData.placeCode,
+              projectOwner:this.formData.projectOwner,
             };
           } else {
             parms = {
@@ -1158,7 +1165,7 @@ export default {
               projectStatus: this.projectStatusNew,
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
-              placeCode:this.formData.placeCode,
+              projectOwner:this.formData.projectOwner,
             };
           }
           edit(parms).then((res) => {

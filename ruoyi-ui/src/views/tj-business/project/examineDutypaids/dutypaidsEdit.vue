@@ -40,7 +40,17 @@
 
         <el-col :span="9">
           <el-form-item class="comright" label="项目时间" :required="true">
-            <el-input v-model="formData.createTime" :readonly="true"></el-input>
+            <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="formData.projectTimeStart"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
             <el-input
@@ -59,7 +69,11 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="购货单位（甲方）" :required="true">
+          <el-form-item
+            class="comright"
+            label="购货单位（甲方）"
+            :required="true"
+          >
             <el-input
               v-model="formData.purchCompany"
               :readonly="true"
@@ -68,7 +82,11 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
+          <el-form-item
+            class="comright"
+            label="销货单位（乙方）"
+            prop="projectOwner"
+          >
             <el-input v-model="formData.selfName" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
@@ -137,7 +155,12 @@
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -150,7 +173,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { edit, check ,detail} from "@/api/project/list";
+import { edit, check, detail } from "@/api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "DutypaidsEdit",
@@ -184,35 +207,39 @@ export default {
   },
   methods: {
     getlist() {
-        this.$modal.loading("正在加载数据，请稍后...");
-        detail({
-          projectCode: this.$cache.local.getJSON("tj-project-code"),
-        }).then((response) => {
-            this.$modal.closeLoading();
-            this.formData = response.data;
-            this.formData.fileName3 = JSON.parse(this.formData.fileName3);
-            this.formData.fileName4 = JSON.parse(this.formData.fileName4);
-            this.formData.isUpDutypaid = JSON.stringify(this.formData.isUpDutypaid);
-            this.formData.isUpRate = JSON.stringify(this.formData.isUpRate);
-            this.$refs.productImage1.getSrcList(this.formData.fileName3);
-            this.$refs.productImage2.getSrcList(this.formData.fileName4);
+      this.$modal.loading("正在加载数据，请稍后...");
+      detail({
+        projectCode: this.$cache.local.getJSON("tj-project-code"),
+      })
+        .then((response) => {
+          this.$modal.closeLoading();
+          this.formData = response.data;
+          this.formData.fileName3 = JSON.parse(this.formData.fileName3);
+          this.formData.fileName4 = JSON.parse(this.formData.fileName4);
+          this.formData.isUpDutypaid = JSON.stringify(
+            this.formData.isUpDutypaid
+          );
+          this.formData.isUpRate = JSON.stringify(this.formData.isUpRate);
+          this.$refs.productImage1.getSrcList(this.formData.fileName3);
+          this.$refs.productImage2.getSrcList(this.formData.fileName4);
 
-            for (let i in this.formData.fileName3) {
-              this.fileNameN1.push({
-                url: this.baseImgPath + this.formData.fileName3[i],
-                name: this.formData.fileName3[i],
-              });
-            }
-            for (let j in this.formData.fileName4) {
-              this.fileNameN2.push({
-                url: this.baseImgPath + this.formData.fileName4[j],
-                name: this.formData.fileName4[j],
-              });
-            }
-         }).catch((error) => {
-        this.$modal.closeLoading();
-      });
-      },
+          for (let i in this.formData.fileName3) {
+            this.fileNameN1.push({
+              url: this.baseImgPath + this.formData.fileName3[i],
+              name: this.formData.fileName3[i],
+            });
+          }
+          for (let j in this.formData.fileName4) {
+            this.fileNameN2.push({
+              url: this.baseImgPath + this.formData.fileName4[j],
+              name: this.formData.fileName4[j],
+            });
+          }
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        });
+    },
     getPayTax(data) {
       this.formData.fileName4 = data;
     },
@@ -284,7 +311,7 @@ export default {
             projectStatus: this.projectStatusNew,
             isSelfCount: this.formData.isSelfCount,
             projectCode: this.formData.projectCode,
-            placeCode:this.formData.placeCode,
+            projectOwner: this.formData.projectOwner,
           };
           edit(parms).then((res) => {
             if (res != undefined) {
@@ -368,5 +395,4 @@ export default {
 
   color: blue;
 }
-
 </style>

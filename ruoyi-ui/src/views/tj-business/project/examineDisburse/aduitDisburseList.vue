@@ -35,7 +35,7 @@
                 v-model="publicList.projectName"
               ></el-input>
             </el-form-item>
-            <el-form-item class="comright" label="购货单位（甲方）名称 ">
+            <el-form-item class="comright" label="购货单位">
               <el-input
                 :readonly="true"
                 v-model="publicList.purchCompany"
@@ -46,10 +46,17 @@
   
           <el-col :span="9">
             <el-form-item class="comright" label="项目时间">
-              <el-input
-                :readonly="true"
-                v-model="publicList.createTime"
-              ></el-input>
+              <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="publicList.projectTimeStart"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
             </el-form-item>
   
             <el-form-item class="comright" label="项目金额">
@@ -63,7 +70,7 @@
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
-            <el-form-item class="comright" label="销货单位（乙方）名称">
+            <el-form-item class="comright" label="销货单位">
               <el-input :readonly="true" v-model="publicList.selfName"></el-input>
             </el-form-item>
           

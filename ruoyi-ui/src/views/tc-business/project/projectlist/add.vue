@@ -392,7 +392,7 @@
         <el-col :span="9">
           <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
             <el-input
-              style="width: 86%"
+              style="width: 100%"
               v-model="formData.ticketTax"
               :required="true"
             >
@@ -420,20 +420,22 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            class="comright"
-            label="开票内容"
-            prop="fileName"
-            v-if="fileNameradio == 1"
+            
+            label="发票备注"
+            prop="projectDesc"
           >
             <el-input
-              type="textarea"
-              :rows="2"
-              v-model="formData.fileName"
+              style="width:88%"
               maxlength="50"
               show-word-limit
+              type="textarea"
+              :rows="2"
+              placeholder="请输入发票备注"
+              v-model="formData.projectDesc"
             >
             </el-input>
           </el-form-item>
+       
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
@@ -456,18 +458,19 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="21">
-          <el-form-item
-            style="padding-right: 4%"
-            label="发票备注"
-            prop="projectDesc"
+              <el-form-item
+              style="padding-right: 3.8%"
+            class="comright"
+            label="开票内容"
+            prop="fileName"
+            v-if="fileNameradio == 1"
           >
             <el-input
-              maxlength="50"
-              show-word-limit
               type="textarea"
               :rows="2"
-              placeholder="请输入发票备注"
-              v-model="formData.projectDesc"
+              v-model="formData.fileName"
+              maxlength="50"
+              show-word-limit
             >
             </el-input>
           </el-form-item>
@@ -1101,8 +1104,8 @@ export default {
       placeCodeOptions: "", //渠道商
       isaddPurch:'1',//添加甲方
       formData: {
+        isAddBuyer:'1',
         isDealings:'1',//项目往来款
-        isAddBuyer:'1',//添加甲方列表
         disposableRemark:'',
         isDisposableShare: "1",
         disposableShareIsmoney: "0",
@@ -1126,9 +1129,9 @@ export default {
         isOrdinaryShare: "1",
         isSpecialShare: "1",
         selfShareIsmoney: "0",
-        isSelfShare: null,
-        selfShare: null,
-        isSpecialTax: null,
+        isSelfShare: "1",
+        selfShare: "0",
+        isSpecialTax: "0",
         isOrdinaryTax: "0",
         specialSelfFee: 0, //专票个体户代办费(率)
         specialSelfMoney: 0, //专票个体户代办费(元）
@@ -1145,7 +1148,7 @@ export default {
         projectOwnerTaxid: "",
         projectDesc: "", //开票描述
         purchCompanyTaxid: "", //购货单位（甲方）纳税人识别号
-        ticketTax: "", //发票税率
+        ticketTax: 0, //发票税率
         ticketType: 0, //发票类型  0 普通 1 专用
         projectRemainAmount: "", //项目可以用金额
 
@@ -1159,8 +1162,8 @@ export default {
         projectDutypaidStatus: "-1", //办理中  完税
         projectReceiveStatus: "0", //收款
         projectPayStatus: "0", //出款
-        projectcrossMargin: 0,
-        projectcrossProfit: 0,
+        projectGrossMargin: 0,
+        projectGrossProfit: 0,
         projectLeader: "",
         projectName: "",
         projectNetProfit: 0,
@@ -1868,6 +1871,7 @@ export default {
         this.tickettaxvipok = true;
         this.formData.ticketTax = 3;
       } else {
+        this.formData.ticketTax=0;
         this.tickettaxvipok = false;
       }
       this.$nextTick(() => {

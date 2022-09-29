@@ -1,348 +1,421 @@
 <template>
-    <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="140px">
-            <el-row type="flex" class="row-bg" style="margin-top:20px;" justify="space-around">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">项目信息</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>
+  <div>
+    <el-form
+      ref="elForm"
+      :model="formData"
+      :rules="rules"
+      size="medium"
+      label-width="140px"
+    >
+      <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-top: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">项目信息</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
 
-            <el-row type="flex" class="row-bg rowCss"  justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="项目编号" :required="true">
-                        <el-input v-model="formData.projectCode" :readonly="true"></el-input>
-                    </el-form-item>
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="项目编号" :required="true">
+            <el-input
+              v-model="formData.projectCode"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
 
-                    <el-form-item class="comright" label="项目名称" :required="true">
-                        <el-input v-model="formData.projectName" :readonly="true"></el-input>
-                    </el-form-item>
-                </el-col>
+          <el-form-item class="comright" label="项目名称" :required="true">
+            <el-input
+              v-model="formData.projectName"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
 
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="项目时间" :required="true">
-                        <el-input v-model="formData.createTime" :readonly="true"></el-input>
-                    </el-form-item>
-                    <el-form-item class="comright" label="项目金额" :required="true">
-                        <el-input :readonly="true" type="number" style="width:100%"
-                            v-model="formData.projectTotalAmount" :step="0.01" :min="0"
-                            oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'>
-                            <template slot="append">
-                                元
-                            </template>
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="购货单位（甲方）" :required="true">
-                        <el-input v-model="formData.purchCompany" :readonly="true"></el-input>
-                    </el-form-item>
-                    <!-- <el-form-item class="comright" label="项目合同资料" :required="true">
+        <el-col :span="9">
+          <el-form-item class="comright" label="项目时间" :required="true">
+            <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="formData.projectTimeStart"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item class="comright" label="项目金额" :required="true">
+            <el-input
+              :readonly="true"
+              type="number"
+              style="width: 100%"
+              v-model="formData.projectTotalAmount"
+              :step="0.01"
+              :min="0"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+            >
+              <template slot="append"> 元 </template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item
+            class="comright"
+            label="购货单位（甲方）"
+            :required="true"
+          >
+            <el-input
+              v-model="formData.purchCompany"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+          <!-- <el-form-item class="comright" label="项目合同资料" :required="true">
                         <el-radio label="0">有</el-radio>
                         <el-radio label="1">无</el-radio>
                         <uploadSmall ref="productImage1" :fileName="fileName1" :fileNameOld="fileNameN1"
                             :isDetail="isDetail"></uploadSmall>
                     </el-form-item> -->
+        </el-col>
 
-                </el-col>
-
-                <el-col :span="9">
-
-                    <el-form-item class="comright" label="销货单位（乙方）" prop="projectOwner">
-                        <el-input v-model="formData.selfName" :readonly="true"></el-input>
-                    </el-form-item>
-                    <!-- <el-form-item class="comright" label="项目验收资料" :required="true">
+        <el-col :span="9">
+          <el-form-item
+            class="comright"
+            label="销货单位（乙方）"
+            prop="projectOwner"
+          >
+            <el-input v-model="formData.selfName" :readonly="true"></el-input>
+          </el-form-item>
+          <!-- <el-form-item class="comright" label="项目验收资料" :required="true">
                         <el-radio label="0">有</el-radio>
                         <el-radio label="1">无</el-radio>
                         <uploadSmall ref="productImage2" :fileName="fileName2" :fileNameOld="fileNameN2"
                             :isDetail="isDetail"></uploadSmall>
                     </el-form-item> -->
-
-
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">项目合同</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>  
-            <el-row type="flex" class="row-bg " justify="space-around">
-                <el-col :span="9">
-                    <el-form-item class="comright" label="项目合同资料">
-                        <el-radio v-model="formData.isUpContract"  label="0">有</el-radio>
-                        <el-radio v-model="formData.isUpContract"  label="1">无</el-radio>
-                        <div  v-show="formData.isUpContract==0" >
-                            <uploadSmall  @getfileName="getContractFile" ref="productImage1" :fileName="fileName1" :fileNameOld="fileNameN1"
-                            :isDetail="isDetail"></uploadSmall>
-                        </div>
-                       
-                    </el-form-item>
-                  
-                </el-col>
-                <el-col :span="9">
-                  
-                </el-col>
-              
-            </el-row>
-            <el-row type="flex" class="row-bg"  justify="space-around" style="margin-bottom:10px;margin-top: -10px;">
-                <el-col :span="9" class="flexs">
-                    <div class="bankno" style="width:35%">项目验收</div>
-                    <div style="width:50%;hegiht:10px"></div>
-                </el-col>
-                <el-col :span="9">
-                    <div></div>
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around" >
-                <el-col :span="9">
-                    <el-form-item class="comright" label="项目验收资料">
-                        <el-radio v-model="formData.isUpAcceptance"  label="0">有</el-radio>
-                        <el-radio v-model="formData.isUpAcceptance"  label="1">无</el-radio>
-                        <div  v-show="formData.isUpAcceptance==0">
-                            <uploadSmall @getfileName="getAccepFile" ref="productImage2" :fileName="fileName2" :fileNameOld="fileNameN2"
-                            :isDetail="isDetail"></uploadSmall>
-                        </div>
-                        
-                    </el-form-item>
-                </el-col>
-                <el-col :span="9">
-                  
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg " justify="space-around" style="margin-bottom:20px">
-                <el-col :span="8"></el-col>
-                <el-col :span='8' class="flexs">
-                    <el-button type="danger" @click="resetForm">关闭</el-button>
-                    <el-button type="primary" @click="onSubmit">提交</el-button>
-                </el-col>
-                <el-col :span="8"></el-col>
-            </el-row>
-        </el-form>
-    </div>
+        </el-col>
+      </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 10px; margin-top: -10px"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">项目合同</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="项目合同资料">
+            <el-radio v-model="formData.isUpContract" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpContract" label="1">无</el-radio>
+            <div v-show="formData.isUpContract == 0">
+              <uploadSmall
+                @getfileName="getContractFile"
+                ref="productImage1"
+                :fileName="fileName1"
+                :fileNameOld="fileNameN1"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9"> </el-col>
+      </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 10px; margin-top: -10px"
+      >
+        <el-col :span="9" class="flexs">
+          <div class="bankno" style="width: 35%">项目验收</div>
+          <div style="width: 50%; hegiht: 10px"></div>
+        </el-col>
+        <el-col :span="9">
+          <div></div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="9">
+          <el-form-item class="comright" label="项目验收资料">
+            <el-radio v-model="formData.isUpAcceptance" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpAcceptance" label="1">无</el-radio>
+            <div v-show="formData.isUpAcceptance == 0">
+              <uploadSmall
+                @getfileName="getAccepFile"
+                ref="productImage2"
+                :fileName="fileName2"
+                :fileNameOld="fileNameN2"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9"> </el-col>
+      </el-row>
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
+        <el-col :span="8"></el-col>
+        <el-col :span="8" class="flexs">
+          <el-button type="danger" @click="resetForm">关闭</el-button>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+    </el-form>
+  </div>
 </template>
 <script>
-import uploadSmall from '@/components/douploads/uploadFiles'
-import { edit, check,detail } from "@/api/tg-api/project/list";
-import { getInfo } from '@/api/login'
+import uploadSmall from "@/components/douploads/uploadFiles";
+import { edit, check, detail } from "@/api/tg-api/project/list";
+import { getInfo } from "@/api/login";
 export default {
-    name: 'MeansEdit',
-    components: { uploadSmall },
-    data() {
-        return {
-            fileNameN1: [],
-            fileNameN2: [],
-            fileName1: [],
-            fileName2: [],
-            projectStatusNew: 0,
-            userinfo: {},
-            isDetail: '0',
-            fileName: [],
-            fileNames: [],
-            formData: {
-                fileName2: [],
-            },
-            rules: {
-                fileName2: [
-                    {
-                        required: true,
-                        message: "项目验收资料不能为空",
-                        trigger: "change",
-
-                    },
-                ],
-            },
-            baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
-        };
-    },
-    computed: {},
-    mounted() {
-        this.getlist();
-    },
-    methods: {
-        getlist() {
-        this.$modal.loading("正在加载数据，请稍后...");
-        detail({
-          projectCode: this.$cache.local.getJSON("tg-project-code"),
-        }).then((response) => {
-            this.$modal.closeLoading();
-            this.formData = response.data;
-            this.formData.fileName1 = JSON.parse(this.formData.fileName1);
-            this.formData.fileName2 = JSON.parse(this.formData.fileName2);
-            this.formData.isUpContract=JSON.stringify(this.formData.isUpContract);
-            this.formData.isUpAcceptance=JSON.stringify(this.formData.isUpAcceptance);
-            this.$refs.productImage1.getSrcList(this.formData.fileName1);
-            this.$refs.productImage2.getSrcList(this.formData.fileName2);
-            for (let j in this.formData.fileName1) {
-                this.fileNameN1.push({
-                    name: this.formData.fileName1[j],
-                    url: this.baseImgPath + this.formData.fileName1[j]
-                })
-            }
-
-
-            for (let i in this.formData.fileName2) {
-                this.fileNameN2.push({
-                    name: this.formData.fileName2[i],
-                    url: this.baseImgPath + this.formData.fileName2[i]
-                })
-            }
-         }).catch((error) => {
-        this.$modal.closeLoading();
-      });
+  name: "MeansEdit",
+  components: { uploadSmall },
+  data() {
+    return {
+      fileNameN1: [],
+      fileNameN2: [],
+      fileName1: [],
+      fileName2: [],
+      projectStatusNew: 0,
+      userinfo: {},
+      isDetail: "0",
+      fileName: [],
+      fileNames: [],
+      formData: {
+        fileName2: [],
       },
-        //合同
-        getContractFile(data) {
-            this.formData.fileName1 = data;
-            console.log(1,data);
-        },
-        //验收
-        getAccepFile(data) {
-            this.formData.fileName2 = data;
-            console.log(2,data);
-        },
-        check(resmsg) {
-            getInfo().then(res => {
-                this.userinfo = res.user;
-                let parms = {
-                    "checkReasult": resmsg,
-                    "checkUser": this.userinfo.userName,
-                    'phonenumber': this.userinfo.phonenumber,
-                    "projectCode": this.formData.projectCode,
-                    "projectType": "12",
-                };
-                check(parms).then(res => {
-                    console.log('资料修改成功！');
-                }).catch(error => {
-
-                });
-            })
-
-        },
-        getfileNameS(data) {
-            this.formData.fileName2 = data;
-            console.log(this.formData.fileName2);
-        },
-        //返回
-        resetForm() {
-            this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-edit-project').url })
-        },
-        handleChange(val) {
-            console.log(val);
-        },
-        onSubmit() {
-            this.$refs["elForm"].validate((valid) => {
-                // TODO 提交表单
-                this.projectStatusNew = 0;
-                if (valid) {
-                    // project_remain_amount
-                    this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
-                    this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
-                    
-                    if(this.formData.projectReceiveStatus==1 && this.formData.projectPayStatus==1 && this.formData.projectDutypaidStatus==1 
-                    && this.formData.projectTicketStatus==1 && this.formData.projectCheckStatus==1 ){
-                    this.projectStatusNew=2;
-                    }else if(
-                    this.formData.projectReceiveStatus==2 || this.formData.projectPayStatus==2 || this.formData.projectDutypaidStatus==2 
-                    || this.formData.projectTicketStatus==2 || this.formData.projectCheckStatus==2
-                    ){
-                        this.projectStatusNew=1;
-                     }
-
-                    let parms = {
-                        isUpAcceptance:this.formData.isUpAcceptance,
-                        isUpContract:this.formData.isUpContract,
-                        projectId: this.formData.projectId,
-                        fileName1: this.formData.fileName1,
-                        fileName2: this.formData.fileName2,
-                        projectAcceptanceStatus: 0,
-                        projectContractStatus:0,
-                        projectStatus: this.projectStatusNew,
-                        isSelfCount: this.formData.isSelfCount,
-                        projectCode: this.formData.projectCode,
-                        placeCode:this.formData.placeCode,
-                    };
-                    edit(parms).then((res) => {
-                        if (res != undefined) {
-                            if (res.code === 200) {
-                                this.$nextTick(function () {
-
-                                    this.check('资料修改完成');
-                                    this.$modal.msgSuccess('资料修改完成');
-                                    this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-edit-project').url }).then(() => {
-                                        // 执行结束的逻辑 
-                                        this.$tab.refreshPage({ path: this.$cache.local.getJSON('tg-edit-project').url, name: this.$cache.local.getJSON('tg-edit-project').name })
-                                    })
-
-                                });
-                            } else {
-                                this.$modal.msgError(res.msg);
-                                this.$tab.closeOpenPage({ path: this.$cache.local.getJSON('tg-edit-project').url });
-                            }
-                        }
-
-                    });
-                } else {
-                    this.$alert('请正确填写', '系统提示', {
-                        confirmButtonText: '确定',
-                        type: 'warning'
-                    });
-                }
+      rules: {
+        fileName2: [
+          {
+            required: true,
+            message: "项目验收资料不能为空",
+            trigger: "change",
+          },
+        ],
+      },
+      baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
+    };
+  },
+  computed: {},
+  mounted() {
+    this.getlist();
+  },
+  methods: {
+    getlist() {
+      this.$modal.loading("正在加载数据，请稍后...");
+      detail({
+        projectCode: this.$cache.local.getJSON("tg-project-code"),
+      })
+        .then((response) => {
+          this.$modal.closeLoading();
+          this.formData = response.data;
+          this.formData.fileName1 = JSON.parse(this.formData.fileName1);
+          this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+          this.formData.isUpContract = JSON.stringify(
+            this.formData.isUpContract
+          );
+          this.formData.isUpAcceptance = JSON.stringify(
+            this.formData.isUpAcceptance
+          );
+          this.$refs.productImage1.getSrcList(this.formData.fileName1);
+          this.$refs.productImage2.getSrcList(this.formData.fileName2);
+          for (let j in this.formData.fileName1) {
+            this.fileNameN1.push({
+              name: this.formData.fileName1[j],
+              url: this.baseImgPath + this.formData.fileName1[j],
             });
-        },
+          }
+
+          for (let i in this.formData.fileName2) {
+            this.fileNameN2.push({
+              name: this.formData.fileName2[i],
+              url: this.baseImgPath + this.formData.fileName2[i],
+            });
+          }
+        })
+        .catch((error) => {
+          this.$modal.closeLoading();
+        });
     },
+    //合同
+    getContractFile(data) {
+      this.formData.fileName1 = data;
+      console.log(1, data);
+    },
+    //验收
+    getAccepFile(data) {
+      this.formData.fileName2 = data;
+      console.log(2, data);
+    },
+    check(resmsg) {
+      getInfo().then((res) => {
+        this.userinfo = res.user;
+        let parms = {
+          checkReasult: resmsg,
+          checkUser: this.userinfo.userName,
+          phonenumber: this.userinfo.phonenumber,
+          projectCode: this.formData.projectCode,
+          projectType: "12",
+        };
+        check(parms)
+          .then((res) => {
+            console.log("资料修改成功！");
+          })
+          .catch((error) => {});
+      });
+    },
+    getfileNameS(data) {
+      this.formData.fileName2 = data;
+      console.log(this.formData.fileName2);
+    },
+    //返回
+    resetForm() {
+      this.$tab.closeOpenPage({
+        path: this.$cache.local.getJSON("tg-edit-project").url,
+      });
+    },
+    handleChange(val) {
+      console.log(val);
+    },
+    onSubmit() {
+      this.$refs["elForm"].validate((valid) => {
+        // TODO 提交表单
+        this.projectStatusNew = 0;
+        if (valid) {
+          // project_remain_amount
+          this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
+          this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+
+          if (
+            this.formData.projectReceiveStatus == 1 &&
+            this.formData.projectPayStatus == 1 &&
+            this.formData.projectDutypaidStatus == 1 &&
+            this.formData.projectTicketStatus == 1 &&
+            this.formData.projectCheckStatus == 1
+          ) {
+            this.projectStatusNew = 2;
+          } else if (
+            this.formData.projectReceiveStatus == 2 ||
+            this.formData.projectPayStatus == 2 ||
+            this.formData.projectDutypaidStatus == 2 ||
+            this.formData.projectTicketStatus == 2 ||
+            this.formData.projectCheckStatus == 2
+          ) {
+            this.projectStatusNew = 1;
+          }
+
+          let parms = {
+            isUpAcceptance: this.formData.isUpAcceptance,
+            isUpContract: this.formData.isUpContract,
+            projectId: this.formData.projectId,
+            fileName1: this.formData.fileName1,
+            fileName2: this.formData.fileName2,
+            projectAcceptanceStatus: 0,
+            projectContractStatus: 0,
+            projectStatus: this.projectStatusNew,
+            isSelfCount: this.formData.isSelfCount,
+            projectCode: this.formData.projectCode,
+            projectOwner: this.formData.projectOwner,
+          };
+          edit(parms).then((res) => {
+            if (res != undefined) {
+              if (res.code === 200) {
+                this.$nextTick(function () {
+                  this.check("资料修改完成");
+                  this.$modal.msgSuccess("资料修改完成");
+                  this.$tab
+                    .closeOpenPage({
+                      path: this.$cache.local.getJSON("tg-edit-project").url,
+                    })
+                    .then(() => {
+                      // 执行结束的逻辑
+                      this.$tab.refreshPage({
+                        path: this.$cache.local.getJSON("tg-edit-project").url,
+                        name: this.$cache.local.getJSON("tg-edit-project").name,
+                      });
+                    });
+                });
+              } else {
+                this.$modal.msgError(res.msg);
+                this.$tab.closeOpenPage({
+                  path: this.$cache.local.getJSON("tg-edit-project").url,
+                });
+              }
+            }
+          });
+        } else {
+          this.$alert("请正确填写", "系统提示", {
+            confirmButtonText: "确定",
+            type: "warning",
+          });
+        }
+      });
+    },
+  },
 };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .rowCss {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 // 改变input框字体颜色
 ::v-deep .is-disabled .el-input__inner {
-    background-color: transparent !important;
-    color: black;
+  background-color: transparent !important;
+  color: black;
 }
 
 .paddingbg-s {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 .footers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rowCss {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .comright {
-    padding-right: 10%;
+  padding-right: 10%;
 }
 
 .combottom {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .flexs {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .bankno {
-    letter-spacing: 2px;
-    font-size: 20px;
-    color: blue;
+  letter-spacing: 2px;
+  font-size: 20px;
+  color: blue;
 }
 </style>
