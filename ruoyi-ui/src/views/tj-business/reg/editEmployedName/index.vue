@@ -454,11 +454,13 @@ export default {
              let parmsEmployed={
               selfId:this.formData.selfId,
               endStatus:0,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
              }
               crudEmployed.updateEmployed(parmsEmployed);
             }
             let parms={
-              selfCode:this.formData.s,
+              selfCode:this.formData.selfCode,
               titleType:this.formData.titleType,
               administrativeDivision:this.formData.administrativeDivision,
               industry:this.formData.industry,

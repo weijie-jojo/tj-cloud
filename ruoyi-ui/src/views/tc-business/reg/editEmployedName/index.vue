@@ -453,6 +453,8 @@ export default {
              let parmsEmployed={
               selfId:this.namelist.selfId,
               endStatus:0,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
              }
               crudEmployed.updateEmployed(parmsEmployed);
             }

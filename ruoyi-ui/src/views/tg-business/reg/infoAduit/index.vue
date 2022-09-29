@@ -1001,6 +1001,8 @@ export default {
             parms = {
               selfId: this.formData.selfId,
               infoStatus: type,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
             };
           } else {
             parms = {
@@ -1008,6 +1010,8 @@ export default {
               infoStatus: type,
               remarkInfo: this.remark,
               endStatus: 2,
+              isSelfCount:this.formData.isSelfCount,
+              placeCode:this.formData.placeCode
             };
           }
 

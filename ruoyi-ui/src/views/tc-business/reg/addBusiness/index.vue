@@ -120,6 +120,8 @@ export default {
           let list = res.data;
           this.formbusiness.selfId = list.selfId;
           this.formbusiness.legalPersonName = list.legalPersonName;
+          this.formbusiness.isSelfCount=list.isSelfCount;
+          this.formbusiness.placeCode=list.placeCode;
           this.getInfo();
          
         })

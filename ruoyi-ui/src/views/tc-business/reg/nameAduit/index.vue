@@ -403,7 +403,9 @@ export default {
                       let parmsEmployed={
                         remarkName:this.remark,
                         selfId: this.formData.selfId,
-                        endStatus:2
+                        endStatus:2,
+                        isSelfCount:this.formData.isSelfCount,
+                        placeCode:this.formData.placeCodes
                       };
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });
