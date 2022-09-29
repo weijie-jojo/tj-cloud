@@ -138,7 +138,7 @@ export default {
   },
   mounted() {
     this.$modal.loading("正在加载数据，请稍后...");
-      regDetail(this.$cache.local.getJSON("tc-taxlist"))
+      regDetail(this.$cache.local.getJSON("tg-taxlist"))
         .then((res) => {
           this.$modal.closeLoading();
           let list = res.data;

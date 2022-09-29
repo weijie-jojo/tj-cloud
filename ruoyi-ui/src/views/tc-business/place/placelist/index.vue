@@ -221,7 +221,7 @@ export default {
     },
     //详情
     detail(item) {
-     sthis.$cache.local.setJSON("tc-placelist",item);
+     this.$cache.local.setJSON("tc-placelist",item);
      this.$tab.refreshPage({path:'/tc-business/place/detail',name:'Detail'});
      },
     //修改状态
