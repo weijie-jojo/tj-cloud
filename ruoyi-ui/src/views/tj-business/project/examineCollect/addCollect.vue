@@ -5,7 +5,7 @@
       :model="formData"
       :rules="rules"
       size="medium"
-      label-width="auto"
+      label-width="140px"
     >
       <el-row
         type="flex"
@@ -14,8 +14,8 @@
         style="margin-top: 20px"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 45%">收款信息</div>
-          <div style="width: 50%; hegiht: 10px"></div>
+          <div class="bankno" style="width: 80%">收款信息</div>
+          
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -42,7 +42,19 @@
             <!-- <el-input v-model="formData.receiveName"></el-input> -->
           </el-form-item>
           <el-form-item class="comright" label="收款时间" :required="true">
-            <el-input v-model="formData.receiveTime" disabled></el-input>
+            <!-- <el-input v-model="formData.receiveTime" disabled></el-input> -->
+            <el-date-picker
+              style="width:100%"
+              v-model="formData.receiveTime"
+              value-format="yyyy-MM-dd"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']"
+              align="right"
+        >
+        </el-date-picker>
           </el-form-item>
 
           <el-form-item class="comright" label="付款账户" prop="paymentName">
@@ -93,8 +105,8 @@
         justify="space-around"
       >
         <el-col :span="9" class="flexs">
-          <div class="bankno" style="width: 45%">出款信息</div>
-          <div style="width: 50%; hegiht: 10px"></div>
+          <div class="bankno" style="width: 80%">出款信息</div>
+       
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -167,11 +179,23 @@
           <el-col :span="9">
             <el-form-item
               class="comright"
-              label="出账时间"
+              label="出款时间"
               :required="true"
               style="margin-top: 60px"
             >
-              <el-input v-model="item.payTime" :disabled="true"></el-input>
+            <el-date-picker
+              style="width:100%"
+              v-model="item.payTime"
+              value-format="yyyy-MM-dd"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']"
+              align="right"
+        >
+        </el-date-picker>
+             
             </el-form-item>
 
             <el-form-item class="comright" label="出账账号" :required="true">
@@ -212,6 +236,37 @@ export default {
   components: { uploadSmall },
   data() {
     return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
       isNoneArray: [],
       index: 0,
       disburseList: [
@@ -379,6 +434,19 @@ export default {
         return i;
       }
     },
+    //获取操作时间
+    getRealTime(){
+      var date = new Date(); //当前时间
+      var year = date.getFullYear(); //年
+      var month = this.repair(date.getMonth() + 1); //月
+      var day = this.repair(date.getDate()); //日
+      var hour = this.repair(date.getHours()); //时
+      var minute = this.repair(date.getMinutes()); //分
+      var second = this.repair(date.getSeconds()); //秒
+      //当前时间
+      
+     return   hour +":" +minute + ":" + second;
+    },
     //获取转账时间
     getPayTime() {
       var date = new Date(); //当前时间
@@ -394,13 +462,7 @@ export default {
         "-" +
         month +
         "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
+        day ;
 
       return curTime;
     },
@@ -418,13 +480,8 @@ export default {
         "-" +
         month +
         "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
+        day ;
+        
       // this.formData.createTime = curTime;
       this.formData.receiveTime = curTime;
       this.disburseList[0].payTime = curTime;
@@ -521,7 +578,7 @@ export default {
       }
     },
     onSubmit() {
-      this.$refs["elForm"].validate((valid) => {
+     this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
           if (Array.isArray(this.formData.fileNameReceive)) {
@@ -529,6 +586,7 @@ export default {
               this.formData.fileNameReceive
             );
           }
+          this.formData.receiveTime=this.formData.receiveTime+" "+this.getRealTime();
           addReceive(this.formData)
             .then((res) => {
               if (res != undefined) {
@@ -537,6 +595,7 @@ export default {
                   this.$modal.loading("正在提交数据，请稍后...");
                   if (this.formData.havePayinfo == 0) {
                     for (let i in this.disburseList) {
+                      this.disburseList[i].payTime=this.disburseList[i].payTime+" "+this.getRealTime();
                       let that = this;
                       //出款获取流水号并且入库出款信息
                       if (Array.isArray(this.disburseList[i].fileNamePay)) {

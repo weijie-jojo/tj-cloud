@@ -182,7 +182,7 @@
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="出账时间"
+        label="出款时间"
         align="center"
         prop="payTime"
         width="180"

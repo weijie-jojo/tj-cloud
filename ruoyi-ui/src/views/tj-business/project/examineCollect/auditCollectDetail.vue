@@ -24,7 +24,17 @@
             </el-form-item>
 
             <el-form-item class="comright" label="收款时间" :required="true">
-              <el-input v-model="formData.receiveTime" disabled></el-input>
+              <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="formData.receiveTime"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
             </el-form-item>
             <el-form-item class="comright" label="付款账户" prop="paymentName">
             <el-input v-model="formData.paymentName"></el-input>
