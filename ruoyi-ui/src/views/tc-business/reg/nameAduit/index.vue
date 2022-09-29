@@ -405,7 +405,7 @@ export default {
                         selfId: this.formData.selfId,
                         endStatus:2,
                         isSelfCount:this.formData.isSelfCount,
-                        placeCode:this.formData.placeCodes
+                        placeCode:this.formData.placeCode
                       };
                       crudEmployed.updateEmployed(parmsEmployed).then(res=>{
                       });
