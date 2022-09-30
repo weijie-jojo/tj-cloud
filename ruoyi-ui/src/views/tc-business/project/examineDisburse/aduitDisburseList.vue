@@ -5,7 +5,7 @@
       ref="queryForm"
       size="small"
       v-show="showSearch"
-      label-width="auto"
+      label-width="140px"
     >
     <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px;margin-bottom: 5px;">
       <el-col :span="9" class="flexs">

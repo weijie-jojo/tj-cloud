@@ -406,7 +406,7 @@
             prop="ticketTax"
           >
             <el-select
-              style="width: 100%"
+              style="width: 88%"
               clearable
               v-model="formData.ticketTax"
             >

@@ -36,9 +36,7 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="comright" label="收款账户">
-            <el-input v-model="formData.receiveName" :readonly="true"></el-input>
-          </el-form-item>
+          
           <el-form-item class="comright" label="付款账户" prop="paymentName" >
             <el-input  v-model="formData.paymentName" ></el-input>
           </el-form-item>
@@ -77,9 +75,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款账号" :required="true">
-            <el-input :readonly="true" v-model="formData.receiveAccount"></el-input>
-          </el-form-item>
+         
           <el-form-item class="comright" label="付款账号" prop="paymentAccount" >
             <el-input  v-model="formData.paymentAccount" ></el-input>
           </el-form-item>
