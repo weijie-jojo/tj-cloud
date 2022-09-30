@@ -35,7 +35,7 @@
               v-model="publicList.projectName"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="购货单位">
+          <el-form-item class="comright" label="购货单位（甲方）">
             <el-input
               :readonly="true"
               v-model="publicList.purchCompany"
@@ -189,16 +189,6 @@
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="出账金额"
-        align="center"
-        prop="payMoney"
-        :show-overflow-tooltip="true"
-      >
-        <template slot-scope="scope">
-          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
         label="出账账户"
         align="center"
         prop="payName"
@@ -210,6 +200,17 @@
         prop="payAccount"
         :show-overflow-tooltip="true"
       />
+      <el-table-column
+        label="出账金额"
+        align="center"
+        prop="payMoney"
+        :show-overflow-tooltip="true"
+      >
+        <template slot-scope="scope">
+          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
+        </template>
+      </el-table-column>
+    
       <el-table-column
         label="收款账户"
         align="center"
@@ -261,7 +262,7 @@
             icon="el-icon-s-custom"
             v-if="scope.row.isPay==0"
             @click="pay(scope.row)"
-            >付款</el-button
+            >出款</el-button
           >
           <el-button
             size="mini"
@@ -531,7 +532,7 @@ export default {
             this.publicList.payTotalMoneys
           ).sub(new Decimal(this.publicList.payMoneys));
         }
-        edit(this.publicList);
+      //  edit(this.publicList);
        });
       }); 
       

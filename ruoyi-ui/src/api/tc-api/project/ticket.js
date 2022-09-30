@@ -37,6 +37,12 @@ export function add(data) {
     data: data
   })
 }
+export function delReal(ticketIds) {
+  return request({
+    url: 'project/ticket/tc/del/'+ticketIds,
+    method: 'delete',
+ })
+}
 export function getcode(){
     return request({
         url:'project/project/tc/getCode',
@@ -76,4 +82,4 @@ export function getinfoByUserId(data){
 
 
 
-export default {getTicketDetail, list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}
+export default {delReal,getTicketDetail, list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}

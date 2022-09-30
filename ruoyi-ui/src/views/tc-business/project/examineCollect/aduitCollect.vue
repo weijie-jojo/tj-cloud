@@ -25,27 +25,22 @@
               v-model="formData.receiveName"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款时间" :required="true">
-            <el-date-picker
-              disabled
-              style="width: 100%"
-              v-model="formData.receiveTime"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
-            >
-            </el-date-picker>
-            
+          <el-form-item class="comright" label="收款金额" prop="receiveMoney">
+            <el-input
+              :disabled="true"
+              v-model="formData.receiveMoney"
+             >
+              <template slot="append">元</template>
+            </el-input>
           </el-form-item>
+        
           <el-form-item class="comright" label="付款账户" prop="paymentName">
             <el-input :readonly="true" v-model="formData.paymentName"></el-input>
           </el-form-item>
        
           <el-form-item
             class="comright"
-            label="转账凭证"
+            label="收款凭证"
             prop="fileNameReceive"
           >
             <uploadSmall
@@ -60,25 +55,26 @@
 
         <el-col :span="9">
           
-
+          <el-form-item class="comright" label="收款时间" :required="true">
+            <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="formData.receiveTime"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
+          </el-form-item>
           <el-form-item class="comright" label="收款账号" prop="receiveAccount">
             <el-input
               v-model="formData.receiveAccount"
               :disabled="true"
             ></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款金额" prop="receiveMoney">
-            <el-input
-              :disabled="true"
-              v-model="formData.receiveMoney"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
+         
           <el-form-item class="comright" label="付款账号" prop="paymentAccount">
             <el-input :readonly="true" v-model="formData.paymentAccount"></el-input>
           </el-form-item>
@@ -174,38 +170,46 @@ export default {
         receiveMoney: "0.00000", //收款金额 收款信息
       },
       rules: {
-        receiveCode: [
+        paymentAccount: [
           {
             required: true,
-            message: "财务流水号不能为空",
+            message: "收款信息付款账号不能为空",
             trigger: "blur",
           },
         ],
+        paymentName: [
+          {
+            required: true,
+            message: "收款信息付款账户不能为空",
+            trigger: "blur",
+          },
+        ],
+
         receiveName: [
           {
             required: true,
-            message: "转账账户不能为空",
+            message: "收款信息收款账户不能为空",
             trigger: "blur",
           },
         ],
         receiveMoney: [
           {
             required: true,
-            message: "转账金额不能为空",
+            message: "收款信息收款金额不能为空",
             trigger: "blur",
           },
         ],
         receiveAccount: [
           {
             required: true,
-            message: "转账账号不能为空",
+            message: "收款信息收款账号不能为空",
             trigger: "blur",
           },
         ],
         fileNameReceive: [
           {
             required: true,
-            message: "转账凭证不能为空",
+            message: "收款信息收款凭证不能为空",
             trigger: "change",
           },
         ],
@@ -320,7 +324,7 @@ export default {
                   this.check("收款审核完成");
                   if (new Decimal(this.publicList.receiveRemainMoneys).sub(new Decimal(this.formData.receiveMoney)) == 0) {
                        this.parms = {
-                            projectId: this.Father.projectId,
+                            projectId: this.publicList.projectId,
                             projectReceiveStatus: 1,
                             projectStatus:this.projectStatusNew,
                             isSelfCount: this.publicList.isSelfCount,
@@ -336,7 +340,6 @@ export default {
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
                             projectOwner:this.publicList.projectOwner,
-
                         };
                        }
                   

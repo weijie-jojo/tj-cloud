@@ -19,31 +19,52 @@
 
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="出款账户" :required="true">
-            <el-input  v-model="formData.payName"   :readonly="true"></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="出款时间" :required="true">
-            <el-date-picker
-              disabled
+          <el-form-item class="comright" label="出款账户"  prop="payName">
+            <el-select
+             disabled
+              v-model="formData.payName"
+              placeholder="请选择"
+              @change="getCarInfoByCompanyIdS"
               style="width: 100%"
-              v-model="formData.payTime"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
             >
-            </el-date-picker>
+              <el-option
+                v-for="item in payCompanys"
+                :key="item.groupCode"
+                :label="item.groupName"
+                :value="item.groupName"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item class="comright" label="出款金额" :required="true">
+            <el-input
+            disabled
+            v-model="formData.payMoney"
+            :readonly="true"
+             
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="收款账户" :required="true">
+            <el-input  disabled></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="收款开户行" :required="true">
+            <el-input  disabled></el-input>
           </el-form-item>
 
           
           <el-form-item class="comright" label="付款账户" prop="paymentName" >
-            <el-input  v-model="formData.paymentName" ></el-input>
+            <el-input  v-model="formData.paymentName"  :readonly="true"></el-input>
           </el-form-item>
        
           <el-form-item
             class="comright"
-            label="转账凭证"
+            label="出款凭证"
             prop="fileNameReceive"
           >
             <uploadSmall
@@ -58,24 +79,27 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="出款账号" :required="true">
+          <el-form-item class="comright" label="出款账号" prop="payAccount">
             <el-input v-model="formData.payAccount"  :disabled="true" ></el-input>
           </el-form-item>
-         
-          <el-form-item class="comright" label="出款金额" :required="true">
-            <el-input
-            v-model="formData.payMoney"
-            :readonly="true"
-             
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+          <el-form-item class="comright" label="出款时间" :required="true">
+            <el-date-picker
+              disabled
+              style="width: 100%"
+              v-model="formData.payTime"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
             >
-              <template slot="append">元</template>
-            </el-input>
+            </el-date-picker>
           </el-form-item>
          
+          <el-form-item class="comright" label="收款账号" :required="true">
+            <el-input :readonly="true" ></el-input>
+          </el-form-item>
+       
           <el-form-item class="comright" label="付款账号" prop="paymentAccount" >
             <el-input  v-model="formData.paymentAccount" ></el-input>
           </el-form-item>
@@ -87,7 +111,7 @@
       </el-row>
      
 
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -99,6 +123,7 @@
   </div>
 </template>
 <script>
+import { getAllCompany } from "@/api/invoices/borrow";
 import uploadSmall from "@/components/douploads/uploadCollect";
 import {detailPay,editPay,check} from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
@@ -119,47 +144,77 @@ export default {
         
       },
       rules: {
-        paymentAccount: [
+        payTime:[{
+            required: true,
+              message: "付款时间不能为空",
+              trigger: "change",
+          }],
+          paymentName: [
             {
               required: true,
               message: "付款账户不能为空",
               trigger: "blur",
             },
           ],
-          paymentName: [
+          paymentAccount: [
+            {
+              required: true,
+              message: "付款账号不能为空",
+              trigger: "blur",
+            },
+          ],
+          payName: [
+            {
+              required: true,
+              message: "出账账户不能为空",
+              trigger: "blur",
+            },
+          ],
+          payMoney: [
+            {
+              required: true,
+              message: "出账金额不能为空",
+              trigger: "blur",
+            },
+          ],
+          payAccount: [
             {
               required: true,
               message: "出账账号不能为空",
               trigger: "blur",
             },
           ],
+          fileNamePay: [
+            {
+              required: true,
+              message: "出账凭证不能为空",
+              trigger: "change",
+            },
+          ],
        
       },
+      payCompanys:[],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };
   },
   mounted() {
-   this.getDetails();
+    this.getAllCompany();
+    this.getDetails();
    },
   methods: {
-      //收款日志
-      check(resmsg) {
-        getInfo().then((res) => {
-          this.userinfo = res.user;
-          let parms = {
-            checkReasult: resmsg,
-            checkUser: this.userinfo.userName,
-            phonenumber: this.userinfo.phonenumber,
-            projectCode: this.formData.projectCode,
-            projectType: "25",
-          };
-          check(parms)
-            .then((res) => {
-             
-            })
-            .catch((error) => {});
-        });
-      },
+    getAllCompany() {
+      getAllCompany().then((res) => {
+        this.payCompanys = res.list;
+        console.log("payCompanys==", this.payCompanys);
+      });
+    },
+       //出款账号
+       getCarInfoByCompanyIdS() {
+      var cardInfo = this.payCompanys.find(
+        (item) => item.groupName == this.formData.payName
+      );
+      this.formData.payAccount = cardInfo.groupBankAccount;
+    },
     getDetails(){
       detailPay(
           this.$cache.local.getJSON("tg-payId")
@@ -193,6 +248,24 @@ export default {
     
       return curTime;
     },
+     //收款日志
+     check(resmsg) {
+        getInfo().then((res) => {
+          this.userinfo = res.user;
+          let parms = {
+            checkReasult: resmsg,
+            checkUser: this.userinfo.userName,
+            phonenumber: this.userinfo.phonenumber,
+            projectCode: this.formData.projectCode,
+            projectType: "25",
+          };
+          check(parms)
+            .then((res) => {
+              console.log("修改出款成功!");
+            })
+            .catch((error) => {});
+        });
+      },
     gettoday() {
       var date = new Date(); //当前时间
       var year = date.getFullYear(); //年

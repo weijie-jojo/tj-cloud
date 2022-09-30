@@ -8,10 +8,10 @@
       v-show="showSearch"
       label-width="auto"
     >
-      <el-form-item label="销货单位">
+      <el-form-item label="销货单位（乙方）">
         <el-input
           v-model="queryParams.selfName"
-          placeholder="请输入销货单位"
+          placeholder="请输入销货单位（乙方）"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -91,13 +91,13 @@
 
       <el-table-column
         width="200"
-        label="购货单位"
+        label="购货单位（甲方）"
         align="center"
         prop="purchCompany"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="销货单位"
+        label="销货单位（乙方）"
         align="center"
         prop="selfName"
         width="200"

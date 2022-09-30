@@ -8,10 +8,10 @@
       v-show="showSearch"
       label-width="auto"
     >
-      <el-form-item label="销货单位">
+      <el-form-item label="销货单位（乙方）">
         <el-input
           v-model="queryParams.selfName"
-          placeholder="请输入销货单位"
+          placeholder="请输入销货单位（乙方）"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -90,14 +90,14 @@
       <el-table-column type="selection" width="55" align="center" />
 
       <el-table-column
-        label="购货单位"
+        label="购货单位（甲方）"
         align="center"
         prop="purchCompany"
         width="200"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="销货单位"
+        label="销货单位（乙方）"
         align="center"
         prop="selfName"
         width="200"
@@ -731,7 +731,7 @@ export default {
                   };
 
                   this.$cache.local.setJSON("tg-ifcollect", 1);
-                  this.$cache.local.setJSON("tj-addback", objList);
+                  this.$cache.local.setJSON("tg-addback", objList);
                   this.$cache.local.setJSON("tg-backTicket", obj);
 
                   this.$tab.openPage(
@@ -748,7 +748,7 @@ export default {
                   };
 
                   this.$cache.local.setJSON("tg-ifcollect", 1);
-                  this.$cache.local.setJSON("tj-addback", objList);
+                  this.$cache.local.setJSON("tg-addback", objList);
                   this.$cache.local.setJSON("tg-backTicket", obj);
                   this.$tab.openPage(
                     "出款列表",
@@ -771,7 +771,7 @@ export default {
         name: "List",
       };
 
-      this.$cache.local.setJSON("tj-addback", obj);
+      this.$cache.local.setJSON("tg-addback", obj);
       switch (this.types) {
         case 2:
           let obj1 = {

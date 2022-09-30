@@ -113,10 +113,36 @@
           <el-form-item class="comright" label="名称" :required="true">
             <el-input disabled v-model="Father.purchCompany"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="地址">
+            <el-input
+              v-model="Father.purchCompanyAddress"
+              :readonly="true"
+              maxlength="250"
+              show-word-limit
+              type="textarea"
+              :rows="1"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="开户行">
+            <el-input v-model="Father.bankName" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item label="添加购方列表" :required="true">
+              <el-radio disabled v-model="Father.isAddBuyer" label="1">是</el-radio>
+              <el-radio disabled v-model="Father.isAddBuyer" label="0">否</el-radio>
+           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="电话">
+            <el-input
+              v-model="Father.purchCompanyPhone"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="帐号">
+            <el-input v-model="Father.bankCode" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -139,10 +165,50 @@
           <el-form-item class="comright" label="名称" :required="true">
             <el-input v-model="Father.selfName" disabled></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="地址">
+            <el-input
+              :readonly="true"
+              v-model="Father.residence"
+              maxlength="250"
+              show-word-limit
+              type="textarea"
+              :rows="1"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="开户行">
+            <el-input
+              v-if="Father.accountType == 1"
+              v-model="Father.privateDepositBank"
+              :readonly="true"
+            ></el-input>
+            <el-input
+              v-else
+              v-model="Father.publicDepositBank1"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input disabled v-model="Father.projectOwnerTaxid"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="电话">
+            <el-input
+              :readonly="true"
+              v-model="Father.contactPhone"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="帐号">
+            <el-input
+              v-if="Father.accountType == 1"
+              v-model="Father.privateAccountNumber"
+              :readonly="true"
+            ></el-input>
+            <el-input
+              v-else
+              v-model="Father.publicAccountNumber1"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -181,19 +247,25 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item class="comright" label="收款人">
+            <el-input v-model="formData.receiveUser" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="开票人">
+            <el-input v-model="formData.createUser" :readonly="true"></el-input>
+          </el-form-item>
           <el-form-item class="comright" label="开票内容类型">
             <el-radio
               disabled
               v-model="fileNameradio"
               label="1"
-              @change="filenamer"
+             
               >手动输入</el-radio
             >
             <el-radio
               disabled
               v-model="fileNameradio"
               label="2"
-              @change="filenamer"
+             
               >上传附件
             </el-radio>
           </el-form-item>
@@ -242,6 +314,22 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="复核" class="comright">
+            <el-input v-model="formData.checkUser" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="发票备注">
+            <el-input
+              maxlength="50"
+              show-word-limit
+              :readonly="true"
+              type="textarea"
+              :rows="1"
+              placeholder="请输入发票备注"
+              v-model="formData.ticketRemark"
+            >
+            </el-input>
+          </el-form-item>
+
           <el-form-item
             class="comright"
             label="开票内容"
@@ -252,7 +340,7 @@
               show-word-limit
               type="textarea"
               disabled
-              :rows="2"
+              :rows="1"
               v-model="Father.fileName"
             >
             </el-input>
@@ -288,22 +376,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="21">
-          <el-form-item style="padding-right: 4%" label="发票备注">
-            <el-input
-              maxlength="50"
-              show-word-limit
-              :readonly="true"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入发票备注"
-              v-model="formData.ticketRemark"
-            >
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+     
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="发票影像" prop="fileName">
@@ -658,6 +731,7 @@ export default {
         projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.Father = response.data;
+        this.Father.isAddBuyer=JSON.stringify(this.Father.isAddBuyer);
         if (this.Father.fileName) {
           if (this.Father.fileName.indexOf("[") != -1) {
             this.Father.fileName = JSON.parse(this.Father.fileName);
@@ -686,12 +760,7 @@ export default {
         }
       });
     },
-    //监听开票内容选择
-    filenamer(e) {
-      if (e == 1) {
-        this.formData.fileName = "";
-      }
-    },
+   
     //监听销货单位（乙方）
     ownnew(e) {
       console.log(e);

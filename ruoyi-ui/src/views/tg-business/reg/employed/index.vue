@@ -36,7 +36,7 @@
       </el-col>
      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+    
     <el-button v-hasPermi="['company:employed:add1']" type="primary" plain icon="el-icon-plus" size="mini"
       @click="handleAdd">新增</el-button>
     <el-button style="margin-top:-8px;margin-bottom:16px" type="danger" plain icon="el-icon-delete" size="mini"
@@ -429,7 +429,12 @@ export default {
         let msgs;
         if (this.userinfo.userId == res.data.userId) {
           msgs = msg;
-        } else {
+        }else if(this.userinfo.userId==scope.userId){
+          if(type==1 || type==2){
+            msgs='修改';
+          }
+           
+        }else {
           msgs = '查看';
         }
         const h = this.$createElement
@@ -479,6 +484,22 @@ export default {
                 break;
 
             }
+          }else if(msgs == '修改'){
+            let obj = {
+               backUrl: '/tg-business/reg/employed',
+              };
+              this.$cache.local.setJSON('tg-backurls', obj);
+            switch (type) {
+              case 1:
+              this.$cache.local.setJSON('tg-namelist', scope.selfCode);
+              this.$tab.refreshPage({path:"/tg-business/reg/editEmployedName",name:'EditEmployedName'})
+              break;
+              case 2:
+              this.$cache.local.setJSON('tg-infolist', scope.selfCode);
+              this.$tab.refreshPage({path:"/tg-business/reg/editEmployedInfo",name:'EditEmployedInfo'})
+               break;
+               
+              }    
           } else {
 
             switch (type) {
@@ -947,7 +968,7 @@ export default {
     finishBus(scope, selfCode) {
       this.checkBus(selfCode);
       this.$cache.local.setJSON("tg-businesslist", scope.selfCode);
-    },
+     },
 
     //工商详情
     busDetail() {
@@ -957,12 +978,16 @@ export default {
       };
       this.$cache.local.setJSON('tg-backurls', obj);
       this.$tab.refreshPage({path:"/tg-business/reg/detailBusiness",name:'DetailBusiness'})
+      
+
     },
+
     //办理税务 已完成
     finishTax(scope, selfCode) {
       this.checkTax(selfCode);
       this.$cache.local.setJSON("tg-taxlist", scope.selfCode);
     },
+
     //税务详情
     taxDetail() {
       this.taxVisible = false;

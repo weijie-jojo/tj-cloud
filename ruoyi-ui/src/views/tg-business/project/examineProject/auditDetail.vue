@@ -187,7 +187,7 @@
               ></el-input>
               <el-input
                 v-else
-                v-model="formData.publicAccountNumber1"
+                v-model="formData.publicDepositBank1"
                 :readonly="true"
               ></el-input>
             </el-form-item>

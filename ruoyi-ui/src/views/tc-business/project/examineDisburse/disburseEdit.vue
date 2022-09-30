@@ -9,7 +9,7 @@
     >
    
 
-      <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:10px">
         <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 35%">出款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
@@ -22,7 +22,21 @@
       <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="出账账户" prop="payName">
-            <el-input   v-model="formData.payName"></el-input>
+            <!-- <el-input   v-model="formData.payName"></el-input> -->
+            <el-select
+            v-model="formData.payName"
+            placeholder="请选择付款单位"
+            @change="getCarInfoByCompanyIdS"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in payCompanys"
+              :key="item.groupCode"
+              :label="item.groupName"
+              :value="item.groupName"
+            >
+            </el-option>
+          </el-select>
           </el-form-item>
           <el-form-item class="comright" label="出账金额" prop="payMoney">
             <el-input
@@ -36,12 +50,18 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
+          <el-form-item class="comright" label="收款账户" :required="true">
+          <el-input  ></el-input>
+        </el-form-item>
+        <el-form-item class="comright" label="收款开户行" :required="true">
+          <el-input  ></el-input>
+        </el-form-item>
           <el-form-item class="comright" label="付款账户" :required="true">
-          <el-input :readonly="true" v-model="formData.paymentName"></el-input>
+          <el-input  v-model="formData.paymentName"></el-input>
         </el-form-item>
           <el-form-item
             class="comright"
-            label="转账凭证"
+            label="出款凭证"
             prop="fileNamePay"
           >
             <uploadSmall
@@ -57,25 +77,29 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="出款时间" :required="true">
+          <el-form-item class="comright" label="出账账号" prop="payAccount">
+            <el-input v-model="formData.payAccount"  :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="出款时间" prop="payTime">
             <el-date-picker
-              disabled
-              style="width: 100%"
-              v-model="formData.payTime"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
-            >
-            </el-date-picker>
+           
+            style="width: 100%"
+            v-model="formData.payTime"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+          >
+          </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="comright" label="出账账号" prop="payAccount">
-            <el-input v-model="formData.payAccount"  ></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="付款账号" :required="true">
-          <el-input :readonly="true" v-model="formData.paymentAccount"></el-input>
+         
+          <el-form-item class="comright" label="收款账号" :required="true">
+          <el-input :readonly="true" ></el-input>
+        </el-form-item>
+          <el-form-item class="comright" label="付款账号" prop="paymentAccount">
+          <el-input  v-model="formData.paymentAccount"></el-input>
         </el-form-item>
          
         </el-col>
@@ -97,6 +121,7 @@
   </div>
 </template>
 <script>
+import { getAllCompany } from "@/api/invoices/borrow";
 import uploadSmall from "@/components/douploads/uploadCollect";
 import { check,detail,editPay,detailPay} from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
@@ -120,11 +145,22 @@ export default {
        
       },
       rules: {
-        
-        payCode: [
+        payTime:[{
+          required: true,
+            message: "付款时间不能为空",
+            trigger: "change",
+        }],
+        paymentName: [
           {
             required: true,
-            message: "财务流水号不能为空",
+            message: "付款账户不能为空",
+            trigger: "blur",
+          },
+        ],
+        paymentAccount: [
+          {
+            required: true,
+            message: "付款账号不能为空",
             trigger: "blur",
           },
         ],
@@ -157,15 +193,30 @@ export default {
           },
         ],
       },
+      payCompanys:[],
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };
   },
   computed: {},
   mounted() {
+    this.getAllCompany();
     this.getCommonList();
     this.getlist();
   },
   methods: {
+    getAllCompany() {
+    getAllCompany().then((res) => {
+      this.payCompanys = res.list;
+      console.log("payCompanys==", this.payCompanys);
+    });
+  },
+     //出款账号
+  getCarInfoByCompanyIdS() {
+    var cardInfo = this.payCompanys.find(
+      (item) => item.groupName == this.formData.payName
+    );
+    this.formData.payAccount = cardInfo.groupBankAccount;
+  },
     getlist(){
         this.$modal.loading("正在加载数据，请稍后...");
         detailPay(this.$cache.local.getJSON("tc-payId")).then((response) => {
@@ -230,7 +281,19 @@ export default {
     handleChange(val) {
       console.log(val);
     },
-   
+   //获取操作时间
+   getRealTime(){
+    var date = new Date(); //当前时间
+    var year = date.getFullYear(); //年
+    var month = this.repair(date.getMonth() + 1); //月
+    var day = this.repair(date.getDate()); //日
+    var hour = this.repair(date.getHours()); //时
+    var minute = this.repair(date.getMinutes()); //分
+    var second = this.repair(date.getSeconds()); //秒
+    //当前时间
+    
+   return   hour +":" +minute + ":" + second;
+  },
     submitForm() {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
@@ -240,6 +303,11 @@ export default {
          if(Array.isArray(this.formData.fileNamePay)){
           this.formData.fileNamePay=JSON.stringify(this.formData.fileNamePay);
          }
+         if(this.formData.payTime.indexOf(":")!=-1){
+            
+          }else{
+            this.formData.payTime=this.formData.payTime+" "+this.getRealTime();
+          }
           editPay(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
