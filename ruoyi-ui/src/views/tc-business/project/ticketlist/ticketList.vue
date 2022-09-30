@@ -477,17 +477,17 @@ export default {
               this.publicList.projectTotalAmount
             ).sub(new Decimal(this.publicList.projectPackageAmount));
           }
-          let params = {
-            projectOwner:this.publicList.projectOwner,
-            isSelfCount: this.publicList.isSelfCount,
-            projectCode: this.publicList.projectCode,
-            projectStatus: this.publicList.projectStatus,
-            projectId: this.publicList.projectId,
-            projectTotalAmount: this.publicList.projectTotalAmount,
-            projectRemainAmount: this.publicList.projectRemainAmount,
-            projectPackageAmount: this.publicList.projectPackageAmount,
-          };
-          edit(params);
+          // let params = {
+          //   projectOwner:this.publicList.projectOwner,
+          //   isSelfCount: this.publicList.isSelfCount,
+          //   projectCode: this.publicList.projectCode,
+          //   projectStatus: this.publicList.projectStatus,
+          //   projectId: this.publicList.projectId,
+          //   projectTotalAmount: this.publicList.projectTotalAmount,
+          //   projectRemainAmount: this.publicList.projectRemainAmount,
+          //   projectPackageAmount: this.publicList.projectPackageAmount,
+          // };
+          edit(this.publicList);
         })
         .catch((err) => {});
     },

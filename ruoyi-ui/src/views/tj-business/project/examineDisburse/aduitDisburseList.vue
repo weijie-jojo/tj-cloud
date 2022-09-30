@@ -35,7 +35,7 @@
                 v-model="publicList.projectName"
               ></el-input>
             </el-form-item>
-            <el-form-item class="comright" label="购货单位">
+            <el-form-item class="comright" label="购货单位（甲方）">
               <el-input
                 :readonly="true"
                 v-model="publicList.purchCompany"
@@ -70,7 +70,7 @@
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
-            <el-form-item class="comright" label="销货单位">
+            <el-form-item class="comright" label="销货单位（乙方）">
               <el-input :readonly="true" v-model="publicList.selfName"></el-input>
             </el-form-item>
           
