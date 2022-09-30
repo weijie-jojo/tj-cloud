@@ -432,7 +432,7 @@ public class SelfEmployedTcController extends BaseController
         }
         if(selfEmployed.getIsSelfCount()==1){//按客户结算
             System.out.println("按客户结算");
-            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCode(selfEmployed.getPlaceCode());
+            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCodeTc(selfEmployed.getPlaceCode());
             System.out.println("businessPlace=="+businessPlace);
             //个体注册服务费
             selfEmployed.setIsRegisterMoney(businessPlace.getIsRegisterMoney());

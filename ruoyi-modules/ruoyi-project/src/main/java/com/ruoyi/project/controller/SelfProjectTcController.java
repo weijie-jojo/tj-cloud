@@ -415,7 +415,7 @@ public class SelfProjectTcController extends BaseController
         }
         if(selfProject.getIsSelfCount()==1){//按客户结算
             System.out.println("按客户结算");
-            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCode(selfProject.getPlaceCode());
+            BusinessPlaceVo businessPlace= remotePlaceService.getPlaceByCodeTc(selfProject.getPlaceCode());
             System.out.println("businessPlace=="+businessPlace);
             //个体注册服务费
             selfProject.setIsRegisterMoney(businessPlace.getIsRegisterMoney());

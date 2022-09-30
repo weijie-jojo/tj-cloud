@@ -74,7 +74,7 @@
 
     <select id="selectSelfPayByProjectCode" parameterType="String" resultType="com.ruoyi.project.domain.vo.SelfPayVo">
         <include refid="selectSelfPayJoin"/>
-        where project_code = #{projectCode}
+        where t.project_code = #{projectCode}
     </select>
 
     <insert id="insertSelfPay" parameterType="com.ruoyi.project.domain.SelfPay" useGeneratedKeys="true" keyProperty="payId">
