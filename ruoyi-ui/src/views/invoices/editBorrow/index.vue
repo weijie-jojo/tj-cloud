@@ -2,6 +2,9 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="auto">
       <el-row>
+            <el-col :span="24" style="font-size:25px;text-align: center;font-weight: bold;margin-bottom: 20px;">借支单</el-col>
+       </el-row>  
+      <el-row>
         <el-col :span="8">
           <el-form-item label="借支单编号">
             <span>{{ ruleForm.borrowCode }}</span>

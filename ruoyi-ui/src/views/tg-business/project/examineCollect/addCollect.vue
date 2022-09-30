@@ -161,9 +161,7 @@
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
-            <el-form-item class="comright" label="收款账户" :required="true">
-              <el-input disabled v-model="formData.receiveName"> </el-input>
-            </el-form-item>
+            
             <!-- <el-form-item class="comright" label="出账凭证" :required="true">
               <uploadSmall
                 :index="index"
@@ -201,9 +199,7 @@
             <el-form-item class="comright" label="出账账号" :required="true">
               <el-input v-model="item.payAccount"></el-input>
             </el-form-item>
-            <el-form-item class="comright" label="收款账号" :required="true">
-              <el-input disabled v-model="formData.receiveAccount"></el-input>
-            </el-form-item>
+           
           </el-col>
         </el-row>
       </div>
