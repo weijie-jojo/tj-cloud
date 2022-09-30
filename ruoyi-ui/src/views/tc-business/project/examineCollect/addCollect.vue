@@ -39,23 +39,21 @@
               >
               </el-option>
             </el-select>
-            <!-- <el-input v-model="formData.receiveName"></el-input> -->
+           
           </el-form-item>
-          <el-form-item class="comright" label="收款时间" :required="true">
-            <!-- <el-input v-model="formData.receiveTime" disabled></el-input> -->
-            <el-date-picker
-              style="width:100%"
-              v-model="formData.receiveTime"
-              value-format="yyyy-MM-dd"
-              :picker-options="pickerOptions"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :default-time="['00:00:00', '23:59:59']"
-              align="right"
-        >
-        </el-date-picker>
+          <el-form-item class="comright" label="收款金额" prop="receiveMoney">
+            <el-input
+              v-model="formData.receiveMoney"
+              @change="receiveSee"
+              :step="0.00001"
+              :min="0"
+              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+            >
+              <template slot="append">元</template>
+            </el-input>
           </el-form-item>
+          
 
           <el-form-item class="comright" label="付款账户" prop="paymentName">
             <el-input v-model="formData.paymentName"></el-input>
@@ -63,7 +61,7 @@
 
           <el-form-item
             class="comright"
-            label="转账凭证"
+            label="收款凭证"
             prop="fileNameReceive"
           >
             <uploadSmall
@@ -80,19 +78,23 @@
           <el-form-item class="comright" label="收款账号" prop="receiveAccount">
             <el-input v-model="formData.receiveAccount"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="收款时间" :required="true">
+          
+          <el-date-picker
+            style="width:100%"
+            v-model="formData.receiveTime"
+            value-format="yyyy-MM-dd"
+            :picker-options="pickerOptions"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+            align="right"
+      >
+      </el-date-picker>
+        </el-form-item>
 
-          <el-form-item class="comright" label="收账金额" prop="receiveMoney">
-            <el-input
-              v-model="formData.receiveMoney"
-              @change="receiveSee"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-            >
-              <template slot="append">元</template>
-            </el-input>
-          </el-form-item>
+         
           <el-form-item class="comright" label="付款账号" prop="paymentAccount">
             <el-input v-model="formData.paymentAccount"></el-input>
           </el-form-item>
@@ -114,7 +116,7 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item label="状态">
+          <el-form-item label="是否出款">
             <el-radio v-model="formData.havePayinfo" label="0">有</el-radio>
             <el-radio v-model="formData.havePayinfo" label="1">无</el-radio>
           </el-form-item>
@@ -146,10 +148,24 @@
                 >删除</el-button
               >
             </el-form-item>
-            <el-form-item class="comright" label="出账账户" :required="true">
-              <el-input v-model="item.payName"></el-input>
+            <el-form-item class="comright" label="出款账户" :required="true">
+              <!-- <el-input v-model="item.payName"></el-input> -->
+              <el-select
+              v-model="item.payName"
+              placeholder="请选择付款单位"
+              @change="getCarInfoByCompanyIdS(index)"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in payCompanys"
+                :key="item.groupCode"
+                :label="item.groupName"
+                :value="item.groupName"
+              >
+              </el-option>
+            </el-select>
             </el-form-item>
-            <el-form-item class="comright" label="出账金额" :required="true">
+            <el-form-item class="comright" label="出款金额" :required="true">
               <el-input
                 @change="paySee(index)"
                 v-model="item.payMoney"
@@ -161,17 +177,14 @@
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
+            <el-form-item class="comright" label="收款账户" :required="true">
+              <el-input ></el-input>
+            </el-form-item>
+            <el-form-item class="comright" label="收款开户行" :required="true">
+              <el-input ></el-input>
+            </el-form-item>
            
-            <!-- <el-form-item class="comright" label="出账凭证" :required="true">
-              <uploadSmall
-                :index="index"
-                @getIndex="getindexNew"
-                @getfileName="getPay"
-                :fileName="item.fileNamePay"
-                :fileNameOld="item.fileNamePay"
-                :isDetail="isDetail"
-              ></uploadSmall>
-            </el-form-item> -->
+           
           </el-col>
 
           <el-col :span="9">
@@ -196,10 +209,12 @@
              
             </el-form-item>
 
-            <el-form-item class="comright" label="出账账号" :required="true">
-              <el-input v-model="item.payAccount"></el-input>
+            <el-form-item class="comright" label="出款账号" :required="true">
+              <el-input v-model="item.payAccount" disabled></el-input>
             </el-form-item>
-            
+            <el-form-item class="comright" label="收款账号" :required="true">
+              <el-input ></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
       </div>
@@ -306,14 +321,14 @@ export default {
         paymentAccount: [
           {
             required: true,
-            message: "付款账号不能为空",
+            message: "收款信息付款账号不能为空",
             trigger: "blur",
           },
         ],
         paymentName: [
           {
             required: true,
-            message: "付款账户不能为空",
+            message: "收款信息付款账户不能为空",
             trigger: "blur",
           },
         ],
@@ -321,28 +336,28 @@ export default {
         receiveName: [
           {
             required: true,
-            message: "转账账户不能为空",
+            message: "收款信息收款账户不能为空",
             trigger: "blur",
           },
         ],
         receiveMoney: [
           {
             required: true,
-            message: "转账金额不能为空",
+            message: "收款信息收款金额不能为空",
             trigger: "blur",
           },
         ],
         receiveAccount: [
           {
             required: true,
-            message: "转账账号不能为空",
+            message: "收款信息收款账号不能为空",
             trigger: "blur",
           },
         ],
         fileNameReceive: [
           {
             required: true,
-            message: "转账凭证不能为空",
+            message: "收款信息收款凭证不能为空",
             trigger: "change",
           },
         ],
@@ -357,12 +372,19 @@ export default {
     this.getDetails();
   },
   methods: {
-    //根据出款单位id查找出款银行卡信息
+    //收款账号
     getCarInfoByCompanyId() {
       var cardInfo = this.payCompanys.find(
         (item) => item.groupName == this.formData.receiveName
       );
       this.formData.receiveAccount = cardInfo.groupBankAccount;
+    },
+    //出款账号
+    getCarInfoByCompanyIdS(i) {
+      var cardInfo = this.payCompanys.find(
+        (item) => item.groupName == this.disburseList[i].payName
+      );
+      this.disburseList[i].payAccount = cardInfo.groupBankAccount;
     },
     receiveSee(e) {
       if (e > this.publicList.projectTotalAmount) {

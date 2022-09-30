@@ -65,9 +65,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.projectTotalAmount"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+             
             >
               <template slot="append">元</template>
             </el-input>
@@ -114,32 +112,18 @@
 
         <el-col :span="9"> </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
-       <el-col :span="5">
-        <el-form-item class="comright" label="服务费税款">
-            元
-          </el-form-item>
+      <!-- <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="19" style="margin-bottom:10px;margin-top: -5px;">
+        增值税（0.03）、城市维护建设税（0.07 0.5）、教育费附加（0.03 0.5）、地方教育附加（0.02 0.5）、个人所得税（）、水利建设专项收入（0.0009）、服务费
         </el-col>
-        <el-col :span="5">
-          <el-form-item class="comright" label="个税">
-            元
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item class="comright" label="水利">
-            元
-          </el-form-item>
-        </el-col>
-      </el-row>
+      </el-row> -->
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="已收账款">
             <el-input
               :readonly="true"
               v-model="publicList.receiveMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+             
             >
               <template slot="append">元</template>
             </el-input>
@@ -150,9 +134,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.receiveRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+             
             >
               <template slot="append">元</template>
             </el-input>
@@ -219,16 +201,7 @@
         prop="receiveTime"
         width="180"
       />
-      <el-table-column
-        label="收款金额"
-        align="center"
-        prop="receiveMoney"
-        :show-overflow-tooltip="true"
-      >
-        <template slot-scope="scope">
-          <div>{{ numberToCurrencyNo(scope.row.receiveMoney) }}</div>
-        </template>
-      </el-table-column>
+    
       <el-table-column
         label="收款账户"
         align="center"
@@ -241,6 +214,16 @@
         prop="receiveAccount"
         :show-overflow-tooltip="true"
       />
+      <el-table-column
+        label="收款金额"
+        align="center"
+        prop="receiveMoney"
+        :show-overflow-tooltip="true"
+      >
+        <template slot-scope="scope">
+          <div>{{ numberToCurrencyNo(scope.row.receiveMoney) }}</div>
+        </template>
+      </el-table-column>
 
     
       <el-table-column
@@ -533,7 +516,7 @@ export default {
             this.publicList.payTotalMoneys
           ).sub(new Decimal(this.publicList.payMoneys));
         }
-           edit(this.publicList);
+           //edit(this.publicList);
 
 
 

@@ -731,7 +731,7 @@ export default {
                   };
 
                   this.$cache.local.setJSON("tg-ifcollect", 1);
-                  this.$cache.local.setJSON("tj-addback", objList);
+                  this.$cache.local.setJSON("tg-addback", objList);
                   this.$cache.local.setJSON("tg-backTicket", obj);
 
                   this.$tab.openPage(
@@ -748,7 +748,7 @@ export default {
                   };
 
                   this.$cache.local.setJSON("tg-ifcollect", 1);
-                  this.$cache.local.setJSON("tj-addback", objList);
+                  this.$cache.local.setJSON("tg-addback", objList);
                   this.$cache.local.setJSON("tg-backTicket", obj);
                   this.$tab.openPage(
                     "出款列表",
@@ -771,7 +771,7 @@ export default {
         name: "List",
       };
 
-      this.$cache.local.setJSON("tj-addback", obj);
+      this.$cache.local.setJSON("tg-addback", obj);
       switch (this.types) {
         case 2:
           let obj1 = {

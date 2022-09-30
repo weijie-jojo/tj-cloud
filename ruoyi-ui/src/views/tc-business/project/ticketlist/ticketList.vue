@@ -149,7 +149,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          >作废</el-button
+          >删除</el-button
         >
       </el-col>
       <el-col :span="1.5">
@@ -279,7 +279,7 @@
 <script>
 import { numberToCurrencyNo } from "@/utils/numberToCurrency";
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { list, del, list2 } from "@/api/tc-api/project/ticket";
+import { list, delReal, list2 } from "@/api/tc-api/project/ticket";
 import { detail, edit } from "@/api/tc-api/project/list";
 import { Decimal } from "decimal.js";
 export default {
@@ -477,17 +477,11 @@ export default {
               this.publicList.projectTotalAmount
             ).sub(new Decimal(this.publicList.projectPackageAmount));
           }
-          // let params = {
-          //   projectOwner:this.publicList.projectOwner,
-          //   isSelfCount: this.publicList.isSelfCount,
-          //   projectCode: this.publicList.projectCode,
-          //   projectStatus: this.publicList.projectStatus,
-          //   projectId: this.publicList.projectId,
-          //   projectTotalAmount: this.publicList.projectTotalAmount,
-          //   projectRemainAmount: this.publicList.projectRemainAmount,
-          //   projectPackageAmount: this.publicList.projectPackageAmount,
-          // };
-          edit(this.publicList);
+          let arrs=this.publicList;
+                if(Array.isArray(arrs.fileName)){
+                    arrs.fileName=JSON.stringify(arrs.fileName);
+                }
+                edit(arrs);
         })
         .catch((err) => {});
     },
@@ -548,15 +542,15 @@ export default {
     /** 删除按钮操作 */
     handleDelete() {
       this.$modal
-        .confirm("是否确认作废发票?")
+        .confirm("是否确认删除发票?")
         .then(function () {
-          return del(this.multipleSelection);
+          return delReal(this.multipleSelection);
         })
         .then((res) => {
           if (res.code == 200) {
             this.getList();
             this.ticketByCode();
-            this.$modal.msgSuccess("作废成功");
+            this.$modal.msgSuccess("删除成功");
           } else {
             this.$alert(res.msg, "提示", {
               confirmButtonText: "确定",

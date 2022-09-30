@@ -27,14 +27,17 @@
             <el-input
             :disabled="true"
               v-model="formData.payMoney"
-              :step="0.00001"
-              :min="0"
-              onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+             
             >
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
+          <el-form-item class="comright" label="收款账户" :required="true">
+          <el-input :readonly="true" ></el-input>
+        </el-form-item>
+        <el-form-item class="comright" label="收款开户行" :required="true">
+          <el-input :readonly="true" ></el-input>
+        </el-form-item>
           <el-form-item class="comright" label="付款账户" :required="true">
           <el-input :readonly="true" v-model="formData.paymentName"></el-input>
         </el-form-item>
@@ -55,23 +58,27 @@
         </el-col>
 
         <el-col :span="9">
-          <el-form-item class="comright" label="出款时间" :required="true">
-            <el-date-picker
-              disabled
-              style="width: 100%"
-              v-model="formData.payTime"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
-            >
-            </el-date-picker>
-          </el-form-item>
-
           <el-form-item class="comright" label="出账账号" prop="payAccount">
             <el-input v-model="formData.payAccount"  :disabled="true"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="出款时间" :required="true">
+            <el-date-picker
+            disabled
+            style="width: 100%"
+            v-model="formData.payTime"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+          >
+          </el-date-picker>
+          </el-form-item>
+           
+         
+          <el-form-item class="comright" label="收款账号" :required="true">
+          <el-input :readonly="true" ></el-input>
+        </el-form-item>
           <el-form-item class="comright" label="付款账号" :required="true">
           <el-input :readonly="true" v-model="formData.paymentAccount"></el-input>
         </el-form-item>
@@ -134,42 +141,34 @@ export default {
       
       },
       rules: {
-        
-        receiveCode: [
-          {
-            required: true,
-            message: "财务流水号不能为空",
-            trigger: "blur",
-          },
-        ],
-        receiveName: [
-          {
-            required: true,
-            message: "出账账户不能为空",
-            trigger: "blur",
-          },
-        ],
-        receiveMoney: [
-          {
-            required: true,
-            message: "出账金额不能为空",
-            trigger: "blur",
-          },
-        ],
-        receiveAccount: [
-          {
-            required: true,
-            message: "出账账号不能为空",
-            trigger: "blur",
-          },
-        ],
-        fileNameReceive: [
-          {
-            required: true,
-            message: "出账凭证不能为空",
-            trigger: "change",
-          },
-        ],
+        payName: [
+        {
+          required: true,
+          message: "出款信息出账账户不能为空",
+          trigger: "blur",
+        },
+      ],
+      payMoney: [
+        {
+          required: true,
+          message: "出款信息出账金额不能为空",
+          trigger: "blur",
+        },
+       ],
+       payAccount: [
+        {
+          required: true,
+          message: "出款信息出款账号不能为空",
+          trigger: "blur",
+        },
+      ],
+      fileNamePay: [
+        {
+          required: true,
+          message: "出款信息出账凭证不能为空",
+          trigger: "change",
+        },
+      ],
       },
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };

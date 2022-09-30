@@ -91,9 +91,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.payTotalMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              
             >
               <template slot="append">元</template>
             </el-input>
@@ -103,9 +101,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.payRemainMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              
             >
               <template slot="append">元</template>
             </el-input>
@@ -121,9 +117,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.payMoneys"
-              :step="0.00001"
-              :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+             
             >
               <template slot="append">元</template>
             </el-input>
@@ -189,16 +183,6 @@
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="出账金额"
-        align="center"
-        prop="payMoney"
-        :show-overflow-tooltip="true"
-      >
-        <template slot-scope="scope">
-          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
         label="出账账户"
         align="center"
         prop="payName"
@@ -210,6 +194,17 @@
         prop="payAccount"
         :show-overflow-tooltip="true"
       />
+      <el-table-column
+        label="出账金额"
+        align="center"
+        prop="payMoney"
+        :show-overflow-tooltip="true"
+      >
+        <template slot-scope="scope">
+          <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
+        </template>
+      </el-table-column>
+    
       <el-table-column
         label="收款账户"
         align="center"
@@ -261,7 +256,7 @@
             icon="el-icon-s-custom"
             v-if="scope.row.isPay==0"
             @click="pay(scope.row)"
-            >付款</el-button
+            >出款</el-button
           >
           <el-button
             size="mini"
@@ -531,7 +526,7 @@ export default {
             this.publicList.payTotalMoneys
           ).sub(new Decimal(this.publicList.payMoneys));
         }
-        edit(this.publicList);
+       // edit(this.publicList);
        });
       }); 
       
