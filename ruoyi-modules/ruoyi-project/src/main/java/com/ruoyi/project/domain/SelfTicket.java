@@ -71,5 +71,17 @@ public class SelfTicket extends BaseEntity
     @ApiModelProperty(value = "发票不通过备注")
     private String ticketRemark2;
 
+    /** 收款人 */
+    @ApiModelProperty(value = "收款人")
+    private String receiveUser;
+
+    /** 复核 */
+    @ApiModelProperty(value = "复核")
+    private String checkUser;
+
+    /** 开票人 */
+    @ApiModelProperty(value = "开票人")
+    private String createUser;
+
 }
 
