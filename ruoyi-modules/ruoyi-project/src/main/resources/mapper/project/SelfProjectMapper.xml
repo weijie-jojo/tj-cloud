@@ -108,6 +108,36 @@
         <result property="disposableRemark"    column="disposable_remark"    />
         <result property="isDealings"    column="is_dealings"    />
         <result property="isAddBuyer"    column="is_add_buyer"    />
+        <result property="isUpCheckwork"    column="is_up_checkwork"    />
+        <result property="isUpImage"    column="is_up_image"    />
+        <result property="isUpLicense"    column="is_up_license"    />
+        <result property="isUpStatement"    column="is_up_statement"    />
+        <result property="isUpCertification"    column="is_up_certification"    />
+        <result property="fileName5"    column="file_name5"    />
+        <result property="fileName6"    column="file_name6"    />
+        <result property="fileName7"    column="file_name7"    />
+        <result property="fileName8"    column="file_name8"    />
+        <result property="fileName9"    column="file_name9"    />
+        <result property="projectTax"    column="project_tax"    />
+        <result property="isProjectComeback"    column="is_project_comeback"    />
+        <result property="projectAmountAftertax"    column="project_amount_aftertax"    />
+        <result property="projectTaxMoney"    column="project_tax_money"    />
+        <result property="cityTaxMoney"    column="city_tax_money"    />
+        <result property="eduTaxMoney"    column="edu_tax_money"    />
+        <result property="localeduTaxMoney"    column="localedu_tax_money"    />
+        <result property="personalTaxMoney"    column="personal_tax_money"    />
+        <result property="waterbuildMoney"    column="waterbuild_money"    />
+        <result property="stampTaxMoney"    column="stamp_tax_money"    />
+        <result property="projectProfitMoney"    column="project_profit_money"    />
+        <result property="projectPutintoMoney"    column="project_putinto_money"    />
+        <result property="projectPutintoOutRatio"    column="project_putinto_out_ratio"    />
+        <result property="projectAwardMoney"    column="project_award_money"    />
+        <result property="registerServeMoney"    column="register_serve_money"    />
+        <result property="specialServeMoney"    column="special_serve_money"    />
+        <result property="ordinaryServeMoney"    column="ordinary_serve_money"    />
+        <result property="ordinaryShareServeMoney"    column="ordinary_share_serve_money"    />
+        <result property="specialShareServeMoney"    column="special_share_serve_money"    />
+        <result property="disposableServeMoney"    column="disposable_serve_money"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -126,7 +156,11 @@
                ordinary_self_money, project_rate_status,project_receive_status, project_pay_status,receive_moneys, receive_remain_moneys,
                pay_total_moneys, pay_moneys, pay_remain_moneys,is_register_money, is_disposable, disposable_share, disposable_share_ismoney,
                is_disposable_share, disposable_fee, disposable_fee_ismoney,receive_remark,pay_remark,receive_total_moneys,purch_company_phone,
-               purch_company_address, bank_name, bank_code,disposable_remark,is_dealings,is_add_buyer
+               purch_company_address, bank_name, bank_code,disposable_remark,is_dealings,is_add_buyer,
+               is_up_checkwork, is_up_image, is_up_license,is_up_statement, is_up_certification, file_name5, file_name6, file_name7, file_name8,
+               file_name9, project_tax, is_project_comeback, project_amount_aftertax, project_tax_money, city_tax_money, edu_tax_money, localedu_tax_money,
+               personal_tax_money, waterbuild_money, stamp_tax_money, project_profit_money, project_putinto_money, project_putinto_out_ratio, project_award_money,
+               register_serve_money, special_serve_money, ordinary_serve_money, ordinary_share_serve_money, special_share_serve_money, disposable_serve_money
         from self_project
     </sql>
 
@@ -153,6 +187,11 @@
                 t.pay_moneys, t.pay_remain_moneys,t.is_register_money, t.is_disposable, t.disposable_share, t.disposable_share_ismoney,
                 t.is_disposable_share, t.disposable_fee, t.disposable_fee_ismoney,t.receive_remark,t.pay_remark,t.receive_total_moneys,
                 t.purch_company_phone, t.purch_company_address, t.bank_name, t.bank_code,t.disposable_remark,t.is_dealings,t.is_add_buyer,
+                t.is_up_checkwork, t.is_up_image, t.is_up_license, t.is_up_statement, t.is_up_certification, t.file_name5, t.file_name6,
+                t.file_name7, t.file_name8, t.file_name9, t.project_tax, t.is_project_comeback, t.project_amount_aftertax, t.project_tax_money,
+                t.city_tax_money, t.edu_tax_money, t.localedu_tax_money, t.personal_tax_money, t.waterbuild_money, t.stamp_tax_money,
+                t.project_profit_money, t.project_putinto_money, t.project_putinto_out_ratio, t.project_award_money, t.register_serve_money,
+                t.special_serve_money, t.ordinary_serve_money, t.ordinary_share_serve_money, t.special_share_serve_money, t.disposable_serve_money,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
                 B.private_deposit_bank, B.private_account_number,B.public_deposit_bank_1, B.public_account_number_1, B.public_deposit_bank_2,
                 B.public_account_number_2, B.account_name, B.public_deposit_bank_3,B.public_account_number_3,
@@ -285,6 +324,36 @@
             <if test="selfProject.disposableRemark != null  and selfProject.disposableRemark != ''"> and disposable_remark = #{selfProject.disposableRemark}</if>
             <if test="selfProject.isDealings != null "> and is_dealings  = #{selfProject.isDealings}</if>
             <if test="selfProject.isAddBuyer != null "> and is_add_buyer = #{selfProject.isAddBuyer}</if>
+            <if test="selfProject.isUpCheckwork != null "> and is_up_checkwork = #{selfProject.isUpCheckwork}</if>
+            <if test="selfProject.isUpImage != null "> and is_up_image = #{selfProject.isUpImage}</if>
+            <if test="selfProject.isUpLicense != null "> and is_up_license = #{selfProject.isUpLicense}</if>
+            <if test="selfProject.isUpStatement != null "> and is_up_statement = #{selfProject.isUpStatement}</if>
+            <if test="selfProject.isUpCertification != null "> and is_up_certification = #{selfProject.isUpCertification}</if>
+            <if test="selfProject.fileName5 != null  and selfProject.fileName5 != ''"> and file_name5 = #{selfProject.fileName5}</if>
+            <if test="selfProject.fileName6 != null  and selfProject.fileName6 != ''"> and file_name6 = #{selfProject.fileName6}</if>
+            <if test="selfProject.fileName7 != null  and selfProject.fileName7 != ''"> and file_name7 = #{selfProject.fileName7}</if>
+            <if test="selfProject.fileName8 != null  and selfProject.fileName8 != ''"> and file_name8 = #{selfProject.fileName8}</if>
+            <if test="selfProject.fileName9 != null  and selfProject.fileName9 != ''"> and file_name9 = #{selfProject.fileName9}</if>
+            <if test="selfProject.projectTax != null "> and project_tax = #{selfProject.projectTax}</if>
+            <if test="selfProject.isProjectComeback != null "> and is_project_comeback = #{selfProject.isProjectComeback}</if>
+            <if test="selfProject.projectAmountAftertax != null "> and project_amount_aftertax = #{selfProject.projectAmountAftertax}</if>
+            <if test="selfProject.projectTaxMoney != null "> and project_tax_money = #{selfProject.projectTaxMoney}</if>
+            <if test="selfProject.cityTaxMoney != null "> and city_tax_money = #{selfProject.cityTaxMoney}</if>
+            <if test="selfProject.eduTaxMoney != null "> and edu_tax_money = #{selfProject.eduTaxMoney}</if>
+            <if test="selfProject.localeduTaxMoney != null "> and localedu_tax_money = #{selfProject.localeduTaxMoney}</if>
+            <if test="selfProject.personalTaxMoney != null "> and personal_tax_money = #{selfProject.personalTaxMoney}</if>
+            <if test="selfProject.waterbuildMoney != null "> and waterbuild_money = #{selfProject.waterbuildMoney}</if>
+            <if test="selfProject.stampTaxMoney != null "> and stamp_tax_money = #{selfProject.stampTaxMoney}</if>
+            <if test="selfProject.projectProfitMoney != null "> and project_profit_money = #{selfProject.projectProfitMoney}</if>
+            <if test="selfProject.projectPutintoMoney != null "> and project_putinto_money = #{selfProject.projectPutintoMoney}</if>
+            <if test="selfProject.projectPutintoOutRatio != null "> and project_putinto_out_ratio = #{selfProject.projectPutintoOutRatio}</if>
+            <if test="selfProject.projectAwardMoney != null "> and project_award_money = #{selfProject.projectAwardMoney}</if>
+            <if test="selfProject.registerServeMoney != null "> and register_serve_money = #{selfProject.registerServeMoney}</if>
+            <if test="selfProject.specialServeMoney != null "> and special_serve_money = #{selfProject.specialServeMoney}</if>
+            <if test="selfProject.ordinaryServeMoney != null "> and ordinary_serve_money = #{selfProject.ordinaryServeMoney}</if>
+            <if test="selfProject.ordinaryShareServeMoney != null "> and ordinary_share_serve_money = #{selfProject.ordinaryShareServeMoney}</if>
+            <if test="selfProject.specialShareServeMoney != null "> and special_share_serve_money = #{selfProject.specialShareServeMoney}</if>
+            <if test="selfProject.disposableServeMoney != null "> and disposable_serve_money = #{selfProject.disposableServeMoney}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -404,6 +473,36 @@
             <if test="disposableRemark != null">disposable_remark,</if>
             <if test="isDealings != null">is_dealings,</if>
             <if test="isAddBuyer != null">is_add_buyer,</if>
+            <if test="isUpCheckwork != null">is_up_checkwork,</if>
+            <if test="isUpImage != null">is_up_image,</if>
+            <if test="isUpLicense != null">is_up_license,</if>
+            <if test="isUpStatement != null">is_up_statement,</if>
+            <if test="isUpCertification != null">is_up_certification,</if>
+            <if test="fileName5 != null">file_name5,</if>
+            <if test="fileName6 != null">file_name6,</if>
+            <if test="fileName7 != null">file_name7,</if>
+            <if test="fileName8 != null">file_name8,</if>
+            <if test="fileName9 != null">file_name9,</if>
+            <if test="projectTax != null">project_tax,</if>
+            <if test="isProjectComeback != null">is_project_comeback,</if>
+            <if test="projectAmountAftertax != null">project_amount_aftertax,</if>
+            <if test="projectTaxMoney != null">project_tax_money,</if>
+            <if test="cityTaxMoney != null">city_tax_money,</if>
+            <if test="eduTaxMoney != null">edu_tax_money,</if>
+            <if test="localeduTaxMoney != null">localedu_tax_money,</if>
+            <if test="personalTaxMoney != null">personal_tax_money,</if>
+            <if test="waterbuildMoney != null">waterbuild_money,</if>
+            <if test="stampTaxMoney != null">stamp_tax_money,</if>
+            <if test="projectProfitMoney != null">project_profit_money,</if>
+            <if test="projectPutintoMoney != null">project_putinto_money,</if>
+            <if test="projectPutintoOutRatio != null">project_putinto_out_ratio,</if>
+            <if test="projectAwardMoney != null">project_award_money,</if>
+            <if test="registerServeMoney != null">register_serve_money,</if>
+            <if test="specialServeMoney != null">special_serve_money,</if>
+            <if test="ordinaryServeMoney != null">ordinary_serve_money,</if>
+            <if test="ordinaryShareServeMoney != null">ordinary_share_serve_money,</if>
+            <if test="specialShareServeMoney != null">special_share_serve_money,</if>
+            <if test="disposableServeMoney != null">disposable_serve_money,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -508,6 +607,36 @@
             <if test="disposableRemark != null">#{disposableRemark},</if>
             <if test="isDealings != null">#{isDealings},</if>
             <if test="isAddBuyer != null">#{isAddBuyer},</if>
+            <if test="isUpCheckwork != null">#{isUpCheckwork},</if>
+            <if test="isUpImage != null">#{isUpImage},</if>
+            <if test="isUpLicense != null">#{isUpLicense},</if>
+            <if test="isUpStatement != null">#{isUpStatement},</if>
+            <if test="isUpCertification != null">#{isUpCertification},</if>
+            <if test="fileName5 != null">#{fileName5},</if>
+            <if test="fileName6 != null">#{fileName6},</if>
+            <if test="fileName7 != null">#{fileName7},</if>
+            <if test="fileName8 != null">#{fileName8},</if>
+            <if test="fileName9 != null">#{fileName9},</if>
+            <if test="projectTax != null">#{projectTax},</if>
+            <if test="isProjectComeback != null">#{isProjectComeback},</if>
+            <if test="projectAmountAftertax != null">#{projectAmountAftertax},</if>
+            <if test="projectTaxMoney != null">#{projectTaxMoney},</if>
+            <if test="cityTaxMoney != null">#{cityTaxMoney},</if>
+            <if test="eduTaxMoney != null">#{eduTaxMoney},</if>
+            <if test="localeduTaxMoney != null">#{localeduTaxMoney},</if>
+            <if test="personalTaxMoney != null">#{personalTaxMoney},</if>
+            <if test="waterbuildMoney != null">#{waterbuildMoney},</if>
+            <if test="stampTaxMoney != null">#{stampTaxMoney},</if>
+            <if test="projectProfitMoney != null">#{projectProfitMoney},</if>
+            <if test="projectPutintoMoney != null">#{projectPutintoMoney},</if>
+            <if test="projectPutintoOutRatio != null">#{projectPutintoOutRatio},</if>
+            <if test="projectAwardMoney != null">#{projectAwardMoney},</if>
+            <if test="registerServeMoney != null">#{registerServeMoney},</if>
+            <if test="specialServeMoney != null">#{specialServeMoney},</if>
+            <if test="ordinaryServeMoney != null">#{ordinaryServeMoney},</if>
+            <if test="ordinaryShareServeMoney != null">#{ordinaryShareServeMoney},</if>
+            <if test="specialShareServeMoney != null">#{specialShareServeMoney},</if>
+            <if test="disposableServeMoney != null">#{disposableServeMoney},</if>
         </trim>
     </insert>
 
@@ -616,6 +745,36 @@
             <if test="disposableRemark != null">disposable_remark = #{disposableRemark},</if>
             <if test="isDealings != null">is_dealings = #{isDealings},</if>
             <if test="isAddBuyer != null">is_add_buyer = #{isAddBuyer},</if>
+            <if test="isUpCheckwork != null">is_up_checkwork = #{isUpCheckwork},</if>
+            <if test="isUpImage != null">is_up_image = #{isUpImage},</if>
+            <if test="isUpLicense != null">is_up_license = #{isUpLicense},</if>
+            <if test="isUpStatement != null">is_up_statement = #{isUpStatement},</if>
+            <if test="isUpCertification != null">is_up_certification = #{isUpCertification},</if>
+            <if test="fileName5 != null">file_name5 = #{fileName5},</if>
+            <if test="fileName6 != null">file_name6 = #{fileName6},</if>
+            <if test="fileName7 != null">file_name7 = #{fileName7},</if>
+            <if test="fileName8 != null">file_name8 = #{fileName8},</if>
+            <if test="fileName9 != null">file_name9 = #{fileName9},</if>
+            <if test="projectTax != null">project_tax = #{projectTax},</if>
+            <if test="isProjectComeback != null">is_project_comeback = #{isProjectComeback},</if>
+            <if test="projectAmountAftertax != null">project_amount_aftertax = #{projectAmountAftertax},</if>
+            <if test="projectTaxMoney != null">project_tax_money = #{projectTaxMoney},</if>
+            <if test="cityTaxMoney != null">city_tax_money = #{cityTaxMoney},</if>
+            <if test="eduTaxMoney != null">edu_tax_money = #{eduTaxMoney},</if>
+            <if test="localeduTaxMoney != null">localedu_tax_money = #{localeduTaxMoney},</if>
+            <if test="personalTaxMoney != null">personal_tax_money = #{personalTaxMoney},</if>
+            <if test="waterbuildMoney != null">waterbuild_money = #{waterbuildMoney},</if>
+            <if test="stampTaxMoney != null">stamp_tax_money = #{stampTaxMoney},</if>
+            <if test="projectProfitMoney != null">project_profit_money = #{projectProfitMoney},</if>
+            <if test="projectPutintoMoney != null">project_putinto_money = #{projectPutintoMoney},</if>
+            <if test="projectPutintoOutRatio != null">project_putinto_out_ratio = #{projectPutintoOutRatio},</if>
+            <if test="projectAwardMoney != null">project_award_money = #{projectAwardMoney},</if>
+            <if test="registerServeMoney != null">register_serve_money = #{registerServeMoney},</if>
+            <if test="specialServeMoney != null">special_serve_money = #{specialServeMoney},</if>
+            <if test="ordinaryServeMoney != null">ordinary_serve_money = #{ordinaryServeMoney},</if>
+            <if test="ordinaryShareServeMoney != null">ordinary_share_serve_money = #{ordinaryShareServeMoney},</if>
+            <if test="specialShareServeMoney != null">special_share_serve_money = #{specialShareServeMoney},</if>
+            <if test="disposableServeMoney != null">disposable_serve_money = #{disposableServeMoney},</if>
         </trim>
         where project_id = #{projectId}
     </update>

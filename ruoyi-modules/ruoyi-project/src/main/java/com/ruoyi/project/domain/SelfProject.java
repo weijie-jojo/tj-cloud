@@ -61,7 +61,7 @@ public class SelfProject extends BaseEntity
     private String purchCompany;
 
     /** 项目总金额 */
-    @ApiModelProperty(value = "项目总金额")
+    @ApiModelProperty(value = "项目总金额(含税销售额)")
     private BigDecimal projectTotalAmount;
 
     /** 项目负责人(业务经理) */
@@ -214,7 +214,7 @@ public class SelfProject extends BaseEntity
     private Long isUpContract;
 
     /** 是否上传验收资料 */
-    @ApiModelProperty(value = "是否上传验收资料")
+    @ApiModelProperty(value = "是否上传验收资料（结算单）")
     private Long isUpAcceptance;
 
     /** 是否上传缴税凭证 */
@@ -433,5 +433,125 @@ public class SelfProject extends BaseEntity
     /** 是否增加购方列表 */
     @ApiModelProperty(value = "是否增加购方列表")
     private Long isAddBuyer;
+
+    /** 是否上传作业考勤出工记录 */
+    @ApiModelProperty(value = "是否上传作业考勤出工记录")
+    private Long isUpCheckwork;
+
+    /** 是否上传项目图片 */
+    @ApiModelProperty(value = "是否上传项目图片")
+    private Long isUpImage;
+
+    /** 是否上传购买方营业执照 */
+    @ApiModelProperty(value = "是否上传购买方营业执照")
+    private Long isUpLicense;
+
+    /** 是否上传银行回单及对账单 */
+    @ApiModelProperty(value = "是否上传银行回单及对账单")
+    private Long isUpStatement;
+
+    /** 是否上传企业资质证书 */
+    @ApiModelProperty(value = "是否上传企业资质证书")
+    private Long isUpCertification;
+
+    /** 作业考勤出工记录 */
+    @ApiModelProperty(value = "作业考勤出工记录")
+    private String fileName5;
+
+    /** 项目图片 */
+    @ApiModelProperty(value = "项目图片")
+    private String fileName6;
+
+    /** 购买方营业执照 */
+    @ApiModelProperty(value = "购买方营业执照")
+    private String fileName7;
+
+    /** 银行回单及对账单 */
+    @ApiModelProperty(value = "银行回单及对账单")
+    private String fileName8;
+
+    /** 企业资质证书 */
+    @ApiModelProperty(value = "企业资质证书")
+    private String fileName9;
+
+    /** 税率 */
+    @ApiModelProperty(value = "税率")
+    private BigDecimal projectTax;
+
+    /** 项目往来款 1是 0否 */
+    @ApiModelProperty(value = "项目往来款 1是 0否")
+    private Long isProjectComeback;
+
+    /** 不含税金额 含税销售额/（1+税率） */
+    @ApiModelProperty(value = "不含税金额 含税销售额/（1+税率）")
+    private BigDecimal projectAmountAftertax;
+
+    /** 增值税税额 不含税金额*税率 */
+    @ApiModelProperty(value = "增值税税额 不含税金额*税率")
+    private BigDecimal projectTaxMoney;
+
+    /** 城市维护建设税 增值税税额*0.07*0.5 */
+    @ApiModelProperty(value = "城市维护建设税 增值税税额*0.07*0.5")
+    private BigDecimal cityTaxMoney;
+
+    /** 教育费附加税 增值税税额*0.03*0.5 */
+    @ApiModelProperty(value = "教育费附加税 增值税税额*0.03*0.5")
+    private BigDecimal eduTaxMoney;
+
+    /** 地方教育附加税 增值税税额*0.03*0.5 */
+    @ApiModelProperty(value = "地方教育附加税 增值税税额*0.03*0.5")
+    private BigDecimal localeduTaxMoney;
+
+    /** 个人所得税 */
+    @ApiModelProperty(value = "个人所得税")
+    private BigDecimal personalTaxMoney;
+
+    /** 水利建设专项收入  不含税金额*0.009 */
+    @ApiModelProperty(value = "水利建设专项收入  不含税金额*0.009")
+    private BigDecimal waterbuildMoney;
+
+    /** 印花税 */
+    @ApiModelProperty(value = "印花税")
+    private BigDecimal stampTaxMoney;
+
+    /** 项目利润 应收-应出 */
+    @ApiModelProperty(value = "项目利润 应收-应出")
+    private BigDecimal projectProfitMoney;
+
+    /** 投入金额 */
+    @ApiModelProperty(value = "投入金额")
+    private BigDecimal projectPutintoMoney;
+
+    /** 投入产出比 项目利润/投入金额 */
+    @ApiModelProperty(value = "投入产出比 项目利润/投入金额")
+    private BigDecimal projectPutintoOutRatio;
+
+    /** 奖励佣金 项目利润*0.9*15% */
+    @ApiModelProperty(value = "奖励佣金 项目利润*0.9*15%")
+    private BigDecimal projectAwardMoney;
+
+    /** 注册服务费金额 */
+    @ApiModelProperty(value = "注册服务费金额")
+    private BigDecimal registerServeMoney;
+
+    /** 专票服务费金额 */
+    @ApiModelProperty(value = "专票服务费金额")
+    private BigDecimal specialServeMoney;
+
+    /** 普票服务费金额 */
+    @ApiModelProperty(value = "普票服务费金额")
+    private BigDecimal ordinaryServeMoney;
+
+    /** 普票分润金额 */
+    @ApiModelProperty(value = "普票分润金额")
+    private BigDecimal ordinaryShareServeMoney;
+
+    /** 专票分润金额 */
+    @ApiModelProperty(value = "专票分润金额")
+    private BigDecimal specialShareServeMoney;
+
+    /** 一次性金额 */
+    @ApiModelProperty(value = "一次性金额")
+    private BigDecimal disposableServeMoney;
 
 }
