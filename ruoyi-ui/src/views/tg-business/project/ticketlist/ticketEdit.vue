@@ -351,7 +351,7 @@
           </el-form-item>
 
           <el-form-item class="comright" label="发票编号" prop="ticketCode">
-            <el-input v-model="formData.ticketCode"></el-input>
+            <el-input disabled v-model="formData.ticketCode"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="发票金额" prop="ticketAmount">
             <el-input
