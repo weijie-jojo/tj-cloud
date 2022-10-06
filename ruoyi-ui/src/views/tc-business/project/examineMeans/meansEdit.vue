@@ -152,17 +152,82 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="项目验收资料">
+          <el-form-item class="comright" label="项目结算单">
             <el-radio v-model="formData.isUpAcceptance" label="0">有</el-radio>
             <el-radio v-model="formData.isUpAcceptance" label="1">无</el-radio>
-            <div v-show="formData.isUpAcceptance == 0">
-              <uploadSmall
+            <div v-if="formData.isUpAcceptance == 0">
+              <uploadS
                 @getfileName="getAccepFile"
-                ref="productImage2"
+                ref="productImage12"
                 :fileName="fileName2"
-                :fileNameOld="fileNameN2"
+                :fileNameOld="fileName2"
                 :isDetail="isDetail"
-              ></uploadSmall>
+              ></uploadS>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="作业考勤出工记录">
+            <el-radio v-model="formData.isUpCheckwork" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpCheckwork" label="1">无</el-radio>
+            <div v-if="formData.isUpCheckwork == 0">
+              <uploadS
+              ref="productImage5"
+                @getfileName="getAccepFile5"
+                :fileName="fileName5"
+                :fileNameOld="fileName5"
+                :isDetail="isDetail"
+              ></uploadS>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="项目图片">
+            <el-radio v-model="formData.isUpImage" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpImage" label="1">无</el-radio>
+            <div v-if="formData.isUpImage == 0">
+              <uploadS
+                ref="productImage6"
+                @getfileName="getAccepFile6"
+                :fileName="fileName6"
+                :fileNameOld="fileName6"
+                :isDetail="isDetail"
+              ></uploadS>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="购买方营业执照">
+            <el-radio v-model="formData.isUpLicense" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpLicense" label="1">无</el-radio>
+            <div v-if="formData.isUpLicense == 0">
+              <uploadS
+                ref="productImage7"
+                @getfileName="getAccepFile7"
+                :fileName="fileName7"
+                :fileNameOld="fileName7"
+                :isDetail="isDetail"
+              ></uploadS>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="银行回单及对账单">
+            <el-radio v-model="formData.isUpStatement" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpStatement" label="1">无</el-radio>
+            <div v-if="formData.isUpStatement == 0">
+              <uploadS
+                ref="productImage8"
+                @getfileName="getAccepFile8"
+                :fileName="fileName8"
+                :fileNameOld="fileName8"
+                :isDetail="isDetail"
+              ></uploadS>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="企业资质证书">
+            <el-radio v-model="formData.isUpCertification" label="0">有</el-radio>
+            <el-radio v-model="formData.isUpCertification" label="1">无</el-radio>
+            <div v-if="formData.isUpCertification == 0">
+              <uploadS
+                ref="productImage9"
+                @getfileName="getAccepFile9"
+                :fileName="fileName9"
+                :fileNameOld="fileName9"
+                :isDetail="isDetail"
+              ></uploadS>
             </div>
           </el-form-item>
         </el-col>
@@ -185,18 +250,29 @@
   </div>
 </template>
 <script>
+import uploadS from "@/components/douploads/uploadSmall";
 import uploadSmall from "@/components/douploads/uploadFiles";
 import { edit, check, detail } from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "MeansEdit",
-  components: { uploadSmall },
+  components: { uploadSmall,uploadS },
   data() {
     return {
       fileNameN1: [],
       fileNameN2: [],
+      fileNameN5: [],
+      fileNameN6: [],
+      fileNameN7: [],
+      fileNameN8: [],
+      fileNameN9: [],
       fileName1: [],
       fileName2: [],
+      fileName5: [],
+      fileName6: [],
+      fileName7: [],
+      fileName8: [],
+      fileName9: [],
       projectStatusNew: 0,
       userinfo: {},
       isDetail: "0",
@@ -238,8 +314,28 @@ export default {
           this.formData.isUpAcceptance = JSON.stringify(
             this.formData.isUpAcceptance
           );
+          this.formData.isUpCheckwork = JSON.stringify(
+            this.formData.isUpCheckwork
+          );
+          this.formData.isUpImage = JSON.stringify(
+            this.formData.isUpImage
+          );
+          this.formData.isUpLicense = JSON.stringify(
+            this.formData.isUpLicense
+          );
+          this.formData.isUpStatement = JSON.stringify(
+            this.formData.isUpStatement
+          );
+          this.formData.isUpCertification = JSON.stringify(
+            this.formData.isUpCertification
+          );
           this.$refs.productImage1.getSrcList(this.formData.fileName1);
           this.$refs.productImage2.getSrcList(this.formData.fileName2);
+          this.$refs.productImage5.getSrcList(this.formData.fileName5);
+          this.$refs.productImage6.getSrcList(this.formData.fileName6);
+          this.$refs.productImage7.getSrcList(this.formData.fileName7);
+          this.$refs.productImage8.getSrcList(this.formData.fileName8);
+          this.$refs.productImage9.getSrcList(this.formData.fileName9);
           for (let j in this.formData.fileName1) {
             this.fileNameN1.push({
               name: this.formData.fileName1[j],
@@ -253,6 +349,36 @@ export default {
               url: this.baseImgPath + this.formData.fileName2[i],
             });
           }
+          for (let h in this.formData.fileName5) {
+            this.fileNameN5.push({
+              name: this.formData.fileName5[h],
+              url: this.baseImgPath + this.formData.fileName5[h],
+            });
+          }
+          for (let k in this.formData.fileName6) {
+            this.fileNameN6.push({
+              name: this.formData.fileName6[k],
+              url: this.baseImgPath + this.formData.fileName6[k],
+            });
+          }
+          for (let p in this.formData.fileName7) {
+            this.fileNameN7.push({
+              name: this.formData.fileName7[p],
+              url: this.baseImgPath + this.formData.fileName7[p],
+            });
+          }
+          for (let g in this.formData.fileName8) {
+            this.fileNameN8.push({
+              name: this.formData.fileName8[g],
+              url: this.baseImgPath + this.formData.fileName8[g],
+            });
+          }
+          for (let r in this.formData.fileName9) {
+            this.fileNameN9.push({
+              name: this.formData.fileName9[r],
+              url: this.baseImgPath + this.formData.fileName9[r],
+            });
+          }
         })
         .catch((error) => {
           this.$modal.closeLoading();
@@ -263,10 +389,30 @@ export default {
       this.formData.fileName1 = data;
       console.log(1, data);
     },
-    //验收
-    getAccepFile(data) {
+     //验收 项目结算单
+     getAccepFile(data) {
       this.formData.fileName2 = data;
-      console.log(2, data);
+    },
+    //验收作业考勤出工记录
+    getAccepFile5(data) {
+      this.formData.fileName5 = data;
+    },
+    //验收 项目图片
+    getAccepFile6(data) {
+      this.formData.fileName6 = data;
+    },
+    //验收  购买方营业执照
+    getAccepFile7(data) {
+      this.formData.fileName7 = data;
+    },
+    //验收  银行回单及对账单
+    getAccepFile8(data) {
+      this.formData.fileName8 = data;
+    },
+    //验收  企业资质证书
+
+    getAccepFile9(data) {
+      this.formData.fileName9 = data;
     },
     check(resmsg) {
       getInfo().then((res) => {
@@ -304,8 +450,41 @@ export default {
         this.projectStatusNew = 0;
         if (valid) {
           // project_remain_amount
-          this.formData.fileName1 = JSON.stringify(this.formData.fileName1);
-          this.formData.fileName2 = JSON.stringify(this.formData.fileName2);
+          if (Array.isArray(this.formData.fileName2)) {
+            this.formData.fileName2 = JSON.stringify(
+              this.formData.fileName2
+            );
+          }
+          if (Array.isArray(this.formData.fileName1)) {
+            this.formData.fileName1 = JSON.stringify(
+              this.formData.fileName1
+            );
+          }
+          if (Array.isArray(this.formData.fileName5)) {
+            this.formData.fileName5 = JSON.stringify(
+              this.formData.fileName5
+            );
+          }
+          if (Array.isArray(this.formData.fileName6)) {
+            this.formData.fileName6 = JSON.stringify(
+              this.formData.fileName6
+            );
+          }
+          if (Array.isArray(this.formData.fileName7)) {
+            this.formData.fileName7 = JSON.stringify(
+              this.formData.fileName7
+            );
+          }
+          if (Array.isArray(this.formData.fileName8)) {
+            this.formData.fileName8 = JSON.stringify(
+              this.formData.fileName8
+            );
+          }
+          if (Array.isArray(this.formData.fileName9)) {
+            this.formData.fileName9 = JSON.stringify(
+              this.formData.fileName9
+            );
+          }
 
           if (
             this.formData.projectReceiveStatus == 1 &&
@@ -331,6 +510,16 @@ export default {
             projectId: this.formData.projectId,
             fileName1: this.formData.fileName1,
             fileName2: this.formData.fileName2,
+            fileName5: this.formData.fileName5,
+            fileName6: this.formData.fileName6,
+            fileName7: this.formData.fileName7,
+            fileName8: this.formData.fileName8,
+            fileName9: this.formData.fileName9,
+            isUpCheckwork:this.formData.isUpCheckwork,
+            isUpImage:this.formData.isUpImage,
+            isUpLicense:this.formData.isUpLicense,
+            isUpStatement:this.formData.isUpStatement,
+            isUpCertification: this.formData.isUpCertification,
             projectAcceptanceStatus: 0,
             projectContractStatus: 0,
             projectStatus: this.projectStatusNew,

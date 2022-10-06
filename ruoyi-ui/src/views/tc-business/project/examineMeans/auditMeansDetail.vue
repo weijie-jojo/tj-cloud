@@ -137,7 +137,7 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="项目验收资料">
+          <el-form-item class="comright" label="项目结算单">
             <el-radio disabled v-model="formData.isUpAcceptance" label="0"
               >有</el-radio
             >
@@ -149,6 +149,66 @@
                 ref="productImage2"
                 :fileName="fileName2"
                 :fileNameOld="fileNameN2"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="作业考勤出工记录">
+            <el-radio disabled v-model="formData.isUpCheckwork" label="0">有</el-radio>
+            <el-radio disabled v-model="formData.isUpCheckwork" label="1">无</el-radio>
+            <div v-show="formData.isUpCheckwork == 0">
+              <uploadSmall
+                 ref="productImage5"
+                :fileName="fileName5"
+                :fileNameOld="fileNameN5"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="项目图片">
+            <el-radio disabled v-model="formData.isUpImage" label="0">有</el-radio>
+            <el-radio disabled v-model="formData.isUpImage" label="1">无</el-radio>
+            <div v-show="formData.isUpImage == 0">
+              <uploadSmall
+                 ref="productImage6"
+                :fileName="fileName6"
+                :fileNameOld="fileNameN6"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="购买方营业执照">
+            <el-radio disabled v-model="formData.isUpLicense" label="0">有</el-radio>
+            <el-radio disabled v-model="formData.isUpLicense" label="1">无</el-radio>
+            <div v-show="formData.isUpLicense == 0">
+              <uploadSmall
+                 ref="productImage7"
+                :fileName="fileName7"
+                :fileNameOld="fileNameN7"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="银行回单及对账单">
+            <el-radio disabled v-model="formData.isUpStatement" label="0">有</el-radio>
+            <el-radio disabled v-model="formData.isUpStatement" label="1">无</el-radio>
+            <div v-show="formData.isUpStatement == 0">
+              <uploadSmall
+                 ref="productImage8"
+                :fileName="fileName8"
+                :fileNameOld="fileNameN8"
+                :isDetail="isDetail"
+              ></uploadSmall>
+            </div>
+          </el-form-item>
+          <el-form-item class="comright" label="企业资质证书">
+            <el-radio disabled v-model="formData.isUpCertification" label="0">有</el-radio>
+            <el-radio disabled v-model="formData.isUpCertification" label="1">无</el-radio>
+            <div v-show="formData.isUpCertification == 0">
+              <uploadSmall
+                 ref="productImage9"
+                :fileName="fileName9"
+                :fileNameOld="fileNameN9"
                 :isDetail="isDetail"
               ></uploadSmall>
             </div>
@@ -220,8 +280,18 @@ export default {
     return {
       fileNameN1: [],
       fileNameN2: [],
+      fileNameN5: [],
+      fileNameN6: [],
+      fileNameN7: [],
+      fileNameN8: [],
+      fileNameN9: [],
       fileName1: [],
       fileName2: [],
+      fileName5: [],
+      fileName6: [],
+      fileName7: [],
+      fileName8: [],
+      fileName9: [],
       remark: "",
       isNone: [],
       isDetail: "1",
@@ -251,14 +321,39 @@ export default {
           );
           this.formData.fileName1 = JSON.parse(this.formData.fileName1);
           this.formData.fileName2 = JSON.parse(this.formData.fileName2);
+          this.formData.fileName5 = JSON.parse(this.formData.fileName5);
+          this.formData.fileName6 = JSON.parse(this.formData.fileName6);
+          this.formData.fileName7 = JSON.parse(this.formData.fileName7);
+          this.formData.fileName8 = JSON.parse(this.formData.fileName8);
+          this.formData.fileName9 = JSON.parse(this.formData.fileName9);
           this.formData.isUpContract = JSON.stringify(
             this.formData.isUpContract
           );
           this.formData.isUpAcceptance = JSON.stringify(
             this.formData.isUpAcceptance
           );
+          this.formData.isUpCheckwork = JSON.stringify(
+            this.formData.isUpCheckwork
+          );
+          this.formData.isUpImage = JSON.stringify(
+            this.formData.isUpImage
+          );
+          this.formData.isUpLicense = JSON.stringify(
+            this.formData.isUpLicense
+          );
+          this.formData.isUpStatement = JSON.stringify(
+            this.formData.isUpStatement
+          );
+          this.formData.isUpCertification = JSON.stringify(
+            this.formData.isUpCertification
+          );
           this.$refs.productImage1.getSrcList(this.formData.fileName1);
           this.$refs.productImage2.getSrcList(this.formData.fileName2);
+          this.$refs.productImage5.getSrcList(this.formData.fileName5);
+          this.$refs.productImage6.getSrcList(this.formData.fileName6);
+          this.$refs.productImage7.getSrcList(this.formData.fileName7);
+          this.$refs.productImage8.getSrcList(this.formData.fileName8);
+          this.$refs.productImage9.getSrcList(this.formData.fileName9);
           for (let j in this.formData.fileName1) {
             this.fileNameN1.push({
               name: this.formData.fileName1[j],
@@ -270,6 +365,36 @@ export default {
             this.fileNameN2.push({
               name: this.formData.fileName2[i],
               url: this.baseImgPath + this.formData.fileName2[i],
+            });
+          }
+          for (let h in this.formData.fileName5) {
+            this.fileNameN5.push({
+              name: this.formData.fileName5[h],
+              url: this.baseImgPath + this.formData.fileName5[h],
+            });
+          }
+          for (let k in this.formData.fileName6) {
+            this.fileNameN6.push({
+              name: this.formData.fileName6[k],
+              url: this.baseImgPath + this.formData.fileName6[k],
+            });
+          }
+          for (let p in this.formData.fileName7) {
+            this.fileNameN7.push({
+              name: this.formData.fileName7[p],
+              url: this.baseImgPath + this.formData.fileName7[p],
+            });
+          }
+          for (let g in this.formData.fileName8) {
+            this.fileNameN8.push({
+              name: this.formData.fileName8[g],
+              url: this.baseImgPath + this.formData.fileName8[g],
+            });
+          }
+          for (let r in this.formData.fileName9) {
+            this.fileNameN9.push({
+              name: this.formData.fileName9[r],
+              url: this.baseImgPath + this.formData.fileName9[r],
             });
           }
         })

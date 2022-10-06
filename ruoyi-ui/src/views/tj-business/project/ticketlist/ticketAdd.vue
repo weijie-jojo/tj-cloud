@@ -364,8 +364,21 @@
             prop="ticketCode"
             v-if="fileNameradio == 1"
           >
-            <el-input v-model="formData.ticketCode"></el-input>
+        
+          <el-input type="number" v-model="ticketCode1" @change="aas" style="width:45%"></el-input>
+            <span style="width:10%">--</span>
+            <el-input type="number" v-model="ticketCode2" @change="aas" style="width:45%"></el-input>
+            <el-tooltip
+                  style="position: relative; left: 5px;font-size: 20px;"
+                  class="item"
+                  effect="dark"
+                  content="发票编号 单张发票 比如 001 -- 001 多张发票 001 --003"
+                  placement="top-start"
+                >
+                  <i class="header-icon el-icon-info"></i>
+                </el-tooltip>
           </el-form-item>
+        
           <el-form-item
             class="comright"
             label="发票金额"
@@ -405,10 +418,22 @@
             <el-input v-model="formData.ticketTime" disabled></el-input>
           </el-form-item>
         </el-col>
+        
         <el-col :span="9">
-          <el-form-item class="comright" label="发票编号" prop="ticketCode">
-            <el-input v-model="formData.ticketCode"></el-input>
+          <el-form-item class="comright flexs" label="发票编号" prop="ticketCode">
+            <el-input type="number" v-model="ticketCode1" style="width:50%" @change="aas"></el-input>
+            <span style="width:10%">--</span>
+            <el-input type="number" v-model="ticketCode2" style="width:45%" @change="aas"></el-input>
           </el-form-item>
+          <el-tooltip
+                  style="position: relative; left: 30px;font-size: 20px;"
+                  class="item"
+                  effect="dark"
+                  content="发票编号 单张发票 比如 001 -- 001 多张发票 001 --003"
+                  placement="top-start"
+                >
+                  <i class="header-icon el-icon-info"></i>
+                </el-tooltip>
           <el-form-item class="comright" label="发票金额" prop="ticketAmount">
             <el-input
               @input="ticketAsee"
@@ -491,6 +516,8 @@ export default {
   },
   data() {
     return {
+      ticketCode2:'',
+      ticketCode1:'',
       projectRemainAmount: "0",
       isDetail: "1",
       isDetails: "0",
@@ -689,6 +716,12 @@ export default {
   },
 
   methods: {
+    aas(e){
+         console.log(e);
+         if(this.ticketCode1 && this.ticketCode2){
+           this.formData.ticketCode=this.ticketCode1+'--'+this.ticketCode2;
+         }
+    },
     check(resmsg) {
       getInfo().then((res) => {
         this.userinfo = res.user;
@@ -917,11 +950,12 @@ export default {
 
         return;
       }
-
+      this.formData.ticketCode=this.ticketCode1+'--'+this.ticketCode2;
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
           //如果是附件的话
+          
           add(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
