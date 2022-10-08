@@ -40,10 +40,10 @@
             <el-input
               
               v-model="formData.receiveMoney"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
               onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -294,7 +294,7 @@ export default {
         if (valid) {
           this.formData.receiveRemark = "";
           this.formData.isCheck = 0;
-          if (isArray(this.formData.fileNameReceive)) {
+          if (Array.isArray(this.formData.fileNameReceive)) {
             this.formData.fileNameReceive = JSON.stringify(
               this.formData.fileNameReceive
             );
@@ -318,7 +318,7 @@ export default {
                   });
                 } else {
                   this.$tab.refreshPage({
-                    path: this.$cache.local.getJSON("tg-edit-project").backurl,
+                    path: this.$cache.local.getJSON("tg-edit-project").url,
                     name: this.$cache.local.getJSON("tg-edit-project").name,
                   });
                 }

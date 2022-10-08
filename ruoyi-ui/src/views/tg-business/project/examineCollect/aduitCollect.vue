@@ -168,7 +168,7 @@ export default {
         receiveSysCode: "", //流水号
         receiveAccount: "", //转账账号 收款信息
         receiveName: "", //转账账户 收款信息
-        receiveMoney: "0.00000", //收款金额 收款信息
+        receiveMoney: "0.00", //收款金额 收款信息
       },
       rules: {
         paymentAccount: [
@@ -331,6 +331,7 @@ export default {
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
                             projectOwner:this.publicList.projectOwner,
+                            placeCode:this.publicList.placeCode
 
                         };
                       } else {
@@ -341,6 +342,7 @@ export default {
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
                             projectOwner:this.publicList.projectOwner,
+                            placeCode:this.publicList.placeCode
                         };
                        }
                   
@@ -353,6 +355,7 @@ export default {
                     isSelfCount: this.publicList.isSelfCount,
                     projectCode: this.publicList.projectCode,
                     projectOwner:this.publicList.projectOwner,
+                    placeCode:this.publicList.placeCode
                   };
 
                   this.check("收款审核不通过。" + "原因:" + this.remark);

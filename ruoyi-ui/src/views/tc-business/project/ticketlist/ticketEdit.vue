@@ -52,9 +52,9 @@
               type="number"
               style="width: 100%"
               v-model="Father.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -70,9 +70,9 @@
               type="number"
               style="width: 100%"
               v-model="Father.projectPackageAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -86,9 +86,9 @@
               type="number"
               style="width: 100%"
               v-model="Father.projectRemainAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -277,6 +277,9 @@
           <el-form-item class="comright" label="发票时间" :required="true">
             <el-input v-model="formData.ticketTime" disabled></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="发票总数">
+            <el-input :readonly="true" ></el-input>
+          </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -353,7 +356,7 @@
           <el-form-item class="comright" label="发票编号" prop="ticketCode">
             <el-input disabled v-model="formData.ticketCode"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="发票金额" prop="ticketAmount">
+          <el-form-item class="comright" label="发票总金额" prop="ticketAmount">
             <el-input
               disabled
               type="number"
@@ -405,7 +408,7 @@ import uploadSmall from "@/components/douploads/uploadSmall";
 import crudRate from "@/api/project/rate";
 import { list2, edit, getTicketDetail } from "@/api/tc-api/project/ticket";
 import { detail, getcode, getinfoByUserId, ownlist } from "@/api/tc-api/project/list";
-import arrss from "@/api/tc-api/project/list";
+import projectlist from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
 export default {
@@ -507,7 +510,7 @@ export default {
         ticketAmount: [
           {
             required: true,
-            message: "请输入发票金额",
+            message: "请输入发票总金额",
             trigger: "change",
           },
         ],
@@ -648,7 +651,7 @@ export default {
                 ).add(new Decimal(arr[i].ticketAmount));
               }
             }
-            //如果存在发票 累计发票 加上发票金额
+            //如果存在发票 累计发票 加上发票总金额
             this.Father.projectRemainAmount = new Decimal(
               this.Father.projectTotalAmount
             ).sub(new Decimal(this.Father.projectPackageAmount));
@@ -817,16 +820,64 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          this.formData.fileName = JSON.stringify(this.formData.fileName);
+          if (Array.isArray(this.formData.fileName)) {
+            this.formData.fileName = JSON.stringify(
+              this.formData.fileName
+            );
+          }
           //如果是附件的话
-          arrss.edit(this.Father);
+          this.$modal.loading("正在提交中，请稍后...");
           this.formData.isDeleted = 2;
           edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$nextTick(function () {
-                  this.$modal.msgSuccess("票据修改成功");
-                  this.$tab
+                list2({
+                  projectCode: this.Father.projectCode,
+                })
+                  .then((res) => {
+                    let arr = res;
+                    //判断是否审核没有通过的
+                      arr.map((item) => {
+                        if (item.isDeleted == 3) {
+                          this.Father.projectTicketStatus=2;
+                          return (this.Father.projectStatus = 1);
+                        }else if(item.isDeleted==2){
+                          return this.Father.projectTicketStatus=0;
+                        }
+                      });
+                      //如果其他都是通过 就是通过  其他有异常就是异常
+                       if (
+                        this.Father.projectReceiveStatus == 1 &&
+                        this.Father.projectPayStatus == 1 &&
+                        this.Father.projectDutypaidStatus == 1 &&
+                        this.Father.projectAcceptanceStatus == 1 &&
+                        this.Father.projectContractStatus == 1 &&
+                        this.Father.projectCheckStatus == 1
+                      ) {
+                        this.Father.projectStatus = 2;
+                      } else {
+                        if (
+                          this.Father.projectReceiveStatus == 2 ||
+                          this.Father.projectPayStatus == 2 ||
+                          this.Father.projectDutypaidStatus == 2 ||
+                          this.Father.projectAcceptanceStatus == 2 ||
+                          this.Father.projectContractStatus == 2 ||
+                          this.Father.projectCheckStatus == 2
+                        ) {
+                          this.Father.projectStatus= 1;
+                        } else {
+                          this.Father.projectStatus = 0;
+                        }
+                      }
+                   if(this.Father.projectStatus==0){
+                      this.Father.projectTicketStatus=0;
+                    }
+                    
+                   this.$nextTick(function () {
+                    projectlist.edit(this.Father);  
+                    this.$modal.closeLoading();
+                    this.$modal.msgSuccess("票据修改成功");
+                    this.$tab
                     .closeOpenPage({ path: "/tc-business/project/ticketList" })
                     .then(() => {
                       this.$tab.refreshPage({
@@ -834,8 +885,12 @@ export default {
                         name: "TicketList",
                       });
                     });
-                });
+                    });  
+                  })
+                  .catch((err) => {});
+               
               } else {
+                this.$modal.closeLoading();
                 this.$modal.msgError(res.msg);
                 this.$tab.closeOpenPage({
                   path: "/tc-business/project/ticketList",

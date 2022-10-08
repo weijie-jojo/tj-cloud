@@ -187,6 +187,8 @@ export default {
                 backurl:'/tg-business/project/collectAudit',
                 name:'CollectAudit',
             };
+          
+            this.$cache.local.setJSON('tg-edit-project',objList);
             this.$cache.local.setJSON('tg-aduitback',objList);
             this.$cache.local.setJSON('tg-ifcollect', 0);
             this.$cache.local.setJSON('tg-project-code', code);

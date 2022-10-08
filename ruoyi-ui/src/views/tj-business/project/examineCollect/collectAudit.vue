@@ -188,6 +188,8 @@ export default {
                 name:'CollectAudit',
             };
             this.$cache.local.setJSON('tj-aduitback',objList);
+        
+            this.$cache.local.setJSON('tj-edit-project',objList);
             this.$cache.local.setJSON('tj-ifcollect', 0);
             this.$cache.local.setJSON('tj-project-code', code);
           

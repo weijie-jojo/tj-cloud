@@ -569,6 +569,11 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
+      let objList1={
+                url:'/tj-business/project/aduitCollectList',
+                name:'AduitCollectList',
+            };
+      this.$cache.local.setJSON('tj-edit-project',objList1);
       this.$cache.local.setJSON("tj-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tj-business/project/collectEdit" });
     },

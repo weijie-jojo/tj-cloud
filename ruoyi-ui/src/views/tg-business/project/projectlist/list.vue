@@ -719,6 +719,11 @@ export default {
                   let obj = {
                     backurl: "/tg-business/project/list",
                   };
+                  let obj1={
+                     backurl:'/tg-business/project/list',
+                     name:'List'
+                  };
+                   this.$cache.local.setJSON("tg-aduitback",obj1);
                   this.$cache.local.setJSON("tg-backTicket", obj);
                   this.$tab.openPage("票据列表", "/tg-business/project/ticketlist");
                 } else if (this.msgs == "收款") {
@@ -957,7 +962,11 @@ export default {
         this.errArrName = "异常原因:" + row.payRemark;
       }
       this.$cache.local.setJSON("tg-project-code", code);
-     
+      let obj = {
+        name: 'List',
+        url: '/tg-business/project/list',
+        };
+       this.$cache.local.setJSON('tg-edit-project', obj);
       getLeaderByUserId({
         userId: row.userId,
       })

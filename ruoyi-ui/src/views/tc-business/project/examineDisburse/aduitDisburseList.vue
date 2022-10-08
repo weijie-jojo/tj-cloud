@@ -63,9 +63,9 @@
             <el-input
               :readonly="true"
               v-model="publicList.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -575,6 +575,11 @@ export default {
    
     /** 修改按钮操作 */
     handleUpdate(row) {
+      let obj2={
+                url:'/tc-business/project/aduitDisburseList',
+                name:'AduitDisburseList'
+            };
+            this.$cache.local.setJSON('tc-edit-project',obj2);
       this.$cache.local.setJSON("tc-payId", row.payId);
       this.$tab.closeOpenPage({ path: "/tc-business/project/disburseEdit" });
     },

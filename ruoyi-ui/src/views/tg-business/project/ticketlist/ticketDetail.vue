@@ -282,6 +282,9 @@
           <el-form-item class="comright" label="发票时间">
             <el-input :readonly="true" v-model="formData.ticketTime"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="发票总数">
+            <el-input :readonly="true" ></el-input>
+          </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -361,7 +364,7 @@
           <el-form-item class="comright" label="发票编号" prop="ticketCode">
             <el-input v-model="formData.ticketCode" :readonly="true"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="发票金额" prop="ticketAmount">
+          <el-form-item class="comright" label="发票总金额" prop="ticketAmount">
             <el-input
               :readonly="true"
               @change="ticketAsee"
@@ -495,7 +498,7 @@ export default {
         ticketCode: "", //发票种类编号
         ticketTypeCode: "", //发票编号
         fileName: "", //开票内容
-        ticketAmount: "", //发票金额
+        ticketAmount: "", //发票总金额
         ticketTime: "", //发票时间
         isDeleted: 1,
       },
@@ -561,7 +564,7 @@ export default {
         ticketAmount: [
           {
             required: true,
-            message: "请输入发票金额额",
+            message: "请输入发票总金额额",
             trigger: "blur",
           },
         ],
@@ -668,7 +671,7 @@ export default {
           this.getlist();
           this.getinfoByUserId();
           this.ticketByCode();
-          this.gettoday();
+      
           this.getRate();
           this.formData.fileName = JSON.parse(this.formData.fileName);
           this.isokradioS = JSON.stringify(this.formData.projectTicketStatus);
@@ -720,7 +723,7 @@ export default {
       console.log(e);
       console.log(this.balance);
       if (e > this.balance) {
-        this.$modal.msgError("发票金额不能大于剩余金额");
+        this.$modal.msgError("发票总金额不能大于剩余金额");
         this.formData.ticketAmount = "0";
       }
     },
@@ -858,32 +861,7 @@ export default {
         return i;
       }
     },
-    gettoday() {
-      var date = new Date(); //当前时间
-      var year = date.getFullYear(); //年
-      var month = this.repair(date.getMonth() + 1); //月
-      var day = this.repair(date.getDate()); //日
-
-      var hour = this.repair(date.getHours()); //时
-      var minute = this.repair(date.getMinutes()); //分
-      var second = this.repair(date.getSeconds()); //秒
-
-      //当前时间
-      var curTime =
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
-
-      this.formData.ticketTime = curTime;
-    },
+    
     getcode(selfCode) {
       getcode({ selfCode: selfCode })
         .then((res) => {

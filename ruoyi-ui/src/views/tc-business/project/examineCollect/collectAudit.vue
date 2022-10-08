@@ -187,6 +187,7 @@ export default {
                 backurl:'/tc-business/project/collectAudit',
                 name:'CollectAudit',
             };
+           
             this.$cache.local.setJSON('tc-aduitback',objList);
             this.$cache.local.setJSON('tc-ifcollect', 0);
             this.$cache.local.setJSON('tc-project-code', code);

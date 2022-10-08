@@ -8,12 +8,14 @@
         style="padding-left: 2%; margin-top: 30px; margin-bottom: 20px"
       >
         <el-step title="项目填写完成"></el-step>
+        <el-step title="项目审核完成"></el-step>
         <el-step title="票据审核完成"></el-step>
-        <el-step title="资料审核完成"></el-step>
-        <el-step title="完税审核完成"></el-step>
         <el-step title="收款审核完成"></el-step>
         <el-step title="出款审核完成"></el-step>
-        <el-step title="项目审核完成"></el-step>
+        <el-step title="资料审核完成"></el-step>
+        <el-step title="完税审核完成"></el-step>
+        
+        
       </el-steps>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="8"></el-col>
@@ -55,49 +57,52 @@ export default {
   mounted() {
     this.obj = this.$cache.local.getJSON("tj-successProject");
     this.shenmsg = this.obj.resmsg;
+    
     switch (this.shenmsg) {
       case "项目填写完成":
         this.shenmsgs = 0;
         break;
-      case "票据审核完成":
+      case "项目审核完成":
         this.shenmsgs = 1;
-        break;
-      case "资料审核完成":
+      break;
+      case "票据审核完成":
         this.shenmsgs = 2;
-        break;
-      case "完税审核完成":
+      break;
+      case "收款审核完成":
         this.shenmsgs = 3;
         break;
-      case "收款审核完成":
+      case "出款审核完成":
         this.shenmsgs = 4;
         break;
-      case "出款审核完成":
+      case "资料审核完成":
         this.shenmsgs = 5;
         break;
-      case "项目审核完成":
+      case "完税审核完成":
         this.shenmsgs = 6;
         break;
+     
+     
     }
   },
   methods: {
     resetForm() {},
     submitForm() {
-      if (this.shenmsgs == 1 || this.shenmsgs == 4 || this.shenmsgs==5 ) {
+      if (this.shenmsgs == 2 || this.shenmsgs == 3 || this.shenmsgs==4 ) {
         if (this.$cache.local.getJSON("tj-ifcollect") == 0) {
-          if(this.shenmsgs==1){
+          if(this.shenmsgs==2){
           this.$tab.refreshPage({
             path: "/tj-business/project/ticketlist",
             name: "Ticketlist",
           });
          }
         
-          if(this.shenmsgs==4){
+          if(this.shenmsgs==3){
           this.$tab.refreshPage({
             path: "/tj-business/project/aduitCollectList",
             name: "AduitCollectList",
           });
          }
-         if(this.shenmsgs==5){
+         if(this.shenmsgs==4){
           this.$tab.refreshPage({
             path: "/tj-business/project/aduitDisburseList",
             name: "AduitDisburseList",

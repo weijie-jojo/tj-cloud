@@ -7,7 +7,7 @@
       size="medium"
       label-width="140px"
     >
-    <el-row
+      <el-row
         type="flex"
         class="row-bg"
         style="margin-top: 20px"
@@ -21,11 +21,7 @@
           <div></div>
         </el-col>
       </el-row>
-      <el-row
-        type="flex"
-        class="row-bg rowCss"
-        justify="space-around"
-      >
+      <el-row type="flex" class="row-bg rowCss" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="项目编号">
             <el-input v-model="Father.projectCode" :readonly="true"></el-input>
@@ -68,7 +64,7 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-            <el-form-item class="comright" label="已开金额">
+          <el-form-item class="comright" label="已开金额">
             <el-input
               :required="true"
               :readonly="true"
@@ -81,11 +77,10 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          
         </el-col>
 
         <el-col :span="9">
-            <el-form-item class="comright" label="剩余金额">
+          <el-form-item class="comright" label="剩余金额">
             <el-input
               :readonly="true"
               type="number"
@@ -97,7 +92,6 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-         
         </el-col>
       </el-row>
       <el-row
@@ -120,36 +114,40 @@
             <el-input disabled v-model="Father.purchCompany"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="地址">
-          <el-input
-            v-model="Father.purchCompanyAddress"
-            :readonly="true"
-            maxlength="250"
-            show-word-limit
-            type="textarea"
-            :rows="1"
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="comright" label="开户行">
-          <el-input v-model="Father.bankName" :readonly="true"></el-input>
-        </el-form-item>
-        <el-form-item label="添加购方列表" :required="true">
-            <el-radio disabled v-model="Father.isAddBuyer" label="1">是</el-radio>
-            <el-radio disabled v-model="Father.isAddBuyer" label="0">否</el-radio>
-         </el-form-item>
+            <el-input
+              v-model="Father.purchCompanyAddress"
+              :readonly="true"
+              maxlength="250"
+              show-word-limit
+              type="textarea"
+              :rows="1"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="开户行">
+            <el-input v-model="Father.bankName" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item label="添加购方列表" :required="true">
+            <el-radio disabled v-model="Father.isAddBuyer" label="1"
+              >是</el-radio
+            >
+            <el-radio disabled v-model="Father.isAddBuyer" label="0"
+              >否</el-radio
+            >
+          </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input disabled v-model="Father.purchCompanyTaxid"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="电话">
-          <el-input
-            v-model="Father.purchCompanyPhone"
-            :readonly="true"
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="comright" label="帐号">
-          <el-input v-model="Father.bankCode" :readonly="true"></el-input>
-        </el-form-item>
+            <el-input
+              v-model="Father.purchCompanyPhone"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="帐号">
+            <el-input v-model="Father.bankCode" :readonly="true"></el-input>
+          </el-form-item>
         </el-col>
       </el-row>
 
@@ -173,50 +171,47 @@
             <el-input v-model="Father.selfName" disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="地址">
-          <el-input
-            :readonly="true"
-            v-model="Father.residence"
-            maxlength="250"
-            show-word-limit
-            type="textarea"
-            :rows="1"
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="comright" label="开户行">
-          <el-input
-            v-if="Father.accountType == 1"
-            v-model="Father.privateDepositBank"
-            :readonly="true"
-          ></el-input>
-          <el-input
-            v-else
-            v-model="Father.publicDepositBank1"
-            :readonly="true"
-          ></el-input>
-        </el-form-item>
+            <el-input
+              :readonly="true"
+              v-model="Father.residence"
+              maxlength="250"
+              show-word-limit
+              type="textarea"
+              :rows="1"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="开户行">
+            <el-input
+              v-if="Father.accountType == 1"
+              v-model="Father.privateDepositBank"
+              :readonly="true"
+            ></el-input>
+            <el-input
+              v-else
+              v-model="Father.publicDepositBank1"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item class="comright" label="纳税人识别号" :required="true">
             <el-input disabled v-model="Father.projectOwnerTaxid"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="电话">
-          <el-input
-            :readonly="true"
-            v-model="Father.contactPhone"
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="comright" label="帐号">
-          <el-input
-            v-if="Father.accountType == 1"
-            v-model="Father.privateAccountNumber"
-            :readonly="true"
-          ></el-input>
-          <el-input
-            v-else
-            v-model="Father.publicAccountNumber1"
-            :readonly="true"
-          ></el-input>
-        </el-form-item>
+            <el-input :readonly="true" v-model="Father.contactPhone"></el-input>
+          </el-form-item>
+          <el-form-item class="comright" label="帐号">
+            <el-input
+              v-if="Father.accountType == 1"
+              v-model="Father.privateAccountNumber"
+              :readonly="true"
+            ></el-input>
+            <el-input
+              v-else
+              v-model="Father.publicAccountNumber1"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
         </el-col>
       </el-row>
 
@@ -237,8 +232,6 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          
-         
           <el-form-item class="comright" label="发票类型" prop="ticketType">
             <el-select
               disabled
@@ -257,24 +250,19 @@
             </el-select>
           </el-form-item>
           <el-form-item class="comright" label="收款人">
-            <el-input v-model="formData.receiveUser" :readonly="true"></el-input>
+            <el-input
+              v-model="formData.receiveUser"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item class="comright" label="开票人">
             <el-input v-model="formData.createUser" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="开票内容类型">
-            <el-radio
-              disabled
-              v-model="fileNameradio"
-              label="1"
-              
+            <el-radio disabled v-model="fileNameradio" label="1"
               >手动输入</el-radio
             >
-            <el-radio
-              disabled
-              v-model="fileNameradio"
-              label="2"
-              
+            <el-radio disabled v-model="fileNameradio" label="2"
               >上传附件
             </el-radio>
           </el-form-item>
@@ -291,11 +279,12 @@
           <el-form-item class="comright" label="发票时间">
             <el-input :readonly="true" v-model="formData.ticketTime"></el-input>
           </el-form-item>
+          <el-form-item class="comright" label="发票总数">
+            <el-input :readonly="true"></el-input>
+          </el-form-item>
         </el-col>
 
         <el-col :span="9">
-         
-        
           <el-form-item v-if="tickettaxvipok" label="发票税率" prop="ticketTax">
             <el-input
               style="width: 86%"
@@ -372,7 +361,7 @@
           <el-form-item class="comright" label="发票编号" prop="ticketCode">
             <el-input v-model="formData.ticketCode" :readonly="true"></el-input>
           </el-form-item>
-          <el-form-item class="comright" label="发票金额" prop="ticketAmount">
+          <el-form-item class="comright" label="发票总金额" prop="ticketAmount">
             <el-input
               :readonly="true"
               @change="ticketAsee"
@@ -387,7 +376,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      
+
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="发票影像" prop="fileName">
@@ -464,7 +453,7 @@
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudRate from "@/api/project/rate";
 import { list2, edit, getTicketDetail } from "@/api/tg-api/project/ticket";
-import arrss from "@/api/tg-api/project/list";
+import projectlist from "@/api/tg-api/project/list";
 import {
   detail,
   getcode,
@@ -481,6 +470,7 @@ export default {
   },
   data() {
     return {
+      okif:'0',
       projectStatusNew: "0",
       isokradioS: "1",
       fileNames: [],
@@ -511,8 +501,7 @@ export default {
       owerTaxfee: "", //销货单位（乙方）税率
       userinfo: {},
       Father: [],
-      formData: {
-      },
+      formData: {},
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
       options: [
         {
@@ -575,7 +564,7 @@ export default {
         ticketAmount: [
           {
             required: true,
-            message: "请输入发票金额",
+            message: "请输入发票总金额",
             trigger: "blur",
           },
         ],
@@ -715,97 +704,114 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
+          this.$modal.loading("正在提交中，请稍后...");
           this.ticketByCode();
-
-          if (
-            this.Father.projectReceiveStatus == 1 &&
-            this.Father.projectPayStatus == 1 &&
-            this.Father.projectDutypaidStatus == 1 &&
-            this.Father.projectAcceptanceStatus == 1 &&
-            this.Father.projectContractStatus == 1 &&
-            this.Father.projectCheckStatus == 1
-          ) {
-            this.projectStatusNew = 2;
-          } else if (
-            this.Father.projectReceiveStatus == 2 ||
-            this.Father.projectPayStatus == 2 ||
-            this.Father.projectDutypaidStatus == 2 ||
-            this.Father.projectAcceptanceStatus == 2 ||
-            this.Father.projectCheckStatus == 2 ||
-            this.Father.projectContractStatus == 2
-          ) {
-            this.projectStatusNew = 1;
-          } else {
-            this.projectStatusNew = 0;
-          }
-
           if (type == 1) {
             this.formData.isDeleted = 1;
-
-            if (
-              new Decimal(this.Father.projectRemainAmount).sub(
-                new Decimal(this.formData.ticketAmount)
-              ) == 0
-            ) {
-              parms = {
-                projectId: this.Father.projectId,
-                projectTicketStatus: 1,
-                projectStatus: this.projectStatusNew,
-                isSelfCount: this.Father.isSelfCount,
-                projectCode: this.Father.projectCode,
-                projectOwner: this.Father.projectOwner,
-              };
-            } else {
-              parms = {
-                projectId: this.Father.projectId,
-                projectTicketStatus: 0,
-                projectStatus: this.projectStatusNew,
-                isSelfCount: this.Father.isSelfCount,
-                projectCode: this.Father.projectCode,
-                projectOwner: this.Father.projectOwner,
-              };
-            }
           } else {
             this.formData.isDeleted = 3;
-            parms = {
-              projectId: this.Father.projectId,
-              ticketRemark: this.remark,
-              projectTicketStatus: type,
-              projectStatus: 1,
-              isSelfCount: this.Father.isSelfCount,
-              projectCode: this.Father.projectCode,
-              projectOwner: this.Father.projectOwner,
-            };
           }
-          arrss.edit(parms);
+
+          if (Array.isArray(this.formData.fileName)) {
+            this.formData.fileName = JSON.stringify(this.formData.fileName);
+          }
 
           edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$nextTick(function () {
-                  let resmsg = "";
-                  if (type == 1) {
-                    resmsg = "票据审核完成";
-                    this.check("票据审核完成");
-                  } else {
-                    this.check("票据审核不通过。" + "原因：" + this.remark);
-                    resmsg = "票据审核完成";
-                  }
+                list2({
+                  projectCode: this.Father.projectCode,
+                })
+                  .then((res) => {
+                    let arr = res;
+                    let parms;
+                   
+                    if (type == 1) {
+                      //判断是否审核没有通过的
+                      arr.map((item) => {
+                        if (item.isDeleted == 3) {
+                           this.okif=2;
+                          return (this.projectStatusNew = 1);
+                        }else if(item.isDeleted==1){
+                           this.okif=1;
+                        }
+                      });
 
-                  let obj = {
-                    title: "票据审核",
-                    backUrl: this.$cache.local.getJSON("tg-aduitback").backurl,
-                    resmsg: resmsg,
-                    backName: this.$cache.local.getJSON("tg-aduitback").name,
-                  };
-                  this.$cache.local.setJSON("tg-successProject", obj);
-                  this.$tab.closeOpenPage({
-                    path: "/tg-business/project/success",
-                  });
-                });
+                      //如果其他都是通过 就是通过  其他有异常就是异常
+
+                      if (
+                        this.Father.projectReceiveStatus == 1 &&
+                        this.Father.projectPayStatus == 1 &&
+                        this.Father.projectDutypaidStatus == 1 &&
+                        this.Father.projectAcceptanceStatus == 1 &&
+                        this.Father.projectContractStatus == 1 &&
+                        this.Father.projectCheckStatus == 1
+                      ) {
+                        this.projectStatusNew = 2;
+                      } else {
+                        if (
+                          this.Father.projectReceiveStatus == 2 ||
+                          this.Father.projectPayStatus == 2 ||
+                          this.Father.projectDutypaidStatus == 2 ||
+                          this.Father.projectAcceptanceStatus == 2 ||
+                          this.Father.projectContractStatus == 2 ||
+                          this.Father.projectCheckStatus == 2
+                        ) {
+                          this.projectStatusNew = 1;
+                        } else {
+                          this.projectStatusNew = 0;
+                        }
+                      }
+                      parms = {
+                        projectId: this.Father.projectId,
+                        projectTicketStatus: this.okif,
+                        projectStatus: this.projectStatusNew,
+                        isSelfCount: this.Father.isSelfCount,
+                        projectCode: this.Father.projectCode,
+                        projectOwner: this.Father.projectOwner,
+                        placeCode: this.Father.placeCode,
+                      };
+                    } else {
+                      parms = {
+                        projectId: this.Father.projectId,
+                        projectTicketStatus: 2,
+                        projectStatus: 1,
+                        isSelfCount: this.Father.isSelfCount,
+                        projectCode: this.Father.projectCode,
+                        projectOwner: this.Father.projectOwner,
+                        placeCode: this.Father.placeCode,
+                      };
+                    }
+                     this.$nextTick(function () {
+                      projectlist.edit(parms);
+                      this.$modal.closeLoading();
+                      let resmsg = "";
+                      if (type == 1) {
+                        resmsg = "票据审核完成";
+                        this.check("票据审核完成");
+                      } else {
+                        this.check("票据审核不通过。" + "原因：" + this.remark);
+                        resmsg = "票据审核完成";
+                      }
+
+                      let obj = {
+                        title: "票据审核",
+                        backUrl:
+                          this.$cache.local.getJSON("tg-aduitback").backurl,
+                        resmsg: resmsg,
+                        backName:
+                          this.$cache.local.getJSON("tg-aduitback").name,
+                      };
+                      this.$cache.local.setJSON("tg-successProject", obj);
+                      this.$tab.closeOpenPage({
+                        path: "/tg-business/project/success",
+                      });
+                    });
+                  })
+                  .catch((err) => {});
               } else {
                 this.$modal.msgError(res.msg);
+                this.$modal.closeLoading();
                 this.$tab.closeOpenPage({
                   path: this.$cache.local.getJSON("tg-aduitback").backurl,
                 });
@@ -852,7 +858,7 @@ export default {
       console.log(e);
       console.log(this.balance);
       if (e > this.balance) {
-        this.$modal.msgError("发票金额不能大于剩余金额");
+        this.$modal.msgError("发票总金额不能大于剩余金额");
         this.formData.ticketAmount = "";
       }
     },
@@ -863,7 +869,7 @@ export default {
         projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
         this.Father = response.data;
-        this.Father.isAddBuyer=JSON.stringify(this.Father.isAddBuyer);
+        this.Father.isAddBuyer = JSON.stringify(this.Father.isAddBuyer);
         if (this.Father.fileName) {
           if (this.Father.fileName.indexOf("[") != -1) {
             this.Father.fileName = JSON.parse(this.Father.fileName);
@@ -892,7 +898,7 @@ export default {
         }
       });
     },
-   
+
     //监听销货单位（乙方）
     ownnew(e) {
       console.log(e);
@@ -998,32 +1004,7 @@ export default {
         return i;
       }
     },
-    gettoday() {
-      var date = new Date(); //当前时间
-      var year = date.getFullYear(); //年
-      var month = this.repair(date.getMonth() + 1); //月
-      var day = this.repair(date.getDate()); //日
 
-      var hour = this.repair(date.getHours()); //时
-      var minute = this.repair(date.getMinutes()); //分
-      var second = this.repair(date.getSeconds()); //秒
-
-      //当前时间
-      var curTime =
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
-
-      this.formData.ticketTime = curTime;
-    },
     getcode(selfCode) {
       getcode({ selfCode: selfCode })
         .then((res) => {

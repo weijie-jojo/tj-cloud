@@ -295,7 +295,22 @@
             :required="true"
             v-if="fileNameradio == 1"
           >
-            <el-input v-model="formData.ticketTime" disabled></el-input>
+            <!-- <el-input v-model="formData.ticketTime" disabled></el-input> -->
+            <el-date-picker
+                style="width:100%"
+                v-model="formData.ticketTime"
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+                align="right"
+              >
+              </el-date-picker>
+          </el-form-item>
+          <el-form-item v-if="fileNameradio == 1" class="comright" label="发票总数" :required="true">
+            <el-input  ></el-input>
           </el-form-item>
         </el-col>
 
@@ -359,15 +374,16 @@
           </el-form-item>
 
           <el-form-item
-            class="comright"
+            
             label="发票编号"
             prop="ticketCode"
             v-if="fileNameradio == 1"
           >
         
-          <el-input type="number" v-model="ticketCode1" @change="aas" style="width:45%"></el-input>
-            <span style="width:10%">--</span>
-            <el-input type="number" v-model="ticketCode2" @change="aas" style="width:45%"></el-input>
+          <el-input type="number" v-model="ticketCode1" @change="ticketChanges" style="width:42%"></el-input>
+            <span style="width:10%;text-align: center;
+    font-size: 15px;">至</span>
+            <el-input type="number" v-model="ticketCode2" @change="ticketChanges" style="width:42%"></el-input>
             <el-tooltip
                   style="position: relative; left: 5px;font-size: 20px;"
                   class="item"
@@ -381,7 +397,7 @@
         
           <el-form-item
             class="comright"
-            label="发票金额"
+            label="发票总金额"
             prop="ticketAmount"
             v-if="fileNameradio == 1"
           >
@@ -415,18 +431,34 @@
             <el-input v-model="formData.ticketTypeCode"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="发票时间" :required="true">
-            <el-input v-model="formData.ticketTime" disabled></el-input>
+                  <el-date-picker
+                style="width:100%"
+                v-model="formData.ticketTime"
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+                align="right"
+              >
+              </el-date-picker>
+            <!-- <el-input v-model="formData.ticketTime" disabled></el-input> -->
+          </el-form-item>
+          <el-form-item class="comright" label="发票总数" :required="true">
+            <el-input  ></el-input>
           </el-form-item>
         </el-col>
         
         <el-col :span="9">
-          <el-form-item class="comright flexs" label="发票编号" prop="ticketCode">
-            <el-input type="number" v-model="ticketCode1" style="width:50%" @change="aas"></el-input>
-            <span style="width:10%">--</span>
-            <el-input type="number" v-model="ticketCode2" style="width:45%" @change="aas"></el-input>
-          </el-form-item>
-          <el-tooltip
-                  style="position: relative; left: 30px;font-size: 20px;"
+          <el-form-item  label="发票编号" prop="ticketCode">
+            <div class="flexs" style="margin-left:0px;width:91%">
+              <el-input type="number" v-model="ticketCode1" style="width:45%" @change="ticketChanges"></el-input>
+            <span style="width:10%;text-align: center;
+    font-size: 15px;">至</span>
+            <el-input type="number" v-model="ticketCode2" style="width:45%" @change="ticketChanges"></el-input>
+            <el-tooltip
+                  style="position: relative; left: 10px;font-size: 20px;"
                   class="item"
                   effect="dark"
                   content="发票编号 单张发票 比如 001 -- 001 多张发票 001 --003"
@@ -434,7 +466,10 @@
                 >
                   <i class="header-icon el-icon-info"></i>
                 </el-tooltip>
-          <el-form-item class="comright" label="发票金额" prop="ticketAmount">
+            </div>
+          
+          </el-form-item>
+          <el-form-item class="comright" label="发票总金额" prop="ticketAmount">
             <el-input
               @input="ticketAsee"
               @change="ticketAsee"
@@ -516,6 +551,37 @@ export default {
   },
   data() {
     return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
       ticketCode2:'',
       ticketCode1:'',
       projectRemainAmount: "0",
@@ -555,7 +621,7 @@ export default {
         ticketCode: "", //发票种类编号
         ticketTypeCode: "", //发票编号
         fileName: "", //开票内容
-        ticketAmount: "0", //发票金额
+        ticketAmount: "0", //发票总金额
         ticketTime: "", //发票时间
         isDeleted: 2,
       },
@@ -684,6 +750,7 @@ export default {
           {
             required: true,
             message: "发票影像不能为空",
+            trigger: "change",
           },
         ],
         projectDesc: [
@@ -716,10 +783,12 @@ export default {
   },
 
   methods: {
-    aas(e){
-         console.log(e);
+    ticketChanges(e){
+        
          if(this.ticketCode1 && this.ticketCode2){
            this.formData.ticketCode=this.ticketCode1+'--'+this.ticketCode2;
+         }else{
+          this.formData.ticketCode='';
          }
     },
     check(resmsg) {
@@ -822,6 +891,7 @@ export default {
           } else {
             this.fileNameradio = "1";
           }
+         
           this.getinfoByUserId();
           this.gettoday();
           this.getRate();
@@ -940,7 +1010,7 @@ export default {
       console.log(val);
     },
     onSubmit() {
-      this.formData.fileName = JSON.stringify(this.formData.fileName);
+      
       if (this.formData.ticketAmount < 1) {
         this.$alert("发票金额必须大于1", "系统提示", {
           confirmButtonText: "确定",
@@ -950,11 +1020,17 @@ export default {
 
         return;
       }
-      this.formData.ticketCode=this.ticketCode1+'--'+this.ticketCode2;
+      
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
           //如果是附件的话
+          if (Array.isArray(this.formData.fileName)) {
+            this.formData.fileName = JSON.stringify(
+              this.formData.fileName
+            );
+          }
+          
           
           add(this.formData).then((res) => {
             if (res != undefined) {

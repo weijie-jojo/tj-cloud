@@ -61,9 +61,9 @@
                 type="number"
                 style="width: 100%"
                 v-model="formData.projectTotalAmount"
-                :step="0.00001"
+                :step="0.01"
                 :min="0"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
               </el-input>
@@ -100,6 +100,7 @@
             <el-form-item class="comright" label="业务经理">
               <el-input v-model="formData.projectLeader" disabled></el-input>
             </el-form-item>
+           
           </el-col>
         </el-row>
   
@@ -1106,10 +1107,10 @@
             value: 0,
             label: "免税",
           },
-          {
-            value: 3,
-            label: "3%",
-          },
+          // {
+          //   value: 3,
+          //   label: "3%",
+          // },
         ],
         rules: {
           isDisposableShare: [
