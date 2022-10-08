@@ -81,7 +81,7 @@ public class SelfProject extends BaseEntity
     private BigDecimal projectNetProfit;
 
     /** 分包总金额 */
-    @ApiModelProperty(value = "分包总金额")
+    @ApiModelProperty(value = "应收账款")
     private BigDecimal projectPackageAmount;
 
     /** 项目描述(开票内容） */
@@ -554,4 +554,15 @@ public class SelfProject extends BaseEntity
     @ApiModelProperty(value = "一次性金额")
     private BigDecimal disposableServeMoney;
 
+    /** 计算投入金额用(不映射） */
+    @ApiModelProperty(value = "计算投入金额用")
+    private BigDecimal putintoMoney;
+
+    /** 一次性分润金额 */
+    @ApiModelProperty(name = "一次性分润金额")
+    private BigDecimal disposableShareServeMoney;
+
+    /** 发票张数 */
+    @ApiModelProperty(name = "发票张数")
+    private Long ticketNum;
 }

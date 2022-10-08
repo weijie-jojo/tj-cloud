@@ -138,6 +138,8 @@
         <result property="ordinaryShareServeMoney"    column="ordinary_share_serve_money"    />
         <result property="specialShareServeMoney"    column="special_share_serve_money"    />
         <result property="disposableServeMoney"    column="disposable_serve_money"    />
+        <result property="disposableShareServeMoney"    column="disposable_share_serve_money"    />
+        <result property="ticketNum"    column="ticket_num"    />
     </resultMap>
 
     <sql id="selectSelfProjectVo">
@@ -160,7 +162,8 @@
                is_up_checkwork, is_up_image, is_up_license,is_up_statement, is_up_certification, file_name5, file_name6, file_name7, file_name8,
                file_name9, project_tax, is_project_comeback, project_amount_aftertax, project_tax_money, city_tax_money, edu_tax_money, localedu_tax_money,
                personal_tax_money, waterbuild_money, stamp_tax_money, project_profit_money, project_putinto_money, project_putinto_out_ratio, project_award_money,
-               register_serve_money, special_serve_money, ordinary_serve_money, ordinary_share_serve_money, special_share_serve_money, disposable_serve_money
+               register_serve_money, special_serve_money, ordinary_serve_money, ordinary_share_serve_money, special_share_serve_money, disposable_serve_money,
+               disposable_share_serve_money, ticket_num
         from self_project_tc
     </sql>
 
@@ -192,6 +195,7 @@
                 t.city_tax_money, t.edu_tax_money, t.localedu_tax_money, t.personal_tax_money, t.waterbuild_money, t.stamp_tax_money,
                 t.project_profit_money, t.project_putinto_money, t.project_putinto_out_ratio, t.project_award_money, t.register_serve_money,
                 t.special_serve_money, t.ordinary_serve_money, t.ordinary_share_serve_money, t.special_share_serve_money, t.disposable_serve_money,
+                t.disposable_share_serve_money, t.ticket_num,
                 B.self_name,B.tax_id,B.nature_business,B.industry_type,B.industry_tax,B.is_active,B.account_type, B.account_type2,
                 B.private_deposit_bank, B.private_account_number,B.public_deposit_bank_1, B.public_account_number_1, B.public_deposit_bank_2,
                 B.public_account_number_2, B.account_name, B.public_deposit_bank_3,B.public_account_number_3,
@@ -354,6 +358,8 @@
             <if test="selfProject.ordinaryShareServeMoney != null "> and ordinary_share_serve_money = #{selfProject.ordinaryShareServeMoney}</if>
             <if test="selfProject.specialShareServeMoney != null "> and special_share_serve_money = #{selfProject.specialShareServeMoney}</if>
             <if test="selfProject.disposableServeMoney != null "> and disposable_serve_money = #{selfProject.disposableServeMoney}</if>
+            <if test="selfProject.disposableShareServeMoney != null "> and disposable_share_serve_money = #{selfProject.disposableShareServeMoney}</if>
+            <if test="selfProject.ticketNum != null "> and ticket_num = #{selfProject.ticketNum}</if>
         </where>
         ORDER BY
         create_time DESC
@@ -503,6 +509,8 @@
             <if test="ordinaryShareServeMoney != null">ordinary_share_serve_money,</if>
             <if test="specialShareServeMoney != null">special_share_serve_money,</if>
             <if test="disposableServeMoney != null">disposable_serve_money,</if>
+            <if test="disposableShareServeMoney != null">disposable_share_serve_money,</if>
+            <if test="ticketNum != null">ticket_num,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -637,6 +645,8 @@
             <if test="ordinaryShareServeMoney != null">#{ordinaryShareServeMoney},</if>
             <if test="specialShareServeMoney != null">#{specialShareServeMoney},</if>
             <if test="disposableServeMoney != null">#{disposableServeMoney},</if>
+            <if test="disposableShareServeMoney != null">#{disposableShareServeMoney},</if>
+            <if test="ticketNum != null">#{ticketNum},</if>
         </trim>
     </insert>
 
@@ -775,6 +785,8 @@
             <if test="ordinaryShareServeMoney != null">ordinary_share_serve_money = #{ordinaryShareServeMoney},</if>
             <if test="specialShareServeMoney != null">special_share_serve_money = #{specialShareServeMoney},</if>
             <if test="disposableServeMoney != null">disposable_serve_money = #{disposableServeMoney},</if>
+            <if test="disposableShareServeMoney != null">disposable_share_serve_money = #{disposableShareServeMoney},</if>
+            <if test="ticketNum != null">ticket_num = #{ticketNum},</if>
         </trim>
         where project_id = #{projectId}
     </update>
