@@ -9,7 +9,7 @@
                     </el-form-item>
                     <el-form-item class="comright" label="已开金额">
                         <el-input type="number" :readonly="true" style="width:100%"
-                            v-model="publicList.projectPackageAmount" :step="0.00000"
+                            v-model="publicList.projectPackageAmount" :step="0.00"
                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                             >
                             <template slot="append">元</template>
@@ -21,7 +21,7 @@
                     <el-form-item class="comright" label="项目金额">
                         <el-input :readonly="true" v-model="publicList.projectTotalAmount"
                          oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
-                         :step="0.00000"
+                         :step="0.00"
                          >
                             <template slot="append">元</template>
                         </el-input>
@@ -29,7 +29,7 @@
 
                     <el-form-item class="comright" label="剩余金额">
                         <el-input type="number" :readonly="true" style="width:100%"
-                            v-model="publicList.projectRemainAmount" :step="0.00000"
+                            v-model="publicList.projectRemainAmount" :step="0.00"
                             oninput = 'value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
                             >
                             <template slot="append">元</template>
@@ -99,7 +99,7 @@
             <el-table-column label="发票种类编号" align="center" prop="ticketTypeCode" :show-overflow-tooltip="true" />
             <el-table-column label="发票编号" align="center" prop="ticketCode" :show-overflow-tooltip="true" />
             <el-table-column label="发票时间" align="center" prop="ticketTime" width="180" />
-            <el-table-column label="发票金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true">
+            <el-table-column label="发票总金额" align="center" prop="ticketAmount" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                     <div>{{ numberToCurrencyNo(scope.row.ticketAmount)}}</div>
                 </template>
@@ -107,8 +107,8 @@
             <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
                     <el-link :underline="false" type="success" v-if="scope.row.isDeleted==1">正常</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==2">审核中</el-link>
-                    <el-link :underline="false" type="success" v-if="scope.row.isDeleted==3">未通过</el-link>
+                    <el-link :underline="false" type="primary" v-if="scope.row.isDeleted==2">审核中</el-link>
+                    <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==3">未通过</el-link>
                     <el-link :underline="false" type="danger" v-if="scope.row.isDeleted==0">作废</el-link>
                 </template>
             </el-table-column>
@@ -282,6 +282,11 @@ export default {
     },
     methods: {
         aduit(row){
+              let obj={
+                backurl:'/tj-business/project/ticketList',
+                name:'TicketList'
+            };
+            this.$cache.local.setJSON("tj-aduitback",obj);
             this.$cache.local.setJSON("tj-ticketid",row.ticketId);
             this.$tab.closeOpenPage({ path: '/tj-business/project/examTicket' });
         },
@@ -303,19 +308,8 @@ export default {
                            this.publicList.projectPackageAmount = new Decimal(this.publicList.projectPackageAmount).add(new Decimal(arr[i].ticketAmount));
                          }
                     }
-                    arr.map((item)=>{
-                        if(item.isDeleted==3){
-                             return  this.publicList.projectStatus=1;
-                        }else{
-                            if(this.publicList.projectReceiveStatus==1 && this.publicList.projectPayStatus==1 && this.publicList.projectDutypaidStatus==1 
-                             && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
-                             this.publicList.projectStatus=2;
-                          }else{
-                             this.publicList.projectStatus=0;
-                           }
-                        }
-                    })
-                    //如果存在发票 累计发票 加上发票金额 
+                    
+                    //如果存在发票 累计发票 加上发票总金额 
                    
                     this.publicList.projectRemainAmount = new Decimal(this.publicList.projectTotalAmount).sub(new Decimal(this.publicList.projectPackageAmount));
                    

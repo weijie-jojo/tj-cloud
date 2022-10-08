@@ -194,6 +194,8 @@ export default {
             var suffix=item.url.substring(item.url.lastIndexOf('.')+1,item.length);
             if(suffix=='pdf'){
               item.url= this.baseImgPath + '202208230415670439e1-2b78-46bd-b395-a7826db56f91logo.png';
+            }else  if(suffix=='zip'){
+              item.url= this.baseImgPath + '2022090509414b4ec97f-4cb8-442e-a979-e5ce9ac27eaet01709f600470d50b78.png';
             }
          }
         })

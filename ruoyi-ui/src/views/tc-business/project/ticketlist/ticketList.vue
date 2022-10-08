@@ -27,7 +27,7 @@
               style="width: 100%"
               v-model="publicList.projectPackageAmount"
               :step="0.0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -39,7 +39,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.projectTotalAmount"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               :step="0.0"
             >
               <template slot="append">元</template>
@@ -53,7 +53,7 @@
               style="width: 100%"
               v-model="publicList.projectRemainAmount"
               :step="0.0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -193,7 +193,7 @@
         width="180"
       />
       <el-table-column
-        label="发票金额"
+        label="发票总金额"
         align="center"
         prop="ticketAmount"
         :show-overflow-tooltip="true"
@@ -216,13 +216,13 @@
           >
           <el-link
             :underline="false"
-            type="success"
+            type="primary"
             v-if="scope.row.isDeleted == 2"
             >审核中</el-link
           >
           <el-link
             :underline="false"
-            type="success"
+            type="danger"
             v-if="scope.row.isDeleted == 3"
             >未通过</el-link
           >
@@ -429,6 +429,11 @@ export default {
   },
   methods: {
     aduit(row) {
+      let obj={
+                backurl:'/tc-business/project/ticketList',
+                name:'TicketList'
+            };
+            this.$cache.local.setJSON("tc-aduitback",obj);
       this.$cache.local.setJSON("tc-ticketid", row.ticketId);
       this.$tab.closeOpenPage({ path: "/tc-business/project/examTicket" });
     },
@@ -453,25 +458,8 @@ export default {
                 ).add(new Decimal(arr[i].ticketAmount));
               }
             }
-            arr.map((item) => {
-              if (item.isDeleted == 3) {
-                return (this.publicList.projectStatus = 1);
-              } else {
-                if (
-                  this.publicList.projectReceiveStatus == 1 &&
-                  this.publicList.projectPayStatus == 1 &&
-                  this.publicList.projectDutypaidStatus == 1 &&
-                  this.publicList.projectAcceptanceStatus == 1 &&
-                  this.publicList.projectContractStatus == 1 &&
-                  this.publicList.projectCheckStatus == 1
-                ) {
-                  this.publicList.projectStatus = 2;
-                } else {
-                  this.publicList.projectStatus = 0;
-                }
-              }
-            });
-            //如果存在发票 累计发票 加上发票金额
+           
+            //如果存在发票 累计发票 加上发票总金额
 
             this.publicList.projectRemainAmount = new Decimal(
               this.publicList.projectTotalAmount

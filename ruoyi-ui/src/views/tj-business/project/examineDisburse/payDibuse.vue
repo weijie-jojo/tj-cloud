@@ -42,20 +42,20 @@
             v-model="formData.payMoney"
             :readonly="true"
              
-              :step="0.00001"
+              :step="0.01"
               :min="0"
               onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款账户" :required="true">
+          <!-- <el-form-item class="comright" label="收款账户" :required="true">
             <el-input  disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收款开户行" :required="true">
             <el-input  disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
 
           
           <el-form-item class="comright" label="付款账户" prop="paymentName" >
@@ -96,9 +96,9 @@
             </el-date-picker>
           </el-form-item>
          
-          <el-form-item class="comright" label="收款账号" :required="true">
+          <!-- <el-form-item class="comright" label="收款账号" :required="true">
             <el-input :readonly="true" ></el-input>
-          </el-form-item>
+          </el-form-item> -->
        
           <el-form-item class="comright" label="付款账号" prop="paymentAccount" >
             <el-input  v-model="formData.paymentAccount" ></el-input>

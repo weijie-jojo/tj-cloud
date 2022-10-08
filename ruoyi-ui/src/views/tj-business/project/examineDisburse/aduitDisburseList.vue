@@ -63,9 +63,9 @@
               <el-input
                 :readonly="true"
                 v-model="publicList.projectTotalAmount"
-                :step="0.00001"
+                :step="0.01"
                 :min="0"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
               </el-input>
@@ -91,9 +91,9 @@
               <el-input
                 :readonly="true"
                 v-model="publicList.payTotalMoneys"
-                :step="0.00001"
+                :step="0.01"
                 :min="0"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
               </el-input>
@@ -103,9 +103,9 @@
               <el-input
                 :readonly="true"
                 v-model="publicList.payRemainMoneys"
-                :step="0.00001"
+                :step="0.01"
                 :min="0"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
               </el-input>
@@ -121,9 +121,9 @@
               <el-input
                 :readonly="true"
                 v-model="publicList.payMoneys"
-                :step="0.00001"
+                :step="0.01"
                 :min="0"
-                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+                oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
               >
                 <template slot="append">元</template>
               </el-input>
@@ -582,6 +582,11 @@
      
       /** 修改按钮操作 */
       handleUpdate(row) {
+        let obj2={
+                url:'/tj-business/project/aduitDisburseList',
+                name:'AduitDisburseList'
+            };
+            this.$cache.local.setJSON('tj-edit-project',obj2);
         this.$cache.local.setJSON("tj-payId", row.payId);
         this.$tab.closeOpenPage({ path: "/tj-business/project/disburseEdit" });
       },

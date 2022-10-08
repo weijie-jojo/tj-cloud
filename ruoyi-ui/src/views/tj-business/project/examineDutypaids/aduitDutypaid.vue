@@ -53,9 +53,9 @@
               type="number"
               style="width: 100%"
               v-model="formData.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append"> 元 </template>
             </el-input>
@@ -360,6 +360,7 @@ export default {
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
               projectOwner: this.formData.projectOwner,
+              placeCode: this.formData.placeCode,
             };
           } else {
             parms = {
@@ -370,6 +371,7 @@ export default {
               isSelfCount: this.formData.isSelfCount,
               projectCode: this.formData.projectCode,
               projectOwner: this.formData.projectOwner,
+              placeCode: this.formData.placeCode,
             };
           }
           edit(parms).then((res) => {

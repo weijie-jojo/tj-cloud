@@ -720,6 +720,11 @@ export default {
                   let obj = {
                     backurl: "/tc-business/project/list",
                   };
+                  let obj1={
+                     backurl:'/tc-business/project/list',
+                     name:'List'
+                  };
+                  this.$cache.local.setJSON("tc-aduitback",obj1);
                   this.$cache.local.setJSON("tc-backTicket", obj);
                   this.$tab.openPage("票据列表", "/tc-business/project/ticketlist");
                 } else if (this.msgs == "收款") {
@@ -957,6 +962,11 @@ export default {
       } else if (type == 7) {
         this.errArrName = "异常原因:" + row.payRemark;
       }
+      let obj = {
+        name: 'List',
+        url: '/tc-business/project/list',
+        };
+       this.$cache.local.setJSON('tc-edit-project', obj);
       this.$cache.local.setJSON("tc-project-code", code);
      
       getLeaderByUserId({

@@ -710,9 +710,14 @@ export default {
                 } else if (this.msgs == "审核") {
                   this.aduit();
                 } else if (this.msgs == "开票") {
-                  let obj = {
+                 let obj = {
                     backurl: "/tj-business/project/list",
                   };
+                  let obj1={
+                       backurl:'/tj-business/project/list',
+                        name:'List'
+                  };  
+                   this.$cache.local.setJSON("tj-aduitback",obj1);
                   this.$cache.local.setJSON("tj-backTicket", obj);
                   this.$tab.openPage("票据列表", "/tj-business/project/ticketlist");
                 } else if (this.msgs == "收款") {
@@ -949,6 +954,11 @@ export default {
       } else if (type == 7) {
         this.errArrName = "异常原因:" + row.payRemark;
       }
+      let obj = {
+        name: 'List',
+        url: '/tj-business/project/list',
+        };
+       this.$cache.local.setJSON('tj-edit-project', obj);
       this.$cache.local.setJSON("tj-project-code", code);
      
       getLeaderByUserId({

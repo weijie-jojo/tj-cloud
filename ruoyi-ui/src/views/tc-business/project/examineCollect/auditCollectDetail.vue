@@ -134,7 +134,7 @@ export default {
         receiveSysCode: "", //流水号
         receiveAccount: "", //转账账号 收款信息
         receiveName: "", //转账账户 收款信息
-        receiveMoney: "0.00000", //收款金额 收款信息
+        receiveMoney: "0.00", //收款金额 收款信息
       },
       rules: {
         paymentAccount: [

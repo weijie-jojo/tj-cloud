@@ -40,16 +40,16 @@
             prop="projectTimeStart"
           >
           <el-date-picker
-                style="width:100%"
-                disabled
-                v-model="formData.projectTimeStart"
-                value-format="yyyy-MM-dd"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right"
-             >
-            </el-date-picker>
+            style="width:100%"
+            disabled
+            v-model="formData.projectTimeStart"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+        >
+        </el-date-picker>
           </el-form-item>
           <el-form-item
             class="comright"
@@ -61,9 +61,9 @@
               type="number"
               style="width: 100%"
               v-model="formData.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -104,6 +104,7 @@
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
+         
         </el-col>
       </el-row>
 
@@ -983,7 +984,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { list2 } from "@/api/project/ticket";
+import { list2 } from "@/api/tc-api/project/ticket";
 import crudRate from "@/api/project/rate";
 import {
   detail,
@@ -1109,7 +1110,20 @@ export default {
           label: "3%",
         },
       ],
+          //项目税率
+          projectNormal: [
+        {
+          value: 0,
+          label: "免税",
+        },
+        {
+
+            value: 0.03,
+            label: '3%'
+        },
+      ],
       rules: {
+        
         isDisposableShare: [
           {
             required: true,
@@ -1567,6 +1581,11 @@ export default {
         this.formData.industryType = "";
         this.formData = response.data;
         this.$modal.closeLoading();
+        if (this.formData.isAddBuyer == 1) {
+             this.formData.isAddBuyer = "1";
+        } else {
+            this.formData.isAddBuyer = "0";
+        }
         if (this.formData.isDealings == 1) {
             this.formData.isDealings = "1";
           } else {
@@ -1576,11 +1595,6 @@ export default {
             this.projectStatus = parseInt(this.formData.isActive);
           } else {
             this.projectStatus = 1;
-          }
-          if (this.formData.isAddBuyer == 1) {
-              this.formData.isAddBuyer = "1";
-            } else {
-              this.formData.isAddBuyer = "0";
           }
         this.formData.selfShareIsmoney = JSON.stringify(
           this.formData.selfShareIsmoney

@@ -31,12 +31,12 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="收款账户" :required="true">
+          <!-- <el-form-item class="comright" label="收款账户" :required="true">
             <el-input :readonly="true" ></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收款开户行" :required="true">
             <el-input :readonly="true" ></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item class="comright" label="付款账户" :required="true">
             <el-input :readonly="true" v-model="formData.paymentName"></el-input>
           </el-form-item>
@@ -76,9 +76,9 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="comright" label="收款账号" :required="true">
+          <!-- <el-form-item class="comright" label="收款账号" :required="true">
             <el-input :readonly="true" ></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item class="comright" label="付款账号" :required="true">
             <el-input :readonly="true" v-model="formData.paymentAccount"></el-input>
           </el-form-item>
@@ -294,6 +294,7 @@ export default {
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
                             projectOwner:this.publicList.projectOwner,
+                            placeCode:this.publicList.placeCode
 
                         };
                       } else {
@@ -304,6 +305,7 @@ export default {
                             isSelfCount: this.publicList.isSelfCount,
                             projectCode: this.publicList.projectCode,
                             projectOwner:this.publicList.projectOwner,
+                            placeCode:this.publicList.placeCode
 
                         };
                        }
@@ -316,6 +318,7 @@ export default {
                         isSelfCount: this.publicList.isSelfCount,
                         projectCode: this.publicList.projectCode,
                         projectOwner:this.publicList.projectOwner,
+                        placeCode:this.publicList.placeCode
                       };
                       edit(this.parms);
                       this.check('出款审核不通过。'+'原因:'+this.remark);

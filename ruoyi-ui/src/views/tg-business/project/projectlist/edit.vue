@@ -40,16 +40,16 @@
             prop="projectTimeStart"
           >
           <el-date-picker
-            style="width:100%"
-            disabled
-            v-model="formData.projectTimeStart"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            align="right"
-        >
-        </el-date-picker>
+          style="width:100%"
+          disabled
+          v-model="formData.projectTimeStart"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          align="right"
+      >
+      </el-date-picker>
           </el-form-item>
           <el-form-item
             class="comright"
@@ -61,9 +61,9 @@
               type="number"
               style="width: 100%"
               v-model="formData.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -100,6 +100,7 @@
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
+        
         </el-col>
       </el-row>
 
@@ -1106,12 +1107,14 @@ export default {
           value: 0,
           label: "免税",
         },
-        {
-          value: 3,
-          label: "3%",
-        },
+        // {
+        //   value: 3,
+        //   label: "3%",
+        // },
       ],
+     
       rules: {
+        
         isDisposableShare: [
           {
             required: true,
@@ -1562,12 +1565,13 @@ export default {
       detail({
         projectCode: this.$cache.local.getJSON("tg-project-code"),
       }).then((response) => {
-       this.formData = response.data;
-       if (this.formData.isAddBuyer == 1) {
-             this.formData.isAddBuyer = "1";
-        } else {
-            this.formData.isAddBuyer = "0";
-        }
+        
+        this.formData = response.data;
+        if (this.formData.isAddBuyer == 1) {
+           this.formData.isAddBuyer = "1";
+      } else {
+          this.formData.isAddBuyer = "0";
+      }
         if (this.formData.isActive) {
         this.projectStatus = parseInt(this.formData.isActive);
       } else {

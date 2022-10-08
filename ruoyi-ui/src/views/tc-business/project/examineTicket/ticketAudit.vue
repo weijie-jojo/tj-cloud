@@ -254,16 +254,10 @@ export default {
 
         },
         aduit(scope) {
-              let obj={
-                backurl:'/tc-business/project/ticketAudit',
-                name:'TicketAudit'
-            };
             let obj1={
                 backurl:'/tc-business/project/ticketAudit'
             };
             this.$cache.local.setJSON('tc-backTicket',obj1);
-            this.$cache.local.setJSON('tc-aduitback',obj);
-           
             this.$cache.local.setJSON("tc-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tc-business/project/ticketlist' });
         },

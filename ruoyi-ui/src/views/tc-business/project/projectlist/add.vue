@@ -67,10 +67,10 @@
               type="number"
               style="width: 100%"
               v-model="formData.projectTotalAmount"
-              :step="0.00001"
+              :step="0.01"
               :min="0"
               onkeyup="value=value.replace(/[^\x00-\xff]/g, '')"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -83,7 +83,7 @@
           <el-form-item class="comright" label="客户全名">
             <el-select
               filterable
-             
+              @visible-change="changeValue1($event)"
               style="width: 100%"
               clearable
               v-model="formData.placeCode"
@@ -107,7 +107,7 @@
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
-        </el-col>
+         </el-col>
       </el-row>
 
       <el-row
@@ -199,6 +199,7 @@
             <el-select
               placeholder="请选择销货单位（乙方）"
               filterable
+              @visible-change="changeValue($event)"
               @change="ownnew"
               style="width: 100%"
               clearable
@@ -1104,6 +1105,7 @@ export default {
       placeCodeOptions: "", //渠道商
       isaddPurch:'1',//添加甲方
       formData: {
+        
         isAddBuyer:'1',
         isDealings:'1',//项目往来款
         disposableRemark:'',
@@ -1173,7 +1175,7 @@ export default {
         projectTicketStatus: 0,
         // projectTimeEnd: "",
         projectTimeStart: "",
-        projectTotalAmount: "0.00000",
+        projectTotalAmount: "0.00",
         projectTrade: "",
 
         purchCompany: "",
@@ -1229,6 +1231,7 @@ export default {
         //     label: '3%'
         // },
       ],
+       
       rules: {
         isDisposableShare: [
           {
@@ -1419,11 +1422,13 @@ export default {
           },
           { validator: phoneVerify, trigger: "blur" },
         ],
+       
 
         fileName: [
           {
             required: true,
             message: "开票内容不能为空",
+           
           },
         ],
         projectDesc: [
@@ -1458,6 +1463,20 @@ export default {
   },
 
   methods: {
+     //客户实时异步
+    changeValue1(e) {
+      if (e == true) {
+        this.getinfoByUserId(); //渠道商
+      }
+    },
+     //乙方实时异步
+   
+    changeValue(e) {
+      if (e == true) {
+        this.getOwn();
+      }
+    },
+   
     ispublic() {
       if (this.formData.ticketType == 0) {
         this.formData.isSlider = "1";

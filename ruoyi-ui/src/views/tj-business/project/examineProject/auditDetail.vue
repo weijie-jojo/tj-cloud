@@ -86,6 +86,7 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
+         
         </el-col>
       </el-row>
 
@@ -1083,7 +1084,21 @@ export default {
           label: "3%",
         },
       ],
-      rules: {},
+         //项目税率
+         projectNormal: [
+        {
+          value: 0,
+          label: "免税",
+        },
+        {
+
+            value: 0.03,
+            label: '3%'
+        },
+      ],
+      rules: {
+       
+      },
     };
   },
   computed: {},
