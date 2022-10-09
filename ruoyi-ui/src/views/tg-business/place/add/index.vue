@@ -92,7 +92,22 @@
         </el-col>
         <el-col :span="9">
           <el-form-item label="业务经理" :required="true">
-            <el-input v-model="ruleForm.userName" :readonly="true"></el-input>
+            <el-select v-hasPermi="['place:list:add1']"
+              style="width: 100%"
+              v-model="ruleForm.userName"
+              filterable
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="(item,index) in leaderList"
+                :key="index"
+                :label="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <el-input   v-model="ruleForm.userName" :readonly="true"></el-input>
+           
           </el-form-item>
           <el-form-item label="客户别名" prop="placeAlias">
             <el-input v-model='ruleForm.placeAlias' @input="placeNews"/>
@@ -494,12 +509,13 @@ var numCheck = (rule, value, callback) => {
 import crudPlace from "@/api/tg-api/place/place";
 import { getInfo } from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
+import { getAllUser } from '@/api/system/user';
 export default {
   name: "Add",
 
   data() {
     return {
+      leaderList:[],
       placeAliasName:'',
       editSpecialProxyFee: '2',
       editOrdinaryProxyFee: '2',
@@ -899,11 +915,35 @@ export default {
       this.ruleForm.editUserName = res.user.nickName;
       this.ruleForm.userId = res.user.userId;
       console.log("getInfo", this.ruleForm.userName);
+      this.getLeader();
     })
      this.reset();
   },
 
   methods: {
+     //获取业务经理
+     getLeader(){
+     
+     //  this.deptId=res[0].deptId;
+      getAllUser().then((res)=>{
+      this.leaderList=[];
+      let list=res;
+      list.map((item)=>{
+       if(item.userId==this.ruleForm.userId){
+         return this.deptId=item.deptId;
+       }
+      });
+      list.map((item)=>{
+       if(item.deptId==this.deptId){
+             this.leaderList.push({
+               value:item.nickName,
+               label:item.nickName,
+              })
+          }
+      });
+      
+   })
+  },
     //实时输入获取客户全名
     placeNews(){
      if(this.ruleForm.placeName==null){
@@ -1109,7 +1149,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-        
+         
          let data = {
             businessPlace: {
               customerType:this.ruleForm.customerType,
