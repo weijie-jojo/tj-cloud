@@ -738,6 +738,12 @@ export default {
                       });
 
                       //如果其他都是通过 就是通过  其他有异常就是异常
+                     
+                      // detail({
+                      //   projectCode: this.$cache.local.getJSON("tj-project-code"),
+                      //   }).then((response) =>{
+
+                      //   })
 
                       if (
                         this.Father.projectReceiveStatus == 1 &&

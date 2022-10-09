@@ -1154,12 +1154,12 @@ export default {
           ) {
             this.projectStatusNew = 2;
           } else if (
-            this.formData.projectDutypaidStatus == 1 ||
-            this.formData.projectReceiveStatus == 1 ||
-            this.formData.projectTicketStatus == 1 ||
-            this.formData.projectAcceptanceStatus == 1 ||
-            this.formData.projectContractStatus == 1 ||
-            this.formData.projectPayStatus == 1
+            this.formData.projectDutypaidStatus == 2 ||
+            this.formData.projectReceiveStatus == 2 ||
+            this.formData.projectTicketStatus == 2 ||
+            this.formData.projectAcceptanceStatus == 2 ||
+            this.formData.projectContractStatus == 2 ||
+            this.formData.projectPayStatus == 2
           ) {
             this.projectStatusNew = 1;
           }
