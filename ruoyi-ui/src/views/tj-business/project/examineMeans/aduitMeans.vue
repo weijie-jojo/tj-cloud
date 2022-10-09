@@ -430,52 +430,77 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
-          this.projectStatusNew = 0;
-          if (
-            this.formData.projectReceiveStatus == 1 &&
-            this.formData.projectPayStatus == 1 &&
-            this.formData.projectDutypaidStatus == 1 &&
-            this.formData.projectTicketStatus == 1 &&
-            this.formData.projectCheckStatus == 1
+          this.$modal.loading("正在提交中，请稍后...");
+          if (Array.isArray(this.formData.fileName2)) {
+            this.formData.fileName2 = JSON.stringify(
+              this.formData.fileName2
+            );
+          }
+          if (Array.isArray(this.formData.fileName1)) {
+            this.formData.fileName1 = JSON.stringify(
+              this.formData.fileName1
+            );
+          }
+          if (Array.isArray(this.formData.fileName5)) {
+            this.formData.fileName5 = JSON.stringify(
+              this.formData.fileName5
+            );
+          }
+          if (Array.isArray(this.formData.fileName6)) {
+            this.formData.fileName6 = JSON.stringify(
+              this.formData.fileName6
+            );
+          }
+          if (Array.isArray(this.formData.fileName7)) {
+            this.formData.fileName7 = JSON.stringify(
+              this.formData.fileName7
+            );
+          }
+          if (Array.isArray(this.formData.fileName8)) {
+            this.formData.fileName8 = JSON.stringify(
+              this.formData.fileName8
+            );
+          }
+          if (Array.isArray(this.formData.fileName9)) {
+            this.formData.fileName9 = JSON.stringify(
+              this.formData.fileName9
+            );
+          }
+         detail({
+            projectCode: this.$cache.local.getJSON("tj-project-code"),
+          }).then((response) => {
+            let list=response.data;
+            if (
+              list.projectReceiveStatus == 1 &&
+              list.projectPayStatus == 1 &&
+              list.projectDutypaidStatus == 1 &&
+              list.projectTicketStatus == 1 &&
+              list.projectCheckStatus == 1
           ) {
             this.projectStatusNew = 2;
           } else if (
-            this.formData.projectReceiveStatus == 2 ||
-            this.formData.projectPayStatus == 2 ||
-            this.formData.projectDutypaidStatus == 2 ||
-            this.formData.projectTicketStatus == 2 ||
-            this.formData.projectCheckStatus == 2
+            list.projectReceiveStatus == 2 ||
+            list.projectPayStatus == 2 ||
+            list.projectDutypaidStatus == 2 ||
+            list.projectTicketStatus == 2 ||
+            list.projectCheckStatus == 2
           ) {
             this.projectStatusNew = 1;
+          }else{
+            this.projectStatusNew=0;
           }
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectAcceptanceStatus: type,
-              projectContractStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner: this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              checkRemark: this.remark,
-              projectAcceptanceStatus: type,
-              projectContractStatus: type,
-              projectStatus: 1,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner: this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
+          if(type>1){
+            this.projectStatusNew=1;
           }
-          edit(parms).then((res) => {
+          this.formData.checkRemark=this.remark;
+          this.formData.projectAcceptanceStatus=type;
+          this.formData.projectContractStatus=type;
+          this.formData.projectStatus=this.projectStatusNew;
+          this.$nextTick(function () {
+          edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
+                this.$modal.closeLoading();
                 this.$nextTick(function () {
                   if (type == 1) {
                     this.check("资料审核完成");
@@ -501,7 +526,11 @@ export default {
               }
             }
           });
+          })
+        });
+         
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
             type: "warning",

@@ -1925,11 +1925,11 @@
                     this.$modal.msgSuccess("项目修改完成");
                     this.$tab
                       .closeOpenPage({
-                        path: this.$cache.local.getJSON("tj-backTicket").backurl,
+                        path: "/tj-business/project/list"
                       })
                       .then(() => {
                         this.$tab.closeOpenPage({ path: "/tj-business/project/list" }).then(() => {
-                        this.$tab.refreshPage({path:'/tj-business/project/list' ,name:'list'});
+                        this.$tab.refreshPage({path: "/tj-business/project/list" ,name:'list'});
                        })
                       });
                   });

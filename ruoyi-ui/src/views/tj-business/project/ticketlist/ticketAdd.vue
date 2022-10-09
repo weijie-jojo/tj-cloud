@@ -309,8 +309,8 @@
               >
               </el-date-picker>
           </el-form-item>
-          <el-form-item v-if="fileNameradio == 1" class="comright" label="发票总数" :required="true">
-            <el-input  ></el-input>
+          <el-form-item v-if="fileNameradio == 1" class="comright" label="发票总数" prop="ticketNum">
+            <el-input v-model="formData.ticketNum" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -445,8 +445,8 @@
               </el-date-picker>
             <!-- <el-input v-model="formData.ticketTime" disabled></el-input> -->
           </el-form-item>
-          <el-form-item class="comright" label="发票总数" :required="true">
-            <el-input  ></el-input>
+          <el-form-item class="comright" label="发票总数" prop="ticketNum">
+            <el-input v-model="formData.ticketNum" ></el-input>
           </el-form-item>
         </el-col>
         
@@ -670,6 +670,13 @@ export default {
         },
       ],
       rules: {
+        ticketNum:[
+          {
+            required: true,
+            message: "请输入发票总数",
+            trigger: "blur",
+          },
+        ],
         projectName: [
           {
             required: true,

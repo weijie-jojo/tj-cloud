@@ -108,7 +108,7 @@
 <script>
 import { getAllCompany } from "@/api/invoices/borrow";
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive, detailCollect } from "@/api/tg-api/project/list";
+import { check, detail, editReceive, detailCollect,receiveList2,edit } from "@/api/tg-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "CollectEdit",
@@ -299,9 +299,8 @@ export default {
               this.formData.fileNameReceive
             );
           }
-
+          this.$modal.loading("正在提交中，请稍后...");
           if(this.formData.receiveTime.indexOf(":")!=-1){
-              
           }else{
             this.formData.receiveTime=this.formData.receiveTime+" "+this.getRealTime();
           }
@@ -309,8 +308,49 @@ export default {
           editReceive(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.check("修改收款完成");
-                this.$modal.msgSuccess("修改收款成功");
+               
+                receiveList2({
+                  projectCode: this.publicList.projectCode,
+                })
+                  .then((res) => {
+                    let arr = res;  
+                    detail({
+                  projectCode: this.$cache.local.getJSON("tg-project-code"),
+                }).then((response) => {
+                  let publicList = response.data;
+                  if (
+                  publicList.projectDutypaidStatus == 1 &&
+                  publicList.projectPayStatus == 1 &&
+                  publicList.projectTicketStatus == 1 &&
+                  publicList.projectAcceptanceStatus == 1 &&
+                  publicList.projectContractStatus == 1 &&
+                  publicList.projectCheckStatus == 1
+                ) {
+                  this.projectStatusNew = 2;
+                } else if (
+                  publicList.projectDutypaidStatus == 2 ||
+                  publicList.projectPayStatus == 2 ||
+                  publicList.projectTicketStatus == 2 ||
+                  publicList.projectAcceptanceStatus == 2 ||
+                  publicList.projectCheckStatus == 2 ||
+                  publicList.projectContractStatus == 2
+                ) {
+                  this.projectStatusNew = 1;
+                } else {
+                  this.projectStatusNew = 0;
+                }
+                this.publicList.projectReceiveStatus=0;
+                this.publicList.projectStatus=this.projectStatusNew;
+                arr.map((item) => {
+                     if (item.isCheck == 2) {
+                      this.publicList.projectPayStatus=2;
+                      return (this.publicList.projectStatus = 1);
+                     }
+                  });
+                edit(this.publicList).then(res=>{
+                  this.$modal.closeLoading();
+                  this.check("修改收款完成");
+                  this.$modal.msgSuccess("修改收款成功");
                 if (this.$cache.local.getJSON("tg-ifcollect") == 0) {
                   this.$tab.refreshPage({
                     path: "/tg-business/project/aduitCollectList",
@@ -322,13 +362,18 @@ export default {
                     name: this.$cache.local.getJSON("tg-edit-project").name,
                   });
                 }
+
+                })  
+                  })
+                  })
+               
               }
             }
           });
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
             type: "warning",
           });
         }

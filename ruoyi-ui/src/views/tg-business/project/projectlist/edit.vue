@@ -1927,11 +1927,11 @@ export default {
                   this.$modal.msgSuccess("项目修改完成");
                   this.$tab
                     .closeOpenPage({
-                      path: this.$cache.local.getJSON("tg-backTicket").backurl,
+                      path: "/tg-business/project/list"
                     })
                     .then(() => {
                       this.$tab.closeOpenPage({ path: "/tg-business/project/list" }).then(() => {
-                      this.$tab.refreshPage({path:'/tg-business/project/list' ,name:'list'});
+                      this.$tab.refreshPage({path:"/tg-business/project/list" ,name:'list'});
                      })
                     });
                 });
