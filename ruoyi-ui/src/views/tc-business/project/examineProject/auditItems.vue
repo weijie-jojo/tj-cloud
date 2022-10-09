@@ -86,7 +86,7 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
-       
+          
         </el-col>
       </el-row>
 
@@ -959,8 +959,7 @@
             style="padding-right: 4.2%; margin-left: -7%"
           >
             <div
-              style="
-                display: flex;
+              style=" display: flex;
                 align-items: center;
                 justify-content: flex-start;
               "
@@ -969,7 +968,7 @@
               <el-input
                 type="textarea"
                 placeholder="请输入不通过说明"
-                v-model="remark"
+                v-model="formData.checkContent"
                 :disabled="isokradioS == 1"
               ></el-input>
             </div>
@@ -1019,7 +1018,7 @@ export default {
       selectTipType: "",
       isDetail: "1",
       isNone: [],
-      remark: "",
+      checkContent: "",
       expandOnClickNode: true,
       defaultProps: {
         children: "children",
@@ -1103,7 +1102,7 @@ export default {
         },
       ],
       rules: {
-        
+       
       },
     };
   },
@@ -1142,59 +1141,52 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
-          this.projectStatusNew = 0;
-          if (
-            this.formData.projectDutypaidStatus == 1 &&
-            this.formData.projectReceiveStatus == 1 &&
-            this.formData.projectTicketStatus == 1 &&
-            this.formData.projectAcceptanceStatus == 1 &&
-            this.formData.projectContractStatus == 1 &&
-            this.formData.projectPayStatus == 1
+          this.$modal.loading("正在加载数据，请稍后...");
+          if (this.fileNameradio == 2) {
+            if (Array.isArray(this.formData.fileName)) {
+            this.formData.fileName = JSON.stringify(
+              this.formData.fileName
+            );
+          }
+          }
+          detail({
+            projectCode: this.$cache.local.getJSON("tc-project-code"),
+          }).then((response) => {
+              let list=response.data;
+              if (
+                list.projectDutypaidStatus == 1 &&
+                list.projectReceiveStatus == 1 &&
+                list.projectTicketStatus == 1 &&
+                list.projectAcceptanceStatus == 1 &&
+                list.projectContractStatus == 1 &&
+                list.projectPayStatus == 1
           ) {
             this.projectStatusNew = 2;
           } else if (
-            this.formData.projectDutypaidStatus == 1 ||
-            this.formData.projectReceiveStatus == 1 ||
-            this.formData.projectTicketStatus == 1 ||
-            this.formData.projectAcceptanceStatus == 1 ||
-            this.formData.projectContractStatus == 1 ||
-            this.formData.projectPayStatus == 1
+            list.projectDutypaidStatus == 2 ||
+            list.projectReceiveStatus == 2 ||
+            list.projectTicketStatus == 2 ||
+            list.projectAcceptanceStatus == 2 ||
+            list.projectContractStatus == 2 ||
+            list.projectPayStatus == 2
           ) {
             this.projectStatusNew = 1;
+          }else{
+            this.projectStatusNew = 0;
           }
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectCheckStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner:this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              checkContent: this.remark,
-              projectCheckStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner:this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          }
-          edit(parms).then((res) => {
+          this.formData.projectCheckStatus=type;
+          this.formData.projectStatus=this.projectStatusNew;
+          this.$nextTick(function () {
+          edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                this.$nextTick(function () {
+                this.$modal.closeLoading();
                   let resmsg = "";
                   if (type == 1) {
                     resmsg = "项目审核完成";
                     this.check("项目审核完成");
                   } else {
-                    this.check("项目审核不通过。" + "原因:" + this.remark);
+                    this.check("项目审核不通过。" + "原因:" + this.formData.checkContent);
                     resmsg = "项目审核完成";
                   }
 
@@ -1208,8 +1200,9 @@ export default {
                   this.$tab.closeOpenPage({
                     path: "/tc-business/project/success",
                   });
-                });
+               
               } else {
+                this.$modal.closeLoading();
                 this.$modal.msgError(res.msg);
                 this.$tab.closeOpenPage({
                   path: this.$cache.local.getJSON("tc-aduitback").backurl,
@@ -1217,6 +1210,10 @@ export default {
               }
             }
           });
+        });
+
+          })
+     
         } else {
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",

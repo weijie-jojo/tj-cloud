@@ -262,7 +262,7 @@
             size="mini"
             type="text"
             icon="el-icon-s-custom"
-            v-if="scope.row.isCheck == 1"
+            v-if="scope.row.isCheck == 1 && scope.row.isPay==1"
             @click="detail(scope.row)"
             >查看</el-button
           >

@@ -56,16 +56,16 @@
         <el-col :span="9">
           <el-form-item class="comright" label="项目时间" :required="true">
             <el-date-picker
-            style="width:100%"
-            disabled
-            v-model="formData.projectTimeStart"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            align="right"
-        >
-        </el-date-picker>
+              style="width: 100%"
+              disabled
+              v-model="formData.projectTimeStart"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
           </el-form-item>
           <el-form-item class="comright" label="项目金额" :required="true">
             <el-input
@@ -86,7 +86,6 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
-          
         </el-col>
       </el-row>
 
@@ -98,7 +97,6 @@
       >
         <el-col :span="9">
           <div class="bankno">购货单位（甲方）</div>
-         
         </el-col>
         <el-col :span="8">
           <div></div>
@@ -127,9 +125,13 @@
             <el-input v-model="formData.bankName" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item label="添加购方列表" :required="true">
-              <el-radio disabled v-model="formData.isAddBuyer" label="1">是</el-radio>
-              <el-radio disabled v-model="formData.isAddBuyer" label="0">否</el-radio>
-           </el-form-item>
+            <el-radio disabled v-model="formData.isAddBuyer" label="1"
+              >是</el-radio
+            >
+            <el-radio disabled v-model="formData.isAddBuyer" label="0"
+              >否</el-radio
+            >
+          </el-form-item>
         </el-col>
 
         <el-col :span="9">
@@ -158,7 +160,7 @@
       >
         <el-col :span="9">
           <div class="bankno">销货单位（乙方）</div>
-       </el-col>
+        </el-col>
         <el-col :span="8">
           <div></div>
         </el-col>
@@ -282,18 +284,26 @@
               v-model="formData.industryTax"
             ></el-input>
           </el-form-item>
-          
         </el-col>
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+            <el-select
+              style="width: 100%"
+              disabled
+              clearable
+              v-model="projectStatus"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
@@ -475,26 +485,25 @@
             <el-radio disabled v-model="formData.isSelfCount" label="1"
               >按客户结算</el-radio
             >
-            <el-radio disabled  v-model="formData.isSelfCount" label="2"
+            <el-radio disabled v-model="formData.isSelfCount" label="2"
               >按项目结算</el-radio
             >
           </el-form-item>
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
-       <el-row
+      <el-row
         v-if="formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="9" >
-            <div class="bankno">增值税普通发票
-              </div>
-           </el-col>
-          <el-col :span="8"></el-col>
-        </el-row>
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9">
+          <div class="bankno">增值税普通发票</div>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
       <el-row
         type="flex"
         class="row-bg"
@@ -627,25 +636,22 @@
             </el-form-item>
           </div>
         </el-col>
-        <el-col :span="9">
-        
-        </el-col>
+        <el-col :span="9"> </el-col>
       </el-row>
 
       <el-row
         v-if="formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="9" >
-            <div class="bankno">增值税专用发票
-              </div>
-           </el-col>
-          <el-col :span="8"></el-col>
-        </el-row>
-        <el-row
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9">
+          <div class="bankno">增值税专用发票</div>
+        </el-col>
+        <el-col :span="8"></el-col>
+      </el-row>
+      <el-row
         type="flex"
         class="row-bg"
         justify="space-around"
@@ -780,8 +786,7 @@
           </div>
         </el-col>
         <el-col :span="9"></el-col>
-    
-    </el-row>
+      </el-row>
 
       <el-row
         v-if="formData.isSelfCount == 2"
@@ -790,7 +795,7 @@
         style="margin-bottom: 20px"
         justify="space-around"
       >
-      <el-col :span="9" class="flexs">
+        <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 35%">一次性费用</div>
           <div style="width: 50%; hegiht: 10px"></div>
         </el-col>
@@ -969,14 +974,19 @@
               <el-input
                 type="textarea"
                 placeholder="请输入不通过说明"
-                v-model="remark"
+                v-model="formData.checkContent"
                 :disabled="isokradioS == 1"
               ></el-input>
             </div>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -1019,7 +1029,7 @@ export default {
       selectTipType: "",
       isDetail: "1",
       isNone: [],
-      remark: "",
+      checkContent: "",
       expandOnClickNode: true,
       defaultProps: {
         children: "children",
@@ -1090,21 +1100,18 @@ export default {
           label: "3%",
         },
       ],
-        //项目税率
-       projectNormal: [
+      //项目税率
+      projectNormal: [
         {
           value: 0,
           label: "免税",
         },
         {
-
-            value: 0.03,
-            label: '3%'
+          value: 0.03,
+          label: "3%",
         },
       ],
-      rules: {
-       
-      },
+      rules: {},
     };
   },
   computed: {},
@@ -1142,85 +1149,86 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
-          this.projectStatusNew = 0;
-          if (
-            this.formData.projectDutypaidStatus == 1 &&
-            this.formData.projectReceiveStatus == 1 &&
-            this.formData.projectTicketStatus == 1 &&
-            this.formData.projectAcceptanceStatus == 1 &&
-            this.formData.projectContractStatus == 1 &&
-            this.formData.projectPayStatus == 1
-          ) {
-            this.projectStatusNew = 2;
-          } else if (
-            this.formData.projectDutypaidStatus == 2 ||
-            this.formData.projectReceiveStatus == 2 ||
-            this.formData.projectTicketStatus == 2 ||
-            this.formData.projectAcceptanceStatus == 2 ||
-            this.formData.projectContractStatus == 2 ||
-            this.formData.projectPayStatus == 2
-          ) {
-            this.projectStatusNew = 1;
+          if (this.fileNameradio == 2) {
+            if (Array.isArray(this.formData.fileName)) {
+            this.formData.fileName = JSON.stringify(
+              this.formData.fileName
+            );
           }
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectCheckStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner:this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              checkContent: this.remark,
-              projectCheckStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner:this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
           }
-          edit(parms).then((res) => {
-            if (res != undefined) {
-              if (res.code === 200) {
-                this.$nextTick(function () {
-                  let resmsg = "";
-                  if (type == 1) {
-                    resmsg = "项目审核完成";
-                    this.check("项目审核完成");
-                  } else {
-                    this.check("项目审核不通过。" + "原因:" + this.remark);
-                    resmsg = "项目审核完成";
-                  }
-
-                  let obj = {
-                    title: "项目审核",
-                    backUrl: this.$cache.local.getJSON("tj-aduitback").backurl,
-                    resmsg: resmsg,
-                    backName: this.$cache.local.getJSON("tj-aduitback").name,
-                  };
-                  this.$cache.local.setJSON("tj-successProject", obj);
-                  this.$tab.closeOpenPage({
-                    path: "/tj-business/project/success",
-                  });
-                });
-              } else {
-                this.$modal.msgError(res.msg);
-                this.$tab.closeOpenPage({
-                  path: this.$cache.local.getJSON("tj-aduitback").backurl,
-                });
-              }
+         
+          this.$modal.loading("正在提交中，请稍后...");
+          detail({
+            projectCode: this.$cache.local.getJSON("tj-project-code"),
+          }).then((response) => {
+            let list = response.data;
+            if (
+              list.projectDutypaidStatus == 1 &&
+              list.projectReceiveStatus == 1 &&
+              list.projectTicketStatus == 1 &&
+              list.projectAcceptanceStatus == 1 &&
+              list.projectContractStatus == 1 &&
+              list.projectPayStatus == 1
+            ) {
+              this.projectStatusNew = 2;
+            } else if (
+              list.projectDutypaidStatus == 2 ||
+              list.projectReceiveStatus == 2 ||
+              list.projectTicketStatus == 2 ||
+              list.projectAcceptanceStatus == 2 ||
+              list.projectContractStatus == 2 ||
+              list.projectPayStatus == 2
+            ) {
+              this.projectStatusNew = 1;
+            } else {
+              this.projectStatusNew = 0;
             }
+            this.formData.projectCheckStatus = type;
+            this.formData.projectStatus = this.projectStatusNew;
+
+            this.$nextTick(function () {
+              edit(this.formData).then((res) => {
+                if (res != undefined) {
+                  if (res.code === 200) {
+                    this.$modal.closeLoading();
+                    let resmsg = "";
+                    if (type == 1) {
+                      resmsg = "项目审核完成";
+                      this.check("项目审核完成");
+                    } else {
+                      this.check(
+                        "项目审核不通过。" +
+                          "原因:" +
+                          this.formData.checkContent
+                      );
+                      resmsg = "项目审核完成";
+                    }
+
+                    let obj = {
+                      title: "项目审核",
+                      backUrl:
+                        this.$cache.local.getJSON("tj-aduitback").backurl,
+                      resmsg: resmsg,
+                      backName: this.$cache.local.getJSON("tj-aduitback").name,
+                    };
+                    this.$cache.local.setJSON("tj-successProject", obj);
+                    this.$tab.closeOpenPage({
+                      path: "/tj-business/project/success",
+                    });
+                  } else {
+                    this.$modal.msgError(res.msg);
+                    this.$tab.closeOpenPage({
+                      path: this.$cache.local.getJSON("tj-aduitback").backurl,
+                    });
+                  }
+                }
+              });
+            });
           });
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
             type: "warning",
           });
         }
@@ -1301,13 +1309,17 @@ export default {
           this.formData.disposableFeeIsmoney = JSON.stringify(
             this.formData.disposableFeeIsmoney
           );
-          this.formData.disposableFee = JSON.stringify(this.formData.disposableFee);
-          this.formData.isDisposable = JSON.stringify(this.formData.isDisposable);
+          this.formData.disposableFee = JSON.stringify(
+            this.formData.disposableFee
+          );
+          this.formData.isDisposable = JSON.stringify(
+            this.formData.isDisposable
+          );
           this.formData.isRegisterMoney = JSON.stringify(
             this.formData.isRegisterMoney
           );
-        if (this.formData.isAddBuyer == 1) {
-             this.formData.isAddBuyer = "1";
+          if (this.formData.isAddBuyer == 1) {
+            this.formData.isAddBuyer = "1";
           } else {
             this.formData.isAddBuyer = "0";
           }

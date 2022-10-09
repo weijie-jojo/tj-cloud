@@ -138,7 +138,7 @@
 </template>
 <script>
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive, edit,detailCollect} from "@/api/project/list";
+import { check, detail, editReceive, edit,detailCollect,receiveList2} from "@/api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from 'decimal.js'
 export default {
@@ -293,27 +293,35 @@ export default {
             isCheck: type,
             receiveRemark: this.remark,
           };
-
+          this.$modal.loading("正在提交中，请稍后...");
           editReceive(params).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-                
-                if (
-                  this.publicList.projectDutypaidStatus == 1 &&
-                  this.publicList.projectPayStatus == 1 &&
-                  this.publicList.projectTicketStatus == 1 &&
-                  this.publicList.projectAcceptanceStatus == 1 &&
-                  this.publicList.projectContractStatus == 1 &&
-                  this.publicList.projectCheckStatus == 1
+                receiveList2({
+                  projectCode: this.publicList.projectCode,
+                })
+                  .then((res) => {
+                    let arr = res;
+                    detail({
+                  projectCode: this.$cache.local.getJSON("tj-project-code"),
+                }).then((response) => {
+                  let publicList = response.data;
+                  if (
+                  publicList.projectDutypaidStatus == 1 &&
+                  publicList.projectPayStatus == 1 &&
+                  publicList.projectTicketStatus == 1 &&
+                  publicList.projectAcceptanceStatus == 1 &&
+                  publicList.projectContractStatus == 1 &&
+                  publicList.projectCheckStatus == 1
                 ) {
                   this.projectStatusNew = 2;
                 } else if (
-                  this.publicList.projectDutypaidStatus == 2 ||
-                  this.publicList.projectPayStatus == 2 ||
-                  this.publicList.projectTicketStatus == 2 ||
-                  this.publicList.projectAcceptanceStatus == 2 ||
-                  this.publicList.projectCheckStatus == 2 ||
-                  this.publicList.projectContractStatus == 2
+                  publicList.projectDutypaidStatus == 2 ||
+                  publicList.projectPayStatus == 2 ||
+                  publicList.projectTicketStatus == 2 ||
+                  publicList.projectAcceptanceStatus == 2 ||
+                  publicList.projectCheckStatus == 2 ||
+                  publicList.projectContractStatus == 2
                 ) {
                   this.projectStatusNew = 1;
                 } else {
@@ -323,46 +331,31 @@ export default {
                 if (type == 1) {
                   this.check("收款审核完成");
                   if (new Decimal(this.publicList.receiveRemainMoneys).sub(new Decimal(this.formData.receiveMoney)) == 0) {
-                       this.parms = {
-                            projectId: this.publicList.projectId,
-                            projectReceiveStatus: 1,
-                            projectStatus:this.projectStatusNew,
-                            isSelfCount: this.publicList.isSelfCount,
-                            projectCode: this.publicList.projectCode,
-                            projectOwner:this.publicList.projectOwner,
-                            placeCode:this.publicList.placeCode
-                            
-
-                        };
-                      } else {
-                        this.parms = {
-                            projectId: this.publicList.projectId,
-                            projectReceiveStatus: 0,
-                            projectStatus:this.projectStatusNew,
-                            isSelfCount: this.publicList.isSelfCount,
-                            projectCode: this.publicList.projectCode,
-                            projectOwner:this.publicList.projectOwner,
-                            placeCode:this.publicList.placeCode
-                        };
-                       }
+                       
+                      this.publicList.projectReceiveStatus=1;
+                      this.publicList.projectStatus=this.projectStatusNew;
+                   
+                  } else {
+                      this.publicList.projectReceiveStatus=0;
+                      this.publicList.projectStatus=this.projectStatusNew;
+                   }
+                   arr.map((item) => {
+                     if (item.isCheck == 2) {
+                      this.publicList.projectReceiveStatus=2;
+                      return (this.publicList.projectStatus = 1);
+                     }
+                  });
                   
                 } else {
-                 this.parms = {
-                    projectId: this.publicList.projectId,
-                    projectReceiveStatus: 2,
-                    receiveRemark: this.remark,
-                    projectStatus: 1,
-                    isSelfCount: this.publicList.isSelfCount,
-                    projectCode: this.publicList.projectCode,
-                    projectOwner:this.publicList.projectOwner,
-                    placeCode:this.publicList.placeCode
-                  };
-
-                  this.check("收款审核不通过。" + "原因:" + this.remark);
+                    this.publicList.projectReceiveStatus=2;
+                    this.publicList.projectStatus=1;
+                    this.check("收款审核不通过。" + "原因:" + this.remark);
                 }
-                edit(this.parms);
-
-                let obj = {
+                this.publicList.receiveRemark=this.remark;
+                this.$nextTick(function () {
+                  edit(this.publicList).then(res=>{
+                  this.$modal.closeLoading();  
+                  let obj = {
                   title: "收款审核审核",
                   backUrl: this.$cache.local.getJSON("tj-aduitback").backurl,
                   resmsg: "收款审核完成",
@@ -370,14 +363,19 @@ export default {
                 };
                 this.$cache.local.setJSON("tj-successProject", obj);
                 this.$tab.closeOpenPage({ path: "/tj-business/project/success" });
+                })
+
+                })
+                 })
+              })
               }
             }
           });
         } else {
-          this.$alert("请正确填写", "系统提示", {
+           this.$modal.closeLoading();
+           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
-            type: "warning",
+             type: "warning",
           });
         }
       });

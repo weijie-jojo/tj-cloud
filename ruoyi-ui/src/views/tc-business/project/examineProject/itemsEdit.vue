@@ -39,17 +39,17 @@
             label="项目时间"
             prop="projectTimeStart"
           >
-          <el-date-picker
-            style="width:100%"
-            disabled
-            v-model="formData.projectTimeStart"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            align="right"
-        >
-        </el-date-picker>
+            <el-date-picker
+              style="width: 100%"
+              disabled
+              v-model="formData.projectTimeStart"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
           </el-form-item>
           <el-form-item
             class="comright"
@@ -76,7 +76,6 @@
           <el-form-item class="comright" label="客户全名">
             <el-select
               filterable
-             
               style="width: 100%"
               clearable
               v-model="formData.placeCode"
@@ -91,12 +90,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="项目款往来" :required="true">
-            <el-radio  v-model="formData.isDealings" label="1"
-              >是</el-radio
-            >
-            <el-radio  v-model="formData.isDealings" label="0"
-              >否</el-radio
-            >
+            <el-radio v-model="formData.isDealings" label="1">是</el-radio>
+            <el-radio v-model="formData.isDealings" label="0">否</el-radio>
           </el-form-item>
         </el-col>
 
@@ -104,7 +99,6 @@
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
-         
         </el-col>
       </el-row>
 
@@ -115,8 +109,7 @@
         justify="space-around"
       >
         <el-col :span="9">
-          <div class="bankno" >购货单位（甲方）</div>
-         
+          <div class="bankno">购货单位（甲方）</div>
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -144,9 +137,13 @@
             <el-input v-model="formData.bankName" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item label="添加购方列表" :required="true">
-              <el-radio disabled v-model="formData.isAddBuyer" label="1">是</el-radio>
-              <el-radio disabled v-model="formData.isAddBuyer" label="0">否</el-radio>
-           </el-form-item>
+            <el-radio disabled v-model="formData.isAddBuyer" label="1"
+              >是</el-radio
+            >
+            <el-radio disabled v-model="formData.isAddBuyer" label="0"
+              >否</el-radio
+            >
+          </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item
@@ -176,9 +173,8 @@
         style="margin-bottom: 20px"
         justify="space-around"
       >
-        <el-col :span="9" >
-          <div class="bankno" >销货单位（乙方）</div>
-         
+        <el-col :span="9">
+          <div class="bankno">销货单位（乙方）</div>
         </el-col>
         <el-col :span="9">
           <div></div>
@@ -225,8 +221,6 @@
               :readonly="true"
             ></el-input>
           </el-form-item>
-
-     
         </el-col>
 
         <el-col :span="9">
@@ -317,12 +311,21 @@
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="个体户状态">
-                        <el-select style="width:100%" disabled clearable v-model="projectStatus">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+            <el-select
+              style="width: 100%"
+              disabled
+              clearable
+              v-model="projectStatus"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
         <el-col :span="9"></el-col>
       </el-row>
@@ -514,21 +517,19 @@
         </el-col>
         <el-col :span="9"> </el-col>
       </el-row>
-   
 
       <el-row
         v-if="formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="9">
-            <div class="bankno">增值税普通发票</div>
-           </el-col>
-          <el-col :span="9"> </el-col>
-        </el-row>
-     
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9">
+          <div class="bankno">增值税普通发票</div>
+        </el-col>
+        <el-col :span="9"> </el-col>
+      </el-row>
 
       <el-row
         type="flex"
@@ -663,29 +664,25 @@
         <el-col :span="9"></el-col>
       </el-row>
 
-
       <el-row
         v-if="formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="9" >
-            <div class="bankno">增值税专用发票
-              </div>
-           </el-col>
-          <el-col :span="9"></el-col>
-        </el-row>
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="9">
+          <div class="bankno">增值税专用发票</div>
+        </el-col>
+        <el-col :span="9"></el-col>
+      </el-row>
 
-
-       
-
-
-      <el-row   type="flex"
+      <el-row
+        type="flex"
         class="row-bg"
         justify="space-around"
-        v-if="formData.isSelfCount == 2">
+        v-if="formData.isSelfCount == 2"
+      >
         <el-col :span="9">
           <el-form-item label="增值税专用发票" :required="true">
             <el-radio @change="ispublic" v-model="formData.isSlider" label="0"
@@ -811,25 +808,22 @@
           </div>
         </el-col>
         <el-col :span="9"></el-col>
-
       </el-row>
       <el-row
         v-if="formData.isSelfCount == 2"
-          type="flex"
-          class="row-bg"
-          style="margin-bottom: 20px"
-          justify="space-around"
-        >
-          <el-col :span="8" class="flexs">
-            <div class="bankno" style="width:60%;">
-               一次性费用
-             </div>
-             <div style="width:40%"></div>
-          </el-col>
-          <el-col :span="8">
-            <div></div>
-          </el-col>
-        </el-row>
+        type="flex"
+        class="row-bg"
+        style="margin-bottom: 20px"
+        justify="space-around"
+      >
+        <el-col :span="8" class="flexs">
+          <div class="bankno" style="width: 60%">一次性费用</div>
+          <div style="width: 40%"></div>
+        </el-col>
+        <el-col :span="8">
+          <div></div>
+        </el-col>
+      </el-row>
 
       <el-row
         type="flex"
@@ -892,18 +886,17 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="备注" v-if="formData.isDisposable==0">
-                <el-input
-                
-                maxlength="50"
-                show-word-limit
-                type="textarea"
-                :rows="2"
-                placeholder="请输入备注"
-                v-model="formData.disposableRemark"
-              >
-              </el-input>
-              </el-form-item>
+          <el-form-item label="备注" v-if="formData.isDisposable == 0">
+            <el-input
+              maxlength="50"
+              show-word-limit
+              type="textarea"
+              :rows="2"
+              placeholder="请输入备注"
+              v-model="formData.disposableRemark"
+            >
+            </el-input>
+          </el-form-item>
           <el-form-item
             label="是否分润"
             prop="isDisposableShare"
@@ -971,7 +964,12 @@
         <el-col :span="9"> </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -996,14 +994,16 @@ import {
 } from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
-import crudPlace from "@/api/company/place";
+
 //手机号验证
 var phoneVerify = (rule, value, callback) => {
   if (value) {
     var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
     if (!reg.test(value)) {
       callback(
-        new Error("购货单位（甲方）纳税人识别号,一律由15位、18或者20位码(字符型))组成")
+        new Error(
+          "购货单位（甲方）纳税人识别号,一律由15位、18或者20位码(字符型))组成"
+        )
       );
     }
     callback();
@@ -1016,8 +1016,8 @@ export default {
   },
   data() {
     return {
-      isaddPurch:'1',
-      projectStatus:'1',
+      isaddPurch: "1",
+      projectStatus: "1",
       selectTipType: "",
       isyuan: "",
       userinfo: {},
@@ -1030,7 +1030,6 @@ export default {
       },
       expandOnClickNode: true,
 
-    
       username: "",
       userId: "",
       industryId: "",
@@ -1056,7 +1055,7 @@ export default {
       placeCodeOptions: "", //渠道商
 
       formData: {
-        disposableRemark:'',
+        disposableRemark: "",
         isDisposableShare: "1",
         disposableShareIsmoney: "0",
         disposableShare: "0",
@@ -1110,20 +1109,18 @@ export default {
           label: "3%",
         },
       ],
-          //项目税率
-          projectNormal: [
+      //项目税率
+      projectNormal: [
         {
           value: 0,
           label: "免税",
         },
         {
-
-            value: 0.03,
-            label: '3%'
+          value: 0.03,
+          label: "3%",
         },
       ],
       rules: {
-        
         isDisposableShare: [
           {
             required: true,
@@ -1333,7 +1330,7 @@ export default {
         }
       }
     },
-      ordinarySelfFeeh(e) {
+    ordinarySelfFeeh(e) {
       if (this.formData.ordinaryProxyIsmoney == "1") {
         if (e > 100) {
           this.formData.ordinarySelfFee = "100";
@@ -1373,7 +1370,7 @@ export default {
     //结算方式赋值
     singleOK() {
       if (this.formData.isSelfCount == 2) {
-        this.formData.disposableRemark='';
+        this.formData.disposableRemark = "";
         this.formData.isDisposableShare = "1";
         this.formData.disposableShareIsmoney = "0";
         this.formData.disposableShare = "0";
@@ -1411,7 +1408,7 @@ export default {
         this.formData.isOrdinaryTax = "1";
         this.formData.isSpecialTax = "1";
       } else {
-        this.formData.disposableRemark=null;
+        this.formData.disposableRemark = null;
         this.formData.isDisposableShare = null;
         this.formData.disposableShareIsmoney = null;
         this.formData.disposableShare = null;
@@ -1577,16 +1574,17 @@ export default {
       this.$modal.loading("正在加载数据，请稍后...");
       detail({
         projectCode: this.$cache.local.getJSON("tc-project-code"),
-      }).then((response) => {
-        this.formData.industryType = "";
-        this.formData = response.data;
-        this.$modal.closeLoading();
-        if (this.formData.isAddBuyer == 1) {
-             this.formData.isAddBuyer = "1";
-        } else {
+      })
+        .then((response) => {
+          this.formData.industryType = "";
+          this.formData = response.data;
+          this.$modal.closeLoading();
+          if (this.formData.isAddBuyer == 1) {
+            this.formData.isAddBuyer = "1";
+          } else {
             this.formData.isAddBuyer = "0";
-        }
-        if (this.formData.isDealings == 1) {
+          }
+          if (this.formData.isDealings == 1) {
             this.formData.isDealings = "1";
           } else {
             this.formData.isDealings = "0";
@@ -1596,143 +1594,143 @@ export default {
           } else {
             this.projectStatus = 1;
           }
-        this.formData.selfShareIsmoney = JSON.stringify(
-          this.formData.selfShareIsmoney
-        );
-        this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
-        this.formData.selfShare = JSON.stringify(this.formData.selfShare);
+          this.formData.selfShareIsmoney = JSON.stringify(
+            this.formData.selfShareIsmoney
+          );
+          this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
+          this.formData.selfShare = JSON.stringify(this.formData.selfShare);
 
-        this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-        this.formData.ordinarySpecialTax = JSON.stringify(
-          this.formData.ordinarySpecialTax
-        );
-        this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
-        this.formData.isSpecialSelfTax = JSON.stringify(
-          this.formData.isSpecialSelfTax
-        );
-        this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
+          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
+          this.formData.ordinarySpecialTax = JSON.stringify(
+            this.formData.ordinarySpecialTax
+          );
+          this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
+          this.formData.isSpecialSelfTax = JSON.stringify(
+            this.formData.isSpecialSelfTax
+          );
+          this.formData.isSelfCount = JSON.stringify(this.formData.isSelfCount);
 
-        this.formData.ordinaryProxyIsmoney = JSON.stringify(
-          this.formData.ordinaryProxyIsmoney
-        );
-        this.formData.specialProxyIsmoney = JSON.stringify(
-          this.formData.specialProxyIsmoney
-        );
-        this.formData.ordinaryShareIsmoney = JSON.stringify(
-          this.formData.ordinaryShareIsmoney
-        );
-        this.formData.specialShareIsmoney = JSON.stringify(
-          this.formData.specialShareIsmoney
-        );
-        this.formData.isOrdinaryShare = JSON.stringify(
-          this.formData.isOrdinaryShare
-        );
-        this.formData.isSpecialShare = JSON.stringify(
-          this.formData.isSpecialShare
-        );
+          this.formData.ordinaryProxyIsmoney = JSON.stringify(
+            this.formData.ordinaryProxyIsmoney
+          );
+          this.formData.specialProxyIsmoney = JSON.stringify(
+            this.formData.specialProxyIsmoney
+          );
+          this.formData.ordinaryShareIsmoney = JSON.stringify(
+            this.formData.ordinaryShareIsmoney
+          );
+          this.formData.specialShareIsmoney = JSON.stringify(
+            this.formData.specialShareIsmoney
+          );
+          this.formData.isOrdinaryShare = JSON.stringify(
+            this.formData.isOrdinaryShare
+          );
+          this.formData.isSpecialShare = JSON.stringify(
+            this.formData.isSpecialShare
+          );
 
-        // this.formData.ordinarySpecialTax = JSON.stringify(
-        //   this.unlist.ordinarySpecialTax
-        // );
-        this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-       
-        this.formData.isDisposableShare = JSON.stringify(
-          this.formData.isDisposableShare
-        );
-        this.formData.disposableShareIsmoney = JSON.stringify(
-          this.formData.disposableShareIsmoney
-        );
-        this.formData.disposableShare = JSON.stringify(
-          this.formData.disposableShare
-        );
-        this.formData.disposableFeeIsmoney = JSON.stringify(
-          this.formData.disposableFeeIsmoney
-        );
-        this.formData.disposableFee = JSON.stringify(this.formData.disposableFee);
-        this.formData.isDisposable = JSON.stringify(this.formData.isDisposable);
-        this.formData.isRegisterMoney = JSON.stringify(
-          this.formData.isRegisterMoney
-        );
+          // this.formData.ordinarySpecialTax = JSON.stringify(
+          //   this.unlist.ordinarySpecialTax
+          // );
+          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
 
-       
+          this.formData.isDisposableShare = JSON.stringify(
+            this.formData.isDisposableShare
+          );
+          this.formData.disposableShareIsmoney = JSON.stringify(
+            this.formData.disposableShareIsmoney
+          );
+          this.formData.disposableShare = JSON.stringify(
+            this.formData.disposableShare
+          );
+          this.formData.disposableFeeIsmoney = JSON.stringify(
+            this.formData.disposableFeeIsmoney
+          );
+          this.formData.disposableFee = JSON.stringify(
+            this.formData.disposableFee
+          );
+          this.formData.isDisposable = JSON.stringify(
+            this.formData.isDisposable
+          );
+          this.formData.isRegisterMoney = JSON.stringify(
+            this.formData.isRegisterMoney
+          );
 
-        if (this.formData.isOrdinaryTax == 1) {
-          this.formData.isOrdinaryTax = "1";
-        } else {
-          this.formData.isOrdinaryTax = "0";
-        }
-        if (this.formData.isSpecialTax == 1) {
-          this.formData.isSpecialTax = "1";
-        } else {
-          this.formData.isSpecialTax = "0";
-        }
-
-        if (this.formData.isSelfCount == "0") {
-          this.formData.isSelfCount = "0";
-        } else if (this.formData.isSelfCount == "1") {
-          this.formData.isSelfCount = "1";
-        } else if (this.formData.isSelfCount == "2") {
-          this.formData.isSelfCount = "2";
-        }
-
-        if (this.formData.isSelfTax == "0") {
-          this.formData.isSelfTax = "0";
-        } else {
-          this.formData.isSelfTax = "1";
-        }
-        if (this.formData.isSpecialSelfTax == "0") {
-          this.formData.isSpecialSelfTax = "0";
-        } else {
-          this.formData.isSpecialSelfTax = "1";
-        }
-
-        if (this.formData.isSlider == "0") {
-          this.formData.isSlider = "0";
-        } else {
-          this.formData.isSlider = "1";
-        }
-
-        if (this.formData.isSliderOrdinary == "0") {
-          this.formData.isSliderOrdinary = "0";
-        } else {
-          this.formData.isSliderOrdinary = "1";
-        }
-
-       
-
-        this.$nextTick(function () {
-          this.selectTipType = this.$refs.selectTree.selected.label;
-        });
-
-        this.projectTotalAmount = this.formData.projectTotalAmount;
-
-        this.isokradio = JSON.stringify(this.formData.placeStatus);
-        if (this.formData.fileName) {
-          if (this.formData.fileName.indexOf("[") != -1) {
-            this.isNone = JSON.parse(this.formData.fileName);
-            this.formData.fileName = JSON.parse(this.formData.fileName);
+          if (this.formData.isOrdinaryTax == 1) {
+            this.formData.isOrdinaryTax = "1";
           } else {
-            this.isyuan = this.formData.fileName;
+            this.formData.isOrdinaryTax = "0";
+          }
+          if (this.formData.isSpecialTax == 1) {
+            this.formData.isSpecialTax = "1";
+          } else {
+            this.formData.isSpecialTax = "0";
           }
 
-          if (Array.isArray(this.formData.fileName)) {
-            this.fileNameradio = "2";
-            this.fileName = [];
-            //如果是图片的话
-            for (let j in this.formData.fileName) {
-              this.fileName.push({
-                name: this.formData.fileName[j],
-                url: this.baseImgPath + this.formData.fileName[j],
-              });
+          if (this.formData.isSelfCount == "0") {
+            this.formData.isSelfCount = "0";
+          } else if (this.formData.isSelfCount == "1") {
+            this.formData.isSelfCount = "1";
+          } else if (this.formData.isSelfCount == "2") {
+            this.formData.isSelfCount = "2";
+          }
+
+          if (this.formData.isSelfTax == "0") {
+            this.formData.isSelfTax = "0";
+          } else {
+            this.formData.isSelfTax = "1";
+          }
+          if (this.formData.isSpecialSelfTax == "0") {
+            this.formData.isSpecialSelfTax = "0";
+          } else {
+            this.formData.isSpecialSelfTax = "1";
+          }
+
+          if (this.formData.isSlider == "0") {
+            this.formData.isSlider = "0";
+          } else {
+            this.formData.isSlider = "1";
+          }
+
+          if (this.formData.isSliderOrdinary == "0") {
+            this.formData.isSliderOrdinary = "0";
+          } else {
+            this.formData.isSliderOrdinary = "1";
+          }
+
+          this.$nextTick(function () {
+            this.selectTipType = this.$refs.selectTree.selected.label;
+          });
+
+          this.projectTotalAmount = this.formData.projectTotalAmount;
+
+          this.isokradio = JSON.stringify(this.formData.placeStatus);
+          if (this.formData.fileName) {
+            if (this.formData.fileName.indexOf("[") != -1) {
+              this.isNone = JSON.parse(this.formData.fileName);
+              this.formData.fileName = JSON.parse(this.formData.fileName);
+            } else {
+              this.isyuan = this.formData.fileName;
+            }
+
+            if (Array.isArray(this.formData.fileName)) {
+              this.fileNameradio = "2";
+              this.fileName = [];
+              //如果是图片的话
+              for (let j in this.formData.fileName) {
+                this.fileName.push({
+                  name: this.formData.fileName[j],
+                  url: this.baseImgPath + this.formData.fileName[j],
+                });
+              }
+            } else {
+              this.fileNameradio = "1";
             }
           } else {
             this.fileNameradio = "1";
           }
-        } else {
-          this.fileNameradio = "1";
-        }
-       
-      }).catch((err) => {
+        })
+        .catch((err) => {
           this.$modal.closeLoading();
         });
     },
@@ -1774,7 +1772,7 @@ export default {
       }
     },
     //监听渠道商状态
-  
+
     //返回
     resetForm() {
       this.$tab.closeOpenPage({
@@ -1961,45 +1959,77 @@ export default {
           if (this.fileNameradio == 2) {
             this.formData.fileName = JSON.stringify(this.formData.fileName);
           }
-          this.formData.projectCheckStatus = 0;
-          this.formData.projectStatus = 0;
+          this.$modal.loading("正在提交中，请稍后...");
           this.ticketByCode();
-          edit(this.formData).then((res) => {
-            if (res != undefined) {
-              if (res.code === 200) {
-                this.$nextTick(function () {
-                  this.check("项目修改完成");
-                  this.$modal.msgSuccess("项目修改完成");
-                  this.$tab
-                    .closeOpenPage({
-                      path: this.$cache.local.getJSON("tc-edit-project").url,
-                    })
-                    .then(() => {
-                      this.$tab.refreshPage({
-                        path: this.$cache.local.getJSON("tc-edit-project").url,
-                        name: this.$cache.local.getJSON("tc-edit-project").name,
-                      });
-                    });
-                });
+          detail({
+            projectCode: this.$cache.local.getJSON("tc-project-code"),
+          }).then((response) => {
+            let list = response.data;
+            if (
+              list.projectReceiveStatus == 1 &&
+              list.projectPayStatus == 1 &&
+              list.projectDutypaidStatus == 1 &&
+              list.projectAcceptanceStatus == 1 &&
+              list.projectContractStatus == 1 &&
+              list.projectTicketStatus == 1
+            ) {
+              this.formData.projectStatus = 2;
+            } else {
+              if (
+                list.projectReceiveStatus == 2 ||
+                list.projectPayStatus == 2 ||
+                list.projectDutypaidStatus == 2 ||
+                list.projectAcceptanceStatus == 2 ||
+                list.projectContractStatus == 2 ||
+                list.projectTicketStatus == 2
+              ) {
+                this.formData.projectStatus = 1;
               } else {
-                this.$tab
-                  .closeOpenPage({
-                    path: this.$cache.local.getJSON("tc-edit-project").url,
-                  })
-                  .then(() => {
-                    this.$tab.refreshPage({
-                      path: this.$cache.local.getJSON("tc-edit-project").url,
-                      name: this.$cache.local.getJSON("tc-edit-project").name,
-                    });
-                  });
+                this.formData.projectStatus  = 0;
               }
             }
+            this.$nextTick(function () {
+              edit(this.formData).then((res) => {
+                if (res != undefined) {
+                  if (res.code === 200) {
+                    this.$modal.closeLoading();
+                    this.check("项目修改完成");
+                    this.$modal.msgSuccess("项目修改完成");
+                    this.$tab
+                      .closeOpenPage({
+                        path: this.$cache.local.getJSON("tc-edit-project").url,
+                      })
+                      .then(() => {
+                        this.$tab.refreshPage({
+                          path: this.$cache.local.getJSON("tc-edit-project")
+                            .url,
+                          name: this.$cache.local.getJSON("tc-edit-project")
+                            .name,
+                        });
+                      });
+                  } else {
+                    this.$tab
+                      .closeOpenPage({
+                        path: this.$cache.local.getJSON("tc-edit-project").url,
+                      })
+                      .then(() => {
+                        this.$tab.refreshPage({
+                          path: this.$cache.local.getJSON("tc-edit-project")
+                            .url,
+                          name: this.$cache.local.getJSON("tc-edit-project")
+                            .name,
+                        });
+                      });
+                  }
+                }
+              });
+            });
           });
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
-            type: "warning",
+             type: "warning",
           });
         }
       });

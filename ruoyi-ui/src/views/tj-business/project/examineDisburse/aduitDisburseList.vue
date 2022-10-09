@@ -277,7 +277,7 @@
               size="mini"
               type="text"
               icon="el-icon-s-custom"
-              v-if="scope.row.isCheck == 0"
+              v-if="scope.row.isCheck == 0 && scope.row.isPay==1"
               @click="aduit(scope.row)"
               >审核</el-button
             >

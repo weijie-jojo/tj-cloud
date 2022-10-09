@@ -330,53 +330,51 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          let parms;
-          if (
-            this.formData.projectReceiveStatus == 1 &&
-            this.formData.projectPayStatus == 1 &&
-            this.formData.projectTicketStatus == 1 &&
-            this.formData.projectAcceptanceStatus == 1 &&
-            this.formData.projectContractStatus == 1 &&
-            this.formData.projectCheckStatus == 1
+          this.$modal.loading("正在提交中，请稍后...");
+          if (Array.isArray(this.formData.fileName3)) {
+            this.formData.fileName3 = JSON.stringify(
+              this.formData.fileName3
+            );
+          }
+          if (Array.isArray(this.formData.fileName4)) {
+            this.formData.fileName4 = JSON.stringify(
+              this.formData.fileName4
+            );
+          }
+          detail({
+            projectCode: this.$cache.local.getJSON("tg-project-code"),
+          }).then((response) => {
+            let list=response.data;
+            if (
+              list.projectReceiveStatus == 1 &&
+              list.projectPayStatus == 1 &&
+              list.projectTicketStatus == 1 &&
+              list.projectAcceptanceStatus == 1 &&
+              list.projectContractStatus == 1 &&
+              list.projectCheckStatus == 1
           ) {
             this.projectStatusNew = 2;
           } else if (
-            this.formData.projectReceiveStatus == 2 ||
-            this.formData.projectPayStatus == 2 ||
-            this.formData.projectTicketStatus == 2 ||
-            this.formData.projectAcceptanceStatus == 2 ||
-            this.formData.projectCheckStatus == 2 ||
-            this.formData.projectContractStatus == 2
+            list.projectReceiveStatus == 2 ||
+            list.projectPayStatus == 2 ||
+            list.projectTicketStatus == 2 ||
+            list.projectAcceptanceStatus == 2 ||
+            list.projectCheckStatus == 2 ||
+            list.projectContractStatus == 2
           ) {
             this.projectStatusNew = 1;
           } else {
             this.projectStatusNew = 0;
           }
-          if (type == 1) {
-            parms = {
-              projectId: this.formData.projectId,
-              projectDutypaidStatus: type,
-              projectStatus: this.projectStatusNew,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner: this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          } else {
-            parms = {
-              projectId: this.formData.projectId,
-              taxRemark: this.remark,
-              projectDutypaidStatus: type,
-              projectStatus: 1,
-              isSelfCount: this.formData.isSelfCount,
-              projectCode: this.formData.projectCode,
-              projectOwner: this.formData.projectOwner,
-              placeCode: this.formData.placeCode,
-            };
-          }
-          edit(parms).then((res) => {
+          
+          this.formData.taxRemark=this.remark,
+          this.formData.projectDutypaidStatus=type;
+          this.formData.projectStatus=this.projectStatusNew;
+          this.$nextTick(function () {
+          edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
+                this.$modal.closeLoading();
                 this.$nextTick(function () {
                   let resmsg = "";
                   if (type == 1) {
@@ -406,11 +404,17 @@ export default {
               }
             }
           });
+
+
+
+          });
+        });
+        
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
-            type: "warning",
+             type: "warning",
           });
         }
       });

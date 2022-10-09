@@ -278,7 +278,7 @@
             <el-input v-model="formData.ticketTime" disabled></el-input>
           </el-form-item>
           <el-form-item class="comright" label="发票总数">
-            <el-input :readonly="true" ></el-input>
+            <el-input v-model="formData.ticketNum" :readonly="true" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -836,42 +836,55 @@ export default {
                 })
                   .then((res) => {
                     let arr = res;
-                    //判断是否审核没有通过的
-                      arr.map((item) => {
-                        if (item.isDeleted == 3) {
-                          this.Father.projectTicketStatus=2;
-                          return (this.Father.projectStatus = 1);
-                        }else if(item.isDeleted==2){
-                          return this.Father.projectTicketStatus=0;
-                        }
-                      });
+                    detail({
+                      projectCode: this.$cache.local.getJSON("tj-project-code"),
+                      }).then((response) =>{
+                        let list=response.data;
+                            //判断是否审核没有通过的
+                    
                       //如果其他都是通过 就是通过  其他有异常就是异常
                        if (
-                        this.Father.projectReceiveStatus == 1 &&
-                        this.Father.projectPayStatus == 1 &&
-                        this.Father.projectDutypaidStatus == 1 &&
-                        this.Father.projectAcceptanceStatus == 1 &&
-                        this.Father.projectContractStatus == 1 &&
-                        this.Father.projectCheckStatus == 1
+                       list.projectReceiveStatus == 1 &&
+                       list.projectPayStatus == 1 &&
+                       list.projectDutypaidStatus == 1 &&
+                       list.projectAcceptanceStatus == 1 &&
+                       list.projectContractStatus == 1 &&
+                       list.projectCheckStatus == 1
                       ) {
                         this.Father.projectStatus = 2;
                       } else {
                         if (
-                          this.Father.projectReceiveStatus == 2 ||
-                          this.Father.projectPayStatus == 2 ||
-                          this.Father.projectDutypaidStatus == 2 ||
-                          this.Father.projectAcceptanceStatus == 2 ||
-                          this.Father.projectContractStatus == 2 ||
-                          this.Father.projectCheckStatus == 2
+                          list.projectReceiveStatus == 2 ||
+                          list.projectPayStatus == 2 ||
+                          list.projectDutypaidStatus == 2 ||
+                          list.projectAcceptanceStatus == 2 ||
+                          list.projectContractStatus == 2 ||
+                          list.projectCheckStatus == 2
                         ) {
                           this.Father.projectStatus= 1;
                         } else {
                           this.Father.projectStatus = 0;
                         }
                       }
-                   if(this.Father.projectStatus==0){
-                      this.Father.projectTicketStatus=0;
+                   if (
+                      new Decimal(this.publicList.projectRemainAmount).sub(
+                        new Decimal(this.formData.ticketAmount)
+                      ) == 0
+                    ) {
+                     this.publicList.projectPayStatus=1;
+                     this.publicList.projectStatus=this.projectStatusNew;
+                    } else {
+                      this.publicList.projectPayStatus=0;
+                      this.publicList.projectStatus=this.projectStatusNew;
+                      
                     }
+                    arr.map((item) => {
+                        if (item.isDeleted == 3) {
+                            this.Father.projectTicketStatus=2;
+                            return (this.Father.projectStatus = 1);
+                          }
+                        });
+                   
                     
                    this.$nextTick(function () {
                     projectlist.edit(this.Father);  
@@ -885,11 +898,10 @@ export default {
                         name: "TicketList",
                       });
                     });
-                    });  
+                    });
                   })
-                  .catch((err) => {});
-               
-              } else {
+                 })
+                } else {
                 this.$modal.closeLoading();
                 this.$modal.msgError(res.msg);
                 this.$tab.closeOpenPage({

@@ -97,7 +97,7 @@
           <el-form-item class="comright" label="应收账款">
             <el-input
               :readonly="true"
-              v-model="publicList.projectTotalAmount"
+              v-model="publicList.receiveTotalMoneys"
              
             >
               <template slot="append">元</template>
@@ -112,11 +112,13 @@
 
         <el-col :span="9"> </el-col>
       </el-row>
-      <!-- <el-row type="flex" class="row-bg" justify="space-around">
+      <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="19" style="margin-bottom:10px;margin-top: -5px;">
-        增值税（0.03）、城市维护建设税（0.07 0.5）、教育费附加（0.03 0.5）、地方教育附加（0.02 0.5）、个人所得税（）、水利建设专项收入（0.0009）、服务费
+          服务费({{serviceMsg}})、增值税({{publicList.projectTaxMoney}})、 城市维护建设税({{publicList.cityTaxMoney}})
+          、教育费附加({{publicList.eduTaxMoney}})、地方教育附加({{publicList.localeduTaxMoney}})、个人所得税({{publicList.personalTaxMoney}})水利建设专项收入({{publicList.waterbuildMoney}})
+        
         </el-col>
-      </el-row> -->
+      </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="已收账款">
@@ -300,7 +302,7 @@ import uploadSmall from "@/components/douploads/uploadSmall";
 import {
   receiveList,
   detail,
-  edit,
+  
   delReceive,
   finshReceiveList,
   finshPayList,
@@ -313,6 +315,7 @@ export default {
   },
   data() {
     return {
+      serviceMsg:'',
       finshPayLists: [],
       finshReceiveLists: [],
       numberToCurrencyNo,
@@ -418,6 +421,11 @@ export default {
       projectCode: this.$cache.local.getJSON("tg-project-code"),
     }).then((response) => {
       this.publicList = response.data;
+      if(this.publicList.ticketType==0){
+          this.serviceMsg=this.publicList.ordinaryServeMoney;
+        }else if(this.publicList.ticketType==1){
+          this.serviceMsg=this.publicList.specialServeMoney;
+        }
       this.queryParams = {
         pageNum: 1,
         pageSize: 10,
@@ -425,7 +433,7 @@ export default {
       };
       
       this.getList();
-      this.getAllAcount();
+     
       
     });
    
@@ -467,64 +475,7 @@ export default {
         console.log(this.finshPayLists);
       });
     },
-    //计算已收和已出账款
-    getAllAcount() {
-        finshReceiveList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshReceiveLists = res.data;
-        finshPayList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshPayLists = res.data;
-        let arr = this.finshReceiveLists;
-        let brr = this.finshPayLists;
-        this.publicList.payTotalMoneys=this.publicList.projectTotalAmount;
-        if (Array.isArray(arr) && arr.length > 0) {
-          this.publicList.receiveMoneys = 0;
-          for (let i in arr) {
-            if (arr[i].receiveMoney > 0 && arr[i].isCheck == 1) {
-              this.publicList.receiveMoneys = new Decimal(
-                this.publicList.receiveMoneys
-              ).add(new Decimal(arr[i].receiveMoney));
-              if(this.publicList.projectDutypaidStatus==1 && this.publicList.projectPayStatus==1 && this.publicList.projectDutypaidStatus==1 
-               && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
-                 this.publicList.projectStatus=2;
-               }else{
-                  this.publicList.projectStatus=0;
-                }
-            }else if(arr[i].isCheck==2){
-                  this.publicList.projectStatus=1;
-             }
-          }
-          this.publicList.receiveRemainMoneys = new Decimal(
-            this.publicList.projectTotalAmount
-          ).sub(new Decimal(this.publicList.receiveMoneys));
-        }
-        if (Array.isArray(brr) && brr.length > 0) {
-          this.publicList.payMoneys = 0;
-          for (let j in brr) {
-            if (brr[j].payMoney > 0 && brr[j].isCheck == 1) {
-              this.publicList.payMoneys = new Decimal(
-                this.publicList.payMoneys
-              ).add(new Decimal(brr[j].payMoney));
-
-            }
-          }
-          this.publicList.payRemainMoneys = new Decimal(
-            this.publicList.payTotalMoneys
-          ).sub(new Decimal(this.publicList.payMoneys));
-        }
-          // edit(this.publicList);
-
-
-
-
-      });
-      }); 
-      
-      
-    },
+  
     /** 查询列表 */
     getList() {
       this.loading = true;

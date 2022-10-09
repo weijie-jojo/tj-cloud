@@ -280,7 +280,7 @@
             <el-input :readonly="true" v-model="formData.ticketTime"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="发票总数">
-            <el-input :readonly="true"></el-input>
+            <el-input v-model="formData.ticketNum" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
 
@@ -407,9 +407,7 @@
             class="comright"
             style="padding-right: 4.2%; margin-left: -7%"
           >
-            <div
-              style="
-                display: flex;
+            <div style="display: flex;
                 align-items: center;
                 justify-content: flex-start;
               "
@@ -418,7 +416,7 @@
               <el-input
                 type="textarea"
                 placeholder="请输入不通过说明"
-                v-model="remark"
+                v-model="formData.ticketRemark2"
                 :disabled="isokradioS == 1"
               ></el-input>
             </div>
@@ -470,14 +468,14 @@ export default {
   },
   data() {
     return {
-      okif:'0',
+      
       projectStatusNew: "0",
       isokradioS: "1",
       fileNames: [],
       isDetail: "1",
       isNone: [],
       remark: "",
-
+      parmss:{},
       issuedAmount: 0.0, //已开金额
       balance: 0.0, //剩余金额
       projectStatus: 1, //销货单位（乙方）状态
@@ -724,73 +722,75 @@ export default {
                 })
                   .then((res) => {
                     let arr = res;
-                    let parms;
+                    
+                    detail({
+                      projectCode: this.$cache.local.getJSON("tg-project-code"),
+                      }).then((response) =>{
+                      let list=response.data;
+                      
+                      if (type == 1) {
                    
-                    if (type == 1) {
-                      //判断是否审核没有通过的
-                      arr.map((item) => {
-                        if (item.isDeleted == 3) {
-                           this.okif=2;
-                          return (this.projectStatusNew = 1);
-                        }else if(item.isDeleted==1){
-                           this.okif=1;
-                        }
-                      });
 
                       //如果其他都是通过 就是通过  其他有异常就是异常
+                     
+                    
 
                       if (
-                        this.Father.projectReceiveStatus == 1 &&
-                        this.Father.projectPayStatus == 1 &&
-                        this.Father.projectDutypaidStatus == 1 &&
-                        this.Father.projectAcceptanceStatus == 1 &&
-                        this.Father.projectContractStatus == 1 &&
-                        this.Father.projectCheckStatus == 1
+                        list.projectReceiveStatus == 1 &&
+                        list.projectPayStatus == 1 &&
+                        list.projectDutypaidStatus == 1 &&
+                        list.projectAcceptanceStatus == 1 &&
+                        list.projectContractStatus == 1 &&
+                        list.projectCheckStatus == 1
                       ) {
                         this.projectStatusNew = 2;
                       } else {
                         if (
-                          this.Father.projectReceiveStatus == 2 ||
-                          this.Father.projectPayStatus == 2 ||
-                          this.Father.projectDutypaidStatus == 2 ||
-                          this.Father.projectAcceptanceStatus == 2 ||
-                          this.Father.projectContractStatus == 2 ||
-                          this.Father.projectCheckStatus == 2
+                          list.projectReceiveStatus == 2 ||
+                          list.projectPayStatus == 2 ||
+                          list.projectDutypaidStatus == 2 ||
+                          list.projectAcceptanceStatus == 2 ||
+                          list.projectContractStatus == 2 ||
+                          list.projectCheckStatus == 2
                         ) {
                           this.projectStatusNew = 1;
                         } else {
                           this.projectStatusNew = 0;
                         }
                       }
-                      parms = {
-                        projectId: this.Father.projectId,
-                        projectTicketStatus: this.okif,
-                        projectStatus: this.projectStatusNew,
-                        isSelfCount: this.Father.isSelfCount,
-                        projectCode: this.Father.projectCode,
-                        projectOwner: this.Father.projectOwner,
-                        placeCode: this.Father.placeCode,
-                      };
+                      if (
+                      new Decimal(this.Father.projectRemainAmount).sub(
+                        new Decimal(this.formData.ticketAmount)
+                      ) == 0
+                      ) {
+                     this.Father.projectPayStatus=1;
+                     this.Father.projectStatus=this.projectStatusNew;
+                     } else {
+                      this.Father.projectPayStatus=0;
+                      this.Father.projectStatus=this.projectStatusNew;
+                     }
+                    arr.map((item) => {
+                        if (item.isDeleted == 3) {
+                          
+                          return (this.projectStatusNew = 1);
+                        }
+                     });
+                      this.Father.projectStatus=this.projectStatusNew;
                     } else {
-                      parms = {
-                        projectId: this.Father.projectId,
-                        projectTicketStatus: 2,
-                        projectStatus: 1,
-                        isSelfCount: this.Father.isSelfCount,
-                        projectCode: this.Father.projectCode,
-                        projectOwner: this.Father.projectOwner,
-                        placeCode: this.Father.placeCode,
-                      };
+                    
+                      this.Father.projectTicketStatus=2;
+                      this.Father.projectStatus=1;
                     }
-                     this.$nextTick(function () {
-                      projectlist.edit(parms);
+                    this.Father.ticketRemark=this.formData.ticketRemark2;
+                    this.$nextTick(function () {
+                      projectlist.edit(this.Father);
                       this.$modal.closeLoading();
                       let resmsg = "";
                       if (type == 1) {
                         resmsg = "票据审核完成";
                         this.check("票据审核完成");
                       } else {
-                        this.check("票据审核不通过。" + "原因：" + this.remark);
+                        this.check("票据审核不通过。" + "原因：" + this.formData.ticketRemark2);
                         resmsg = "票据审核完成";
                       }
 
@@ -807,8 +807,11 @@ export default {
                         path: "/tg-business/project/success",
                       });
                     });
+                        })
+                    
+                   
                   })
-                  .catch((err) => {});
+                  
               } else {
                 this.$modal.msgError(res.msg);
                 this.$modal.closeLoading();

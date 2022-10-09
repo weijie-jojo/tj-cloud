@@ -1927,7 +1927,7 @@ export default {
                   this.$modal.msgSuccess("项目修改完成");
                   this.$tab
                     .closeOpenPage({
-                      path: this.$cache.local.getJSON("tc-backTicket").backurl,
+                      path: "/tc-business/project/list"
                     })
                     .then(() => {
                       this.$tab.closeOpenPage({ path: "/tc-business/project/list" }).then(() => {

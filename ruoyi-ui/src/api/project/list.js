@@ -1,6 +1,21 @@
 import request from '@/utils/request'
 
-
+//获取收款列表不分页
+export function receiveList2(query) {
+  return request({
+    url: 'project/receive/getInfoByCode2',
+    method: 'get',
+    params: query
+  })
+}
+//获取出款列表
+export function payList2(query) {
+  return request({
+    url: '/project/pay/getInfoByCode2',
+    method: 'get',
+    params: query
+  })
+}
 //甲方详情
 export function detailPurch(purchId) {
   return request({
@@ -261,4 +276,4 @@ export function getCount(query){
 }
 
 
-export default {detailPurch,editPurch,detailPay,detailCollect,getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}
+export default {receiveList2,payList2,detailPurch,editPurch,detailPay,detailCollect,getPurchPage,payList,editPay,addPay,delPay,finshReceiveList,finshPayList,addReceive,editReceive,delReceive,receiveList,getReceiveCode,getPayCode,addJia,getPuJialist,getProjectCount ,list , edit, del, getcode, getinfoByUserId ,add,ownlist,detail,check,checkdetail,getCount}

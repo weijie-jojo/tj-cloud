@@ -25,7 +25,7 @@
             <!-- <el-input   v-model="formData.payName"></el-input> -->
             <el-select
             v-model="formData.payName"
-            placeholder="请选择付款单位"
+            placeholder="请选择"
             @change="getCarInfoByCompanyIdS"
             style="width: 100%"
           >
@@ -123,13 +123,14 @@
 <script>
 import { getAllCompany } from "@/api/invoices/borrow";
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check,detail,editPay,detailPay} from "@/api/tc-api/project/list";
+import { check,detail,editPay,detailPay,payList2,edit} from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "DisburseEdit",
   components: { uploadSmall },
   data() {
     return {
+      projectStatusNew:'',
       types:'0',
       isokradioS:'1',
       fileNameN:[],
@@ -308,9 +309,54 @@ export default {
           }else{
             this.formData.payTime=this.formData.payTime+" "+this.getRealTime();
           }
+          this.$modal.loading("正在提交中，请稍后...");
           editPay(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
+
+                payList2({
+                projectCode: this.publicList.projectCode,
+              })
+                .then((res) => {
+                  let arr = res;
+                  detail({
+                projectCode: this.$cache.local.getJSON("tc-project-code"),
+              }).then((response) => {
+                let publicList = response.data;
+                if (
+                  publicList.projectDutypaidStatus == 1 &&
+                  publicList.projectReceiveStatus == 1 &&
+                  publicList.projectTicketStatus == 1 &&
+                  publicList.projectAcceptanceStatus == 1 &&
+                  publicList.projectContractStatus == 1 &&
+                  publicList.projectCheckStatus == 1
+                ) {
+                  this.projectStatusNew = 2;
+                } else if (
+                  publicList.projectDutypaidStatus == 2 ||
+                  publicList.projectReceiveStatus == 2 ||
+                  publicList.projectTicketStatus == 2 ||
+                  publicList.projectAcceptanceStatus == 2 ||
+                  publicList.projectCheckStatus == 2 ||
+                  publicList.projectContractStatus == 2
+                ) {
+                  this.projectStatusNew = 1;
+                } else {
+                  this.projectStatusNew = 0;
+                }
+                this.publicList.projectPayStatus=0;
+                this.publicList.projectStatus=this.projectStatusNew;
+                arr.map((item) => {
+                   if (item.isCheck == 2) {
+                    this.publicList.projectPayStatus=2;
+                    return (this.publicList.projectStatus = 1);
+                   }
+                });
+                
+               
+                this.$nextTick(function () {
+                edit(this.publicList).then(res=>{
+                  this.$modal.closeLoading();
                    this.check('修改出款完成')
                    this.$modal.msgSuccess("修改出款成功");
                    if(this.$cache.local.getJSON('tc-ifcollect')==0){
@@ -324,13 +370,19 @@ export default {
                          name: this.$cache.local.getJSON("tc-edit-project").name,
                         });
                    }
-                  } 
+                })
+              });
+                
+              });
+             });
+
+               } 
                 }
           });
         } else {
+          this.$modal.closeLoading();
           this.$alert("请正确填写", "系统提示", {
             confirmButtonText: "确定",
-
             type: "warning",
           });
         }

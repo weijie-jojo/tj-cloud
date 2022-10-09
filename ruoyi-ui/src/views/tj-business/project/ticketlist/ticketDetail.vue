@@ -283,7 +283,7 @@
             <el-input :readonly="true" v-model="formData.ticketTime"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="发票总数">
-            <el-input :readonly="true" ></el-input>
+            <el-input v-model="formData.ticketNum" :readonly="true" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -426,7 +426,7 @@
               <el-input
                 type="textarea"
                 placeholder="请输入不通过说明"
-                v-model="formData.ticketRemark"
+                v-model="formData.ticketRemark2"
                 :disabled="true"
               ></el-input>
             </div>
