@@ -258,7 +258,7 @@ public class SelfProjectController extends BaseController
         selfProject.setCityTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.07)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
-        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.009)));
+        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.09)));
 
         if (selfProject.getTicketType()==0){//普票 免税
             if (selfProject.getIsOrdinaryTax()==0){//价税分离
@@ -361,7 +361,7 @@ public class SelfProjectController extends BaseController
         selfProject.setCityTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.07)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
-        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.009)));
+        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.09)));
 
         selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
         System.out.println("不含税金额=="+selfProject.getProjectAmountAftertax());
@@ -713,7 +713,7 @@ public class SelfProjectController extends BaseController
         selfProject.setCityTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.07)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
-        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.009)));
+        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.09)));
 
         if(selfProject.getIsSelfCount()==0){//按个体结算
             System.out.println("按个体结算");
