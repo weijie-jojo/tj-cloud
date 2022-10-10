@@ -258,21 +258,18 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          this.formData.fileName3 = JSON.stringify(this.formData.fileName3);
-          this.formData.fileName4 = JSON.stringify(this.formData.fileName4);
-          let parms = {
-            isUpRate: this.formData.isUpRate,
-            isUpDutypaid: this.formData.isUpDutypaid,
-            projectDutypaidStatus: 0,
-            projectId: this.formData.projectId,
-            fileName3: this.formData.fileName3,
-            fileName4: this.formData.fileName4,
-            isSelfCount: this.formData.isSelfCount,
-            projectCode: this.formData.projectCode,
-            projectOwner: this.formData.projectOwner,
-            placeCode: this.formData.placeCode,
-          };
-          edit(parms).then((res) => {
+          if (Array.isArray(this.formData.fileName3)) {
+            this.formData.fileName3 = JSON.stringify(
+              this.formData.fileName3
+            );
+          }
+          if (Array.isArray(this.formData.fileName4)) {
+            this.formData.fileName4 = JSON.stringify(
+              this.formData.fileName4
+            );
+          }
+          this.formData.projectDutypaidStatus=0;
+          edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
                 this.$nextTick(function () {

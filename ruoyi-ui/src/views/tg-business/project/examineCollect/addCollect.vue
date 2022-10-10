@@ -93,7 +93,7 @@
 
         <el-col :span="9">
           <el-form-item class="comright" label="收款账号" prop="receiveAccount">
-            <el-input v-model="formData.receiveAccount"></el-input>
+            <el-input v-model="formData.receiveAccount" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收款时间" :required="true">
           

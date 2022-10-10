@@ -234,11 +234,17 @@
             >正常</el-link
           >
           <el-link
-            :underline="false"
-            type="primary"
-            v-if="scope.row.isCheck == 0"
-            >审核中</el-link
-          >
+              :underline="false"
+              type="primary"
+              v-if="scope.row.isCheck == 0 && scope.row.isPay==1"
+              >审核中</el-link
+            >
+            <el-link
+              :underline="false"
+              type="primary"
+              v-if="scope.row.isPay==0 "
+              >付款中</el-link
+            >
           <el-link
             :underline="false"
             type="danger"
@@ -260,7 +266,7 @@
             icon="el-icon-s-custom"
             v-if="scope.row.isPay==0"
             @click="pay(scope.row)"
-            >出款</el-button
+            >付款</el-button
           >
           <el-button
             size="mini"

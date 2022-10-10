@@ -50,21 +50,16 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <!-- <el-form-item class="comright" label="收款账户" :required="true">
-            <el-input  disabled></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="收款开户行" :required="true">
-            <el-input  disabled></el-input>
-          </el-form-item> -->
+          
 
           
           <el-form-item class="comright" label="付款账户" prop="paymentName" >
-            <el-input  v-model="formData.paymentName"  :readonly="true"></el-input>
+            <el-input  v-model="formData.paymentName" ></el-input>
           </el-form-item>
        
           <el-form-item
             class="comright"
-            label="出款凭证"
+            label="付款凭证"
             prop="fileNameReceive"
           >
             <uploadSmall
@@ -291,7 +286,7 @@ export default {
     },
     
    getReceive(data) {
-      this.formData.fileNameReceive = data;
+      this.formData.fileNamePay = data;
       console.log(3333,data);
     },
     //返回
@@ -315,8 +310,8 @@ export default {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
-          if(Array.isArray(this.formData.fileNameReceive)){
-            this.formData.fileNameReceive=JSON.stringify(this.formData.fileNameReceive);
+          if(Array.isArray(this.formData.fileNamePay)){
+            this.formData.fileNamePay=JSON.stringify(this.formData.fileNamePay);
           }
           this.formData.isPay=1;
           editPay(this.formData).then((res) => {

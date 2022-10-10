@@ -272,7 +272,7 @@ export default {
                   projectCode: this.publicList.projectCode,
                 })
                   .then((res) => {
-                    let arr = res;
+                    let arr = res.data;
                     detail({
                   projectCode: this.$cache.local.getJSON("tg-project-code"),
                 }).then((response) => {
