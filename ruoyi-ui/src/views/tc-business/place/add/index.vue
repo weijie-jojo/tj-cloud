@@ -97,12 +97,14 @@
               v-model="ruleForm.userName"
               filterable
               placeholder="请选择"
+              @change="editUserid"
             >
               <el-option
                 v-for="(item,index) in leaderList"
                 :key="index"
                 :label="item.value"
                 :value="item.value"
+                
               >
               </el-option>
             </el-select>
@@ -921,10 +923,16 @@ export default {
   },
 
   methods: {
+    editUserid(e){
+    this.leaderList.map((item)=>{
+     if(item.value==e){
+       console.log('id',item.userId);
+       return  this.ruleForm.userId=item.userId;
+       }
+     })
+    },
      //获取业务经理
      getLeader(){
-     
-     //  this.deptId=res[0].deptId;
       getAllUser().then((res)=>{
       this.leaderList=[];
       let list=res;
@@ -938,6 +946,7 @@ export default {
              this.leaderList.push({
                value:item.nickName,
                label:item.nickName,
+               userId:item.userId
               })
           }
       });

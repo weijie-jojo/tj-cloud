@@ -510,10 +510,6 @@
 
           <div v-if="formData.isSliderOrdinary == 0">
             <el-form-item label="普票税率" :required="true">
-              <!-- <el-select style="width:100%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
-                  <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select> -->
               <el-input :readonly="true" value="免税"> </el-input>
             </el-form-item>
             <el-form-item label="普票服务费" prop="ordinarySelfFee">
@@ -659,10 +655,6 @@
           </el-form-item>
           <div v-if="formData.isSlider == 0">
             <el-form-item label="专票税率" :required="true">
-              <!-- <el-select style="width:100%" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
-                  <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select> -->
               <el-input :readonly="true" value="3">
                 <template slot="append">%</template>
               </el-input>
@@ -1173,7 +1165,9 @@ export default {
           }
           this.formData.projectCheckStatus=type;
           this.formData.projectStatus=this.projectStatusNew;
-
+          if(type==2){
+              this.formData.projectStatus=1;
+            }
           this.$nextTick(function () {
           edit(this.formData).then((res) => {
             if (res != undefined) {
@@ -1322,10 +1316,8 @@ export default {
           this.formData.isSelfShare = JSON.stringify(this.formData.isSelfShare);
           this.formData.selfShare = JSON.stringify(this.formData.selfShare);
 
-          this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-          this.formData.ordinarySpecialTax = JSON.stringify(
-            this.formData.ordinarySpecialTax
-          );
+          this.formData.ordinaryTax = '0';
+          this.formData.ordinarySpecialTax='0.03';
           this.formData.isSelfTax = JSON.stringify(this.formData.isSelfTax);
           this.formData.isSpecialSelfTax = JSON.stringify(
             this.formData.isSpecialSelfTax

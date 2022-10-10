@@ -405,7 +405,7 @@
 import uploadSmall from "@/components/douploads/uploadSmall";
 import crudRate from "@/api/project/rate";
 import { list2, edit, getTicketDetail } from "@/api/tc-api/project/ticket";
-import { detail, getcode, getinfoByUserId, ownlist } from "@/api/tc-api/project/list";
+import { detail, getcode, getinfoByUserId, ownlist,check } from "@/api/tc-api/project/list";
 import projectlist from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
@@ -814,6 +814,23 @@ export default {
     handleChange(val) {
       console.log(val);
     },
+    check(resmsg) {
+      getInfo().then((res) => {
+        let userinfo = res.user;
+        let parms = {
+          checkReasult: resmsg,
+          checkUser: userinfo.userName,
+          phonenumber: userinfo.phonenumber,
+          projectCode: this.Father.projectCode,
+          projectType: "18",
+        };
+        check(parms)
+          .then((res) => {
+            console.log("修改票据成功！");
+          })
+          .catch((error) => {});
+      });
+    },
     onSubmit() {
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
@@ -864,18 +881,7 @@ export default {
                           this.Father.projectStatus = 0;
                         }
                       }
-                      if (
-                      new Decimal(this.publicList.projectRemainAmount).sub(
-                        new Decimal(this.formData.ticketAmount)
-                      ) == 0
-                    ) {
-                     this.publicList.projectPayStatus=1;
-                     this.publicList.projectStatus=this.projectStatusNew;
-                    } else {
-                      this.publicList.projectPayStatus=0;
-                      this.publicList.projectStatus=this.projectStatusNew;
-                      
-                    }
+                    this.Father.projectTicketStatus=0;
                     arr.map((item) => {
                         if (item.isDeleted == 3) {
                             this.Father.projectTicketStatus=2;
@@ -886,6 +892,7 @@ export default {
                    this.$nextTick(function () {
                     projectlist.edit(this.Father);  
                     this.$modal.closeLoading();
+                    this.check('票据修改完成');
                     this.$modal.msgSuccess("票据修改成功");
                     this.$tab
                     .closeOpenPage({ path: "/tc-business/project/ticketList" })

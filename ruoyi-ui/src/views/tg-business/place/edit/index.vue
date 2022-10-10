@@ -100,6 +100,8 @@
               v-model="ruleForm.editUserName"
               filterable
               placeholder="请选择"
+              @change="editUserid"
+             
             >
               <el-option
                 v-for="(item,index) in leaderList"
@@ -552,7 +554,7 @@ var numCheck = (rule, value, callback) => {
 import crudPlace from "@/api/tg-api/place/place";
 import agencyfee from "@/api/tg-api/place/agencyfee";
 import { getAllUser } from '@/api/system/user';
-
+import { getInfo } from '@/api/login';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
@@ -946,21 +948,31 @@ export default {
       ],
       // 表单参数
       form: {},
-      // 表单校验
       userinfo:'',
+      // 表单校验
       
     };
   },
  mounted() {
-  getInfo().then(res => {
+     
+     getInfo().then(res => {
       this.userinfo = res.user;
       this.getlist(); 
     })
  },
  methods: {
+  editUserid(e){
+   
+    this.leaderList.map((item)=>{
+      if(item.value==e){
+        console.log('id',item.userId);
+        return  this.ruleForm.editUserId=item.userId;
+      }
+    })
+  },
      //获取业务经理
-    getLeader(){
-      getAllUser().then((res)=>{
+     getLeader(){
+         getAllUser().then((res)=>{
          this.leaderList=[];
          let list=res;
          list.map((item)=>{
@@ -973,6 +985,7 @@ export default {
                 this.leaderList.push({
                   value:item.nickName,
                   label:item.nickName,
+                  userId:item.userId
                  })
              }
          });
@@ -1013,9 +1026,10 @@ export default {
        
         this.ruleForm.editIsSpecialTax = JSON.stringify(res.isSpecialTax);
         this.ruleForm.editIsOrdinaryTax = JSON.stringify(res.isOrdinaryTax);
+        
         this.ruleForm.editOrdinarySelfFee = res.ordinarySelfFee;
         this.ruleForm.editRegisterMoney = res.registerMoney;
-       
+        
         this.ruleForm.editSpecialSelfFee = res.specialProxyFee;
         this.ruleForm.editSpecialShare = res.specialShare;
         this.ruleForm.editOrdinaryShare = res.ordinaryShare;
@@ -1032,7 +1046,16 @@ export default {
        
 
 
-       
+        // if (this.ruleForm.editIsOrdinaryTax == '1') {
+        //   this.ruleForm.editIsOrdinaryTax = "0"
+        // } else if (this.ruleForm.editIsOrdinaryTax == '0') {
+        //   this.ruleForm.editIsOrdinaryTax = "1"
+        // }
+        // if (this.ruleForm.editIsSpecialTax == '0') {
+        //   this.ruleForm.editIsSpecialTax = "1"
+        // } else if (this.ruleForm.editIsSpecialTax == '0') {
+        //   this.ruleForm.editIsSpecialTax = "1"
+        // }
         this.getLeader();
       
       }).catch((error)=>{
@@ -1190,6 +1213,9 @@ export default {
     confirmEdit() {
       this.$refs['form'].validate((valid) => {
        if (valid) {
+        
+
+
           let params = {
             agencyFeeId: this.ruleForm.editAgencyFeeId,
             placeId: this.ruleForm.editPlaceId,

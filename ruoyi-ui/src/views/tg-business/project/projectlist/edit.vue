@@ -544,10 +544,6 @@
 
           <div v-if="formData.isSliderOrdinary == 0">
             <el-form-item label="普票税率" :required="true">
-              <!-- <el-select style="width:100%" v-model="formData.ordinaryTax" clearable placeholder="请选择">
-                  <el-option v-for="item in optiond" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select> -->
               <el-input :readonly="true" value="免税"> </el-input>
             </el-form-item>
             <el-form-item label="普票服务费" prop="ordinarySelfFee">
@@ -690,11 +686,7 @@
           </el-form-item>
           <div v-if="formData.isSlider == 0">
             <el-form-item label="专票税率" :required="true">
-              <!-- <el-select style="width:100%" v-model="formData.ordinarySpecialTax" clearable placeholder="请选择">
-                  <el-option v-for="item in optionz" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select> -->
-              <el-input :readonly="true" value="3">
+             <el-input :readonly="true" value="3">
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
@@ -1619,13 +1611,8 @@ export default {
         this.formData.isSpecialShare = JSON.stringify(
           this.formData.isSpecialShare
         );
-
-        // this.formData.ordinarySpecialTax = JSON.stringify(
-        //   this.formData.ordinarySpecialTax
-        // );
-        // this.formData.ordinaryTax = JSON.stringify(this.formData.ordinaryTax);
-       
-       
+        this.formData.ordinaryTax = '0';
+        this.formData.ordinarySpecialTax='0.03';
         this.formData.isDisposableShare = JSON.stringify(
           this.formData.isDisposableShare
         );

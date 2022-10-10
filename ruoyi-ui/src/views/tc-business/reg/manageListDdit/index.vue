@@ -541,11 +541,13 @@
             <!-- <el-input v-model="formData.username" :readonly="true">
             </el-input> -->
             <el-select
+            @visible-change="changeValue3($event)"
               @change="usernew"
               style="width: 100%"
               v-model="formData.username"
               filterable
               placeholder="请选择"
+              
             >
               <el-option
                 v-for="(item,index) in leaderList"
@@ -1444,6 +1446,7 @@ export default {
      this.formData.placeCode='';
      this.allUserlist.map((item)=>{
        if(item.nickName==e){
+        this.formData.userId=item.userId;
         this.selectUserId=item.userId;
         this.selctUserRadio=1;
         return;
@@ -1468,9 +1471,7 @@ export default {
     },
      //获取业务经理
      getLeader(){
-     
-    
-      getAllUser().then((res)=>{
+     getAllUser().then((res)=>{
       this.allUserlist=[];
       this.leaderList=[];
       let list=res;
@@ -1703,6 +1704,12 @@ export default {
       }
       }
 
+    },
+    //客户接口
+    changeValue3(e){
+       if(e==true){
+       this.getLeader();
+       }
     },
     //银行接口
      changeValue2(e){
