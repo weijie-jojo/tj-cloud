@@ -1173,6 +1173,9 @@ export default {
           }
           this.formData.projectCheckStatus=type;
           this.formData.projectStatus=this.projectStatusNew;
+          if(type==2){
+              this.formData.projectStatus=1;
+            }
           this.$nextTick(function () {
           edit(this.formData).then((res) => {
             if (res != undefined) {

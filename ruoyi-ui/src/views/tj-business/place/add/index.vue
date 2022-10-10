@@ -92,11 +92,12 @@
         </el-col>
         <el-col :span="9">
           <el-form-item label="业务经理" :required="true">
-            <el-select v-hasPermi="['place:list:add1']"
+            <el-select 
               style="width: 100%"
               v-model="ruleForm.userName"
               filterable
               placeholder="请选择"
+              @change="editUserid"
             >
               <el-option
                 v-for="(item,index) in leaderList"
@@ -106,7 +107,7 @@
               >
               </el-option>
             </el-select>
-            <el-input   v-model="ruleForm.userName" :readonly="true"></el-input>
+            <!-- <el-input   v-model="ruleForm.userName" :readonly="true"></el-input> -->
            
           </el-form-item>
           <el-form-item label="客户别名" prop="placeAlias">
@@ -921,10 +922,16 @@ export default {
   },
 
   methods: {
+    editUserid(e){
+    this.leaderList.map((item)=>{
+     if(item.value==e){
+       console.log('id',item.userId);
+       return  this.ruleForm.userId=item.userId;
+       }
+     })
+    },
      //获取业务经理
      getLeader(){
-     
-     //  this.deptId=res[0].deptId;
       getAllUser().then((res)=>{
       this.leaderList=[];
       let list=res;
@@ -938,6 +945,7 @@ export default {
              this.leaderList.push({
                value:item.nickName,
                label:item.nickName,
+               userId:item.userId
               })
           }
       });

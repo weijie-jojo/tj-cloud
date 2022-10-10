@@ -293,16 +293,12 @@
             :required="true"
             v-if="fileNameradio == 1"
           >
-            <!-- <el-input v-model="formData.ticketTime" disabled></el-input> -->
+            
             <el-date-picker
                 style="width:100%"
                 v-model="formData.ticketTime"
                 value-format="yyyy-MM-dd"
                 :picker-options="pickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :default-time="['00:00:00', '23:59:59']"
                 align="right"
               >
               </el-date-picker>
@@ -386,7 +382,7 @@
                   style="position: relative; left: 5px;font-size: 20px;"
                   class="item"
                   effect="dark"
-                  content="发票编号 单张发票 比如 001 -- 001 多张发票 001 --003"
+                  content="单张发票时,填写001-001 ,连续发票:填写001-003,发票编号不连续需分别新增!!"
                   placement="top-start"
                 >
                   <i class="header-icon el-icon-info"></i>
@@ -434,15 +430,10 @@
                 v-model="formData.ticketTime"
                 value-format="yyyy-MM-dd"
                 :picker-options="pickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :default-time="['00:00:00', '23:59:59']"
                 align="right"
               >
               </el-date-picker>
-            <!-- <el-input v-model="formData.ticketTime" disabled></el-input> -->
-          </el-form-item>
+           </el-form-item>
           <el-form-item class="comright" label="发票总数" :required="true" prop="ticketNum">
             <el-input v-model="formData.ticketNum" ></el-input>
           </el-form-item>
@@ -459,7 +450,7 @@
                   style="position: relative; left: 10px;font-size: 20px;"
                   class="item"
                   effect="dark"
-                  content="发票编号 单张发票 比如 001 -- 001 多张发票 001 --003"
+                  content="单张发票时,填写001-001 ,连续发票:填写001-003,发票编号不连续需分别新增!!"
                   placement="top-start"
                 >
                   <i class="header-icon el-icon-info"></i>
@@ -483,21 +474,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="space-around">
-        <el-col :span="21">
-          <!-- <el-form-item style="padding-right: 4.2%" label="发票备注">
-            <el-input
-              maxlength="50"
-              show-word-limit
-              type="textarea"
-              :rows="2"
-              placeholder="请输入发票备注"
-              v-model="formData.ticketRemark"
-            >
-            </el-input>
-          </el-form-item> -->
-        </el-col>
-      </el-row>
+   
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
           <el-form-item class="comright" label="发票影像" prop="fileName">
@@ -550,36 +527,30 @@ export default {
   data() {
     return {
       pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            },
+          disabledDate(time) {
+            return time.getTime() > Date.now();
           },
-          {
-            text: "最近一个月",
+          shortcuts: [{
+            text: '今天',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-          {
-            text: "最近三个月",
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
-      },
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
       ticketCode2:'',
       ticketCode1:'',
       projectRemainAmount: "0",
@@ -820,7 +791,7 @@ export default {
     },
     ticketAsee(e) {
       if (e > this.projectRemainAmount) {
-        this.$alert("发票金额不能大于剩余金额", "系统提示", {
+        this.$alert("发票总金额不能大于剩余金额", "系统提示", {
           confirmButtonText: "确定",
 
           type: "warning",
@@ -992,15 +963,21 @@ export default {
         "-" +
         month +
         "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
+        day;
 
       this.formData.ticketTime = curTime;
+    },
+    getRealTime(){
+      var date = new Date(); //当前时间
+      var year = date.getFullYear(); //年
+      var month = this.repair(date.getMonth() + 1); //月
+      var day = this.repair(date.getDate()); //日
+      var hour = this.repair(date.getHours()); //时
+      var minute = this.repair(date.getMinutes()); //分
+      var second = this.repair(date.getSeconds()); //秒
+      //当前时间
+      
+     return   hour +":" +minute + ":" + second;
     },
     getcode(selfCode) {
       getcode({ selfCode: selfCode })
@@ -1035,7 +1012,7 @@ export default {
               this.formData.fileName
             );
           }
-          
+          this.formData.ticketTime=this.formData.ticketTime+" "+this.getRealTime();
           
           add(this.formData).then((res) => {
             if (res != undefined) {

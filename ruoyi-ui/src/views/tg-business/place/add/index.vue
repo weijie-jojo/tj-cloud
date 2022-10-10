@@ -97,6 +97,7 @@
               v-model="ruleForm.userName"
               filterable
               placeholder="请选择"
+              @change="editUserid"
             >
               <el-option
                 v-for="(item,index) in leaderList"
@@ -922,10 +923,16 @@ export default {
 
   methods: {
      //获取业务经理
+     editUserid(e){
+    this.leaderList.map((item)=>{
+     if(item.value==e){
+       console.log('id',item.userId);
+       return  this.ruleForm.userId=item.userId;
+       }
+     })
+    },
      getLeader(){
-     
-     //  this.deptId=res[0].deptId;
-      getAllUser().then((res)=>{
+     getAllUser().then((res)=>{
       this.leaderList=[];
       let list=res;
       list.map((item)=>{
@@ -938,6 +945,7 @@ export default {
              this.leaderList.push({
                value:item.nickName,
                label:item.nickName,
+               userId:item.userId
               })
           }
       });

@@ -647,9 +647,9 @@ export default {
       },
     };
   },
-  watch: {
-    "Father.industryType": "selectIndustryType",
-  },
+  // watch: {
+  //   "Father.industryType": "selectIndustryType",
+  // },
   mounted() {
     this.getTicket();
   },
@@ -759,10 +759,10 @@ export default {
                         new Decimal(this.formData.ticketAmount)
                       ) == 0
                       ) {
-                     this.Father.projectPayStatus=1;
+                     this.Father.projectTicketStatus=1;
                      this.Father.projectStatus=this.projectStatusNew;
                      } else {
-                      this.Father.projectPayStatus=0;
+                      this.Father.projectTicketStatus=0;
                       this.Father.projectStatus=this.projectStatusNew;
                      }
                     arr.map((item) => {
