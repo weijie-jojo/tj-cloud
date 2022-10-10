@@ -7,6 +7,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.redis.util.JudgeNull;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.place.dto.DataDto;
 import com.ruoyi.place.entity.BusinessAgencyFeeTc;
@@ -87,6 +88,17 @@ public class BusinessPlaceTcController extends BaseController {
     public DataDto addPlace(@Validated @RequestBody Map map){
         BusinessAgencyFeeTc businessAgencyFee=JSON.parseObject(JSON.toJSONString(map.get("businessAgencyFee")),BusinessAgencyFeeTc.class);
         BusinessPlaceTc businessPlace=JSON.parseObject(JSON.toJSONString(map.get("businessPlace")),BusinessPlaceTc.class);
+
+        //如果为空给个初始值0
+        businessAgencyFee.setOrdinarySelfFee(JudgeNull.isNull(businessAgencyFee.getOrdinarySelfFee()));
+        businessAgencyFee.setSpecialSelfFee(JudgeNull.isNull(businessAgencyFee.getSpecialSelfFee()));
+        businessAgencyFee.setOrdinaryShare(JudgeNull.isNull(businessAgencyFee.getOrdinaryShare()));
+        businessAgencyFee.setSpecialShare(JudgeNull.isNull(businessAgencyFee.getSpecialShare()));
+        businessAgencyFee.setDisposableFee(JudgeNull.isNull(businessAgencyFee.getDisposableFee()));
+        businessAgencyFee.setDisposableShare(JudgeNull.isNull(businessAgencyFee.getDisposableShare()));
+        businessAgencyFee.setRegisterMoney(JudgeNull.isNull(businessAgencyFee.getRegisterMoney()));
+        businessAgencyFee.setSelfShare(JudgeNull.isNull(businessAgencyFee.getSelfShare()));
+
         if(businessAgencyFee.getOrdinaryShareIsmoney()!=null){
             if (businessAgencyFee.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
                 businessAgencyFee.setOrdinaryShare(businessAgencyFee.getOrdinaryShare().movePointLeft(2));
