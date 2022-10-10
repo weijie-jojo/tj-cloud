@@ -50,15 +50,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <!-- <el-form-item class="comright" label="收款账户" :required="true">
-            <el-input  disabled></el-input>
-          </el-form-item>
-          <el-form-item class="comright" label="收款开户行" :required="true">
-            <el-input  disabled></el-input>
-          </el-form-item> -->
-
-          
-          <el-form-item class="comright" label="付款账户" prop="paymentName" >
+         <el-form-item class="comright" label="付款账户" prop="paymentName" >
             <el-input  v-model="formData.paymentName"  :readonly="true"></el-input>
           </el-form-item>
        
@@ -79,18 +71,12 @@
         </el-col>
 
         <el-col :span="9">
-          <!-- <el-form-item class="comright" label="出款账号" prop="payAccount">
-            <el-input v-model="formData.payAccount"  :disabled="true" ></el-input>
-          </el-form-item> -->
-          <el-form-item class="comright" label="出款时间" :required="true">
+        <el-form-item class="comright" label="出款时间" :required="true">
             <el-date-picker
               disabled
               style="width: 100%"
               v-model="formData.payTime"
               value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
               align="right"
             >
             </el-date-picker>

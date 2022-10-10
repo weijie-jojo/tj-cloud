@@ -946,23 +946,26 @@ export default {
       ],
       // 表单参数
       form: {},
+      userinfo:'',
       // 表单校验
       
     };
   },
  mounted() {
-     this.getlist();
+     
+     getInfo().then(res => {
+      this.userinfo = res.user;
+      this.getlist(); 
+    })
  },
  methods: {
      //获取业务经理
      getLeader(){
-     
-        //  this.deptId=res[0].deptId;
          getAllUser().then((res)=>{
          this.leaderList=[];
          let list=res;
          list.map((item)=>{
-          if(item.userId==this.ruleForm.editUserId){
+          if(item.userId==this.userinfo.userId){
             return this.deptId=item.deptId;
           }
          });

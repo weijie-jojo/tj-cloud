@@ -1469,13 +1469,14 @@ export default {
      //获取业务经理
      getLeader(){
      
-     //  this.deptId=res[0].deptId;
+    
       getAllUser().then((res)=>{
       this.allUserlist=[];
       this.leaderList=[];
       let list=res;
       list.map((item)=>{
-       if(item.userId==this.formData.userId){
+        //修改为登录者userid
+       if(item.userId==this.userinfo.userId){
          return this.deptId=item.deptId;
        }
       });

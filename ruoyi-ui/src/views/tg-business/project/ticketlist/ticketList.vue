@@ -27,7 +27,7 @@
               style="width: 100%"
               v-model="publicList.projectPackageAmount"
               :step="0.0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -39,7 +39,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.projectTotalAmount"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
               :step="0.0"
             >
               <template slot="append">元</template>
@@ -53,7 +53,7 @@
               style="width: 100%"
               v-model="publicList.projectRemainAmount"
               :step="0.0"
-              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,2})?/g) ?? [""])[0]'
+              oninput='value = (value.match(/^[0-9]+(\.[0-9]{0,5})?/g) ?? [""])[0]'
             >
               <template slot="append">元</template>
             </el-input>
@@ -279,7 +279,7 @@
 <script>
 import { numberToCurrencyNo } from "@/utils/numberToCurrency";
 import uploadSmall from "@/components/douploads/uploadSmall";
-import { list, delReal, list2 } from "@/api/tg-api/project/ticket";
+import { list, list2, delReal } from "@/api/tg-api/project/ticket";
 import { detail, edit } from "@/api/tg-api/project/list";
 import { Decimal } from "decimal.js";
 export default {
@@ -385,13 +385,7 @@ export default {
       rules: {},
     };
   },
-  // filters: {
-  //     dataFormat(newVal) {
-  //         let that=this;
-  //         return newVal = that.textFormat(newVal, '#,##0');
-
-  //     }
-  // },
+ 
   mounted() {
     detail({
       projectCode: this.$cache.local.getJSON("tg-project-code"),
@@ -429,11 +423,11 @@ export default {
   },
   methods: {
     aduit(row) {
-      let obj={
-                backurl:'/tg-business/project/ticketList',
-                name:'TicketList'
-            };
-            this.$cache.local.setJSON("tg-aduitback",obj);
+      let obj = {
+        backurl: "/tg-business/project/ticketList",
+        name: "TicketList",
+      };
+      this.$cache.local.setJSON("tg-aduitback", obj);
       this.$cache.local.setJSON("tg-ticketid", row.ticketId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/examTicket" });
     },
@@ -443,6 +437,7 @@ export default {
         path: this.$cache.local.getJSON("tg-backTicket").backurl,
       });
     },
+    //计算已开和剩余金额
     ticketByCode() {
       list2({
         projectCode: this.publicList.projectCode,
@@ -458,18 +453,17 @@ export default {
                 ).add(new Decimal(arr[i].ticketAmount));
               }
             }
-          
+
             //如果存在发票 累计发票 加上发票总金额
 
             this.publicList.projectRemainAmount = new Decimal(
               this.publicList.projectTotalAmount
             ).sub(new Decimal(this.publicList.projectPackageAmount));
           }
-         
-          let arrs=this.publicList;
-                if(Array.isArray(arrs.fileName)){
-                    arrs.fileName=JSON.stringify(arrs.fileName);
-                }
+          let arrs = this.publicList;
+          if (Array.isArray(arrs.fileName)) {
+            arrs.fileName = JSON.stringify(arrs.fileName);
+          }
           edit(arrs);
         })
         .catch((err) => {});
@@ -512,8 +506,10 @@ export default {
 
     // 多选框选中数据
     handleSelectionChange(selection) {
+      console.log(selection);
       this.multipleSelection = selection.map((item) => item.ticketId);
-      this.ids = selection.map((item) => item.selfId);
+      console.log(this.multipleSelection);
+      this.ids = selection.map((item) => item.ticketId);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
@@ -530,23 +526,23 @@ export default {
 
     /** 删除按钮操作 */
     handleDelete() {
-      this.$modal
-        .confirm("是否确认删除发票?")
-        .then(function () {
-          return delReal(this.multipleSelection);
-        })
-        .then((res) => {
+      this.$confirm("是否确认删除发票?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        delReal(this.ids).then((res) => {
           if (res.code == 200) {
+            this.$modal.msgSuccess("删除成功");
             this.getList();
             this.ticketByCode();
-            this.$modal.msgSuccess("删除成功");
           } else {
             this.$alert(res.msg, "提示", {
               confirmButtonText: "确定",
             });
           }
-        })
-        .catch(() => {});
+        });
+      });
     },
   },
 };

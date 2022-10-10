@@ -7,11 +7,28 @@
       size="medium"
       label-width="140px"
     >
+    <el-row 
+    style="margin-top:20px"
+    type="flex"
+        class="row-bg"
+        justify="space-around">
+      <el-col :span="9">
+        <el-form-item class="comright" label="项目应出金额">
+            <el-input v-model="publicList.payTotalMoneys" :readonly="true"></el-input>
+          </el-form-item>
+         
+      </el-col>
+      <el-col :span="9">
+        <el-form-item class="comright" label="项目应收金额">
+            <el-input v-model="publicList.receiveTotalMoneys" :readonly="true"></el-input>
+          </el-form-item>
+      </el-col>
+    </el-row>
       <el-row
         type="flex"
         class="row-bg"
         justify="space-around"
-        style="margin-top: 20px"
+       
       >
         <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 80%">收款信息</div>
@@ -85,10 +102,7 @@
             v-model="formData.receiveTime"
             value-format="yyyy-MM-dd"
             :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :default-time="['00:00:00', '23:59:59']"
+          
             align="right"
       >
       </el-date-picker>
@@ -98,6 +112,7 @@
           <el-form-item class="comright" label="付款账号" prop="paymentAccount">
             <el-input v-model="formData.paymentAccount"></el-input>
           </el-form-item>
+         
         </el-col>
       </el-row>
       <el-row
@@ -177,12 +192,7 @@
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
-            <!-- <el-form-item class="comright" label="收款账户" :required="true">
-              <el-input ></el-input>
-            </el-form-item>
-            <el-form-item class="comright" label="收款开户行" :required="true">
-              <el-input ></el-input>
-            </el-form-item> -->
+           
            
            
           </el-col>
@@ -199,10 +209,7 @@
               v-model="item.payTime"
               value-format="yyyy-MM-dd"
               :picker-options="pickerOptions"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :default-time="['00:00:00', '23:59:59']"
+             
               align="right"
         >
         </el-date-picker>
@@ -210,11 +217,9 @@
             </el-form-item>
 
             <el-form-item class="comright" label="出款账号" :required="true">
-              <el-input v-model="item.payAccount" disabled></el-input>
+              <el-input v-model="item.payAccount"  :readonly="true"></el-input>
             </el-form-item>
-            <!-- <el-form-item class="comright" label="收款账号" :required="true">
-              <el-input ></el-input>
-            </el-form-item> -->
+          
           </el-col>
         </el-row>
       </div>
@@ -248,36 +253,30 @@ export default {
   data() {
     return {
       pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            },
+          disabledDate(time) {
+            return time.getTime() > Date.now();
           },
-          {
-            text: "最近一个月",
+          shortcuts: [{
+            text: '今天',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-          {
-            text: "最近三个月",
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
-      },
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
       isNoneArray: [],
       index: 0,
       disburseList: [
@@ -362,6 +361,8 @@ export default {
           },
         ],
       },
+      flag:false,
+      msg:'',
       baseImgPath: "/eladmin/api/files/showTxt?imgPath=",
     };
   },
@@ -386,9 +387,10 @@ export default {
       );
       this.disburseList[i].payAccount = cardInfo.groupBankAccount;
     },
+    //收款金额 监听
     receiveSee(e) {
-      if (e > this.publicList.projectTotalAmount) {
-        this.$alert("收账金额不能大于应收金额", "系统提示", {
+      if (e > this.publicList.receiveTotalMoneys*1) {
+        this.$alert("收款金额不能大于项目应收金额", "系统提示", {
           confirmButtonText: "确定",
           type: "warning",
         });
@@ -397,14 +399,21 @@ export default {
       } else {
       }
     },
+    //出款金额 监听
     paySee(e) {
-      if (this.disburseList[e].payMoney * 1 > this.formData.receiveMoney * 1) {
-        this.$alert("出账金额不能大于转账金额", "系统提示", {
+      if (this.disburseList[e].payMoney * 1 > this.formData.receiveMoney * 1 ) {
+        this.$alert("出款信息出款金额不能大于收款信息收款金额", "系统提示", {
           confirmButtonText: "确定",
           type: "warning",
         });
-        this.disburseList[e].payMoney = 0;
-      } else {
+        this.disburseList[e].payMoney = null;
+      }
+      if(this.disburseList[e].payMoney * 1> this.publicList.payTotalMoneys*1){
+        this.$alert("出款信息出款金额不能大于项目应出金额", "系统提示", {
+          confirmButtonText: "确定",
+          type: "warning",
+        });
+        this.disburseList[e].payMoney = null;
       }
     },
     getDetails() {
@@ -597,6 +606,43 @@ export default {
     },
     onSubmit() {
      this.$refs["elForm"].validate((valid) => {
+      //如果有项目出款  
+     
+      if(this.formData.havePayinfo==0){
+        this.flag=false;
+        this.msg='';
+        this.disburseList.map((item)=>{
+         if(!item.payMoney){
+          this.msg='出款信息出款金额不能为空';
+          this.flag=true;
+            return;
+          }
+          if(!item.payAccount){
+            this.msg='出款信息出款账号不能为空';
+            this.flag=true;
+            return;
+          }
+          if(!item.payName){
+            this.msg='出款信息出款账户不能为空';
+            this.flag=true;
+            return;
+           }
+          if(!item.payTime){
+            this.msg='出款信息出款时间不能为空';
+            this.flag=true;
+            return;
+          }
+        })
+        if(this.flag){
+          this.$alert(this.msg, "系统提示", {
+             confirmButtonText: "确定",
+             type: "warning",
+            });
+            return;
+        }
+        
+      
+      }
         // TODO 提交表单
         if (valid) {
           if (Array.isArray(this.formData.fileNameReceive)) {
