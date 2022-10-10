@@ -272,7 +272,7 @@ public class SelfProjectTgController extends BaseController
         selfProject.setCityTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.07)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
-        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.009)));
+        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.0009)));
 
         selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
         System.out.println("不含税金额=="+selfProject.getProjectAmountAftertax());
@@ -321,15 +321,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee()));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee()));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare()));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -351,9 +362,15 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee()));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee()));
+                    }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
                     }
                 }
                 System.out.println("getIsSpecialShare==="+selfProject.getIsSpecialShare());
@@ -361,6 +378,11 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare()));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -380,11 +402,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee()));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare()));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
@@ -433,15 +462,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee()));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee()));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare()));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -463,15 +503,27 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee()));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee()));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }
+                System.out.println("getIsSpecialShare==="+selfProject.getIsSpecialShare());
                 if(selfProject.getIsSpecialShare()==0){//服务费分润
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare()));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -491,11 +543,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee()));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare()));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
@@ -508,15 +567,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee().movePointLeft(2)));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee().movePointLeft(2)));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare().movePointLeft(2)));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -538,15 +608,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee().movePointLeft(2)));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee().movePointLeft(2)));
+                    }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
                     }
                 }
                 if(selfProject.getIsSpecialShare()==0){//服务费分润
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare().movePointLeft(2)));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -566,11 +647,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee().movePointLeft(2)));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare().movePointLeft(2)));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
@@ -592,6 +680,7 @@ public class SelfProjectTgController extends BaseController
         }
         System.out.println("应收==="+selfProject.getReceiveTotalMoneys());
         System.out.println("应出==="+selfProject.getPayTotalMoneys());
+        System.out.println("应出==="+selfProject.getOrdinaryShare());
         selfProject.setProjectProfitMoney(selfProject.getReceiveTotalMoneys().subtract(selfProject.getPayTotalMoneys()));//利润
         selfProject.setProjectAwardMoney(selfProject.getProjectProfitMoney().multiply(BigDecimal.valueOf(0.9)).multiply(BigDecimal.valueOf(0.15)));//奖励利润
         System.out.println("selfProject==="+selfProject);
@@ -624,7 +713,7 @@ public class SelfProjectTgController extends BaseController
         selfProject.setCityTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.07)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
-        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.009)));
+        selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.0009)));
 
         if(selfProject.getIsSelfCount()==0){//按个体结算
             System.out.println("按个体结算");
@@ -669,15 +758,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee()));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee()));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare()));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -699,9 +799,15 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee()));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee()));
+                    }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
                     }
                 }
                 System.out.println("getIsSpecialShare==="+selfProject.getIsSpecialShare());
@@ -709,6 +815,11 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare()));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -728,11 +839,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee()));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare()));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
@@ -781,15 +899,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee()));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee()));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare()));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -811,9 +940,15 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee()));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee()));
+                    }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
                     }
                 }
                 System.out.println("getIsSpecialShare==="+selfProject.getIsSpecialShare());
@@ -821,6 +956,11 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare()));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -840,11 +980,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee()));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare()));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
@@ -857,15 +1004,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getOrdinarySelfFee().movePointLeft(2)));
                     }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
+                    }
                 }if (selfProject.getIsOrdinaryTax()==1){//价税合计
                     if(selfProject.getOrdinaryProxyIsmoney()==1){//百分比
                         selfProject.setOrdinaryServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getOrdinarySelfFee().movePointLeft(2)));
+                    }
+                    if(selfProject.getOrdinaryProxyIsmoney()==0){//定额
+                        selfProject.setOrdinaryServeMoney(selfProject.getOrdinarySelfFee());
                     }
                 }
                 if(selfProject.getIsOrdinaryShare()==0){//服务费分润
                     if(selfProject.getOrdinaryShareIsmoney()==1){//百分比
                         selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryServeMoney().multiply(selfProject.getOrdinaryShare().movePointLeft(2)));
                     }
+                    if(selfProject.getOrdinaryShareIsmoney()==0){//定额
+                        selfProject.setOrdinaryShareServeMoney(selfProject.getOrdinaryShare());
+                    }
+                }if(selfProject.getIsOrdinaryShare()==1){//服务费不分润
+                    selfProject.setOrdinaryShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getOrdinaryServeMoney());
@@ -887,15 +1045,26 @@ public class SelfProjectTgController extends BaseController
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectAmountAftertax().multiply(selfProject.getSpecialSelfFee().movePointLeft(2)));
                     }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
+                    }
                 }if (selfProject.getIsSpecialTax()==1){//价税合计
                     if(selfProject.getSpecialProxyIsmoney()==1){//百分比
                         selfProject.setSpecialServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getSpecialSelfFee().movePointLeft(2)));
+                    }
+                    if(selfProject.getSpecialProxyIsmoney()==0){//定额
+                        selfProject.setSpecialServeMoney(selfProject.getSpecialSelfFee());
                     }
                 }
                 if(selfProject.getIsSpecialShare()==0){//服务费分润
                     if(selfProject.getSpecialShareIsmoney()==1){//百分比
                         selfProject.setSpecialShareServeMoney(selfProject.getSpecialServeMoney().multiply(selfProject.getSpecialShare().movePointLeft(2)));
                     }
+                    if(selfProject.getSpecialShareIsmoney()==0){//定额
+                        selfProject.setSpecialShareServeMoney(selfProject.getSpecialShare());
+                    }
+                }if(selfProject.getIsSpecialShare()==1){//服务费不分润
+                    selfProject.setSpecialShareServeMoney(BigDecimal.ZERO);
                 }
                 if (selfProject.getIsSpecialSelfTax()==0){//应收金额含税
                     selfProject.setReceiveTotalMoneys(selfProject.getSpecialServeMoney());
@@ -915,11 +1084,18 @@ public class SelfProjectTgController extends BaseController
             if(selfProject.getIsDisposable()==0){//一次性费用
                 if(selfProject.getDisposableFeeIsmoney()==1){//百分比
                     selfProject.setDisposableServeMoney(selfProject.getProjectTotalAmount().multiply(selfProject.getDisposableFee().movePointLeft(2)));
+                }if(selfProject.getDisposableFeeIsmoney()==0){//定额
+                    selfProject.setDisposableServeMoney(selfProject.getDisposableFee());
                 }
                 if (selfProject.getIsDisposableShare()==0){//一次性费用分润
                     if(selfProject.getDisposableShareIsmoney()==1){//百分比
                         selfProject.setDisposableShare(selfProject.getDisposableFee().multiply(selfProject.getDisposableShare().movePointLeft(2)));
                     }
+                    if(selfProject.getDisposableShareIsmoney()==0){//定额
+                        selfProject.setDisposableShare(selfProject.getDisposableShare());
+                    }
+                }if (selfProject.getIsDisposableShare()==1){//一次性费用不分润
+                    selfProject.setDisposableShare(BigDecimal.ZERO);
                 }
             }
 
