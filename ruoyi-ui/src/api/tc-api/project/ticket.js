@@ -6,6 +6,7 @@ export function getTicketDetail(ticketId){
     method: 'get',
   })
 }
+//获取票据列表
 export function list(query) {
   return request({
     url: 'project/ticket/tc/list',
@@ -13,7 +14,7 @@ export function list(query) {
     params: query
   })
 }
-
+//获取乙方
 export function ownlist(query) {
   return request({
     url: 'project/employed/tc/list',
@@ -21,7 +22,7 @@ export function ownlist(query) {
     params: query
   })
 }
-
+//票据和项目连表
 export function TicketByCode(query) {
   return request({
     url: 'project/project/tc/selectProjectJoinTicketByCode',
@@ -29,7 +30,7 @@ export function TicketByCode(query) {
     params: query
   })
 }
-
+//票据新增
 export function add(data) {
   return request({
     url: '/project/ticket/tc',
@@ -37,18 +38,21 @@ export function add(data) {
     data: data
   })
 }
+//删除票据
 export function delReal(ticketIds) {
   return request({
-    url: 'project/ticket/tc/del/'+ticketIds,
+    url: 'project/ticket/tc/'+ticketIds,
     method: 'delete',
  })
 }
+//获取项目编码
 export function getcode(){
     return request({
         url:'project/project/tc/getCode',
         method:'get'    
     })
 }
+//获取票据列表不分页
 export function list2(data){
   return request({
       url:'/project/ticket/tc/list2',
@@ -57,13 +61,8 @@ export function list2(data){
           
   })
 }
-export function del(ticketIds) {
-  return request({
-    url: 'project/ticket/tc/del/'+ticketIds,
-    method: 'put',
- })
-}
 
+//票据修改
 export function edit(data) {
   return request({
     url: 'project/ticket/tc',
@@ -71,7 +70,7 @@ export function edit(data) {
     data:data
   })
 }
-
+//获取客户
 export function getinfoByUserId(data){
   return request({
     url:'project/place/tc/getInfoByUserId',
@@ -82,4 +81,4 @@ export function getinfoByUserId(data){
 
 
 
-export default {delReal,getTicketDetail, list , edit, del, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}
+export default {delReal,getTicketDetail, list , edit, getcode , getinfoByUserId ,add,ownlist,TicketByCode,list2}

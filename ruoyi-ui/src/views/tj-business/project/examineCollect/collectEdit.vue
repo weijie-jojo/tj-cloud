@@ -80,9 +80,7 @@
              style="width: 100%"
               v-model="formData.receiveTime"
               value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
               align="right"
             >
             </el-date-picker>
@@ -115,6 +113,31 @@ export default {
   components: { uploadSmall },
   data() {
     return {
+      pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
       payCompanys: [],
       types: "0",
       isokradioS: "1",
