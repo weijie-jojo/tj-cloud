@@ -25,12 +25,13 @@
         <result property="receiveUser"    column="receive_user"    />
         <result property="checkUser"    column="check_user"    />
         <result property="createUser"    column="create_user"    />
+        <result property="ticketNum"    column="ticket_num"    />
     </resultMap>
 
     <sql id="selectSelfTicketVo">
         select is_deleted,ticket_id, project_code, ticket_amount, ticket_type, ticket_content, ticket_remark, ticket_tax,
                ticket_code, ticket_time, file_name, ticket_type_code, create_by, update_by, create_time, update_time,
-               ticket_remark2, receive_user, check_user, create_user  from self_ticket
+               ticket_remark2, receive_user, check_user, create_user,ticket_num from self_ticket
     </sql>
 
     <select id="selectSelfTicketList" parameterType="com.ruoyi.project.domain.SelfTicket" resultMap="SelfTicketResult">
@@ -50,6 +51,7 @@
             <if test="receiveUser != null  and receiveUser != ''"> and receive_user = #{receiveUser}</if>
             <if test="checkUser != null  and checkUser != ''"> and check_user = #{checkUser}</if>
             <if test="createUser != null  and createUser != ''"> and create_user = #{createUser}</if>
+            <if test="ticketNum != null "> and ticket_num = #{ticketNum}</if>
         </where>
     </select>
 
@@ -85,6 +87,7 @@
             <if test="receiveUser != null">receive_user,</if>
             <if test="checkUser != null">check_user,</if>
             <if test="createUser != null">create_user,</if>
+            <if test="ticketNum != null">ticket_num,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectCode != null and projectCode != ''">#{projectCode},</if>
@@ -106,6 +109,7 @@
             <if test="receiveUser != null">#{receiveUser},</if>
             <if test="checkUser != null">#{checkUser},</if>
             <if test="createUser != null">#{createUser},</if>
+            <if test="ticketNum != null">#{ticketNum},</if>
         </trim>
     </insert>
 
@@ -131,6 +135,7 @@
             <if test="receiveUser != null">receive_user = #{receiveUser},</if>
             <if test="checkUser != null">check_user = #{checkUser},</if>
             <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="ticketNum != null">ticket_num = #{ticketNum},</if>
         </trim>
         where ticket_id = #{ticketId}
     </update>

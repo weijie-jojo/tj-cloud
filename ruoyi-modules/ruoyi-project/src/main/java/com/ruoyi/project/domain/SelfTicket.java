@@ -83,5 +83,9 @@ public class SelfTicket extends BaseEntity
     @ApiModelProperty(value = "开票人")
     private String createUser;
 
+    /** 发票张数 */
+    @ApiModelProperty(value = "发票张数")
+    private Long ticketNum;
+
 }
 
