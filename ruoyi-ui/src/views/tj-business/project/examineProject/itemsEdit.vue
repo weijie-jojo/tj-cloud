@@ -388,7 +388,7 @@
             <el-input
               style="width: 86%"
               v-model="formData.ticketTax"
-              :required="true"
+              :readonly="true"
             ></el-input>
           </el-form-item>
           <el-form-item
@@ -398,6 +398,7 @@
             prop="ticketTax"
           >
             <el-select
+              disabled
               style="width: 100%"
               clearable
               v-model="formData.ticketTax"

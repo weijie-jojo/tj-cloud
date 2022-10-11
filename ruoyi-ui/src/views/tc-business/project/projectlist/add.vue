@@ -49,9 +49,11 @@
           v-model="formData.projectTimeStart"
           value-format="yyyy-MM-dd"
           :picker-options="pickerOptions"
+         
           align="right"
         >
         </el-date-picker>
+           
           </el-form-item>
           <el-form-item
             class="comright"
@@ -78,6 +80,7 @@
           <el-form-item class="comright" label="客户全名">
             <el-select
               filterable
+              @change='palceh'
               @visible-change="changeValue1($event)"
               style="width: 100%"
               clearable
@@ -102,7 +105,8 @@
           <el-form-item class="comright" label="业务经理">
             <el-input v-model="formData.projectLeader" disabled></el-input>
           </el-form-item>
-         </el-col>
+      
+        </el-col>
       </el-row>
 
       <el-row
@@ -292,9 +296,7 @@
                     style="width: 100%"
                   >
                     <span style="float: left">{{ node.label }}</span>
-                    <span
-                      style="
-                        float: right;
+                    <span style=" float: right;
                         color: #8492a6;
                         font-size: 14px;
                         padding-right: 10px;
@@ -390,7 +392,7 @@
             <el-input
               style="width: 88%"
               v-model="formData.ticketTax"
-              :required="true"
+              :readonly="true"
             >
               <template slot="append"> % </template>
             </el-input>
@@ -490,12 +492,14 @@
         <el-col :span="9">
           <el-form-item label="结算方式" :required="true">
             <el-radio
-              v-model="formData.isSelfCount"
+             v-model="formData.isSelfCount"
               label="0"
               @change="singleOK"
+              :disabled="confirmEditStatus"
               >按个体结算</el-radio
             >
             <el-radio
+            :disabled="confirmEditStatus1"
               v-model="formData.isSelfCount"
               label="1"
               @change="singleOK"
@@ -1003,6 +1007,7 @@ import {
   ownlist,
   check,
 } from "@/api/tc-api/project/list";
+import agencyfee from "@/api/tc-api/place/agencyfee";
 import { getInfo } from "@/api/login";
 import { Decimal } from "decimal.js";
 //手机号验证
@@ -1094,7 +1099,7 @@ export default {
       placeCodeOptions: "", //渠道商
       isaddPurch:'1',//添加甲方
       formData: {
-        
+       
         isAddBuyer:'1',
         isDealings:'1',//项目往来款
         disposableRemark:'',
@@ -1220,7 +1225,7 @@ export default {
         //     label: '3%'
         // },
       ],
-       
+      
       rules: {
         isDisposableShare: [
           {
@@ -1411,7 +1416,7 @@ export default {
           },
           { validator: phoneVerify, trigger: "blur" },
         ],
-       
+        
 
         fileName: [
           {
@@ -1428,6 +1433,10 @@ export default {
           },
         ],
       },
+      confirmEditStatus:false,//个体户
+      confirmEditStatus1:false,//渠道
+      listh:'',
+      listh1:'',
     };
   },
   computed: {
@@ -1452,6 +1461,32 @@ export default {
   },
 
   methods: {
+    palceh(e){
+      this.placeCodeOptions.map((item)=>{
+        if(item.placeCode==e){
+          agencyfee.selectFeeByCode({ placeCode:e }).then(res => {
+            this.listh1=res;
+            if(this.formData.ticketType==0){
+             if(res.isSliderOrdinary==1){
+              this.confirmEditStatus1=true;
+             }else{
+              this.confirmEditStatus1=false;
+             } 
+          }else if(this.formData.ticketType==1){
+             //专票  没有开启  就是 个体和客户不能点击
+            if(res.isSlider==1){
+               this.confirmEditStatus1=true;
+             }else{
+              this.confirmEditStatus1=false;
+              }
+          }
+       
+      
+      })
+         
+        }
+      })
+    },
      //客户实时异步
     changeValue1(e) {
       if (e == true) {
@@ -1474,6 +1509,7 @@ export default {
         this.formData.isSlider = "0";
         this.formData.isSliderOrdinary = "1";
       }
+    
     },
     querySearchAsync(queryString, cb) {
       this.formData.purchCompanyTaxid = "";
@@ -1787,6 +1823,23 @@ export default {
           } else {
             this.projectStatus = 1;
           }
+         
+          //普票  没有开启  就是 个体和客户不能点击
+          this.listh=this.ownoptions[i];
+          if(this.formData.ticketType==0){
+             if(this.ownoptions[i].isSliderOrdinary==1){
+              this.confirmEditStatus=true;
+             }else{
+              this.confirmEditStatus=false;
+             } 
+          }else if(this.formData.ticketType==1){
+             //专票  没有开启  就是 个体和客户不能点击
+            if(this.ownoptions[i].isSlider==1){
+               this.confirmEditStatus=true;
+             }else{
+              this.confirmEditStatus=false;
+              }
+          }
           this.$nextTick(function () {
             this.selectTipType = this.$refs.selectTree.selected.label;
             this.formData.projectTrade = this.$refs.selectTree.selected.label;
@@ -1800,8 +1853,6 @@ export default {
           }else{
             this.owerTaxfee='0%';
           }
-          
-         
           this.residence = this.ownoptions[i].residence;
           this.privateDepositBank = this.ownoptions[i].privateDepositBank;
           this.privateAccountNumber = this.ownoptions[i].privateAccountNumber;
@@ -1880,11 +1931,35 @@ export default {
 
     //监听开票内容类型
     tickettaxvip(e) {
+        
+      
       console.log(e);
       if (e > 0) {
         this.tickettaxvipok = true;
         this.formData.ticketTax = 3;
+        if(this.listh.isSlider==1){
+          this.confirmEditStatus=true;
+        }else{
+         this.confirmEditStatus=false;
+       }
+       if(this.listh1.isSlider==1){
+          this.confirmEditStatus1=true;
+        }else{
+         this.confirmEditStatus1=false;
+       }
+      
+      
       } else {
+        if(this.listh.isSliderOrdinary==1){
+         this.confirmEditStatus=true;
+        }else{
+          this.confirmEditStatus=false;
+        } 
+        if(this.listh1.isSliderOrdinary==1){
+         this.confirmEditStatus1=true;
+        }else{
+          this.confirmEditStatus1=false;
+        } 
         this.formData.ticketTax=0;
         this.tickettaxvipok = false;
       }

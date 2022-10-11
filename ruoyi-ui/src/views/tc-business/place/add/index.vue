@@ -1148,7 +1148,7 @@ export default {
       this.ruleForm.specialInvoice13 = '';
       this.ruleForm.specialInvoice6Money = '';
       this.ruleForm.specialInvoice13Money = '';
-      this.ruleForm.specialSelfFee = null;
+      this.ruleForm.specialSelfFee = 0;
       this.ruleForm.isSpecialTax = '1';
       this.ruleForm.registerMoney = 0;
       this.ruleForm.ordinarySelfFee = 0;
@@ -1157,6 +1157,24 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      if(this.ruleForm.isSlider==0){
+        if(this.ruleForm.specialSelfFee<=0){
+          return  this.$alert("专票服务费必须大于0", "系统提示", {
+          confirmButtonText: "确定",
+
+          type: "warning",
+        });
+        }
+      }
+      if(this.ruleForm.isSliderOrdinary==0){
+        if(this.ruleForm.ordinarySelfFee<=0){
+          return  this.$alert("普票服务费必须大于0", "系统提示", {
+          confirmButtonText: "确定",
+
+          type: "warning",
+        });
+        }
+      }
       this.$refs["form"].validate((valid) => {
         if (valid) {
          
