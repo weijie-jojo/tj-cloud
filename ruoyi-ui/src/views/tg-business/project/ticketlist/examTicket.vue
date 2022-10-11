@@ -793,11 +793,9 @@ export default {
 
                       let obj = {
                         title: "票据审核",
-                        backUrl:
-                          this.$cache.local.getJSON("tg-aduitback").backurl,
+                        backUrl:'/tg-business/project/ticketList',
                         resmsg: resmsg,
-                        backName:
-                          this.$cache.local.getJSON("tg-aduitback").name,
+                        backName:'TicketList',
                       };
                       this.$cache.local.setJSON("tg-successProject", obj);
                       this.$tab.closeOpenPage({

@@ -387,14 +387,7 @@ export default {
                       this.$modal.closeLoading();
                       this.check("修改收款完成");
                       this.$modal.msgSuccess("修改收款成功");
-                      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
-                        this.$tab.closePage({path:'/tc-business/project/collectEdit'}).then(() => {
-                        this.$tab.refreshPage({
-                          path: "/tc-business/project/list",
-                          name: "List",
-                        });
-                      });
-                      } else {
+                      
                         this.$tab.closePage({path:'/tc-business/project/collectEdit'}).then(() => {
                          // 执行结束的逻辑
                          this.$tab.refreshPage({
@@ -403,7 +396,7 @@ export default {
                         });
                          })
                        
-                      }
+                      
                     });
                   });
                 });

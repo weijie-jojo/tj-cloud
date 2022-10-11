@@ -1455,6 +1455,8 @@ export default {
 
         if(this.formData.industyTax){
           this.formData.industryTax =  new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+        }else{
+          this.formData.industryTax='0%';
         }
         if (this.formData.fileName) {
           if (this.formData.fileName.indexOf("[") != -1) {

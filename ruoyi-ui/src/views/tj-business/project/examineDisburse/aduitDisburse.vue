@@ -303,6 +303,10 @@ export default {
                   }
                 if (type == 1) {
                     this.check("出款审核完成");
+                    if(this.publicList.payRemainMoneys){
+                    }else{
+                     this.publicList.payRemainMoneys=this.publicList.payTotalMoneys;
+                    }
                     if (
                       new Decimal(this.publicList.payRemainMoneys).sub(
                         new Decimal(this.formData.payMoney)
@@ -332,15 +336,7 @@ export default {
                   this.$nextTick(function () {
                   edit(this.publicList).then(res=>{
                     this.$modal.closeLoading();
-                    if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
-                    let obj1 = {
-                      title: "出款审核",
-                      backUrl: '/tj-business/project/list',
-                      resmsg: "出款审核完成",
-                      backName: 'List',
-                    };
-                    this.$cache.local.setJSON("tj-successProject", obj1);
-                   } else {
+                   
                     let obj2 = {
                       title: "出款审核",
                       backUrl: '/tj-business/project/aduitDisburseList',
@@ -348,7 +344,7 @@ export default {
                       backName: 'AduitDisburseList',
                     };
                        this.$cache.local.setJSON("tj-successProject", obj2);
-                  } 
+                  
                   
                  
                   this.$tab.closeOpenPage({

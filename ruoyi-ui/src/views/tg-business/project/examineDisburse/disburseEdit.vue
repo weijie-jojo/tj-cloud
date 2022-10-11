@@ -370,14 +370,7 @@ export default {
                   this.$modal.closeLoading();
                    this.check('修改出款完成')
                    this.$modal.msgSuccess("修改出款成功");
-                   if (this.$cache.local.getJSON("tg-ifcollect") == 1) {
-                      this.$tab.closePage({path:'/tg-business/project/disburseEdit'}).then(() => {
-                      this.$tab.refreshPage({
-                        path: "/tg-business/project/list",
-                        name: "List",
-                      });
-                    });
-                    } else {
+                   
                       this.$tab.closePage({path:'/tg-business/project/disburseEdit'}).then(() => {
                        // 执行结束的逻辑
                        this.$tab.refreshPage({
@@ -386,7 +379,7 @@ export default {
                       });
                        })
                      
-                    }
+                    
                 })
               });
                 

@@ -1409,8 +1409,13 @@ export default {
           } else {
             this.formData.isSliderOrdinary = "1";
           }
-          this.formData.industryTax =
+          if(this.formData.industryTax){
+            this.formData.industryTax =
             new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+          }else{
+            this.formData.industryTax ='0%';
+          }
+         
           this.isokradio = JSON.stringify(this.formData.placeStatus);
           this.formData.placeStatus = parseInt(this.formData.placeStatus);
           if (this.formData.fileName) {

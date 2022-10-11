@@ -79,7 +79,7 @@ export function delPay(payIds) {
  })
 }
 
-//获取项目收款详情计算已收账款
+//获取项目收款详情计算已收金额
 export function finshReceiveList(query) {
   return request({
     url: 'project/receive/tg/getInfoByCode2',
@@ -89,7 +89,7 @@ export function finshReceiveList(query) {
 }
 
 
-//获取项目出款详情计算已出账款
+//获取项目出款详情计算已出金额
 export function finshPayList(query) {
   return request({
     url: 'project/pay/tg/getInfoByCode2',

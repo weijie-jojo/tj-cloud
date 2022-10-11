@@ -327,6 +327,11 @@ export default {
 
                 if (type == 1) {
                   this.check("收款审核完成");
+                  if(this.publicList.receiveRemainMoneys){
+                   
+                  }else{
+                    this.publicList.receiveRemainMoneys=this.publicList.receiveTotalMoneys;
+                  }
                   if (new Decimal(this.publicList.receiveRemainMoneys).sub(new Decimal(this.formData.receiveMoney)) == 0) {
                        
                       this.publicList.projectReceiveStatus=1;
@@ -352,15 +357,7 @@ export default {
                 this.$nextTick(function () {
                   edit(this.publicList).then(res=>{
                   this.$modal.closeLoading(); 
-                  if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
-                    let obj1 = {
-                      title: "收款审核",
-                      backUrl: '/tc-business/project/list',
-                      resmsg: "收款审核完成",
-                      backName: 'List',
-                    };
-                    this.$cache.local.setJSON("tc-successProject", obj1);
-                   } else {
+                  
                     let obj2 = {
                       title: "收款审核",
                       backUrl: '/tc-business/project/aduitCollectList',
@@ -368,7 +365,7 @@ export default {
                       backName: 'AduitCollectList',
                     };
                        this.$cache.local.setJSON("tc-successProject", obj2);
-                  } 
+                  
                    this.$tab.closeOpenPage({ path: "/tc-business/project/success" });
                 })
 
