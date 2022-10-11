@@ -661,7 +661,7 @@ export default {
         ticketAmount: [
           {
             required: true,
-            message: "请输入发票金额额",
+            message: "请输入发票总金额",
             trigger: "blur",
           },
         ],
@@ -991,15 +991,15 @@ export default {
     },
     onSubmit() {
       
-      if (this.formData.ticketAmount < 1) {
-        this.$alert("发票金额必须大于1", "系统提示", {
-          confirmButtonText: "确定",
+      // if (this.formData.ticketAmount < 1) {
+      //   this.$alert("发票金额必须大于1", "系统提示", {
+      //     confirmButtonText: "确定",
 
-          type: "warning",
-        });
+      //     type: "warning",
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
       
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
