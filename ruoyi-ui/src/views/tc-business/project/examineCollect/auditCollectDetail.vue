@@ -60,7 +60,6 @@
             style="width: 100%"
             v-model="formData.receiveTime"
             value-format="yyyy-MM-dd"
-           
             align="right"
           >
           </el-date-picker>
@@ -217,15 +216,15 @@ export default {
    
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tc-ifcollect')==0){
-         this.$tab.closeOpenPage({
-          path:'/tc-business/project/aduitCollectList'
-         })
-      }else{
-        this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tc-aduitback").backurl,
+      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
+      this.$tab.closeOpenPage({
+        path: "/tc-business/project/list",
       });
-      }
+     } else {
+      this.$tab.closeOpenPage({
+        path: '/tc-business/project/aduitCollectList'
+      });
+    }
       
     },
     handleChange(val) {

@@ -577,13 +577,13 @@ export default {
     },
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tj-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tj-business/project/aduitCollectList",
+          path: "/tj-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-addback").backurl,
+          path: '/tj-business/project/aduitCollectList'
         });
       }
     },
@@ -679,15 +679,15 @@ export default {
                   setTimeout(function () {
                     that.$modal.closeLoading();
                     that.$modal.msgSuccess("新增收款成功");
-                    if (that.$cache.local.getJSON("tj-ifcollect") == 0) {
+                    if (that.$cache.local.getJSON("tj-ifcollect") == 1) {
                       that.$tab.refreshPage({
-                        path: "/tj-business/project/aduitCollectList",
-                        name: "AduitCollectList",
+                        path: "/tj-business/project/list",
+                        name: "List",
                       });
                     } else {
                       that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("tj-addback").backurl,
-                        name: that.$cache.local.getJSON("tj-addback").name,
+                        path: '/tj-business/project/aduitCollectList',
+                        name: 'AduitCollectList'
                       });
                     }
                   }, 1500 * that.disburseList.length);

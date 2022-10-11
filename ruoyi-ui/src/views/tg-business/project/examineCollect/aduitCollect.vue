@@ -61,7 +61,6 @@
               style="width: 100%"
               v-model="formData.receiveTime"
               value-format="yyyy-MM-dd"
-              
               align="right"
             >
             </el-date-picker>
@@ -268,13 +267,13 @@ export default {
 
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tg-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tg-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tg-business/project/aduitCollectList",
+          path: "/tg-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tg-aduitback").backurl,
+          path: '/tg-business/project/aduitCollectList'
         });
       }
     },
@@ -352,15 +351,25 @@ export default {
                 this.publicList.receiveRemark=this.remark;
                 this.$nextTick(function () {
                   edit(this.publicList).then(res=>{
-                  this.$modal.closeLoading();  
-                  let obj = {
-                  title: "收款审核审核",
-                  backUrl: this.$cache.local.getJSON("tg-aduitback").backurl,
-                  resmsg: "收款审核完成",
-                  backName: this.$cache.local.getJSON("tg-aduitback").name,
-                };
-                this.$cache.local.setJSON("tg-successProject", obj);
-                this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
+                  this.$modal.closeLoading(); 
+                  if (this.$cache.local.getJSON("tg-ifcollect") == 1) {
+                    let obj1 = {
+                      title: "收款审核",
+                      backUrl: '/tg-business/project/list',
+                      resmsg: "收款审核完成",
+                      backName: 'List',
+                    };
+                    this.$cache.local.setJSON("tg-successProject", obj1);
+                   } else {
+                    let obj2 = {
+                      title: "收款审核",
+                      backUrl: '/tg-business/project/aduitCollectList',
+                      resmsg: "收款审核完成",
+                      backName: 'AduitCollectList',
+                    };
+                       this.$cache.local.setJSON("tg-successProject", obj2);
+                  } 
+                   this.$tab.closeOpenPage({ path: "/tg-business/project/success" });
                 })
 
                 })

@@ -50,7 +50,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-        <el-form-item class="comright" label="付款账户" :required="true">
+          <el-form-item class="comright" label="付款账户" :required="true">
           <el-input  v-model="formData.paymentName"></el-input>
         </el-form-item>
           <el-form-item
@@ -76,6 +76,7 @@
           </el-form-item>
           <el-form-item class="comright" label="出款时间" prop="payTime">
             <el-date-picker
+           
             style="width: 100%"
             v-model="formData.payTime"
             value-format="yyyy-MM-dd"
@@ -84,7 +85,7 @@
           >
           </el-date-picker>
           </el-form-item>
-          <el-form-item class="comright" label="付款账号" prop="paymentAccount">
+       <el-form-item class="comright" label="付款账号" prop="paymentAccount">
           <el-input  v-model="formData.paymentAccount"></el-input>
         </el-form-item>
          
@@ -117,30 +118,30 @@ export default {
   data() {
     return {
       pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
+        disabledDate(time) {
+          return time.getTime() > Date.now();
         },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
       projectStatusNew:'',
       types:'0',
       isokradioS:'1',
@@ -279,17 +280,16 @@ export default {
    
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tc-ifcollect')==0){
-         this.$tab.closeOpenPage({
-          path:'/tc-business/project/aduitDisburseList'
-         })
-      }else{
-        this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tc-aduitback").backurl,
+     if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
+      this.$tab.closeOpenPage({
+        path: "/tc-business/project/list",
       });
-      }
-      
-    },
+    } else {
+      this.$tab.closeOpenPage({
+        path: '/tc-business/project/aduitDisburseList'
+      });
+    }
+   },
     handleChange(val) {
       console.log(val);
     },
@@ -370,17 +370,23 @@ export default {
                   this.$modal.closeLoading();
                    this.check('修改出款完成')
                    this.$modal.msgSuccess("修改出款成功");
-                   if(this.$cache.local.getJSON('tc-ifcollect')==0){
+                   if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
+                      this.$tab.closePage({path:'/tc-business/project/disburseEdit'}).then(() => {
                       this.$tab.refreshPage({
-                       path:'/tc-business/project/aduitDisburseList',
-                       name:'AduitDisburseList'
+                        path: "/tc-business/project/list",
+                        name: "List",
+                      });
+                    });
+                    } else {
+                      this.$tab.closePage({path:'/tc-business/project/disburseEdit'}).then(() => {
+                       // 执行结束的逻辑
+                       this.$tab.refreshPage({
+                        path: '/tc-business/project/aduitDisburseList',
+                        name: 'AduitDisburseList',
+                      });
                        })
-                   }else{
-                     this.$tab.refreshPage({
-                         path: this.$cache.local.getJSON("tc-edit-project").url,
-                         name: this.$cache.local.getJSON("tc-edit-project").name,
-                        });
-                   }
+                     
+                    }
                 })
               });
                 

@@ -216,15 +216,15 @@
      
       //返回
       resetForm() {
-        if(this.$cache.local.getJSON('tj-ifcollect')==0){
-           this.$tab.closeOpenPage({
-            path:'/tj-business/project/aduitCollectList'
-           })
-        }else{
-          this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-aduitback").backurl,
+        if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
+        this.$tab.closeOpenPage({
+          path: "/tj-business/project/list",
         });
-        }
+       } else {
+        this.$tab.closeOpenPage({
+          path: '/tj-business/project/aduitCollectList'
+        });
+      }
         
       },
       handleChange(val) {

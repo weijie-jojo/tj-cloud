@@ -63,7 +63,9 @@
             >
             </el-date-picker>
           </el-form-item>
-           <el-form-item class="comright" label="付款账号" :required="true">
+
+        
+          <el-form-item class="comright" label="付款账号" :required="true">
             <el-input
               :readonly="true"
               v-model="formData.paymentAccount"
@@ -241,13 +243,13 @@ export default {
 
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tc-business/project/aduitDisburseList",
+          path: "/tc-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tc-aduitback").backurl,
+          path: '/tc-business/project/aduitDisburseList'
         });
       }
     },
@@ -330,13 +332,25 @@ export default {
                   this.$nextTick(function () {
                   edit(this.publicList).then(res=>{
                     this.$modal.closeLoading();
-                    let obj = {
-                    title: "出款审核",
-                    backUrl: this.$cache.local.getJSON("tc-aduitback").backurl,
-                    resmsg: "出款审核完成",
-                    backName: this.$cache.local.getJSON("tc-aduitback").name,
-                  };
-                  this.$cache.local.setJSON("tc-successProject", obj);
+                    if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
+                    let obj1 = {
+                      title: "出款审核",
+                      backUrl: '/tc-business/project/list',
+                      resmsg: "出款审核完成",
+                      backName: 'List',
+                    };
+                    this.$cache.local.setJSON("tc-successProject", obj1);
+                   } else {
+                    let obj2 = {
+                      title: "出款审核",
+                      backUrl: '/tc-business/project/aduitDisburseList',
+                      resmsg: "出款审核完成",
+                      backName: 'AduitDisburseList',
+                    };
+                       this.$cache.local.setJSON("tc-successProject", obj2);
+                  } 
+                  
+                 
                   this.$tab.closeOpenPage({
                     path: "/tc-business/project/success",
                   });

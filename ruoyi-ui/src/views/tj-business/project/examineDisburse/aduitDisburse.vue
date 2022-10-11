@@ -243,13 +243,13 @@ export default {
 
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tj-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tj-business/project/aduitDisburseList",
+          path: "/tj-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-aduitback").backurl,
+          path: '/tj-business/project/aduitDisburseList'
         });
       }
     },
@@ -332,13 +332,25 @@ export default {
                   this.$nextTick(function () {
                   edit(this.publicList).then(res=>{
                     this.$modal.closeLoading();
-                    let obj = {
-                    title: "出款审核",
-                    backUrl: this.$cache.local.getJSON("tj-aduitback").backurl,
-                    resmsg: "出款审核完成",
-                    backName: this.$cache.local.getJSON("tj-aduitback").name,
-                  };
-                  this.$cache.local.setJSON("tj-successProject", obj);
+                    if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
+                    let obj1 = {
+                      title: "出款审核",
+                      backUrl: '/tj-business/project/list',
+                      resmsg: "出款审核完成",
+                      backName: 'List',
+                    };
+                    this.$cache.local.setJSON("tj-successProject", obj1);
+                   } else {
+                    let obj2 = {
+                      title: "出款审核",
+                      backUrl: '/tj-business/project/aduitDisburseList',
+                      resmsg: "出款审核完成",
+                      backName: 'AduitDisburseList',
+                    };
+                       this.$cache.local.setJSON("tj-successProject", obj2);
+                  } 
+                  
+                 
                   this.$tab.closeOpenPage({
                     path: "/tj-business/project/success",
                   });

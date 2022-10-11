@@ -585,11 +585,6 @@
      
       /** 修改按钮操作 */
       handleUpdate(row) {
-        let obj2={
-                url:'/tj-business/project/aduitDisburseList',
-                name:'AduitDisburseList'
-            };
-            this.$cache.local.setJSON('tj-edit-project',obj2);
         this.$cache.local.setJSON("tj-payId", row.payId);
         this.$tab.closeOpenPage({ path: "/tj-business/project/disburseEdit" });
       },
