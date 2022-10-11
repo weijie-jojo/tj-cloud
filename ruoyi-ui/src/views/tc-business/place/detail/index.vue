@@ -302,14 +302,16 @@
               </el-col>
 
             </el-row>
-            <el-form-item label="服务费含税" prop="isSpecialTax">
-              <el-radio disabled v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
-              <el-radio disabled v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="价税分离" prop="isSpecialSelfTax">
+            <el-form-item label="服务费含税" prop="isSpecialSelfTax">
               <el-radio disabled v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
               <el-radio disabled v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
             </el-form-item>
+            
+            <el-form-item label="价税分离" prop="isSpecialTax">
+              <el-radio disabled v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
+              <el-radio disabled v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
+            </el-form-item>
+            
             <el-form-item label="是否分润" prop="isSpecialShare">
               <el-radio disabled v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
               <el-radio disabled v-model="ruleForm.isSpecialShare" label="1">否</el-radio>

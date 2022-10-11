@@ -1795,7 +1795,13 @@ export default {
           this.formData.selfName = this.ownoptions[i].selfName;
           this.natureBusiness = this.ownoptions[i].natureBusiness;
           this.owerTax = this.ownoptions[i].taxId;
-          this.owerTaxfee = new Decimal( this.ownoptions[i].industryTax).mul(new Decimal(100)) + "%";
+          if(this.ownoptions[i].industryTax){
+            this.owerTaxfee = new Decimal( this.ownoptions[i].industryTax).mul(new Decimal(100)) + "%";
+          }else{
+            this.owerTaxfee='0%';
+          }
+          
+         
           this.residence = this.ownoptions[i].residence;
           this.privateDepositBank = this.ownoptions[i].privateDepositBank;
           this.privateAccountNumber = this.ownoptions[i].privateAccountNumber;

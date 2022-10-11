@@ -318,14 +318,15 @@
               </el-col>
 
             </el-row>
-            <el-form-item label="服务费含税" prop="isSpecialTax">
-              <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
-              <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
-            </el-form-item>
-            <el-form-item label="价税分离" prop="isSpecialSelfTax">
+            <el-form-item label="服务费含税" prop="isSpecialSelfTax">
               <el-radio v-model="ruleForm.isSpecialSelfTax" label='0'>是</el-radio>
               <el-radio v-model="ruleForm.isSpecialSelfTax" label='1'>否</el-radio>
             </el-form-item>
+            <el-form-item label="价税分离" prop="isSpecialTax">
+              <el-radio v-model="ruleForm.isSpecialTax" label='0'>是</el-radio>
+              <el-radio v-model="ruleForm.isSpecialTax" label='1'>否</el-radio>
+            </el-form-item>
+           
             <el-form-item label="是否分润" prop="isSpecialShare">
               <el-radio v-model="ruleForm.isSpecialShare" label="0">是</el-radio>
               <el-radio v-model="ruleForm.isSpecialShare" label="1">否</el-radio>
@@ -599,8 +600,8 @@ export default {
         customerType:'0',
         isSliderOrdinary: '0',
         isSlider: '0',//专票滑块
-        isSelfTax: '1',     //普票价税分离
-        isSpecialSelfTax: '1',  //专票价税分离
+        isSelfTax: '1',     //普票服务费含税
+        isSpecialSelfTax: '1',  //专票服务含税
         ordinaryTax: '0',//普票税率
         ordinarySpecialTax: '0.03',//专票税率
 
@@ -625,7 +626,7 @@ export default {
         specialInvoice6: 0,   //专票 6 （%）
         specialInvoice13: 0,  //专票13 （%）
         specialSelfFee: 0,
-        isSpecialTax: '1',//是否含税-专票
+        isSpecialTax: '1',//是否价税分离-专票
         ordinaryProxyMoney: 0,//普票平台服务费(元）
         registerMoney: 0,
         ordinarySelfFee: 0, //普票平台服务费(%）
@@ -801,7 +802,7 @@ export default {
           { required: true, message: '请选择普票服务费含税', trigger: 'change' }
         ],
         isSpecialSelfTax: [
-          { required: true, message: '请选择专票价税分离', trigger: 'change' }
+          { required: true, message: '专票服务费含税不能为空', trigger: 'change' }
         ],
         editIsSpecialSelfTax: [
           { required: true, message: '请选择专票价税分离', trigger: 'change' }
@@ -884,7 +885,7 @@ export default {
           { validator: numCheck, required: true, trigger: 'blur' }
         ],
         isSpecialTax: [
-          { required: true, message: '请选择是否含税', trigger: 'change' }
+          { required: true, message: '价税分离不能为空', trigger: 'change' }
         ],
         registerMoney: [
           { message: '请输入个体户注册服务费', required: true, trigger: 'blur' }

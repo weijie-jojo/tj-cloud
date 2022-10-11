@@ -84,7 +84,7 @@
     </el-row>
     <el-row type="flex" class="row-bg" justify="space-around">
       <el-col :span="9"> 
-          <el-form-item class="comright" label="应出账款">
+          <el-form-item class="comright" label="应出金额">
             <el-input
               :readonly="true"
               v-model="publicList.payTotalMoneys"
@@ -96,7 +96,7 @@
             </el-input>
           </el-form-item>
         
-          <el-form-item class="comright" label="未出账款">
+          <el-form-item class="comright" label="未出金额">
             <el-input
               :readonly="true"
               v-model="publicList.payRemainMoneys"
@@ -114,7 +114,7 @@
       </el-col>
 
       <el-col :span="9">
-        <el-form-item class="comright" label="已出账款">
+        <el-form-item class="comright" label="已出金额">
             <el-input
               :readonly="true"
               v-model="publicList.payMoneys"
@@ -313,8 +313,8 @@ import {
   detail,
   edit,
   delPay,
-  finshReceiveList,
-  finshPayList,
+ 
+  payList2
 } from "@/api/tg-api/project/list";
 import { Decimal } from "decimal.js";
 export default {
@@ -436,17 +436,54 @@ export default {
       };
       
       this.getList();
-      this.getAllAcount();
+      this.comounti();
       
     });
    
   },
   methods: {
+     //计算已收和未收金额
+  comounti() {
+    payList2({
+      projectCode: this.$cache.local.getJSON("tg-project-code"),
+    })
+      .then((res) => {
+        let arr = res.data;
+        console.log(arr);
+        if (Array.isArray(arr) && arr.length > 0) {
+          //计算已收金额
+          this.publicList.payMoneys = 0;
+           for (let i in arr) {
+            if (arr[i].payMoney > 0 && arr[i].isCheck == 1) {
+              this.publicList.payMoneys = new Decimal(
+                this.publicList.payMoneys
+              ).add(new Decimal(arr[i].payMoney));
+            }
+          }
+         //计算未收金额
+          this.publicList.payRemainMoneys = new Decimal(
+            this.publicList.payTotalMoneys
+          ).sub(new Decimal(this.publicList.payMoneys));
+        }
+        let arrs = this.publicList;
+        if (Array.isArray(arrs.fileName)) {
+          arrs.fileName = JSON.stringify(arrs.fileName);
+        }
+         edit(arrs);
+      })
+      .catch((err) => {});
+  },
     //关闭
     handleClose() {
+      if(this.$cache.local.getJSON("tg-ifcollect")==0){
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
-      });
+      path: '/tg-business/project/disburseAudit'
+    });
+    }else{
+      this.$tab.closeOpenPage({
+      path: '/tg-business/project/list'
+    });
+    }
     },
      //付款
   pay(row) {
@@ -465,83 +502,18 @@ export default {
   },
     //关闭
     resetForms() {
+      if(this.$cache.local.getJSON("tg-ifcollect")==0){
       this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
-      });
+      path: '/tg-business/project/disburseAudit'
+    });
+    }else{
+      this.$tab.closeOpenPage({
+      path: '/tg-business/project/list'
+    });
+    }
     },
-    //获取该项目全部收款信息
-    getfinshRece() {
-      finshReceiveList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshReceiveLists = res.data;
-        console.log(this.finshReceiveLists);
-      });
-    },
-    //获取该项目全部出款信息
-    getfinshPay() {
-      finshPayList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshPayLists = res.data;
-        console.log(this.finshPayLists);
-      });
-    },
-    //计算已收和已出账款
-    getAllAcount() {
-        finshReceiveList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshReceiveLists = res.data;
-        finshPayList({
-        projectCode: this.publicList.projectCode,
-      }).then((res) => {
-        this.finshPayLists = res.data;
-        let arr = this.finshReceiveLists;
-        let brr = this.finshPayLists;
-        this.publicList.payTotalMoneys=this.publicList.projectTotalAmount;
-      if (Array.isArray(arr) && arr.length > 0) {
-          this.publicList.receiveMoneys = 0;
-          for (let i in arr) {
-            if (arr[i].receiveMoney > 0 && arr[i].isCheck == 1) {
-              this.publicList.receiveMoneys = new Decimal(
-                this.publicList.receiveMoneys
-              ).add(new Decimal(arr[i].receiveMoney));
-            }
-          }
-          this.publicList.receiveRemainMoneys = new Decimal(
-            this.publicList.projectTotalAmount
-          ).sub(new Decimal(this.publicList.receiveMoneys));
-        }
-        if (Array.isArray(brr) && brr.length > 0) {
-          this.publicList.payMoneys = 0;
-          for (let j in brr) {
-            if (brr[j].payMoney > 0 && brr[j].isCheck == 1) {
-              this.publicList.payMoneys = new Decimal(
-                this.publicList.payMoneys
-              ).add(new Decimal(brr[j].payMoney));
-              
-              if(this.publicList.projectDutypaidStatus==1 && this.publicList.projectReceiveStatus==1 && this.publicList.projectDutypaidStatus==1 
-             && this.publicList.projectAcceptanceStatus==1 && this.publicList.projectContractStatus==1 && this.publicList.projectCheckStatus==1 ){
-               this.publicList.projectStatus=2;
-             }else{
-                this.publicList.projectStatus=0;
-              }
-            
-            }else if(brr[j].isCheck==2){
-                this.publicList.projectStatus=1;
-            }
-          }
-          this.publicList.payRemainMoneys = new Decimal(
-            this.publicList.payTotalMoneys
-          ).sub(new Decimal(this.publicList.payMoneys));
-        }
-        //edit(this.publicList);
-       });
-      }); 
-      
-      
-    },
+    
+   
     /** 查询列表 */
     getList() {
       this.loading = true;

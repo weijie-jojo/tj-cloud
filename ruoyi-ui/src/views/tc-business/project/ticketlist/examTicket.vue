@@ -792,11 +792,9 @@ export default {
 
                       let obj = {
                         title: "票据审核",
-                        backUrl:
-                          this.$cache.local.getJSON("tc-aduitback").backurl,
+                        backUrl:'/tc-business/project/ticketList',
                         resmsg: resmsg,
-                        backName:
-                          this.$cache.local.getJSON("tc-aduitback").name,
+                        backName:'TicketList',
                       };
                       this.$cache.local.setJSON("tc-successProject", obj);
                       this.$tab.closeOpenPage({

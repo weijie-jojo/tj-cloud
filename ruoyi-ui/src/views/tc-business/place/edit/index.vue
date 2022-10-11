@@ -204,14 +204,19 @@
             </el-col>
 
           </el-row>
+        
           <el-form-item label="服务费含税" prop="editIsSelfTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSelfTax" label='1'>否</el-radio>
           </el-form-item>
+        
           <el-form-item label="价税分离" prop="editIsOrdinaryTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryTax" label='1'>否</el-radio>
           </el-form-item>
+          
+        
+          
           
           <el-form-item label="是否分润" prop="editIsOrdinaryShare">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsOrdinaryShare" label="0">是</el-radio>
@@ -339,15 +344,15 @@
             </el-col>
 
           </el-row>
-
-          <el-form-item label="服务费含税" prop="editIsSpecialTax">
-            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
-            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
-          </el-form-item>
-          <el-form-item label="价税分离" prop="editIsSpecialSelfTax">
+          <el-form-item label="服务费含税" prop="editIsSpecialSelfTax">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='0'>是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialSelfTax" label='1'>否</el-radio>
           </el-form-item>
+          <el-form-item label="价税分离" prop="editIsSpecialTax">
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='0'>是</el-radio>
+            <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialTax" label='1'>否</el-radio>
+          </el-form-item>
+         
           <el-form-item label="是否分润" prop="editIsSpecialShare">
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialShare" label="0">是</el-radio>
             <el-radio :disabled="confirmEditStatus" v-model="ruleForm.editIsSpecialShare" label="1">否</el-radio>

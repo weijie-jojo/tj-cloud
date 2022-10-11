@@ -849,6 +849,7 @@ export default {
       let obj = {
         backurl: "/tg-business/project/list",
       };
+      this.$cache.local.setJSON('tg-backMean',obj);
       this.$cache.local.setJSON("tg-backTicket", obj);
    
       switch (this.types) {

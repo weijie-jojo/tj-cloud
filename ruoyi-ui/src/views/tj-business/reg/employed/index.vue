@@ -432,6 +432,8 @@ export default {
         }else if(this.userinfo.userId==scope.userId){
           if(type==1 || type==2){
             msgs='修改';
+          }else{
+            msgs='查看';
           }
            
         }else {

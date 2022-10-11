@@ -89,7 +89,7 @@
 
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9"> 
-          <el-form-item class="comright" label="应收账款">
+          <el-form-item class="comright" label="应收金额">
             <el-input
               :readonly="true"
               v-model="publicList.receiveTotalMoneys"
@@ -115,7 +115,7 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="9">
-          <el-form-item class="comright" label="已收账款">
+          <el-form-item class="comright" label="已收金额">
             <el-input
               :readonly="true"
               v-model="publicList.receiveMoneys"
@@ -126,7 +126,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item class="comright" label="未收账款">
+          <el-form-item class="comright" label="未收金额">
             <el-input
               :readonly="true"
               v-model="publicList.receiveRemainMoneys"
@@ -142,7 +142,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          v-if="publicList.projectRemainAmount > 0"
+          v-if="publicList.receiveRemainMoneys > 0"
           type="primary"
           plain
           icon="el-icon-plus"
@@ -296,7 +296,7 @@ import uploadSmall from "@/components/douploads/uploadSmall";
 import {
   receiveList,
   detail,
- 
+  edit,
   delReceive,
   finshReceiveList,
   finshPayList,
@@ -427,12 +427,43 @@ export default {
       };
       
       this.getList();
-     
+      this.comounti();
       
     });
    
   },
   methods: {
+     //计算已收和未收金额
+     comounti() {
+      receiveList2({
+        projectCode: this.$cache.local.getJSON("tj-project-code"),
+      })
+        .then((res) => {
+          let arr = res.data;
+          console.log(arr);
+          if (Array.isArray(arr) && arr.length > 0) {
+            //计算已收金额
+            this.publicList.receiveMoneys = 0;
+             for (let i in arr) {
+              if (arr[i].receiveMoney > 0 && arr[i].isCheck == 1) {
+                this.publicList.receiveMoneys = new Decimal(
+                  this.publicList.receiveMoneys
+                ).add(new Decimal(arr[i].receiveMoney));
+              }
+            }
+           //计算未收金额
+            this.publicList.receiveRemainMoneys = new Decimal(
+              this.publicList.receiveTotalMoneys
+            ).sub(new Decimal(this.publicList.receiveMoneys));
+          }
+          let arrs = this.publicList;
+          if (Array.isArray(arrs.fileName)) {
+            arrs.fileName = JSON.stringify(arrs.fileName);
+          }
+           edit(arrs);
+        })
+        .catch((err) => {});
+    },
     //关闭
     handleClose() {
       if(this.$cache.local.getJSON("tc-ifcollect")==0){

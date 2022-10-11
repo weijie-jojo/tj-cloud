@@ -1576,6 +1576,8 @@ export default {
         if(this.formData.industryTax){
           this.industryTax =
         new Decimal(this.formData.industryTax).mul(new Decimal(100)) + "%";
+        }else{
+          this.industryTax='0%';
         }
         
         this.getown();
