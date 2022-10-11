@@ -216,15 +216,15 @@ export default {
    
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tg-ifcollect')==0){
-         this.$tab.closeOpenPage({
-          path:'/tg-business/project/aduitCollectList'
-         })
-      }else{
-        this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
+      if (this.$cache.local.getJSON("tg-ifcollect") == 1) {
+      this.$tab.closeOpenPage({
+        path: "/tg-business/project/list",
       });
-      }
+     } else {
+      this.$tab.closeOpenPage({
+        path: '/tg-business/project/aduitCollectList'
+      });
+    }
       
     },
     handleChange(val) {

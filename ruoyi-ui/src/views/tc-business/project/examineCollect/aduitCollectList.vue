@@ -7,7 +7,7 @@
       v-show="showSearch"
       label-width="140px"
     >
-    <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px">
+    <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:-10px;margin-bottom: 5px;">
         <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 30%">项目信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
@@ -53,7 +53,6 @@
               style="width: 100%"
               v-model="publicList.projectTimeStart"
               value-format="yyyy-MM-dd"
-             
               align="right"
             >
             </el-date-picker>
@@ -63,7 +62,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.projectTotalAmount"
-             
+              
             >
               <template slot="append">元</template>
             </el-input>
@@ -94,8 +93,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.receiveTotalMoneys"
-              
-            >
+             >
               <template slot="append">元</template>
             </el-input>
             
@@ -110,8 +108,8 @@
       </el-row>
       <el-row type="flex" class="row-bg" justify="space-around">
         <el-col :span="19" style="margin-bottom:10px;margin-top: -5px;">
-          服务费({{serviceMsg}})、增值税({{publicList.projectTaxMoney}})、 城市维护建设税({{publicList.cityTaxMoney}})
-          、教育费附加({{publicList.eduTaxMoney}})、地方教育附加({{publicList.localeduTaxMoney}})、个人所得税({{publicList.personalTaxMoney}})水利建设专项收入({{publicList.waterbuildMoney}})
+          服务费({{serviceMsg}})、增值税({{publicList.projectTaxMoney}})、城市维护建设税({{publicList.cityTaxMoney}})
+          、教育费附加({{publicList.eduTaxMoney}})、地方教育附加({{publicList.localeduTaxMoney}})、个人所得税({{publicList.personalTaxMoney}})、水利建设专项收入({{publicList.waterbuildMoney}})
         
         </el-col>
       </el-row>
@@ -121,7 +119,7 @@
             <el-input
               :readonly="true"
               v-model="publicList.receiveMoneys"
-             
+              
             >
               <template slot="append">元</template>
             </el-input>
@@ -222,7 +220,6 @@
           <div>{{ numberToCurrencyNo(scope.row.receiveMoney) }}</div>
         </template>
       </el-table-column>
-
     
       <el-table-column
         label="收款状态"
@@ -299,7 +296,7 @@ import uploadSmall from "@/components/douploads/uploadSmall";
 import {
   receiveList,
   detail,
-  
+ 
   delReceive,
   finshReceiveList,
   finshPayList,
@@ -430,7 +427,7 @@ export default {
       };
       
       this.getList();
-      
+     
       
     });
    
@@ -438,9 +435,16 @@ export default {
   methods: {
     //关闭
     handleClose() {
-      this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tc-aduitback").backurl,
+      if(this.$cache.local.getJSON("tc-ifcollect")==0){
+        this.$tab.closeOpenPage({
+        path: '/tc-business/project/collectAudit'
       });
+      }else{
+        this.$tab.closeOpenPage({
+        path: '/tc-business/project/list'
+      });
+      }
+      
     },
     //查看
     detail(row) {
@@ -472,7 +476,7 @@ export default {
         console.log(this.finshPayLists);
       });
     },
-   
+    
     /** 查询列表 */
     getList() {
       this.loading = true;
@@ -519,11 +523,6 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      let objList1={
-                url:'/tc-business/project/aduitCollectList',
-                name:'AduitCollectList',
-            };
-      this.$cache.local.setJSON('tc-edit-project',objList1);
       this.$cache.local.setJSON("tc-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tc-business/project/collectEdit" });
     },

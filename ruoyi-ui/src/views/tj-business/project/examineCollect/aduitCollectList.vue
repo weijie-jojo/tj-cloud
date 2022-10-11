@@ -435,9 +435,16 @@ export default {
   methods: {
     //关闭
     handleClose() {
-      this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tj-aduitback").backurl,
+      if(this.$cache.local.getJSON("tj-ifcollect")==0){
+        this.$tab.closeOpenPage({
+        path: '/tj-business/project/collectAudit'
       });
+      }else{
+        this.$tab.closeOpenPage({
+        path: '/tj-business/project/list'
+      });
+      }
+      
     },
     //查看
     detail(row) {
@@ -516,11 +523,6 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      let objList1={
-                url:'/tj-business/project/aduitCollectList',
-                name:'AduitCollectList',
-            };
-      this.$cache.local.setJSON('tj-edit-project',objList1);
       this.$cache.local.setJSON("tj-collReceiveId", row.receiveId);
       this.$tab.closeOpenPage({ path: "/tj-business/project/collectEdit" });
     },

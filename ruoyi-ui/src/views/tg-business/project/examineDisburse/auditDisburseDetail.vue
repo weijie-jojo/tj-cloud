@@ -32,7 +32,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-         <el-form-item class="comright" label="付款账户" :required="true">
+          <el-form-item class="comright" label="付款账户" :required="true">
           <el-input :readonly="true" v-model="formData.paymentName"></el-input>
         </el-form-item>
           <el-form-item
@@ -65,7 +65,7 @@
           >
           </el-date-picker>
           </el-form-item>
-           <el-form-item class="comright" label="付款账号" :required="true">
+          <el-form-item class="comright" label="付款账号" :required="true">
           <el-input :readonly="true" v-model="formData.paymentAccount"></el-input>
         </el-form-item>
         
@@ -194,17 +194,16 @@ export default {
    
     //返回
     resetForm() {
-      if(this.$cache.local.getJSON('tg-ifcollect')==0){
-         this.$tab.closeOpenPage({
-          path:'/tg-business/project/aduitCollectList'
-         })
-      }else{
-        this.$tab.closeOpenPage({
-        path: this.$cache.local.getJSON("tg-aduitback").backurl,
+      if (this.$cache.local.getJSON("tg-ifcollect") == 1) {
+      this.$tab.closeOpenPage({
+        path: "/tg-business/project/list",
       });
-      }
-      
-    },
+    } else {
+      this.$tab.closeOpenPage({
+        path: '/tg-business/project/aduitDisburseList'
+      });
+    }
+   },
     handleChange(val) {
       console.log(val);
     },

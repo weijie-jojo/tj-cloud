@@ -93,7 +93,7 @@
 
         <el-col :span="9">
           <el-form-item class="comright" label="收款账号" prop="receiveAccount">
-            <el-input v-model="formData.receiveAccount"></el-input>
+            <el-input v-model="formData.receiveAccount" :readonly="true"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收款时间" :required="true">
           
@@ -217,7 +217,7 @@
             </el-form-item>
 
             <el-form-item class="comright" label="出款账号" :required="true">
-              <el-input v-model="item.payAccount" :readonly="true"></el-input>
+              <el-input v-model="item.payAccount"  :readonly="true"></el-input>
             </el-form-item>
           
           </el-col>
@@ -577,13 +577,13 @@ export default {
     },
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tc-business/project/aduitCollectList",
+          path: "/tc-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tc-addback").backurl,
+          path: '/tc-business/project/aduitCollectList'
         });
       }
     },
@@ -679,15 +679,15 @@ export default {
                   setTimeout(function () {
                     that.$modal.closeLoading();
                     that.$modal.msgSuccess("新增收款成功");
-                    if (that.$cache.local.getJSON("tc-ifcollect") == 0) {
+                    if (that.$cache.local.getJSON("tc-ifcollect") == 1) {
                       that.$tab.refreshPage({
-                        path: "/tc-business/project/aduitCollectList",
-                        name: "AduitCollectList",
+                        path: "/tc-business/project/list",
+                        name: "List",
                       });
                     } else {
                       that.$tab.refreshPage({
-                        path: that.$cache.local.getJSON("tc-addback").backurl,
-                        name: that.$cache.local.getJSON("tc-addback").name,
+                        path: '/tc-business/project/aduitCollectList',
+                        name: 'AduitCollectList'
                       });
                     }
                   }, 1500 * that.disburseList.length);

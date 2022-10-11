@@ -383,31 +383,11 @@ export default {
             );
           }
           
-          let parms = {
-            projectId: this.formData.projectId,
-            fileName2: this.formData.fileName2,
-            fileName1: this.formData.fileName1,
-            fileName5: this.formData.fileName5,
-            fileName6: this.formData.fileName6,
-            fileName7: this.formData.fileName7,
-            fileName8: this.formData.fileName8,
-            fileName9: this.formData.fileName9,
-            isUpCheckwork:this.formData.isUpCheckwork,
-            isUpImage:this.formData.isUpImage,
-            isUpLicense:this.formData.isUpLicense,
-            isUpStatement:this.formData.isUpStatement,
-            isUpCertification: this.formData.isUpCertification,
-         
-            projectAcceptanceStatus: 0,
-            projectContractStatus: 0,
-            isUpAcceptance: this.formData.isUpAcceptance,
-            isUpContract: this.formData.isUpContract,
-            isSelfCount: this.formData.isSelfCount,
-            projectCode: this.formData.projectCode,
-            projectOwner: this.formData.projectOwner,
-            placeCode: this.formData.placeCode,
-          };
-          edit(parms).then((res) => {
+       
+          this.formData.projectAcceptanceStatus=0;
+          this.formData.projectContractStatus=0;
+
+          edit(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
                 this.$nextTick(function () {

@@ -47,14 +47,13 @@
         <el-col :span="9">
           <el-form-item class="comright" label="项目时间">
             <el-date-picker
-              disabled
-              style="width: 100%"
-              v-model="publicList.projectTimeStart"
-              value-format="yyyy-MM-dd"
-             
-              align="right"
-            >
-            </el-date-picker>
+            disabled
+            style="width: 100%"
+            v-model="publicList.projectTimeStart"
+            value-format="yyyy-MM-dd"
+            align="right"
+          >
+          </el-date-picker>
           </el-form-item>
 
           <el-form-item class="comright" label="项目金额">
@@ -68,7 +67,7 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-          <el-form-item class="comright" label="销货单位">
+          <el-form-item class="comright" label="销货单位（乙方）">
             <el-input :readonly="true" v-model="publicList.selfName"></el-input>
           </el-form-item>
         
@@ -179,6 +178,7 @@
         prop="paySysCode"
         :show-overflow-tooltip="true"
       />
+      
       <el-table-column
         label="出款时间"
         align="center"
@@ -208,7 +208,7 @@
           <div>{{ numberToCurrencyNo(scope.row.payMoney) }}</div>
         </template>
       </el-table-column>
-    
+   
       <el-table-column
         label="收款账户"
         align="center"
@@ -236,8 +236,14 @@
           <el-link
             :underline="false"
             type="primary"
-            v-if="scope.row.isCheck == 0"
+            v-if="scope.row.isCheck == 0 && scope.row.isPay==1"
             >审核中</el-link
+          >
+          <el-link
+            :underline="false"
+            type="primary"
+            v-if="scope.row.isPay==0 "
+            >付款中</el-link
           >
           <el-link
             :underline="false"
@@ -254,13 +260,13 @@
       >
         <template slot-scope="scope">
           <el-button
-          v-hasPermi="['project:pay:pay']" 
+            v-hasPermi="['project:pay:pay']" 
             size="mini"
             type="text"
             icon="el-icon-s-custom"
             v-if="scope.row.isPay==0"
             @click="pay(scope.row)"
-            >出款</el-button
+            >付款</el-button
           >
           <el-button
             size="mini"
@@ -443,20 +449,20 @@ export default {
       });
     },
      //付款
-     pay(row) {
-        this.$cache.local.setJSON("tg-payId", row.payId);
-        this.$tab.refreshPage({ path:"/tg-business/project/payDibuse",name:"PayDibuse"});
-      },
-    //查看
-    detail(row) {
+  pay(row) {
       this.$cache.local.setJSON("tg-payId", row.payId);
-      this.$tab.refreshPage({path:"/tg-business/project/auditDisburseDetail",name:'AuditDisburseDetail'});
+      this.$tab.refreshPage({ path:"/tg-business/project/payDibuse",name:"PayDibuse"});
     },
-    //审核
-    aduit(row) {
-      this.$cache.local.setJSON("tg-payId", row.payId);
-      this.$tab.refreshPage({ path: "/tg-business/project/aduitDisburse",name:'AduitDisburse' });
-    },
+  //查看
+  detail(row) {
+    this.$cache.local.setJSON("tg-payId", row.payId);
+    this.$tab.refreshPage({path:"/tg-business/project/auditDisburseDetail",name:'AuditDisburseDetail'});
+  },
+  //审核
+  aduit(row) {
+    this.$cache.local.setJSON("tg-payId", row.payId);
+    this.$tab.refreshPage({ path: "/tg-business/project/aduitDisburse",name:'AduitDisburse' });
+  },
     //关闭
     resetForms() {
       this.$tab.closeOpenPage({
@@ -530,7 +536,7 @@ export default {
             this.publicList.payTotalMoneys
           ).sub(new Decimal(this.publicList.payMoneys));
         }
-      //  edit(this.publicList);
+        //edit(this.publicList);
        });
       }); 
       
@@ -579,11 +585,6 @@ export default {
    
     /** 修改按钮操作 */
     handleUpdate(row) {
-      let obj2={
-                url:'/tg-business/project/aduitDisburseList',
-                name:'AduitDisburseList'
-            };
-            this.$cache.local.setJSON('tg-edit-project',obj2);
       this.$cache.local.setJSON("tg-payId", row.payId);
       this.$tab.closeOpenPage({ path: "/tg-business/project/disburseEdit" });
     },
@@ -618,9 +619,9 @@ export default {
   justify-content: center;
 }
 .bankno {
-  letter-spacing: 2px;
-  font-size: 20px;
-  color: blue;
+letter-spacing: 2px;
+font-size: 20px;
+color: blue;
 }
 
 </style>

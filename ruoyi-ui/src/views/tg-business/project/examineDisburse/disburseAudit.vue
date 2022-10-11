@@ -172,23 +172,12 @@ export default {
     methods: {
           //完税查看
          find(row,code){
-           this.$cache.local.setJSON('tg-project-code', code);
-            let obj={
-                backurl:'/tg-business/project/disburseAudit',
-                name:'DisburseAudit'
-            };
+            this.$cache.local.setJSON('tg-project-code', code);
             this.$cache.local.setJSON('tg-ifcollect',0);
-            this.$cache.local.setJSON('tg-aduitback',obj);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
         //完税修改
         edit(row,code){
-            let obj1={
-                backurl:'/tg-business/project/disburseAudit',
-                name:'DisburseAudit'
-            };
-           
-            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON('tg-project-code', code);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
@@ -254,23 +243,12 @@ export default {
 
         },
         aduit(scope) {
-            let obj1={
-                backurl:'/tg-business/project/disburseAudit',
-                name:'DisburseAudit'
-            };
             this.$cache.local.setJSON('tg-ifcollect',0);
-            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });
         },
         //新增完税
         add(scope) {
-            
-            let obj1={
-                backurl:'/tg-business/project/disburseAudit',
-                name:'DisburseAudit'
-            };
-            this.$cache.local.setJSON('tg-aduitback',obj1);
             this.$cache.local.setJSON('tg-ifcollect',0);
             this.$cache.local.setJSON("tg-project-code", scope.projectCode);
             this.$tab.closeOpenPage({ path: '/tg-business/project/aduitDisburseList' });

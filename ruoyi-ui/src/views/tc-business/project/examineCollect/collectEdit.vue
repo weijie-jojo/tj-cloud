@@ -7,7 +7,12 @@
       size="medium"
       label-width="140px"
     >
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-top:10px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-top: 10px"
+      >
         <el-col :span="9" class="flexs">
           <div class="bankno" style="width: 35%">收款信息</div>
           <div style="width: 50%; hegiht: 10px"></div>
@@ -34,11 +39,9 @@
               >
               </el-option>
             </el-select>
-           
           </el-form-item>
           <el-form-item class="comright" label="收款金额" prop="receiveMoney">
             <el-input
-              
               v-model="formData.receiveMoney"
               :step="0.01"
               :min="0"
@@ -48,11 +51,11 @@
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
-         
+
           <el-form-item class="comright" label="付款账户" prop="paymentName">
             <el-input v-model="formData.paymentName"></el-input>
           </el-form-item>
-         
+
           <el-form-item
             class="comright"
             label="收款凭证"
@@ -70,14 +73,12 @@
         </el-col>
 
         <el-col :span="9">
-          
-
           <el-form-item class="comright" label="收款账号" prop="receiveAccount">
             <el-input v-model="formData.receiveAccount"></el-input>
           </el-form-item>
           <el-form-item class="comright" label="收款时间" prop="receiveTime">
             <el-date-picker
-             style="width: 100%"
+              style="width: 100%"
               v-model="formData.receiveTime"
               value-format="yyyy-MM-dd"
               :picker-options="pickerOptions"
@@ -85,14 +86,19 @@
             >
             </el-date-picker>
           </el-form-item>
-         
+
           <el-form-item class="comright" label="付款账号" prop="paymentAccount">
             <el-input v-model="formData.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row type="flex" class="row-bg" justify="space-around" style="margin-bottom:20px">
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-around"
+        style="margin-bottom: 20px"
+      >
         <el-col :span="8"></el-col>
         <el-col :span="8" class="flexs">
           <el-button type="danger" @click="resetForm">关闭</el-button>
@@ -106,7 +112,14 @@
 <script>
 import { getAllCompany } from "@/api/invoices/borrow";
 import uploadSmall from "@/components/douploads/uploadCollect";
-import { check, detail, editReceive, detailCollect,receiveList2,edit } from "@/api/tc-api/project/list";
+import {
+  check,
+  detail,
+  editReceive,
+  detailCollect,
+  receiveList2,
+  edit,
+} from "@/api/tc-api/project/list";
 import { getInfo } from "@/api/login";
 export default {
   name: "CollectEdit",
@@ -114,30 +127,34 @@ export default {
   data() {
     return {
       pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: '今天',
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
             onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: '昨天',
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "昨天",
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周前',
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "一周前",
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        },
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
       payCompanys: [],
       types: "0",
       isokradioS: "1",
@@ -150,12 +167,10 @@ export default {
       isDetail: "1",
       fileName: [],
 
-      formData: {
-        
-      },
+      formData: {},
       rules: {
-        receiveTime:[
-        {
+        receiveTime: [
+          {
             required: true,
             message: "收款信息收款时间不能为空",
             trigger: "change",
@@ -282,21 +297,21 @@ export default {
 
     //返回
     resetForm() {
-      if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
+      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
         this.$tab.closeOpenPage({
-          path: "/tc-business/project/aduitCollectList",
+          path: "/tc-business/project/list",
         });
       } else {
         this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tc-aduitback").backurl,
+          path: '/tc-business/project/aduitCollectList'
         });
       }
     },
     handleChange(val) {
       console.log(val);
     },
-     //获取操作时间
-     getRealTime(){
+    //获取操作时间
+    getRealTime() {
       var date = new Date(); //当前时间
       var year = date.getFullYear(); //年
       var month = this.repair(date.getMonth() + 1); //月
@@ -305,13 +320,12 @@ export default {
       var minute = this.repair(date.getMinutes()); //分
       var second = this.repair(date.getSeconds()); //秒
       //当前时间
-      
-     return   hour +":" +minute + ":" + second;
+
+      return hour + ":" + minute + ":" + second;
     },
     submitForm() {
       //var str = "欢迎来到这里！";
-    
-     
+
       this.$refs["elForm"].validate((valid) => {
         // TODO 提交表单
         if (valid) {
@@ -323,73 +337,76 @@ export default {
             );
           }
           this.$modal.loading("正在提交中，请稍后...");
-          if(this.formData.receiveTime.indexOf(":")!=-1){
-          }else{
-            this.formData.receiveTime=this.formData.receiveTime+" "+this.getRealTime();
+          if (this.formData.receiveTime.indexOf(":") != -1) {
+          } else {
+            this.formData.receiveTime =
+              this.formData.receiveTime + " " + this.getRealTime();
           }
 
           editReceive(this.formData).then((res) => {
             if (res != undefined) {
               if (res.code === 200) {
-               
                 receiveList2({
                   projectCode: this.publicList.projectCode,
-                })
-                  .then((res) => {
-                    let arr = res;  
-                    detail({
-                  projectCode: this.$cache.local.getJSON("tc-project-code"),
-                }).then((response) => {
-                  let publicList = response.data;
-                  if (
-                  publicList.projectDutypaidStatus == 1 &&
-                  publicList.projectPayStatus == 1 &&
-                  publicList.projectTicketStatus == 1 &&
-                  publicList.projectAcceptanceStatus == 1 &&
-                  publicList.projectContractStatus == 1 &&
-                  publicList.projectCheckStatus == 1
-                ) {
-                  this.projectStatusNew = 2;
-                } else if (
-                  publicList.projectDutypaidStatus == 2 ||
-                  publicList.projectPayStatus == 2 ||
-                  publicList.projectTicketStatus == 2 ||
-                  publicList.projectAcceptanceStatus == 2 ||
-                  publicList.projectCheckStatus == 2 ||
-                  publicList.projectContractStatus == 2
-                ) {
-                  this.projectStatusNew = 1;
-                } else {
-                  this.projectStatusNew = 0;
-                }
-                this.publicList.projectReceiveStatus=0;
-                this.publicList.projectStatus=this.projectStatusNew;
-                arr.map((item) => {
-                     if (item.isCheck == 2) {
-                      this.publicList.projectPayStatus=2;
-                      return (this.publicList.projectStatus = 1);
-                     }
+                }).then((res) => {
+                  let arr = res.data;
+                  detail({
+                    projectCode: this.$cache.local.getJSON("tc-project-code"),
+                  }).then((response) => {
+                    let publicList = response.data;
+                    if (
+                      publicList.projectDutypaidStatus == 1 &&
+                      publicList.projectPayStatus == 1 &&
+                      publicList.projectTicketStatus == 1 &&
+                      publicList.projectAcceptanceStatus == 1 &&
+                      publicList.projectContractStatus == 1 &&
+                      publicList.projectCheckStatus == 1
+                    ) {
+                      this.projectStatusNew = 2;
+                    } else if (
+                      publicList.projectDutypaidStatus == 2 ||
+                      publicList.projectPayStatus == 2 ||
+                      publicList.projectTicketStatus == 2 ||
+                      publicList.projectAcceptanceStatus == 2 ||
+                      publicList.projectCheckStatus == 2 ||
+                      publicList.projectContractStatus == 2
+                    ) {
+                      this.projectStatusNew = 1;
+                    } else {
+                      this.projectStatusNew = 0;
+                    }
+                    this.publicList.projectReceiveStatus = 0;
+                    this.publicList.projectStatus = this.projectStatusNew;
+                    arr.map((item) => {
+                      if (item.isCheck == 2) {
+                        this.publicList.projectPayStatus = 2;
+                        return (this.publicList.projectStatus = 1);
+                      }
+                    });
+                    edit(this.publicList).then((res) => {
+                      this.$modal.closeLoading();
+                      this.check("修改收款完成");
+                      this.$modal.msgSuccess("修改收款成功");
+                      if (this.$cache.local.getJSON("tc-ifcollect") == 1) {
+                        this.$tab.closePage({path:'/tc-business/project/collectEdit'}).then(() => {
+                        this.$tab.refreshPage({
+                          path: "/tc-business/project/list",
+                          name: "List",
+                        });
+                      });
+                      } else {
+                        this.$tab.closePage({path:'/tc-business/project/collectEdit'}).then(() => {
+                         // 执行结束的逻辑
+                         this.$tab.refreshPage({
+                          path: '/tc-business/project/aduitCollectList',
+                          name: 'AduitCollectList',
+                        });
+                         })
+                       
+                      }
+                    });
                   });
-                edit(this.publicList).then(res=>{
-                  this.$modal.closeLoading();
-                  this.check("修改收款完成");
-                  this.$modal.msgSuccess("修改收款成功");
-                if (this.$cache.local.getJSON("tc-ifcollect") == 0) {
-                  this.$tab.refreshPage({
-                    path: "/tc-business/project/aduitCollectList",
-                    name: "AduitCollectList",
-                  });
-                } else {
-                  this.$tab.refreshPage({
-                    path: this.$cache.local.getJSON("tc-edit-project").url,
-                    name: this.$cache.local.getJSON("tc-edit-project").name,
-                  });
-                }
-
-                })  
-                  })
-                  })
-               
+                });
               }
             }
           });

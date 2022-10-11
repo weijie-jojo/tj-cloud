@@ -280,17 +280,16 @@
      
       //返回
       resetForm() {
-        if(this.$cache.local.getJSON('tj-ifcollect')==0){
-           this.$tab.closeOpenPage({
-            path:'/tj-business/project/aduitDisburseList'
-           })
-        }else{
-          this.$tab.closeOpenPage({
-          path: this.$cache.local.getJSON("tj-aduitback").backurl,
+       if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
+        this.$tab.closeOpenPage({
+          path: "/tj-business/project/list",
         });
-        }
-        
-      },
+      } else {
+        this.$tab.closeOpenPage({
+          path: '/tj-business/project/aduitDisburseList'
+        });
+      }
+     },
       handleChange(val) {
         console.log(val);
       },
@@ -330,7 +329,7 @@
                   projectCode: this.publicList.projectCode,
                 })
                   .then((res) => {
-                    let arr = res;
+                    let arr = res.data;
                     detail({
                   projectCode: this.$cache.local.getJSON("tj-project-code"),
                 }).then((response) => {
@@ -371,17 +370,23 @@
                     this.$modal.closeLoading();
                      this.check('修改出款完成')
                      this.$modal.msgSuccess("修改出款成功");
-                     if(this.$cache.local.getJSON('tj-ifcollect')==0){
+                     if (this.$cache.local.getJSON("tj-ifcollect") == 1) {
+                        this.$tab.closePage({path:'/tj-business/project/disburseEdit'}).then(() => {
                         this.$tab.refreshPage({
-                         path:'/tj-business/project/aduitDisburseList',
-                         name:'AduitDisburseList'
+                          path: "/tj-business/project/list",
+                          name: "List",
+                        });
+                      });
+                      } else {
+                        this.$tab.closePage({path:'/tj-business/project/disburseEdit'}).then(() => {
+                         // 执行结束的逻辑
+                         this.$tab.refreshPage({
+                          path: '/tj-business/project/aduitDisburseList',
+                          name: 'AduitDisburseList',
+                        });
                          })
-                     }else{
-                       this.$tab.refreshPage({
-                           path: this.$cache.local.getJSON("tj-edit-project").url,
-                           name: this.$cache.local.getJSON("tj-edit-project").name,
-                          });
-                     }
+                       
+                      }
                   })
                 });
                   
