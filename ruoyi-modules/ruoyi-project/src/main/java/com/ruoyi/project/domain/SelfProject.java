@@ -105,16 +105,16 @@ public class SelfProject extends BaseEntity
     private String fileName;
 
     /** 项目时间开始 */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "项目时间开始")
-    private LocalDateTime projectTimeStart;
+    private String projectTimeStart;
 
     /** 项目时间结束 */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "项目时间结束")
-    private LocalDateTime projectTimeEnd;
+    private String projectTimeEnd;
 
     /** 审核状态 0否 1是 */
     @ApiModelProperty(value = "审核状态 0否 1是")

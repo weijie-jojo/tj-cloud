@@ -273,6 +273,10 @@ public class SelfProjectTgController extends BaseController
         selfProject.setEduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.03)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.0009)));
+        selfProject.setReceiveMoneys(BigDecimal.ZERO);
+        selfProject.setReceiveRemainMoneys(selfProject.getReceiveTotalMoneys());
+        selfProject.setPayMoneys(BigDecimal.ZERO);
+        selfProject.setPayRemainMoneys(selfProject.getPayTotalMoneys());
 
         selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
         System.out.println("不含税金额=="+selfProject.getProjectAmountAftertax());
@@ -715,6 +719,10 @@ public class SelfProjectTgController extends BaseController
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.0009)));
 
+        if (selfProject.getTicketTax()!=null){
+            selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
+        }
+
         if(selfProject.getIsSelfCount()==0){//按个体结算
             System.out.println("按个体结算");
             SelfEmployed selfEmployed= selfEmployedService.selectSelfEmployedBySelfCode(selfProject.getProjectOwner());
@@ -1099,9 +1107,6 @@ public class SelfProjectTgController extends BaseController
                 }
             }
 
-            if (selfProject.getTicketTax()!=null){
-                selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
-            }
             if (selfProject.getOrdinaryShareIsmoney()==1){//普票分润不定额按百分比算
                 if(selfProject.getOrdinaryShare()!=null){
                     selfProject.setOrdinaryShare(selfProject.getOrdinaryShare().movePointLeft(2));
