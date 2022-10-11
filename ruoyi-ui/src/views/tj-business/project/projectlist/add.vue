@@ -80,7 +80,7 @@
           <el-form-item class="comright" label="客户全名">
             <el-select
               filterable
-              @change='palceh'
+             
               @visible-change="changeValue1($event)"
               style="width: 100%"
               clearable
@@ -296,10 +296,7 @@
                     style="width: 100%"
                   >
                     <span style="float: left">{{ node.label }}</span>
-                    <span style=" float: right;
-                        color: #8492a6;
-                        font-size: 14px;
-                        padding-right: 10px;
+                    <span style=" float: right;color: #8492a6; font-size: 14px;padding-right: 10px;
                       "
                       >{{ data.taxRates }}</span
                     >
@@ -495,11 +492,13 @@
              v-model="formData.isSelfCount"
               label="0"
               @change="singleOK"
-              :disabled="confirmEditStatus"
+              :disabled="confirmEditStatus2"
+              v-show="confirmEditStatus"
               >按个体结算</el-radio
             >
             <el-radio
-            :disabled="confirmEditStatus1"
+            :disabled="confirmEditStatus3"
+             v-show="confirmEditStatus1"
               v-model="formData.isSelfCount"
               label="1"
               @change="singleOK"
@@ -1433,10 +1432,12 @@ export default {
           },
         ],
       },
-      confirmEditStatus:false,//个体户
-      confirmEditStatus1:false,//渠道
-      listh:'',
-      listh1:'',
+      confirmEditStatus:true,//个体户
+      confirmEditStatus1:true,//渠道
+      confirmEditStatus2:false,//个体户无法点击
+      confirmEditStatus3:false,//客户无法点击
+      listnew:'',
+     
     };
   },
   computed: {
@@ -1461,32 +1462,6 @@ export default {
   },
 
   methods: {
-    palceh(e){
-      this.placeCodeOptions.map((item)=>{
-        if(item.placeCode==e){
-          agencyfee.selectFeeByCode({ placeCode:e }).then(res => {
-            this.listh1=res;
-            if(this.formData.ticketType==0){
-             if(res.isSliderOrdinary==1){
-              this.confirmEditStatus1=true;
-             }else{
-              this.confirmEditStatus1=false;
-             } 
-          }else if(this.formData.ticketType==1){
-             //专票  没有开启  就是 个体和客户不能点击
-            if(res.isSlider==1){
-               this.confirmEditStatus1=true;
-             }else{
-              this.confirmEditStatus1=false;
-              }
-          }
-       
-      
-      })
-         
-        }
-      })
-    },
      //客户实时异步
     changeValue1(e) {
       if (e == true) {
@@ -1823,22 +1798,43 @@ export default {
           } else {
             this.projectStatus = 1;
           }
-         
+          this.listnew=this.ownoptions[i];
+          console.log(111,this.ownoptions[i].isSliderOrdinary);
+          console.log(222,this.ownoptions[i].isSlider);
+          console.log(333,this.ownoptions[i].isSelfCount);
           //普票  没有开启  就是 个体和客户不能点击
-          this.listh=this.ownoptions[i];
+         
+          if(this.ownoptions[i].isSelfCount==0){
+                this.confirmEditStatus=true;
+                this.confirmEditStatus1=false;
+          }else{
+                this.confirmEditStatus=false;
+                this.confirmEditStatus1=true;
+          }
+           
           if(this.formData.ticketType==0){
              if(this.ownoptions[i].isSliderOrdinary==1){
-              this.confirmEditStatus=true;
+              this.confirmEditStatus2=true;
+              this.confirmEditStatus3=true;
+              this.formData.isSelfCount='2';
+              return;
              }else{
-              this.confirmEditStatus=false;
-             } 
+              this.confirmEditStatus2=false;
+              this.confirmEditStatus3=false;
+              this.formData.isSelfCount=JSON.stringify(this.ownoptions[i].isSelfCount);
+             }
           }else if(this.formData.ticketType==1){
              //专票  没有开启  就是 个体和客户不能点击
             if(this.ownoptions[i].isSlider==1){
-               this.confirmEditStatus=true;
+              this.confirmEditStatus2=true;
+              this.confirmEditStatus3=true;
+               this.formData.isSelfCount='2';
+               return;
              }else{
-              this.confirmEditStatus=false;
-              }
+              this.confirmEditStatus2=false;
+              this.confirmEditStatus3=false;
+              this.formData.isSelfCount=JSON.stringify(this.ownoptions[i].isSelfCount);
+             }
           }
           this.$nextTick(function () {
             this.selectTipType = this.$refs.selectTree.selected.label;
@@ -1931,35 +1927,31 @@ export default {
 
     //监听开票内容类型
     tickettaxvip(e) {
-        
-      
-      console.log(e);
+       
       if (e > 0) {
         this.tickettaxvipok = true;
         this.formData.ticketTax = 3;
-        if(this.listh.isSlider==1){
-          this.confirmEditStatus=true;
-        }else{
-         this.confirmEditStatus=false;
-       }
-       if(this.listh1.isSlider==1){
-          this.confirmEditStatus1=true;
-        }else{
-         this.confirmEditStatus1=false;
-       }
-      
-      
-      } else {
-        if(this.listh.isSliderOrdinary==1){
-         this.confirmEditStatus=true;
-        }else{
-          this.confirmEditStatus=false;
-        } 
-        if(this.listh1.isSliderOrdinary==1){
-         this.confirmEditStatus1=true;
-        }else{
-          this.confirmEditStatus1=false;
-        } 
+        if(this.listnew.isSlider==1){
+            this.confirmEditStatus2=true;
+            this.confirmEditStatus3=true;
+            this.formData.isSelfCount='2';
+            return;
+          }else{
+               this.confirmEditStatus2=false;
+               this.confirmEditStatus3=false;
+               this.formData.isSelfCount=JSON.stringify(this.listnew.isSelfCount);
+          }
+       } else {
+        if(this.listnew.isSliderOrdinary==1){
+              this.confirmEditStatus2=true;
+              this.confirmEditStatus3=true;
+              this.formData.isSelfCount='2';
+             return;
+          }else{
+              this.confirmEditStatus2=false;
+              this.confirmEditStatus3=false;
+              this.formData.isSelfCount=JSON.stringify(this.listnew.isSelfCount);
+          }
         this.formData.ticketTax=0;
         this.tickettaxvipok = false;
       }
