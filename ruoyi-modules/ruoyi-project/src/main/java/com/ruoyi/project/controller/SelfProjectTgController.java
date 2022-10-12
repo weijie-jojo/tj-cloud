@@ -274,9 +274,7 @@ public class SelfProjectTgController extends BaseController
         selfProject.setLocaleduTaxMoney(selfProject.getProjectTaxMoney().multiply(BigDecimal.valueOf(0.02)).multiply(BigDecimal.valueOf(0.5)));
         selfProject.setWaterbuildMoney(selfProject.getProjectAmountAftertax().multiply(BigDecimal.valueOf(0.0009)));
         selfProject.setReceiveMoneys(BigDecimal.ZERO);
-        selfProject.setReceiveRemainMoneys(selfProject.getReceiveTotalMoneys());
         selfProject.setPayMoneys(BigDecimal.ZERO);
-        selfProject.setPayRemainMoneys(selfProject.getPayTotalMoneys());
 
         selfProject.setTicketTax(selfProject.getTicketTax().movePointLeft(2));
         System.out.println("不含税金额=="+selfProject.getProjectAmountAftertax());
@@ -684,7 +682,10 @@ public class SelfProjectTgController extends BaseController
         }
         System.out.println("应收==="+selfProject.getReceiveTotalMoneys());
         System.out.println("应出==="+selfProject.getPayTotalMoneys());
-        System.out.println("应出==="+selfProject.getOrdinaryShare());
+
+        selfProject.setReceiveRemainMoneys(selfProject.getReceiveTotalMoneys());
+        selfProject.setPayRemainMoneys(selfProject.getPayTotalMoneys());
+
         selfProject.setProjectProfitMoney(selfProject.getReceiveTotalMoneys().subtract(selfProject.getPayTotalMoneys()));//利润
         selfProject.setProjectAwardMoney(selfProject.getProjectProfitMoney().multiply(BigDecimal.valueOf(0.9)).multiply(BigDecimal.valueOf(0.15)));//奖励利润
         System.out.println("selfProject==="+selfProject);
